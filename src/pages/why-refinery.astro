@@ -210,14 +210,18 @@ const capabilityGroups = [
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 36%);
     mask-image: linear-gradient(to right, transparent 0%, #000 36%);
   }
+  /* 상단 페이드는 넣지 않는다 — 소개서 표지처럼 위쪽 대시보드(Sankey·소비량)까지
+     보여야 해서, 이미지 위끝을 히어로 위끝에 붙이고 아래쪽만 흐린다. */
   .wr-hero-fx-inner {
     position: absolute; inset: 0; overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
   }
   .wr-hero-fx-inner img {
-    position: absolute; left: 0; top: 50%;
-    width: 128%; height: auto; transform: translateY(-50%);
+    position: absolute; left: 0; top: 0;
+    /* 소개서는 128%였지만 전역 img{max-width:100%}에 걸려 실제로는 100%로 그려진다.
+       히어로가 소개서 표지보다 낮아 100%가 오히려 위아래가 다 담긴다. */
+    width: 100%; height: auto;
     opacity: .3;
   }
   /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
