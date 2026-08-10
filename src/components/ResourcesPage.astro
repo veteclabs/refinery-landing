@@ -84,7 +84,7 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-icon"><i class={`ph ${r.icon}`} aria-hidden="true"></i></div>
+                <div class="res-thumb" aria-hidden="true"></div>
                 <span class="res-kind">{r.kind}</span>
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
@@ -144,15 +144,35 @@ const T = {
     padding: 14px 18px; font-size: 14.5px; line-height: 1.6; color: #47535f;
   }
   .res-note a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
-  .res-card { position: relative; opacity: 0.85; }
-  .res-card.is-link { opacity: 1; text-decoration: none; display: block; transition: border-color .2s, box-shadow .2s, transform .2s; }
-  .res-card.is-link:hover { border-color: var(--accent, #76a6d7); box-shadow: 0 8px 24px rgba(16,32,44,0.07); transform: translateY(-2px); }
-  .res-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
-  .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
-  .res-icon {
-    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 10px; background: #eef2f6; color: #4b86bf; font-size: 22px; margin-bottom: 14px;
+  /* 카드 높이를 줄 단위로 맞춘다. 그리드 기본값(auto)이면 줄마다 내용 길이에
+     따라 높이가 달라져, '보기 →'가 붙는 윗줄만 36px 컸다.
+     1fr로 두면 모든 줄이 가장 높은 카드에 맞춰 같아진다.
+     카드 안은 세로 flex — 상태 표시(보기 → · 준비중)를 아래로 밀어 바닥에 정렬한다. */
+  .res-page .ind-grid { grid-auto-rows: 1fr; }
+  /* 카드에서 테두리·면·안쪽 여백을 없앤다. 글이 상자에 담기지 않고
+     이미지 아래에 그대로 놓이는 형태다. 패딩이 0이라 글의 왼쪽 끝이
+     이미지 왼쪽 끝과 정확히 맞는다. */
+  .res-page .res-card {
+    position: relative; opacity: 0.85;
+    display: flex; flex-direction: column; height: 100%;
+    background: none; border: none; border-radius: 0; padding: 0;
   }
+  .res-card.is-link { opacity: 1; text-decoration: none; transition: transform .2s; }
+  /* 상단 이미지 자리 — 아직 이미지가 없어 빈 면으로 둔다. 파일이 오면
+     이 안에 <img>를 넣으면 되고, 지금도 자리를 차지해 레이아웃이 흔들리지 않는다. */
+  .res-thumb {
+    margin: 0 0 18px; aspect-ratio: 16 / 10;
+    background: #eef2f6; border-radius: var(--radius);
+  }
+  /* 상태 표시를 카드 바닥으로 */
+  /* '보기 →'를 카드 바닥으로. 준비중·초안 배지는 position:absolute라
+     여기 넣어도 먹지 않으므로 뺀다(썸네일 우상단에 얹힌다). */
+  .res-go { margin-top: auto; }
+  /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
+  .res-card.is-link:hover { transform: translateY(-2px); }
+  .res-card.is-link:hover h3 { color: #4b86bf; }
+  .res-go { display: inline-block; padding-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
+  .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
   .res-kind {
     display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
     color: #7e8a98; margin-bottom: 6px;
