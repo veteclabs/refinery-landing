@@ -109,12 +109,9 @@ const capabilityGroups = [
           <h2>Refinery를 선택하는 이유</h2>
         </header>
         <div class="wr-values">
-          {values.map((v, i) => (
+          {values.map((v) => (
             <div class="wr-value">
-              <div class="wr-value-top">
-                <span class="wr-value-n">{String(i + 1).padStart(2, '0')}</span>
-                <i class={`ph ${v.icon} wr-value-ic`} aria-hidden="true"></i>
-              </div>
+              <i class={`ph ${v.icon} wr-value-ic`} aria-hidden="true"></i>
               <h3>{v.title}</h3>
               <p>{v.desc}</p>
             </div>
@@ -337,18 +334,17 @@ const capabilityGroups = [
   .wr-dark { background: #111316; }
   .wr-dark .ind-head h2 { color: #edeef0; }
   .wr-dark .ind-head p { color: #959ca5; }
-  .wr-dark .wr-value { border-top-color: #272b32; }
-  .wr-dark .wr-value-n { color: #edeef0; }
   .wr-dark .wr-value-ic { color: #76a6d7; }
   .wr-dark .wr-value h3 { color: #edeef0; }
   .wr-dark .wr-value p { color: #959ca5; }
 
   /* 선택 이유 3 — 상단 룰 + 번호(카드 박스 없이 편집형) */
+  /* 셋으로 나누는 간격은 그대로 두고, 카드 안만 가운데 정렬로 바꿨다.
+     번호와 윗선을 빼서 아이콘이 카드의 시작점이 된다 — 윗선이 있으면
+     가운데 정렬한 글과 선의 왼쪽 끝이 어긋나 보인다. */
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
-  .wr-value { padding-top: 20px; border-top: 2px solid #16202c; }
-  .wr-value-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-  .wr-value-n { font-size: 13px; font-weight: 800; letter-spacing: .1em; color: #16202c; }
-  .wr-value-ic { font-size: 22px; color: #aab4c0; }
+  .wr-value { text-align: center; }
+  .wr-value-ic { display: block; font-size: 48px; line-height: 1; color: #aab4c0; margin-bottom: 22px; }
   .wr-value h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
   .wr-value p { margin-top: 11px; font-size: 15px; line-height: 1.72; color: #47535f; }
 
