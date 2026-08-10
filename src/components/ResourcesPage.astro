@@ -14,6 +14,17 @@ const { lang = 'ko' } = Astro.props;
 
 type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean };
 
+// 카드 상단 이미지 자리의 배경색. 브랜드 색상 차트의 500 단계를 쓴다.
+// 종류(kind)로 묶으므로 같은 종류의 카드는 자동으로 같은 색이 된다
+// (백서 2장이 그 예). 한국어·영어 표기를 모두 키로 둔다.
+const TONE: Record<string, string> = {
+  '제품 소개': '#3B7FD4', 'Web': '#3B7FD4',        // Blue
+  '백서': '#7884D8',      'Whitepaper': '#7884D8',  // Indigo
+  '리포트': '#4DB2A1',    'Report': '#4DB2A1',      // Teal
+  '비디오': '#9579C2',    'Video': '#9579C2',       // Purple
+  '키트': '#F0A93A',      'Kit': '#F0A93A',         // Amber
+};
+
 const T = {
   ko: {
     title: '자료실 | Refinery',
@@ -84,7 +95,7 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-thumb" aria-hidden="true"></div>
+                <div class="res-thumb" aria-hidden="true" style={`background:${TONE[r.kind] ?? '#eef2f6'}`}></div>
                 <span class="res-kind">{r.kind}</span>
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
@@ -176,7 +187,7 @@ const T = {
      이 안에 <img>를 넣으면 되고, 지금도 자리를 차지해 레이아웃이 흔들리지 않는다. */
   .res-thumb {
     margin: 0 0 18px; aspect-ratio: 16 / 10;
-    background: #eef2f6; border-radius: var(--radius);
+    background: #eef2f6; border-radius: var(--radius);  /* 종류별 색은 인라인 style로 덮인다 */
   }
   /* 상태 표시를 카드 바닥으로 */
   /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
