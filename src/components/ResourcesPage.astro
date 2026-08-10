@@ -24,7 +24,7 @@ const T = {
     noteBefore: '자료를 정리하는 중입니다. 지금 필요한 자료가 있으시면 ',
     noteAfter: '로 요청해 주세요. 준비되는 대로 우선 보내드립니다.',
     contactLabel: '문의하기', contactHref: '/contact',
-    draftTag: '초안 미리보기', view: '보기', soon: '준비중',
+    draftTag: '초안 미리보기', soon: '준비중',
     resources: [
       { icon: 'ph-file-text', label: '제품 소개', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: 'Web', href: '/why-refinery' },
       { icon: 'ph-book-open', label: '백서 · 산업 데이터 통합', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: 'Whitepaper', href: '/whitepapers/data-integration' },
@@ -43,7 +43,7 @@ const T = {
     noteBefore: 'Material is being put together. If there is something you need right now, ask us through ',
     noteAfter: ' and we will send it to you first.',
     contactLabel: 'Contact', contactHref: '/en/contact',
-    draftTag: 'Draft preview', view: 'View', soon: 'Soon',
+    draftTag: 'Draft preview', soon: 'Soon',
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
@@ -88,9 +88,8 @@ const T = {
                 <span class="res-kind">{r.kind}</span>
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
-                {r.href
-                  ? (r.draft ? <span class="res-tag">{T.draftTag}</span> : <span class="res-go">{T.view}</span>)
-                  : <span class="res-soon">{T.soon}</span>}
+                {r.draft && <span class="res-tag">{T.draftTag}</span>}
+                {!r.href && <span class="res-soon">{T.soon}</span>}
               </>
             );
             return r.href
@@ -165,13 +164,9 @@ const T = {
     background: #eef2f6; border-radius: var(--radius);
   }
   /* 상태 표시를 카드 바닥으로 */
-  /* '보기 →'를 카드 바닥으로. 준비중·초안 배지는 position:absolute라
-     여기 넣어도 먹지 않으므로 뺀다(썸네일 우상단에 얹힌다). */
-  .res-go { margin-top: auto; }
   /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
   .res-card.is-link:hover { transform: translateY(-2px); }
   .res-card.is-link:hover h3 { color: #4b86bf; }
-  .res-go { display: inline-block; padding-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
   .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
   .res-kind {
     display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
