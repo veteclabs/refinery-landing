@@ -71,13 +71,16 @@ const capabilityGroups = [
   <main class="ind wr-page">
     <!-- HERO -->
     <section class="ind-hero wr-hero-bg">
+      {/* 랜딩 CTA(#cta)와 같은 파일이다. 소개서 표지가 이미 이 배경을 쓰고 있어,
+          거기서 뽑은 이미지와 픽셀이 사실상 일치했다(평균 차이 0.05/255).
+          따로 들고 있을 이유가 없어 한 파일로 합쳤다. */}
       <img
         class="wr-hero-bg-img"
-        src="/why-refinery-hero.webp"
+        src="/img_login-bg.webp"
         alt=""
         aria-hidden="true"
-        width="3840"
-        height="2160"
+        width="1920"
+        height="1080"
         decoding="async"
         fetchpriority="high"
       />
