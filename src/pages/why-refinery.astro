@@ -190,7 +190,7 @@ const capabilityGroups = [
   /* ───────── 히어로 — 예지보전(.uc-hero-bg)과 같은 구성 ─────────
      절대배치 사진 + 어두운 스크림 + 흰 글자. 브레드크럼과 영문 eyebrow를 빼고
      페이지 이름을 하늘색 태그라인으로 올렸다. */
-  .wr-hero-bg { position: relative; overflow: hidden; padding: 180px 0 100px; }
+  .wr-hero-bg { position: relative; overflow: hidden; padding: 180px 0 180px; }
   .wr-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; object-position: center 45%;
@@ -219,9 +219,8 @@ const capabilityGroups = [
   }
   .wr-hero-fx-inner img {
     position: absolute; left: 0; top: 0;
-    /* 소개서는 128%였지만 전역 img{max-width:100%}에 걸려 실제로는 100%로 그려진다.
-       히어로가 소개서 표지보다 낮아 100%가 오히려 위아래가 다 담긴다. */
-    width: 100%; height: auto;
+    /* 소개서 표지와 같은 128%. 전역 img{max-width:100%}가 이를 잘라내므로 풀어준다. */
+    max-width: none; width: 128%; height: auto; transform: translateY(-90px);
     opacity: .3;
   }
   /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
