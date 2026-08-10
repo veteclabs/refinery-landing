@@ -125,15 +125,15 @@ const T = {
     letter-spacing: -0.8px;
     line-height: 1.3;
   }
-  /* '입구'라는 인상은 글자 크기가 아니라 공간으로 만든다 —
-     과제별(180/100)보다 넉넉하게 잡는다. */
   /* 소제목·설명의 폭 제한을 푼다. 공통 .ind-lede는 60ch(≈643px),
      안내 박스는 640px 고정이라 단위가 서로 달라 글꼴이 바뀌면 어긋난다.
      둘 다 섹션(컨테이너)과 같은 폭으로 두면 카드 그리드와 오른쪽 끝이 맞는다.
      문장이 짧아 실제로는 한 줄에 담기므로 줄이 길어지는 문제는 없다. */
   .res-page .ind-lede { max-width: none; }
 
-  .res-page .ind-hero { padding: 200px 0 120px; }
+  /* 과제별 히어로(.uc-redesigned .ind-hero)와 같은 값 —
+     자료실 카드로 들어가도 세로 리듬이 그대로 이어진다. */
+  .res-page .ind-hero { padding: 180px 0 100px; }
   @media (max-width: 900px) {
     .res-page .ind-hero { padding: 120px 0 72px; }
   }
