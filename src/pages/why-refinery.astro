@@ -60,11 +60,6 @@ const capabilityGroups = [
   { title: '운영', items: ['자동화 · 워크플로우', '리포트 자동화', 'ESG 리포트'] },
   { title: '신뢰', items: ['온프레미스 배포', '권한 · 암호화'] },
 ];
-
-const industries = [
-  '에너지 · 유틸리티', '데이터센터', '정유 · 가스', '철강',
-  '화학 · 정밀화학', '물류', '환경',
-];
 ---
 <BaseLayout
   title="왜 Refinery인가 · 현장을 아는 팀이 만든 산업 AI | Refinery"
@@ -160,22 +155,6 @@ const industries = [
               </ul>
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- INDUSTRIES -->
-    <section class="ind-section ind-dark">
-      <div class="ind-container">
-        <header class="ind-head">
-          <h2 style="color:#fff;">산업을 가리지 않습니다</h2>
-          <p style="color:#9aa4b0;">각 산업의 고유한 과제를 학습하고 해결합니다.</p>
-        </header>
-        <div class="wr-inds">
-          {industries.map((n) => <span class="wr-ind">{n}</span>)}
-        </div>
-        <div style="text-align:center;margin-top:28px;">
-          <a href="/industries/energy" class="ind-btn-ghost ind-btn-ghost-on-dark">에너지 산업 사례 보기 →</a>
         </div>
       </div>
     </section>
@@ -315,11 +294,6 @@ const industries = [
   .wr-cap-group ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
   .wr-cap-group li { display: flex; align-items: center; gap: 9px; font-size: 14.5px; color: #2b3644; }
   .wr-cap-group li i { color: #76a6d7; font-size: 15px; flex: none; }
-
-  /* 산업 칩 */
-  .wr-inds { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .wr-ind { font-size: 14px; color: #e6edf3; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 8px 16px; }
-  .ind-btn-ghost-on-dark { color: #cdd6df; border-color: rgba(255,255,255,0.28); }
 
   @media (max-width: 860px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
