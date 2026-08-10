@@ -226,14 +226,17 @@ const capabilityGroups = [
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
   }
+  /* 크기는 px로 못박고, 칸의 오른쪽 끝에 붙인다.
+     칸(.wr-hero-fx)은 화면 폭의 56%라 창을 줄이면 같이 줄어든다. 이미지를 %로
+     잡으면 그때마다 이미지도 같이 줄고, 히어로 세로는 616px로 고정이라
+     보이는 부분이 매번 달라졌다 — 창 크기를 바꿀 때 그림이 달라 보이던 원인이다.
+     오른쪽 기준(right)으로 붙였으므로 칸이 줄어도 넘침은 120px 그대로이고,
+     남는 쪽은 왼쪽이다. 왼쪽은 어차피 마스크로 사라지는 자리라 티가 안 난다.
+     전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
   .wr-hero-fx-inner img {
-    position: absolute; left: 0; top: 0;
-    /* 오른쪽으로 넘치는 폭을 화면 크기와 무관하게 120px으로 고정한다.
-       넘침 = (폭 - 칸) + 오른쪽 이동 = 60 + 60. %로만 잡으면 넓은 화면일수록
-       넘침이 함께 커져 트리맵 오른쪽 열이 점점 더 잘렸다.
-       전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
-    max-width: none; width: calc(100% + 60px); height: auto;
-    transform: translate(60px, -165px);
+    position: absolute; right: -120px; left: auto; top: 0;
+    max-width: none; width: 866px; height: auto;
+    transform: translateY(-165px);
     opacity: .3;
   }
   /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
