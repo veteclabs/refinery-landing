@@ -73,7 +73,7 @@ const T = {
   robots="noindex, follow"
 >
   <Nav />
-  <main class="ind">
+  <main class="ind res-page">
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -123,6 +123,15 @@ const T = {
 </BaseLayout>
 
 <style>
+  /* 본문 좌우를 헤더와 같은 선에 맞춘다. 공통 .ind-container는 1120/24라
+     내용이 헤더 로고보다 49px 안쪽에서 시작했다(로고 48 vs 본문 97).
+     헤더와 같은 1280/48 박스로 바꿔 세로선을 하나로 만든다.
+     .res-page 스코프라 이 컴포넌트를 쓰지 않는 다른 페이지에는 영향이 없다. */
+  .res-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .res-page .ind-container { padding: 0 24px; }
+  }
+
   .res-note {
     margin-top: 22px; max-width: 640px;
     background: #f4f7fa; border: 1px solid #e3e7ec; border-radius: 12px;
