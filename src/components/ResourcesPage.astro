@@ -163,6 +163,15 @@ const T = {
     background: none; border: none; border-radius: 0; padding: 0;
   }
   .res-card.is-link { opacity: 1; text-decoration: none; transition: transform .2s; }
+
+  /* 글자 규격을 예지보전 '함께 보면 좋은 과제' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
+     공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
+     색은 맞추지 않는다 — 저쪽은 사진 위 흰 글자, 여기는 밝은 면 위 어두운 글자다. */
+  .res-page .res-card h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    line-height: 1.65; margin-bottom: 5px;
+  }
+  .res-page .res-card p { font-size: 15px; line-height: 1.5; }
   /* 상단 이미지 자리 — 아직 이미지가 없어 빈 면으로 둔다. 파일이 오면
      이 안에 <img>를 넣으면 되고, 지금도 자리를 차지해 레이아웃이 흔들리지 않는다. */
   .res-thumb {
