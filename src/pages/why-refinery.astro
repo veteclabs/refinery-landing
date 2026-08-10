@@ -228,10 +228,12 @@ const capabilityGroups = [
   }
   .wr-hero-fx-inner img {
     position: absolute; left: 0; top: 0;
-    /* 소개서 표지는 128%였지만 그 폭이면 트리맵 오른쪽 열이 화면 밖으로 잘린다.
-       112%면 트리맵이 온전한 한 덩어리로 들어온다.
-       전역 img{max-width:100%}가 100%를 넘는 폭을 잘라내므로 풀어준다. */
-    max-width: none; width: 112%; height: auto; transform: translateY(-200px);
+    /* 오른쪽으로 넘치는 폭을 화면 크기와 무관하게 110px으로 고정한다.
+       넘침 = (폭 - 칸) + 오른쪽 이동 = 50 + 60. %로만 잡으면 넓은 화면일수록
+       넘침이 함께 커져 트리맵 오른쪽 열이 점점 더 잘렸다.
+       전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
+    max-width: none; width: calc(100% + 50px); height: auto;
+    transform: translate(60px, -140px);
     opacity: .3;
   }
   /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
