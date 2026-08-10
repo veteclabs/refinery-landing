@@ -242,11 +242,17 @@ const capabilityGroups = [
     transform: translateY(-165px);
     opacity: .3;
   }
-  /* 1200px 미만에서는 감춘다. 이미지는 1120px 고정인데 칸은 화면의 56%라,
-     좁아질수록 칸이 이미지보다 훨씬 작아져 트리맵의 한 조각만 확대돼 보인다.
-     (1024px에서 칸 573px — 이미지의 절반) 게다가 그 폭에서는 칸 왼쪽 끝이
-     소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다. */
-  @media (max-width: 1199px) { .wr-hero-fx { display: none; } }
+  /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
+     넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
+     작아져 트리맵 한 조각만 확대돼 보이고(1024px에서 칸 573px — 이미지의 절반),
+     칸 왼쪽 끝이 소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다(실효 .29).
+     칸을 40%로 좁히면 칸 시작점이 글 끝보다 바깥으로 밀려 겹침이 0이 된다. */
+  @media (max-width: 1199px) {
+    .wr-hero-fx { width: 40%; }
+    .wr-hero-fx-inner img { width: 760px; right: -80px; }
+  }
+  /* 900px 미만에서는 본문이 화면 전체를 쓴다. 어디에 둬도 글 뒤에 깔려 감춘다. */
+  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
