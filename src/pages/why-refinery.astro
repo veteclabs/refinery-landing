@@ -77,10 +77,18 @@ const capabilityGroups = [
         alt=""
         aria-hidden="true"
         width="3840"
-        height="1920"
+        height="2160"
         decoding="async"
         fetchpriority="high"
       />
+      {/* 우측 대시보드 장식 — 소개서 표지와 같은 구성.
+          바깥 칸이 좌우 마스크(왼쪽으로 갈수록 사라짐), 안쪽 칸이 상하 마스크를 맡는다.
+          글이 놓이는 왼쪽으로는 번지지 않아 가독성을 해치지 않는다. */}
+      <div class="wr-hero-fx" aria-hidden="true">
+        <div class="wr-hero-fx-inner">
+          <img src="/why-refinery-dash.webp" alt="" width="1814" height="2464" loading="lazy" decoding="async" />
+        </div>
+      </div>
       <div class="ind-container">
         <p class="wr-tag">왜 Refinery인가</p>
         <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
@@ -194,6 +202,27 @@ const capabilityGroups = [
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
   }
+  /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
+     (폭 56% · 이미지 128% · 불투명도 .3 · 좌우/상하 마스크). */
+  .wr-hero-fx {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    overflow: hidden; pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 36%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 36%);
+  }
+  .wr-hero-fx-inner {
+    position: absolute; inset: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  }
+  .wr-hero-fx-inner img {
+    position: absolute; left: 0; top: 50%;
+    width: 128%; height: auto; transform: translateY(-50%);
+    opacity: .3;
+  }
+  /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
+  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
+
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
