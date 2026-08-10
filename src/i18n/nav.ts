@@ -55,7 +55,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           items: [
             { label: '블로그', href: '/blog' },
             { label: '문서', href: '/docs' },
-            { label: '자료실 · 백서', href: '/resources' },
+            { label: '자료실', href: '/resources' },
           ],
         },
       ],
@@ -161,7 +161,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       items: [
         { label: '블로그', href: '/blog' },
         { label: '문서', href: '/docs' },
-        { label: '자료실 · 백서', href: '/resources' },
+        { label: '자료실', href: '/resources' },
       ],
     },
     {
