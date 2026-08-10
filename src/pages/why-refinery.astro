@@ -95,7 +95,7 @@ const capabilityGroups = [
       <div class="ind-container">
         <p class="wr-tag">Refinery</p>
         <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
-        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지<br>흩어진 현장을 하나의 통합 지능으로 잇습니다.</p>
+        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지<br class="wr-lede-br">{' '}흩어진 현장을 하나의 통합 지능으로 잇습니다.</p>
         <div class="ind-hero-actions">
           <a href="/contact" class="ind-btn-primary">문의하기</a>
         </div>
@@ -213,11 +213,14 @@ const capabilityGroups = [
   }
   /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
      (폭 56% · 이미지 128% · 불투명도 .3 · 좌우/상하 마스크). */
+  /* 왼쪽 페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이
+     좁아져, 글 끝에 닿는 자리에서 이미 또렷해졌다(1024px에서 실효 불투명도 .29).
+     420px으로 못박으면 화면 폭과 무관하게 글 옆 완충 구간이 일정하다(.09 안팎). */
   .wr-hero-fx {
     position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
     overflow: hidden; pointer-events: none; user-select: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 36%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 36%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+    mask-image: linear-gradient(to right, transparent 0px, #000 420px);
   }
   /* 상단 페이드는 넣지 않는다 — 소개서 표지처럼 위쪽 대시보드(Sankey·소비량)까지
      보여야 해서, 이미지 위끝을 히어로 위끝에 붙이고 아래쪽만 흐린다. */
@@ -239,8 +242,11 @@ const capabilityGroups = [
     transform: translateY(-165px);
     opacity: .3;
   }
-  /* 좁은 화면에서는 글과 겹쳐 읽기를 방해한다. */
-  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
+  /* 1200px 미만에서는 감춘다. 이미지는 1120px 고정인데 칸은 화면의 56%라,
+     좁아질수록 칸이 이미지보다 훨씬 작아져 트리맵의 한 조각만 확대돼 보인다.
+     (1024px에서 칸 573px — 이미지의 절반) 게다가 그 폭에서는 칸 왼쪽 끝이
+     소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다. */
+  @media (max-width: 1199px) { .wr-hero-fx { display: none; } }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
@@ -250,7 +256,12 @@ const capabilityGroups = [
     color: rgba(255,255,255,.82);
     line-height: 1.7; max-width: 600px;
   }
-  @media (max-width: 900px) { .wr-hero-bg .ind-lede { font-size: 16px; } }
+  @media (max-width: 900px) {
+    .wr-hero-bg .ind-lede { font-size: 16px; }
+    /* 좁은 화면에서는 첫 줄이 어차피 다시 감긴다. 여기에 <br>까지 걸리면
+       '자동 실행 / 까지'처럼 한 어절만 남아 떨어진다. 자연스럽게 흐르게 둔다. */
+    .wr-lede-br { display: none; }
+  }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
@@ -308,7 +319,10 @@ const capabilityGroups = [
     background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
   }
   /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
-  @media (max-width: 860px) {
+  /* 좁은 화면 경계는 900px 하나로 통일한다. 860과 900이 섞여 있어서 그 사이
+     구간(861~900)이 어중간했다 — 여백·글자는 좁은 화면 값인데 격자는 3·4열,
+     히어로 여백은 넓은 화면 값이었다. */
+  @media (max-width: 900px) {
     .ind-cta.wr-cta-bg .ind-btn-primary { margin-top: 32px; }
     .wr-hero-bg { padding: 120px 0 72px; }
   }
@@ -353,7 +367,7 @@ const capabilityGroups = [
   .wr-cap-group li { display: flex; align-items: center; gap: 9px; font-size: 14.5px; color: #2b3644; }
   .wr-cap-group li i { color: #76a6d7; font-size: 15px; flex: none; }
 
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
     .wr-caps { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
     .wr-story { gap: 20px; padding: 26px 0; }
