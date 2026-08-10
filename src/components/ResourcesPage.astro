@@ -20,7 +20,7 @@ const T = {
     description: 'Refinery 제품 소개서·백서·도입 가이드·웨비나 등 자료를 준비하고 있습니다. 필요한 자료는 문의로 요청해 주세요.',
     canonical: '/resources',
     h1: '자료실',
-    lede: '제품 소개부터 백서, 도입 가이드, 웨비나까지. Refinery를 더 깊이 이해할 수 있는 자료를 준비하고 있습니다.',
+    lede: '제품 소개와 백서, 리포트까지 Refinery를 더 깊이 살펴볼 수 있는 자료를 모았습니다.',
     noteBefore: '자료를 정리하는 중입니다. 지금 필요한 자료가 있으시면 ',
     noteAfter: '로 요청해 주세요. 준비되는 대로 우선 보내드립니다.',
     contactLabel: '문의하기', contactHref: '/contact',
@@ -139,13 +139,19 @@ const T = {
   }
   /* '입구'라는 인상은 글자 크기가 아니라 공간으로 만든다 —
      과제별(180/100)보다 넉넉하게 잡는다. */
+  /* 소제목·설명의 폭 제한을 푼다. 공통 .ind-lede는 60ch(≈643px),
+     안내 박스는 640px 고정이라 단위가 서로 달라 글꼴이 바뀌면 어긋난다.
+     둘 다 섹션(컨테이너)과 같은 폭으로 두면 카드 그리드와 오른쪽 끝이 맞는다.
+     문장이 짧아 실제로는 한 줄에 담기므로 줄이 길어지는 문제는 없다. */
+  .res-page .ind-lede { max-width: none; }
+
   .res-page .ind-hero { padding: 200px 0 120px; }
   @media (max-width: 900px) {
     .res-page .ind-hero { padding: 120px 0 72px; }
   }
 
   .res-note {
-    margin-top: 22px; max-width: 640px;
+    margin-top: 22px;
     background: #f4f7fa; border: 1px solid #e3e7ec; border-radius: 12px;
     padding: 14px 18px; font-size: 14.5px; line-height: 1.6; color: #47535f;
   }
