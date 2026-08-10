@@ -203,11 +203,14 @@ const capabilityGroups = [
     object-fit: cover; object-position: center 100%;
     pointer-events: none; user-select: none;
   }
-  /* 색은 '푸는 방식' 섹션과 같은 #111316. 위 80% → 아래 50%로,
-     태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
+  /* 색은 '푸는 방식' 섹션과 같은 #111316.
+     어둡게 덮을 이유가 있는 곳은 글이 놓인 위쪽뿐이라, 글이 끝나는 지점부터
+     막을 걷는다. 아래쪽은 원본 밝기 그대로 나와 대시보드가 살아난다. */
   .wr-hero-bg::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
+    background: linear-gradient(180deg,
+      rgba(17,19,22,.8) 0%, rgba(17,19,22,.72) 30%,
+      rgba(17,19,22,.45) 62%, rgba(17,19,22,.12) 84%, rgba(17,19,22,0) 100%);
   }
   /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
      (폭 56% · 이미지 128% · 불투명도 .3 · 좌우/상하 마스크). */
