@@ -73,7 +73,7 @@ const industries = [
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="ind">
+  <main class="ind wr-page">
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -183,6 +183,15 @@ const industries = [
 </BaseLayout>
 
 <style>
+  /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
+     공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
+     예지보전 등 유즈케이스 페이지가 쓰는 값(1280/48)과 같다.
+     .wr-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+  .wr-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .wr-page .ind-container { padding: 0 24px; }
+  }
+
   /* 선택 이유 3 — 상단 룰 + 번호(카드 박스 없이 편집형) */
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
   .wr-value { padding-top: 20px; border-top: 2px solid #16202c; }
