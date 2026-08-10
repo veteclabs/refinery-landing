@@ -90,8 +90,9 @@ const capabilityGroups = [
         </div>
       </div>
       <div class="ind-container">
-        <p class="wr-tag">왜 Refinery인가</p>
+        <p class="wr-tag">Refinery</p>
         <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
+        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지, 흩어진 현장을 하나의 통합 지능으로 잇습니다. 기존 시스템 위에 얹거나, 없으면 처음부터 새로 세웁니다.</p>
         <div class="ind-hero-actions">
           <a href="/contact" class="ind-btn-primary">문의하기</a>
         </div>
@@ -227,6 +228,14 @@ const capabilityGroups = [
   @media (max-width: 900px) { .wr-hero-fx { display: none; } }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
+  /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
+     .ind-lede의 공통값은 line-height 1.6 · max-width 60ch(=643px)이라 미세하게 어긋났다.
+     색만 다르다 — 여기는 어두운 배경 위다. */
+  .wr-hero-bg .ind-lede {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7; max-width: 600px;
+  }
+  @media (max-width: 900px) { .wr-hero-bg .ind-lede { font-size: 16px; } }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
