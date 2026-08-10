@@ -206,11 +206,9 @@ const capabilityGroups = [
   }
   .wr-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
-    /* 배경은 아래로 갈수록 밝다(원본 세로 0~17% 밝기 14.6 → 83~100% 86.9).
-       히어로가 소개서 표지보다 낮아 일부만 잘라 쓰는데, 아래쪽을 쓰면 배경이
-       밝아져 그 위의 대시보드(.3)가 묻힌다. 0%로 위쪽 어두운 구간을 쓴다 —
-       히어로 전체 밝기 75.7 → 51.5로, 소개서 표지 톤에 가장 가깝다. */
-    object-fit: cover; object-position: center 0%;
+    /* 100% = 위로 올릴 수 있는 끝. 이미지가 16:9(3840x2160)이고 히어로는 그보다
+       납작해서 cover가 가로에 맞춘다 — 세로 여유 284px이 전부 위로 빠진다. */
+    object-fit: cover; object-position: center 100%;
     pointer-events: none; user-select: none;
   }
   /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
