@@ -75,10 +75,19 @@ const industries = [
   <Nav />
   <main class="ind wr-page">
     <!-- HERO -->
-    <section class="ind-hero">
+    <section class="ind-hero wr-hero-bg">
+      <img
+        class="wr-hero-bg-img"
+        src="/why-refinery-hero.webp"
+        alt=""
+        aria-hidden="true"
+        width="3840"
+        height="1920"
+        decoding="async"
+        fetchpriority="high"
+      />
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><span>왜 Refinery인가</span></nav>
-        <p class="ind-eyebrow">WHY REFINERY</p>
+        <p class="wr-tag">왜 Refinery인가</p>
         <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
         <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지, 흩어진 현장을 하나의 통합 지능으로 잇습니다. 기존 시스템 위에 얹거나, 없으면 처음부터 새로 세웁니다.</p>
         <div class="ind-hero-actions">
@@ -172,7 +181,8 @@ const industries = [
     </section>
 
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class="ind-cta wr-cta-bg">
+      <img class="wr-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="ind-container">
         <h2>현장의 문제를<br>Refinery 팀과 함께 풀어보세요.</h2>
         <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
@@ -190,6 +200,92 @@ const industries = [
   .wr-page .ind-container { max-width: 1280px; padding: 0 48px; }
   @media (max-width: 900px) {
     .wr-page .ind-container { padding: 0 24px; }
+  }
+
+  /* ───────── 히어로 — 예지보전(.uc-hero-bg)과 같은 구성 ─────────
+     절대배치 사진 + 어두운 스크림 + 흰 글자. 브레드크럼과 영문 eyebrow를 빼고
+     페이지 이름을 하늘색 태그라인으로 올렸다. */
+  .wr-hero-bg { position: relative; overflow: hidden; padding: 180px 0 100px; }
+  .wr-hero-bg-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 45%;
+    pointer-events: none; user-select: none;
+  }
+  /* 색은 '푸는 방식' 섹션과 같은 #111316. 위 80% → 아래 50%로,
+     태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
+  .wr-hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
+  }
+  .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
+  /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
+  .wr-tag {
+    font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
+    color: #76a6d7; margin-bottom: 14px;
+  }
+  .wr-hero-bg h1 {
+    font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+    letter-spacing: -0.8px; line-height: 1.3; color: #fff;
+    word-break: keep-all;
+  }
+  .wr-hero-bg .ind-lede { color: rgba(255,255,255,.82); }
+  .wr-hero-bg .ind-hero-actions { margin-top: 48px; gap: 16px; }
+  /* 버튼 2개 — 형태는 랜딩 CTA와 같고, 주 버튼만 accent 면으로 채운다. */
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary,
+  .wr-hero-bg .ind-hero-actions .ind-btn-ghost {
+    padding: 9px 22px; font-size: 15px; font-weight: 400;
+    border-radius: 6px; transition: all .2s;
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary {
+    background: #76a6d7; color: #fff; border: 1px solid #76a6d7;
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-ghost {
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.6);
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
+    background: #fff; border-color: #fff; color: #76a6d7;
+  }
+
+  /* ───────── CTA — 예지보전(.uc-cta-bg)과 같은 구성 ─────────
+     사진 위 좌측 정렬 제목 + 우측 버튼. 이미지가 lazy라 도착 전 흰 배경이면
+     글자가 잠깐 보이지 않으므로 어두운 면을 미리 깔아둔다. */
+  .wr-cta-bg {
+    position: relative; overflow: hidden;
+    padding: 95px 0; text-align: left; background: #0c1015;
+  }
+  .wr-cta-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 65%;
+    pointer-events: none; user-select: none;
+  }
+  .wr-cta-bg .ind-container {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .wr-cta-bg .ind-container > * { flex: none; }
+  /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다. */
+  .wr-page .ind-cta.wr-cta-bg h2 {
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    letter-spacing: -0.8px; line-height: 1.35;
+    color: #fff; margin-bottom: 0; text-wrap: initial;
+  }
+  .ind-cta.wr-cta-bg .ind-btn-primary {
+    margin-top: 0; padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: #76a6d7; color: #fff;
+    border: 1px solid #76a6d7; border-radius: 6px; transition: all .2s;
+  }
+  .ind-cta.wr-cta-bg .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+  /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
+  @media (max-width: 860px) {
+    .ind-cta.wr-cta-bg .ind-btn-primary { margin-top: 32px; }
+    .wr-hero-bg { padding: 120px 0 72px; }
   }
 
   /* 선택 이유 3 — 상단 룰 + 번호(카드 박스 없이 편집형) */
