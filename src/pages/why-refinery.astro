@@ -228,11 +228,11 @@ const capabilityGroups = [
   }
   .wr-hero-fx-inner img {
     position: absolute; left: 0; top: 0;
-    /* 오른쪽으로 넘치는 폭을 화면 크기와 무관하게 110px으로 고정한다.
-       넘침 = (폭 - 칸) + 오른쪽 이동 = 50 + 60. %로만 잡으면 넓은 화면일수록
+    /* 오른쪽으로 넘치는 폭을 화면 크기와 무관하게 120px으로 고정한다.
+       넘침 = (폭 - 칸) + 오른쪽 이동 = 60 + 60. %로만 잡으면 넓은 화면일수록
        넘침이 함께 커져 트리맵 오른쪽 열이 점점 더 잘렸다.
        전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
-    max-width: none; width: calc(100% + 50px); height: auto;
+    max-width: none; width: calc(100% + 60px); height: auto;
     transform: translate(60px, -165px);
     opacity: .3;
   }
