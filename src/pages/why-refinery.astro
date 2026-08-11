@@ -56,11 +56,13 @@ const stories = [
   },
 ];
 
+// 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
+// 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
-  { title: '데이터', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
-  { title: '지능', items: ['AI 에이전트', '이상 감지 · 알람', '예지보전', '품질 예측', '에너지 최적화'] },
-  { title: '운영', items: ['자동화 · 워크플로우', '리포트 자동화', 'ESG 리포트'] },
-  { title: '신뢰', items: ['온프레미스 배포', '권한 · 암호화'] },
+  { title: '데이터', icon: 'ph-database', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
+  { title: '지능', icon: 'ph-sparkle', items: ['AI 에이전트', '이상 감지 · 알람', '예지보전', '품질 예측', '에너지 최적화'] },
+  { title: '운영', icon: 'ph-gear-six', items: ['자동화 · 워크플로우', '리포트 자동화', 'ESG 리포트'] },
+  { title: '신뢰', icon: 'ph-shield-check', items: ['온프레미스 배포', '권한 · 암호화'] },
 ];
 ---
 <BaseLayout
@@ -157,6 +159,7 @@ const capabilityGroups = [
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
             <div class="ind-card wr-cap-group">
+              <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
               <h3>{g.title}</h3>
               <ul>
                 {g.items.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
@@ -410,6 +413,14 @@ const capabilityGroups = [
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
   .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
   .wr-page .wr-cap-group { padding: 24px; }
+  /* 예지보전 '푸는 방식' 카드의 .uc-card-icon과 같은 값(30px · #76A6D7).
+     거기는 아래 여백이 65px인데 그 카드는 설명 한 문단뿐이라 여백으로 균형을 잡는다.
+     여기는 아래에 목록이 길게 붙어 14px이면 충분하다. */
+  .wr-cap-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: fit-content; margin-bottom: 14px; color: #76a6d7;
+  }
+  .wr-cap-icon i { font-size: 30px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
     font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px;
   }
