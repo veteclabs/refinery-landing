@@ -429,20 +429,21 @@ const capabilityGroups = [
        같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다.
        위 모서리는 카드 라운드와 같은 값으로 깎는다. */
     margin: -24px -24px 0; padding: 24px;
-    background: #76a6d7;
-    border-bottom: 1px solid var(--border);
-    border-radius: var(--radius) var(--radius) 0 0;
+    /* 랜딩 플랫폼 섹션의 눌린 탭(.teams-tab-btn.active)과 같은 방식 —
+       면을 채우지 않고 글자를 accent로, 아래에 3px 바를 inset 그림자로 깐다.
+       테두리가 아니라 그림자라 높이가 밀리지 않는다. */
+    background: transparent;
+    box-shadow: inset 0 -3px 0 0 var(--accent);
   }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 30px; height: 30px; flex: none;
-    /* 제목 줄이 하늘색이 되면서 같은 색 박스는 사라진다 — 흰 박스에 하늘색 글리프로 뒤집는다. */
-    background: #fff; border-radius: 8px;
-    color: #76a6d7;
+    /* 탭에는 아이콘 박스가 없다 — 글자와 같은 색의 글리프만 둔다(탭은 16px). */
+    flex: none; color: var(--accent);
   }
-  .wr-cap-icon i { font-size: 17px; line-height: 1; }
+  .wr-cap-icon i { font-size: 16px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
-    font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
+    font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
+    color: var(--accent);
   }
   /* 항목을 작은 칸으로 둔다. flex-wrap이라 글자 수에 따라 한 줄에 두 개가 오기도 하고
      긴 항목은 혼자 한 줄을 쓴다 — 줄마다 개수를 정하지 않는다.
