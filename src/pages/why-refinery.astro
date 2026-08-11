@@ -409,19 +409,21 @@ const capabilityGroups = [
      아래끝은 랜딩 보안 섹션 카드(.sec-card-img::after)와 같은 방식으로 흰색으로
      녹인다 — 구분선 대신 그라데이션이 이미지와 글을 잇는다. */
   .wr-story-media {
-    aspect-ratio: 16 / 10; background: #fff;
+    aspect-ratio: 4 / 3; background: #fff;
     position: relative; overflow: hidden;
   }
   /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
-     옅은 격자 무늬다. 138%로 키우고 그림 위쪽 여백만큼 끌어올려(top -22%)
-     그림이 카드 맨 위에서 시작하게 한다. 아래는 그라데이션이 받는 자리에서 잘린다.
+     옅은 격자 무늬다. 138%로 키우고 이미지 위끝을 칸 위끝에 붙인다(top 0) —
+     이렇게 해야 그림 위의 점선이 남는다. 앞서 top을 음수로 두었을 때는
+     '위끝에 맞춘' 것이 아니라 점선 여백을 잘라내고 있었다.
+     아래는 그라데이션이 받는 자리에서 잘린다.
      138%가 좌우가 안 잘리는 한계다 — 그림이 화판 가로 14~88%에 있어
      0.14W >= (W-칸폭)/2를 풀면 W <= 칸폭의 139%가 나온다.
      transform: scale()로 키우면 안 된다 — 레이아웃 크기로 한 번 그린 뒤 그 결과를
      늘리는 방식이라 흐려진다. 크기 자체를 키워야 그 크기로 다시 그려 선명하다.
      (SVG 자체는 벡터라 크기와 무관하게 깨지지 않는다) */
   .wr-story-media img {
-    display: block; position: absolute; top: -22%; left: -19%;
+    display: block; position: absolute; top: 0; left: -19%;
     /* 전역 img{max-width:100%}가 138%를 칸 폭으로 잘라낸다 — 풀어준다. */
     max-width: none; width: 138%; height: auto;
   }
