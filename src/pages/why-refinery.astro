@@ -113,7 +113,7 @@ const capabilityGroups = [
         <div class="wr-values">
           {values.map((v) => (
             <div class="wr-value">
-              <img class="wr-value-ic" src={v.icon} alt="" aria-hidden="true" width="72" height="72" loading="lazy" decoding="async" />
+              <img class="wr-value-ic" src={v.icon} alt="" aria-hidden="true" width="96" height="96" loading="lazy" decoding="async" />
               <h3>{v.title}</h3>
               <p>{v.desc}</p>
             </div>
@@ -370,8 +370,8 @@ const capabilityGroups = [
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
   .wr-value { text-align: center; }
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
-     72px으로 두면 실제로 보이는 크기는 63px 안팎이다. */
-  .wr-value-ic { display: block; width: 72px; height: 72px; margin: 0 auto 22px; }
+     96px으로 두면 실제로 보이는 크기는 84px 안팎이다. */
+  .wr-value-ic { display: block; width: 96px; height: 96px; margin: 0 auto 24px; }
   .wr-value h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
   .wr-value p { margin-top: 11px; font-size: 15px; line-height: 1.72; color: #47535f; }
 
