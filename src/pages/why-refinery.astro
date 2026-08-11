@@ -267,7 +267,9 @@ const capabilityGroups = [
     position: absolute; right: -140px; left: auto; top: 0;
     max-width: none; width: 1180px; height: auto;
     transform: translateY(-205px);
-    opacity: .3;
+    /* 투명도를 걸지 않는다 — 디자인 원본(UI_Refinery_Dashboard.html)의 색 그대로 둔다.
+       옅게 만드는 일은 좌우·상하 마스크가 맡는다. 글이 놓이는 왼쪽은 어차피
+       마스크로 사라지므로 진하게 둬도 가독성을 해치지 않는다. */
   }
   /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
      넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
