@@ -159,8 +159,10 @@ const capabilityGroups = [
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
             <div class="ind-card wr-cap-group">
-              <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
-              <h3>{g.title}</h3>
+              <div class="wr-cap-head">
+                <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
+                <h3>{g.title}</h3>
+              </div>
               <ul>
                 {g.items.map((it) => <li>{it}</li>)}
               </ul>
@@ -413,16 +415,17 @@ const capabilityGroups = [
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
   .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
   .wr-page .wr-cap-group { padding: 24px; }
-  /* 예지보전 '푸는 방식' 카드의 .uc-card-icon과 같은 값 —
-     30px · #76A6D7 · 아래 여백 65px. 아이콘을 카드 위에 띄우고
-     제목부터는 아래에 모아두는 구성이다. */
+  /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
+     아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
+     아이콘 크기·색은 예지보전 .uc-card-icon과 같은 30px · #76A6D7. */
+  .wr-cap-head { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: fit-content; margin-bottom: 65px; color: #76a6d7;
+    width: fit-content; flex: none; color: #76a6d7;
   }
   .wr-cap-icon i { font-size: 30px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
-    font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px;
+    font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
   }
   /* 항목을 작은 칸으로 둔다. flex-wrap이라 글자 수에 따라 한 줄에 두 개가 오기도 하고
      긴 항목은 혼자 한 줄을 쓴다 — 줄마다 개수를 정하지 않는다.
