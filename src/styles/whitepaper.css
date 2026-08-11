@@ -20,6 +20,13 @@
 .wp-eyebrow {
   font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
   color: #76a6d7; margin-bottom: 14px; text-transform: none;
+  display: flex; align-items: center; gap: 10px;
+}
+/* 종류와 주제를 가운데점 대신 세로선으로 나눈다. 글자가 아니라 선이라
+   글꼴에 따라 위아래로 흔들리지 않고, 높이를 글자에 맞춰 잡을 수 있다. */
+.wp-eyebrow-bar {
+  width: 1px; height: 15px; flex: none;
+  background: currentColor; opacity: .5;
 }
 .wp-title {
   font-size: clamp(28px, 4vw, 45px); font-weight: 600;
