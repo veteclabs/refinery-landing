@@ -12,18 +12,9 @@ interface Props {
 }
 const { lang = 'ko' } = Astro.props;
 
-type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean; image?: string };
-
-// 카드 상단 이미지 자리의 배경색. 브랜드 색상 차트의 500 단계를 쓴다.
-// 종류(kind)로 묶으므로 같은 종류의 카드는 자동으로 같은 색이 된다
-// (백서 2장이 그 예). 한국어·영어 표기를 모두 키로 둔다.
-const TONE: Record<string, string> = {
-  '플랫폼 개요': '#3B7FD4', 'Platform overview': '#3B7FD4',  // Blue
-  '백서': '#7884D8',      'Whitepaper': '#7884D8',  // Indigo
-  '리포트': '#4DB2A1',    'Report': '#4DB2A1',      // Teal
-  '비디오': '#9579C2',    'Video': '#9579C2',       // Purple
-  '키트': '#F0A93A',      'Kit': '#F0A93A',         // Amber
-};
+// cover: 이미지 위에 얹는 한 줄(명사구). 카드 아래 대제목은 문장으로 두고,
+// 표지 역할을 하는 이 줄만 명사구로 짧게 쓴다.
+type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean; image?: string; cover?: string };
 
 const T = {
   ko: {
@@ -37,7 +28,7 @@ const T = {
     contactLabel: '문의하기', contactHref: '/contact',
     draftTag: '초안 미리보기', soon: '준비중',
     resources: [
-      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp' },
+      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는 하나의 플랫폼' },
       { icon: 'ph-book-open', label: '흩어진 데이터를 하나의 지식으로', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: '백서', href: '/whitepapers/data-integration' },
       { icon: 'ph-robot', label: '근거를 들어 판단을 돕는 AI', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: '백서', href: '/whitepapers/ai-agent' },
       { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 활용 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data', draft: true },
@@ -58,7 +49,7 @@ const T = {
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
-      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp' },
+      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for an intelligent site' },
       { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper' },
       { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper' },
       { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
@@ -95,11 +86,16 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-thumb" aria-hidden="true" style={`background:${TONE[r.kind] ?? '#eef2f6'}`}>
+                <div class="res-thumb">
                   {r.image && <img src={r.image} alt="" width="1532" height="654" loading="lazy" decoding="async" />}
+                  {/* 종류(태그라인)와 표지 한 줄은 이미지 위에 얹는다 — 카드 아래에는 두지 않는다.
+                      이미지에 굽지 않고 HTML로 두는 이유: 한국어·영어가 같은 파일을 쓰므로
+                      글자를 구우면 /en/resources에도 한글이 뜬다. 검색·스크린리더에도 잡힌다. */}
+                  <div class="res-cover">
+                    <span class="res-cover-kind">{r.kind}</span>
+                    {r.cover && <strong class="res-cover-line">{r.cover}</strong>}
+                  </div>
                 </div>
-                {/* 종류(태그라인)는 이미지 안에 들어간다 — 카드 아래에는 두지 않는다.
-                    kind 값 자체는 이미지 배경색과 추적 속성(data-res-kind)에 계속 쓰인다. */}
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
                 {r.draft && <span class="res-tag">{T.draftTag}</span>}
@@ -202,18 +198,35 @@ const T = {
     line-height: 1.65; margin-bottom: 5px;
   }
   .res-page .res-card p { font-size: 15px; line-height: 1.5; }
-  /* 상단 이미지 자리 — 아직 이미지가 없어 빈 면으로 둔다. 파일이 오면
-     이 안에 <img>를 넣으면 되고, 지금도 자리를 차지해 레이아웃이 흔들리지 않는다. */
+  /* 상단 이미지 자리. 아직 이미지가 없는 카드는 빈 면으로 남고, 파일이 오면
+     이 안에 <img>가 들어간다. 자리는 늘 차지하므로 레이아웃이 흔들리지 않는다.
+     종류별 배경색은 쓰지 않는다 — 이미지가 들어갈 자리라 색이 이미지와 겹쳐 보였다. */
   .res-thumb {
+    position: relative;
     margin: 0 0 18px; aspect-ratio: 16 / 10;
-    background: #eef2f6; border-radius: var(--radius);  /* 종류별 색은 인라인 style로 덮인다 */
+    background: #eef2f6; border-radius: var(--radius);
     overflow: hidden;
   }
-  /* 이미지가 있는 카드는 그 이미지가 종류색 위를 덮는다. 남는 색은 로딩 중에만 보인다.
-     원본이 히어로 그대로라 2.34:1인데 칸은 16:10이라, cover로 좌우를 잘라 채운다. */
+  /* 원본이 히어로 그대로라 2.34:1인데 칸은 16:10이라, cover로 좌우를 잘라 채운다. */
   .res-thumb img {
     display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center;
+  }
+  /* 표지 글자 — 종류(태그라인)와 한 줄 요약을 이미지 왼쪽 위에 얹는다.
+     이미지가 어두운 쪽이 왼쪽 위라 흰 글자가 가장 잘 읽히는 자리다.
+     이미지가 없는 카드(#eef2f6)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
+  .res-cover {
+    position: absolute; inset: 0; z-index: 1;
+    padding: 20px 22px; display: flex; flex-direction: column; gap: 8px;
+    background: linear-gradient(to bottom, rgba(16, 20, 27, .55) 0%, rgba(16, 20, 27, .18) 45%, rgba(16, 20, 27, 0) 75%);
+    pointer-events: none;
+  }
+  .res-cover-kind {
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; color: #fff;
+  }
+  .res-cover-line {
+    font-size: 17px; font-weight: 600; line-height: 1.45; color: #fff;
+    letter-spacing: -0.01em; max-width: 15em;
   }
   /* 상태 표시를 카드 바닥으로 */
   /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
