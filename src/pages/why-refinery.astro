@@ -419,7 +419,15 @@ const capabilityGroups = [
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
      박스는 브랜드 하늘색 채움, 글리프는 흰색.
      글리프는 30 → 20px. 박스가 생기면서 덩어리가 커져 그만큼 줄였다. */
-  .wr-cap-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  /* 제목 묶음과 항목 사이를 선으로 나눈다. 항목 칸이 회색 면이라
+     선이 없으면 제목과 첫 줄이 붙어 보인다.
+     선은 카드 가로 끝까지 간다 — 카드 안여백(24px)만큼 좌우로 빼내고
+     같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다. */
+  .wr-cap-head {
+    display: flex; align-items: center; gap: 10px;
+    margin: 0 -24px; padding: 0 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 38px; height: 38px; flex: none;
@@ -437,6 +445,7 @@ const capabilityGroups = [
     list-style: none; padding: 0; margin: 10px 0 0;
     display: flex; flex-wrap: wrap; gap: 8px;
   }
+  .wr-cap-group ul { margin-top: 16px; }
   .wr-cap-group li {
     background: var(--bg-soft); border-radius: 8px;
     /* 랜딩 솔루션 섹션 카드 소제목(.industry-desc)과 같은 var(--text-muted) #7E8A98. */
