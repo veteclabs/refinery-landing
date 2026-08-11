@@ -113,7 +113,7 @@ const capabilityGroups = [
         <div class="wr-values">
           {values.map((v) => (
             <div class="wr-value">
-              <img class="wr-value-ic" src={v.icon} alt="" aria-hidden="true" width="96" height="96" loading="lazy" decoding="async" />
+              <img class="wr-value-ic" src={v.icon} alt="" aria-hidden="true" width="124" height="124" loading="lazy" decoding="async" />
               <h3>{v.title}</h3>
               <p>{v.desc}</p>
             </div>
@@ -370,8 +370,8 @@ const capabilityGroups = [
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
   .wr-value { text-align: center; }
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
-     96px으로 두면 실제로 보이는 크기는 84px 안팎이다. */
-  .wr-value-ic { display: block; width: 96px; height: 96px; margin: 0 auto 24px; }
+     124px으로 두면 실제로 보이는 크기는 108px 안팎이다. */
+  .wr-value-ic { display: block; width: 124px; height: 124px; margin: 0 auto 26px; }
   /* 글자 값은 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같다.
      19px/700/-0.02em → 20px/600/-0.01em, 설명 줄간격 1.72 → 1.5.
      제목·설명 사이 간격은 설명의 margin-top(11px) 대신 제목의 margin-bottom(5px)이
