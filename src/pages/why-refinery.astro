@@ -520,12 +520,7 @@ const capabilityGroups = [
   @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
     .wr-caps { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
-    /* 1열이 되면 카드가 화면 폭을 다 먹고, 이미지 칸은 카드 폭에 비례하므로
-       (칸 세로 = 칸 폭의 0.675배) 768px에서 카드 하나가 화면 세로의 63%까지
-       커진다. 카드 줄의 폭 자체를 480px로 묶어 이미지·글 비율은 그대로 두고
-       세로만 줄인다. 컨테이너가 480px보다 좁은 구간(약 520px 이하)에서는
-       이 값이 걸리지 않아 끊기는 지점 없이 이어진다. */
-    .wr-stories { grid-template-columns: 1fr; gap: 24px; max-width: 480px; margin: 0 auto; }
+    .wr-stories { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 520px) {
     .wr-caps { grid-template-columns: 1fr; }
