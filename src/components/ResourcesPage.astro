@@ -104,7 +104,7 @@ const T = {
               </>
             );
             return r.href
-              ? <a class="ind-card res-card is-link" href={r.href}>{inner}</a>
+              ? <a class="ind-card res-card is-link mp-no-track" href={r.href} data-res={r.label} data-res-kind={r.kind}>{inner}</a>
               : <div class="ind-card res-card">{inner}</div>;
           })}
         </div>
@@ -121,6 +121,22 @@ const T = {
   </main>
   <Footer />
 </BaseLayout>
+
+<script is:inline>
+  // 자료 카드 클릭을 명시 이벤트로 수집(Object-Action 규칙). 카드는 mp-no-track이라 autocapture와 중복되지 않는다.
+  (function () {
+    document.querySelectorAll('a.res-card[data-res]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (typeof mixpanel !== 'undefined') {
+          mixpanel.track('Resource Link Clicked', {
+            resource: el.getAttribute('data-res'),
+            kind: el.getAttribute('data-res-kind'),
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 <style>
   .res-note {
