@@ -417,14 +417,14 @@ const capabilityGroups = [
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
-     아이콘은 항목 칸과 같은 면(#f6f8fa) 위에 얹어 한 규격으로 읽히게 했다.
+     박스는 브랜드 하늘색 채움, 글리프는 흰색.
      글리프는 30 → 20px. 박스가 생기면서 덩어리가 커져 그만큼 줄였다. */
   .wr-cap-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 38px; height: 38px; flex: none;
-    background: var(--bg-soft); border-radius: 10px;
-    color: #76a6d7;
+    background: #76a6d7; border-radius: 10px;
+    color: #fff;
   }
   .wr-cap-icon i { font-size: 20px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
@@ -439,7 +439,8 @@ const capabilityGroups = [
   }
   .wr-cap-group li {
     background: var(--bg-soft); border-radius: 8px;
-    padding: 7px 12px; font-size: 15px; line-height: 1.4; color: #16202c;
+    /* 랜딩 솔루션 섹션 카드 소제목(.industry-desc)과 같은 var(--text-muted) #7E8A98. */
+    padding: 7px 12px; font-size: 15px; line-height: 1.4; color: var(--text-muted);
   }
 
   @media (max-width: 900px) {
