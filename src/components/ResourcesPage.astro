@@ -98,7 +98,8 @@ const T = {
                 <div class="res-thumb" aria-hidden="true" style={`background:${TONE[r.kind] ?? '#eef2f6'}`}>
                   {r.image && <img src={r.image} alt="" width="1532" height="654" loading="lazy" decoding="async" />}
                 </div>
-                <span class="res-kind">{r.kind}</span>
+                {/* 종류(태그라인)는 이미지 안에 들어간다 — 카드 아래에는 두지 않는다.
+                    kind 값 자체는 이미지 배경색과 추적 속성(data-res-kind)에 계속 쓰인다. */}
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
                 {r.draft && <span class="res-tag">{T.draftTag}</span>}
@@ -219,10 +220,6 @@ const T = {
   .res-card.is-link:hover { transform: translateY(-2px); }
   .res-card.is-link:hover h3 { color: #4b86bf; }
   .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
-  .res-kind {
-    display: block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
-    color: #7e8a98; margin-bottom: 6px;
-  }
   .res-soon {
     position: absolute; top: 18px; right: 18px;
     font-size: 11px; font-weight: 700; color: #7e8a98;
