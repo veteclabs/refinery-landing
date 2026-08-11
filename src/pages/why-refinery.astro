@@ -436,11 +436,13 @@ const capabilityGroups = [
      안여백 20px 24px 24px, 제목 16px/700/1.4, 본문 14px/1.6. */
   .wr-story h3 { font-size: 16px; font-weight: 700; line-height: 1.4; margin: 0 0 6px; }
   .wr-story ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-  .wr-story li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+  .wr-story li { position: relative; padding-left: 8px; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
   /* 표식 색을 카드의 강조색(태그라인·아이콘)과 같은 하늘색으로 모은다.
      회색 #B7C1CC은 본문 글자색(#7E8A98)보다 밝아 표식이 글보다 먼저 흐려졌다.
      색이 진해진 만큼 6 → 4px으로 줄여 튀지 않게 한다. */
-  .wr-story li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  /* 점 3px, 점과 글 사이 4px. 14px 본문에서 띄어쓰기 한 칸이 3.5px이라 딱 한 칸이다.
+     이전(점 4px · 사이 11px)은 세 칸이 넘어 글이 점에서 떨어져 보였다. */
+  .wr-story li::before { content: ''; position: absolute; left: 1px; top: 10px; width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
 
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
