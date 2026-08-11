@@ -413,12 +413,12 @@ const capabilityGroups = [
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
   .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
   .wr-page .wr-cap-group { padding: 24px; }
-  /* 예지보전 '푸는 방식' 카드의 .uc-card-icon과 같은 값(30px · #76A6D7).
-     거기는 아래 여백이 65px인데 그 카드는 설명 한 문단뿐이라 여백으로 균형을 잡는다.
-     여기는 아래에 목록이 길게 붙어 14px이면 충분하다. */
+  /* 예지보전 '푸는 방식' 카드의 .uc-card-icon과 같은 값 —
+     30px · #76A6D7 · 아래 여백 65px. 아이콘을 카드 위에 띄우고
+     제목부터는 아래에 모아두는 구성이다. */
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: fit-content; margin-bottom: 14px; color: #76a6d7;
+    width: fit-content; margin-bottom: 65px; color: #76a6d7;
   }
   .wr-cap-icon i { font-size: 30px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
