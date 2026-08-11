@@ -430,11 +430,12 @@ const capabilityGroups = [
   /* 태그라인을 카드 오른쪽 위 모서리의 하늘색 도형 안에 넣는다.
      글자 값은 랜딩 플랫폼 섹션 태그라인(.teams-preview-tagline)과 같은
      12px / 600 / 자간 1.2px. 색만 다르다 — 하늘색 면 위다.
-     흰 글자는 이 면에서 2.56:1이라 어두운 글자(#16202C, 6.43:1)를 쓴다.
-     모서리는 카드 오른쪽 위(12px)에 맞추고 안쪽 아래만 깎는다. */
+     모서리는 카드 오른쪽 위(12px)에 맞추고 안쪽 아래만 깎는다.
+     하늘색은 브랜드 값 #76A6D7 하나로 고정한다(--accent와 같은 값이지만
+     변수를 거치지 않고 직접 적는다 — 이 색은 페이지 밖 정의에 기대지 않는다). */
   .wr-story-tag {
     position: absolute; top: 0; right: 0; z-index: 1;
-    background: var(--accent); color: #16202c;
+    background: #76A6D7; color: #fff;
     font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
     padding: 8px 14px; white-space: nowrap;
     border-radius: 0 var(--radius) 0 12px;
