@@ -429,9 +429,9 @@ const capabilityGroups = [
        같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다.
        위 모서리는 카드 라운드와 같은 값으로 깎는다. */
     margin: -24px -24px 0; padding: 16px 24px;
-    /* 랜딩 플랫폼 섹션의 눌린 탭(.teams-tab-btn.active)에서 면을 비우고 글자를
-       accent로 두는 것만 가져왔다. 아래 선은 탭의 3px 하늘색 바 대신
-       카드 테두리와 같은 1px var(--border)로 — 카드 안에서 선이 두 종류가 되지 않는다. */
+    /* 면을 비우고 굵기를 700으로 올리는 것만 랜딩 눌린 탭에서 가져왔다.
+       제목 색은 기본 글자색 그대로다 — 하늘색은 아이콘에만 남긴다.
+       아래 선은 카드 테두리와 같은 1px var(--border)로 — 선이 두 종류가 되지 않는다. */
     background: transparent;
     border-bottom: 1px solid var(--border);
   }
@@ -444,7 +444,6 @@ const capabilityGroups = [
   .wr-cap-icon i { font-size: 24px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
     font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
-    color: var(--accent);
   }
   /* 항목을 작은 칸으로 둔다. flex-wrap이라 글자 수에 따라 한 줄에 두 개가 오기도 하고
      긴 항목은 혼자 한 줄을 쓴다 — 줄마다 개수를 정하지 않는다.
