@@ -407,19 +407,11 @@ const capabilityGroups = [
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
      제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
-     그쪽 섹션은 어두운 면이라 그림자 값이 짙다(rgba(0,0,0,.35)). 여기는 흰 면이라
-     같은 방식(테두리를 건드리지 않고 링을 덧대는 hover)을 밝은 값으로 옮겼다. */
+     hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
   .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
   .wr-page .wr-cap-group { padding: 24px; }
   .wr-page .wr-cap-group h3 {
     font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px;
-  }
-  .wr-page .wr-cap-group {
-    box-shadow: 0 1px 2px rgba(22,32,44,.05), 0 1px 1px rgba(22,32,44,.04);
-    transition: box-shadow .15s;
-  }
-  .wr-page .wr-cap-group:hover {
-    box-shadow: 0 0 0 2px var(--border), 0 2px 4px rgba(22,32,44,.06), 0 1px 1px rgba(22,32,44,.04);
   }
   .wr-cap-group ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
   /* 체크 아이콘도 예지보전과 같게 — ph-check → ph-check-circle, 15px, 간격 8px. */
