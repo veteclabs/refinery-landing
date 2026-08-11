@@ -418,7 +418,10 @@ const capabilityGroups = [
   .wr-story h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 13px; }
   .wr-story ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .wr-story li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
-  .wr-story li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: #b7c1cc; }
+  /* 표식 색을 카드의 강조색(태그라인·아이콘)과 같은 하늘색으로 모은다.
+     회색 #B7C1CC은 본문 글자색(#7E8A98)보다 밝아 표식이 글보다 먼저 흐려졌다.
+     색이 진해진 만큼 6 → 4px으로 줄여 튀지 않게 한다. */
+  .wr-story li::before { content: ''; position: absolute; left: 4px; top: 10px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
 
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
