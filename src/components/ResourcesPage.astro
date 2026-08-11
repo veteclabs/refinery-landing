@@ -12,7 +12,7 @@ interface Props {
 }
 const { lang = 'ko' } = Astro.props;
 
-type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean };
+type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean; image?: string };
 
 // 카드 상단 이미지 자리의 배경색. 브랜드 색상 차트의 500 단계를 쓴다.
 // 종류(kind)로 묶으므로 같은 종류의 카드는 자동으로 같은 색이 된다
@@ -37,7 +37,7 @@ const T = {
     contactLabel: '문의하기', contactHref: '/contact',
     draftTag: '초안 미리보기', soon: '준비중',
     resources: [
-      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery' },
+      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp' },
       { icon: 'ph-book-open', label: '흩어진 데이터를 하나의 지식으로', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: '백서', href: '/whitepapers/data-integration' },
       { icon: 'ph-robot', label: '근거를 들어 판단을 돕는 AI', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: '백서', href: '/whitepapers/ai-agent' },
       { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 활용 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data', draft: true },
@@ -58,7 +58,7 @@ const T = {
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
-      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview' },
+      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp' },
       { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper' },
       { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper' },
       { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
@@ -95,7 +95,9 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-thumb" aria-hidden="true" style={`background:${TONE[r.kind] ?? '#eef2f6'}`}></div>
+                <div class="res-thumb" aria-hidden="true" style={`background:${TONE[r.kind] ?? '#eef2f6'}`}>
+                  {r.image && <img src={r.image} alt="" width="1532" height="654" loading="lazy" decoding="async" />}
+                </div>
                 <span class="res-kind">{r.kind}</span>
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
@@ -204,6 +206,13 @@ const T = {
   .res-thumb {
     margin: 0 0 18px; aspect-ratio: 16 / 10;
     background: #eef2f6; border-radius: var(--radius);  /* 종류별 색은 인라인 style로 덮인다 */
+    overflow: hidden;
+  }
+  /* 이미지가 있는 카드는 그 이미지가 종류색 위를 덮는다. 남는 색은 로딩 중에만 보인다.
+     원본이 히어로 그대로라 2.34:1인데 칸은 16:10이라, cover로 좌우를 잘라 채운다. */
+  .res-thumb img {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
   }
   /* 상태 표시를 카드 바닥으로 */
   /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
