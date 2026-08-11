@@ -28,7 +28,7 @@ const T = {
     contactLabel: '문의하기', contactHref: '/contact',
     draftTag: '초안 미리보기', soon: '준비중',
     resources: [
-      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는 하나의 플랫폼' },
+      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는<br>하나의 플랫폼' },
       { icon: 'ph-book-open', label: '흩어진 데이터를 하나의 지식으로', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: '백서', href: '/whitepapers/data-integration' },
       { icon: 'ph-robot', label: '근거를 들어 판단을 돕는 AI', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: '백서', href: '/whitepapers/ai-agent' },
       { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 활용 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data', draft: true },
@@ -49,7 +49,7 @@ const T = {
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
-      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for an intelligent site' },
+      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
       { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper' },
       { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper' },
       { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
@@ -93,7 +93,7 @@ const T = {
                       글자를 구우면 /en/resources에도 한글이 뜬다. 검색·스크린리더에도 잡힌다. */}
                   <div class="res-cover">
                     <span class="res-cover-kind">{r.kind}</span>
-                    {r.cover && <strong class="res-cover-line">{r.cover}</strong>}
+                    {r.cover && <strong class="res-cover-line" set:html={r.cover}></strong>}
                   </div>
                 </div>
                 <h3>{r.label}</h3>
@@ -188,7 +188,7 @@ const T = {
     display: flex; flex-direction: column; height: 100%;
     background: none; border: none; border-radius: 0; padding: 0;
   }
-  .res-card.is-link { opacity: 1; text-decoration: none; transition: transform .2s; }
+  .res-card.is-link { opacity: 1; text-decoration: none; }
 
   /* 글자 규격을 예지보전 '함께 보면 좋은 과제' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
      공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
@@ -221,17 +221,17 @@ const T = {
     background: linear-gradient(to bottom, rgba(16, 20, 27, .55) 0%, rgba(16, 20, 27, .18) 45%, rgba(16, 20, 27, 0) 75%);
     pointer-events: none;
   }
+  /* 크기는 카드 소제목(.res-card p, 15px)과 같게 둔다. */
   .res-cover-kind {
-    font-size: 11px; font-weight: 700; letter-spacing: .04em; color: #fff;
+    font-size: 15px; font-weight: 700; letter-spacing: .04em; color: #76A6D7;
   }
+  /* 표지 줄은 카드 아래 대제목(20px)보다 크게 둔다 — 카드에서 먼저 읽히는 자리다.
+     줄바꿈은 cover 값 안의 <br>로 명시한다(마크업 안의 개행은 공백으로 합쳐진다). */
   .res-cover-line {
-    font-size: 17px; font-weight: 600; line-height: 1.45; color: #fff;
-    letter-spacing: -0.01em; max-width: 15em;
+    font-size: 24px; font-weight: 600; line-height: 1.4; color: #fff;
+    letter-spacing: -0.02em;
   }
-  /* 상태 표시를 카드 바닥으로 */
-  /* 테두리가 없으니 호버는 살짝 떠오르는 것과 제목 색으로 알린다. */
-  .res-card.is-link:hover { transform: translateY(-2px); }
-  .res-card.is-link:hover h3 { color: #4b86bf; }
+  /* 호버 반응은 두지 않는다. */
   .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
   .res-soon {
     position: absolute; top: 18px; right: 18px;
