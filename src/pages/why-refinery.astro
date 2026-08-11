@@ -418,7 +418,8 @@ const capabilityGroups = [
      (SVG 자체는 벡터라 크기와 무관하게 깨지지 않는다) */
   .wr-story-media img {
     display: block; position: absolute; top: -15%; left: -15%;
-    width: 130%; height: 130%; object-fit: cover;
+    /* 전역 img{max-width:100%}가 130%를 칸 폭으로 잘라낸다 — 풀어준다. */
+    max-width: none; width: 130%; height: 130%; object-fit: cover;
   }
   .wr-story-media::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
