@@ -417,7 +417,6 @@ const capabilityGroups = [
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
-     박스는 브랜드 하늘색 채움, 글리프는 흰색.
      박스 30x30 · 라운드 8px, 글리프 17px. 제목(20px) 옆에 붙는 표식이라
      제목보다 크지 않게 잡았다. */
   /* 제목 묶음과 항목 사이를 선으로 나눈다. 항목 칸이 회색 면이라
@@ -430,15 +429,16 @@ const capabilityGroups = [
        같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다.
        위 모서리는 카드 라운드와 같은 값으로 깎는다. */
     margin: -24px -24px 0; padding: 24px;
-    background: #EEF4FB;
+    background: #76a6d7;
     border-bottom: 1px solid var(--border);
     border-radius: var(--radius) var(--radius) 0 0;
   }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: 30px; height: 30px; flex: none;
-    background: #76a6d7; border-radius: 8px;
-    color: #fff;
+    /* 제목 줄이 하늘색이 되면서 같은 색 박스는 사라진다 — 흰 박스에 하늘색 글리프로 뒤집는다. */
+    background: #fff; border-radius: 8px;
+    color: #76a6d7;
   }
   .wr-cap-icon i { font-size: 17px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
