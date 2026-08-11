@@ -129,7 +129,7 @@ const capabilityGroups = [
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>한 플랫폼 안에서 이어지는 흐름</h2>
+          <h2>한 플랫폼에서 이어지는 흐름</h2>
           <p>모아서 붙이고 묻고 실행하기까지</p>
         </header>
         <div class="wr-stories">
@@ -155,7 +155,7 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>한 플랫폼에 담긴 기능</h2>
+          <h2>한 플랫폼 안에 담긴 기능</h2>
           <p>현장 운영에 필요한 기능이 한곳에</p>
         </header>
         <div class="wr-caps">
@@ -408,7 +408,7 @@ const capabilityGroups = [
      아래끝은 랜딩 보안 섹션 카드(.sec-card-img::after)와 같은 방식으로 흰색으로
      녹인다 — 구분선 대신 그라데이션이 이미지와 글을 잇는다. */
   .wr-story-media {
-    aspect-ratio: 3 / 2; background: #fff;
+    aspect-ratio: 16 / 10; background: #fff;
     position: relative; overflow: hidden;
   }
   /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
@@ -417,9 +417,9 @@ const capabilityGroups = [
      늘리는 방식이라 흐려진다. 크기 자체를 키워야 그 크기로 다시 그려 선명하다.
      (SVG 자체는 벡터라 크기와 무관하게 깨지지 않는다) */
   .wr-story-media img {
-    display: block; position: absolute; top: -7.5%; left: -7.5%;
+    display: block; position: absolute; top: -10%; left: -10%;
     /* 전역 img{max-width:100%}가 130%를 칸 폭으로 잘라낸다 — 풀어준다. */
-    max-width: none; width: 115%; height: 115%; object-fit: cover;
+    max-width: none; width: 120%; height: 120%; object-fit: cover;
   }
   .wr-story-media::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
