@@ -4,21 +4,20 @@
       .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
         fill: none;
       }
-      .cls-2, .cls-3, .cls-6, .cls-4, .cls-7, .cls-5 {
-        stroke-width: 4px;
-      }
       .cls-2, .cls-3, .cls-6, .cls-7, .cls-5 {
         stroke-linecap: round;
         stroke-linejoin: round;
       }
       .cls-2, .cls-6, .cls-4, .cls-7 {
         stroke: #c8ced5;
+        stroke-width: 4px;
       }
       .cls-3 {
         stroke-dasharray: 2 19.96;
       }
       .cls-3, .cls-5 {
         stroke: #e3e7ec;
+        stroke-width: 5px;
       }
       .cls-8 {
         fill: #939393;
