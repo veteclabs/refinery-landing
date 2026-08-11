@@ -104,7 +104,7 @@ const T = {
               </>
             );
             return r.href
-              ? <a class="ind-card res-card is-link" href={r.href}>{inner}</a>
+              ? <a class="ind-card res-card is-link mp-no-track" href={r.href} data-res={r.label} data-res-kind={r.kind}>{inner}</a>
               : <div class="ind-card res-card">{inner}</div>;
           })}
         </div>
@@ -113,6 +113,22 @@ const T = {
   </main>
   <Footer />
 </BaseLayout>
+
+<script is:inline>
+  // 자료 카드 클릭을 명시 이벤트로 수집(Object-Action 규칙). 카드는 mp-no-track이라 autocapture와 중복되지 않는다.
+  (function () {
+    document.querySelectorAll('a.res-card[data-res]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (typeof mixpanel !== 'undefined') {
+          mixpanel.track('Resource Link Clicked', {
+            resource: el.getAttribute('data-res'),
+            kind: el.getAttribute('data-res-kind'),
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 <style>
   /* 본문 좌우를 헤더와 같은 선에 맞춘다. 공통 .ind-container는 1120/24라
@@ -195,7 +211,7 @@ const T = {
   .res-card.is-link:hover h3 { color: #4b86bf; }
   .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
   .res-kind {
-    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
     color: #7e8a98; margin-bottom: 6px;
   }
   .res-soon {
