@@ -428,19 +428,20 @@ const capabilityGroups = [
     /* 카드 안여백(24px)만큼 위·좌·우로 빼내 면이 카드 끝과 위끝까지 닿게 하고,
        같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다.
        위 모서리는 카드 라운드와 같은 값으로 깎는다. */
-    margin: -24px -24px 0; padding: 24px;
-    /* 랜딩 플랫폼 섹션의 눌린 탭(.teams-tab-btn.active)과 같은 방식 —
-       면을 채우지 않고 글자를 accent로, 아래에 3px 바를 inset 그림자로 깐다.
-       테두리가 아니라 그림자라 높이가 밀리지 않는다. */
+    margin: -24px -24px 0; padding: 16px 24px;
+    /* 랜딩 플랫폼 섹션의 눌린 탭(.teams-tab-btn.active)에서 면을 비우고 글자를
+       accent로 두는 것만 가져왔다. 아래 선은 탭의 3px 하늘색 바 대신
+       카드 테두리와 같은 1px var(--border)로 — 카드 안에서 선이 두 종류가 되지 않는다. */
     background: transparent;
-    box-shadow: inset 0 -3px 0 0 var(--accent);
+    border-bottom: 1px solid var(--border);
   }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    /* 탭에는 아이콘 박스가 없다 — 글자와 같은 색의 글리프만 둔다(탭은 16px). */
+    /* 탭에는 아이콘 박스가 없다 — 글자와 같은 색의 글리프만 둔다.
+       제목(20px)보다 조금 크게 둬 표식으로 읽히게 했다. */
     flex: none; color: var(--accent);
   }
-  .wr-cap-icon i { font-size: 16px; line-height: 1; }
+  .wr-cap-icon i { font-size: 24px; line-height: 1; }
   .wr-page .wr-cap-group h3 {
     font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
     color: var(--accent);
@@ -452,8 +453,7 @@ const capabilityGroups = [
     list-style: none; padding: 0; margin: 10px 0 0;
     display: flex; flex-wrap: wrap; gap: 8px;
   }
-  /* 선 위아래 간격을 제목의 카드 상단 간격(24px)과 같게 둔다. */
-  .wr-cap-group ul { margin-top: 24px; }
+  .wr-cap-group ul { margin-top: 20px; }
   .wr-cap-group li {
     background: var(--bg-soft); border-radius: 8px;
     /* 랜딩 솔루션 섹션 카드 소제목(.industry-desc)과 같은 var(--text-muted) #7E8A98. */
