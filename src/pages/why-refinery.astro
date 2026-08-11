@@ -25,7 +25,7 @@ const values = [
 // 기능 스토리 3 — 통합 / AI 에이전트 / 자동화
 const stories = [
   {
-    icon: 'ph-graph',
+    image: '/why-refinery/story-01.svg',
     eyebrow: '통합 · 온톨로지',
     title: '흩어진 데이터를 하나의 지식으로',
     points: [
@@ -35,7 +35,7 @@ const stories = [
     ],
   },
   {
-    icon: 'ph-chat-circle-dots',
+    image: '/why-refinery/story-02.svg',
     eyebrow: 'AI 에이전트',
     title: '묻고 답하는 현장',
     points: [
@@ -45,7 +45,7 @@ const stories = [
     ],
   },
   {
-    icon: 'ph-gear-six',
+    image: '/why-refinery/story-03.svg',
     eyebrow: '자동화 · 워크플로우',
     title: '사람 없이도 돌아가는 운영',
     points: [
@@ -135,8 +135,9 @@ const capabilityGroups = [
         <div class="wr-stories">
           {stories.map((s, i) => (
             <article class="ind-card wr-story">
-              {/* 이미지 자리. 아직 그림이 없어 면만 잡아둔다. */}
-              <div class="wr-story-media" aria-hidden="true"></div>
+              <div class="wr-story-media">
+                <img src={s.image} alt="" aria-hidden="true" width="1920" height="1080" loading="lazy" decoding="async" />
+              </div>
               <div class="wr-story-body">
                 <p class="wr-story-eyebrow">{s.eyebrow}</p>
                 <h3>{s.title}</h3>
@@ -403,10 +404,12 @@ const capabilityGroups = [
   /* .ind-card의 안여백(26px)을 풀고 이미지가 카드 폭을 꽉 채우게 한다.
      안여백은 아래 .wr-story-body가 맡는다. */
   .wr-page .wr-story { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  /* 일러스트가 1920x1080(16:9)이라 칸도 같은 비율로 둔다 — 잘리거나 남는 곳이 없다. */
   .wr-story-media {
-    aspect-ratio: 16 / 10; background: var(--bg-soft);
+    aspect-ratio: 16 / 9; background: var(--bg-soft);
     border-bottom: 1px solid #eff2f5;
   }
+  .wr-story-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .wr-story-body { padding: 24px; }
   /* 랜딩 플랫폼 섹션 태그라인(.teams-preview-tagline)과 같은 값. */
   .wr-story-eyebrow {
