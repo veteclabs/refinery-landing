@@ -1,50 +1,20 @@
 /* 백서(롱폼) 스타일 — 랜딩과 동일한 브랜드 토큰. industry.css의 컨테이너/버튼/CTA와 함께 사용. */
-/* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 구성 ─────────
-   값은 모두 그 페이지에서 가져왔다. 밑판 #10141B 위에 소개서 표지 배경을 .9로
-   얹고, 오른쪽에 대시보드 장식을 .3으로 깐다. 어두운 막은 따로 덮지 않는다. */
+/* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 글자 규격·여백 ─────────
+   배경 이미지는 아직 없다. 밑판만 어두운 면(#10141B)으로 두고, 이미지가 정해지면
+   이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
   position: relative; overflow: hidden;
   padding: 180px 0 100px; background: #10141B; border-bottom: none;
 }
-.wp-hero-bg-img {
-  position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
-  object-fit: cover; object-position: center 100%;
-  pointer-events: none; user-select: none;
-}
-/* 왼쪽 페이드는 %가 아니라 px로 잡는다 — %면 칸이 좁아질수록 페이드 구간도
-   같이 좁아져 글 옆에서 이미 또렷해진다. */
-.wp-hero-fx {
-  position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
-  overflow: hidden; pointer-events: none; user-select: none;
-  -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
-  mask-image: linear-gradient(to right, transparent 0px, #000 420px);
-}
-.wp-hero-fx-inner {
-  position: absolute; inset: 0; overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
-}
-/* 크기를 px로 못박고 칸 오른쪽 끝에 붙인다 — 창을 줄여도 잘리는 양이 같다.
-   전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
-.wp-hero-fx-inner img {
-  position: absolute; right: -140px; left: auto; top: 0;
-  max-width: none; width: 1180px; height: auto;
-  transform: translateY(-205px);
-  opacity: .3;
-}
-@media (max-width: 1199px) {
-  .wp-hero-fx { width: 40%; }
-  .wp-hero-fx-inner img { width: 800px; right: -95px; }
-}
-/* 900px 미만에서는 본문이 화면 전체를 쓴다 — 어디에 둬도 글 뒤에 깔린다. */
-@media (max-width: 900px) { .wp-hero-fx { display: none; } }
-
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
+/* 브레드크럼은 data-integration에서는 뺐지만 ai-agent가 아직 쓴다.
+   히어로가 어두워졌으므로 흰색 계열로 둔다. */
 .wp-crumb { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 18px; }
 .wp-crumb a { color: rgba(255,255,255,.55); text-decoration: none; }
 .wp-crumb a:hover { color: #76a6d7; }
 .wp-crumb span { margin: 0 7px; color: rgba(255,255,255,.3); }
+
 /* 태그라인 — /why-refinery의 .wr-tag와 같은 값.
    하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
 .wp-eyebrow {
@@ -78,7 +48,11 @@
   padding: 56px 0 24px;
 }
 .wp-aside { position: sticky; top: 96px; }
-.wp-article { max-width: 820px; margin: 0 0 0 auto; padding: 0; }
+/* 오른쪽 붙임은 두 단 안에서만 건다. 이 스타일시트를 같이 쓰는 ai-agent는
+   아직 한 단이라, 스코프를 두지 않으면 본문이 통째로 오른쪽으로 밀린다. */
+.wp-body .wp-article { max-width: 820px; margin: 0 0 0 auto; padding: 0; }
+/* 한 단으로 쓰는 페이지(ai-agent)의 기존 값 */
+.wp-article { max-width: 820px; margin: 0 auto; padding: 48px 24px 24px; }
 
 /* 요약 — 카드/좌측 스트라이프 없이 편집형 리드로 */
 .wp-summary { margin: 0 0 10px; }
