@@ -156,10 +156,10 @@ const capabilityGroups = [
         </header>
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
-            <div class="wr-cap-group">
-              <h3 class="wr-cap-title">{g.title}</h3>
+            <div class="ind-card wr-cap-group">
+              <h3>{g.title}</h3>
               <ul>
-                {g.items.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
+                {g.items.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
               </ul>
             </div>
           ))}
@@ -405,11 +405,26 @@ const capabilityGroups = [
   .wr-story li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: #b7c1cc; }
 
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 28px; }
-  .wr-cap-title { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: #16202c; padding-bottom: 11px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-  .wr-cap-group ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-  .wr-cap-group li { display: flex; align-items: center; gap: 9px; font-size: 14.5px; color: #2b3644; }
-  .wr-cap-group li i { color: #76a6d7; font-size: 15px; flex: none; }
+  /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
+     제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
+     그쪽 섹션은 어두운 면이라 그림자 값이 짙다(rgba(0,0,0,.35)). 여기는 흰 면이라
+     같은 방식(테두리를 건드리지 않고 링을 덧대는 hover)을 밝은 값으로 옮겼다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .wr-page .wr-cap-group { padding: 24px; }
+  .wr-page .wr-cap-group h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px;
+  }
+  .wr-page .wr-cap-group {
+    box-shadow: 0 1px 2px rgba(22,32,44,.05), 0 1px 1px rgba(22,32,44,.04);
+    transition: box-shadow .15s;
+  }
+  .wr-page .wr-cap-group:hover {
+    box-shadow: 0 0 0 2px var(--border), 0 2px 4px rgba(22,32,44,.06), 0 1px 1px rgba(22,32,44,.04);
+  }
+  .wr-cap-group ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+  /* 체크 아이콘도 예지보전과 같게 — ph-check → ph-check-circle, 15px, 간격 8px. */
+  .wr-cap-group li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #16202c; }
+  .wr-cap-group li i { color: #2f6ba3; font-size: 15px; flex: none; }
 
   @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
