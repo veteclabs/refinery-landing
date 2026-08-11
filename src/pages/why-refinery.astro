@@ -372,8 +372,12 @@ const capabilityGroups = [
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
      96px으로 두면 실제로 보이는 크기는 84px 안팎이다. */
   .wr-value-ic { display: block; width: 96px; height: 96px; margin: 0 auto 24px; }
-  .wr-value h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
-  .wr-value p { margin-top: 11px; font-size: 15px; line-height: 1.72; color: #47535f; }
+  /* 글자 값은 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같다.
+     19px/700/-0.02em → 20px/600/-0.01em, 설명 줄간격 1.72 → 1.5.
+     제목·설명 사이 간격은 설명의 margin-top(11px) 대신 제목의 margin-bottom(5px)이
+     맡는다 — 거기도 그렇게 잡혀 있다. */
+  .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
+  .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
 
   /* 기능 스토리 — 번호 흐름(카드 대신 구분선) */
   .wr-stories { display: grid; gap: 0; }
