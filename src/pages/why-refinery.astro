@@ -405,11 +405,13 @@ const capabilityGroups = [
   /* .ind-card의 안여백(26px)을 풀고 이미지가 카드 폭을 꽉 채우게 한다.
      안여백은 아래 .wr-story-body가 맡는다. */
   .wr-page .wr-story { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-  /* 일러스트가 1920x1080(16:9)이라 칸도 같은 비율로 둔다 — 잘리거나 남는 곳이 없다.
+  /* 칸 세로를 이미지 세로에 딱 맞춘다. 이미지가 칸 폭의 120%이고 원본이 16:9이므로
+     이미지 높이 = 1.2 x 칸폭 x (1080/1920) = 칸폭의 0.675배 → 칸 비율 40:27.
+     남는 흰 자리 없이 이미지가 칸을 세로로 정확히 채운다.
      아래끝은 랜딩 보안 섹션 카드(.sec-card-img::after)와 같은 방식으로 흰색으로
      녹인다 — 구분선 대신 그라데이션이 이미지와 글을 잇는다. */
   .wr-story-media {
-    aspect-ratio: 4 / 3; background: #fff;
+    aspect-ratio: 40 / 27; background: #fff;
     position: relative; overflow: hidden;
   }
   /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
