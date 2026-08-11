@@ -229,17 +229,19 @@ const capabilityGroups = [
      #10141B 위에 이미지를 .9로 얹는 게 전부라, 그 구성을 그대로 쓴다. */
   .wr-hero-bg {
     position: relative; overflow: hidden;
-    padding: 180px 0 100px; border-bottom: none; background: #10141B;
+    /* 밑판과 배경 투명도는 디자인 원본(UI_Refinery_Login.html 왼쪽 패널)과 같게 둔다.
+       거기서는 담는 칸이 --ink-900(#16202C)이고 배경 이미지에 opacity가 없다. */
+    padding: 180px 0 100px; border-bottom: none; background: #16202C;
   }
   .wr-hero-bg-img {
-    position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
+    position: absolute; inset: 0; width: 100%; height: 100%;
     /* 100% = 위로 올릴 수 있는 끝. 이미지가 16:9(3840x2160)이고 히어로는 그보다
        납작해서 cover가 가로에 맞춘다 — 세로 여유 284px이 전부 위로 빠진다. */
     object-fit: cover; object-position: center 100%;
     pointer-events: none; user-select: none;
   }
   /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
-     (폭 56% · 이미지 128% · 불투명도 .3 · 좌우/상하 마스크). */
+     (폭 56% · 좌우/상하 마스크). 불투명도만 아래에서 따로 잡는다. */
   /* 왼쪽 페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이
      좁아져, 글 끝에 닿는 자리에서 이미 또렷해졌다(1024px에서 실효 불투명도 .29).
      420px으로 못박으면 화면 폭과 무관하게 글 옆 완충 구간이 일정하다(.09 안팎). */
@@ -267,7 +269,10 @@ const capabilityGroups = [
     position: absolute; right: -140px; left: auto; top: 0;
     max-width: none; width: 1180px; height: auto;
     transform: translateY(-205px);
-    opacity: .3;
+    /* .3은 무늬로만 읽혀 원본 색과 멀었다(트리맵 구역 평균 차이 63.6/255).
+       .6이면 무엇을 보여주는 화면인지 알아볼 수 있으면서(차이 36.5로 절반) 왼쪽
+       카피가 여전히 먼저 읽힌다. 1까지 올리면 오른쪽이 시선을 먼저 가져간다. */
+    opacity: .6;
   }
   /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
      넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
