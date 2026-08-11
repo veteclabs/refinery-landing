@@ -34,10 +34,28 @@ const toc = [
 >
   <Nav />
   <main class="wp-page">
+    {/* 히어로는 /why-refinery(플랫폼 개요)와 같은 구성이다 — 소개서 표지에서 온
+        배경 이미지 위에 오른쪽 대시보드 장식을 얹고, 왼쪽에 흰 글자를 놓는다.
+        값(불투명도·마스크·크기·여백)은 그 페이지에서 그대로 가져왔다. */}
     <section class="wp-hero">
+      <img
+        class="wp-hero-bg-img"
+        src="/img_login-bg.webp"
+        alt=""
+        aria-hidden="true"
+        width="3840"
+        height="2160"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <div class="wp-hero-fx" aria-hidden="true">
+        <div class="wp-hero-fx-inner">
+          <img src="/why-refinery-dash.webp" alt="" width="2586" height="3512" loading="lazy" decoding="async" />
+        </div>
+      </div>
       <div class="ind-container">
         <nav class="wp-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/resources">자료실</a><span>›</span>백서</nav>
-        <p class="wp-eyebrow">WHITEPAPER · 데이터 통합</p>
+        <p class="wp-eyebrow">백서 · 데이터 통합</p>
         <h1 class="wp-title">흩어진 데이터를<br>하나의 지식으로</h1>
         <p class="wp-sub">산업 현장에는 데이터가 부족하지 않습니다. 문제는 흩어져 있다는 것입니다. 파이프를 잇는 통합을 넘어, 데이터에 의미를 부여하는 통합이 무엇인지 정리합니다.</p>
       </div>
