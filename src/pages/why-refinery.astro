@@ -367,10 +367,6 @@ const capabilityGroups = [
   /* 셋으로 나누는 간격은 그대로 두고, 카드 안만 가운데 정렬로 바꿨다.
      번호와 윗선을 빼서 아이콘이 카드의 시작점이 된다 — 윗선이 있으면
      가운데 정렬한 글과 선의 왼쪽 끝이 어긋나 보인다. */
-  /* 이 섹션만 제목까지 가운데로 둔다. 카드가 가운데 정렬인데 제목만 왼쪽이면
-     섹션 하나 안에 축이 둘이 되어, 다른 섹션과 달라지는 것보다 더 눈에 띈다.
-     .ind-head는 max-width 640px이라 가운데 정렬만 걸면 왼쪽으로 치우친다. */
-  .wr-dark .ind-head { text-align: center; max-width: none; }
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
   .wr-value { text-align: center; }
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
