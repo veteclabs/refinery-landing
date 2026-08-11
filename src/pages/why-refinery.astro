@@ -134,10 +134,13 @@ const capabilityGroups = [
         </header>
         <div class="wr-stories">
           {stories.map((s, i) => (
-            <article class="wr-story">
-              <div class="wr-story-step"><span>{String(i + 1).padStart(2, '0')}</span></div>
+            <article class="ind-card wr-story">
+              {/* 이미지 자리. 아직 그림이 없어 면만 잡아둔다. */}
+              <div class="wr-story-media" aria-hidden="true"></div>
               <div class="wr-story-body">
-                <p class="wr-story-eyebrow">{s.eyebrow}</p>
+                <p class="wr-story-eyebrow">
+                  <span class="wr-story-step">{String(i + 1).padStart(2, '0')}</span>{s.eyebrow}
+                </p>
                 <h3>{s.title}</h3>
                 <ul>
                   {s.points.map((p) => <li>{p}</li>)}
@@ -397,16 +400,25 @@ const capabilityGroups = [
   .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
   .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
 
-  /* 기능 스토리 — 번호 흐름(카드 대신 구분선) */
-  .wr-stories { display: grid; gap: 0; }
-  .wr-story { display: flex; gap: 30px; align-items: flex-start; padding: 32px 0; border-top: 1px solid var(--border); }
-  .wr-story:last-child { border-bottom: 1px solid var(--border); }
-  .wr-story-step { flex: none; width: 60px; }
-  .wr-story-step span { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; color: #c9d5e0; line-height: 1; }
+  /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
+  .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  /* .ind-card의 안여백(26px)을 풀고 이미지가 카드 폭을 꽉 채우게 한다.
+     안여백은 아래 .wr-story-body가 맡는다. */
+  .wr-page .wr-story { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .wr-story-media {
+    aspect-ratio: 16 / 10; background: var(--bg-soft);
+    border-bottom: 1px solid #eff2f5;
+  }
+  .wr-story-body { padding: 24px; }
   .wr-story-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #4b86bf; text-transform: uppercase; }
-  .wr-story h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin: 7px 0 13px; }
+  /* 번호는 순서를 알려주는 표식이라 눈에 띄지 않게 태그라인 앞에 붙인다
+     (가로 배치일 때는 60px 칸에 32px으로 크게 뒀지만, 카드에서는 그 자리가 없다). */
+  .wr-story-step { color: #c9d5e0; margin-right: 8px; }
+  /* 제목·본문 값을 이 페이지의 다른 카드(선택 이유·기능)와 맞춘다.
+     20px/700/-0.01em, 본문 15px/1.5 — 페이지 안 세 묶음이 한 규격이 된다. */
+  .wr-story h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.6; margin: 5px 0 13px; }
   .wr-story ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-  .wr-story li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.62; color: #47535f; }
+  .wr-story li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
   .wr-story li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: #b7c1cc; }
 
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
@@ -464,9 +476,7 @@ const capabilityGroups = [
   @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
     .wr-caps { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
-    .wr-story { gap: 20px; padding: 26px 0; }
-    .wr-story-step { width: 44px; }
-    .wr-story-step span { font-size: 26px; }
+    .wr-stories { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 520px) {
     .wr-caps { grid-template-columns: 1fr; }
