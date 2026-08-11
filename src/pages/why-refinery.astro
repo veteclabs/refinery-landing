@@ -162,7 +162,7 @@ const capabilityGroups = [
               <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
               <h3>{g.title}</h3>
               <ul>
-                {g.items.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
+                {g.items.map((it) => <li>{it}</li>)}
               </ul>
             </div>
           ))}
@@ -424,10 +424,17 @@ const capabilityGroups = [
   .wr-page .wr-cap-group h3 {
     font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px;
   }
-  .wr-cap-group ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
-  /* 체크 아이콘도 예지보전과 같게 — ph-check → ph-check-circle, 15px, 간격 8px. */
-  .wr-cap-group li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #16202c; }
-  .wr-cap-group li i { color: #2f6ba3; font-size: 15px; flex: none; }
+  /* 항목을 작은 칸으로 둔다. flex-wrap이라 글자 수에 따라 한 줄에 두 개가 오기도 하고
+     긴 항목은 혼자 한 줄을 쓴다 — 줄마다 개수를 정하지 않는다.
+     칸 색은 '이어지는 흐름' 섹션과 같은 면(var(--bg-soft) #f6f8fa)이다. */
+  .wr-cap-group ul {
+    list-style: none; padding: 0; margin: 10px 0 0;
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .wr-cap-group li {
+    background: var(--bg-soft); border-radius: 8px;
+    padding: 7px 12px; font-size: 15px; line-height: 1.4; color: #16202c;
+  }
 
   @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
