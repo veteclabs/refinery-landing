@@ -431,9 +431,11 @@ const capabilityGroups = [
     margin: -24px -24px 0; padding: 16px 24px;
     /* 면을 비우고 굵기를 700으로 올리는 것만 랜딩 눌린 탭에서 가져왔다.
        제목 색은 기본 글자색 그대로다 — 하늘색은 아이콘에만 남긴다.
-       아래 선은 카드 테두리와 같은 1px var(--border)로 — 선이 두 종류가 되지 않는다. */
+       아래 선은 카드 테두리(#E3E7EC)보다 한 단계 연한 #EFF2F5 —
+       같은 색이면 카드가 둘로 잘린 것처럼 읽힌다. 머리와 몸통을 나누는 선은
+       테두리보다 뒤로 물러나야 한다. */
     background: transparent;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #eff2f5;
   }
   .wr-cap-icon {
     display: inline-flex; align-items: center; justify-content: center;
