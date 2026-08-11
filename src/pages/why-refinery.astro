@@ -411,7 +411,13 @@ const capabilityGroups = [
     aspect-ratio: 16 / 9; background: #fff;
     position: relative; overflow: hidden;
   }
-  .wr-story-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
+     옅은 격자 무늬다. 1.3배로 키워 그 여백을 잘라내면 같은 칸에서 그림만 커진다.
+     SVG라 몇 배로 키워도 해상도가 깨지지 않는다. */
+  .wr-story-media img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.3); transform-origin: center;
+  }
   .wr-story-media::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
     background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,.6) 50%, #fff 100%);
