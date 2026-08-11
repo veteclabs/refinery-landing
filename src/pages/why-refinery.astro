@@ -413,19 +413,19 @@ const capabilityGroups = [
     position: relative; overflow: hidden;
   }
   /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
-     옅은 격자 무늬다. 138%로 키우고 이미지 위끝을 칸 위끝에 붙인다(top 0) —
+     옅은 격자 무늬다. 130%로 키우고 이미지 위끝을 칸 위끝에 붙인다(top 0) —
      이렇게 해야 그림 위의 점선이 남는다. 앞서 top을 음수로 두었을 때는
      '위끝에 맞춘' 것이 아니라 점선 여백을 잘라내고 있었다.
      아래는 그라데이션이 받는 자리에서 잘린다.
-     138%가 좌우가 안 잘리는 한계다 — 그림이 화판 가로 14~88%에 있어
-     0.14W >= (W-칸폭)/2를 풀면 W <= 칸폭의 139%가 나온다.
+     좌우가 안 잘리는 한계는 139%다 — 그림이 화판 가로 14~88%에 있어
+     0.14W >= (W-칸폭)/2를 풀면 그 값이 나온다. 130%는 그 안쪽이다.
      transform: scale()로 키우면 안 된다 — 레이아웃 크기로 한 번 그린 뒤 그 결과를
      늘리는 방식이라 흐려진다. 크기 자체를 키워야 그 크기로 다시 그려 선명하다.
      (SVG 자체는 벡터라 크기와 무관하게 깨지지 않는다) */
   .wr-story-media img {
-    display: block; position: absolute; top: 0; left: -19%;
-    /* 전역 img{max-width:100%}가 138%를 칸 폭으로 잘라낸다 — 풀어준다. */
-    max-width: none; width: 138%; height: auto;
+    display: block; position: absolute; top: 0; left: -15%;
+    /* 전역 img{max-width:100%}가 130%를 칸 폭으로 잘라낸다 — 풀어준다. */
+    max-width: none; width: 130%; height: auto;
   }
   .wr-story-media::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
