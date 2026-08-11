@@ -107,8 +107,9 @@ const capabilityGroups = [
     <!-- VALUES -->
     <section class="ind-section wr-dark">
       <div class="ind-container">
-        <header class="ind-head">
+        <header class="ind-head wr-head-row">
           <h2>현장이 먼저입니다</h2>
+          <p>팀도 도입도 데이터도 현장 기준으로.</p>
         </header>
         <div class="wr-values">
           {values.map((v) => (
@@ -367,6 +368,19 @@ const capabilityGroups = [
   /* 셋으로 나누는 간격은 그대로 두고, 카드 안만 가운데 정렬로 바꿨다.
      번호와 윗선을 빼서 아이콘이 카드의 시작점이 된다 — 윗선이 있으면
      가운데 정렬한 글과 선의 왼쪽 끝이 어긋나 보인다. */
+  /* 랜딩 .section-header-row와 같은 배치 — 대제목 오른쪽 끝에 소제목을 두고
+     아랫선을 맞춘다(align-items: flex-end). 소제목 폭 360px도 같은 값이다.
+     .ind-head의 max-width 640px은 두 칸을 나란히 두기엔 좁아 푼다. */
+  .wr-head-row {
+    max-width: none;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .wr-head-row h2 { margin-bottom: 0; }
+  .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
+  /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
+  @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
+
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
   .wr-value { text-align: center; }
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
