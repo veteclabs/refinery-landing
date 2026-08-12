@@ -41,12 +41,9 @@
      박스 중앙보다 (180-100)/2 = 40px 아래에 있다. 그만큼 내린다.
      (고정 헤더 70px이 위를 덮고 있어, 박스 중앙에 두면 위로 치우쳐 보인다) */
   translate: 0 calc(-50% + 40px);
-  /* 크기를 px로 못박는다. 화면 폭에 따라 %로 잡으면 좁아질수록 아이콘이
-     작아져 화면마다 다른 그림이 된다.
-     비율은 원본에서 세 덩어리를 감싸던 상자(2144x1248)와 같고, 안의 %값이
-     그 상자 안에서의 원래 자리다 — 폭이 바뀌어도 셋의 배치가 유지된다.
-     max-width는 그림보다 화면이 좁을 때만 걸린다(약 570px 미만). */
-  width: 552px; max-width: 100%; aspect-ratio: 2144 / 1248;
+  /* 비율은 원본에서 세 덩어리를 감싸던 상자(2144x1248)와 같고, 안의 %값이
+     그 상자 안에서의 원래 자리다 — 크기가 변해도 셋의 배치는 유지된다. */
+  height: 62%; aspect-ratio: 2144 / 1248;
   pointer-events: none; user-select: none;
 }
 /* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
@@ -68,21 +65,31 @@
 @media (max-width: 900px) {
   .wp-hero-objects { translate: 0 calc(-50% + 24px); }
 }
-/* 900px 미만은 글이 화면 폭을 다 써서 글 옆에는 자리가 없다.
-   감추는 대신 절대배치를 풀고 글 아래로 내려 오른쪽에 붙인다 —
-   히어로를 세로 흐름으로 바꾸고 순서만 뒤로 보낸다(마크업에선 글보다 앞이다).
-   위의 translate(가운데 맞춤)를 반드시 뒤에서 풀어야 한다 — 순서가 바뀌면
+/* 1280px 미만은 글 옆에 자리가 없다. 글 아래 오른쪽으로 내리고 크기는 화면
+   폭에 맞춰 줄인다(62%). 절대배치를 풀고 히어로를 세로 흐름으로 바꾼 뒤
+   순서만 뒤로 보낸다 — 마크업에서는 글보다 앞에 있다.
+   위의 translate(가운데 맞춤)도 여기서 반드시 풀어야 한다. 순서가 반대면
    글 아래로 내려놓고도 제 높이의 절반만큼 위로 끌려 올라가 글을 덮는다. */
 @media (max-width: 1279px) {
-  .wp-hero { display: flex; flex-direction: column; padding-bottom: 190px; }
+  /* 아래 여백 58px = 넓은 화면과 같은 잘림(리포트 높이의 20%)이 나오는 값이다.
+     리포트는 칸 아래로 제 높이의 34%가 넘치므로, 여백을 그만큼 좁게 두면
+     히어로 밑단이 잘라 준다. 파이 원은 11px 남기고 살아 있다. */
+  .wp-hero { display: flex; flex-direction: column; padding-bottom: 58px; }
   .wp-hero > .ind-container { order: 0; }
   .wp-hero-objects {
     /* static이 아니라 relative다 — 안의 오브젝트가 절대배치라, 칸이 static이면
-       기준이 .wp-hero로 올라가 글 위로 흩어진다.
-       크기(552px)는 건드리지 않는다 — 옆에 있든 아래에 있든 같은 크기다. */
+       기준이 .wp-hero로 올라가 글 위로 흩어진다. */
     order: 1; position: relative; inset: auto; translate: none;
+    height: auto; width: 62%; max-width: 552px;
     margin: 34px 0 0 auto;
   }
+}
+/* 890px 아래로는 칸이 화면 폭을 따라 줄어든다. 아래 여백을 58px에 고정해 두면
+   작아진 칸에 비해 여백이 커서 잘림이 사라지므로, 여백도 같은 비율로 줄인다.
+   7vw면 어느 폭에서든 리포트 높이의 15~20%가 잘린다.
+   ⚠️ 이 규칙은 위 1279px 블록보다 뒤에 와야 한다 — 앞에 두면 58px에 덮인다. */
+@media (max-width: 889px) {
+  .wp-hero { padding-bottom: 7vw; }
 }
 
 .wp-hero > .ind-container { position: relative; z-index: 1; }
@@ -117,7 +124,9 @@
   color: rgba(255,255,255,.82); max-width: 600px;
 }
 @media (max-width: 900px) {
-  .wp-hero { padding: 120px 0 72px; }
+  /* 아래 여백은 건드리지 않는다 — 위쪽 규칙이 리포트가 밑단에 잘리도록
+     좁게 잡아 둔 값이다. 단축 속성(padding)으로 쓰면 그 값을 덮어쓴다. */
+  .wp-hero { padding-top: 120px; }
   .wp-sub { font-size: 16px; }
 }
 
