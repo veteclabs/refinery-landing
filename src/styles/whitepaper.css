@@ -230,7 +230,9 @@
   width: 2px; height: 16px; border-radius: 1px;
   background: transparent; transition: background-color .15s;
 }
-.wp-toc a:hover { color: #4b86bf; }
+/* 호버도 활성과 같은 브랜드 하늘색이다. 둘은 글자색이 아니라 세로선과
+   굵기(600)로 갈린다 — 호버가 더 진하면 실제로 읽는 절보다 강해 보인다. */
+.wp-toc a:hover { color: #76a6d7; }
 .wp-toc a.is-active { color: #76a6d7; font-weight: 600; }
 .wp-toc a.is-active::before { background: #76a6d7; }
 
