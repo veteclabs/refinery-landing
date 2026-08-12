@@ -366,6 +366,10 @@
   .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 96px 0; }
   .wp-aside { position: static; }
   .wp-article { max-width: none; margin: 0; }
+  /* 한 단이 되면 본문도 왼쪽 끝에서 시작해야 목차·제목과 같은 세로선에 선다.
+     두 단용 margin-left: auto를 그대로 두면 폭이 남는 1024~900에서 본문만
+     오른쪽으로 밀려(1024에서 108px) 목차와 어긋났다. 읽기 폭 820은 유지한다. */
+  .wp-body .wp-article { max-width: 820px; margin: 0; }
   .wp-toc ol { grid-template-columns: 1fr 1fr; column-gap: 32px; }
 }
 @media (max-width: 900px) {
@@ -373,7 +377,23 @@
 }
 @media (max-width: 640px) {
   .wp-toc ol { grid-template-columns: 1fr; }
-  /* 이미 16px이라 좁은 화면에서 더 줄이지 않는다. */
+  /* 글자는 이미 16px이라 좁은 화면에서 더 줄이지 않는다. 대신 빈 자리를 줄인다 —
+     96px은 넓은 화면 기준이라 세로가 짧은 화면에서는 화면의 1/4을 빈 자리가
+     차지한다. 본문 위아래와 절 사이를 같은 비율(2/3)로 줄인다. */
+  .wp-body { padding: 64px 0; }
+  .wp-section { margin-top: 64px; }
+  /* 문구가 두 줄이 되면 링크가 아래로 내려가는데, space-between이 남긴
+     어중간한 자리 대신 왼쪽으로 쌓는다. */
+  .wp-end { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+@media (max-width: 430px) {
+  /* 카드 좌우 안여백 30px이 폭의 1/5을 먹는다. 위아래는 그대로 두고 좌우만 줄인다.
+     제목 칸의 왼쪽 16px은 요약 카드 점(안여백 20 + 1)에 맞춘 값이다 —
+     이 칸이 margin-left 5px만큼 안으로 들어와 있어 5 + 16 = 21로 같아진다. */
+  .wp-figure { padding-left: 16px; padding-right: 20px; }
+  .wp-body .wp-summary { padding-left: 20px; padding-right: 20px; }
+  /* 24px 제목은 이 폭에서 두 줄로 접히면서 칸을 밀어낸다. 한 단계 줄인다. */
+  .wp-figure h2 { font-size: 21px; }
 }
 
 /* ───────── 맺음 CTA ─────────
