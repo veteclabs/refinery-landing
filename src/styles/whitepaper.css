@@ -1,59 +1,477 @@
 /* 백서(롱폼) 스타일 — 랜딩과 동일한 브랜드 토큰. industry.css의 컨테이너/버튼/CTA와 함께 사용. */
+/* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 글자 규격·여백 ─────────
+   배경 이미지는 아직 없다. 밑판만 어두운 면(#10141B)으로 두고, 이미지가 정해지면
+   이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
-  padding: 96px 0 44px;
-  background: #f6f8fa;
-  border-bottom: 1px solid #e3e7ec;
+  position: relative; overflow: hidden;
+  /* 절 머리 띠(.wp-figure)와 같은 방사형 그라데이션. 밝은 부분이 오른쪽 아래
+     모서리에 모이고 왼쪽 위로 갈수록 어두워진다 — 글이 놓이는 왼쪽이 가장 어둡다.
+     ⚠️ 팔레트에 500만 hex가 적혀 있어 어두운/밝은 끝 값은 추정치다. */
+  padding: 180px 0 100px; border-bottom: none;
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
 }
-.wp-crumb { font-size: 13px; color: #7e8a98; margin-bottom: 18px; }
-.wp-crumb a { color: #7e8a98; text-decoration: none; }
-.wp-crumb a:hover { color: #4b86bf; }
-.wp-crumb span { margin: 0 7px; color: #c2cad3; }
-.wp-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #4b86bf; }
-.wp-title { font-size: clamp(28px, 4.4vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.16; margin-top: 14px; color: #16202c; }
-.wp-sub { margin-top: 16px; font-size: 18px; line-height: 1.6; color: #47535f; max-width: 720px; }
-
-.wp-article { max-width: 820px; margin: 0 auto; padding: 48px 24px 24px; }
-
-/* 요약 — 카드/좌측 스트라이프 없이 편집형 리드로 */
-.wp-summary { margin: 0 0 10px; }
-.wp-summary h2 {
-  font-size: 13px; font-weight: 700; letter-spacing: .02em; color: #7e8a98;
-  margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #e3e7ec;
+/* 그라데이션 위에 얹는 무늬. 글보다는 아래(z-index 없음), 배경보다는 위다. */
+.wp-hero-pattern {
+  /* 세로를 기준으로 크기를 정하고 가로는 비율대로 따라온다.
+     cover로 칸을 채우면 화면 폭이 바뀔 때마다 칸 비율이 달라져 잘리는 곳이
+     매번 달라졌다 — 무늬 모양이 화면마다 변해 보이던 이유다.
+     세로 기준이면 어느 폭에서든 무늬의 생김새와 크기가 같고, 좁아질수록
+     왼쪽이 화면 밖으로 밀려날 뿐이다. */
+  position: absolute; right: 0; left: auto; top: 50%; bottom: auto;
+  translate: 0 -50%;
+  /* 100%면 히어로 세로에 딱 맞아 무늬가 작아 보인다. 키운 뒤 세로 가운데에
+     두면 넘치는 위아래는 히어로의 overflow: hidden이 균등하게 잘라낸다. */
+  height: 118%; width: auto; max-width: none;
+  /* 무늬는 배경이지 내용이 아니다 — 옅게 깔아 그라데이션이 살아 있게 한다. */
+  opacity: .55;
+  pointer-events: none; user-select: none;
 }
+/* 무늬와 같은 칸·같은 기준. 마크업에서 무늬 뒤에 오므로 그 위에 그려지고,
+   글(.ind-container, z-index 1)보다는 아래다.
+   오브젝트는 배경이 아니라 그림이라 투명도를 걸지 않는다. */
+/* 원본의 투명 여백을 잘라내고 오브젝트 덩어리만 남겼으므로(2355x1404),
+   칸을 따로 두지 않고 세로 크기만 정해 오른쪽에 붙인다. */
+.wp-hero-objects {
+  position: absolute; right: 6%; left: auto; top: 50%;
+  /* 박스 중앙이 아니라 글과 같은 선에 맞춘다.
+     히어로 안여백이 위 180 / 아래 100으로 다르므로 글 덩어리의 중앙은
+     박스 중앙보다 (180-100)/2 = 40px 아래에 있다. 그만큼 내린다.
+     (고정 헤더 70px이 위를 덮고 있어, 박스 중앙에 두면 위로 치우쳐 보인다) */
+  translate: 0 calc(-50% + 40px);
+  /* 비율은 원본에서 세 덩어리를 감싸던 상자(2144x1248)와 같고, 안의 %값이
+     그 상자 안에서의 원래 자리다 — 크기가 변해도 셋의 배치는 유지된다. */
+  height: 62%; aspect-ratio: 2144 / 1248;
+  pointer-events: none; user-select: none;
+}
+/* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
+   기본값은 원본에서의 자리다. */
+/* AI 에이전트 백서의 히어로 그림 칸. 반투명 원판과 아이콘 두 장을 겹쳐 놓는다.
+   칸의 비율은 원본 캔버스에서 둘을 감싸던 상자(3088x3084)와 같고,
+   안의 %값이 그 상자 안에서의 원래 자리다 — 크기가 변해도 둘의 관계는 그대로다.
+   세로 크기만 정해 오른쪽에 붙인다 — 데이터 통합의 오브젝트 칸과 같은 방식이다.
+   +40px은 그쪽과 같은 보정이다: 히어로 안여백이 위 180 / 아래 100이라
+   글 덩어리의 중앙이 박스 중앙보다 그만큼 아래에 있다. */
+.wp-hero-art {
+  position: absolute; right: 10%; left: auto; top: 50%;
+  translate: 0 calc(-50% + 40px);
+  /* 원판 바깥쪽은 거의 보이지 않는 옅은 빛이라 히어로 밖으로 조금 넘겨도 된다.
+     아이콘(칸의 13.4~86.6% 구간)만 온전히 들어가면 된다. */
+  height: 104%; aspect-ratio: 3088 / 3084;
+  pointer-events: none; user-select: none;
+}
+.wp-art-glow, .wp-art-icons { position: absolute; height: auto; max-width: none; }
+/* 원판만 칸보다 크게 키운다. 폭을 키운 만큼 절반씩 왼쪽·위로 당겨
+   중심(칸의 50%, 50%)은 그대로 두므로 아이콘과의 관계가 틀어지지 않는다.
+   185%면 -42.5%씩이다. 칸 밖으로 나가는 부분은 히어로가 잘라낸다.
+   투명도 .55는 데이터 통합 백서의 네모 무늬(.wp-hero-pattern)와 같은 값이다 —
+   두 히어로의 배경 요소가 같은 세기로 깔린다. */
+.wp-art-glow { left: -42.5%; top: -42.5%; width: 185%; opacity: .55; }
+/* 아이콘은 원본(76.30%)보다 조금 줄여 71.7%로 둔다 — 1440·1280에서 폭 390px다.
+   줄인 만큼 left·top을 다시 잡아 중심(칸의 48.5%, 50.0%)은 그대로 둔다 —
+   원판과의 관계가 유지된다. 세로는 71.7 * (2259/2355) = 68.85%다. */
+.wp-art-icons { left: 12.66%; top: 15.58%; width: 71.7%; }
+@media (max-width: 1439px) { .wp-hero-art { right: 6%; } }
+@media (max-width: 900px) { .wp-hero-art { translate: 0 calc(-50% + 24px); } }
+/* 1280px 미만은 글 옆에 자리가 없다. 오브젝트와 같은 방식으로 글 아래 오른쪽에
+   내려놓는다(.wp-hero--art가 히어로를 세로 흐름으로 바꾼다). */
+@media (max-width: 1279px) {
+  /* 아래 여백을 0으로 둬야 그림이 히어로 밑단에 걸쳐 잘린다. */
+  .wp-hero--art { display: flex; flex-direction: column; padding-bottom: 0; }
+  .wp-hero--art > .ind-container { order: 0; }
+  .wp-hero-art {
+    order: 1; position: relative; inset: auto; translate: none;
+    /* 칸에는 아이콘 바깥으로 옅은 빛이 넓게 둘러 있어, 보이는 그림은 칸보다
+       한참 작다. 넓은 화면과 비슷한 크기로 보이려면 칸을 더 크게 잡아야 한다. */
+    height: auto; width: 58%; max-width: 480px;
+    /* 오른쪽·아래로 밀어 원판이 화면 오른쪽 끝과 히어로 밑단에 걸쳐 잘리게 한다
+       (약 30%씩). 아이콘은 그 안에 온전히 남는다.
+       ⚠️ 마진 %는 화면 폭 기준인데 칸은 max-width 480px에서 멈춘다 —
+       %만 쓰면 넓은 쪽(1024~1279)에서 밀림이 칸에 비해 과해져 아이콘까지
+       잘렸다. 칸이 480px로 고정되는 구간(687~1279)에서는 62px으로 묶고,
+       칸이 화면을 따라 줄어드는 686px 아래에서만 9%로 따라가게 한다
+       (둘 다 칸 폭의 약 13%다). */
+    margin: 12px max(-62px, -9%) max(-62px, -9%) auto;
+  }
+}
+@media (max-width: 900px) { .wp-hero-art { width: 70%; } }
+
+.wp-obj { position: absolute; height: auto; max-width: none; }
+.wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }
+/* 크기를 줄일 때 top도 같이 내려 아래끝을 제자리에 둔다.
+   28% -> 26%면 세로가 3.4%(칸 기준)만큼 짧아지므로 top을 그만큼 더한다. */
+.wp-obj-chart  { left: 20%; top: 4.4%; width: 26%; }
+/* 파이 리포트만 크게 키우고 아래로 내려 히어로 밑단에서 잘리게 둔다.
+   칸은 자르지 않고 히어로(.wp-hero)의 overflow: hidden이 잘라낸다. */
+.wp-obj-report { left: 30%; top: 54%; width: 58%; }
+/* 1440px 미만에서는 글과 사이가 좁아진다. 크기는 그대로 두고 오른쪽 끝으로
+   더 붙이기만 한다 — 크기나 %값을 손대면 그 구간에서만 다른 그림이 된다. */
+@media (max-width: 1439px) {
+  .wp-hero-objects { right: 2%; }
+}
+/* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
+@media (max-width: 900px) {
+  .wp-hero-objects { translate: 0 calc(-50% + 24px); }
+}
+/* 1280px 미만은 글 옆에 자리가 없다. 글 아래 오른쪽으로 내리고 크기는 화면
+   폭에 맞춰 줄인다(62%). 절대배치를 풀고 히어로를 세로 흐름으로 바꾼 뒤
+   순서만 뒤로 보낸다 — 마크업에서는 글보다 앞에 있다.
+   위의 translate(가운데 맞춤)도 여기서 반드시 풀어야 한다. 순서가 반대면
+   글 아래로 내려놓고도 제 높이의 절반만큼 위로 끌려 올라가 글을 덮는다. */
+@media (max-width: 1279px) {
+  /* 아래 여백 58px = 넓은 화면과 같은 잘림(리포트 높이의 20%)이 나오는 값이다.
+     리포트는 칸 아래로 제 높이의 34%가 넘치므로, 여백을 그만큼 좁게 두면
+     히어로 밑단이 잘라 준다. 파이 원은 11px 남기고 살아 있다. */
+  .wp-hero--obj { display: flex; flex-direction: column; padding-bottom: 58px; }
+  .wp-hero--obj > .ind-container { order: 0; }
+  .wp-hero-objects {
+    /* static이 아니라 relative다 — 안의 오브젝트가 절대배치라, 칸이 static이면
+       기준이 .wp-hero로 올라가 글 위로 흩어진다. */
+    order: 1; position: relative; inset: auto; translate: none;
+    height: auto; width: 62%; max-width: 552px;
+    margin: 34px 0 0 auto;
+  }
+}
+/* 890px 아래로는 칸이 화면 폭을 따라 줄어든다. 아래 여백을 58px에 고정해 두면
+   작아진 칸에 비해 여백이 커서 잘림이 사라지므로, 여백도 같은 비율로 줄인다.
+   7vw면 어느 폭에서든 리포트 높이의 15~20%가 잘린다.
+   ⚠️ 이 규칙은 위 1279px 블록보다 뒤에 와야 한다 — 앞에 두면 58px에 덮인다. */
+@media (max-width: 889px) {
+  .wp-hero--obj { padding-bottom: 7vw; }
+}
+
+.wp-hero > .ind-container { position: relative; z-index: 1; }
+
+/* 태그라인 — /why-refinery의 .wr-tag와 같은 값.
+   하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
+.wp-eyebrow {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
+  color: #76a6d7; margin-bottom: 14px; text-transform: none;
+  display: flex; align-items: center; gap: 10px;
+}
+/* 종류와 주제를 가운데점 대신 세로선으로 나눈다. 글자가 아니라 선이라
+   글꼴에 따라 위아래로 흔들리지 않고, 높이를 글자에 맞춰 잡을 수 있다. */
+.wp-eyebrow-bar {
+  width: 2px; height: 15px; flex: none;
+  background: currentColor; opacity: .5;
+}
+.wp-title {
+  font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+  letter-spacing: -0.8px; line-height: 1.3; margin-top: 0; color: #fff;
+  word-break: keep-all;
+}
+/* 크기 · 굵기 · 행간 · 색 · 최대폭 모두 /why-refinery의 .ind-lede와 같은 값이다.
+   위 여백도 그 페이지와 같은 20px으로 맞춘다(16px이었다). */
+.wp-sub {
+  margin-top: 20px; font-size: 18px; line-height: 1.7;
+  color: rgba(255,255,255,.82); max-width: 600px;
+}
+@media (max-width: 900px) {
+  /* 아래 여백은 건드리지 않는다 — 위쪽 규칙이 리포트가 밑단에 잘리도록
+     좁게 잡아 둔 값이다. 단축 속성(padding)으로 쓰면 그 값을 덮어쓴다. */
+  .wp-hero { padding-top: 120px; }
+  .wp-sub { font-size: 16px; }
+}
+
+/* 히어로·본문·CTA가 모두 같은 세로선에서 시작하도록 컨테이너를 하나로 맞춘다.
+   공통 .ind-container는 1120/24라 헤더(1280/48)보다 안쪽에서 시작했다.
+   .wp-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+/* 한국어는 기본값(word-break: normal)에서 음절 사이 어디서나 줄이 바뀐다 —
+   '데이터를'이 '데이터'와 '를'로 갈리는 식이다. 어절 단위로만 끊는다.
+   길고 끊을 곳 없는 문자열(URL 등)만 예외로 강제로 접는다. */
+.wp-page { word-break: keep-all; overflow-wrap: break-word; }
+
+.wp-page .ind-container { max-width: 1280px; padding: 0 48px; }
+
+/* 왼쪽 목차 + 오른쪽 본문 두 단. 본문은 읽기 좋은 폭(820px)을 유지한 채
+   오른쪽 끝에 붙는다(margin-left: auto) — 목차 열이 넓어져도 본문 줄 길이는 그대로다. */
+.wp-body {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr);
+  gap: 80px; align-items: start;
+  /* 위 96px — 절 사이 간격(.wp-section margin-top)과 같은 값이라
+     히어로에서 본문으로 넘어가는 숨이 절과 절 사이의 숨과 같다. */
+  /* 아래 96px — 맺음말과 CTA 사이를 절 사이와 같은 숨으로 벌린다(24px이었다). */
+  padding: 96px 0;
+}
+.wp-aside { position: sticky; top: 96px; }
+/* 오른쪽 붙임은 두 단 안에서만 건다. 이 스타일시트를 같이 쓰는 ai-agent는
+   아직 한 단이라, 스코프를 두지 않으면 본문이 통째로 오른쪽으로 밀린다. */
+.wp-body .wp-article { max-width: 820px; margin: 0 0 0 auto; padding: 0; }
+
+/* 요약 — 두 단 구성에서는 네 줄을 카드 하나에 담는다.
+   .wp-body 스코프라 한 단으로 쓰는 ai-agent는 지금의 편집형 리드 그대로다.
+   값은 사이트 공통 카드(.ind-card)와 같다 — 테두리 #e3e7ec, 라운드 12px. */
+.wp-body .wp-summary {
+  background: #f6f8fa; border: none; border-radius: var(--radius, 12px);
+  /* 눈에 보이는 위아래 숨을 절 머리 띠와 같게 맞춘다(위 28 · 아래 26).
+     안여백을 같은 25px으로 두면 줄 간격 2가 만드는 여유(위아래 6px 안팎)
+     때문에 이 카드만 더 벌어져 보였다 — 그만큼 빼서 22 / 20으로 둔다. */
+  padding: 22px 30px 20px; margin: 0;
+}
+/* 글자값은 /why-refinery 흐름 카드(.wr-story li)와 같게 맞춘다 —
+   15px / 행간 1.7 / #7E8A98, 점 3px 하늘색, 점과 글 사이 8px(15px 본문에서
+   띄어쓰기 두 칸). 굵게 표시한 부분(<strong>)은 그대로 둔다. */
+.wp-body .wp-summary li {
+  /* 줄 간격만 흐름 카드(1.7)보다 넓은 2다 — 네 항목이 gap 없이 붙어 있어
+     여기서는 더 벌려야 한 덩어리로 뭉치지 않는다. */
+  font-size: 15px; line-height: 2; color: #7e8a98;
+  padding-left: 12px;
+}
+/* 점은 첫 줄 글자의 세로 가운데에 놓는다. 줄 간격을 1.7에서 2로 넓히면서
+   고정값(11px)이 위로 떠 보였다 — 줄 높이의 절반(0.5lh)에 점 반지름을 뺀다. */
+.wp-body .wp-summary li::before {
+  left: 1px; top: calc(0.5lh - 1.5px); width: 3px; height: 3px; background: #76a6d7;
+}
+/* 굵기만 다르고 색은 본문과 같게 둔다 — 강조가 색까지 바뀌면 목록 안에서
+   두 가지 글자색이 섞여 흐름 카드와 달라 보인다.
+   대신 형광펜처럼 네모 면을 깐다. 안여백을 두지 않아 면이 글자 크기에 딱
+   맞고 앞뒤 글자로 넘치지 않는다.
+   줄이 바뀌어도 각 줄에 면이 그려지도록 box-decoration-break: clone을 준다. */
+.wp-body .wp-summary li strong {
+  font-weight: 600; color: inherit;
+  background: #DCE8F5;
+  padding: 0; margin: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* 항목 사이도 흐름 카드와 같게 — 거기는 gap 없이 행간(1.7)만으로 벌린다. */
+.wp-body .wp-summary ul { gap: 0; }
+
+/* 목록의 뼈대(표식 끄기·간격)만 남긴다. 면·글자값은 위 .wp-body 규칙이 정한다. */
 .wp-summary ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 11px; }
 .wp-summary li { position: relative; padding-left: 18px; font-size: 17px; line-height: 1.72; color: #2b3644; }
 .wp-summary li::before { content: ''; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: #b7c1cc; }
 
-/* 목차 */
-.wp-toc { margin: 0 0 44px; border-top: 1px solid #e3e7ec; border-bottom: 1px solid #e3e7ec; padding: 18px 2px; }
-.wp-toc-title { font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #7e8a98; text-transform: uppercase; margin-bottom: 10px; }
-.wp-toc ol { margin: 0; padding-left: 0; list-style: none; columns: 2; column-gap: 32px; }
-.wp-toc li { font-size: 14.5px; line-height: 1.9; }
-.wp-toc a { color: #47535f; text-decoration: none; }
-.wp-toc a:hover { color: #4b86bf; }
-.wp-toc .wp-toc-n { color: #76a6d7; font-weight: 700; margin-right: 8px; }
+/* 목차 — 왼쪽 열에 한 줄에 하나씩 세로로 나열한다.
+   가로로 눕히던 2단(columns: 2)과 위아래 구분선은 뺀다. */
+.wp-toc { margin: 0; border: none; padding: 0; }
+.wp-toc ol { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 2px; }
+.wp-toc li { font-size: 14.5px; line-height: 1.5; }
+.wp-toc a {
+  position: relative; display: block; padding: 7px 0 7px 14px;
+  color: #47535f; text-decoration: none;
+  transition: color .15s;
+}
+/* 지금 읽는 절 표시. border-left로 그리면 항목 높이(29px)를 다 채워 길어 보인다.
+   글자 한 줄 높이(16px)만큼만 그리고 세로 가운데에 둔다. */
+.wp-toc a::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  translate: 0 -50%;
+  width: 2px; height: 16px; border-radius: 1px;
+  background: transparent; transition: background-color .15s;
+}
+/* 호버도 활성과 같은 브랜드 하늘색이다. 둘은 글자색이 아니라 세로선과
+   굵기(600)로 갈린다 — 호버가 더 진하면 실제로 읽는 절보다 강해 보인다. */
+.wp-toc a:hover { color: #76a6d7; }
+.wp-toc a.is-active { color: #76a6d7; font-weight: 600; }
+.wp-toc a.is-active::before { background: #76a6d7; }
+
+/* 절 머리의 이미지 카드 자리. 요약 카드와 같은 면·테두리·라운드를 쓴다.
+   이미지가 들어오면 .wp-figure img가 칸을 채운다(cover). */
+/* 절 머리의 띠. 사진 대신 파랑 그라데이션을 쓴다 —
+   히어로의 Blue 800에서 시작해 Blue 500 쪽으로 흐른다.
+   세로는 16:9의 1/4(64:9)이라 같은 폭(820px)에서 115px이다.
+   면이 색이라 테두리는 두지 않는다. */
+.wp-figure {
+  position: relative;
+  /* 세로는 aspect-ratio가 아니라 min-height로 잡는다 — 제목이 두 줄이 되는
+     좁은 화면에서 글자가 잘리지 않고 칸이 늘어난다. */
+  min-height: 110px;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  gap: 6px;
+  /* 위아래 25px — 내용(번호 23 + 사이 6 + 제목 31 = 60)과 더해 정확히 110이 된다.
+     안여백이 min-height보다 크면 그 값이 실제 높이를 정해 버린다.
+     왼쪽은 26px이다 — 이 칸이 margin-left 5px만큼 안으로 들어와 있어,
+     30px으로 두면 글이 요약 카드의 점보다 4px 오른쪽에서 시작한다. */
+  padding: 25px 30px 25px 26px;
+  /* 어두운 쪽을 넓게 잡고 오른쪽 끝에서만 밝아진다 — 글이 놓이는 왼쪽이
+     충분히 어두워야 흰 제목이 읽힌다.
+     같은 색을 두 번 찍어 평평하게 두면 변화가 시작되는 지점에 선이 보인다.
+     대신 처음부터 조금씩 밝아지다가 뒤에서 빨라지는 단계를 여러 개 둔다.
+     두 번째 선언은 oklab 보간이다 — sRGB로 파랑을 섞으면 중간이 탁해지는데
+     oklab은 밝기 변화가 고르다. 지원하지 않는 브라우저는 위 선언을 쓴다.
+     ⚠️ 밝은 끝 #D5E4F7은 Blue 100 추정치다(팔레트에 500만 hex가 적혀 있다). */
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  border-radius: var(--radius, 12px);
+  /* overflow는 자르지 않는다 — 뒤에 깐 판이 왼쪽으로 삐져나와야 한다.
+     대신 그 5px만큼 칸을 안으로 들여 판이 본문 세로선을 넘지 않게 한다. */
+  margin: 0 0 29px 5px;
+}
+/* 칸 뒤에 같은 모양의 판을 깔고 왼쪽으로 5px 밀어 옆구리만 내민다 —
+   위아래 끝이 칸의 라운드를 따라 돌아 초승달처럼 보인다.
+   대신 칸 자체를 5px 안으로 들여(margin-left) 판의 왼쪽 끝이 본문 세로선에
+   딱 맞는다. 모양은 그대로이고 가로폭만 벗어나지 않는다.
+   z-index: -1이라 칸의 그라데이션 뒤로 들어간다(.wp-figure는 z-index를
+   두지 않아 쌓임 맥락을 만들지 않으므로 부모 배경보다 뒤에 그려진다). */
+.wp-figure::before {
+  content: ''; position: absolute; z-index: -1;
+  left: -5px; top: 0; bottom: 0; width: 40px;
+  background: #76a6d7;
+  border-radius: var(--radius, 12px) 0 0 var(--radius, 12px);
+}
+
+/* 띠 안의 절 제목. .wp-section > h2가 아니라(직계가 아니게 됐다) 여기서 따로 잡는다.
+   크기·굵기는 다른 절 제목과 같고 색만 어두운 면용이다. */
+.wp-figure h2 {
+  font-size: 24px; font-weight: 600; letter-spacing: -0.01em;
+  line-height: 1.3; color: #fff; margin: 0;
+}
+/* 번호는 제목 옆이 아니라 위에 태그라인처럼 작게 놓는다.
+   하늘색 그대로 — 띠 왼쪽(#17385F)에서 4.64:1로 읽힌다. */
+.wp-figure .wp-n {
+  display: block; margin: 0;
+  font-size: 14px; font-weight: 700; letter-spacing: .04em; color: #76a6d7;
+}
 
 /* 본문 */
-.wp-section { margin-top: 46px; scroll-margin-top: 88px; }
-.wp-section > h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: #16202c; }
-.wp-section > h2 .wp-n { color: #76a6d7; font-weight: 800; margin-right: 10px; }
-.wp-section h3 { font-size: 18px; font-weight: 700; margin-top: 26px; color: #16202c; }
-.wp-section p { margin-top: 15px; font-size: 16.5px; line-height: 1.82; color: #2b3644; }
-.wp-section ul { margin-top: 14px; padding-left: 1.25em; }
-.wp-section li { font-size: 16.5px; line-height: 1.7; color: #2b3644; margin-top: 7px; }
-.wp-section strong { font-weight: 700; color: #16202c; }
+/* 절 사이 간격 = 제목 카드 위 여백.
+   96px은 제목 카드 높이(110px)와 비슷한 크기의 빈 자리라, 카드가 '새 장의
+   시작'으로 읽힌다. 본문 한 줄(29px) 기준 3.3줄이다. */
+.wp-section { margin-top: 96px; scroll-margin-top: 88px; }
+.wp-section h3 { font-size: 18px; font-weight: 600; margin-top: 26px; color: #16202c; }
+/* 소제목 바로 아래 문단은 붙인다. 문단 사이 값(29px)을 그대로 쓰면 소제목이
+   위아래 같은 간격으로 떠서 어느 쪽 글의 제목인지 흐려진다.
+   위 26 : 아래 10으로 벌려 아래 글에 붙은 제목이 된다. */
+.wp-section h3 + p { margin-top: 10px; }
+/* 문단 사이 29px = 본문 한 줄 높이. 15px일 때는 줄 간격(29px)보다 좁아
+   문단이 바뀌어도 줄바꿈처럼 보였다. 빈 줄 하나만큼 벌린다. */
+.wp-section p { margin-top: 29px; font-size: 16px; line-height: 1.82; color: #2b3644; }
+/* 표식만 요약 카드와 같은 하늘색 점으로 바꾼다 — 글자값(16px · 행간 1.7 · #2B3644)은
+   본문 그대로 둔다. 기본 disc를 끄고 같은 방식으로 직접 그린다. */
+.wp-section ul { margin-top: 14px; padding-left: 0; list-style: none; }
+.wp-section li {
+  position: relative; padding-left: 12px;
+  font-size: 16px; line-height: 1.7; color: #2b3644; margin-top: 7px;
+}
+.wp-section li::before {
+  content: ''; position: absolute;
+  left: 1px; top: calc(0.5lh - 1.5px);
+  width: 3px; height: 3px; border-radius: 50%; background: #76a6d7;
+}
+/* 본문 강조도 요약 카드와 같은 형광펜 면을 깐다 — 값이 모두 같다.
+   색은 본문과 같게 두고 굵기(600)와 면으로만 구분한다. 안여백이 0이라
+   면이 글자 크기에 딱 맞고, 줄이 바뀌면 각 줄에 따로 그려진다. */
+.wp-section strong {
+  font-weight: 600; color: inherit;
+  background: #DCE8F5;
+  padding: 0; margin: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 
 /* 강조 문장 — 박스 없이 본문 안에서 살짝 키워 강조 */
 .wp-callout {
-  margin: 24px 0 8px; font-size: 19px; line-height: 1.68; font-weight: 600;
+  margin: 24px 0 8px; font-size: 18px; line-height: 1.68; font-weight: 600;
   color: #16202c; letter-spacing: -0.01em;
 }
-.wp-callout strong { color: #16202c; font-weight: 700; }
+/* 강조 문장은 그 자체가 이미 크고 굵은 한 덩어리라 면을 깔지 않는다 —
+   문장 전체가 하늘색으로 덮여 오히려 읽기 나빠진다. */
+.wp-callout strong { color: #16202c; font-weight: 600; background: none; }
 
-.wp-end { margin-top: 46px; padding-top: 26px; border-top: 1px solid #e3e7ec; font-size: 15.5px; color: #47535f; }
-.wp-end a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+/* 맺음말 — 왼쪽에 안내 문장, 오른쪽 끝에 다음 백서로 가는 링크. */
+.wp-end {
+  /* 선 위 48px — 절 사이(96px)의 절반이다. 맺음말은 새 절이 아니라 마지막 절의
+     꼬리고 선 자체가 이미 구분 역할을 해, 96px을 주면 한 번 더 끊긴다.
+     선과 문구 사이는 26px — 선은 문구를 여는 표시라 붙어야 한 덩어리로 읽힌다. */
+  margin-top: 48px; padding-top: 26px; border-top: 1px solid #e3e7ec;
+  font-size: 16px; color: #47535f;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.wp-end p { margin: 0; }
+/* 링크는 밑줄 대신 화살표로 '이동'을 알린다. 화살표만 살짝 오른쪽으로 움직인다. */
+.wp-next {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  /* 옆 문구와 같은 400이다 — 색과 꺾쇠만으로 링크인 걸 알린다. */
+  color: #76a6d7; font-weight: 400; text-decoration: none; white-space: nowrap;
+}
+/* align-items: center는 꺾쇠를 줄상자 가운데에 맞추는데, 한글 글자의 잉크는
+   그 가운데보다 위에 있다(위로 12.6 · 아래로 1.3). 그만큼 1px 올려
+   글자 획을 기준으로 가운데에 놓는다. hover의 translateX와 겹치지 않도록
+   transform이 아니라 위치로 옮긴다. */
+.wp-next svg { position: relative; top: -1px; transition: transform .15s; }
+.wp-next:hover svg { transform: translateX(3px); }
 
+/* 두 단을 유지할 폭이 안 되면 목차를 본문 위로 올려 한 단으로 쌓는다.
+   이때 목차는 따라다니지 않는다 — 화면 세로를 너무 많이 차지한다. */
+@media (max-width: 1024px) {
+  .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 96px 0; }
+  .wp-aside { position: static; }
+  /* 한 단이 되면 본문도 왼쪽 끝에서 시작해야 목차·제목과 같은 세로선에 선다.
+     두 단용 margin-left: auto를 그대로 두면 폭이 남는 1024~900에서 본문만
+     오른쪽으로 밀려(1024에서 108px) 목차와 어긋났다. 읽기 폭 820은 유지한다. */
+  .wp-body .wp-article { max-width: 820px; margin: 0; }
+  .wp-toc ol { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+}
+@media (max-width: 900px) {
+  .wp-page .ind-container { padding: 0 24px; }
+}
 @media (max-width: 640px) {
-  .wp-toc ol { columns: 1; }
-  .wp-section p, .wp-section li { font-size: 16px; }
+  .wp-toc ol { grid-template-columns: 1fr; }
+  /* 글자는 이미 16px이라 좁은 화면에서 더 줄이지 않는다. 대신 빈 자리를 줄인다 —
+     96px은 넓은 화면 기준이라 세로가 짧은 화면에서는 화면의 1/4을 빈 자리가
+     차지한다. 본문 위아래와 절 사이를 같은 비율(2/3)로 줄인다. */
+  .wp-body { padding: 64px 0; }
+  .wp-section { margin-top: 64px; }
+  /* 문구가 두 줄이 되면 링크가 아래로 내려가는데, space-between이 남긴
+     어중간한 자리 대신 왼쪽으로 쌓는다. */
+  .wp-end { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+@media (max-width: 430px) {
+  /* 카드 좌우 안여백 30px이 폭의 1/5을 먹는다. 위아래는 그대로 두고 좌우만 줄인다.
+     제목 칸의 왼쪽 16px은 요약 카드 점(안여백 20 + 1)에 맞춘 값이다 —
+     이 칸이 margin-left 5px만큼 안으로 들어와 있어 5 + 16 = 21로 같아진다. */
+  .wp-figure { padding-left: 16px; padding-right: 20px; }
+  .wp-body .wp-summary { padding-left: 20px; padding-right: 20px; }
+  /* 24px 제목은 이 폭에서 두 줄로 접히면서 칸을 밀어낸다. 한 단계 줄인다. */
+  .wp-figure h2 { font-size: 21px; }
+}
+
+/* ───────── 맺음 CTA ─────────
+   히어로와 같은 방사형 그라데이션으로 문서를 닫는다. 흰 바탕에 글자만 있으면
+   페이지가 끝났다는 신호가 없어 흐지부지 끝나 보였다.
+   가운데 정렬이던 것을 왼쪽으로 옮겨, 히어로 · 목차 · 본문과 같은 세로선에서
+   시작한다. 제목은 왼쪽 · 버튼은 오른쪽으로 벌린다(/why-refinery CTA와 같은 구성). */
+.wp-cta {
+  position: relative; overflow: hidden;
+  padding: 95px 0; text-align: left;
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+}
+.wp-cta .ind-container {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 48px; flex-wrap: wrap;
+}
+.wp-cta .ind-container > * { flex: none; }
+/* 글자·버튼 값은 /why-refinery의 CTA(.wr-cta-bg)와 같다. */
+.wp-cta h2 {
+  font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+  letter-spacing: -0.8px; line-height: 1.35;
+  color: #fff; margin-bottom: 0; text-wrap: initial;
+}
+.wp-cta .ind-btn-primary {
+  margin-top: 0; padding: 9px 22px;
+  font-size: 15px; font-weight: 400;
+  /* 예지보전 히어로의 '플랫폼 개요' 버튼(.ind-btn-ghost)과 같은 값이다 —
+     빈 면에 흰 테두리·흰 글자. 면을 채우면 파란 배경 위에서 색이 두 번 겹친다. */
+  background: transparent; color: #fff;
+  border: 1px solid rgba(255,255,255,.6); border-radius: 6px; transition: all .2s;
+}
+/* hover도 그 버튼과 같다 — 흰 면에 하늘색 글자. */
+.wp-cta .ind-btn-primary:hover {
+  background: #fff; border-color: #fff; color: #76a6d7; transform: none;
+}
+@media (max-width: 900px) {
+  .wp-cta { padding: 64px 0; }
+  .wp-cta .ind-container { gap: 28px; }
+  /* 좁아지면 버튼이 아래로 내려온다 — 제목과 붙지 않게 여백을 되살린다. */
+  .wp-cta .ind-btn-primary { margin-top: 32px; }
 }
