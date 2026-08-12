@@ -15,10 +15,13 @@
 }
 /* 그라데이션 위에 얹는 무늬. 글보다는 아래(z-index 없음), 배경보다는 위다. */
 .wp-hero-pattern {
-  /* 히어로 폭의 90%만 쓰고 오른쪽 끝에 붙인다 — 왼쪽 10%가 비어 글 쪽이 트인다. */
+  /* 세로를 기준으로 크기를 정하고 가로는 비율대로 따라온다.
+     cover로 칸을 채우면 화면 폭이 바뀔 때마다 칸 비율이 달라져 잘리는 곳이
+     매번 달라졌다 — 무늬 모양이 화면마다 변해 보이던 이유다.
+     세로 기준이면 어느 폭에서든 무늬의 생김새와 크기가 같고, 좁아질수록
+     왼쪽이 화면 밖으로 밀려날 뿐이다. */
   position: absolute; right: 0; left: auto; top: 0; bottom: 0;
-  width: 90%; height: 100%;
-  object-fit: cover; object-position: right center;
+  height: 100%; width: auto; max-width: none;
   /* 무늬는 배경이지 내용이 아니다 — 옅게 깔아 그라데이션이 살아 있게 한다. */
   opacity: .55;
   pointer-events: none; user-select: none;
@@ -57,9 +60,14 @@
   .wp-hero-objects { height: 50%; right: 2%; }
   .wp-obj-bubble { left: 0; }
 }
-/* 1200px 미만에서는 줄여도 글과 겹친다 — 오브젝트는 감추고 배경 무늬만 남긴다.
-   (/why-refinery 히어로가 좁은 화면에서 대시보드 장식을 감추는 것과 같은 처리) */
+/* 1200px 미만은 남는 폭이 더 좁다. 감추는 대신 더 줄여서 모양은 그대로 두고
+   글 오른쪽에 남긴다(1024px에서 글 끝과 77px, 900px에서 14px 여유). */
 @media (max-width: 1199px) {
+  .wp-hero-objects { height: 32%; }
+}
+/* 900px 미만은 글이 화면 폭을 다 써서 어떻게 줄여도 겹친다 — 그때만 감춘다.
+   (/why-refinery 히어로가 좁은 화면에서 대시보드 장식을 감추는 것과 같은 처리) */
+@media (max-width: 899px) {
   .wp-hero-objects { display: none; }
 }
 /* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
