@@ -105,11 +105,23 @@
    세로는 16:9의 1/4(64:9)이라 같은 폭(820px)에서 115px이다.
    면이 색이라 테두리는 두지 않는다. */
 .wp-figure {
-  aspect-ratio: 64 / 9;
+  /* 세로는 aspect-ratio가 아니라 min-height로 잡는다 — 제목이 두 줄이 되는
+     좁은 화면에서 글자가 잘리지 않고 칸이 늘어난다. */
+  min-height: 115px;
+  display: flex; align-items: center;
+  padding: 24px 30px;
   background: linear-gradient(105deg, #17385F 0%, #2B62A8 52%, #3B7FD4 100%);
   border-radius: var(--radius, 12px);
   overflow: hidden; margin-bottom: 26px;
 }
+/* 띠 안의 절 제목. .wp-section > h2가 아니라(직계가 아니게 됐다) 여기서 따로 잡는다.
+   크기·굵기는 다른 절 제목과 같고 색만 어두운 면용이다. */
+.wp-figure h2 {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
+  line-height: 1.3; color: #fff; margin: 0;
+}
+/* 번호는 하늘색 그대로 — 띠 왼쪽(#17385F)에서 4.7:1로 읽힌다. */
+.wp-figure .wp-n { color: #76a6d7; font-weight: 800; margin-right: 10px; }
 
 /* 본문 */
 .wp-section { margin-top: 46px; scroll-margin-top: 88px; }
