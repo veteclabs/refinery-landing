@@ -43,11 +43,11 @@
 /* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
    기본값은 원본에서의 자리다. */
 .wp-obj { position: absolute; height: auto; max-width: none; }
-.wp-obj-bubble { left: -0.37%; top: 54.49%; width: 26.12%; }
-.wp-obj-chart  { left: 31.72%; top: -0.64%; width: 24.63%; }
+.wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }
+.wp-obj-chart  { left: 20%; top: 1%; width: 28%; }
 /* 파이 리포트만 크게 키우고 아래로 내려 히어로 밑단에서 잘리게 둔다.
    칸은 자르지 않고 히어로(.wp-hero)의 overflow: hidden이 잘라낸다. */
-.wp-obj-report { left: 30%; top: 50%; width: 58%; }
+.wp-obj-report { left: 30%; top: 54%; width: 58%; }
 /* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
 @media (max-width: 900px) {
   .wp-hero-objects { translate: 0 calc(-50% + 24px); }
