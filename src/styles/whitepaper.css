@@ -78,18 +78,25 @@
 /* 1280px 미만은 글 옆에 자리가 없다. 오브젝트와 같은 방식으로 글 아래 오른쪽에
    내려놓는다(.wp-hero--art가 히어로를 세로 흐름으로 바꾼다). */
 @media (max-width: 1279px) {
-  .wp-hero--art { display: flex; flex-direction: column; padding-bottom: 72px; }
+  /* 아래 여백을 0으로 둬야 그림이 히어로 밑단에 걸쳐 잘린다. */
+  .wp-hero--art { display: flex; flex-direction: column; padding-bottom: 0; }
   .wp-hero--art > .ind-container { order: 0; }
   .wp-hero-art {
     order: 1; position: relative; inset: auto; translate: none;
     /* 칸에는 아이콘 바깥으로 옅은 빛이 넓게 둘러 있어, 보이는 그림은 칸보다
-       한참 작다. 넓은 화면과 비슷한 크기로 보이려면 칸을 더 크게 잡아야 한다.
-       아래 -3%는 그 빛의 바깥쪽만 잘라 내는 값이다. */
-    height: auto; width: 52%; max-width: 440px;
-    margin: 16px 6% -3% auto;
+       한참 작다. 넓은 화면과 비슷한 크기로 보이려면 칸을 더 크게 잡아야 한다. */
+    height: auto; width: 58%; max-width: 480px;
+    /* 오른쪽·아래로 밀어 원판이 화면 오른쪽 끝과 히어로 밑단에 걸쳐 잘리게 한다
+       (약 30%씩). 아이콘은 그 안에 온전히 남는다.
+       ⚠️ 마진 %는 화면 폭 기준인데 칸은 max-width 480px에서 멈춘다 —
+       %만 쓰면 넓은 쪽(1024~1279)에서 밀림이 칸에 비해 과해져 아이콘까지
+       잘렸다. 칸이 480px로 고정되는 구간(687~1279)에서는 62px으로 묶고,
+       칸이 화면을 따라 줄어드는 686px 아래에서만 9%로 따라가게 한다
+       (둘 다 칸 폭의 약 13%다). */
+    margin: 12px max(-62px, -9%) max(-62px, -9%) auto;
   }
 }
-@media (max-width: 900px) { .wp-hero-art { width: 64%; } }
+@media (max-width: 900px) { .wp-hero-art { width: 70%; } }
 
 .wp-obj { position: absolute; height: auto; max-width: none; }
 .wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }
