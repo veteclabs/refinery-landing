@@ -15,8 +15,10 @@
 }
 /* 그라데이션 위에 얹는 무늬. 글보다는 아래(z-index 없음), 배경보다는 위다. */
 .wp-hero-pattern {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
+  /* 히어로 폭의 90%만 쓰고 오른쪽 끝에 붙인다 — 왼쪽 10%가 비어 글 쪽이 트인다. */
+  position: absolute; right: 0; left: auto; top: 0; bottom: 0;
+  width: 90%; height: 100%;
+  object-fit: cover; object-position: right center;
   /* 무늬는 배경이지 내용이 아니다 — 옅게 깔아 그라데이션이 살아 있게 한다. */
   opacity: .55;
   pointer-events: none; user-select: none;
