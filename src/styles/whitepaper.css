@@ -4,11 +4,14 @@
    이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
   position: relative; overflow: hidden;
-  /* Blue 계열의 어두운 단계. 500(#3B7FD4)은 차트 시리즈의 기본색이라 밝아,
-     그 위에 18px 소제목을 얹으면 3.27:1로 본문 기준(4.5:1)에 못 미쳤다.
-     ⚠️ 팔레트에 500만 hex가 적혀 있어 이 값은 추정치다 — 실제 Blue 800 값이
-     확인되면 그것으로 교체한다. */
-  padding: 180px 0 100px; background: #17385F; border-bottom: none;
+  /* 절 머리 띠(.wp-figure)와 같은 방사형 그라데이션. 밝은 부분이 오른쪽 아래
+     모서리에 모이고 왼쪽 위로 갈수록 어두워진다 — 글이 놓이는 왼쪽이 가장 어둡다.
+     ⚠️ 팔레트에 500만 hex가 적혀 있어 어두운/밝은 끝 값은 추정치다. */
+  padding: 180px 0 100px; border-bottom: none;
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
 }
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
