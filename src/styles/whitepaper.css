@@ -124,14 +124,19 @@
   background: linear-gradient(105deg in oklab,
     #16365C 0%, #1A4272 32%, #24558F 56%, #3672BE 76%, #7FAEE0 91%, #D5E4F7 100%);
   border-radius: var(--radius, 12px);
-  overflow: hidden; margin-bottom: 26px;
+  /* overflow는 자르지 않는다 — 뒤에 깐 판이 왼쪽으로 삐져나와야 한다. */
+  margin-bottom: 26px;
 }
-/* 왼쪽 끝에 붙는 얇은 세로선. 색은 태그라인(번호)과 같은 #76A6D7이다.
-   칸 세로를 꽉 채우고, 왼쪽 두 모서리만 칸과 같은 라운드를 준다 —
-   위아래 끝이 칸의 곡선을 따라 휘어 들어간다. */
+/* 칸 뒤에 같은 모양의 판을 하나 깔고 왼쪽으로 5px 밀어, 왼쪽 옆구리만
+   삐져나오게 한다. 색은 태그라인(번호)과 같은 #76A6D7이다.
+   칸 안에 선을 그리는 방식과 달리, 이렇게 하면 위아래 끝이 칸의 라운드를
+   그대로 따라 돌아 초승달처럼 보인다.
+   z-index: -1이라 칸의 그라데이션 뒤로 들어간다(.wp-figure는 z-index를
+   두지 않아 쌓임 맥락을 만들지 않으므로 부모 배경보다 뒤에 그려진다). */
 .wp-figure::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 4px; background: #76a6d7;
+  content: ''; position: absolute; z-index: -1;
+  left: -5px; top: 0; bottom: 0; width: 40px;
+  background: #76a6d7;
   border-radius: var(--radius, 12px) 0 0 var(--radius, 12px);
 }
 
