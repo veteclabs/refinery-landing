@@ -20,8 +20,11 @@
      매번 달라졌다 — 무늬 모양이 화면마다 변해 보이던 이유다.
      세로 기준이면 어느 폭에서든 무늬의 생김새와 크기가 같고, 좁아질수록
      왼쪽이 화면 밖으로 밀려날 뿐이다. */
-  position: absolute; right: 0; left: auto; top: 0; bottom: 0;
-  height: 100%; width: auto; max-width: none;
+  position: absolute; right: 0; left: auto; top: 50%; bottom: auto;
+  translate: 0 -50%;
+  /* 100%면 히어로 세로에 딱 맞아 무늬가 작아 보인다. 키운 뒤 세로 가운데에
+     두면 넘치는 위아래는 히어로의 overflow: hidden이 균등하게 잘라낸다. */
+  height: 118%; width: auto; max-width: none;
   /* 무늬는 배경이지 내용이 아니다 — 옅게 깔아 그라데이션이 살아 있게 한다. */
   opacity: .55;
   pointer-events: none; user-select: none;
