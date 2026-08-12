@@ -188,7 +188,11 @@ const T = {
     display: flex; flex-direction: column; height: 100%;
     background: none; border: none; border-radius: 0; padding: 0;
   }
-  .res-card.is-link { opacity: 1; text-decoration: none; }
+  /* ⚠️ .res-page를 붙여 선택자를 3개로 올린다. 2개(.res-card.is-link)로 두면
+     위의 .res-page .res-card(3개)에 밀려 링크 카드까지 0.85로 흐려졌다 —
+     흰 바탕이 15% 비쳐 표지 이미지가 히어로보다 30단계쯤 밝게 떴다.
+     0.85는 링크가 없는 '준비중' 카드만 흐리게 두려던 값이다. */
+  .res-page .res-card.is-link { opacity: 1; text-decoration: none; }
 
   /* 글자 규격을 예지보전 '함께 보면 좋은 과제' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
      공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
