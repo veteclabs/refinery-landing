@@ -313,14 +313,25 @@
   left: 1px; top: calc(0.5lh - 1.5px);
   width: 3px; height: 3px; border-radius: 50%; background: #76a6d7;
 }
-.wp-section strong { font-weight: 600; color: #16202c; }
+/* 본문 강조도 요약 카드와 같은 형광펜 면을 깐다 — 값이 모두 같다.
+   색은 본문과 같게 두고 굵기(600)와 면으로만 구분한다. 안여백이 0이라
+   면이 글자 크기에 딱 맞고, 줄이 바뀌면 각 줄에 따로 그려진다. */
+.wp-section strong {
+  font-weight: 600; color: inherit;
+  background: #DCE8F5;
+  padding: 0; margin: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 
 /* 강조 문장 — 박스 없이 본문 안에서 살짝 키워 강조 */
 .wp-callout {
   margin: 24px 0 8px; font-size: 18px; line-height: 1.68; font-weight: 600;
   color: #16202c; letter-spacing: -0.01em;
 }
-.wp-callout strong { color: #16202c; font-weight: 600; }
+/* 강조 문장은 그 자체가 이미 크고 굵은 한 덩어리라 면을 깔지 않는다 —
+   문장 전체가 하늘색으로 덮여 오히려 읽기 나빠진다. */
+.wp-callout strong { color: #16202c; font-weight: 600; background: none; }
 
 .wp-end { margin-top: 46px; padding-top: 26px; border-top: 1px solid #e3e7ec; font-size: 16px; color: #47535f; }
 .wp-end a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
