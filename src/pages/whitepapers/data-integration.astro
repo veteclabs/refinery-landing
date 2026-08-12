@@ -48,7 +48,6 @@ const toc = [
     <div class="wp-body">
       <aside class="wp-aside">
         <nav class="wp-toc" aria-label="목차">
-          <div class="wp-toc-title">목차</div>
           <ol>
             {toc.map((c, i) => (
               <li><a href={`#${c.id}`}><span class="wp-toc-n">{String(i + 1).padStart(2, '0')}</span>{c.t}</a></li>
@@ -59,7 +58,6 @@ const toc = [
 
     <article class="wp-article">
       <div class="wp-summary">
-        <h2>핵심 요약</h2>
         <ul>
           <li>산업 데이터의 진짜 문제는 부족이 아니라 <strong>분산과 맥락 부재</strong>입니다.</li>
           <li>데이터를 한곳에 모으는 것(파이프)과 <strong>의미를 부여하는 것</strong>(온톨로지)은 다릅니다.</li>
