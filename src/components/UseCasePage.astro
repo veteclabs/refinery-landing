@@ -67,6 +67,11 @@ const jsonLd = {
 };
 ---
 <BaseLayout title={uc.seo.title} description={uc.seo.description} canonical={path} alternates={alternates} jsonLd={jsonLd}>
+  {/* 히어로 사진은 이 페이지의 LCP다. head에서 미리 받아 두면 본문 파싱을 기다리지
+      않고 바로 내려받기 시작한다 — 회색 판이 보이던 시간이 그만큼 짧아진다. */}
+  {uc.heroImageAsBackground && uc.heroImage && (
+    <link slot="head" rel="preload" as="image" href={uc.heroImage.src} fetchpriority="high" />
+  )}
   <Nav />
   {/* slug 클래스로 페이지별 스타일 스코프를 연다. 공통 .ind-* 규칙은 건드리지 않으므로
       이 클래스를 쓰지 않는 다른 유즈케이스는 기존 디자인 그대로다. */}
@@ -476,7 +481,11 @@ const jsonLd = {
 
   /* 히어로 배경 모드 — 랜딩 #cta와 같은 패턴(절대배치 img + object-fit: cover).
      사진 위에서 글이 읽히도록 어두운 스크림을 덮고 텍스트를 흰색 계열로 바꾼다. */
-  .uc-hero-bg { position: relative; overflow: hidden; }
+  /* 사진이 도착하기 전에는 공통 .ind-hero의 밝은 회색(#F6F8FA)이 깔려,
+     그 위 흰 글자가 안 보이고 화면이 한 번 번쩍였다.
+     스크림과 같은 색(#111316)을 밑판으로 깔아 첫 페인트부터 어두운 면이 되게 한다 —
+     사진은 그 뒤에 얹히므로 색이 바뀌는 순간이 없다. */
+  .uc-hero-bg { position: relative; overflow: hidden; background: #111316; }
   .uc-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover;
