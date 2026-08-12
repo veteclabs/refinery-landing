@@ -133,6 +133,11 @@
 /* 히어로·본문·CTA가 모두 같은 세로선에서 시작하도록 컨테이너를 하나로 맞춘다.
    공통 .ind-container는 1120/24라 헤더(1280/48)보다 안쪽에서 시작했다.
    .wp-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+/* 한국어는 기본값(word-break: normal)에서 음절 사이 어디서나 줄이 바뀐다 —
+   '데이터를'이 '데이터'와 '를'로 갈리는 식이다. 어절 단위로만 끊는다.
+   길고 끊을 곳 없는 문자열(URL 등)만 예외로 강제로 접는다. */
+.wp-page { word-break: keep-all; overflow-wrap: break-word; }
+
 .wp-page .ind-container { max-width: 1280px; padding: 0 48px; }
 
 /* 왼쪽 목차 + 오른쪽 본문 두 단. 본문은 읽기 좋은 폭(820px)을 유지한 채
@@ -275,7 +280,7 @@
 /* 띠 안의 절 제목. .wp-section > h2가 아니라(직계가 아니게 됐다) 여기서 따로 잡는다.
    크기·굵기는 다른 절 제목과 같고 색만 어두운 면용이다. */
 .wp-figure h2 {
-  font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
+  font-size: 24px; font-weight: 600; letter-spacing: -0.01em;
   line-height: 1.3; color: #fff; margin: 0;
 }
 /* 번호는 제목 옆이 아니라 위에 태그라인처럼 작게 놓는다.
