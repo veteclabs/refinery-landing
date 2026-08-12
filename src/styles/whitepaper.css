@@ -299,7 +299,7 @@
 .wp-section p { margin-top: 15px; font-size: 16.5px; line-height: 1.82; color: #2b3644; }
 .wp-section ul { margin-top: 14px; padding-left: 1.25em; }
 .wp-section li { font-size: 16.5px; line-height: 1.7; color: #2b3644; margin-top: 7px; }
-.wp-section strong { font-weight: 700; color: #16202c; }
+.wp-section strong { font-weight: 600; color: #16202c; }
 
 /* 강조 문장 — 박스 없이 본문 안에서 살짝 키워 강조 */
 .wp-callout {
