@@ -156,7 +156,17 @@
   background: #f6f8fa; border: none; border-radius: var(--radius, 12px);
   padding: 26px 28px; margin: 0;
 }
-.wp-body .wp-summary li { font-size: 16px; }
+/* 글자값은 /why-refinery 흐름 카드(.wr-story li)와 같게 맞춘다 —
+   15px / 행간 1.7 / #7E8A98, 점 3px 하늘색, 점과 글 사이 8px(15px 본문에서
+   띄어쓰기 두 칸). 굵게 표시한 부분(<strong>)은 그대로 둔다. */
+.wp-body .wp-summary li {
+  font-size: 15px; line-height: 1.7; color: #7e8a98;
+  padding-left: 12px;
+}
+.wp-body .wp-summary li::before {
+  left: 1px; top: 11px; width: 3px; height: 3px; background: #76a6d7;
+}
+.wp-body .wp-summary li strong { font-weight: 700; color: #16202c; }
 
 /* 요약 — 카드/좌측 스트라이프 없이 편집형 리드로 */
 .wp-summary { margin: 0 0 10px; }
