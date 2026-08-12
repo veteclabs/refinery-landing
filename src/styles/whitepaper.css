@@ -13,6 +13,13 @@
   background: radial-gradient(125% 190% at 100% 100% in oklab,
     #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
 }
+/* 그라데이션 위에 얹는 무늬. 글보다는 아래(z-index 없음), 배경보다는 위다. */
+.wp-hero-pattern {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  pointer-events: none; user-select: none;
+}
+
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
 /* 브레드크럼은 data-integration에서는 뺐지만 ai-agent가 아직 쓴다.
