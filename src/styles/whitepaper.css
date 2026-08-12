@@ -402,12 +402,14 @@
 .wp-cta .ind-btn-primary {
   margin-top: 0; padding: 9px 22px;
   font-size: 15px; font-weight: 400;
-  /* 플랫폼 개요·예지보전 히어로 버튼과 같은 값이다. */
-  background: #76a6d7; color: #fff;
-  border: 1px solid #76a6d7; border-radius: 6px; transition: all .2s;
+  /* 예지보전 히어로의 '플랫폼 개요' 버튼(.ind-btn-ghost)과 같은 값이다 —
+     빈 면에 흰 테두리·흰 글자. 면을 채우면 파란 배경 위에서 색이 두 번 겹친다. */
+  background: transparent; color: #fff;
+  border: 1px solid rgba(255,255,255,.6); border-radius: 6px; transition: all .2s;
 }
+/* hover도 그 버튼과 같다 — 흰 면에 하늘색 글자. */
 .wp-cta .ind-btn-primary:hover {
-  background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  background: #fff; border-color: #fff; color: #76a6d7; transform: none;
 }
 @media (max-width: 900px) {
   .wp-cta { padding: 64px 0; }
