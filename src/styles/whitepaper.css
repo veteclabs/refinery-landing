@@ -30,9 +30,17 @@
    칸을 따로 두지 않고 세로 크기만 정해 오른쪽에 붙인다. */
 .wp-hero-objects {
   position: absolute; right: 6%; left: auto; top: 50%;
-  translate: 0 -50%;
+  /* 박스 중앙이 아니라 글과 같은 선에 맞춘다.
+     히어로 안여백이 위 180 / 아래 100으로 다르므로 글 덩어리의 중앙은
+     박스 중앙보다 (180-100)/2 = 40px 아래에 있다. 그만큼 내린다.
+     (고정 헤더 70px이 위를 덮고 있어, 박스 중앙에 두면 위로 치우쳐 보인다) */
+  translate: 0 calc(-50% + 40px);
   height: 62%; width: auto; max-width: none;
   pointer-events: none; user-select: none;
+}
+/* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
+@media (max-width: 900px) {
+  .wp-hero-objects { translate: 0 calc(-50% + 24px); }
 }
 
 .wp-hero > .ind-container { position: relative; z-index: 1; }
