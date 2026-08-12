@@ -160,7 +160,9 @@
    15px / 행간 1.7 / #7E8A98, 점 3px 하늘색, 점과 글 사이 8px(15px 본문에서
    띄어쓰기 두 칸). 굵게 표시한 부분(<strong>)은 그대로 둔다. */
 .wp-body .wp-summary li {
-  font-size: 15px; line-height: 1.7; color: #7e8a98;
+  /* 줄 간격만 흐름 카드(1.7)보다 조금 넓은 1.8이다 — 네 항목이 gap 없이
+     붙어 있어 여기서는 조금 더 벌려야 한 덩어리로 뭉치지 않는다. */
+  font-size: 15px; line-height: 1.8; color: #7e8a98;
   padding-left: 12px;
 }
 .wp-body .wp-summary li::before {
