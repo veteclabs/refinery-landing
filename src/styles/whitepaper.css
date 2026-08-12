@@ -168,13 +168,13 @@
 }
 /* 굵기만 다르고 색은 본문과 같게 둔다 — 강조가 색까지 바뀌면 목록 안에서
    두 가지 글자색이 섞여 흐름 카드와 달라 보인다.
-   대신 형광펜처럼 네모 면을 깐다. 좌우 여백은 음수 마진으로 상쇄해 글자
-   자리가 밀리지 않게 하고, 줄이 바뀌어도 각 줄에 면이 그려지도록
-   box-decoration-break: clone을 준다. */
+   대신 형광펜처럼 네모 면을 깐다. 안여백을 두지 않아 면이 글자 크기에 딱
+   맞고 앞뒤 글자로 넘치지 않는다.
+   줄이 바뀌어도 각 줄에 면이 그려지도록 box-decoration-break: clone을 준다. */
 .wp-body .wp-summary li strong {
-  font-weight: 700; color: inherit;
+  font-weight: 600; color: inherit;
   background: #DCE8F5;
-  padding: 1px 4px; margin: 0 -4px;
+  padding: 0; margin: 0;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
