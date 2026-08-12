@@ -40,19 +40,14 @@ const toc = [
         글 아래로 내리는 규칙이 이 클래스에 걸려 있다. */}
     <section class="wp-hero wp-hero--art">
       {/* 그라데이션 위에 바로 얹는 3D 그림. 이 페이지에는 무늬를 깔지 않는다 —
-          원판이 20% 투명도로 비쳐서 뒤에 무늬가 있으면 겹쳐 어수선하다.
-          투명 여백을 잘라내 그림 덩어리만 남겼으므로 세로 크기만 정해
-          오른쪽에 붙인다(데이터 통합의 오브젝트 칸과 같은 방식). */}
-      <img
-        class="wp-hero-art"
-        src="/whitepapers/ai-hero-art.webp"
-        alt=""
-        aria-hidden="true"
-        width="1459"
-        height="1400"
-        decoding="async"
-        fetchpriority="high"
-      />
+          원판이 반투명이라 뒤에 무늬가 있으면 겹쳐 어수선하다.
+          원판과 아이콘을 두 장으로 나눠 받았으므로 칸 하나에 겹쳐 놓는다.
+          칸의 비율과 안의 %값은 원본 캔버스(3200x4500)에서 둘이 놓여 있던
+          자리 그대로다 — 크기가 변해도 둘의 관계는 유지된다. */}
+      <div class="wp-hero-art" aria-hidden="true">
+        <img class="wp-art-glow" src="/whitepapers/ai-hero-glow.webp" alt="" width="900" height="900" decoding="async" fetchpriority="high" />
+        <img class="wp-art-icons" src="/whitepapers/ai-hero-icons.webp" alt="" width="1251" height="1200" decoding="async" fetchpriority="high" />
+      </div>
       <div class="ind-container">
         <p class="wp-eyebrow"><span>백서</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>AI 에이전트</span></p>
         <h1 class="wp-title">근거를 들어<br>판단을 돕는 AI</h1>

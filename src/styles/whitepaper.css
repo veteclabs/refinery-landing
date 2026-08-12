@@ -48,19 +48,24 @@
 }
 /* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
    기본값은 원본에서의 자리다. */
-/* AI 에이전트 백서의 히어로 그림. 투명 여백을 잘라낸 그림 덩어리(2355x2259)라
+/* AI 에이전트 백서의 히어로 그림 칸. 반투명 원판과 아이콘 두 장을 겹쳐 놓는다.
+   칸의 비율은 원본 캔버스에서 둘을 감싸던 상자(3088x3084)와 같고,
+   안의 %값이 그 상자 안에서의 원래 자리다 — 크기가 변해도 둘의 관계는 그대로다.
    세로 크기만 정해 오른쪽에 붙인다 — 데이터 통합의 오브젝트 칸과 같은 방식이다.
    +40px은 그쪽과 같은 보정이다: 히어로 안여백이 위 180 / 아래 100이라
    글 덩어리의 중앙이 박스 중앙보다 그만큼 아래에 있다. */
 .wp-hero-art {
-  position: absolute; right: 5%; left: auto; top: 50%;
+  position: absolute; right: 10%; left: auto; top: 50%;
   translate: 0 calc(-50% + 40px);
-  /* 82%면 히어로 안에 온전히 들어간다 — 위로는 고정 헤더(70px) 아래에서
-     시작하고(87px), 아래로는 7px 남는다. 90%면 밑이 14px 잘렸다. */
-  height: 82%; width: auto; max-width: none;
+  /* 원판 바깥쪽은 거의 보이지 않는 옅은 빛이라 히어로 밖으로 조금 넘겨도 된다.
+     아이콘(칸의 13.4~86.6% 구간)만 온전히 들어가면 된다. */
+  height: 104%; aspect-ratio: 3088 / 3084;
   pointer-events: none; user-select: none;
 }
-@media (max-width: 1439px) { .wp-hero-art { right: 1%; } }
+.wp-art-glow, .wp-art-icons { position: absolute; height: auto; max-width: none; }
+.wp-art-glow { left: 0; top: 0; width: 100%; }
+.wp-art-icons { left: 10.36%; top: 13.36%; width: 76.30%; }
+@media (max-width: 1439px) { .wp-hero-art { right: 6%; } }
 @media (max-width: 900px) { .wp-hero-art { translate: 0 calc(-50% + 24px); } }
 /* 1280px 미만은 글 옆에 자리가 없다. 오브젝트와 같은 방식으로 글 아래 오른쪽에
    내려놓는다(.wp-hero--art가 히어로를 세로 흐름으로 바꾼다). */
@@ -69,11 +74,14 @@
   .wp-hero--art > .ind-container { order: 0; }
   .wp-hero-art {
     order: 1; position: relative; inset: auto; translate: none;
-    height: auto; width: 42%; max-width: 360px;
-    margin: 28px 0 0 auto;
+    /* 칸에는 아이콘 바깥으로 옅은 빛이 넓게 둘러 있어, 보이는 그림은 칸보다
+       한참 작다. 넓은 화면과 비슷한 크기로 보이려면 칸을 더 크게 잡아야 한다.
+       아래 -3%는 그 빛의 바깥쪽만 잘라 내는 값이다. */
+    height: auto; width: 52%; max-width: 440px;
+    margin: 16px 6% -3% auto;
   }
 }
-@media (max-width: 900px) { .wp-hero-art { width: 52%; } }
+@media (max-width: 900px) { .wp-hero-art { width: 64%; } }
 
 .wp-obj { position: absolute; height: auto; max-width: none; }
 .wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }
