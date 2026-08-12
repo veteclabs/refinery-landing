@@ -49,20 +49,16 @@ const toc = [
         decoding="async"
         fetchpriority="high"
       />
-      {/* 무늬 위에 얹는 3D 오브젝트. 무늬와 달리 좌우를 뒤집지 않는다 —
-          뒤집으면 막대그래프의 상승 화살표가 하락으로 읽힌다.
-          원본은 6000x2500 화판에 오브젝트가 한쪽으로 몰려 있어, 투명 여백을
-          잘라내고(2355x1404) 덩어리만 남겨 오른쪽에 놓는다. */}
-      <img
-        class="wp-hero-objects"
-        src="/whitepapers/hero-objects.webp"
-        alt=""
-        aria-hidden="true"
-        width="1800"
-        height="1029"
-        decoding="async"
-        loading="lazy"
-      />
+      {/* 무늬 위에 얹는 3D 오브젝트. 한 장에 굽지 않고 셋으로 쪼갰다 —
+          하나씩 위치·크기를 조정할 수 있어야 해서다.
+          좌우는 뒤집지 않는다(뒤집으면 막대그래프의 상승 화살표가 하락이 된다).
+          칸(.wp-hero-objects)은 원본에서 세 덩어리를 감싸던 상자(2144x1248)와
+          같은 비율이고, 안의 %값은 그 상자 안에서의 원래 자리다. */}
+      <div class="wp-hero-objects" aria-hidden="true">
+        <img class="wp-obj wp-obj-bubble" src="/whitepapers/obj-bubble.webp" alt="" width="504" height="346" decoding="async" loading="lazy" />
+        <img class="wp-obj wp-obj-chart"  src="/whitepapers/obj-chart.webp"  alt="" width="475" height="468" decoding="async" loading="lazy" />
+        <img class="wp-obj wp-obj-report" src="/whitepapers/obj-report.webp" alt="" width="698" height="561" decoding="async" loading="lazy" />
+      </div>
       <div class="ind-container">
         <p class="wp-eyebrow"><span>백서</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>데이터 통합</span></p>
         <h1 class="wp-title">흩어진 데이터를<br>하나의 지식으로</h1>

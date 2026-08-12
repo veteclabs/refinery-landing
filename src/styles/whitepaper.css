@@ -35,9 +35,17 @@
      박스 중앙보다 (180-100)/2 = 40px 아래에 있다. 그만큼 내린다.
      (고정 헤더 70px이 위를 덮고 있어, 박스 중앙에 두면 위로 치우쳐 보인다) */
   translate: 0 calc(-50% + 40px);
-  height: 62%; width: auto; max-width: none;
+  /* 원본에서 세 덩어리를 감싸던 상자(2144x1248)와 같은 비율. 세로만 정하면
+     가로가 따라오고, 안의 %값이 원본 배치를 그대로 재현한다. */
+  height: 62%; aspect-ratio: 2144 / 1248;
   pointer-events: none; user-select: none;
 }
+/* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
+   기본값은 원본에서의 자리다. */
+.wp-obj { position: absolute; height: auto; max-width: none; }
+.wp-obj-bubble { left: -0.37%; top: 54.49%; width: 26.12%; }
+.wp-obj-chart  { left: 31.72%; top: -0.64%; width: 24.63%; }
+.wp-obj-report { left: 64.18%; top: 50.64%; width: 36.19%; }
 /* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
 @media (max-width: 900px) {
   .wp-hero-objects { translate: 0 calc(-50% + 24px); }
