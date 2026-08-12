@@ -266,7 +266,7 @@
   border-radius: var(--radius, 12px);
   /* overflow는 자르지 않는다 — 뒤에 깐 판이 왼쪽으로 삐져나와야 한다.
      대신 그 5px만큼 칸을 안으로 들여 판이 본문 세로선을 넘지 않게 한다. */
-  margin: 0 0 26px 5px;
+  margin: 0 0 29px 5px;
 }
 /* 칸 뒤에 같은 모양의 판을 깔고 왼쪽으로 5px 밀어 옆구리만 내민다 —
    위아래 끝이 칸의 라운드를 따라 돌아 초승달처럼 보인다.
@@ -302,7 +302,9 @@
 .wp-section > h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: #16202c; }
 .wp-section > h2 .wp-n { color: #76a6d7; font-weight: 800; margin-right: 10px; }
 .wp-section h3 { font-size: 18px; font-weight: 600; margin-top: 26px; color: #16202c; }
-.wp-section p { margin-top: 15px; font-size: 16px; line-height: 1.82; color: #2b3644; }
+/* 문단 사이 29px = 본문 한 줄 높이. 15px일 때는 줄 간격(29px)보다 좁아
+   문단이 바뀌어도 줄바꿈처럼 보였다. 빈 줄 하나만큼 벌린다. */
+.wp-section p { margin-top: 29px; font-size: 16px; line-height: 1.82; color: #2b3644; }
 /* 표식만 요약 카드와 같은 하늘색 점으로 바꾼다 — 글자값(16px · 행간 1.7 · #2B3644)은
    본문 그대로 둔다. 기본 disc를 끄고 같은 방식으로 직접 그린다. */
 .wp-section ul { margin-top: 14px; padding-left: 0; list-style: none; }
