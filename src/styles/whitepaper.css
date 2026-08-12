@@ -166,7 +166,20 @@
 .wp-body .wp-summary li::before {
   left: 1px; top: 11px; width: 3px; height: 3px; background: #76a6d7;
 }
-.wp-body .wp-summary li strong { font-weight: 700; color: #16202c; }
+/* 굵기만 다르고 색은 본문과 같게 둔다 — 강조가 색까지 바뀌면 목록 안에서
+   두 가지 글자색이 섞여 흐름 카드와 달라 보인다.
+   대신 형광펜처럼 네모 면을 깐다. 좌우 여백은 음수 마진으로 상쇄해 글자
+   자리가 밀리지 않게 하고, 줄이 바뀌어도 각 줄에 면이 그려지도록
+   box-decoration-break: clone을 준다. */
+.wp-body .wp-summary li strong {
+  font-weight: 700; color: inherit;
+  background: #DCE8F5;
+  padding: 1px 4px; margin: 0 -4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* 항목 사이도 흐름 카드와 같게 — 거기는 gap 없이 행간(1.7)만으로 벌린다. */
+.wp-body .wp-summary ul { gap: 0; }
 
 /* 요약 — 카드/좌측 스트라이프 없이 편집형 리드로 */
 .wp-summary { margin: 0 0 10px; }
