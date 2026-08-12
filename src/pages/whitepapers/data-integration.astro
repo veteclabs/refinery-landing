@@ -49,6 +49,20 @@ const toc = [
         decoding="async"
         fetchpriority="high"
       />
+      {/* 무늬 위에 얹는 3D 오브젝트. 무늬와 달리 좌우를 뒤집지 않는다 —
+          뒤집으면 막대그래프의 상승 화살표가 하락으로 읽힌다.
+          오브젝트가 화판 왼쪽(20~50%)에 몰려 있어, 칸을 오른쪽 절반으로 좁히고
+          왼쪽 기준으로 붙여 글 옆에서 시작하게 한다. */}
+      <img
+        class="wp-hero-objects"
+        src="/whitepapers/hero-objects.webp"
+        alt=""
+        aria-hidden="true"
+        width="2880"
+        height="1200"
+        decoding="async"
+        loading="lazy"
+      />
       <div class="ind-container">
         <p class="wp-eyebrow"><span>백서</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>데이터 통합</span></p>
         <h1 class="wp-title">흩어진 데이터를<br>하나의 지식으로</h1>

@@ -23,6 +23,17 @@
   opacity: .55;
   pointer-events: none; user-select: none;
 }
+/* 무늬와 같은 칸·같은 기준. 마크업에서 무늬 뒤에 오므로 그 위에 그려지고,
+   글(.ind-container, z-index 1)보다는 아래다.
+   오브젝트는 배경이 아니라 그림이라 투명도를 걸지 않는다. */
+.wp-hero-objects {
+  position: absolute; right: 0; left: auto; top: 0; bottom: 0;
+  width: 55%; height: 100%;
+  /* 전체가 보이도록 contain. 화판이 2.4:1이라 칸(55% x 100%)보다 납작해
+     위아래에 여유가 생기고, 그 여유는 투명이라 무늬가 그대로 비친다. */
+  object-fit: contain; object-position: right center;
+  pointer-events: none; user-select: none;
+}
 
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
