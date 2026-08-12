@@ -68,14 +68,27 @@
 @media (max-width: 1199px) {
   .wp-hero-objects { height: 32%; }
 }
-/* 900px 미만은 글이 화면 폭을 다 써서 어떻게 줄여도 겹친다 — 그때만 감춘다.
-   (/why-refinery 히어로가 좁은 화면에서 대시보드 장식을 감추는 것과 같은 처리) */
-@media (max-width: 899px) {
-  .wp-hero-objects { display: none; }
-}
 /* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
 @media (max-width: 900px) {
   .wp-hero-objects { translate: 0 calc(-50% + 24px); }
+}
+/* 900px 미만은 글이 화면 폭을 다 써서 글 옆에는 자리가 없다.
+   감추는 대신 절대배치를 풀고 글 아래로 내려 오른쪽에 붙인다 —
+   히어로를 세로 흐름으로 바꾸고 순서만 뒤로 보낸다(마크업에선 글보다 앞이다).
+   위의 translate(가운데 맞춤)를 반드시 뒤에서 풀어야 한다 — 순서가 바뀌면
+   글 아래로 내려놓고도 제 높이의 절반만큼 위로 끌려 올라가 글을 덮는다. */
+@media (max-width: 899px) {
+  .wp-hero { display: flex; flex-direction: column; }
+  .wp-hero > .ind-container { order: 0; }
+  .wp-hero-objects {
+    /* static이 아니라 relative다 — 안의 오브젝트가 절대배치라, 칸이 static이면
+       기준이 .wp-hero로 올라가 글 위로 흩어진다. */
+    order: 1; position: relative; inset: auto; translate: none;
+    height: auto; width: 72%; max-width: 300px;
+    margin: 30px 0 0 auto;
+  }
+  /* 리포트가 칸 아래로 넘쳐 히어로 밑단에 잘리지 않도록 자리를 마련한다. */
+  .wp-hero { padding-bottom: 150px; }
 }
 
 .wp-hero > .ind-container { position: relative; z-index: 1; }
