@@ -50,6 +50,18 @@
 /* 파이 리포트만 크게 키우고 아래로 내려 히어로 밑단에서 잘리게 둔다.
    칸은 자르지 않고 히어로(.wp-hero)의 overflow: hidden이 잘라낸다. */
 .wp-obj-report { left: 30%; top: 54%; width: 58%; }
+/* 1440px 미만에서는 글 상자(소제목 max-width 600px)와 오브젝트 사이가 좁아진다.
+   칸을 줄이고 오른쪽 끝으로 더 붙여 글에서 떼어 놓는다.
+   말풍선의 음수 left(-7%)는 칸 왼쪽으로 39px 튀어나와 글을 덮으므로 푼다. */
+@media (max-width: 1439px) {
+  .wp-hero-objects { height: 50%; right: 2%; }
+  .wp-obj-bubble { left: 0; }
+}
+/* 1200px 미만에서는 줄여도 글과 겹친다 — 오브젝트는 감추고 배경 무늬만 남긴다.
+   (/why-refinery 히어로가 좁은 화면에서 대시보드 장식을 감추는 것과 같은 처리) */
+@media (max-width: 1199px) {
+  .wp-hero-objects { display: none; }
+}
 /* 좁은 화면은 안여백이 120 / 72라 그 차이의 절반은 24px이다. */
 @media (max-width: 900px) {
   .wp-hero-objects { translate: 0 calc(-50% + 24px); }
