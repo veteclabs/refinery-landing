@@ -147,7 +147,9 @@
 .wp-body {
   display: grid; grid-template-columns: 260px minmax(0, 1fr);
   gap: 80px; align-items: start;
-  padding: 56px 0 24px;
+  /* 위 69px — 절 사이 간격(.wp-section margin-top)과 같은 값이라
+     히어로에서 본문으로 넘어가는 숨이 절과 절 사이의 숨과 같다. */
+  padding: 69px 0 24px;
 }
 .wp-aside { position: sticky; top: 96px; }
 /* 오른쪽 붙임은 두 단 안에서만 건다. 이 스타일시트를 같이 쓰는 ai-agent는
@@ -326,7 +328,7 @@
 /* 두 단을 유지할 폭이 안 되면 목차를 본문 위로 올려 한 단으로 쌓는다.
    이때 목차는 따라다니지 않는다 — 화면 세로를 너무 많이 차지한다. */
 @media (max-width: 1024px) {
-  .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 44px 0 24px; }
+  .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 69px 0 24px; }
   .wp-aside { position: static; }
   .wp-article { max-width: none; margin: 0; }
   .wp-toc ol { grid-template-columns: 1fr 1fr; column-gap: 32px; }
