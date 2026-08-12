@@ -4,7 +4,7 @@
    이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
   position: relative; overflow: hidden;
-  padding: 180px 0 100px; background: #10141B; border-bottom: none;
+  padding: 180px 0 100px; background: #3B7FD4; border-bottom: none;
 }
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
