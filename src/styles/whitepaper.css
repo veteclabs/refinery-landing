@@ -100,16 +100,15 @@
 
 /* 절 머리의 이미지 카드 자리. 요약 카드와 같은 면·테두리·라운드를 쓴다.
    이미지가 들어오면 .wp-figure img가 칸을 채운다(cover). */
+/* 절 머리의 띠. 사진 대신 파랑 그라데이션을 쓴다 —
+   히어로의 Blue 800에서 시작해 Blue 500 쪽으로 흐른다.
+   세로는 16:9의 1/4(64:9)이라 같은 폭(820px)에서 115px이다.
+   면이 색이라 테두리는 두지 않는다. */
 .wp-figure {
-  /* 16:9의 세로 1/4 — 같은 폭에서 461px이던 높이가 115px이 된다.
-     (16/9의 분모를 4로 나눈 값이 64/9다) */
   aspect-ratio: 64 / 9;
-  background: #f6f8fa; border: 1px solid #e3e7ec; border-radius: var(--radius, 12px);
+  background: linear-gradient(105deg, #17385F 0%, #2B62A8 52%, #3B7FD4 100%);
+  border-radius: var(--radius, 12px);
   overflow: hidden; margin-bottom: 26px;
-}
-.wp-figure img {
-  display: block; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;   /* 그림 가운데가 보이도록 */
 }
 
 /* 본문 */
