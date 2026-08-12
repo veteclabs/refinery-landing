@@ -69,7 +69,7 @@
    .wp-body 스코프라 한 단으로 쓰는 ai-agent는 지금의 편집형 리드 그대로다.
    값은 사이트 공통 카드(.ind-card)와 같다 — 테두리 #e3e7ec, 라운드 12px. */
 .wp-body .wp-summary {
-  background: #f6f8fa; border: 1px solid #e3e7ec; border-radius: var(--radius, 12px);
+  background: #f6f8fa; border: none; border-radius: var(--radius, 12px);
   padding: 26px 28px; margin: 0;
 }
 .wp-body .wp-summary li { font-size: 16px; }
@@ -119,10 +119,10 @@
      두 번째 선언은 oklab 보간이다 — sRGB로 파랑을 섞으면 중간이 탁해지는데
      oklab은 밝기 변화가 고르다. 지원하지 않는 브라우저는 위 선언을 쓴다.
      ⚠️ 밝은 끝 #D5E4F7은 Blue 100 추정치다(팔레트에 500만 hex가 적혀 있다). */
-  background: linear-gradient(105deg,
-    #16365C 0%, #1A4272 32%, #24558F 56%, #3672BE 76%, #7FAEE0 91%, #D5E4F7 100%);
-  background: linear-gradient(105deg in oklab,
-    #16365C 0%, #1A4272 32%, #24558F 56%, #3672BE 76%, #7FAEE0 91%, #D5E4F7 100%);
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
   border-radius: var(--radius, 12px);
   /* overflow는 자르지 않는다 — 뒤에 깐 판이 왼쪽으로 삐져나와야 한다. */
   margin-bottom: 26px;
