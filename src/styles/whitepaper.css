@@ -63,7 +63,10 @@
   pointer-events: none; user-select: none;
 }
 .wp-art-glow, .wp-art-icons { position: absolute; height: auto; max-width: none; }
-.wp-art-glow { left: 0; top: 0; width: 100%; }
+/* 원판만 칸보다 크게 키운다. 폭을 키운 만큼 절반씩 왼쪽·위로 당겨
+   중심(칸의 50%, 50%)은 그대로 두므로 아이콘과의 관계가 틀어지지 않는다.
+   130%면 -15%씩이다. 칸 밖으로 나가는 부분은 히어로가 잘라낸다. */
+.wp-art-glow { left: -15%; top: -15%; width: 130%; }
 .wp-art-icons { left: 10.36%; top: 13.36%; width: 76.30%; }
 @media (max-width: 1439px) { .wp-hero-art { right: 6%; } }
 @media (max-width: 900px) { .wp-hero-art { translate: 0 calc(-50% + 24px); } }
