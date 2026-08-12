@@ -305,6 +305,10 @@
 .wp-section > h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: #16202c; }
 .wp-section > h2 .wp-n { color: #76a6d7; font-weight: 800; margin-right: 10px; }
 .wp-section h3 { font-size: 18px; font-weight: 600; margin-top: 26px; color: #16202c; }
+/* 소제목 바로 아래 문단은 붙인다. 문단 사이 값(29px)을 그대로 쓰면 소제목이
+   위아래 같은 간격으로 떠서 어느 쪽 글의 제목인지 흐려진다.
+   위 26 : 아래 10으로 벌려 아래 글에 붙은 제목이 된다. */
+.wp-section h3 + p { margin-top: 10px; }
 /* 문단 사이 29px = 본문 한 줄 높이. 15px일 때는 줄 간격(29px)보다 좁아
    문단이 바뀌어도 줄바꿈처럼 보였다. 빈 줄 하나만큼 벌린다. */
 .wp-section p { margin-top: 29px; font-size: 16px; line-height: 1.82; color: #2b3644; }
