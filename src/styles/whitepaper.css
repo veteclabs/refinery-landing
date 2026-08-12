@@ -4,7 +4,11 @@
    이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
   position: relative; overflow: hidden;
-  padding: 180px 0 100px; background: #3B7FD4; border-bottom: none;
+  /* Blue 계열의 어두운 단계. 500(#3B7FD4)은 차트 시리즈의 기본색이라 밝아,
+     그 위에 18px 소제목을 얹으면 3.27:1로 본문 기준(4.5:1)에 못 미쳤다.
+     ⚠️ 팔레트에 500만 hex가 적혀 있어 이 값은 추정치다 — 실제 Blue 800 값이
+     확인되면 그것으로 교체한다. */
+  padding: 180px 0 100px; background: #17385F; border-bottom: none;
 }
 .wp-hero > .ind-container { position: relative; z-index: 1; }
 
