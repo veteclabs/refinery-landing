@@ -105,6 +105,7 @@
    세로는 16:9의 1/4(64:9)이라 같은 폭(820px)에서 115px이다.
    면이 색이라 테두리는 두지 않는다. */
 .wp-figure {
+  position: relative;
   /* 세로는 aspect-ratio가 아니라 min-height로 잡는다 — 제목이 두 줄이 되는
      좁은 화면에서 글자가 잘리지 않고 칸이 늘어난다. */
   min-height: 115px;
@@ -125,6 +126,15 @@
   border-radius: var(--radius, 12px);
   overflow: hidden; margin-bottom: 26px;
 }
+/* 왼쪽 끝에 붙는 얇은 세로선. 색은 태그라인(번호)과 같은 #76A6D7이다.
+   칸 세로를 꽉 채우고, 왼쪽 두 모서리만 칸과 같은 라운드를 준다 —
+   위아래 끝이 칸의 곡선을 따라 휘어 들어간다. */
+.wp-figure::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: #76a6d7;
+  border-radius: var(--radius, 12px) 0 0 var(--radius, 12px);
+}
+
 /* 띠 안의 절 제목. .wp-section > h2가 아니라(직계가 아니게 됐다) 여기서 따로 잡는다.
    크기·굵기는 다른 절 제목과 같고 색만 어두운 면용이다. */
 .wp-figure h2 {
