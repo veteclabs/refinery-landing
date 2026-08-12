@@ -154,8 +154,10 @@
    값은 사이트 공통 카드(.ind-card)와 같다 — 테두리 #e3e7ec, 라운드 12px. */
 .wp-body .wp-summary {
   background: #f6f8fa; border: none; border-radius: var(--radius, 12px);
-  /* 절 머리 띠(.wp-figure)와 같은 안여백이라 두 카드의 위아래 숨이 같다. */
-  padding: 25px 30px; margin: 0;
+  /* 눈에 보이는 위아래 숨을 절 머리 띠와 같게 맞춘다(위 28 · 아래 26).
+     안여백을 같은 25px으로 두면 줄 간격 2가 만드는 여유(위아래 6px 안팎)
+     때문에 이 카드만 더 벌어져 보였다 — 그만큼 빼서 22 / 20으로 둔다. */
+  padding: 22px 30px 20px; margin: 0;
 }
 /* 글자값은 /why-refinery 흐름 카드(.wr-story li)와 같게 맞춘다 —
    15px / 행간 1.7 / #7E8A98, 점 3px 하늘색, 점과 글 사이 8px(15px 본문에서
@@ -237,8 +239,10 @@
   display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
   gap: 6px;
   /* 위아래 25px — 내용(번호 23 + 사이 6 + 제목 31 = 60)과 더해 정확히 110이 된다.
-     안여백이 min-height보다 크면 그 값이 실제 높이를 정해 버린다. */
-  padding: 25px 30px;
+     안여백이 min-height보다 크면 그 값이 실제 높이를 정해 버린다.
+     왼쪽은 26px이다 — 이 칸이 margin-left 5px만큼 안으로 들어와 있어,
+     30px으로 두면 글이 요약 카드의 점보다 4px 오른쪽에서 시작한다. */
+  padding: 25px 30px 25px 26px;
   /* 어두운 쪽을 넓게 잡고 오른쪽 끝에서만 밝아진다 — 글이 놓이는 왼쪽이
      충분히 어두워야 흰 제목이 읽힌다.
      같은 색을 두 번 찍어 평평하게 두면 변화가 시작되는 지점에 선이 보인다.
