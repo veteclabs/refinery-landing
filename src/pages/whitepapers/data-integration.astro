@@ -71,8 +71,8 @@ const toc = [
       <aside class="wp-aside">
         <nav class="wp-toc" aria-label="목차">
           <ol>
-            {toc.map((c, i) => (
-              <li><a href={`#${c.id}`}><span class="wp-toc-n">{String(i + 1).padStart(2, '0')}</span>{c.t}</a></li>
+            {toc.map((c) => (
+              <li><a href={`#${c.id}`} data-toc={c.id}>{c.t}</a></li>
             ))}
           </ol>
         </nav>
@@ -160,5 +160,29 @@ const toc = [
       </div>
     </section>
   </main>
+  {/* 목차 현재 위치 표시 — 블로그 글(BlogPost.astro)과 같은 방식이다.
+      화면 위쪽(헤더 88px 아래 ~ 화면 30% 지점)에 들어온 절을 지금 읽는 절로 본다. */}
+  <script is:inline>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.wp-toc a[data-toc]'));
+      if (!links.length) return;
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute('data-toc')] = a; });
+      var targets = links
+        .map(function (a) { return document.getElementById(a.getAttribute('data-toc')); })
+        .filter(Boolean);
+      var current = null;
+      function activate(id) {
+        if (current === id) return;
+        current = id;
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        if (map[id]) map[id].classList.add('is-active');
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.id); });
+      }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
+      targets.forEach(function (t) { obs.observe(t); });
+    })();
+  </script>
   <Footer />
 </BaseLayout>
