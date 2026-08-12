@@ -111,7 +111,7 @@
 /* 종류와 주제를 가운데점 대신 세로선으로 나눈다. 글자가 아니라 선이라
    글꼴에 따라 위아래로 흔들리지 않고, 높이를 글자에 맞춰 잡을 수 있다. */
 .wp-eyebrow-bar {
-  width: 1px; height: 15px; flex: none;
+  width: 2px; height: 15px; flex: none;
   background: currentColor; opacity: .5;
 }
 .wp-title {
