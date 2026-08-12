@@ -48,32 +48,32 @@
 }
 /* 오브젝트 하나하나. left·top·width만 고치면 그 하나만 움직인다.
    기본값은 원본에서의 자리다. */
-/* AI 에이전트 백서의 히어로 그림 — 무늬와 원 그림이 한 장이다.
-   세로를 기준으로 크기를 정하고 가로는 비율대로 따라온다(무늬와 같은 규칙) —
-   어느 폭에서든 그림의 생김새와 크기가 같고, 좁아질수록 왼쪽이 화면 밖으로
-   밀려날 뿐이다. 넘치는 위아래는 히어로의 overflow: hidden이 잘라낸다.
-   translate의 %는 제 높이 기준이라, 원 그림의 세로 중심(그림 높이의 59.1%)을
-   히어로 가운데에 놓는다. +40px은 데이터 통합과 같은 보정이다 —
-   히어로 안여백이 위 180 / 아래 100이라 글 덩어리의 중앙이 그만큼 아래다. */
+/* AI 에이전트 백서의 히어로 그림. 투명 여백을 잘라낸 그림 덩어리(2355x2259)라
+   세로 크기만 정해 오른쪽에 붙인다 — 데이터 통합의 오브젝트 칸과 같은 방식이다.
+   +40px은 그쪽과 같은 보정이다: 히어로 안여백이 위 180 / 아래 100이라
+   글 덩어리의 중앙이 박스 중앙보다 그만큼 아래에 있다. */
 .wp-hero-art {
-  position: absolute; right: 4%; left: auto; top: 50%;
-  translate: 0 calc(-59.1% + 40px);
-  height: 180%; width: auto; max-width: none;
+  position: absolute; right: 5%; left: auto; top: 50%;
+  translate: 0 calc(-50% + 40px);
+  /* 82%면 히어로 안에 온전히 들어간다 — 위로는 고정 헤더(70px) 아래에서
+     시작하고(87px), 아래로는 7px 남는다. 90%면 밑이 14px 잘렸다. */
+  height: 82%; width: auto; max-width: none;
   pointer-events: none; user-select: none;
 }
-@media (max-width: 1439px) { .wp-hero-art { right: 0; } }
+@media (max-width: 1439px) { .wp-hero-art { right: 1%; } }
+@media (max-width: 900px) { .wp-hero-art { translate: 0 calc(-50% + 24px); } }
 /* 1280px 미만은 글 옆에 자리가 없다. 오브젝트와 같은 방식으로 글 아래 오른쪽에
    내려놓는다(.wp-hero--art가 히어로를 세로 흐름으로 바꾼다). */
 @media (max-width: 1279px) {
-  .wp-hero--art { display: flex; flex-direction: column; padding-bottom: 0; }
+  .wp-hero--art { display: flex; flex-direction: column; padding-bottom: 72px; }
   .wp-hero--art > .ind-container { order: 0; }
   .wp-hero-art {
     order: 1; position: relative; inset: auto; translate: none;
-    height: auto; width: 46%; max-width: 400px;
-    margin: 24px 0 -6% auto;
+    height: auto; width: 42%; max-width: 360px;
+    margin: 28px 0 0 auto;
   }
 }
-@media (max-width: 900px) { .wp-hero-art { width: 56%; } }
+@media (max-width: 900px) { .wp-hero-art { width: 52%; } }
 
 .wp-obj { position: absolute; height: auto; max-width: none; }
 .wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }

@@ -39,15 +39,25 @@ const toc = [
     {/* --art는 '히어로에 그림이 한 장 있다'는 표시다. 좁은 화면에서 그림을
         글 아래로 내리는 규칙이 이 클래스에 걸려 있다. */}
     <section class="wp-hero wp-hero--art">
-      {/* 이 페이지의 히어로 그림은 무늬와 오브젝트가 한 장에 함께 있다.
-          방사형 무늬가 원 그림에서 뻗어 나오는 구성이라, 데이터 통합처럼
-          둘을 떼어 따로 놓으면 무늬의 중심이 그림을 벗어난다. */}
+      {/* 배경 무늬는 데이터 통합 백서와 같은 것을 쓴다 — 시리즈의 공통 바탕이다. */}
+      <img
+        class="wp-hero-pattern"
+        src="/whitepapers/hero-pattern.webp"
+        alt=""
+        aria-hidden="true"
+        width="2880"
+        height="1200"
+        decoding="async"
+        fetchpriority="high"
+      />
+      {/* 무늬 위에 얹는 3D 그림. 투명 여백을 잘라내 그림 덩어리만 남겼으므로
+          세로 크기만 정해 오른쪽에 붙인다(데이터 통합의 오브젝트 칸과 같은 방식). */}
       <img
         class="wp-hero-art"
         src="/whitepapers/ai-hero-art.webp"
         alt=""
         aria-hidden="true"
-        width="996"
+        width="1459"
         height="1400"
         decoding="async"
         fetchpriority="high"
