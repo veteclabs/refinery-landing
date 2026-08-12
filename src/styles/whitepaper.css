@@ -354,7 +354,8 @@
 /* 링크는 밑줄 대신 화살표로 '이동'을 알린다. 화살표만 살짝 오른쪽으로 움직인다. */
 .wp-next {
   flex: none; display: inline-flex; align-items: center; gap: 6px;
-  color: #76a6d7; font-weight: 600; text-decoration: none; white-space: nowrap;
+  /* 옆 문구와 같은 400이다 — 색과 꺾쇠만으로 링크인 걸 알린다. */
+  color: #76a6d7; font-weight: 400; text-decoration: none; white-space: nowrap;
 }
 .wp-next svg { transition: transform .15s; }
 .wp-next:hover svg { transform: translateX(3px); }
