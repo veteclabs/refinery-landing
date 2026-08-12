@@ -149,7 +149,8 @@
   gap: 80px; align-items: start;
   /* 위 96px — 절 사이 간격(.wp-section margin-top)과 같은 값이라
      히어로에서 본문으로 넘어가는 숨이 절과 절 사이의 숨과 같다. */
-  padding: 96px 0 24px;
+  /* 아래 96px — 맺음말과 CTA 사이를 절 사이와 같은 숨으로 벌린다(24px이었다). */
+  padding: 96px 0;
 }
 .wp-aside { position: sticky; top: 96px; }
 /* 오른쪽 붙임은 두 단 안에서만 건다. 이 스타일시트를 같이 쓰는 ai-agent는
@@ -345,7 +346,7 @@
 /* 두 단을 유지할 폭이 안 되면 목차를 본문 위로 올려 한 단으로 쌓는다.
    이때 목차는 따라다니지 않는다 — 화면 세로를 너무 많이 차지한다. */
 @media (max-width: 1024px) {
-  .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 96px 0 24px; }
+  .wp-body { grid-template-columns: 1fr; gap: 36px; padding: 96px 0; }
   .wp-aside { position: static; }
   .wp-article { max-width: none; margin: 0; }
   .wp-toc ol { grid-template-columns: 1fr 1fr; column-gap: 32px; }
@@ -356,4 +357,36 @@
 @media (max-width: 640px) {
   .wp-toc ol { grid-template-columns: 1fr; }
   /* 이미 16px이라 좁은 화면에서 더 줄이지 않는다. */
+}
+
+/* ───────── 맺음 CTA ─────────
+   히어로와 같은 방사형 그라데이션으로 문서를 닫는다. 흰 바탕에 글자만 있으면
+   페이지가 끝났다는 신호가 없어 흐지부지 끝나 보였다.
+   가운데 정렬이던 것을 왼쪽으로 옮겨, 히어로 · 목차 · 본문과 같은 세로선에서
+   시작한다. 제목은 왼쪽 · 버튼은 오른쪽으로 벌린다(/why-refinery CTA와 같은 구성). */
+.wp-cta {
+  position: relative; overflow: hidden;
+  padding: 95px 0; text-align: left;
+  background: radial-gradient(125% 190% at 100% 100%,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+  background: radial-gradient(125% 190% at 100% 100% in oklab,
+    #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+}
+.wp-cta .ind-container {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 48px; flex-wrap: wrap;
+}
+.wp-cta .ind-container > * { flex: none; }
+/* 랜딩 #cta와 같은 40px / 500. 섹션 대제목(600)보다 한 단계 가볍게 둔다. */
+.wp-cta h2 {
+  font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+  letter-spacing: -0.02em; line-height: 1.35; margin: 0; color: #fff;
+}
+/* 파란 면 위에서는 먹색 버튼보다 흰 버튼이 또렷하다. */
+.wp-cta .ind-btn-primary { background: #fff; color: #16202c; }
+.wp-cta .ind-btn-primary:hover { background: #E7EFF9; color: #16202c; transform: translateY(-1px); }
+@media (max-width: 900px) {
+  .wp-cta { padding: 64px 0; }
+  .wp-cta .ind-container { gap: 28px; }
 }
