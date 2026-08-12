@@ -44,7 +44,9 @@
    기본값은 원본에서의 자리다. */
 .wp-obj { position: absolute; height: auto; max-width: none; }
 .wp-obj-bubble { left: -7%; top: 47%; width: 26.12%; }
-.wp-obj-chart  { left: 20%; top: 1%; width: 28%; }
+/* 크기를 줄일 때 top도 같이 내려 아래끝을 제자리에 둔다.
+   28% -> 26%면 세로가 3.4%(칸 기준)만큼 짧아지므로 top을 그만큼 더한다. */
+.wp-obj-chart  { left: 20%; top: 4.4%; width: 26%; }
 /* 파이 리포트만 크게 키우고 아래로 내려 히어로 밑단에서 잘리게 둔다.
    칸은 자르지 않고 히어로(.wp-hero)의 overflow: hidden이 잘라낸다. */
 .wp-obj-report { left: 30%; top: 54%; width: 58%; }
