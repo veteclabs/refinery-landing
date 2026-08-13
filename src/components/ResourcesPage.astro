@@ -86,7 +86,7 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-thumb">
+                <div class={r.image ? "res-thumb" : "res-thumb is-empty"}>
                   {r.image && (
                     /* 칸(.res-thumb)이 aspect-ratio 16/10으로 자리를 잡고 이미지는 그 안을
                        cover로 채운다. width/height는 원본 비율을 알려 주는 용도라
@@ -237,6 +237,10 @@ const T = {
     background: linear-gradient(to bottom, rgba(16, 20, 27, .55) 0%, rgba(16, 20, 27, .18) 45%, rgba(16, 20, 27, 0) 75%);
     pointer-events: none;
   }
+  /* 표지 이미지가 없는 카드에서는 어두운 막을 걷는다 — 막이 덮으면 밑판이
+     회색으로 보여, 히어로와 같은 #F6F8FA로 맞춰 둔 색이 드러나지 않는다.
+     막은 사진 위에서 흰 글자를 읽히게 하려던 것이라 여기서는 할 일이 없다. */
+  .res-thumb.is-empty .res-cover { background: none; }
   /* 크기는 카드 소제목(.res-card p, 15px)과 같게 둔다. */
   .res-cover-kind {
     /* 굵기는 각 페이지 히어로 태그라인(.wr-tag / .wp-eyebrow)과 같은 600이다.
