@@ -237,20 +237,19 @@ const alternates = [
        Pretendard를 둬야 한글 제목이 OS 기본 글꼴로 떨어지지 않는다.
        이 페이지 대제목은 한글이라 실제로 Pretendard가 그린다. */
     font-family: 'Inter', 'Pretendard', sans-serif;
-    /* 수식하는 앞부분은 랜딩과 같은 500, 제품을 가리키는 '산업 AI'만 600.
+    /* Pretendard 500의 세로 획은 6.63px로 랜딩 Inter 500(9.38px)보다 29% 얇다.
+       600이면 7.75px이 되고, 한글은 획이 촘촘해 같은 두께라도 무겁게 보이므로
+       여기서 랜딩 제목과 무게가 맞는다. (700은 8.75px로 수치는 가깝지만 굵어 보인다.)
        .ind-hero h1이 걸어 둔 letter-spacing은 랜딩과 같이 normal로 되돌린다. */
-    font-weight: 500; letter-spacing: normal;
+    font-weight: 600; letter-spacing: normal;
     color: #16202C;
     word-break: keep-all;
   }
-  /* Pretendard 500의 세로 획은 6.63px로 랜딩 Inter 500(9.38px)보다 29% 얇다.
-     600이면 7.75px이 되고, 한글은 획이 촘촘해 같은 두께라도 무겁게 보이므로
-     여기서 랜딩 제목과 무게가 맞는다. (700은 8.75px로 수치는 가깝지만 굵어 보인다.)
+  /* 랜딩 .hero-title-accent와 같은 값 — 글자를 마스크 삼아 그라데이션을 비춘다.
+     -webkit-text-fill-color가 없으면 웹킷에서 글자색이 그라데이션을 덮는다.
+     굵기는 h1(600)을 그대로 물려받는다.
      ⚠️ h1은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
   .cmp-hero h1 :global(.cmp-hero-strong) {
-    font-weight: 600;
-    /* 랜딩 .hero-title-accent와 같은 값 — 글자를 마스크 삼아 그라데이션을 비춘다.
-       -webkit-text-fill-color가 없으면 웹킷에서 글자색이 그라데이션을 덮는다. */
     display: inline-block;
     background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
     -webkit-background-clip: text;
