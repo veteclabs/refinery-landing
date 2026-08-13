@@ -237,9 +237,13 @@ const alternates = [
        Pretendard를 둬야 한글 제목이 OS 기본 글꼴로 떨어지지 않는다.
        이 페이지 대제목은 한글이라 실제로 Pretendard가 그린다. */
     font-family: 'Inter', 'Pretendard', sans-serif;
-    /* 랜딩 #hero h1은 굵기·자간을 따로 두지 않아 전역값(500 / normal)을 쓴다.
-       여기는 .ind-hero h1이 700을 걸고 있어 같은 값으로 되돌려 준다. */
-    font-weight: 500; letter-spacing: normal;
+    /* 랜딩은 500이지만 여기는 600으로 한 단계 올린다.
+       Pretendard 500의 세로 획은 6.63px로 랜딩 Inter 500(9.38px)보다 29% 얇아
+       같은 값을 쓰면 회사 제목만 가늘게 읽힌다. 600이면 7.75px(-17%)이고,
+       한글은 획이 촘촘해 같은 두께라도 무겁게 보이므로 여기서 무게가 맞는다.
+       (700은 8.75px로 수치는 가깝지만 실제로는 랜딩보다 굵어 보인다.)
+       .ind-hero h1이 걸어 둔 letter-spacing은 랜딩과 같이 normal로 되돌린다. */
+    font-weight: 600; letter-spacing: normal;
     color: #16202C;
     word-break: keep-all;
   }
