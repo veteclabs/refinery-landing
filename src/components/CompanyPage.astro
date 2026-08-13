@@ -306,7 +306,13 @@ const alternates = [
   /* ⚠️ width:100% 필수. .ind-container는 margin:0 auto라 flex 자식이 되면
      stretch가 풀리고 내용 폭으로 줄어든다. 본문이 있을 땐 티가 안 났지만
      제목 3줄만 남으니 716px로 쪼그라들어 좌측 여백이 페이지 기준을 벗어났다. */
-  .cmp-story-bg > .ind-container { position: relative; z-index: 1; width: 100%; }
+  .cmp-story-bg > .ind-container {
+    position: relative; z-index: 1; width: 100%;
+    /* ⚠️ flex:1 필수. 섹션이 flex column이라 이게 없으면 컨테이너 높이가
+       내용(333px)에 머물고, 남는 높이는 컨테이너 '아래'로 빠진다.
+       그러면 안쪽 그리드 행도 333px이라 align-self:end가 움직일 자리가 없다. */
+    flex: 1;
+  }
   /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
      음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
   .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
