@@ -11,6 +11,11 @@ export type FooterCol = { title: string; items: NavLink[] };
 
 type Lang = 'ko' | 'en';
 
+/** 초안 페이지 링크 스위치. astro dev에서만 true고 astro build에서는 false다.
+ *  내용을 확인하려면 로컬에서 눌러 들어갈 수 있어야 하고, 배포본에서는 준비중으로 보여야 한다.
+ *  href가 있으면 Nav가 <a>로, 없으면 <span class="mm-soon">으로 렌더한다. */
+const DRAFT_LINKS = import.meta.env.DEV;
+
 /** 헤더 메가메뉴 */
 export const navMenu: Record<Lang, NavMenu[]> = {
   ko: [
@@ -54,8 +59,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: '블로그', href: '/blog' },
-            // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '준비중' },
+            { label: '문서', ...(DRAFT_LINKS ? { href: '/docs' } : { badge: '준비중' }) },
             { label: '자료실', href: '/resources' },
           ],
         },
@@ -118,7 +122,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: 'Blog', href: '/en/blog' },
-            { label: 'Docs', badge: 'Soon' },
+            { label: 'Docs', ...(DRAFT_LINKS ? { href: '/en/docs' } : { badge: 'Soon' }) },
             { label: 'Resources & whitepapers', href: '/en/resources' },
           ],
         },
