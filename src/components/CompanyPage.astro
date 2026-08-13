@@ -247,7 +247,17 @@ const alternates = [
      600이면 7.75px이 되고, 한글은 획이 촘촘해 같은 두께라도 무겁게 보이므로
      여기서 랜딩 제목과 무게가 맞는다. (700은 8.75px로 수치는 가깝지만 굵어 보인다.)
      ⚠️ h1은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
-  .cmp-hero h1 :global(.cmp-hero-strong) { font-weight: 600; }
+  .cmp-hero h1 :global(.cmp-hero-strong) {
+    font-weight: 600;
+    /* 랜딩 .hero-title-accent와 같은 값 — 글자를 마스크 삼아 그라데이션을 비춘다.
+       -webkit-text-fill-color가 없으면 웹킷에서 글자색이 그라데이션을 덮는다. */
+    display: inline-block;
+    background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
   .cmp-hero .ind-lede {
     font-size: 18px; font-weight: 400; line-height: 1.7;
     color: var(--text-muted); max-width: 960px; margin: 0;
