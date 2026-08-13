@@ -22,7 +22,7 @@ const T = {
     h1: 'Hello, we’re Refinery',
     lede: 'Refinery는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.<br>개발자도 발전소와 공장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
-    storyTitle: '현장을 경험한<br>팀이 만든 솔루션,<br>산업 AI',
+    storyTitle: '현장을 경험한<br>팀이 만든<br>솔루션, 산업 AI',
     stats: [
       { num: '30년+', label: '산업 현장 경험' },
       { num: '100+ 현장', label: '철강·반도체·식품 등 20여 개 산업군' },
@@ -268,19 +268,25 @@ const alternates = [
      위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
   .cmp-story-bg {
     position: relative; overflow: hidden; background: #111316;
-    /* 사진이 왼쪽 절반(50vw)만 차지하므로 그 폭 기준으로 높이를 잡는다.
-       min-height라 글이 그보다 길어지면 섹션이 알아서 늘어난다. */
-    min-height: calc(50vw * 2160 / 3840);
+    /* 로그인 화면의 좌측 패널과 같은 비율(폭:높이 = 0.958)로 칸을 잡는다.
+       비율이 다르면 같은 object-position이어도 원본에서 잘라 오는 구간이 달라진다
+       — 지금 칸(1.486)이면 13~97%가 들어와 오른쪽 밝은 띠까지 보이고,
+       로그인 칸(0.958)이면 37~91%만 들어와 그 띠가 잘린다.
+       min-height라 글이 더 길어지면 섹션은 알아서 늘어난다. */
+    min-height: calc(50vw * 1.044);
     display: flex; flex-direction: column; justify-content: center;
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
     position: absolute; top: 0; bottom: 0; left: 0; right: auto;
     width: 50%; height: 100%;
-    /* 16:9 사진을 세로로 긴 칸에 넣으므로 좌우가 크게 잘린다.
-       이 사진은 오른쪽이 밝고 왼쪽이 거의 검정이라 오른쪽 기준으로 맞춘다.
-       왼쪽 기준으로 두면 잘린 자리가 평균 rgb(16,21,30)이라 사진이 안 보인다. */
-    object-fit: cover; object-position: right center;
+    /* 로그인 화면(UI_Refinery_Login.html)과 같은 면이 보이게 맞춘다.
+       그쪽은 img를 height:100%·width:auto로 왼쪽에 붙인 뒤 로드 시 한 번
+       translateX(-maxOffset * 0.8)까지 패닝하고 fill:forwards로 멈춘다
+       (maxOffset = 렌더된 이미지 폭 - 패널 폭).
+       object-position의 백분율이 바로 그 maxOffset 대비 비율이므로 80%가 같은 지점이다.
+       height:100%라 세로는 잘리지 않아 center와 동일하다. */
+    object-fit: cover; object-position: 80% center;
     pointer-events: none; user-select: none;
   }
   /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
