@@ -22,6 +22,7 @@ const T = {
     h1: 'Hello, we’re Refinery',
     lede: 'Refinery는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.<br>개발자도 발전소와 공장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
+    storyTag: '회사 소개',
     storyTitle: '현장을 경험한<br>팀이 만든<br>솔루션, 산업 AI',
     stats: [
       { num: '30년+', label: '산업 현장 경험' },
@@ -51,6 +52,7 @@ const T = {
     h1: 'Hello, we’re Refinery',
     lede: 'Refinery is built on more than thirty years of experience VETEC gathered on industrial sites.<br>Our developers have worked the plants themselves, and we define problems in the language of the site.',
     cta: 'Contact', contactHref: '/en/contact',
+    storyTag: 'About us',
     storyTitle: 'Built by a team<br>that has been on the floor,<br>Industrial AI',
     stats: [
       { num: '30+ years', label: 'on industrial sites' },
@@ -129,6 +131,7 @@ const alternates = [
       <div class="ind-container">
         <div class="cmp-story">
           <header class="ind-head">
+            <p class="cmp-story-tag">{T.storyTag}</p>
             <h2 set:html={T.storyTitle}></h2>
           </header>
         </div>
@@ -307,6 +310,12 @@ const alternates = [
   /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
      음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
   .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
+  /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
+     어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
+  .cmp-story-tag {
+    margin: 0 0 8px; font-size: 12px; font-weight: 600;
+    letter-spacing: 1.2px; color: #76A6D7;
+  }
   /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
 
   /* ───────── CTA — /why-refinery(플랫폼 개요)와 같은 값 ─────────
@@ -350,15 +359,19 @@ const alternates = [
 
   /* 스토리 섹션 오른쪽 칸에 세로로 쌓고 구분선으로 나눈다.
      칸 폭이 592px라 가로 3열은 들어가지 않는다. */
-  .cmp-stats { grid-column: 2; align-self: start; padding-left: 48px; display: grid; }
-  .cmp-stat { max-width: 460px; padding: 26px 0; }
+  /* 가로는 컨테이너 오른쪽 끝(1440에서 1305px)에 붙이고,
+     세로는 아래로 내려 랜딩 #platform과 같은 하단 여백 130px만 남긴다. */
+  .cmp-stats { grid-column: 2; align-self: end; padding-left: 48px; display: grid; justify-items: end; text-align: right; }
+  .cmp-stat { max-width: 460px; padding: 26px 0; width: 100%; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
   .cmp-stat + .cmp-stat { border-top: 1px solid rgba(255,255,255,.14); }
+  .cmp-stats .cmp-stat-num, .cmp-stats .cmp-stat-label { text-align: right; }
   /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
   @media (max-width: 900px) {
-    .cmp-stats { grid-column: 1; padding-left: 0; }
+    .cmp-stats { grid-column: 1; padding-left: 0; justify-items: start; text-align: left; }
+    .cmp-stats .cmp-stat-num, .cmp-stats .cmp-stat-label { text-align: left; }
   }
   .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 750; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
   .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #b6c0cc; }
