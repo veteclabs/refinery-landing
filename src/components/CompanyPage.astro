@@ -229,7 +229,10 @@ const alternates = [
     font-size: clamp(48px, 7vw, 84px);
     line-height: 1.15;
     padding: 0.1em 0;
-    font-family: 'Inter', sans-serif;
+    /* 랜딩 #hero h1과 같은 스택. Inter에는 한글이 없으므로 다음 자리에
+       Pretendard를 둬야 한글 제목이 OS 기본 글꼴로 떨어지지 않는다.
+       이 페이지 대제목은 한글이라 실제로 Pretendard가 그린다. */
+    font-family: 'Inter', 'Pretendard', sans-serif;
     /* 랜딩 #hero h1은 굵기·자간을 따로 두지 않아 전역값(500 / normal)을 쓴다.
        여기는 .ind-hero h1이 700을 걸고 있어 같은 값으로 되돌려 준다. */
     font-weight: 500; letter-spacing: normal;
