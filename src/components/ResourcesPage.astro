@@ -98,6 +98,12 @@ const T = {
                       글자를 구우면 /en/resources에도 한글이 뜬다. 검색·스크린리더에도 잡힌다.
                       표지 이미지가 없으면 글자도 두지 않는다 — 밝은 밑판 위 하늘색이라
                       대비가 2.4:1까지밖에 안 나와 읽히지 않았다. 빈 칸으로 비워 둔다. */}
+                  {/* 표지가 없는 카드에는 종류를 알려 주는 아이콘만 가운데 둔다.
+                      글자는 밝은 밑판에서 읽히지 않아 뺐고, 빈 칸만 남으면
+                      아래 세 장이 통째로 비어 보인다. */}
+                  {!r.image && (
+                    <span class="res-empty-icon" aria-hidden="true"><i class={`ph ${r.icon}`}></i></span>
+                  )}
                   {r.image && (
                     <div class="res-cover">
                       <span class="res-cover-kind">{r.kind}</span>
@@ -247,6 +253,15 @@ const T = {
      회색으로 보여, 히어로와 같은 #F6F8FA로 맞춰 둔 색이 드러나지 않는다.
      막은 사진 위에서 흰 글자를 읽히게 하려던 것이라 여기서는 할 일이 없다. */
   .res-thumb.is-empty .res-cover { background: none; }
+  /* 종류 아이콘. 칸 세로가 239px이라 48px이면 1/5쯤 차지해, 있는 줄은 알겠고
+     표지가 들어오면 대체될 자리라는 것도 읽힌다.
+     색은 브랜드 하늘색 그대로 두되 옅게 깔아 '아직 빈 칸'으로 보이게 한다. */
+  .res-empty-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; line-height: 1; color: #76A6D7; opacity: .55;
+    pointer-events: none;
+  }
   /* 크기는 카드 소제목(.res-card p, 15px)과 같게 둔다. */
   .res-cover-kind {
     /* 굵기는 각 페이지 히어로 태그라인(.wr-tag / .wp-eyebrow)과 같은 600이다.
