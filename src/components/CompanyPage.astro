@@ -321,18 +321,23 @@ const alternates = [
   .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
   /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
      어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
-  .cmp-story-tag {
-    margin: 0 0 8px; font-size: 12px; font-weight: 600;
+  /* ⚠️ .cmp-page .ind-head p(특정도 0,2,1)가 이 두 규칙을 덮는다.
+     .ind-head 안에 있는 <p>라서 크기·행간은 그쪽 값(18px/1.7, 900px 아래 16px)이
+     적용된다. 여기서 크기를 다시 선언해도 죽으므로 그 값을 전제로 둔다. */
+  .cmp-story-bg .cmp-story-tag {
+    margin: 0 0 8px; font-weight: 600;
     letter-spacing: 1.2px; color: #76A6D7;
   }
   /* 제목의 계단 리듬을 잇도록 두 문장을 <br>로 나눠 각각 한 줄에 세운다.
      max-width를 두지 않는 이유: <br>가 이미 줄을 정해 두었고, 폭을 좁히면
      좁은 화면에서 각 줄이 다시 감겨 4줄이 된다. */
-  .cmp-story-lede {
-    margin: 20px 0 0; font-size: 17px; line-height: 1.7;
+  /* 제목→본문 20px은 플랫폼 개요 히어로(.ind-hero .ind-lede)와 같은 값이다.
+     좁은 화면에서도 20px을 유지한다 — 그쪽이 1440·375 모두 20px이다.
+     크기·행간은 위 ⚠️대로 .cmp-page .ind-head p가 정한다(18px → 900px 아래 16px). */
+  .cmp-story-bg .cmp-story-lede {
+    margin: 20px 0 0;
     color: rgba(255,255,255,.72); word-break: keep-all;
   }
-  @media (max-width: 900px) { .cmp-story-lede { font-size: 15px; margin-top: 16px; } }
   /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
 
   /* ───────── CTA — /why-refinery(플랫폼 개요)와 같은 값 ─────────
