@@ -177,6 +177,10 @@ const T = {
   /* 과제별 히어로(.uc-redesigned .ind-hero)와 같은 값 —
      자료실 카드로 들어가도 세로 리듬이 그대로 이어진다. */
   .res-page .ind-hero { padding: 180px 0 100px; }
+  /* 카드 섹션 위아래를 플랫폼 개요 CTA(.wr-cta-bg)와 같은 95px으로 둔다.
+     공통 .ind-section은 84px이다. 좁은 화면에서도 그쪽이 95px 그대로라
+     여기도 나누지 않는다. */
+  .res-page .ind-section { padding: 95px 0; }
   @media (max-width: 900px) {
     .res-page .ind-hero { padding: 120px 0 72px; }
   }
