@@ -160,9 +160,14 @@ const T = {
 
   /* 과제별 히어로(.uc-redesigned .ind-hero)와 같은 값 —
      자료실 카드로 들어가도 세로 리듬이 그대로 이어진다. */
-  /* 문의하기 페이지 히어로(#contact-hero)와 같은 값이다 —
-     밝은 면 #F6F8FA · 위 180 / 아래 80 · 아래 테두리 1px. */
-  .res-page .ind-hero { padding: 180px 0 80px; }
+  /* 글자 규격은 문의하기 페이지 히어로(#contact-hero)와 같고, 면과 구분선은 뺀다 —
+     카드 섹션과 한 흐름으로 이어져 히어로가 따로 놀지 않는다.
+     아래 여백 85px = 히어로 위 여백(180) - 카드 섹션 위 여백(95).
+     둘을 더하면 위 여백과 같아져, 제목 위아래의 숨이 같은 크기가 된다. */
+  .res-page .ind-hero {
+    padding: 180px 0 85px;
+    background: none; border-bottom: none;
+  }
   /* 카드 섹션 위아래를 플랫폼 개요 CTA(.wr-cta-bg)와 같은 95px으로 둔다.
      공통 .ind-section은 84px이다. 좁은 화면에서도 그쪽이 95px 그대로라
      여기도 나누지 않는다. */
