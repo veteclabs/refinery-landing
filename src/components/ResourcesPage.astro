@@ -14,7 +14,7 @@ const { lang = 'ko' } = Astro.props;
 
 // cover: 이미지 위에 얹는 한 줄(명사구). 카드 아래 대제목은 문장으로 두고,
 // 표지 역할을 하는 이 줄만 명사구로 짧게 쓴다.
-type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; image?: string; imageW?: number; imageH?: number; cover?: string };
+type ResItem = { label: string; desc: string; kind: string; href?: string; image?: string; imageW?: number; imageH?: number; cover?: string };
 
 const T = {
   ko: {
@@ -28,12 +28,12 @@ const T = {
     contactLabel: '문의하기', contactHref: '/contact',
     soon: '준비중',
     resources: [
-      { icon: 'ph-file-text', label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는<br>하나의 플랫폼' },
-      { icon: 'ph-book-open', label: '흩어진 데이터를 하나의 지식으로', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: '백서', href: '/whitepapers/data-integration', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: '데이터 통합' },
-      { icon: 'ph-robot', label: '근거를 들어 판단을 돕는 AI', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: '백서', href: '/whitepapers/ai-agent', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI 에이전트' },
-      { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 활용 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data' },
-      { icon: 'ph-projector-screen', label: '웨비나 · 데모 영상', desc: '제품 시연과 현장 적용 사례를 영상으로', kind: '비디오' },
-      { icon: 'ph-buildings', label: '산업별 활용 자료', desc: '에너지·제조·물류·공공 등 산업별 적용 포인트', kind: '키트' },
+      { label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는<br>하나의 플랫폼' },
+      { label: '흩어진 데이터를 하나의 지식으로', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: '백서', href: '/whitepapers/data-integration', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: '데이터 통합' },
+      { label: '근거를 들어 판단을 돕는 AI', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: '백서', href: '/whitepapers/ai-agent', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI 에이전트' },
+      { label: '2026 산업 데이터·AI 활용 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data' },
+      { label: '웨비나 · 데모 영상', desc: '제품 시연과 현장 적용 사례를 영상으로', kind: '비디오' },
+      { label: '산업별 활용 자료', desc: '에너지·제조·물류·공공 등 산업별 적용 포인트', kind: '키트' },
     ] as ResItem[],
   },
   en: {
@@ -49,12 +49,12 @@ const T = {
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
-      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
-      { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: 'Data integration' },
-      { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI agents' },
-      { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
-      { icon: 'ph-projector-screen', label: 'Webinars & demo videos', desc: 'Product walkthroughs and field applications on video', kind: 'Video' },
-      { icon: 'ph-buildings', label: 'Industry kits', desc: 'Application points for energy, manufacturing, logistics, public sector and more', kind: 'Kit' },
+      { label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
+      { label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: 'Data integration' },
+      { label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI agents' },
+      { label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
+      { label: 'Webinars & demo videos', desc: 'Product walkthroughs and field applications on video', kind: 'Video' },
+      { label: 'Industry kits', desc: 'Application points for energy, manufacturing, logistics, public sector and more', kind: 'Kit' },
     ] as ResItem[],
   },
 }[lang];
@@ -101,8 +101,7 @@ const T = {
                   {/* 표지가 없는 카드에는 '준비중' 그림만 가운데 둔다.
                       글자는 밝은 밑판에서 읽히지 않아 뺐고, 빈 칸만 남으면
                       아래 세 장이 통째로 비어 보인다.
-                      디자인 원본(이미지/icon_준비중.svg) 그대로다 — 면은 밑판과
-                      같은 #F6F8FA고 흰 선이 모양을 파낸다. 색을 건드리지 않는다. */}
+                      디자인 원본(이미지/icon_준비중.svg) 그대로다. 색을 건드리지 않는다. */}
                   {!r.image && (
                     <img class="res-empty-icon" src="/resources/icon-soon.svg" alt="" aria-hidden="true" width="102" height="60" loading="lazy" decoding="async" />
                   )}
@@ -257,7 +256,7 @@ const T = {
   .res-thumb.is-empty .res-cover { background: none; }
   /* '준비중' 그림. 칸(383x239) 가운데에 102px으로 둔다 — 폭의 1/4쯤이라
      있는 줄은 알겠고, 표지가 들어오면 대체될 자리라는 것도 읽힌다.
-     색은 원본 그대로 쓴다(면 #F6F8FA · 선 흰색). */
+     색은 원본 그대로 쓴다. */
   /* ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어,
      .res-empty-icon(1개)만으로는 밀려 그림이 칸을 가득 채웠다. 같은 2개로 올린다. */
   .res-thumb img.res-empty-icon {
