@@ -226,7 +226,11 @@ const alternates = [
   }
   .cmp-hero h1 {
     margin-bottom: 35px;
-    font-size: clamp(48px, 7vw, 84px);
+    /* 랜딩은 clamp(48px, 7vw, 84px)이지만 여기는 0.845배로 줄인다.
+       같은 px에서도 한글은 라틴 대문자보다 글자가 크게 찍히기 때문이다
+       (84px 기준 Inter 대문자 61.1px vs Pretendard 한글 71.9px = +18%).
+       0.845를 걸면 한글 글자 높이가 60.8px이 되어 랜딩 제목과 같은 크기로 읽힌다. */
+    font-size: clamp(41px, 5.9vw, 71px);
     line-height: 1.15;
     padding: 0.1em 0;
     /* 랜딩 #hero h1과 같은 스택. Inter에는 한글이 없으므로 다음 자리에
