@@ -147,8 +147,19 @@ const alternates = [
       </div>
     </section>
 
-    <!-- STORY -->
-    <section class="ind-section">
+    {/* STORY — 히어로 바로 아래라 사진을 깔아 어두운 면으로 이어 받는다.
+        사진 위에 어두운 막을 덮고 글자를 흰색 계열로 바꾼다(예지보전 히어로와 같은 방식). */}
+    <section class="ind-section cmp-story-bg">
+      <img
+        class="cmp-story-bg-img"
+        src="/company/story-bg.webp"
+        alt=""
+        aria-hidden="true"
+        width="2200"
+        height="1760"
+        loading="lazy"
+        decoding="async"
+      />
       <div class="ind-container">
         <div class="cmp-story">
           <header class="ind-head">
@@ -308,6 +319,26 @@ const alternates = [
      두 크기가 섞인다. */
   .cmp-page .ind-head p { font-size: 18px; line-height: 1.7; }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
+
+  /* ───────── 스토리 섹션 — 사진 위 흰 글자 ─────────
+     사진이 lazy라 도착 전 흰 배경이면 흰 글자가 안 보인다. 어두운 면을 미리 깔아 둔다.
+     막은 예지보전 히어로(.uc-hero-bg::after)와 같은 값이다 —
+     위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
+  .cmp-story-bg { position: relative; overflow: hidden; background: #111316; }
+  .cmp-story-bg-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 62%;
+    pointer-events: none; user-select: none;
+  }
+  .cmp-story-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
+  }
+  .cmp-story-bg > .ind-container { position: relative; z-index: 1; }
+  .cmp-story-bg .ind-head h2 { color: #fff; }
+  .cmp-story-bg .cmp-prose p { color: rgba(255,255,255,.82); }
+  /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
+  .cmp-story-bg .cmp-prose strong { color: #fff; font-weight: 600; }
 
   /* ───────── CTA — /why-refinery(플랫폼 개요)와 같은 값 ─────────
      사진 위 왼쪽 정렬 제목 + 오른쪽 버튼. 이미지가 lazy라 도착 전 흰 배경이면
