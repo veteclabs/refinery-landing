@@ -19,7 +19,7 @@ const T = {
     description: 'Refinery는 VETEC이 30년 넘게 산업 현장에서 쌓은 경험을 토대로 만들었습니다. 개발자와 현장 엔지니어가 한 팀이 되어, 기존 시스템 위에 얹거나 없으면 새로 구축해 하나의 통합 지능으로 잇습니다.',
     canonical: '/company',
     jsonLdName: '회사 소개 | Refinery',
-    h1: '현장을 아는 팀이<br>만든 <span class="cmp-hero-strong">산업 AI</span>',
+    h1: '현장을 아는 팀이<br>만든 산업 AI',
     lede: 'Refinery는 <strong>VETEC</strong>이 30년 넘게 산업 현장에서 쌓아 온 경험을 토대로 만들었습니다. 설비와 공정을 모르면 만들 수 없는 제품이기에, <strong>개발자도 발전소와 공장을 직접 겪으며 만들었습니다</strong>. 산업을 깊이 아는 엔지니어와 한 팀이 되어, 책상이 아니라 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
     storyTitle: '현장을 겪은 사람들이 만든 솔루션',
@@ -56,7 +56,7 @@ const T = {
     description: 'Refinery is built on more than thirty years of VETEC’s experience on industrial sites. Software engineers and field engineers work as one team, layering onto existing systems or building from scratch where none exist.',
     canonical: '/en/company',
     jsonLdName: 'About | Refinery',
-    h1: '<span class="cmp-hero-strong">Industrial AI</span> built by<br>people who know the field',
+    h1: 'Industrial AI built by<br>people who know the field',
     lede: 'Refinery is built on more than thirty years of experience <strong>VETEC</strong> gathered on industrial sites. The team includes not only software engineers but <strong>field engineers</strong> who have worked the plants themselves, so problems get defined in the language of the site rather than the desk.',
     cta: 'Contact', contactHref: '/en/contact',
     storyTitle: 'Built by people who have been on the floor',
@@ -242,20 +242,22 @@ const alternates = [
        여기서 랜딩 제목과 무게가 맞는다. (700은 8.75px로 수치는 가깝지만 굵어 보인다.)
        .ind-hero h1이 걸어 둔 letter-spacing은 랜딩과 같이 normal로 되돌린다. */
     font-weight: 600; letter-spacing: normal;
-    color: #16202C;
     word-break: keep-all;
-  }
-  /* 랜딩 .hero-title-accent와 같은 값 — 글자를 마스크 삼아 그라데이션을 비춘다.
-     -webkit-text-fill-color가 없으면 웹킷에서 글자색이 그라데이션을 덮는다.
-     굵기는 h1(600)을 그대로 물려받는다.
-     ⚠️ h1은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
-  .cmp-hero h1 :global(.cmp-hero-strong) {
-    display: inline-block;
+    /* 랜딩 .hero-title-accent와 같은 값을 제목 전체에 건다.
+       display:table이라 상자가 가장 긴 줄의 폭으로 줄어든다. 블록 폭(1184px)에
+       걸면 글자가 중간 톤에서 멈춰 그라데이션이 거의 보이지 않는다.
+       -webkit-text-fill-color가 없으면 웹킷에서 글자색이 그라데이션을 덮는다. */
+    display: table;
     background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+  }
+  /* background-clip:text를 못 쓰는 브라우저에서 제목이 통째로 사라지지 않게 한다.
+     랜딩은 강조 span에만 걸어 일부만 사라지지만 여기는 제목 전체라 위험이 크다. */
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .cmp-hero h1 { background: none; -webkit-text-fill-color: #16202C; color: #16202C; }
   }
   .cmp-hero .ind-lede {
     font-size: 18px; font-weight: 400; line-height: 1.7;
