@@ -267,12 +267,12 @@ const T = {
     width: 110px; height: auto; object-fit: contain;
     pointer-events: none; user-select: none;
   }
-  /* 크기는 카드 소제목(.res-card p, 15px)과 같게 둔다. */
+  /* 크기는 카드 소제목(.res-card p, 15px)보다 한 단계 작은 14px이다. */
   .res-cover-kind {
     /* 굵기는 각 페이지 히어로 태그라인(.wr-tag / .wp-eyebrow)과 같은 600이다.
-       크기만 15px으로 다르다 — 작은 표지 칸이라 카드 소제목에 맞춘 값이다.
+       크기만 14px으로 다르다 — 작은 표지 칸이라 카드 소제목(15px)보다 한 단계 작다.
        자간도 히어로와 같은 -0.2px으로 둔다(전에는 +0.6px으로 방향이 반대였다). */
-    font-size: 15px; font-weight: 600; letter-spacing: -0.2px; color: #76A6D7;
+    font-size: 14px; font-weight: 600; letter-spacing: -0.2px; color: #76A6D7;
   }
   /* 표지 줄은 카드 아래 대제목(20px)보다 크게 둔다 — 카드에서 먼저 읽히는 자리다.
      줄바꿈은 cover 값 안의 <br>로 명시한다(마크업 안의 개행은 공백으로 합쳐진다). */
