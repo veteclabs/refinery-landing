@@ -228,7 +228,12 @@ const T = {
   .res-thumb img {
     display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center;
+    /* 호버 때 표지만 살짝 커진다 — 랜딩 '보안 체계' 카드(.sec-card)와 같은 값이다.
+       칸에 overflow: hidden이 있어 커진 만큼 밖으로 나가지 않는다. */
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1);
   }
+  /* 눌러 들어갈 수 있는 카드에서만 반응한다. 준비중 카드는 <div>라 해당 없다. */
+  .res-page .res-card.is-link:hover .res-thumb img { transform: scale(1.07); }
   /* 표지 글자 — 종류(태그라인)와 한 줄 요약을 이미지 왼쪽 위에 얹는다.
      이미지가 어두운 쪽이 왼쪽 위라 흰 글자가 가장 잘 읽히는 자리다.
      이미지가 없는 카드(#eef2f6)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
@@ -268,7 +273,6 @@ const T = {
     font-size: 24px; font-weight: 600; line-height: 1.4; color: #fff;
     letter-spacing: -0.02em;
   }
-  /* 호버 반응은 두지 않는다. */
   .res-soon {
     position: absolute; top: 18px; right: 18px;
     font-size: 11px; font-weight: 600; color: #7e8a98;
