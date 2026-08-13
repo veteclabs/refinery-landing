@@ -54,7 +54,8 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: '블로그', href: '/blog' },
-            { label: '문서', href: '/docs' },
+            // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
+            { label: '문서', badge: '준비중' },
             { label: '자료실', href: '/resources' },
           ],
         },
@@ -117,7 +118,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: 'Blog', href: '/en/blog' },
-            { label: 'Docs', href: '/en/docs' },
+            { label: 'Docs', badge: 'Soon' },
             { label: 'Resources & whitepapers', href: '/en/resources' },
           ],
         },
@@ -160,7 +161,6 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       title: '리소스',
       items: [
         { label: '블로그', href: '/blog' },
-        { label: '문서', href: '/docs' },
         { label: '자료실', href: '/resources' },
       ],
     },
@@ -200,7 +200,6 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       title: 'Resources',
       items: [
         { label: 'Blog', href: '/en/blog' },
-        { label: 'Docs', href: '/en/docs' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
       ],
     },
