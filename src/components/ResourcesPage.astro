@@ -17,6 +17,9 @@ const { lang = 'ko' } = Astro.props;
 type ResItem = { label: string; desc: string; kind: string; href?: string; image?: string; imageW?: number; imageH?: number; cover?: string };
 
 const T = {
+  // ⚠️ 리포트 카드는 초안 페이지(/reports/2026-industrial-data)가 있지만 href를 두지 않는다 —
+  //    내용이 확정되기 전까지 자료실에서 눌러 들어가지 못하게 한다.
+  //    페이지 자체는 그대로 있고 URL로는 열린다(그쪽은 noindex).
   ko: {
     title: '자료실 | Refinery',
     description: 'Refinery 제품 소개서·백서·도입 가이드·웨비나 등 자료를 준비하고 있습니다. 필요한 자료는 문의로 요청해 주세요.',
@@ -27,7 +30,7 @@ const T = {
       { label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능 · 도입 효과 · 산업별 활용을 한 페이지로 정리', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는<br>하나의 플랫폼' },
       { label: '흩어진 데이터를 하나의 지식으로', desc: '파이프 연결과 온톨로지의 차이, 두 가지 도입 경로', kind: '백서', href: '/whitepapers/data-integration', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: '데이터 통합' },
       { label: '근거를 들어 판단을 돕는 AI', desc: '출처 있는 답변과 온프레미스 배포, 도입 준비 순서', kind: '백서', href: '/whitepapers/ai-agent', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI 에이전트' },
-      { label: '2026 산업 데이터와 AI 활용 리포트', desc: '현장의 데이터 활용 현황과 AI 에이전트 도입 흐름', kind: '리포트', href: '/reports/2026-industrial-data' },
+      { label: '2026 산업 데이터와 AI 활용 리포트', desc: '현장의 데이터 활용 현황과 AI 에이전트 도입 흐름', kind: '리포트' },
       { label: '웨비나와 데모 영상', desc: '제품 시연과 현장 적용 사례 영상', kind: '비디오' },
       { label: '산업별 활용 자료', desc: '에너지 · 제조 · 물류 · 공공 등 산업별 적용 포인트', kind: '키트' },
     ] as ResItem[],
