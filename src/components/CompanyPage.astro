@@ -118,11 +118,11 @@ const alternates = [
     <section class="ind-section cmp-story-bg">
       <img
         class="cmp-story-bg-img"
-        src="/img_login-bg.webp"
+        src="/company/story-bg.webp"
         alt=""
         aria-hidden="true"
-        width="3840"
-        height="2160"
+        width="1600"
+        height="1180"
         loading="lazy"
         decoding="async"
       />
@@ -264,25 +264,21 @@ const alternates = [
      위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
   .cmp-story-bg {
     position: relative; overflow: hidden; background: #111316;
-    /* 로그인 화면의 좌측 패널과 같은 비율(폭:높이 = 0.958)로 칸을 잡는다.
-       비율이 다르면 같은 object-position이어도 원본에서 잘라 오는 구간이 달라진다
-       — 지금 칸(1.486)이면 13~97%가 들어와 오른쪽 밝은 띠까지 보이고,
-       로그인 칸(0.958)이면 37~91%만 들어와 그 띠가 잘린다.
-       min-height라 글이 더 길어지면 섹션은 알아서 늘어난다. */
-    min-height: calc(50vw * 1.044);
+    /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
+       높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
+    min-height: calc(50vw * 1180 / 1600);
     display: flex; flex-direction: column; justify-content: center;
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
     position: absolute; top: 0; bottom: 0; left: 0; right: auto;
     width: 50%; height: 100%;
-    /* 로그인 화면(UI_Refinery_Login.html)과 같은 면이 보이게 맞춘다.
-       그쪽은 img를 height:100%·width:auto로 왼쪽에 붙인 뒤 로드 시 한 번
-       translateX(-maxOffset * 0.8)까지 패닝하고 fill:forwards로 멈춘다
-       (maxOffset = 렌더된 이미지 폭 - 패널 폭).
-       object-position의 백분율이 바로 그 maxOffset 대비 비율이므로 80%가 같은 지점이다.
-       height:100%라 세로는 잘리지 않아 center와 동일하다. */
-    object-fit: cover; object-position: 80% center;
+    /* 사진은 img_login-bg.webp에서 필요한 구간만 미리 잘라 만든 파일이다.
+       가로 37.3~90.7% — 로그인 화면이 패닝을 마치고 멈춘 자리와 같은 구간이다
+       (그쪽은 translateX(-maxOffset * 0.8), 여기선 그 결과를 파일에 구웠다).
+       세로 위쪽 30% — 평균 밝기 13~16으로 거의 평평한 검정이라 잘라냈다.
+       구간을 파일에 박아 두면 칸 높이가 바뀌어도 보이는 면이 흔들리지 않는다. */
+    object-fit: cover; object-position: center;
     pointer-events: none; user-select: none;
   }
   /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
