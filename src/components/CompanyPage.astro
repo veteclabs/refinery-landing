@@ -19,7 +19,6 @@ const T = {
     description: 'Refinery는 VETEC이 30년 넘게 산업 현장에서 쌓은 경험을 토대로 만들었습니다. 개발자와 현장 엔지니어가 한 팀이 되어, 기존 시스템 위에 얹거나 없으면 새로 구축해 하나의 통합 지능으로 잇습니다.',
     canonical: '/company',
     jsonLdName: '회사 소개 | Refinery',
-    crumbAria: '위치', home: 'Home', crumb: '회사 소개',
     eyebrow: 'OUR STORY',
     h1: '현장을 아는 팀이<br>만든 산업 AI',
     lede: 'Refinery는 <strong>VETEC</strong>이 30년 넘게 산업 현장에서 쌓아 온 경험을 토대로 만들었습니다. 설비와 공정을 모르면 만들 수 없는 제품이기에, <strong>개발자도 발전소와 공장을 직접 겪으며 만들었습니다</strong>. 산업을 깊이 아는 엔지니어와 한 팀이 되어, 책상이 아니라 현장의 언어로 문제를 정의하고 풉니다.',
@@ -60,7 +59,6 @@ const T = {
     description: 'Refinery is built on more than thirty years of VETEC’s experience on industrial sites. Software engineers and field engineers work as one team, layering onto existing systems or building from scratch where none exist.',
     canonical: '/en/company',
     jsonLdName: 'About | Refinery',
-    crumbAria: 'Breadcrumb', home: 'Home', crumb: 'About',
     eyebrow: 'OUR STORY',
     h1: 'Industrial AI built by<br>people who know the field',
     lede: 'Refinery is built on more than thirty years of experience <strong>VETEC</strong> gathered on industrial sites. The team includes not only software engineers but <strong>field engineers</strong> who have worked the plants themselves, so problems get defined in the language of the site rather than the desk.',
@@ -147,7 +145,6 @@ const alternates = [
         </div>
       </div>
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={lang === "en" ? "/en" : "/"}>{T.home}</a><span>›</span><span>{T.crumb}</span></nav>
         <p class="cmp-tag">{T.eyebrow}</p>
         <h1 set:html={T.h1}></h1>
         <p class="ind-lede" set:html={T.lede}></p>
@@ -298,10 +295,6 @@ const alternates = [
     line-height: 1.7; max-width: 600px;
   }
   @media (max-width: 900px) { .cmp-hero-bg .ind-lede { font-size: 16px; } }
-  /* 어두운 배경 위라 브레드크럼도 흰색 계열로 둔다. */
-  .cmp-hero-bg .ind-crumb, .cmp-hero-bg .ind-crumb a { color: rgba(255,255,255,.7); }
-  .cmp-hero-bg .ind-crumb a:hover { color: #76a6d7; }
-  .cmp-hero-bg .ind-crumb span { color: rgba(255,255,255,.35); }
   /* 굵게 쓴 부분은 소제목 안에서 흰색으로 올린다(밝은 배경용 색이 걸려 있다). */
   .cmp-hero-bg .ind-lede strong { color: #fff; font-weight: 600; }
 
