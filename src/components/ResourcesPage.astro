@@ -275,8 +275,11 @@ const T = {
     font-size: 24px; font-weight: 600; line-height: 1.4; color: #fff;
     letter-spacing: -0.02em;
   }
+  /* 위 카드의 태그라인과 같은 자리에 둔다 — 두 줄을 번갈아 볼 때 글자가
+     같은 지점에서 시작한다. 태그라인 글상자는 칸 기준 위 28 · 왼쪽 30이고,
+     이 배지는 좌우 안여백이 9px이라 왼쪽을 21px으로 잡아야 글자가 30에 온다. */
   .res-soon {
-    position: absolute; top: 18px; right: 18px;
+    position: absolute; top: 28px; left: 21px; right: auto;
     font-size: 11px; font-weight: 600; color: #7e8a98;
     background: #eef1f4; border-radius: 999px; padding: 3px 9px;
   }
