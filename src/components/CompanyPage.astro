@@ -125,7 +125,7 @@ const alternates = [
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="ind">
+  <main class="ind cmp-page">
     <!-- HERO -->
     {/* 히어로 구성·값은 /why-refinery(플랫폼 개요)와 같다 —
         어두운 밑판 #10141B 위에 배경 이미지(.9)를 얹고, 오른쪽에 대시보드를
@@ -226,6 +226,15 @@ const alternates = [
 </BaseLayout>
 
 <style>
+  /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
+     공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
+     플랫폼 개요(.wr-page)·예지보전 등이 쓰는 값(1280/48)과 같다.
+     .cmp-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+  .cmp-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .cmp-page .ind-container { padding: 0 24px; }
+  }
+
   /* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 값 ─────────
      그 페이지의 <style>은 Astro 스코프라 여기서 쓸 수 없어 값을 옮겨 적는다.
      이미지 두 장은 public/에 있어 그대로 공유한다.
