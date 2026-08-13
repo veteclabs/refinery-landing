@@ -321,12 +321,14 @@ const alternates = [
   .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
   /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
      어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
-  /* ⚠️ .cmp-page .ind-head p(특정도 0,2,1)가 이 두 규칙을 덮는다.
-     .ind-head 안에 있는 <p>라서 크기·행간은 그쪽 값(18px/1.7, 900px 아래 16px)이
-     적용된다. 여기서 크기를 다시 선언해도 죽으므로 그 값을 전제로 둔다. */
-  .cmp-story-bg .cmp-story-tag {
-    margin: 0 0 8px; font-weight: 600;
-    letter-spacing: 1.2px; color: #76A6D7;
+  /* 플랫폼 개요 히어로 .wr-tag와 같은 값이다.
+     ⚠️ 선택자 앞에 .cmp-page가 필요하다. .ind-head 안의 <p>라서
+     .cmp-page .ind-head p(0,2,1)가 크기·행간을 덮는다 — 그 규칙은
+     900px 아래에서 16px으로 줄이는데, .wr-tag는 폭과 무관하게 18px 고정이다. */
+  .cmp-page .cmp-story-bg .cmp-story-tag {
+    font-size: 18px; font-weight: 600; line-height: 1.65;
+    letter-spacing: -0.2px; color: #76a6d7;
+    margin: 0 0 14px;
   }
   /* 제목의 계단 리듬을 잇도록 두 문장을 <br>로 나눠 각각 한 줄에 세운다.
      max-width를 두지 않는 이유: <br>가 이미 줄을 정해 두었고, 폭을 좁히면
