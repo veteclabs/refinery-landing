@@ -103,7 +103,7 @@ const T = {
                       아래 세 장이 통째로 비어 보인다.
                       디자인 원본(이미지/icon_준비중.svg) 그대로다. 색을 건드리지 않는다. */}
                   {!r.image && (
-                    <img class="res-empty-icon" src="/resources/icon-soon.svg" alt="" aria-hidden="true" width="102" height="60" loading="lazy" decoding="async" />
+                    <img class="res-empty-icon" src="/resources/icon-soon.svg" alt="" aria-hidden="true" width="110" height="80" loading="lazy" decoding="async" />
                   )}
                   {r.image && (
                     <div class="res-cover">
@@ -254,14 +254,14 @@ const T = {
      회색으로 보여, 히어로와 같은 #F6F8FA로 맞춰 둔 색이 드러나지 않는다.
      막은 사진 위에서 흰 글자를 읽히게 하려던 것이라 여기서는 할 일이 없다. */
   .res-thumb.is-empty .res-cover { background: none; }
-  /* '준비중' 그림. 칸(383x239) 가운데에 102px으로 둔다 — 폭의 1/4쯤이라
+  /* '준비중' 그림. 칸(383x239) 가운데에 110px으로 둔다 — 폭의 1/3쯤이라
      있는 줄은 알겠고, 표지가 들어오면 대체될 자리라는 것도 읽힌다.
      색은 원본 그대로 쓴다. */
   /* ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어,
      .res-empty-icon(1개)만으로는 밀려 그림이 칸을 가득 채웠다. 같은 2개로 올린다. */
   .res-thumb img.res-empty-icon {
     position: absolute; top: 50%; left: 50%; translate: -50% -50%;
-    width: 102px; height: auto; object-fit: contain;
+    width: 110px; height: auto; object-fit: contain;
     pointer-events: none; user-select: none;
   }
   /* 크기는 카드 소제목(.res-card p, 15px)과 같게 둔다. */
