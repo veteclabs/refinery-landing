@@ -267,7 +267,9 @@ const alternates = [
     /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
        높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
     min-height: calc(50vw * 1180 / 1600);
-    display: flex; flex-direction: column; justify-content: center;
+    /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다.
+       가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
+    display: flex; flex-direction: column; justify-content: flex-start;
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
@@ -290,7 +292,7 @@ const alternates = [
   .cmp-story-bg > .ind-container {
     display: grid; grid-template-columns: 1fr 1fr;
   }
-  .cmp-story-bg .cmp-story { grid-column: 1; padding-right: 48px; align-self: center; }
+  .cmp-story-bg .cmp-story { grid-column: 1; padding-right: 48px; align-self: start; }
   /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다. */
   @media (max-width: 900px) {
     .cmp-story-bg-img { width: 100%; }
@@ -348,7 +350,7 @@ const alternates = [
 
   /* 스토리 섹션 오른쪽 칸에 세로로 쌓고 구분선으로 나눈다.
      칸 폭이 592px라 가로 3열은 들어가지 않는다. */
-  .cmp-stats { grid-column: 2; align-self: center; padding-left: 48px; display: grid; }
+  .cmp-stats { grid-column: 2; align-self: start; padding-left: 48px; display: grid; }
   .cmp-stat { max-width: 460px; padding: 26px 0; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
