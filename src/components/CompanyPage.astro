@@ -326,25 +326,43 @@ const alternates = [
      위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
   .cmp-story-bg {
     position: relative; overflow: hidden; background: #111316;
-    /* 사진(2200x1760 = 1.25:1)이 세로로 잘리지 않게 칸을 사진 비율로 잡는다.
-       화면 폭의 80%(=1760/2200)가 그 높이다 — 1440px에서 1152px.
+    /* 사진이 왼쪽 절반(50vw)만 차지하므로 그 폭 기준으로 높이를 잡는다.
        min-height라 글이 그보다 길어지면 섹션이 알아서 늘어난다. */
-    min-height: calc(100vw * 1760 / 2200);
+    min-height: calc(50vw * 1760 / 2200);
     display: flex; flex-direction: column; justify-content: center;
   }
+  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
-    position: absolute; inset: 0; width: 100%; height: 100%;
+    position: absolute; top: 0; bottom: 0; left: 0; right: auto;
+    width: 50%; height: 100%;
     /* 칸이 사진과 같은 비율이라 cover여도 잘리는 곳이 없다.
        글이 길어져 칸이 더 높아지면 그때만 좌우가 잘린다. */
     object-fit: cover; object-position: center 62%;
     pointer-events: none; user-select: none;
   }
+  /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
   .cmp-story-bg::after {
-    content: ''; position: absolute; inset: 0;
+    content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 50%;
     background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
   }
+  /* 글도 왼쪽 절반 안에 둔다 — 컨테이너를 두 칸으로 나누고 첫 칸만 쓴다.
+     오른쪽 여백 48px은 글 끝과 사진 오른쪽 끝 사이의 숨이다. */
+  .cmp-story-bg > .ind-container {
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .cmp-story-bg .cmp-story { grid-column: 1; padding-right: 48px; }
+  /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다. */
+  @media (max-width: 900px) {
+    .cmp-story-bg-img { width: 100%; }
+    .cmp-story-bg::after { width: 100%; }
+    .cmp-story-bg > .ind-container { grid-template-columns: 1fr; }
+    .cmp-story-bg .cmp-story { padding-right: 0; }
+    .cmp-story-bg { min-height: 0; }
+  }
   .cmp-story-bg > .ind-container { position: relative; z-index: 1; }
-  .cmp-story-bg .ind-head h2 { color: #fff; }
+  /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
+     음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
+  .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
   .cmp-story-bg .cmp-prose p { color: rgba(255,255,255,.82); }
   /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
   .cmp-story-bg .cmp-prose strong { color: #fff; font-weight: 600; }
