@@ -204,7 +204,10 @@
       font-size: clamp(48px, 7vw, 84px);
       line-height: 1.15;
       padding: 0.1em 0;
-      font-family: 'Inter', sans-serif;
+      /* Inter에는 한글이 없다. 다음 자리에 Pretendard를 둬야 한글 제목이
+         OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다.
+         영문은 그대로 Inter로 그려진다. */
+      font-family: 'Inter', 'Pretendard', sans-serif;
       color: #16202C;
     }
     #hero h1 .hero-title-accent {
