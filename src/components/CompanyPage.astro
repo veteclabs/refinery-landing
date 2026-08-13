@@ -127,10 +127,28 @@ const alternates = [
   <Nav />
   <main class="ind">
     <!-- HERO -->
-    <section class="ind-hero">
+    {/* 히어로 구성·값은 /why-refinery(플랫폼 개요)와 같다 —
+        어두운 밑판 #10141B 위에 배경 이미지(.9)를 얹고, 오른쪽에 대시보드를
+        마스크로 흐리게 깔았다. 두 페이지가 같은 인상으로 열린다. */}
+    <section class="ind-hero cmp-hero-bg">
+      <img
+        class="cmp-hero-bg-img"
+        src="/img_login-bg.webp"
+        alt=""
+        aria-hidden="true"
+        width="3840"
+        height="2160"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <div class="cmp-hero-fx" aria-hidden="true">
+        <div class="cmp-hero-fx-inner">
+          <img src="/why-refinery-dash.webp" alt="" width="2586" height="3512" loading="lazy" decoding="async" />
+        </div>
+      </div>
       <div class="ind-container">
         <nav class="ind-crumb" aria-label={T.crumbAria}><a href={lang === "en" ? "/en" : "/"}>{T.home}</a><span>›</span><span>{T.crumb}</span></nav>
-        <p class="ind-eyebrow">{T.eyebrow}</p>
+        <p class="cmp-tag">{T.eyebrow}</p>
         <h1 set:html={T.h1}></h1>
         <p class="ind-lede" set:html={T.lede}></p>
         <div class="ind-hero-actions">
@@ -208,6 +226,95 @@ const alternates = [
 </BaseLayout>
 
 <style>
+  /* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 값 ─────────
+     그 페이지의 <style>은 Astro 스코프라 여기서 쓸 수 없어 값을 옮겨 적는다.
+     이미지 두 장은 public/에 있어 그대로 공유한다.
+     바탕색·이미지 불투명도는 소개서 표지 값이다 — 어두운 막을 덮지 않고
+     #10141B 위에 이미지를 .9로 얹는 게 전부다.
+     .ind-hero 공통값의 아래 구분선은 밝은 배경끼리 나눌 때 쓰는 선이라 뺀다. */
+  .cmp-hero-bg {
+    position: relative; overflow: hidden;
+    padding: 180px 0 100px; border-bottom: none; background: #10141B;
+  }
+  .cmp-hero-bg-img {
+    position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
+    /* 100% = 위로 올릴 수 있는 끝. 이미지가 16:9라 히어로보다 세로가 남고,
+       cover가 가로에 맞추면서 남는 세로가 전부 위로 빠진다. */
+    object-fit: cover; object-position: center 100%;
+    pointer-events: none; user-select: none;
+  }
+  /* 오른쪽 대시보드 장식. 바깥 칸이 좌우 마스크, 안쪽 칸이 상하 마스크를 맡는다.
+     왼쪽 페이드는 %가 아니라 420px로 못박는다 — %면 칸이 좁아질 때 페이드 구간도
+     같이 좁아져 글 끝에 닿는 자리에서 이미 또렷해진다. */
+  .cmp-hero-fx {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    overflow: hidden; pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+    mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+  }
+  .cmp-hero-fx-inner {
+    position: absolute; inset: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  }
+  /* 크기는 px로 못박고 칸의 오른쪽 끝에 붙인다 — 칸이 화면 폭의 56%라
+     %로 잡으면 창 크기마다 보이는 부분이 달라진다.
+     전역 img{max-width:100%}가 칸보다 넓은 폭을 자르므로 풀어준다. */
+  .cmp-hero-fx-inner img {
+    position: absolute; right: -140px; left: auto; top: 0;
+    max-width: none; width: 1180px; height: auto;
+    transform: translateY(-205px);
+    opacity: .3;
+  }
+  @media (max-width: 1199px) {
+    .cmp-hero-fx { width: 40%; }
+    .cmp-hero-fx-inner img { width: 800px; right: -95px; }
+  }
+  /* 900px 미만은 본문이 화면 전체를 쓴다 — 어디에 둬도 글 뒤에 깔린다. */
+  @media (max-width: 900px) { .cmp-hero-fx { display: none; } }
+
+  .cmp-hero-bg > .ind-container { position: relative; z-index: 1; }
+  /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
+  .cmp-tag {
+    font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
+    color: #76a6d7; margin-bottom: 14px;
+  }
+  .cmp-hero-bg h1 {
+    font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+    letter-spacing: -0.8px; line-height: 1.3; color: #fff;
+    word-break: keep-all;
+  }
+  .cmp-hero-bg .ind-lede {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7; max-width: 600px;
+  }
+  @media (max-width: 900px) { .cmp-hero-bg .ind-lede { font-size: 16px; } }
+  /* 어두운 배경 위라 브레드크럼도 흰색 계열로 둔다. */
+  .cmp-hero-bg .ind-crumb, .cmp-hero-bg .ind-crumb a { color: rgba(255,255,255,.7); }
+  .cmp-hero-bg .ind-crumb a:hover { color: #76a6d7; }
+  .cmp-hero-bg .ind-crumb span { color: rgba(255,255,255,.35); }
+  /* 굵게 쓴 부분은 소제목 안에서 흰색으로 올린다(밝은 배경용 색이 걸려 있다). */
+  .cmp-hero-bg .ind-lede strong { color: #fff; font-weight: 600; }
+
+  .cmp-hero-bg .ind-hero-actions { margin-top: 48px; gap: 16px; }
+  /* 버튼 두 개 — 주 버튼만 accent 면으로 채우고 보조는 빈 면에 흰 테두리다. */
+  .cmp-hero-bg .ind-hero-actions .ind-btn-primary {
+    padding: 9px 22px; font-size: 15px; font-weight: 400;
+    border-radius: 6px; transition: all .2s;
+    background: #76a6d7; color: #fff; border: 1px solid #76a6d7;
+  }
+  .cmp-hero-bg .ind-hero-actions .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+  .cmp-hero-bg .ind-hero-actions .ind-btn-ghost {
+    padding: 9px 22px; font-size: 15px; font-weight: 400;
+    border: 1px solid rgba(255,255,255,.6); border-radius: 6px;
+    color: #fff; background: transparent; transition: all .2s;
+  }
+  .cmp-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
+    background: #fff; border-color: #fff; color: #76a6d7;
+  }
+
   .cmp-stats-sec { padding: 60px 0; }
   .cmp-stats { display: flex; justify-content: center; gap: clamp(32px, 6vw, 80px); flex-wrap: wrap; text-align: center; }
   .cmp-stat { max-width: 280px; }
