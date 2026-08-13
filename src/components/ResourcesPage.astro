@@ -213,15 +213,10 @@ const T = {
   .res-thumb {
     position: relative;
     margin: 0 0 18px; aspect-ratio: 16 / 10;
-    /* 표지가 아직 없는 카드의 밑판. 백서·플랫폼 개요 히어로와 같은 방사형
-       그라데이션이라, 표지가 들어간 카드와 같은 색 계열로 이어진다.
-       (밝은 회색 #EEF2F6이었을 때는 아래 세 장만 흰 판처럼 비어 보였다)
-       이미지가 있는 카드에서는 <img>가 덮으므로 보이지 않는다.
-       두 번째 선언은 oklab 보간이다 — 지원하지 않는 브라우저는 위를 쓴다. */
-    background: radial-gradient(125% 190% at 100% 100%,
-      #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
-    background: radial-gradient(125% 190% at 100% 100% in oklab,
-      #D5E4F7 0%, #9CC2E7 12%, #4E86CA 30%, #2B62A8 48%, #1B4374 70%, #16365C 100%);
+    /* 표지가 아직 없는 카드의 밑판. 이 페이지 히어로와 같은 면(#F6F8FA)이라
+       빈 칸이 페이지 배경의 연장으로 읽힌다(#EEF2F6이었다).
+       이미지가 있는 카드에서는 <img>가 덮으므로 보이지 않는다. */
+    background: var(--bg-soft);
     border-radius: var(--radius);
     overflow: hidden;
   }
