@@ -205,8 +205,10 @@ const alternates = [
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="ind-cta">
+    {/* CTA 구성·값은 /why-refinery(플랫폼 개요)와 같다 — 사진 위 왼쪽 제목 +
+        오른쪽 버튼. 사진은 public/에 있어 그대로 공유한다. */}
+    <section class="ind-cta cmp-cta-bg">
+      <img class="cmp-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="ind-container">
         <h2 set:html={T.ctaTitle}></h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.cta}</a>
@@ -292,6 +294,45 @@ const alternates = [
   /* 굵게 쓴 부분은 소제목 안에서 흰색으로 올린다(밝은 배경용 색이 걸려 있다). */
   .cmp-hero-bg .ind-lede strong { color: #fff; font-weight: 600; }
 
+
+  /* ───────── CTA — /why-refinery(플랫폼 개요)와 같은 값 ─────────
+     사진 위 왼쪽 정렬 제목 + 오른쪽 버튼. 이미지가 lazy라 도착 전 흰 배경이면
+     글자가 잠깐 보이지 않으므로 어두운 면을 미리 깔아 둔다. */
+  .cmp-cta-bg {
+    position: relative; overflow: hidden;
+    padding: 95px 0; text-align: left; background: #0c1015;
+  }
+  .cmp-cta-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 65%;
+    pointer-events: none; user-select: none;
+  }
+  .cmp-cta-bg .ind-container {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .cmp-cta-bg .ind-container > * { flex: none; }
+  /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다.
+     크기도 섹션 대제목(45px)보다 한 단계 작은 40px이다. */
+  .cmp-page .ind-cta.cmp-cta-bg h2 {
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    letter-spacing: -0.8px; line-height: 1.35;
+    color: #fff; margin-bottom: 0; text-wrap: initial;
+  }
+  .ind-cta.cmp-cta-bg .ind-btn-primary {
+    margin-top: 0; padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: #76a6d7; color: #fff;
+    border: 1px solid #76a6d7; border-radius: 6px; transition: all .2s;
+  }
+  .ind-cta.cmp-cta-bg .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+  /* 좁아지면 버튼이 아래로 내려온다 — 제목과 붙지 않게 여백을 되살린다. */
+  @media (max-width: 900px) {
+    .ind-cta.cmp-cta-bg .ind-btn-primary { margin-top: 32px; }
+  }
 
   .cmp-stats-sec { padding: 60px 0; }
   .cmp-stats { display: flex; justify-content: center; gap: clamp(32px, 6vw, 80px); flex-wrap: wrap; text-align: center; }
