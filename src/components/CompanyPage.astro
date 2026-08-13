@@ -132,45 +132,33 @@ const alternates = [
             <h2 set:html={T.storyTitle}></h2>
           </header>
         </div>
-      </div>
-    </section>
 
-    <!-- STATS -->
-    <section class="ind-section ind-dark cmp-stats-sec">
-      <div class="ind-container">
-        <div class="cmp-stats">
-          {T.stats.map((st) => (
-            <div class="cmp-stat"><div class="cmp-stat-num">{st.num}</div><div class="cmp-stat-label">{st.label}</div></div>
-          ))}
-        </div>
-      </div>
-    </section>
+        <!-- 오른쪽 칸 — 수치·강점·원칙을 여기로 모았다 -->
+        <div class="cmp-side">
+          <div class="cmp-stats">
+            {T.stats.map((st) => (
+              <div class="cmp-stat"><div class="cmp-stat-num">{st.num}</div><div class="cmp-stat-label">{st.label}</div></div>
+            ))}
+          </div>
 
-    <!-- STRENGTHS -->
-    <section class="ind-section ind-soft">
-      <div class="ind-container">
-        <header class="ind-head">
-          <h2>{T.strengthsTitle}</h2>
-          <p>{T.strengthsSub}</p>
-        </header>
-        <div class="ind-grid ind-grid-3">
-          {T.strengths.map((s) => (
-            <div class="ind-card"><h3>{s.title}</h3><p>{s.description}</p></div>
-          ))}
-        </div>
-      </div>
-    </section>
+          <section class="cmp-side-block">
+            <h3>{T.strengthsTitle}</h3>
+            <p class="cmp-side-sub">{T.strengthsSub}</p>
+            <dl class="cmp-side-list">
+              {T.strengths.map((it) => (
+                <div class="cmp-side-item"><dt>{it.title}</dt><dd>{it.description}</dd></div>
+              ))}
+            </dl>
+          </section>
 
-    <!-- PRINCIPLES -->
-    <section class="ind-section">
-      <div class="ind-container">
-        <header class="ind-head">
-          <h2>{T.principlesTitle}</h2>
-        </header>
-        <div class="ind-grid ind-grid-3">
-          {T.principles.map((p) => (
-            <div class="ind-card"><h3>{p.title}</h3><p>{p.description}</p></div>
-          ))}
+          <section class="cmp-side-block">
+            <h3>{T.principlesTitle}</h3>
+            <dl class="cmp-side-list">
+              {T.principles.map((it) => (
+                <div class="cmp-side-item"><dt>{it.title}</dt><dd>{it.description}</dd></div>
+              ))}
+            </dl>
+          </section>
         </div>
       </div>
     </section>
@@ -277,6 +265,7 @@ const alternates = [
     display: flex; flex-direction: column; justify-content: center;
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
+  /* 오른쪽 칸은 사진이 닿지 않아 섹션 배경색(#111316)이 그대로 보인다. */
   .cmp-story-bg-img {
     position: absolute; top: 0; bottom: 0; left: 0; right: auto;
     width: 50%; height: 100%;
@@ -298,12 +287,38 @@ const alternates = [
   .cmp-story-bg > .ind-container {
     display: grid; grid-template-columns: 1fr 1fr;
   }
-  .cmp-story-bg .cmp-story { grid-column: 1; padding-right: 48px; }
+  .cmp-story-bg .cmp-story {
+    grid-column: 1; padding-right: 48px;
+    /* 오른쪽 칸이 길어져도 문구는 사진의 보기 좋은 자리에 머무른다. */
+    position: sticky; top: 120px; align-self: start;
+  }
+
+  /* ───── 오른쪽 칸 — 수치·강점·원칙 ───── */
+  .cmp-side { grid-column: 2; padding: 96px 0 96px 48px; }
+  .cmp-side > * + * { margin-top: 64px; }
+  .cmp-side .cmp-stats {
+    display: grid; grid-template-columns: 1fr; gap: 22px;
+    justify-content: start; text-align: left;
+  }
+  .cmp-side .cmp-stat { max-width: none; }
+  .cmp-side-block h3 {
+    font-size: clamp(20px, 2.2vw, 26px); font-weight: 650;
+    letter-spacing: -0.02em; line-height: 1.3; color: #fff; word-break: keep-all;
+  }
+  .cmp-side-sub { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #b6c0cc; }
+  .cmp-side-list { margin: 24px 0 0; }
+  .cmp-side-item + .cmp-side-item { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); }
+  .cmp-side-item dt { font-size: 17px; font-weight: 600; line-height: 1.4; color: #f3f6f9; word-break: keep-all; }
+  .cmp-side-item dd { margin: 6px 0 0; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.68); }
+  @media (max-width: 900px) {
+    .cmp-side { grid-column: 1; padding: 0 0 8px; }
+    .cmp-side > * + * { margin-top: 44px; }
+  }
   /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다. */
   @media (max-width: 900px) {
     .cmp-story-bg-img { width: 100%; }
     .cmp-story-bg > .ind-container { grid-template-columns: 1fr; }
-    .cmp-story-bg .cmp-story { padding-right: 0; }
+    .cmp-story-bg .cmp-story { padding-right: 0; position: static; margin-bottom: 44px; }
     .cmp-story-bg { min-height: 0; }
   }
   /* ⚠️ width:100% 필수. .ind-container는 margin:0 auto라 flex 자식이 되면
