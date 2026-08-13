@@ -23,7 +23,8 @@ const T = {
     lede: 'Refinery는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.<br>개발자도 발전소와 공장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
     storyTag: '회사 소개',
-    storyTitle: '현장을 경험한<br>팀이 만든<br>솔루션, 산업 AI',
+    storyTitle: '현장을 경험한<br>팀이 만든 솔루션,<br>산업 AI',
+    storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     stats: [
       { num: '30년+', label: '산업 현장 경험' },
       { num: '100+ 현장', label: '철강·반도체·식품 등 20여 개 산업군' },
@@ -54,6 +55,7 @@ const T = {
     cta: 'Contact', contactHref: '/en/contact',
     storyTag: 'About us',
     storyTitle: 'Built by a team<br>that has been on the floor,<br>Industrial AI',
+    storyLede: 'We do not build impressive demos.<br>We build what actually works on site.',
     stats: [
       { num: '30+ years', label: 'on industrial sites' },
       { num: '100+ sites', label: 'steel, semiconductor, food and 20+ industries' },
@@ -133,6 +135,7 @@ const alternates = [
           <header class="ind-head">
             <p class="cmp-story-tag">{T.storyTag}</p>
             <h2 set:html={T.storyTitle}></h2>
+            <p class="cmp-story-lede" set:html={T.storyLede}></p>
           </header>
         </div>
 
@@ -322,6 +325,14 @@ const alternates = [
     margin: 0 0 8px; font-size: 12px; font-weight: 600;
     letter-spacing: 1.2px; color: #76A6D7;
   }
+  /* 제목의 계단 리듬을 잇도록 두 문장을 <br>로 나눠 각각 한 줄에 세운다.
+     max-width를 두지 않는 이유: <br>가 이미 줄을 정해 두었고, 폭을 좁히면
+     좁은 화면에서 각 줄이 다시 감겨 4줄이 된다. */
+  .cmp-story-lede {
+    margin: 20px 0 0; font-size: 17px; line-height: 1.7;
+    color: rgba(255,255,255,.72); word-break: keep-all;
+  }
+  @media (max-width: 900px) { .cmp-story-lede { font-size: 15px; margin-top: 16px; } }
   /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
 
   /* ───────── CTA — /why-refinery(플랫폼 개요)와 같은 값 ─────────
