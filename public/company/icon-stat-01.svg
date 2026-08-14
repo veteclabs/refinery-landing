@@ -2,11 +2,18 @@
   <defs>
     <style>
       .cls-1 {
-        fill: none;
         stroke: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke: #76a6d7;
       }
     </style>
   </defs>
@@ -14,14 +21,14 @@
   <line class="cls-1" x1="35" y1="52.36" x2="35" y2="58.95"/>
   <line class="cls-1" x1="20.5" y1="58.95" x2="48.24" y2="58.95"/>
   <line class="cls-1" x1="9.91" y1="42.83" x2="60.09" y2="42.83"/>
-  <line class="cls-1" x1="32.8" y1="47.24" x2="37.05" y2="47.24"/>
-  <rect class="cls-1" x="14.74" y="15.29" width="40.44" height="23.44"/>
+  <line class="cls-2" x1="32.8" y1="47.24" x2="37.05" y2="47.24"/>
+  <rect class="cls-2" x="14.74" y="15.29" width="40.44" height="23.44"/>
   <rect class="cls-1" x="21.24" y="18.81" width="13.13" height="16.58"/>
-  <line class="cls-1" x1="23.75" y1="22.77" x2="31.71" y2="22.77"/>
-  <line class="cls-1" x1="23.75" y1="27.02" x2="31.71" y2="27.02"/>
-  <line class="cls-1" x1="23.75" y1="31.27" x2="31.71" y2="31.27"/>
-  <line class="cls-1" x1="41.26" y1="32.36" x2="41.26" y2="27.7"/>
-  <line class="cls-1" x1="45.07" y1="32.36" x2="45.07" y2="24.55"/>
-  <line class="cls-1" x1="48.88" y1="32.36" x2="48.88" y2="29.56"/>
+  <line class="cls-2" x1="23.75" y1="22.77" x2="31.71" y2="22.77"/>
+  <line class="cls-2" x1="23.75" y1="27.02" x2="31.71" y2="27.02"/>
+  <line class="cls-2" x1="23.75" y1="31.27" x2="31.71" y2="31.27"/>
+  <line class="cls-2" x1="41.26" y1="32.36" x2="41.26" y2="27.7"/>
+  <line class="cls-2" x1="45.07" y1="32.36" x2="45.07" y2="24.55"/>
+  <line class="cls-2" x1="48.88" y1="32.36" x2="48.88" y2="29.56"/>
   <line class="cls-1" x1="39.36" y1="34.66" x2="50.49" y2="34.66"/>
 </svg>

@@ -146,10 +146,11 @@ const alternates = [
             <div class="cmp-stat">
               <div class="cmp-stat-num">{st.num}</div>
               <div class="cmp-stat-label">
-                {/* 이미지/icon_회사 소개-01~03.svg. 파일 안의 선 굵기만 2로 올렸다
-                    (70x70 뷰박스에 선언이 없어 기본 1이면 48px에서 실효 0.69px).
-                    색은 CSS 마스크로 입힌다 — <img>로는 소제목 색을 물려받지 못한다. */}
-                <span class="cmp-stat-icon" style={`--icon:url('${st.icon}')`} aria-hidden="true"></span>
+                {/* 이미지/icon_회사 소개-01~03.svg. 파일이 흰색·하늘색 두 색을 쓰므로
+                    마스크로 색을 입히면 한 색으로 뭉개진다 — <img>로 그대로 둔다.
+                    파일에서 고친 건 선 굵기뿐(70x70 뷰박스에 선언이 없어 기본 1이면
+                    54px에서 실효 0.77px라 2로 올렸다). */}
+                <img class="cmp-stat-icon" src={st.icon} alt="" aria-hidden="true" width="54" height="54" />
                 <span>{st.label}</span>
               </div>
             </div>
@@ -431,7 +432,7 @@ const alternates = [
     display: grid; justify-items: center; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
-    background: rgba(17, 19, 22, 0.45);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 45% */
+    background: rgba(17, 19, 22, 0.30);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 30% */
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
     /* 카드는 내용(440x220)에 상하좌우 50px씩 더한 크기다.
@@ -478,13 +479,9 @@ const alternates = [
      숫자만 흰색으로 남아 시선이 숫자로 먼저 간다. 카드 배경 위 대비 7.50:1. */
   .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #76A6D7; }
   .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
-  /* 마스크로 모양만 따고 배경에 currentColor를 깔아 소제목과 같은 색을 쓴다.
-     수치(36px)보다 한 단계 크게 — 같은 비율로 키운 clamp 값이다. */
+  /* 파일 색(흰색 + 하늘색)을 그대로 쓴다. 크기만 지정한다. */
   .cmp-stat-icon {
     width: clamp(40px, 5.4vw, 54px); height: clamp(40px, 5.4vw, 54px); flex: none;
-    background: currentColor;
-    -webkit-mask: var(--icon) no-repeat center / contain;
-    mask: var(--icon) no-repeat center / contain;
   }
   .cmp-story { max-width: 760px; }
 </style>
