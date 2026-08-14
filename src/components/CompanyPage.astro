@@ -339,7 +339,7 @@ const alternates = [
      펼친 카드에서만 보이게 하고, 열릴 때 함께 서서히 나타난다. */
   .cmp-acc-illust {
     position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-    width: 40%; height: auto; pointer-events: none; user-select: none;
+    width: 50%; height: auto; pointer-events: none; user-select: none;
     opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
   }
   .cmp-acc-item[data-open="true"] .cmp-acc-illust { opacity: 1; }
@@ -371,7 +371,10 @@ const alternates = [
   /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
   /* 설명을 카드 아래쪽으로 내린다 — 위 여백을 크게 주고 아래는 머리쪽과 같은 30px.
      카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
-  .cmp-acc-inner p { margin: 0; padding: 120px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted); max-width: none; }
+  .cmp-acc-inner p { margin: 0; padding: 120px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted);
+    /* 일러스트가 카드 오른쪽 절반을 차지하므로 글 상자를 그 앞에서 끊는다.
+       줄바꿈은 <br>로 고정이라 실제 줄 길이는 이 값보다 짧다. */
+    max-width: 46%; }
   @media (max-width: 900px) {
     .cmp-acc-head { padding: 22px 20px; }
     .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
