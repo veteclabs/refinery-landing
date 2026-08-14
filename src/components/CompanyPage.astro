@@ -168,7 +168,7 @@ const alternates = [
     <!-- STRENGTHS -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
-        <header class="ind-head">
+        <header class="ind-head cmp-head-row">
           <h2>{T.strengthsTitle}</h2>
           <p>{T.strengthsSub}</p>
         </header>
@@ -279,6 +279,15 @@ const alternates = [
      이 페이지 히어로 소제목도 같은 값이라, 16px로 두면 한 페이지 안에서
      두 크기가 섞인다. */
   .cmp-page .ind-head p { font-size: 18px; line-height: 1.7; }
+  /* 랜딩 .section-header-row와 같은 값 — 대제목 왼쪽, 소제목 오른쪽 아래 정렬.
+     랜딩은 섹션마다 소제목 max-width가 360~680px로 다른데, 기본값 360px을 쓴다. */
+  .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+  .cmp-head-row h2 { margin-bottom: 0; }
+  .cmp-head-row p { max-width: 360px; margin: 0; }
+  @media (max-width: 900px) {
+    .cmp-head-row { display: block; }
+    .cmp-head-row p { margin-top: 12px; max-width: none; }
+  }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
   /* ───────── 스토리 섹션 — 사진 위 흰 글자 ─────────
