@@ -23,7 +23,7 @@ const T = {
     lede: 'Refinery는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.<br>개발자도 발전소와 공장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
     storyTag: '회사 소개',
-    storyTitle: '현장을 경험한 팀이 만든<br>솔루션, 산업 AI',
+    storyTitle: '현장을 아는 팀이 만든<br>솔루션, 산업 AI',
     storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
     stats: [
@@ -172,9 +172,18 @@ const alternates = [
           <h2>{T.strengthsTitle}</h2>
           <p>{T.strengthsSub}</p>
         </header>
-        <div class="ind-grid ind-grid-3">
-          {T.strengths.map((s) => (
-            <div class="ind-card"><h3>{s.title}</h3><p>{s.description}</p></div>
+        {/* 아코디언 — 카드가 섹션 가로폭을 쓰며 세로로 쌓이고 항상 하나만 펼쳐진다.
+            처음에는 1번이 펼쳐진 상태. */}
+        <div class="cmp-acc">
+          {T.strengths.map((it, i) => (
+            <div class="cmp-acc-item" data-open={i === 0 ? 'true' : 'false'}>
+              <button type="button" class="cmp-acc-head" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`cmp-acc-p${i}`}>
+                <span class="cmp-acc-title">{it.title}</span>
+              </button>
+              <div class="cmp-acc-panel" id={`cmp-acc-p${i}`} role="region">
+                <div class="cmp-acc-inner"><p>{it.description}</p></div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -205,6 +214,24 @@ const alternates = [
     </section>
   </main>
   <Footer />
+
+  <script is:inline>
+    // 항상 하나만 펼쳐 둔다. 이미 열린 항목을 다시 눌러도 닫히지 않는다.
+    document.querySelectorAll('.cmp-acc').forEach(function (acc) {
+      acc.addEventListener('click', function (e) {
+        var btn = e.target.closest('.cmp-acc-head');
+        if (!btn || !acc.contains(btn)) return;
+        var item = btn.closest('.cmp-acc-item');
+        if (item.dataset.open === 'true') return;
+        acc.querySelectorAll('.cmp-acc-item').forEach(function (x) {
+          x.dataset.open = 'false';
+          x.querySelector('.cmp-acc-head').setAttribute('aria-expanded', 'false');
+        });
+        item.dataset.open = 'true';
+        btn.setAttribute('aria-expanded', 'true');
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -281,12 +308,39 @@ const alternates = [
   .cmp-page .ind-head p { font-size: 18px; line-height: 1.7; }
   /* 랜딩 .section-header-row와 같은 값 — 대제목 왼쪽, 소제목 오른쪽 아래 정렬.
      랜딩은 섹션마다 소제목 max-width가 360~680px로 다른데, 기본값 360px을 쓴다. */
-  .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+  /* ⚠️ max-width: none 필수. industry.css의 .ind-head가 640px로 묶고 있어
+     그대로 두면 flex-wrap 때문에 소제목이 아래로 내려간다(랜딩은 1184px 전체). */
+  .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; max-width: none; }
   .cmp-head-row h2 { margin-bottom: 0; }
   .cmp-head-row p { max-width: 360px; margin: 0; }
   @media (max-width: 900px) {
     .cmp-head-row { display: block; }
     .cmp-head-row p { margin-top: 12px; max-width: none; }
+  }
+
+  /* ───────── 강점 아코디언 ───────── */
+  .cmp-acc { display: grid; gap: 12px; }
+  .cmp-acc-item {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .cmp-acc-item[data-open="true"] { border-color: #cfd8e3; box-shadow: 0 2px 14px rgba(22,32,44,.06); }
+  .cmp-acc-head {
+    width: 100%; display: block;
+    padding: 30px 32px; background: none; border: 0; cursor: pointer;
+    text-align: left; font: inherit; color: inherit;
+  }
+  .cmp-acc-title { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; line-height: 1.4; color: var(--text); word-break: keep-all; }
+  /* 높이 애니메이션 — grid-template-rows 0fr→1fr이면 내용 높이를 몰라도 부드럽게 열린다. */
+  .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
+  .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
+  .cmp-acc-inner { overflow: hidden; }
+  .cmp-acc-inner p { margin: 0; padding: 0 32px 30px; font-size: 16px; line-height: 1.75; color: var(--text-muted); max-width: 900px; }
+  @media (max-width: 900px) {
+    .cmp-acc-head { padding: 22px 20px; }
+    .cmp-acc-title { font-size: 17px; }
+    .cmp-acc-inner p { padding: 0 20px 22px; font-size: 15px; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
