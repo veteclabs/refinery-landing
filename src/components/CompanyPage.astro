@@ -34,7 +34,7 @@ const T = {
     strengthsTitle: '제품의 세 가지 뿌리',
     strengthsSub: '현장을 겪은 팀과 30년의 경험에서 나왔습니다.',
     strengths: [
-      { tag: 'Field-first', title: '현장을 겪은 사람들이 만듭니다', description: '개발자뿐 아니라 발전 · 제조 · 에너지 산업을 깊이 아는 현장 엔지니어가 한 팀입니다.<br>설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지 아는 사람들이 제품을 설계합니다.' },
+      { tag: 'Field-first', illust: '/company/card-illust-01.svg', title: '현장을 겪은 사람들이 만듭니다', description: '개발자뿐 아니라 발전 · 제조 · 에너지 산업을 깊이 아는 현장 엔지니어가 한 팀입니다.<br>설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지 아는 사람들이 제품을 설계합니다.' },
       { tag: 'Integration', title: '통합도, 신규 구축도', description: '기존 시스템 위에 통합 지능 레이어를 얹는 것도, 시스템이 없는 현장을 새로 구축하는 것도 가능합니다.<br>신규 구축도 30년 경험으로 만든 템플릿(예: 에너지경영시스템)에서 시작합니다.' },
       { tag: 'Intelligence', title: '시계열을 넘어, AI로 판단까지', description: '센서 시계열뿐 아니라 설비 · 문서 · 이력까지 온톨로지로 엮어 산업을 가리지 않는 다양한 활용을 만들고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
     ],
@@ -67,7 +67,7 @@ const T = {
     strengthsTitle: 'Three roots of the product',
     strengthsSub: 'From a team that has been on the floor, and thirty years of experience.',
     strengths: [
-      { tag: 'Field-first', title: 'Built by people who have been there', description: 'Not just developers.<br>Field engineers who have worked power, manufacturing and energy sites are part of the team.<br>People who know how equipment fails and what an operator watches are the ones designing the product.' },
+      { tag: 'Field-first', illust: '/company/card-illust-01.svg', title: 'Built by people who have been there', description: 'Not just developers.<br>Field engineers who have worked power, manufacturing and energy sites are part of the team.<br>People who know how equipment fails and what an operator watches are the ones designing the product.' },
       { tag: 'Integration', title: 'Integrate, or build new', description: 'We can layer an integrated intelligence layer onto existing systems, or build from scratch where there are none.<br>Even a new build starts from a template refined over thirty years, such as an energy management system.' },
       { tag: 'Intelligence', title: 'Beyond time series, through to judgment', description: 'Not only sensor time series but equipment, documents and history are woven together through an ontology, creating applications across industries — and on top of that, an AI agent helps decide with evidence.' },
     ],
@@ -183,6 +183,9 @@ const alternates = [
                 <span class="cmp-acc-tag">{it.tag}</span>
                 <span class="cmp-acc-title">{it.title}</span>
               </button>
+              {it.illust && (
+                <img class="cmp-acc-illust" src={it.illust} alt="" aria-hidden="true" width="1020" height="1020" loading="lazy" decoding="async" />
+              )}
               <div class="cmp-acc-panel" id={`cmp-acc-p${i}`} role="region">
                 <div class="cmp-acc-inner"><p set:html={it.description}></p></div>
               </div>
@@ -330,7 +333,17 @@ const alternates = [
   .cmp-acc-item {
     background: #ffffff; border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
+    position: relative;
   }
+  /* 카드 오른쪽 일러스트. 접힌 카드(121px)에서는 위아래가 크게 잘려 어색하므로
+     펼친 카드에서만 보이게 하고, 열릴 때 함께 서서히 나타난다. */
+  .cmp-acc-illust {
+    position: absolute; right: 28px; top: 50%; transform: translateY(-50%);
+    width: 232px; height: 232px; pointer-events: none; user-select: none;
+    opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
+  }
+  .cmp-acc-item[data-open="true"] .cmp-acc-illust { opacity: 1; }
+  @media (max-width: 900px) { .cmp-acc-illust { display: none; } }
   .cmp-acc-head {
     width: 100%; display: block;
     padding: 30px; background: none; border: 0; cursor: pointer;
