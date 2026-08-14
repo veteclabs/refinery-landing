@@ -338,10 +338,11 @@ const alternates = [
   /* 카드 오른쪽 일러스트. 접힌 카드(121px)에서는 위아래가 크게 잘려 어색하므로
      펼친 카드에서만 보이게 하고, 열릴 때 함께 서서히 나타난다. */
   .cmp-acc-illust {
-    /* 위쪽(크레인 끝)이 잘리지 않도록 카드 위에 맞춘다.
-       오른쪽은 -40px — SVG 오른쪽이 점선 장식이라 right:0이면 실제 그림이
-       카드 끝에서 안쪽으로 들어가 보인다. */
-    position: absolute; right: -40px; top: 0; transform: none;
+    /* SVG 자체를 카드 오른쪽 끝에 붙인다. 파일 안에는 여백이 없고
+       오른쪽 끝이 점선 장식이라, 그림이 안쪽으로 들어가 보이는 건
+       잘린 게 아니라 원본 구성이다.
+       위쪽(크레인 끝)이 잘리지 않도록 세로는 카드 위에 맞춘다. */
+    position: absolute; right: 0; top: 0; transform: none;
     width: 50%; height: auto; pointer-events: none; user-select: none;
     opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
   }
