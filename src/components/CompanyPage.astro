@@ -283,9 +283,9 @@ const alternates = [
     position: relative; overflow: hidden; background: #111316;
     /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
        높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
-    /* 사진이 이제 섹션 전체 폭을 덮으므로 100vw 기준으로 높이를 잡는다.
-       칸 비율이 사진 비율과 같아야 cover가 잘라내는 곳이 없다. */
-    min-height: calc(100vw * 1180 / 1600);
+    /* 높이는 내용이 정한다. 사진 비율(100vw x 1180/1600)에 묶어 두면 섹션이
+       내용보다 훨씬 높아져 아래 여백이 다른 섹션의 130px보다 커진다.
+       대신 칸 비율이 사진과 달라져 사진 위아래가 조금 잘린다. */
     /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다.
        가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
     display: flex; flex-direction: column; justify-content: flex-start;
@@ -299,7 +299,10 @@ const alternates = [
        (그쪽은 translateX(-maxOffset * 0.8), 여기선 그 결과를 파일에 구웠다).
        세로 위쪽 30% — 평균 밝기 13~16으로 거의 평평한 검정이라 잘라냈다.
        구간을 파일에 박아 두면 칸 높이가 바뀌어도 보이는 면이 흔들리지 않는다. */
-    object-fit: cover; object-position: center;
+    /* 섹션 비율(내용이 정함)과 사진 비율이 달라 cover가 반드시 어딘가를 자른다.
+       center면 위아래로 나눠 잘리는데, 아래쪽이 빛이 올라오는 부분이라
+       bottom 기준으로 두어 잘리는 몫을 전부 위쪽(평평한 검정)으로 보낸다. */
+    object-fit: cover; object-position: center bottom;
     pointer-events: none; user-select: none;
   }
   /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
@@ -419,6 +422,8 @@ const alternates = [
        배경과 섞여 보이던 걸 판으로 띄운다. */
     background: rgba(10, 13, 18, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.10);
+    /* 다른 섹션 카드(.ind-card)와 같은 값 */
+    border-radius: var(--radius);
     padding: 32px 36px;
   }
   .cmp-stat { max-width: 460px; padding: 26px 0; width: 100%; }
