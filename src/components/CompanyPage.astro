@@ -26,9 +26,9 @@ const T = {
     storyTitle: '현장을 경험한<br>팀이 만든 솔루션,<br>산업 AI',
     storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     stats: [
-      { num: '30년+', label: '산업 현장에서 쌓은 경험', icon: '/company/icon-stat-02.svg' },
-      { num: '100+', label: '데이터를 다룬 현장 수', icon: '/company/icon-stat-01.svg' },
-      { num: '20개+', label: '철강 · 반도체 · 식품 등 산업군', icon: '/company/icon-stat-03.svg' },
+      { num: '30년+', label: '산업 현장에서 쌓은 <span class="cmp-stat-hl">경험</span>', icon: '/company/icon-stat-02.svg' },
+      { num: '100+', label: '데이터를 다룬 <span class="cmp-stat-hl">현장 수</span>', icon: '/company/icon-stat-01.svg' },
+      { num: '20개+', label: '철강 · 반도체 · 식품 등 <span class="cmp-stat-hl">산업군</span>', icon: '/company/icon-stat-03.svg' },
     ],
     strengthsTitle: '우리가 잘하는 것',
     strengthsSub: '현장을 겪은 팀과 30년+ 경험이 제품의 세 가지 뿌리가 됩니다.',
@@ -57,9 +57,9 @@ const T = {
     storyTitle: 'Built by a team<br>that has been on the floor,<br>Industrial AI',
     storyLede: 'We do not build impressive demos.<br>We build what actually works on site.',
     stats: [
-      { num: '30+ years', label: 'on industrial sites', icon: '/company/icon-stat-02.svg' },
-      { num: '100+', label: 'sites where we handled data', icon: '/company/icon-stat-01.svg' },
-      { num: '20+', label: 'industries, from steel to food', icon: '/company/icon-stat-03.svg' },
+      { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: '/company/icon-stat-02.svg' },
+      { num: '100+', label: '<span class="cmp-stat-hl">sites</span> where we handled data', icon: '/company/icon-stat-01.svg' },
+      { num: '20+', label: '<span class="cmp-stat-hl">industries</span>, from steel to food', icon: '/company/icon-stat-03.svg' },
     ],
     strengthsTitle: 'What we do well',
     strengthsSub: 'A team that has been on the floor, and thirty years of experience — the three roots of the product.',
@@ -151,7 +151,7 @@ const alternates = [
                     파일에서 고친 건 선 굵기뿐(70x70 뷰박스에 선언이 없어 기본 1이면
                     54px에서 실효 0.77px라 2로 올렸다). */}
                 <img class="cmp-stat-icon" src={st.icon} alt="" aria-hidden="true" width="54" height="54" />
-                <span>{st.label}</span>
+                <span set:html={st.label}></span>
               </div>
             </div>
           ))}
@@ -432,7 +432,7 @@ const alternates = [
     display: grid; justify-items: center; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
-    background: rgba(17, 19, 22, 0.30);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 30% */
+    background: rgba(17, 19, 22, 0.40);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 40% */
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
     /* 카드는 내용(440x220)에 상하좌우 50px씩 더한 크기다.
@@ -475,9 +475,9 @@ const alternates = [
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
   .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
-  /* 아이콘이 currentColor를 쓰므로 이 색 하나로 아이콘·소제목이 같이 간다.
-     숫자만 흰색으로 남아 시선이 숫자로 먼저 간다. 카드 배경 위 대비 7.50:1. */
-  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #76A6D7; }
+  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #EEF4FB; }
+  /* ⚠️ label은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
+  .cmp-stat-label :global(.cmp-stat-hl) { color: #76A6D7; }
   .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
   /* 파일 색(흰색 + 하늘색)을 그대로 쓴다. 크기만 지정한다. */
   .cmp-stat-icon {
