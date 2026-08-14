@@ -367,12 +367,14 @@ const alternates = [
   .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
   .cmp-acc-inner { overflow: hidden; }
   /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
-  .cmp-acc-inner p { margin: 0; padding: 0 30px 180px; font-size: 15px; line-height: 1.6; color: var(--text-muted); max-width: 640px; }
+  /* 설명을 카드 아래쪽으로 내린다 — 위 여백을 크게 주고 아래는 머리쪽과 같은 30px.
+     카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
+  .cmp-acc-inner p { margin: 0; padding: 180px 30px 30px; font-size: 15px; line-height: 1.6; color: var(--text-muted); max-width: 640px; }
   @media (max-width: 900px) {
     .cmp-acc-head { padding: 22px 20px; }
     .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
     .cmp-acc-title { font-size: 21px; }
-    .cmp-acc-inner p { padding: 0 20px 48px; font-size: 14px; max-width: none; }
+    .cmp-acc-inner p { padding: 48px 20px 22px; font-size: 14px; max-width: none; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
