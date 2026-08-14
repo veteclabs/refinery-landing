@@ -122,11 +122,11 @@ const alternates = [
     <section class="ind-section cmp-story-bg">
       <img
         class="cmp-story-bg-img"
-        src="/company/story-bg.webp"
+        src="/img_login-bg.webp"
         alt=""
         aria-hidden="true"
-        width="1600"
-        height="1180"
+        width="3840"
+        height="2160"
         loading="lazy"
         decoding="async"
       />
@@ -292,17 +292,11 @@ const alternates = [
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    /* 사진은 img_login-bg.webp에서 필요한 구간만 미리 잘라 만든 파일이다.
-       가로 37.3~90.7% — 로그인 화면이 패닝을 마치고 멈춘 자리와 같은 구간이다
-       (그쪽은 translateX(-maxOffset * 0.8), 여기선 그 결과를 파일에 구웠다).
-       세로 위쪽 30% — 평균 밝기 13~16으로 거의 평평한 검정이라 잘라냈다.
-       구간을 파일에 박아 두면 칸 높이가 바뀌어도 보이는 면이 흔들리지 않는다. */
-    /* 섹션 비율(내용이 정함)과 사진 비율이 달라 cover가 반드시 어딘가를 자른다.
-       center면 위아래로 나눠 잘리는데, 아래쪽이 빛이 올라오는 부분이라
-       bottom 기준으로 두어 잘리는 몫을 전부 위쪽(평평한 검정)으로 보낸다. */
-    object-fit: cover; object-position: center bottom;
+    /* 섹션 세로에 맞추고 오른쪽 아래에 붙인다. height:100%·width:auto라
+       비율이 유지되므로 잘리는 곳이 없다. 섹션이 사진보다 넓으면
+       왼쪽에 섹션 배경색(#111316)이 그대로 보인다. */
+    position: absolute; top: 0; bottom: 0; right: 0; left: auto;
+    height: 100%; width: auto; max-width: none;
     pointer-events: none; user-select: none;
   }
   /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
@@ -427,11 +421,18 @@ const alternates = [
     border: 1px solid rgba(255, 255, 255, 0.10);
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
-    padding: 32px 36px;
+    /* 카드는 내용(440x220)에 상하좌우 20px씩만 더한 크기다.
+       width: fit-content가 없으면 카드가 칸 폭(592px)까지 늘어난다. */
+    padding: 20px;
+    width: fit-content;
+    justify-self: end;
   }
   /* 내용 전체를 440x220으로 맞춘다.
      세로 220 = 아이콘 48 x 3행 + 줄 사이 여백 19 x 4 (첫 줄 위·끝 줄 아래는 0). */
-  .cmp-stat { max-width: 440px; padding: 19px 0; width: 100%; }
+  /* ⚠️ 고정 px로 못 박아야 한다. 카드가 fit-content라 %나 min()은 칸 폭에
+     기대는데 그 칸 폭이 다시 내용에서 나와 순환이 되고, 결국 내용 자연폭
+     360px에 그친다. 440px을 직접 주면 카드가 그 폭으로 잡힌다. */
+  .cmp-stat { width: 440px; padding: 19px 0; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
   /* 수치와 설명을 한 줄에 나란히 둔다 — 설명은 왼쪽, 수치는 오른쪽 끝.
@@ -449,9 +450,9 @@ const alternates = [
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
   @media (max-width: 900px) {
     /* 좁은 화면은 섹션 상단 여백이 60px이라 같은 값으로 맞춘다. */
-    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; padding: 24px 24px; margin-top: 60px; }
+    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; margin-top: 60px; width: auto; justify-self: stretch; }
     /* 좁은 화면에서는 한 줄에 못 들어가므로 원래대로 위아래로 쌓는다. */
-    .cmp-stats .cmp-stat { display: block; }
+    .cmp-stats .cmp-stat { display: block; width: 100%; }
     .cmp-stats .cmp-stat-num { text-align: left; }
     .cmp-stats .cmp-stat-label { margin-top: 10px; }
   }
