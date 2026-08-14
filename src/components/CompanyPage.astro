@@ -390,12 +390,23 @@ const alternates = [
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
   .cmp-stat + .cmp-stat { border-top: 1px solid rgba(255,255,255,.14); }
-  .cmp-stats .cmp-stat-num, .cmp-stats .cmp-stat-label { text-align: right; }
+  /* 수치와 설명을 한 줄에 나란히 둔다 — 설명은 왼쪽, 수치는 오른쪽 끝.
+     row-reverse라 DOM 순서(수치 → 설명)는 그대로 두고 화면 배치만 뒤집는다.
+     baseline 정렬이라 36px 수치와 15px 설명이 같은 기준선에 앉는다. */
+  .cmp-stats .cmp-stat {
+    display: flex; flex-direction: row-reverse;
+    align-items: baseline; justify-content: space-between; gap: 28px;
+  }
+  .cmp-stats .cmp-stat-num { text-align: right; }
+  .cmp-stats .cmp-stat-label { margin-top: 0; text-align: left; }
   /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
   @media (max-width: 900px) {
     .cmp-stats { grid-column: 1; padding-left: 0; justify-items: start; text-align: left; }
-    .cmp-stats .cmp-stat-num, .cmp-stats .cmp-stat-label { text-align: left; }
+    /* 좁은 화면에서는 한 줄에 못 들어가므로 원래대로 위아래로 쌓는다. */
+    .cmp-stats .cmp-stat { display: block; }
+    .cmp-stats .cmp-stat-num { text-align: left; }
+    .cmp-stats .cmp-stat-label { margin-top: 10px; }
   }
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
