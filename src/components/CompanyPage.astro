@@ -34,9 +34,9 @@ const T = {
     strengthsTitle: '제품의 세 가지 뿌리',
     strengthsSub: '현장을 겪은 팀과 30년의 경험에서 나왔습니다.',
     strengths: [
-      { title: '현장을 겪은 사람들이 만듭니다', description: '개발자뿐 아니라 발전 · 제조 · 에너지 산업을 깊이 아는 현장 엔지니어가 한 팀입니다.<br>설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지 아는 사람들이 제품을 설계합니다.' },
-      { title: '통합도, 신규 구축도', description: '기존 시스템 위에 통합 지능 레이어를 얹는 것도, 시스템이 없는 현장을 새로 구축하는 것도 가능합니다.<br>신규 구축도 30년 경험으로 만든 템플릿(예: 에너지경영시스템)에서 시작합니다.' },
-      { title: '시계열을 넘어, AI로 판단까지', description: '센서 시계열뿐 아니라 설비 · 문서 · 이력까지 온톨로지로 엮어 산업을 가리지 않는 다양한 활용을 만들고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
+      { tag: 'Field-first', title: '현장을 겪은 사람들이 만듭니다', description: '개발자뿐 아니라 발전 · 제조 · 에너지 산업을 깊이 아는 현장 엔지니어가 한 팀입니다.<br>설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지 아는 사람들이 제품을 설계합니다.' },
+      { tag: 'Integration', title: '통합도, 신규 구축도', description: '기존 시스템 위에 통합 지능 레이어를 얹는 것도, 시스템이 없는 현장을 새로 구축하는 것도 가능합니다.<br>신규 구축도 30년 경험으로 만든 템플릿(예: 에너지경영시스템)에서 시작합니다.' },
+      { tag: 'Intelligence', title: '시계열을 넘어, AI로 판단까지', description: '센서 시계열뿐 아니라 설비 · 문서 · 이력까지 온톨로지로 엮어 산업을 가리지 않는 다양한 활용을 만들고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
     ],
     principlesTitle: '일하는 세 가지 기준',
     principlesSub: '현장에서 확인한 것만 제품에 넣습니다.',
@@ -67,9 +67,9 @@ const T = {
     strengthsTitle: 'Three roots of the product',
     strengthsSub: 'From a team that has been on the floor, and thirty years of experience.',
     strengths: [
-      { title: 'Built by people who have been there', description: 'Not just developers.<br>Field engineers who have worked power, manufacturing and energy sites are part of the team.<br>People who know how equipment fails and what an operator watches are the ones designing the product.' },
-      { title: 'Integrate, or build new', description: 'We can layer an integrated intelligence layer onto existing systems, or build from scratch where there are none.<br>Even a new build starts from a template refined over thirty years, such as an energy management system.' },
-      { title: 'Beyond time series, through to judgment', description: 'Not only sensor time series but equipment, documents and history are woven together through an ontology, creating applications across industries — and on top of that, an AI agent helps decide with evidence.' },
+      { tag: 'Field-first', title: 'Built by people who have been there', description: 'Not just developers.<br>Field engineers who have worked power, manufacturing and energy sites are part of the team.<br>People who know how equipment fails and what an operator watches are the ones designing the product.' },
+      { tag: 'Integration', title: 'Integrate, or build new', description: 'We can layer an integrated intelligence layer onto existing systems, or build from scratch where there are none.<br>Even a new build starts from a template refined over thirty years, such as an energy management system.' },
+      { tag: 'Intelligence', title: 'Beyond time series, through to judgment', description: 'Not only sensor time series but equipment, documents and history are woven together through an ontology, creating applications across industries — and on top of that, an AI agent helps decide with evidence.' },
     ],
     principlesTitle: 'Three standards we work by',
     principlesSub: 'Only what we have confirmed on site goes into the product.',
@@ -180,6 +180,7 @@ const alternates = [
           {T.strengths.map((it, i) => (
             <div class="cmp-acc-item" data-open={i === 0 ? 'true' : 'false'}>
               <button type="button" class="cmp-acc-head" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`cmp-acc-p${i}`}>
+                <span class="cmp-acc-tag">{it.tag}</span>
                 <span class="cmp-acc-title">{it.title}</span>
               </button>
               <div class="cmp-acc-panel" id={`cmp-acc-p${i}`} role="region">
@@ -337,21 +338,22 @@ const alternates = [
     transition: padding-bottom .34s cubic-bezier(.22,1,.36,1);
   }
   /* 펼쳤을 때 제목과 설명 사이를 카드와 같은 5px로 좁힌다. */
-  .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 5px; }
+  .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
   /* 랜딩 .industry-name과 같은 값. 행간은 그쪽이 선언 없이 body 1.6을
      물려받는데 여기는 .ind-section 문맥의 1.65가 와서 1px 어긋나 못 박는다. */
-  .cmp-acc-title { font-size: 20px; font-weight: 600; line-height: 1.6; color: var(--text); word-break: keep-all; }
+  .cmp-acc-tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
+  .cmp-acc-title { display: block; font-size: 24px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; }
   /* 높이 애니메이션 — grid-template-rows 0fr→1fr이면 내용 높이를 몰라도 부드럽게 열린다. */
   .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
   .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
   .cmp-acc-inner { overflow: hidden; }
   /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
-  .cmp-acc-inner p { margin: 0; padding: 0 30px 120px; font-size: 15px; line-height: 1.5; color: var(--text-muted); max-width: 900px; }
+  .cmp-acc-inner p { margin: 0; padding: 0 30px 120px; font-size: 15px; line-height: 1.6; color: var(--text-muted); max-width: 640px; }
   @media (max-width: 900px) {
     .cmp-acc-head { padding: 22px 20px; }
-    .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 5px; }
-    .cmp-acc-title { font-size: 17px; }
-    .cmp-acc-inner p { padding: 0 20px 48px; font-size: 14px; }
+    .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
+    .cmp-acc-title { font-size: 19px; }
+    .cmp-acc-inner p { padding: 0 20px 48px; font-size: 14px; max-width: none; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
