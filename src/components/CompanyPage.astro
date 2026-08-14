@@ -359,6 +359,9 @@ const alternates = [
   /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
      있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
   .cmp-acc-title :global(br) { display: none; }
+  /* 펼치면 두 줄로 돌아가고 크기도 24px(랜딩 #teams 카드 값)로 돌아간다.
+     접힘은 제목만 보이는 자리라 28px로 키워 둔다. */
+  .cmp-acc-item[data-open="true"] .cmp-acc-title { font-size: 24px; }
   .cmp-acc-item[data-open="true"] .cmp-acc-title :global(br) { display: block; }
   /* 높이 애니메이션 — grid-template-rows 0fr→1fr이면 내용 높이를 몰라도 부드럽게 열린다. */
   .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
@@ -370,6 +373,7 @@ const alternates = [
     .cmp-acc-head { padding: 22px 20px; }
     .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
     .cmp-acc-title { font-size: 21px; }
+    .cmp-acc-item[data-open="true"] .cmp-acc-title { font-size: 19px; }
     .cmp-acc-inner p { padding: 0 20px 48px; font-size: 14px; max-width: none; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
