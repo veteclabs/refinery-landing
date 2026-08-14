@@ -441,11 +441,12 @@ const alternates = [
     justify-self: end;
   }
   /* 내용 전체를 440x220으로 맞춘다.
-     세로 220 = 아이콘 48 x 3행 + 줄 사이 여백 19 x 4 (첫 줄 위·끝 줄 아래는 0). */
+     세로 220 = 아이콘 56 x 3행 + 줄 사이 여백 13 x 4 (첫 줄 위·끝 줄 아래는 0).
+     아이콘을 키운 만큼 줄 사이 여백을 줄여 높이를 지킨다. */
   /* ⚠️ 고정 px로 못 박아야 한다. 카드가 fit-content라 %나 min()은 칸 폭에
      기대는데 그 칸 폭이 다시 내용에서 나와 순환이 되고, 결국 내용 자연폭
      360px에 그친다. 440px을 직접 주면 카드가 그 폭으로 잡힌다. */
-  .cmp-stat { width: 440px; padding: 19px 0; }
+  .cmp-stat { width: 440px; padding: 13px 0; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
   /* 수치와 설명을 한 줄에 나란히 둔다 — 설명은 왼쪽, 수치는 오른쪽 끝.
@@ -480,7 +481,7 @@ const alternates = [
   /* 마스크로 모양만 따고 배경에 currentColor를 깔아 소제목과 같은 색을 쓴다.
      수치(36px)보다 한 단계 크게 — 같은 비율로 키운 clamp 값이다. */
   .cmp-stat-icon {
-    width: clamp(35px, 4.8vw, 48px); height: clamp(35px, 4.8vw, 48px); flex: none;
+    width: clamp(41px, 5.6vw, 56px); height: clamp(41px, 5.6vw, 56px); flex: none;
     background: currentColor;
     -webkit-mask: var(--icon) no-repeat center / contain;
     mask: var(--icon) no-repeat center / contain;
