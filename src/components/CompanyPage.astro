@@ -354,7 +354,9 @@ const alternates = [
   .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
   /* 랜딩 .industry-name과 같은 값. 행간은 그쪽이 선언 없이 body 1.6을
      물려받는데 여기는 .ind-section 문맥의 1.65가 와서 1px 어긋나 못 박는다. */
-  .cmp-acc-tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
+  /* 랜딩 #teams는 태그라인 12 / 제목 24 / 설명 15였는데 제목·설명을 각각
+     x1.17, x1.2로 키웠다. 태그라인도 같은 비율로 14px에 맞춘다. */
+  .cmp-acc-tag { display: block; font-size: 14px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
   .cmp-acc-title { display: block; font-size: 28px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; }
   /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
      있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
