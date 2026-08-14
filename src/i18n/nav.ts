@@ -52,6 +52,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
+            { label: '산업 AI', href: '/industrial-ai' },
             { label: '블로그', href: '/blog' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
             { label: '문서', badge: '준비중' },
@@ -159,6 +160,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: '리소스',
       items: [
+        { label: '산업 AI', href: '/industrial-ai' },
         { label: '블로그', href: '/blog' },
         { label: '자료실', href: '/resources' },
       ],
