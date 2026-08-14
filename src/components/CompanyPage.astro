@@ -338,8 +338,8 @@ const alternates = [
   /* 카드 오른쪽 일러스트. 접힌 카드(121px)에서는 위아래가 크게 잘려 어색하므로
      펼친 카드에서만 보이게 하고, 열릴 때 함께 서서히 나타난다. */
   .cmp-acc-illust {
-    position: absolute; right: 28px; top: 50%; transform: translateY(-50%);
-    width: 300px; height: 300px; pointer-events: none; user-select: none;
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: 40%; height: auto; pointer-events: none; user-select: none;
     opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
   }
   .cmp-acc-item[data-open="true"] .cmp-acc-illust { opacity: 1; }
