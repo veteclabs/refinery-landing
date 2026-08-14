@@ -417,7 +417,10 @@ const alternates = [
     grid-column: 2; grid-row: 2; align-self: start;
     /* 대제목과의 간격을 섹션 상단 여백과 같은 값으로 둔다. */
     margin-top: 130px;
-    display: grid; justify-items: end; text-align: right;
+    /* 줄 자체는 지금 모습 그대로(460px, 소제목 왼쪽·수치 오른쪽) 두고
+       카드 안에서 가운데로 놓는다. end면 max-width 460px 때문에
+       왼쪽 95px / 오른쪽 37px로 치우친다. */
+    display: grid; justify-items: center; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
     background: rgba(10, 13, 18, 0.62);
@@ -426,7 +429,9 @@ const alternates = [
     border-radius: var(--radius);
     padding: 32px 36px;
   }
-  .cmp-stat { max-width: 460px; padding: 26px 0; width: 100%; }
+  /* 내용 전체를 440x220으로 맞춘다.
+     세로 220 = 아이콘 48 x 3행 + 줄 사이 여백 19 x 4 (첫 줄 위·끝 줄 아래는 0). */
+  .cmp-stat { max-width: 440px; padding: 19px 0; width: 100%; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
   /* 수치와 설명을 한 줄에 나란히 둔다 — 설명은 왼쪽, 수치는 오른쪽 끝.
