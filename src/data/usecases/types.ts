@@ -99,5 +99,7 @@ export type UseCase = {
    *  쓰이는데, 그쪽은 폭이 달라 여기 줄바꿈을 그대로 넣으면 엉뚱하게 끊긴다. */
   cardDesc?: string;
   related?: { label: string; href: string }; // 관련 글/페이지
+  /** 정의형 Q&A(선택). 넣으면 하단에 FAQ 섹션 + FAQPage 구조화 데이터를 출력한다(AEO). */
+  faq?: { q: string; a: string }[];
   seo: { title: string; description: string };
 };
