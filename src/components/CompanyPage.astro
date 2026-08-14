@@ -397,7 +397,9 @@ const alternates = [
     .cmp-stats { grid-column: 1; padding-left: 0; justify-items: start; text-align: left; }
     .cmp-stats .cmp-stat-num, .cmp-stats .cmp-stat-label { text-align: left; }
   }
-  .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 750; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
+  /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
+     700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
+  .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
   .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #b6c0cc; }
   .cmp-story { max-width: 760px; }
 </style>
