@@ -133,7 +133,12 @@ const alternates = [
       <div class="ind-container">
         <div class="cmp-story">
           <header class="ind-head">
-            <p class="cmp-story-tag">{T.storyTag}</p>
+            <p class="cmp-story-tag">
+              {/* 이미지/icon_회사 소개-02.svg를 옮긴 것. 70x70 뷰박스에 기본 굵기 1이면
+                  20px로 줄였을 때 0.29px라 3으로 올렸다. 색은 CSS 마스크로 입힌다. */}
+              <span class="cmp-story-tag-icon" aria-hidden="true"></span>
+              <span>{T.storyTag}</span>
+            </p>
             <h2 set:html={T.storyTitle}></h2>
             <p class="cmp-story-lede" set:html={T.storyLede}></p>
           </header>
@@ -329,6 +334,15 @@ const alternates = [
     font-size: 18px; font-weight: 600; line-height: 1.65;
     letter-spacing: -0.2px; color: #76a6d7;
     margin: 0 0 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  /* <img>로 넣으면 파일 안의 currentColor가 문서 색을 못 받는다.
+     마스크로 모양만 따고 배경에 currentColor를 깔아 태그라인과 같은 색을 쓴다. */
+  .cmp-story-tag-icon {
+    width: 20px; height: 20px; flex: none;
+    background: currentColor;
+    -webkit-mask: url('/company/icon-about.svg') no-repeat center / contain;
+    mask: url('/company/icon-about.svg') no-repeat center / contain;
   }
   /* 제목의 계단 리듬을 잇도록 두 문장을 <br>로 나눠 각각 한 줄에 세운다.
      max-width를 두지 않는 이유: <br>가 이미 줄을 정해 두었고, 폭을 좁히면
