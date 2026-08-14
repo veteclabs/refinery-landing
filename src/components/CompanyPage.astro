@@ -27,7 +27,7 @@ const T = {
     storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     stats: [
       { num: '30년+', label: '산업 현장에서 쌓은 경험', icon: '/company/icon-stat-02.svg' },
-      { num: '100곳+', label: '데이터를 다룬 현장', icon: '/company/icon-stat-01.svg' },
+      { num: '100+', label: '데이터를 다룬 현장 수', icon: '/company/icon-stat-01.svg' },
       { num: '20개+', label: '철강 · 반도체 · 식품 등 산업군', icon: '/company/icon-stat-03.svg' },
     ],
     strengthsTitle: '우리가 잘하는 것',
@@ -292,11 +292,11 @@ const alternates = [
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
-    /* 섹션 세로에 맞추고 오른쪽 아래에 붙인다. height:100%·width:auto라
-       비율이 유지되므로 잘리는 곳이 없다. 섹션이 사진보다 넓으면
-       왼쪽에 섹션 배경색(#111316)이 그대로 보인다. */
-    position: absolute; top: 0; bottom: 0; right: 0; left: auto;
-    height: 100%; width: auto; max-width: none;
+    /* 섹션 가로에 맞추고 오른쪽 아래에 붙인다. width:100%·height:auto라
+       비율이 유지되므로 잘리는 곳이 없다. 사진이 섹션보다 낮으면
+       위쪽에 섹션 배경색(#111316)이 그대로 보인다. */
+    position: absolute; top: auto; bottom: 0; right: 0; left: auto;
+    width: 100%; height: auto; max-width: none;
     pointer-events: none; user-select: none;
   }
   /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
@@ -418,12 +418,11 @@ const alternates = [
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
     background: rgba(10, 13, 18, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.10);
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
-    /* 카드는 내용(440x220)에 상하좌우 20px씩만 더한 크기다.
+    /* 카드는 내용(440x220)에 상하좌우 50px씩 더한 크기다.
        width: fit-content가 없으면 카드가 칸 폭(592px)까지 늘어난다. */
-    padding: 20px;
+    padding: 50px;
     width: fit-content;
     justify-self: end;
   }
