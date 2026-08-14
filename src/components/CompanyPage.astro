@@ -330,6 +330,10 @@ const alternates = [
      제목 3줄만 남으니 716px로 쪼그라들어 좌측 여백이 페이지 기준을 벗어났다. */
   .cmp-story-bg > .ind-container {
     position: relative; z-index: 1; width: 100%;
+    /* ⚠️ align-content: start 필수. 섹션이 사진 비율 때문에 내용보다 훨씬 높은데,
+       기본값이면 남는 높이를 행들이 나눠 가져 아래 margin-top이 지켜지지 않는다
+       (40px을 걸었는데 실제로는 154px로 벌어졌다). */
+    align-content: start;
     /* ⚠️ flex:1 필수. 섹션이 flex column이라 이게 없으면 컨테이너 높이가
        내용(333px)에 머물고, 남는 높이는 컨테이너 '아래'로 빠진다.
        그러면 안쪽 그리드 행도 333px이라 align-self:end가 움직일 자리가 없다. */
@@ -407,7 +411,9 @@ const alternates = [
   /* 2행에 두면 행 경계가 대제목 아래선이라 수치가 딱 그 지점에서 시작한다.
      본문의 margin-top 20px은 본문 칸 안쪽에만 적용돼 수치에는 영향이 없다. */
   .cmp-stats {
-    grid-column: 2; grid-row: 2; align-self: start; margin-top: 40px;
+    grid-column: 2; grid-row: 2; align-self: start;
+    /* 대제목과의 간격을 섹션 상단 여백과 같은 값으로 둔다. */
+    margin-top: 130px;
     display: grid; justify-items: end; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
@@ -432,7 +438,8 @@ const alternates = [
   /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
   @media (max-width: 900px) {
-    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; padding: 24px 24px; }
+    /* 좁은 화면은 섹션 상단 여백이 60px이라 같은 값으로 맞춘다. */
+    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; padding: 24px 24px; margin-top: 60px; }
     /* 좁은 화면에서는 한 줄에 못 들어가므로 원래대로 위아래로 쌓는다. */
     .cmp-stats .cmp-stat { display: block; }
     .cmp-stats .cmp-stat-num { text-align: left; }
