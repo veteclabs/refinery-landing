@@ -146,8 +146,9 @@ const alternates = [
               <div class="cmp-stat-num">{st.num}</div>
               <div class="cmp-stat-label">
                 {/* 이미지/icon_회사 소개-01~03.svg를 그대로 쓴다(흰 선).
-                    70x70 뷰박스에 굵기 선언이 없어 기본값 1이었고, 36px로 줄이면
-                    0.51px라 거의 안 보여 파일에서 3으로만 올렸다. */}
+                    70x70 뷰박스에 굵기 선언이 없어 기본값 1이었다. 48px로 줄이면
+                    실효 0.69px라 거의 안 보여 파일에서 2로만 올렸다(실효 1.37px,
+                    375px의 35px 아이콘에서도 1.00px로 선이 끊기지 않는다). */}
                 <img class="cmp-stat-icon" src={st.icon} alt="" aria-hidden="true" width="36" height="36" />
                 <span>{st.label}</span>
               </div>
@@ -424,9 +425,10 @@ const alternates = [
   .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
   .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #b6c0cc; }
   .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
-  /* 파일 그대로(흰 선) 쓰므로 색을 입히지 않는다. 크기는 수치와 같은 clamp 값. */
+  /* 파일 그대로(흰 선) 쓰므로 색을 입히지 않는다.
+     수치(36px)보다 한 단계 크게 — 같은 비율로 키운 clamp 값이다. */
   .cmp-stat-icon {
-    width: clamp(26px, 3.6vw, 36px); height: clamp(26px, 3.6vw, 36px); flex: none;
+    width: clamp(35px, 4.8vw, 48px); height: clamp(35px, 4.8vw, 48px); flex: none;
   }
   .cmp-story { max-width: 760px; }
 </style>
