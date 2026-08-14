@@ -474,10 +474,16 @@ const alternates = [
   }
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
-  .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #f3f6f9; word-break: keep-all; text-wrap: balance; }
-  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #EEF4FB; }
-  /* ⚠️ label은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
-  .cmp-stat-label :global(.cmp-stat-hl) { color: #76A6D7; }
+  .cmp-stat-num { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #fff; word-break: keep-all; text-wrap: balance; }
+  /* 대제목과 같은 순백. 숫자·소제목의 위계는 크기(36 vs 15)와
+     굵기(700 vs 400)가 이미 만들고 있어 색까지 나눌 이유가 없다. */
+  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #fff; }
+  /* 소제목은 한 톤(흰색)으로 둔다. 아이콘이 이미 흰색+하늘색 2색이라
+     소제목까지 강조하면 한 줄에서 하늘색이 두 번 나와 초점이 흐려진다.
+     강조 span은 데이터에 그대로 두고 색만 물려받게 해서, 다시 살리려면
+     이 규칙의 color만 #76A6D7로 바꾸면 된다.
+     ⚠️ label은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
+  .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
   .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
   /* 파일 색(흰색 + 하늘색)을 그대로 쓴다. 크기만 지정한다. */
   .cmp-stat-icon {
