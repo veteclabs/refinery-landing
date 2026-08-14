@@ -372,10 +372,18 @@ const alternates = [
   .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
   .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
   .cmp-acc-inner { overflow: hidden; }
+  /* 펼친 카드를 일러스트 높이(591px)에 맞춘다. min-height를 카드가 아니라
+     패널 안쪽에 걸어야 grid-template-rows 0fr→1fr 전환이 그대로 살아 있다.
+     591 = 머리 141 + 패널 450. 일러스트가 없는 900px 미만에서는 걸지 않는다. */
+  @media (min-width: 901px) {
+    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 450px; }
+  }
   /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
   /* 설명을 카드 아래쪽으로 내린다 — 위 여백을 크게 주고 아래는 머리쪽과 같은 30px.
      카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
-  .cmp-acc-inner p { margin: 0; padding: 120px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted);
+  /* 설명을 제목 바로 아래로 올린다(머리쪽 padding-bottom 8 + 여기 12 = 20px).
+     카드가 높아진 만큼 아래가 비는데, 그 자리를 일러스트가 온전히 차지한다. */
+  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted);
     /* 일러스트가 카드 오른쪽 절반을 차지하므로 글 상자를 그 앞에서 끊는다.
        줄바꿈은 <br>로 고정이라 실제 줄 길이는 이 값보다 짧다. */
     max-width: 46%; }
