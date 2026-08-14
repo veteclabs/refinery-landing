@@ -283,15 +283,17 @@ const alternates = [
     position: relative; overflow: hidden; background: #111316;
     /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
        높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
-    min-height: calc(50vw * 1180 / 1600);
+    /* 사진이 이제 섹션 전체 폭을 덮으므로 100vw 기준으로 높이를 잡는다.
+       칸 비율이 사진 비율과 같아야 cover가 잘라내는 곳이 없다. */
+    min-height: calc(100vw * 1180 / 1600);
     /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다.
        가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
     display: flex; flex-direction: column; justify-content: flex-start;
   }
   /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
   .cmp-story-bg-img {
-    position: absolute; top: 0; bottom: 0; left: 0; right: auto;
-    width: 50%; height: 100%;
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
     /* 사진은 img_login-bg.webp에서 필요한 구간만 미리 잘라 만든 파일이다.
        가로 37.3~90.7% — 로그인 화면이 패닝을 마치고 멈춘 자리와 같은 구간이다
        (그쪽은 translateX(-maxOffset * 0.8), 여기선 그 결과를 파일에 구웠다).
@@ -318,7 +320,6 @@ const alternates = [
   .cmp-story-bg .cmp-story-lede { grid-column: 1; grid-row: 2; padding-right: 48px; align-self: end; }
   /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다. */
   @media (max-width: 900px) {
-    .cmp-story-bg-img { width: 100%; }
     .cmp-story-bg > .ind-container { grid-template-columns: 1fr; }
     .cmp-story-bg .cmp-story { grid-row: auto; padding-right: 0; margin-bottom: 0; }
     .cmp-story-bg .cmp-story-lede { grid-row: auto; padding-right: 0; margin-bottom: 40px; align-self: start; }
@@ -405,7 +406,15 @@ const alternates = [
      세로는 아래로 내려 랜딩 #platform과 같은 하단 여백 130px만 남긴다. */
   /* 2행에 두면 행 경계가 대제목 아래선이라 수치가 딱 그 지점에서 시작한다.
      본문의 margin-top 20px은 본문 칸 안쪽에만 적용돼 수치에는 영향이 없다. */
-  .cmp-stats { grid-column: 2; grid-row: 2; align-self: start; padding-left: 48px; display: grid; justify-items: end; text-align: right; }
+  .cmp-stats {
+    grid-column: 2; grid-row: 2; align-self: start; margin-top: 40px;
+    display: grid; justify-items: end; text-align: right;
+    /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
+       배경과 섞여 보이던 걸 판으로 띄운다. */
+    background: rgba(10, 13, 18, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    padding: 32px 36px;
+  }
   .cmp-stat { max-width: 460px; padding: 26px 0; width: 100%; }
   .cmp-stat:first-child { padding-top: 0; }
   .cmp-stat:last-child { padding-bottom: 0; }
@@ -423,7 +432,7 @@ const alternates = [
   /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
   @media (max-width: 900px) {
-    .cmp-stats { grid-column: 1; grid-row: auto; padding-left: 0; justify-items: start; text-align: left; }
+    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; padding: 24px 24px; }
     /* 좁은 화면에서는 한 줄에 못 들어가므로 원래대로 위아래로 쌓는다. */
     .cmp-stats .cmp-stat { display: block; }
     .cmp-stats .cmp-stat-num { text-align: left; }
