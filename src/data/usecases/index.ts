@@ -25,8 +25,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
       alt: '펌프와 배관이 늘어선 공장 기계실. 예지보전으로 상태를 감시하는 대상 설비다.',
-      width: 3840,
-      height: 2411,
+      width: 2560,
+      height: 1607,
     },
     problem:
       '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리거나 교체 주기 사이에 발생하는 갑작스러운 고장을 놓칩니다. 시간은 설비의 실제 상태를 반영하지 못하는 기준이기 때문입니다. 그렇다고 사람이 직접 현장을 돌며 진동을 측정하거나 설비마다 유선 센서를 배선하는 것도 현실적으로 부담이 큽니다.',
@@ -58,6 +58,12 @@ export const useCases: UseCase[] = [
       includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · 동작온도 -20~85℃'],
     },
     related: { label: '예지보전은 무엇을 예측하는가', href: '/blog/predictive-maintenance' },
+    faq: [
+      { q: '예지보전이란 무엇인가요?', a: '예지보전(PdM)은 설비의 진동·온도·전류 데이터를 실시간으로 분석해 고장을 사전에 예측하고, 필요한 시점에만 정비하는 방식입니다. 정해진 주기로 점검하는 예방보전과 달리 실제 상태에 근거해 정비하므로 불필요한 정지와 비용을 줄입니다.' },
+      { q: '무선 진동센서로 예지보전을 시작할 수 있나요?', a: '네. 무선 진동센서(예: WISE-2410)는 배선 공사 없이 설비에 부착해 3축 진동과 온도를 수집하고 LoRaWAN으로 게이트웨이에 전송합니다. 기존 배선이 어려운 회전설비에도 빠르게 예지보전을 적용할 수 있습니다.' },
+      { q: '모터 예지보전은 어떻게 하나요?', a: '모터는 진동·전류·온도 신호에 고장 징후가 먼저 나타납니다. 진동 스펙트럼으로 베어링 마모·축 정렬 불량·언밸런스를 감지하고, 전류 신호까지 함께 보면 부하 이상과 절연 열화도 조기에 잡아낼 수 있습니다.' },
+      { q: '기존 설비에도 예지보전을 적용할 수 있나요?', a: '네. 무선 센서로 새 데이터를 수집하거나 SCADA·PLC에 이미 있는 신호를 연동해 시작할 수 있습니다. Refinery는 흩어진 데이터를 온톨로지로 엮어 설비 이력과 함께 원인을 근거로 설명합니다.' },
+    ],
     seo: {
       title: '예지보전 · 무선 진동 모니터링(WISE-2410) | Refinery',
       description: 'WISE-2410 무선 진동센서(LoRaWAN)로 배선 없이 3축 진동을 측정하고, ISO-20816 기준으로 모터 상태를 판정합니다. 전조를 일찍 잡아 다운타임을 줄이는 예지보전.',
@@ -73,8 +79,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/sensor-monitoring.webp',
       alt: '',
-      width: 3840,
-      height: 2152,
+      width: 2560,
+      height: 1435,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -126,8 +132,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/power-management.webp',
       alt: '',
-      width: 3840,
-      height: 2563,
+      width: 2560,
+      height: 1709,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -170,6 +176,11 @@ export const useCases: UseCase[] = [
       { label: '피크', icon: 'peak' },
     ],
     related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
+    faq: [
+      { q: '전력관리 솔루션이란 무엇인가요?', a: '전력관리 솔루션은 수전·분전 계통의 전압·전류·전력·역률 데이터를 실시간으로 수집·분석해 전력 사용을 감시하고 최적화하는 시스템입니다. 피크 수요, 이상 부하, 역률 저하를 조기에 파악해 전력 요금과 정전 위험을 줄입니다.' },
+      { q: '전력관리와 에너지관리시스템(EMS)은 어떻게 다른가요?', a: '전력관리는 전력 계통의 감시·품질에 초점을 두고, EMS는 전력을 포함한 에너지 전반의 사용·효율·절감을 다룹니다. Refinery는 전력 데이터를 EMS·설비 데이터와 하나로 엮어 근거 있는 절감 방안을 제안합니다.' },
+      { q: 'AI가 전력관리에 어떻게 도움이 되나요?', a: 'AI는 과거 패턴과 실시간 데이터를 비교해 피크를 예측하고, 이상 부하나 역률 저하의 원인을 추론해 조치를 제안합니다. 사람이 모든 지표를 지켜보지 않아도 이상 시점에 근거와 함께 알립니다.' },
+    ],
     seo: {
       title: '전력관리 | Refinery',
       description: '설비·구역·시간대별 전력 사용을 가시화하고, 피크를 관리하며, 이상 사용을 조기에 감지해 전력 비용과 리스크를 줄입니다.',
@@ -185,8 +196,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/power-quality.webp',
       alt: '',
-      width: 3840,
-      height: 2152,
+      width: 2560,
+      height: 1435,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -244,8 +255,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/factory-energy.webp',
       alt: '',
-      width: 3840,
-      height: 2152,
+      width: 2560,
+      height: 1435,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -303,8 +314,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/energy-optimization.webp',
       alt: '',
-      width: 4710,
-      height: 2944,
+      width: 2560,
+      height: 1600,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -353,8 +364,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/quality-prediction.webp',
       alt: '',
-      width: 4230,
-      height: 2656,
+      width: 2560,
+      height: 1607,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,

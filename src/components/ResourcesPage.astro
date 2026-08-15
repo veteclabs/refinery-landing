@@ -12,55 +12,44 @@ interface Props {
 }
 const { lang = 'ko' } = Astro.props;
 
-type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean };
+// cover: 이미지 위에 얹는 한 줄(명사구). 카드 아래 대제목은 문장으로 두고,
+// 표지 역할을 하는 이 줄만 명사구로 짧게 쓴다.
+type ResItem = { label: string; desc: string; kind: string; href?: string; image?: string; imageW?: number; imageH?: number; cover?: string };
 
 const T = {
+  // ⚠️ 리포트 카드는 초안 페이지(/reports/2026-industrial-data)가 있지만 href를 두지 않는다 —
+  //    내용이 확정되기 전까지 자료실에서 눌러 들어가지 못하게 한다.
+  //    페이지 자체는 그대로 있고 URL로는 열린다(그쪽은 noindex).
   ko: {
-    title: '자료실 · 백서 | Refinery',
+    title: '자료실 | Refinery',
     description: 'Refinery 제품 소개서·백서·도입 가이드·웨비나 등 자료를 준비하고 있습니다. 필요한 자료는 문의로 요청해 주세요.',
     canonical: '/resources',
-    crumbAria: '위치', home: 'Home', crumb: '자료실 · 백서',
-    eyebrow: 'RESOURCES',
-    h1: '자료실 · 백서',
-    lede: '제품 소개부터 백서, 도입 가이드, 웨비나까지. Refinery를 더 깊이 이해할 수 있는 자료를 준비하고 있습니다.',
-    noteBefore: '자료를 정리하는 중입니다. 지금 필요한 자료가 있으시면 ',
-    noteAfter: '로 요청해 주세요. 준비되는 대로 우선 보내드립니다.',
-    contactLabel: '문의하기', contactHref: '/contact',
-    draftTag: '초안 미리보기', view: '보기 →', soon: '준비중',
-    ctaTitle: '필요한 자료를<br>바로 요청하세요.',
-    ctaBtn: '자료 요청하기',
+    h1: '자료실',
+    soon: '준비중',
     resources: [
-      { icon: 'ph-file-text', label: '제품 소개', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: 'Web', href: '/why-refinery' },
-      { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: 'Report', href: '/reports/2026-industrial-data', draft: true },
-      { icon: 'ph-book-open', label: '백서 · 산업 데이터 통합', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: 'Whitepaper', href: '/whitepapers/data-integration' },
-      { icon: 'ph-robot', label: '백서 · 산업 AI 에이전트', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: 'Whitepaper', href: '/whitepapers/ai-agent' },
-      { icon: 'ph-projector-screen', label: '웨비나 · 데모 영상', desc: '제품 시연과 현장 적용 사례를 영상으로', kind: 'Video' },
-      { icon: 'ph-buildings', label: '산업별 활용 자료', desc: '에너지·제조·물류·공공 등 산업별 적용 포인트', kind: 'Kit' },
+      { label: '하나의 플랫폼으로 현장을 지능화합니다', desc: '핵심 기능 · 도입 효과 · 산업별 활용을 한 페이지로 정리', kind: '플랫폼 개요', href: '/why-refinery', image: '/resources/platform-overview.webp', cover: '현장을 지능화하는<br>하나의 플랫폼' },
+      { label: '흩어진 데이터를 하나의 지식으로', desc: '파이프 연결과 온톨로지의 차이, 두 가지 도입 경로', kind: '백서', href: '/whitepapers/data-integration', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: '데이터 통합' },
+      { label: '근거를 들어 판단을 돕는 AI', desc: '출처 있는 답변과 온프레미스 배포, 도입 준비 순서', kind: '백서', href: '/whitepapers/ai-agent', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI 에이전트' },
+      { label: '2026 산업 데이터와 AI 활용 리포트', desc: '현장의 데이터 활용 현황과 AI 에이전트 도입 흐름', kind: '리포트' },
+      { label: '웨비나와 데모 영상', desc: '제품 시연과 현장 적용 사례 영상', kind: '비디오' },
+      { label: '산업별 활용 자료', desc: '에너지 · 제조 · 물류 · 공공 등 산업별 적용 포인트', kind: '키트' },
     ] as ResItem[],
   },
   en: {
     title: 'Resources & whitepapers | Refinery',
     description: 'Product overviews, whitepapers, adoption guides and webinars are in preparation. Ask us for anything you need in the meantime.',
     canonical: '/en/resources',
-    crumbAria: 'Breadcrumb', home: 'Home', crumb: 'Resources',
-    eyebrow: 'RESOURCES',
     h1: 'Resources & whitepapers',
-    lede: 'From product overviews to whitepapers, adoption guides and webinars — material to understand Refinery more deeply is in preparation.',
-    noteBefore: 'Material is being put together. If there is something you need right now, ask us through ',
-    noteAfter: ' and we will send it to you first.',
-    contactLabel: 'Contact', contactHref: '/en/contact',
-    draftTag: 'Draft preview', view: 'View →', soon: 'Soon',
-    ctaTitle: 'Need something?<br>Just ask.',
-    ctaBtn: 'Request material',
+    soon: 'Soon',
     // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
     // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
     resources: [
-      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Web' },
-      { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
-      { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper' },
-      { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper' },
-      { icon: 'ph-projector-screen', label: 'Webinars & demo videos', desc: 'Product walkthroughs and field applications on video', kind: 'Video' },
-      { icon: 'ph-buildings', label: 'Industry kits', desc: 'Application points for energy, manufacturing, logistics, public sector and more', kind: 'Kit' },
+      { label: 'Product overview', desc: 'Core capabilities · outcomes · industry use, in one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
+      { label: 'Whitepaper · Industrial data integration', desc: 'Pipes versus ontology, and the two paths into adoption', kind: 'Whitepaper', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: 'Data integration' },
+      { label: 'Whitepaper · Industrial AI agents', desc: 'Sourced answers, on-premise deployment, adoption steps', kind: 'Whitepaper', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI agents' },
+      { label: '2026 Industrial Data & AI Report', desc: 'Data use in the field today, and the direction of AI agents', kind: 'Report' },
+      { label: 'Webinars & demo videos', desc: 'Product walkthroughs and field application videos', kind: 'Video' },
+      { label: 'Industry kits', desc: 'Application points for energy · manufacturing · logistics · public sector', kind: 'Kit' },
     ] as ResItem[],
   },
 }[lang];
@@ -73,17 +62,11 @@ const T = {
   robots="noindex, follow"
 >
   <Nav />
-  <main class="ind">
+  <main class="ind res-page">
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={lang === "en" ? "/en" : "/"}>{T.home}</a><span>›</span><span>{T.crumb}</span></nav>
-        <p class="ind-eyebrow">{T.eyebrow}</p>
         <h1>{T.h1}</h1>
-        <p class="ind-lede">{T.lede}</p>
-        <div class="res-note">
-          📄 {T.noteBefore}<a href={T.contactHref}>{T.contactLabel}</a>{T.noteAfter}
-        </div>
       </div>
     </section>
 
@@ -94,13 +77,38 @@ const T = {
           {T.resources.map((r) => {
             const inner = (
               <>
-                <div class="res-icon"><i class={`ph ${r.icon}`} aria-hidden="true"></i></div>
-                <span class="res-kind">{r.kind}</span>
+                <div class={r.image ? "res-thumb" : "res-thumb is-empty"}>
+                  {r.image && (
+                    /* 칸(.res-thumb)이 aspect-ratio 16/10으로 자리를 잡고 이미지는 그 안을
+                       cover로 채운다. width/height는 원본 비율을 알려 주는 용도라
+                       파일마다 실제 값을 넣는다(표지 원본은 히어로 캡처라 파일마다 다르다). */
+                    <img src={r.image} alt="" width={r.imageW ?? 1532} height={r.imageH ?? 654} loading="lazy" decoding="async" />
+                  )}
+                  {/* 종류(태그라인)와 표지 한 줄은 이미지 위에 얹는다 — 카드 아래에는 두지 않는다.
+                      이미지에 굽지 않고 HTML로 두는 이유: 한국어·영어가 같은 파일을 쓰므로
+                      글자를 구우면 /en/resources에도 한글이 뜬다. 검색·스크린리더에도 잡힌다.
+                      표지 이미지가 없으면 글자도 두지 않는다 — 밝은 밑판 위 하늘색이라
+                      대비가 2.4:1까지밖에 안 나와 읽히지 않았다. 빈 칸으로 비워 둔다. */}
+                  {/* 표지가 없는 카드에는 '준비중' 그림만 가운데 둔다.
+                      글자는 밝은 밑판에서 읽히지 않아 뺐고, 빈 칸만 남으면
+                      아래 세 장이 통째로 비어 보인다.
+                      디자인 원본(이미지/icon_준비중.svg) 그대로다. 색을 건드리지 않는다. */}
+                  {!r.image && (
+                    <img class="res-empty-icon" src="/resources/icon-soon.svg" alt="" aria-hidden="true" width="110" height="80" loading="lazy" decoding="async" />
+                  )}
+                  {r.image && (
+                    <div class="res-cover">
+                      <span class="res-cover-kind">{r.kind}</span>
+                      {r.cover && <strong class="res-cover-line" set:html={r.cover}></strong>}
+                    </div>
+                  )}
+                </div>
                 <h3>{r.label}</h3>
                 <p>{r.desc}</p>
-                {r.href
-                  ? (r.draft ? <span class="res-tag">{T.draftTag}</span> : <span class="res-go">{T.view}</span>)
-                  : <span class="res-soon">{T.soon}</span>}
+                {/* 표지가 없는 카드에는 '준비중'을 단다 — 리포트처럼 링크가 있어도
+                    표지가 아직 없으면 같은 상태로 보이는 편이 덜 헷갈린다.
+                    '초안 미리보기' 배지는 쓰지 않는다. */}
+                {!r.image && <span class="res-soon">{T.soon}</span>}
               </>
             );
             return r.href
@@ -108,14 +116,6 @@ const T = {
               : <div class="ind-card res-card">{inner}</div>;
           })}
         </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="ind-cta">
-      <div class="ind-container">
-        <h2 set:html={T.ctaTitle}></h2>
-        <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.ctaBtn}</a>
       </div>
     </section>
   </main>
@@ -139,28 +139,148 @@ const T = {
 </script>
 
 <style>
-  .res-note {
-    margin-top: 22px; max-width: 640px;
-    background: #f4f7fa; border: 1px solid #e3e7ec; border-radius: 12px;
-    padding: 14px 18px; font-size: 14.5px; line-height: 1.6; color: #47535f;
+  /* 본문 좌우를 헤더와 같은 선에 맞춘다. 공통 .ind-container는 1120/24라
+     내용이 헤더 로고보다 49px 안쪽에서 시작했다(로고 48 vs 본문 97).
+     헤더와 같은 1280/48 박스로 바꿔 세로선을 하나로 만든다.
+     .res-page 스코프라 이 컴포넌트를 쓰지 않는 다른 페이지에는 영향이 없다. */
+  .res-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .res-page .ind-container { padding: 0 24px; }
   }
-  .res-note a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
-  .res-card { position: relative; opacity: 0.85; }
-  .res-card.is-link { opacity: 1; text-decoration: none; display: block; transition: border-color .2s, box-shadow .2s, transform .2s; }
-  .res-card.is-link:hover { border-color: var(--accent, #76a6d7); box-shadow: 0 8px 24px rgba(16,32,44,0.07); transform: translateY(-2px); }
-  .res-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
-  .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
-  .res-icon {
-    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 10px; background: #eef2f6; color: #4b86bf; font-size: 22px; margin-bottom: 14px;
+
+  /* 히어로 대제목을 사이트 제목 규격(45/600/-0.8)에 맞춘다.
+     공통 .ind-hero h1은 52/700/-0.03em이라 랜딩 섹션 제목(45)보다 커서,
+     홈보다 아래 계층인 페이지가 더 크게 외치는 모양이었다.
+     자료실 카드로 들어가는 과제별 히어로도 같은 45/600이라, 제목 크기가
+     그대로 이어지고 배경만 바뀐다. */
+  /* 크기·굵기·자간·행간 모두 문의하기 페이지 제목(h2)과 같은 값이다. */
+  .res-page .ind-hero h1 {
+    font-size: clamp(30px, 4.2vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.3;
   }
-  .res-kind {
-    display: block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
-    color: #7e8a98; margin-bottom: 6px;
+
+  /* 과제별 히어로(.uc-redesigned .ind-hero)와 같은 값 —
+     자료실 카드로 들어가도 세로 리듬이 그대로 이어진다. */
+  /* 글자 규격은 문의하기 페이지 히어로(#contact-hero)와 같고, 면과 구분선은 뺀다 —
+     카드 섹션과 한 흐름으로 이어져 히어로가 따로 놀지 않는다.
+     아래 여백은 0이다 — 제목과 카드 사이는 카드 섹션 위 여백(95px)만으로 잡는다.
+     (95px은 플랫폼 개요 CTA와 맞춰 둔 값이라 건드리지 않는다) */
+  .res-page .ind-hero {
+    padding: 180px 0 0;
+    background: none; border-bottom: none;
   }
+  /* 카드 섹션 위아래를 플랫폼 개요 CTA(.wr-cta-bg)와 같은 95px으로 둔다.
+     공통 .ind-section은 84px이다. 좁은 화면에서도 그쪽이 95px 그대로라
+     여기도 나누지 않는다. */
+  .res-page .ind-section { padding: 95px 0; }
+  @media (max-width: 900px) {
+    .res-page .ind-hero { padding: 120px 0 72px; }
+  }
+
+  /* 카드 높이를 줄 단위로 맞춘다. 그리드 기본값(auto)이면 줄마다 내용 길이에
+     따라 높이가 달라져, '보기 →'가 붙는 윗줄만 36px 컸다.
+     1fr로 두면 모든 줄이 가장 높은 카드에 맞춰 같아진다.
+     카드 안은 세로 flex — 상태 표시(보기 → · 준비중)를 아래로 밀어 바닥에 정렬한다. */
+  .res-page .ind-grid {
+    grid-auto-rows: 1fr;
+    /* 줄 사이만 벌린다. 카드에 테두리가 없어 좌우는 18px로도 갈리지만,
+       위아래는 이미지가 세로로 이어져 한 덩어리로 보였다.
+       가로 간격(18px)은 그대로 두고 세로만 64px로 띄운다. */
+    row-gap: 64px;
+  }
+  /* 카드에서 테두리·면·안쪽 여백을 없앤다. 글이 상자에 담기지 않고
+     이미지 아래에 그대로 놓이는 형태다. 패딩이 0이라 글의 왼쪽 끝이
+     이미지 왼쪽 끝과 정확히 맞는다. */
+  .res-page .res-card {
+    position: relative;
+    display: flex; flex-direction: column; height: 100%;
+    background: none; border: none; border-radius: 0; padding: 0;
+  }
+  /* 흐림(opacity .85)은 두지 않는다 — 링크가 없는 카드만 흐리게 하려던 값인데,
+     글자까지 통째로 15% 옅어져 여섯 장의 글 진하기가 갈렸다.
+     '아직 준비 중'이라는 것은 표지의 그림과 오른쪽 위 배지가 알려 준다. */
+  .res-page .res-card.is-link { text-decoration: none; }
+
+  /* 글자 규격을 예지보전 '함께 보면 좋은 과제' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
+     공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
+     색은 맞추지 않는다 — 저쪽은 사진 위 흰 글자, 여기는 밝은 면 위 어두운 글자다. */
+  .res-page .res-card h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    line-height: 1.65; margin-bottom: 5px;
+  }
+  .res-page .res-card p { font-size: 15px; line-height: 1.5; }
+  /* 상단 이미지 자리. 아직 이미지가 없는 카드는 빈 면으로 남고, 파일이 오면
+     이 안에 <img>가 들어간다. 자리는 늘 차지하므로 레이아웃이 흔들리지 않는다.
+     종류별 배경색은 쓰지 않는다 — 이미지가 들어갈 자리라 색이 이미지와 겹쳐 보였다. */
+  .res-thumb {
+    position: relative;
+    margin: 0 0 18px; aspect-ratio: 16 / 10;
+    /* 표지가 아직 없는 카드의 밑판. 이 페이지 히어로와 같은 면(#F6F8FA)이라
+       빈 칸이 페이지 배경의 연장으로 읽힌다(#EEF2F6이었다).
+       이미지가 있는 카드에서는 <img>가 덮으므로 보이지 않는다. */
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  /* 원본이 히어로 그대로라 2.34:1인데 칸은 16:10이라, cover로 좌우를 잘라 채운다. */
+  .res-thumb img {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    /* 호버 때 표지만 커진다. 움직임(.4s cubic-bezier)은 랜딩 '보안 체계'
+       카드(.sec-card)와 같고, 배율만 1.07에서 1.10으로 올렸다 —
+       표지가 그 카드보다 커서 같은 배율로는 변화가 덜 보인다.
+       칸에 overflow: hidden이 있어 커진 만큼 밖으로 나가지 않는다. */
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+  }
+  /* 눌러 들어갈 수 있는 카드에서만 반응한다. 준비중 카드는 <div>라 해당 없다. */
+  .res-page .res-card.is-link:hover .res-thumb img { transform: scale(1.10); }
+  /* 표지 글자 — 종류(태그라인)와 한 줄 요약을 이미지 왼쪽 위에 얹는다.
+     이미지가 어두운 쪽이 왼쪽 위라 흰 글자가 가장 잘 읽히는 자리다.
+     이미지가 없는 카드(#eef2f6)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
+  .res-cover {
+    position: absolute; inset: 0; z-index: 1;
+    /* 위·왼쪽을 넓혀 글자를 모서리에서 떼어 놓는다(20/22 -> 28/30).
+       표지 칸이 383x239px이라 위 28은 칸 높이의 11.7%, 왼쪽 30은 폭의 7.8%다.
+       오른쪽·아래는 글자가 닿지 않는 자리라 22px 그대로 둔다. */
+    padding: 28px 22px 28px 30px; display: flex; flex-direction: column; gap: 8px;
+    background: linear-gradient(to bottom, rgba(16, 20, 27, .55) 0%, rgba(16, 20, 27, .18) 45%, rgba(16, 20, 27, 0) 75%);
+    pointer-events: none;
+  }
+  /* 표지 이미지가 없는 카드에서는 어두운 막을 걷는다 — 막이 덮으면 밑판이
+     회색으로 보여, 히어로와 같은 #F6F8FA로 맞춰 둔 색이 드러나지 않는다.
+     막은 사진 위에서 흰 글자를 읽히게 하려던 것이라 여기서는 할 일이 없다. */
+  .res-thumb.is-empty .res-cover { background: none; }
+  /* '준비중' 그림. 칸(383x239) 가운데에 110px으로 둔다 — 폭의 1/3쯤이라
+     있는 줄은 알겠고, 표지가 들어오면 대체될 자리라는 것도 읽힌다.
+     색은 원본 그대로 쓴다. */
+  /* ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어,
+     .res-empty-icon(1개)만으로는 밀려 그림이 칸을 가득 채웠다. 같은 2개로 올린다. */
+  .res-thumb img.res-empty-icon {
+    position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+    width: 110px; height: auto; object-fit: contain;
+    pointer-events: none; user-select: none;
+  }
+  /* 크기는 카드 소제목(.res-card p, 15px)보다 한 단계 작은 14px이다. */
+  .res-cover-kind {
+    /* 굵기는 각 페이지 히어로 태그라인(.wr-tag / .wp-eyebrow)과 같은 600이다.
+       크기만 14px으로 다르다 — 작은 표지 칸이라 카드 소제목(15px)보다 한 단계 작다.
+       자간도 히어로와 같은 -0.2px으로 둔다(전에는 +0.6px으로 방향이 반대였다). */
+    font-size: 14px; font-weight: 600; letter-spacing: -0.2px; color: #76A6D7;
+  }
+  /* 표지 줄은 카드 아래 대제목(20px)보다 크게 둔다 — 카드에서 먼저 읽히는 자리다.
+     줄바꿈은 cover 값 안의 <br>로 명시한다(마크업 안의 개행은 공백으로 합쳐진다). */
+  .res-cover-line {
+    font-size: 24px; font-weight: 600; line-height: 1.4; color: #fff;
+    letter-spacing: -0.02em;
+  }
+  /* 위 카드의 태그라인과 같은 자리에 둔다 — 두 줄을 번갈아 볼 때 글자가
+     같은 지점에서 시작한다. 태그라인 글상자는 칸 기준 위 28 · 왼쪽 30이고,
+     이 배지는 좌우 안여백이 9px이라 왼쪽을 21px으로 잡아야 글자가 30에 온다. */
   .res-soon {
-    position: absolute; top: 18px; right: 18px;
-    font-size: 11px; font-weight: 700; color: #7e8a98;
+    position: absolute; top: 28px; left: 21px; right: auto;
+    font-size: 11px; font-weight: 600; color: #7e8a98;
     background: #eef1f4; border-radius: 999px; padding: 3px 9px;
   }
 </style>

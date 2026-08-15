@@ -14,28 +14,30 @@ const jsonLd = {
 };
 
 // 선택 이유 3 — 전부 1차 사실(현장 엔지니어·도입 방식·통합 지능). 미확인 수치 없음.
+// 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
+// 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: 'ph-hard-hat', title: '현장을 아는 팀이 만듭니다', desc: '개발자뿐 아니라 발전·제조·에너지 현장을 직접 뛴 현장 엔지니어가 한 팀. 문제를 자료가 아니라 현장의 맥락에서 정의합니다.' },
-  { icon: 'ph-stack', title: '얹거나, 템플릿으로 시작하거나', desc: '이미 SCADA·MES·ERP를 쓰고 있으면 걷어내지 않고 그 위에 통합 지능 레이어를 얹습니다. 시스템이 없는 현장은 30년 경험으로 다져진 템플릿(예: 에너지경영시스템)에서 바로 시작합니다.' },
-  { icon: 'ph-brain', title: '시계열을 넘어, 하나의 지능', desc: '센서 시계열뿐 아니라 설비·문서·이력까지 온톨로지로 엮어, AI가 근거를 들어 의사결정을 돕습니다.' },
+  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 · 설비 · 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 · TCP/IP · Modbus · OPC UA)까지 다룹니다.' },
+  { icon: '/why-refinery/icon-02.svg', title: '걷어내지 않는 도입', desc: '쓰던 시스템 위에 얹습니다.<br>없으면 30년 경험의 템플릿에서 시작합니다.' },
+  { icon: '/why-refinery/icon-03.svg', title: '숫자를 넘어, 지식으로', desc: '설비 · 문서 · 이력까지 온톨로지로 엮습니다.<br>AI가 근거를 들어 답합니다.' },
 ];
 
 // 기능 스토리 3 — 통합 / AI 에이전트 / 자동화
 const stories = [
   {
-    icon: 'ph-graph',
-    eyebrow: '통합 · 온톨로지',
-    title: '흩어진 데이터를 하나의 지식으로',
+    image: '/why-refinery/story-01.svg',
+    eyebrow: '통합',
+    title: '흩어진 데이터가 하나의 지식으로',
     points: [
-      'SCADA·MES·ERP·센서·문서에 흩어진 데이터를 한곳에 모읍니다.',
-      '온톨로지로 "무엇에 대한 데이터인지" 의미를 부여합니다.',
+      'SCADA · MES · ERP를 한곳에 모읍니다.',
+      '온톨로지로 어떤 데이터인지 의미를 부여합니다.',
       '숫자와 기록이 맥락을 얻어 판단에 쓰입니다.',
     ],
   },
   {
-    icon: 'ph-chat-circle-dots',
+    image: '/why-refinery/story-02.svg',
     eyebrow: 'AI 에이전트',
-    title: '묻고 답하는 현장',
+    title: '물으면 답하는 현장',
     points: [
       '궁금한 점을 물어보면 데이터를 근거로 답합니다.',
       '원인을 추론하고 다음 조치까지 제안합니다.',
@@ -43,27 +45,24 @@ const stories = [
     ],
   },
   {
-    icon: 'ph-gear-six',
-    eyebrow: '자동화 · 워크플로우',
-    title: '사람 없이도 돌아가는 운영',
+    image: '/why-refinery/story-03.svg',
+    eyebrow: '자동화',
+    title: '사람 없이 돌아가는 운영',
     points: [
-      '승인이 필요한 상황과 자동 처리할 상황을 대화로 정합니다.',
-      '분석 결과가 보고서·알람·워크플로우 실행까지 이어집니다.',
+      '무엇을 자동으로 할지 대화로 정합니다.',
+      '분석이 보고서 · 워크플로우 실행까지 이어집니다.',
       '반복 업무는 사람 손 없이 자동으로 처리됩니다.',
     ],
   },
 ];
 
+// 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
+// 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
-  { title: '데이터', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
-  { title: '지능', items: ['AI 에이전트', '이상 감지 · 알람', '예지보전', '품질 예측', '에너지 최적화'] },
-  { title: '운영', items: ['자동화 · 워크플로우', '리포트 자동화', 'ESG 리포트'] },
-  { title: '신뢰', items: ['온프레미스 배포', '권한 · 암호화'] },
-];
-
-const industries = [
-  '에너지 · 유틸리티', '데이터센터', '정유 · 가스', '철강',
-  '화학 · 정밀화학', '물류', '환경',
+  { title: '데이터', icon: 'ph-database', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
+  { title: '지능', icon: 'ph-sparkle', items: ['AI 에이전트', '이상 감지', '알람', '예지보전', '품질 예측', '에너지 최적화'] },
+  { title: '운영', icon: 'ph-gear-six', items: ['자동화', '워크플로우', '리포트 자동화', 'ESG 리포트'] },
+  { title: '신뢰', icon: 'ph-shield-check', items: ['온프레미스 배포', '권한', '암호화'] },
 ];
 ---
 <BaseLayout
@@ -73,37 +72,53 @@ const industries = [
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="ind">
+  <main class="ind wr-page">
     <!-- HERO -->
-    <section class="ind-hero">
+    <section class="ind-hero wr-hero-bg">
+      {/* 랜딩 CTA(#cta)와 같은 파일이다. 소개서 표지가 이미 이 배경을 쓰고 있어,
+          거기서 뽑은 이미지와 픽셀이 사실상 일치했다(평균 차이 0.05/255).
+          따로 들고 있을 이유가 없어 한 파일로 합쳤다. */}
+      <img
+        class="wr-hero-bg-img"
+        src="/img_login-bg.webp"
+        alt=""
+        aria-hidden="true"
+        width="3840"
+        height="2160"
+        decoding="async"
+        fetchpriority="high"
+      />
+      {/* 우측 대시보드 장식 — 소개서 표지와 같은 구성.
+          바깥 칸이 좌우 마스크(왼쪽으로 갈수록 사라짐), 안쪽 칸이 상하 마스크를 맡는다.
+          글이 놓이는 왼쪽으로는 번지지 않아 가독성을 해치지 않는다. */}
+      <div class="wr-hero-fx" aria-hidden="true">
+        <div class="wr-hero-fx-inner">
+          <img src="/why-refinery-dash.webp" alt="" width="2586" height="3512" loading="lazy" decoding="async" />
+        </div>
+      </div>
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><span>왜 Refinery인가</span></nav>
-        <p class="ind-eyebrow">WHY REFINERY</p>
+        <p class="wr-tag">플랫폼 개요</p>
         <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
-        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지, 흩어진 현장을 하나의 통합 지능으로 잇습니다. 기존 시스템 위에 얹거나, 없으면 처음부터 새로 세웁니다.</p>
+        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지<br class="wr-lede-br">{' '}흩어진 현장을 하나의 통합 지능으로 잇습니다.</p>
         <div class="ind-hero-actions">
           <a href="/contact" class="ind-btn-primary">문의하기</a>
-          <a href="/#platform" class="ind-btn-ghost">플랫폼 살펴보기 →</a>
         </div>
       </div>
     </section>
 
     <!-- VALUES -->
-    <section class="ind-section">
+    <section class="ind-section wr-dark">
       <div class="ind-container">
-        <header class="ind-head">
-          <span class="ind-badge">WHY</span>
-          <h2>왜 Refinery를 선택하나</h2>
+        <header class="ind-head wr-head-row">
+          <h2>현장이 먼저입니다</h2>
+          <p>팀도 도입도 데이터도 현장 기준으로</p>
         </header>
         <div class="wr-values">
-          {values.map((v, i) => (
+          {values.map((v) => (
             <div class="wr-value">
-              <div class="wr-value-top">
-                <span class="wr-value-n">{String(i + 1).padStart(2, '0')}</span>
-                <i class={`ph ${v.icon} wr-value-ic`} aria-hidden="true"></i>
-              </div>
+              <img class="wr-value-ic" src={v.icon} alt="" aria-hidden="true" width="124" height="124" loading="lazy" decoding="async" />
               <h3>{v.title}</h3>
-              <p>{v.desc}</p>
+              <p set:html={v.desc}></p>
             </div>
           ))}
         </div>
@@ -113,16 +128,18 @@ const industries = [
     <!-- STORY BLOCKS -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
-        <header class="ind-head">
-          <h2>한 플랫폼 안에서 이어지는 흐름</h2>
-          <p>모으고 → 의미를 붙이고 → 묻고 답하고 → 자동으로 실행합니다.</p>
+        <header class="ind-head wr-head-row">
+          <h2>한 플랫폼에서 이어지는 흐름</h2>
+          <p>모아서 붙이고 묻고 실행하기까지</p>
         </header>
         <div class="wr-stories">
           {stories.map((s, i) => (
-            <article class="wr-story">
-              <div class="wr-story-step"><span>{String(i + 1).padStart(2, '0')}</span></div>
+            <article class="ind-card wr-story">
+              <div class="wr-story-media">
+                <img src={s.image} alt="" aria-hidden="true" width="1920" height="1080" loading="lazy" decoding="async" />
+                <span class="wr-story-tag">{s.eyebrow}</span>
+              </div>
               <div class="wr-story-body">
-                <p class="wr-story-eyebrow">{s.eyebrow}</p>
                 <h3>{s.title}</h3>
                 <ul>
                   {s.points.map((p) => <li>{p}</li>)}
@@ -137,17 +154,19 @@ const industries = [
     <!-- CAPABILITIES -->
     <section class="ind-section">
       <div class="ind-container">
-        <header class="ind-head">
-          <span class="ind-badge">ALL-IN-ONE</span>
-          <h2>한 플랫폼에 담긴 기능</h2>
-          <p>현장 운영에 필요한 기능이 하나의 플랫폼 안에 있습니다.</p>
+        <header class="ind-head wr-head-row">
+          <h2>한 플랫폼 안에 담긴 기능</h2>
+          <p>현장 운영에 필요한 기능이 한곳에</p>
         </header>
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
-            <div class="wr-cap-group">
-              <h3 class="wr-cap-title">{g.title}</h3>
+            <div class="ind-card wr-cap-group">
+              <div class="wr-cap-head">
+                <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
+                <h3>{g.title}</h3>
+              </div>
               <ul>
-                {g.items.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
+                {g.items.map((it) => <li>{it}</li>)}
               </ul>
             </div>
           ))}
@@ -155,24 +174,9 @@ const industries = [
       </div>
     </section>
 
-    <!-- INDUSTRIES -->
-    <section class="ind-section ind-dark">
-      <div class="ind-container">
-        <header class="ind-head">
-          <h2 style="color:#fff;">산업을 가리지 않습니다</h2>
-          <p style="color:#9aa4b0;">각 산업의 고유한 과제를 학습하고 해결합니다.</p>
-        </header>
-        <div class="wr-inds">
-          {industries.map((n) => <span class="wr-ind">{n}</span>)}
-        </div>
-        <div style="text-align:center;margin-top:28px;">
-          <a href="/industries/energy" class="ind-btn-ghost ind-btn-ghost-on-dark">에너지 산업 사례 보기 →</a>
-        </div>
-      </div>
-    </section>
-
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class="ind-cta wr-cta-bg">
+      <img class="wr-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="ind-container">
         <h2>현장의 문제를<br>Refinery 팀과 함께 풀어보세요.</h2>
         <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
@@ -183,45 +187,340 @@ const industries = [
 </BaseLayout>
 
 <style>
-  /* 선택 이유 3 — 상단 룰 + 번호(카드 박스 없이 편집형) */
-  .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
-  .wr-value { padding-top: 20px; border-top: 2px solid #16202c; }
-  .wr-value-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-  .wr-value-n { font-size: 13px; font-weight: 800; letter-spacing: .1em; color: #16202c; }
-  .wr-value-ic { font-size: 22px; color: #aab4c0; }
-  .wr-value h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
-  .wr-value p { margin-top: 11px; font-size: 15px; line-height: 1.72; color: #47535f; }
+  /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
+     공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
+     예지보전 등 유즈케이스 페이지가 쓰는 값(1280/48)과 같다.
+     .wr-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+  .wr-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .wr-page .ind-container { padding: 0 24px; }
+  }
 
-  /* 기능 스토리 — 번호 흐름(카드 대신 구분선) */
-  .wr-stories { display: grid; gap: 0; }
-  .wr-story { display: flex; gap: 30px; align-items: flex-start; padding: 32px 0; border-top: 1px solid var(--border); }
-  .wr-story:last-child { border-bottom: 1px solid var(--border); }
-  .wr-story-step { flex: none; width: 60px; }
-  .wr-story-step span { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; color: #c9d5e0; line-height: 1; }
-  .wr-story-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #4b86bf; text-transform: uppercase; }
-  .wr-story h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin: 7px 0 13px; }
-  .wr-story ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-  .wr-story li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.62; color: #47535f; }
-  .wr-story li::before { content: ''; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: #b7c1cc; }
+  /* ───────── 섹션 공통값을 예지보전(.uc-redesigned)과 맞춘다 ─────────
+     industry.css의 공통값은 이 페이지들보다 촘촘하다. 유즈케이스가 이미
+     랜딩 본문에 맞춰 늘려 쓰고 있으므로 같은 값을 그대로 가져온다.
+       섹션 위아래 여백  84px  → 130px (좁은 화면 60px은 공통값과 같다)
+       제목 아래 여백    44px  → 64px
+       섹션 대제목  clamp(26,3.4vw,38) / 650 / -0.02em / 1.25
+                  → clamp(28,4vw,45)  / 600 / -0.8px  / 1.3   (랜딩 대제목과 같은 값) */
+  .wr-page .ind-section { padding: 130px 0; }
+  @media (max-width: 900px) {
+    .wr-page .ind-section { padding: 60px 0; }
+  }
+  .wr-page .ind-head { margin-bottom: 64px; }
+  .wr-page .ind-head h2 {
+    font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+    letter-spacing: -0.8px; line-height: 1.3;
+  }
+  /* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
+     대신 랜딩 .section-header p(18px / 1.7)에 맞춘다 — 이 페이지 히어로
+     소제목도 이미 그 값이라, 16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
+  .wr-page .ind-head p { font-size: 18px; line-height: 1.7; }
+  @media (max-width: 900px) { .wr-page .ind-head p { font-size: 16px; } }
+
+  /* ───────── 히어로 — 예지보전(.uc-hero-bg)과 같은 구성 ─────────
+     절대배치 사진 + 어두운 스크림 + 흰 글자. 브레드크럼과 영문 eyebrow를 빼고
+     페이지 이름을 하늘색 태그라인으로 올렸다. */
+  /* 위아래 모두 예지보전(.uc-redesigned .ind-hero)과 같은 값이다.
+     소제목이 돌아오면서 세로가 이미 충분해져, 아래를 180px으로 늘려둘 이유가 없어졌다. */
+  /* .ind-hero 공통값의 아래 구분선은 밝은 배경끼리 나눌 때 쓰는 선이다.
+     여기는 어두운 히어로 아래에 어두운 섹션이 붙어 밝은 실선만 도드라진다. */
+  /* 바탕색·이미지 불투명도 모두 소개서 표지 값이다. 표지는 어두운 막을 덮지 않고
+     #10141B 위에 이미지를 .9로 얹는 게 전부라, 그 구성을 그대로 쓴다. */
+  .wr-hero-bg {
+    position: relative; overflow: hidden;
+    padding: 180px 0 100px; border-bottom: none; background: #10141B;
+  }
+  .wr-hero-bg-img {
+    position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
+    /* 100% = 위로 올릴 수 있는 끝. 이미지가 16:9(3840x2160)이고 히어로는 그보다
+       납작해서 cover가 가로에 맞춘다 — 세로 여유 284px이 전부 위로 빠진다. */
+    object-fit: cover; object-position: center 100%;
+    pointer-events: none; user-select: none;
+  }
+  /* 우측 대시보드 장식 — 소개서 표지의 값을 그대로 가져왔다
+     (폭 56% · 이미지 128% · 불투명도 .3 · 좌우/상하 마스크). */
+  /* 왼쪽 페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이
+     좁아져, 글 끝에 닿는 자리에서 이미 또렷해졌다(1024px에서 실효 불투명도 .29).
+     420px으로 못박으면 화면 폭과 무관하게 글 옆 완충 구간이 일정하다(.09 안팎). */
+  .wr-hero-fx {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    overflow: hidden; pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+    mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+  }
+  /* 상단 페이드는 넣지 않는다 — 소개서 표지처럼 위쪽 대시보드(Sankey·소비량)까지
+     보여야 해서, 이미지 위끝을 히어로 위끝에 붙이고 아래쪽만 흐린다. */
+  .wr-hero-fx-inner {
+    position: absolute; inset: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  }
+  /* 크기는 px로 못박고, 칸의 오른쪽 끝에 붙인다.
+     칸(.wr-hero-fx)은 화면 폭의 56%라 창을 줄이면 같이 줄어든다. 이미지를 %로
+     잡으면 그때마다 이미지도 같이 줄고, 히어로 세로는 616px로 고정이라
+     보이는 부분이 매번 달라졌다 — 창 크기를 바꿀 때 그림이 달라 보이던 원인이다.
+     오른쪽 기준(right)으로 붙였으므로 칸이 줄어도 넘침은 120px 그대로이고,
+     남는 쪽은 왼쪽이다. 왼쪽은 어차피 마스크로 사라지는 자리라 티가 안 난다.
+     전역 img{max-width:100%}가 칸보다 넓은 폭을 잘라내므로 풀어준다. */
+  .wr-hero-fx-inner img {
+    position: absolute; right: -140px; left: auto; top: 0;
+    max-width: none; width: 1180px; height: auto;
+    transform: translateY(-205px);
+    opacity: .3;
+  }
+  /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
+     넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
+     작아져 트리맵 한 조각만 확대돼 보이고(1024px에서 칸 573px — 이미지의 절반),
+     칸 왼쪽 끝이 소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다(실효 .29).
+     칸을 40%로 좁히면 칸 시작점이 글 끝보다 바깥으로 밀려 겹침이 0이 된다. */
+  @media (max-width: 1199px) {
+    .wr-hero-fx { width: 40%; }
+    .wr-hero-fx-inner img { width: 800px; right: -95px; }
+  }
+  /* 900px 미만에서는 본문이 화면 전체를 쓴다. 어디에 둬도 글 뒤에 깔려 감춘다. */
+  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
+
+  .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
+  /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
+     .ind-lede의 공통값은 line-height 1.6 · max-width 60ch(=643px)이라 미세하게 어긋났다.
+     색만 다르다 — 여기는 어두운 배경 위다. */
+  .wr-hero-bg .ind-lede {
+    color: rgba(255,255,255,.82);
+    line-height: 1.7; max-width: 600px;
+  }
+  @media (max-width: 900px) {
+    .wr-hero-bg .ind-lede { font-size: 16px; }
+    /* 좁은 화면에서는 첫 줄이 어차피 다시 감긴다. 여기에 <br>까지 걸리면
+       '자동 실행 / 까지'처럼 한 어절만 남아 떨어진다. 자연스럽게 흐르게 둔다. */
+    .wr-lede-br { display: none; }
+  }
+  /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
+  .wr-tag {
+    font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
+    color: #76a6d7; margin-bottom: 14px;
+  }
+  .wr-hero-bg h1 {
+    font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+    letter-spacing: -0.8px; line-height: 1.3; color: #fff;
+    word-break: keep-all;
+  }
+  .wr-hero-bg .ind-hero-actions { margin-top: 48px; gap: 16px; }
+  /* 버튼 2개 — 형태는 랜딩 CTA와 같고, 주 버튼만 accent 면으로 채운다. */
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary {
+    padding: 9px 22px; font-size: 15px; font-weight: 400;
+    border-radius: 6px; transition: all .2s;
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary {
+    background: #76a6d7; color: #fff; border: 1px solid #76a6d7;
+  }
+  .wr-hero-bg .ind-hero-actions .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+
+  /* ───────── CTA — 예지보전(.uc-cta-bg)과 같은 구성 ─────────
+     사진 위 좌측 정렬 제목 + 우측 버튼. 이미지가 lazy라 도착 전 흰 배경이면
+     글자가 잠깐 보이지 않으므로 어두운 면을 미리 깔아둔다. */
+  .wr-cta-bg {
+    position: relative; overflow: hidden;
+    padding: 95px 0; text-align: left; background: #0c1015;
+  }
+  .wr-cta-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 65%;
+    pointer-events: none; user-select: none;
+  }
+  .wr-cta-bg .ind-container {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .wr-cta-bg .ind-container > * { flex: none; }
+  /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다.
+     크기는 섹션 대제목(45px)보다 한 단계 작은 40px이다. 예지보전이 같은 이유로
+     그렇게 쓴다 — 하위 페이지라 위계가 낮고, 버튼이 옆에 붙어 제목 폭이 좁다. */
+  .wr-page .ind-cta.wr-cta-bg h2 {
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    letter-spacing: -0.8px; line-height: 1.35;
+    color: #fff; margin-bottom: 0; text-wrap: initial;
+  }
+  .ind-cta.wr-cta-bg .ind-btn-primary {
+    margin-top: 0; padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: #76a6d7; color: #fff;
+    border: 1px solid #76a6d7; border-radius: 6px; transition: all .2s;
+  }
+  .ind-cta.wr-cta-bg .ind-btn-primary:hover {
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
+  }
+  /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
+  /* 좁은 화면 경계는 900px 하나로 통일한다. 860과 900이 섞여 있어서 그 사이
+     구간(861~900)이 어중간했다 — 여백·글자는 좁은 화면 값인데 격자는 3·4열,
+     히어로 여백은 넓은 화면 값이었다. */
+  @media (max-width: 900px) {
+    .ind-cta.wr-cta-bg .ind-btn-primary { margin-top: 32px; }
+    .wr-hero-bg { padding: 120px 0 72px; }
+  }
+
+  /* ───────── '왜 Refinery를 선택하나' — 예지보전 '푸는 방식' 섹션과 같은 어두운 면
+     실측값: 면 #111316, 제목 #EDEEF0, 설명 #959CA5, 구분선 #272B32, 아이콘 accent. */
+  .wr-dark { background: #111316; }
+  .wr-dark .ind-head h2 { color: #edeef0; }
+  .wr-dark .ind-head p { color: #959ca5; }
+  .wr-dark .wr-value h3 { color: #edeef0; }
+  .wr-dark .wr-value p { color: #959ca5; }
+
+  /* 선택 이유 3 — 상단 룰 + 번호(카드 박스 없이 편집형) */
+  /* 셋으로 나누는 간격은 그대로 두고, 카드 안만 가운데 정렬로 바꿨다.
+     번호와 윗선을 빼서 아이콘이 카드의 시작점이 된다 — 윗선이 있으면
+     가운데 정렬한 글과 선의 왼쪽 끝이 어긋나 보인다. */
+  /* 랜딩 .section-header-row와 같은 배치 — 대제목 오른쪽 끝에 소제목을 두고
+     아랫선을 맞춘다(align-items: flex-end). 소제목 폭 360px도 같은 값이다.
+     .ind-head의 max-width 640px은 두 칸을 나란히 두기엔 좁아 푼다. */
+  .wr-head-row {
+    max-width: none;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .wr-head-row h2 { margin-bottom: 0; }
+  .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
+  /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
+  @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
+
+  /* 카드 사이 간격은 예지보전이 쓰는 공통값(.ind-grid, 18px)과 같게 둔다. */
+  .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .wr-value { text-align: center; }
+  /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
+     124px으로 두면 실제로 보이는 크기는 108px 안팎이다. */
+  .wr-value-ic { display: block; width: 124px; height: 124px; margin: 0 auto 26px; }
+  /* 글자 값은 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같다.
+     19px/700/-0.02em → 20px/600/-0.01em, 설명 줄간격 1.72 → 1.5.
+     제목·설명 사이 간격은 설명의 margin-top(11px) 대신 제목의 margin-bottom(5px)이
+     맡는다 — 거기도 그렇게 잡혀 있다. */
+  .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
+  .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
+
+  /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
+  .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  /* .ind-card의 안여백(26px)을 풀고 이미지가 카드 폭을 꽉 채우게 한다.
+     안여백은 아래 .wr-story-body가 맡는다. */
+  .wr-page .wr-story { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  /* 칸 세로를 이미지 세로에 딱 맞춘다. 이미지가 칸 폭의 120%이고 원본이 16:9이므로
+     이미지 높이 = 1.2 x 칸폭 x (1080/1920) = 칸폭의 0.675배 → 칸 비율 40:27.
+     남는 흰 자리 없이 이미지가 칸을 세로로 정확히 채운다.
+     아래끝은 랜딩 보안 섹션 카드(.sec-card-img::after)와 같은 방식으로 흰색으로
+     녹인다 — 구분선 대신 그라데이션이 이미지와 글을 잇는다. */
+  .wr-story-media {
+    aspect-ratio: 40 / 27; background: #fff;
+    position: relative; overflow: hidden;
+  }
+  /* 그림이 화판(1920x1080) 가운데 가로 14~88% · 세로 18~82%에만 있고 바깥은
+     옅은 격자 무늬다. 120%로 키우고 이미지 위끝을 칸 위끝에 붙인다(top 0) —
+     이렇게 해야 그림 위의 점선이 남는다. 앞서 top을 음수로 두었을 때는
+     '위끝에 맞춘' 것이 아니라 점선 여백을 잘라내고 있었다.
+     아래는 그라데이션이 받는 자리에서 잘린다.
+     좌우가 안 잘리는 한계는 139%다 — 그림이 화판 가로 14~88%에 있어
+     0.14W >= (W-칸폭)/2를 풀면 그 값이 나온다. 120%는 그 안쪽이다.
+     transform: scale()로 키우면 안 된다 — 레이아웃 크기로 한 번 그린 뒤 그 결과를
+     늘리는 방식이라 흐려진다. 크기 자체를 키워야 그 크기로 다시 그려 선명하다.
+     (SVG 자체는 벡터라 크기와 무관하게 깨지지 않는다) */
+  .wr-story-media img {
+    display: block; position: absolute; top: 0; left: -10%;
+    /* 전역 img{max-width:100%}가 120%를 칸 폭으로 잘라낸다 — 풀어준다. */
+    max-width: none; width: 120%; height: auto;
+  }
+  .wr-story-media::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,.6) 50%, #fff 100%);
+    pointer-events: none;
+  }
+  .wr-story-body { padding: 20px 24px 24px; }
+  /* 태그라인을 카드 오른쪽 위 모서리의 하늘색 도형 안에 넣는다.
+     글자 값은 랜딩 플랫폼 섹션 태그라인(.teams-preview-tagline)과 같은
+     12px / 600 / 자간 1.2px. 색만 다르다 — 하늘색 면 위다.
+     모서리는 카드 오른쪽 위(12px)에 맞추고 안쪽 아래만 깎는다.
+     하늘색은 브랜드 값 #76A6D7 하나로 고정한다(--accent와 같은 값이지만
+     변수를 거치지 않고 직접 적는다 — 이 색은 페이지 밖 정의에 기대지 않는다). */
+  .wr-story-tag {
+    position: absolute; top: 0; right: 0; z-index: 1;
+    background: #76A6D7; color: #fff;
+    font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+    padding: 8px 14px; white-space: nowrap;
+    border-radius: 0 var(--radius) 0 12px;
+  }
+  /* 제목·본문 크기는 '현장이 먼저입니다' 카드(.wr-value)와 같은 값 —
+     20px/600/-0.01em/1.6, 본문 15px/1.5.
+     안여백만 랜딩 보안 카드 값(20px 24px 24px)을 쓴다. */
+  .wr-story h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
+  /* 항목 사이를 따로 벌리지 않는다 — '현장이 먼저입니다' 카드는 <br>로 나뉜
+     두 줄이라 줄간격(1.5)만으로 이어진다. 여기도 같은 리듬이 되게 gap을 0으로. */
+  .wr-story ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  /* 흐름 카드만 줄간격 1.7 — 항목이 세 줄 나란히 놓여 1.5로는 붙어 보인다. */
+  .wr-story li { position: relative; padding-left: 12px; font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+  /* 표식 색을 카드의 강조색(태그라인·아이콘)과 같은 하늘색으로 모은다.
+     회색 #B7C1CC은 본문 글자색(#7E8A98)보다 밝아 표식이 글보다 먼저 흐려졌다.
+     색이 진해진 만큼 6 → 4px으로 줄여 튀지 않게 한다. */
+  /* 점 3px, 점과 글 사이 8px. 15px 본문에서 띄어쓰기 한 칸이 3.7px이라 두 칸이다. */
+  .wr-story li::before { content: ''; position: absolute; left: 1px; top: 11px; width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
 
   /* 기능 — 주제별 그룹 리스트(박스 그리드 제거) */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 28px; }
-  .wr-cap-title { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: #16202c; padding-bottom: 11px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-  .wr-cap-group ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-  .wr-cap-group li { display: flex; align-items: center; gap: 9px; font-size: 14.5px; color: #2b3644; }
-  .wr-cap-group li i { color: #76a6d7; font-size: 15px; flex: none; }
+  /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
+     제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
+     hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .wr-page .wr-cap-group { padding: 24px; }
+  /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
+     아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
+     박스 30x30 · 라운드 8px, 글리프 17px. 제목(20px) 옆에 붙는 표식이라
+     제목보다 크지 않게 잡았다. */
+  /* 제목 묶음과 항목 사이를 선으로 나눈다. 항목 칸이 회색 면이라
+     선이 없으면 제목과 첫 줄이 붙어 보인다.
+     선은 카드 가로 끝까지 간다 — 카드 안여백(24px)만큼 좌우로 빼내고
+     같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다. */
+  .wr-cap-head {
+    display: flex; align-items: center; gap: 10px;
+    /* 카드 안여백(24px)만큼 위·좌·우로 빼내 면이 카드 끝과 위끝까지 닿게 하고,
+       같은 값을 안여백으로 돌려줘 글자 위치는 그대로 둔다.
+       위 모서리는 카드 라운드와 같은 값으로 깎는다. */
+    margin: -24px -24px 0; padding: 16px 24px;
+    /* 면을 비우는 것만 랜딩 눌린 탭에서 가져왔다. 굵기는 600 —
+       예지보전 신호 카드와 이 페이지의 다른 카드 제목이 모두 20px/600이라
+       기능 카드만 700이면 혼자 두꺼워 보인다.
+       제목 색은 기본 글자색 그대로다 — 하늘색은 아이콘에만 남긴다.
+       아래 선은 카드 테두리(#E3E7EC)보다 연한 #F6F8FA —
+       같은 색이면 카드가 둘로 잘린 것처럼 읽힌다. 머리와 몸통을 나누는 선은
+       테두리보다 뒤로 물러나야 한다. */
+    background: transparent;
+    border-bottom: 1px solid #f6f8fa;
+  }
+  .wr-cap-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    /* 탭에는 아이콘 박스가 없다 — 글자와 같은 색의 글리프만 둔다.
+       제목(20px)보다 작게 둬 표식으로만 읽히게 한다. */
+    flex: none; color: var(--accent);
+  }
+  .wr-cap-icon i { font-size: 18px; line-height: 1; }
+  .wr-page .wr-cap-group h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0;
+  }
+  /* 항목을 작은 칸으로 둔다. flex-wrap이라 글자 수에 따라 한 줄에 두 개가 오기도 하고
+     긴 항목은 혼자 한 줄을 쓴다 — 줄마다 개수를 정하지 않는다.
+     칸 색은 '이어지는 흐름' 섹션과 같은 면(var(--bg-soft) #f6f8fa)이다. */
+  .wr-cap-group ul {
+    list-style: none; padding: 0; margin: 10px 0 0;
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .wr-cap-group ul { margin-top: 20px; }
+  .wr-cap-group li {
+    background: var(--bg-soft); border-radius: 8px;
+    /* 랜딩 솔루션 섹션 카드 소제목(.industry-desc)과 같은 var(--text-muted) #7E8A98. */
+    padding: 7px 12px; font-size: 15px; line-height: 1.4; color: var(--text-muted);
+  }
 
-  /* 산업 칩 */
-  .wr-inds { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .wr-ind { font-size: 14px; color: #e6edf3; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 8px 16px; }
-  .ind-btn-ghost-on-dark { color: #cdd6df; border-color: rgba(255,255,255,0.28); }
-
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }
     .wr-caps { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
-    .wr-story { gap: 20px; padding: 26px 0; }
-    .wr-story-step { width: 44px; }
-    .wr-story-step span { font-size: 26px; }
+    .wr-stories { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 520px) {
     .wr-caps { grid-template-columns: 1fr; }
