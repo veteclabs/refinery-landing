@@ -372,13 +372,13 @@ const alternates = [
   .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
   .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
   .cmp-acc-inner { overflow: hidden; }
-  /* 펼친 카드 높이. 일러스트(591px)를 다 담으면 카드가 592px로 너무 커져
-     아래쪽 빈 여백만 차지한다. 바닥판 아래 빈 부분만 잘리도록 480px에 맞춘다.
-     480 = 머리 141 + 패널 339. min-height를 카드가 아니라 패널 안쪽에 걸어야
+  /* 펼친 카드 높이 450px. 일러스트(591px)를 다 담으면 카드가 592px로 커져
+     바닥판 아래 빈 여백까지 떠안는다. 그 빈 부분만 잘리게 맞춘 값이다.
+     450 = 머리 141 + 패널 309. min-height를 카드가 아니라 패널 안쪽에 걸어야
      grid-template-rows 0fr→1fr 전환이 그대로 살아 있다.
      일러스트가 없는 900px 미만에서는 걸지 않는다. */
   @media (min-width: 901px) {
-    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 339px; }
+    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 309px; }
   }
   /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
   /* 설명을 카드 아래쪽으로 내린다 — 위 여백을 크게 주고 아래는 머리쪽과 같은 30px.
