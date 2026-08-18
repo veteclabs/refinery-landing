@@ -208,7 +208,10 @@ const alternates = [
           {T.principles.map((p, i) => (
             <li class="cmp-rule-card">
               <span class="cmp-rule-num">{String(i + 1).padStart(2, '0')}</span>
-              <div class="cmp-rule-box"></div>
+              <div class="cmp-rule-box">
+                <img src={`/company/icon-rule-0${i + 1}.svg`} alt="" aria-hidden="true"
+                     width="150" height="150" loading="lazy" decoding="async" />
+              </div>
               <h3>{p.title}</h3>
               <p set:html={p.description}></p>
             </li>
@@ -367,7 +370,9 @@ const alternates = [
     width: 100%; aspect-ratio: 16 / 9;
     background: var(--bg-soft); border-radius: 8px;
     margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
   }
+  .cmp-rule-box img { width: 120px; height: 120px; display: block; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
