@@ -359,15 +359,15 @@ const alternates = [
     /* 원을 --accent로 채우고 숫자는 흰색. 테두리는 같은 색으로 남겨 두면
        border-box 기준 지름 30px이 그대로 유지된다. */
     background: var(--accent); border: 1px solid var(--accent);
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    /* 글꼴은 뿌리 태그라인(.cmp-acc-tag)과 같은 본문 글꼴을 그대로 물려받는다. */
     /* 크기·굵기·자간 모두 아코디언 태그라인(.cmp-acc-tag)과 동일하게 맞춘다.
        자간 1.2px은 마지막 글자 뒤에도 붙어 글자가 0.6px 왼쪽으로 치우치지만
        이 크기에서는 눈에 띄지 않는다. */
-    font-size: 13px; font-weight: 600; line-height: 1;
-    /* 자간 0 — 태그라인은 1.2px이지만 여기는 한 글자라 글자 사이에 적용될 곳이
-       없고 마지막 글자 뒤 여백만 남는다. 그 여백까지 포함해 가운데 정렬되면서
-       숫자가 왼쪽으로 0.6px 치우쳤다(실측 -0.33 ~ -0.96px). */
-    color: #ffffff; letter-spacing: 0;
+    font-size: 15px; font-weight: 600; line-height: 1;
+    /* 자간도 뿌리 태그라인과 같은 1.2px. 다만 한 글자라 글자 사이에 적용될 곳이
+       없고 마지막 글자 뒤 여백만 남아, 그대로 두면 가운데 정렬 시 숫자가 왼쪽으로
+       0.6px 치우친다. padding-left로 그만큼 되민다(border-box라 지름은 30px 유지). */
+    color: #ffffff; letter-spacing: 1.2px; padding-left: 1.2px;
     /* 번호는 흐름에서 빼서 카드 왼쪽 위에 고정한다. 흐름에 두면 이 배지가
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
        위치값(30px)은 카드 패딩과 같아 보이는 자리는 그대로다. */
@@ -385,7 +385,7 @@ const alternates = [
   }
   /* 본문 16 / 1.7 — .cmp-acc-inner p와 동일. 아코디언에 모바일 축소가 없으므로
      여기서도 폭이 줄어도 크기를 낮추지 않는다. */
-  .cmp-rule-card p { margin: 0; font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
   @media (max-width: 900px) {
     .cmp-rule { grid-template-columns: repeat(2, 1fr); }
   }
@@ -428,7 +428,7 @@ const alternates = [
      물려받는데 여기는 .ind-section 문맥의 1.65가 와서 1px 어긋나 못 박는다. */
   /* 랜딩 #teams는 태그라인 12 / 제목 24 / 설명 15였는데 제목·설명을 각각
      x1.17, x1.2로 키웠다. 태그라인도 같은 비율로 14px에 맞춘다. */
-  .cmp-acc-tag { display: block; font-size: 13px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
+  .cmp-acc-tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
   .cmp-acc-title { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; }
   /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
      있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
@@ -453,7 +453,7 @@ const alternates = [
      카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
   /* 설명을 제목 바로 아래로 올린다(머리쪽 padding-bottom 8 + 여기 12 = 20px).
      카드가 높아진 만큼 아래가 비는데, 그 자리를 일러스트가 온전히 차지한다. */
-  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 15px; line-height: 1.7; color: var(--text-muted);
+  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted);
     /* 일러스트가 카드 오른쪽 절반을 차지하므로 글 상자를 그 앞에서 끊는다.
        줄바꿈은 <br>로 고정이라 실제 줄 길이는 이 값보다 짧다. */
     max-width: 46%; }
@@ -461,7 +461,7 @@ const alternates = [
     .cmp-acc-head { padding: 22px 20px; }
     .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
     .cmp-acc-title { font-size: 21px; }
-    .cmp-acc-inner p { padding: 48px 20px 22px; font-size: 15px; max-width: none; }
+    .cmp-acc-inner p { padding: 48px 20px 22px; font-size: 16px; max-width: none; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
