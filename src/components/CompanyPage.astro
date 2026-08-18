@@ -462,7 +462,15 @@ const alternates = [
     .cmp-acc-item:nth-child(3) .cmp-acc-illust {
       order: 1; position: static; width: 100%; height: auto; max-width: 420px;
       margin: 0 auto; padding: 4px 20px 22px; box-sizing: border-box;
+      /* 데스크톱과 같은 부분만 보이게 자른다.
+         데스크톱은 그림(592x600 등)을 열린 카드 높이 439px이 잘라내므로,
+         상자 비율을 <그림 폭> / 439로 잡고 object-fit: cover로 세로만 자른다.
+         object-position의 세로값은 데스크톱 top 오프셋을 비율로 옮긴 값이다
+         (2번 65 / (591-439) = 42.8% · 3번 75 / (663-439) = 33.5%). */
+      aspect-ratio: 592 / 439; object-fit: cover; object-position: 50% 0%;
     }
+    .cmp-acc-item:nth-child(2) .cmp-acc-illust { aspect-ratio: 591 / 439; object-position: 50% 42.8%; }
+    .cmp-acc-item:nth-child(3) .cmp-acc-illust { aspect-ratio: 621 / 439; object-position: 50% 33.5%; }
     .cmp-acc-item[data-open="false"] .cmp-acc-illust { display: none; }
   }
   .cmp-acc-head {
