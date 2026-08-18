@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1020.47 1020.47">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1218.9 1020.47">
   <defs>
     <style>
       .cls-1 {
@@ -75,7 +75,7 @@
         opacity: .8;
       }
     </style>
-    <linearGradient id="_무제_그라디언트_262" data-name="무제 그라디언트 262" x1="619.33" y1="429.99" x2="737.28" y2="429.99" gradientUnits="userSpaceOnUse">
+    <linearGradient id="_무제_그라디언트_262" data-name="무제 그라디언트 262" x1="619.34" y1="429.99" x2="737.28" y2="429.99" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#e3e7ec"/>
       <stop offset="1" stop-color="#f6f8fa"/>
     </linearGradient>
