@@ -207,11 +207,9 @@ const alternates = [
         <ol class="cmp-rule">
           {T.principles.map((p, i) => (
             <li class="cmp-rule-card">
-              <span class="cmp-rule-num">{String(i + 1).padStart(2, '0')}</span>
-              <div class="cmp-rule-box">
-                <img src={`/company/icon-rule-0${i + 1}.svg`} alt="" aria-hidden="true"
-                     width="150" height="150" loading="lazy" decoding="async" />
-              </div>
+              <span class="cmp-rule-num">{i + 1}</span>
+              <img class="cmp-rule-icon" src={`/company/icon-rule-0${i + 1}.svg`} alt="" aria-hidden="true"
+                   width="150" height="150" loading="lazy" decoding="async" />
               <h3>{p.title}</h3>
               <p set:html={p.description}></p>
             </li>
@@ -365,16 +363,9 @@ const alternates = [
     color: var(--accent); letter-spacing: 1.2px;
     margin-bottom: 18px;
   }
-  /* 대제목 위 네모 박스. 폭은 카드 안쪽 내용 너비(패딩 30 제외)에 맞고,
-     배경은 위 뿌리 섹션(.ind-soft)과 같은 --bg-soft(#f6f8fa).
-     높이는 지정된 값이 없어 16:9로 잡았다(1440px에서 323 x 182px). */
-  .cmp-rule-box {
-    width: 100%; aspect-ratio: 16 / 9;
-    background: var(--bg-soft); border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .cmp-rule-box img { width: 120px; height: 120px; display: block; }
+  /* 대제목 위 아이콘. 받침 박스 없이 아이콘만 놓으므로 카드의 다른 요소(번호·제목·본문)와
+     같은 왼쪽 정렬을 따른다. */
+  .cmp-rule-icon { display: block; width: 120px; height: 120px; margin-bottom: 20px; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
