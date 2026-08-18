@@ -161,6 +161,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       title: '리소스',
       items: [
         { label: '산업 AI', href: '/industrial-ai' },
+        { label: '에너지관리시스템', href: '/energy-management' },
         { label: '블로그', href: '/blog' },
         { label: '자료실', href: '/resources' },
       ],
