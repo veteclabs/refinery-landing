@@ -335,8 +335,10 @@ const alternates = [
      랜딩 솔루션 섹션(#industries)과 같은 규격.
      global.css:428 .industries-grid  → 3열 · gap 18 · 900px 2열 · 600px 1열
      global.css:429 .industry-card    → #fff · 1px border · radius · padding 30
-     global.css:431 .industry-name    → 20px / 600 / margin-bottom 5
-     global.css:432 .industry-desc    → 15px / 1.5 / muted (900px 이하 14px) */
+     레이아웃(3열·gap·카드 박스)만 랜딩을 따르고, 글자 크기는 위 뿌리 아코디언과
+     동일하게 맞춘다: 라벨 13 · 제목 28 / 1.3 · 본문 16 / 1.7.
+     ⚠️ 카드 본문폭이 323px(아코디언 544px)이라 같은 크기여도 줄 수가 다르다.
+        02번 제목 2줄, 01번 본문 4줄이 되는 것은 이 폭 차이 때문이지 오류가 아니다. */
   .cmp-rule {
     list-style: none; margin: 0; padding: 0;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
@@ -351,18 +353,23 @@ const alternates = [
     width: 38px; height: 38px; border-radius: 50%;
     background: #eef4fb;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 14px; font-weight: 600; line-height: 1;
+    /* 크기는 아코디언 태그라인(.cmp-acc-tag)과 같은 13px.
+       자간은 두 글자 숫자가 원 안에서 밀리지 않게 아코디언(1.2px) 대신 0.02em을 쓴다. */
+    font-size: 13px; font-weight: 600; line-height: 1;
     color: var(--accent); letter-spacing: 0.02em;
     margin-bottom: 18px;
   }
   .cmp-rule-card h3 {
-    margin: 0 0 5px; font-size: 20px; font-weight: 600; line-height: 1.3;
+    /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
+       붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
+    margin: 0 0 12px; font-size: 28px; font-weight: 600; line-height: 1.3;
     color: var(--text); word-break: keep-all;
   }
-  .cmp-rule-card p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
+  /* 본문 16 / 1.7 — .cmp-acc-inner p와 동일. 아코디언에 모바일 축소가 없으므로
+     여기서도 폭이 줄어도 크기를 낮추지 않는다. */
+  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
   @media (max-width: 900px) {
     .cmp-rule { grid-template-columns: repeat(2, 1fr); }
-    .cmp-rule-card p { font-size: 14px; }
   }
   @media (max-width: 600px) {
     .cmp-rule { grid-template-columns: 1fr; }
