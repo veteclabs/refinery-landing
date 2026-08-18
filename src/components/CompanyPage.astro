@@ -208,8 +208,10 @@ const alternates = [
           {T.principles.map((p, i) => (
             <li class="cmp-rule-card">
               <span class="cmp-rule-num">{i + 1}</span>
-              <img class="cmp-rule-icon" src={`/company/icon-rule-0${i + 1}.svg`} alt="" aria-hidden="true"
-                   width="150" height="150" loading="lazy" decoding="async" />
+              {/* SVG는 내용의 97%가 내장 base64 래스터라 벡터로 둘 이점이 없었다.
+                  표시 크기 160px의 2배인 320px WebP로 대체(778.7KB -> 21.6KB). */}
+              <img class="cmp-rule-icon" src={`/company/icon-rule-0${i + 1}.webp`} alt="" aria-hidden="true"
+                   width="320" height="320" loading="lazy" decoding="async" />
               <h3>{p.title}</h3>
               <p set:html={p.description}></p>
             </li>
@@ -367,6 +369,8 @@ const alternates = [
     /* 자간은 회사 소개 섹션 태그라인(.cmp-story-tag)과 같은 -0.2px.
        값이 작아 한 글자 뒤에 붙는 여백도 -0.1px 수준이라 되밀 필요가 없다
        (자간 1.2px일 때는 0.6px 밀려 padding-left로 보정했었다). */
+    /* 흰색 유지. #3f76ae를 시도했으나 그 4.71:1은 흰 배경 기준 값이었고,
+       실제 바탕인 #76A6D7 위에서는 1.86:1로 흰색(2.56:1)보다 낮았다. */
     color: #ffffff; letter-spacing: -0.2px;
     /* 번호는 흐름에서 빼서 카드 왼쪽 위에 고정한다. 흐름에 두면 이 배지가
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
