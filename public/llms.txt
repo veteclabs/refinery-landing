@@ -3,7 +3,8 @@
 > 산업 데이터의 복잡성을 정제해 명료한 판단으로. Refinery는 제조·에너지 현장의 흩어진 데이터(SCADA·MES·ERP·센서·문서)를 온톨로지로 엮어, AI 에이전트가 근거를 들어 판단을 돕는 산업 AI 플랫폼입니다. VETEC이 30년 현장 경험과 100곳이 넘는 산업 현장에서 만들었습니다. 기존 시스템 위에 얹거나 없으면 새로 구축하며, 온프레미스 배포를 지원합니다.
 
 ## 핵심 개념
-- [산업 AI란?](https://refinery.kr/industrial-ai): 산업 AI·제조 AI·에너지 AI·산업 AI 에이전트의 정의와 Refinery의 접근
+- [산업 AI란?](https://refinery.kr/industrial-ai): 산업 AI·제조 AI·제조업 AI·스마트팩토리 AI·에너지 AI·산업 AI 에이전트의 정의와 Refinery의 접근
+- [에너지관리시스템(EMS)이란?](https://refinery.kr/energy-management): EMS·BEMS·전력관리시스템·전력감시·전력모니터링·정전감시 정의와 Refinery의 접근
 - [왜 Refinery인가](https://refinery.kr/why-refinery): 현장을 아는 팀, 걷어내지 않는 도입, 온톨로지 기반 판단
 
 ## 활용(Use cases)
