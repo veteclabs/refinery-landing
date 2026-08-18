@@ -356,8 +356,9 @@ const alternates = [
   .cmp-rule-num {
     display: flex; align-items: center; justify-content: center;
     width: 38px; height: 38px; border-radius: 50%;
-    /* 면은 비우고 테두리만 남긴다. 선 색은 태그라인과 같은 --accent. */
-    background: transparent; border: 1px solid var(--accent);
+    /* 카드 면이 --bg-soft라 원은 흰색으로 채워 떠 보이게 한다.
+       선 색은 태그라인과 같은 --accent. */
+    background: #ffffff; border: 1px solid var(--accent);
     font-family: 'JetBrains Mono', ui-monospace, monospace;
     /* 크기·굵기·자간 모두 아코디언 태그라인(.cmp-acc-tag)과 동일하게 맞춘다.
        자간 1.2px은 마지막 글자 뒤에도 붙어 글자가 0.6px 왼쪽으로 치우치지만
