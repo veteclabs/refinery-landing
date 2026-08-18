@@ -355,12 +355,14 @@ const alternates = [
   .cmp-rule-num {
     display: flex; align-items: center; justify-content: center;
     width: 38px; height: 38px; border-radius: 50%;
-    background: #eef4fb;
+    /* 면은 비우고 테두리만 남긴다. 선 색은 태그라인과 같은 --accent. */
+    background: transparent; border: 1px solid var(--accent);
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    /* 크기는 아코디언 태그라인(.cmp-acc-tag)과 같은 13px.
-       자간은 두 글자 숫자가 원 안에서 밀리지 않게 아코디언(1.2px) 대신 0.02em을 쓴다. */
+    /* 크기·굵기·자간 모두 아코디언 태그라인(.cmp-acc-tag)과 동일하게 맞춘다.
+       자간 1.2px은 마지막 글자 뒤에도 붙어 글자가 0.6px 왼쪽으로 치우치지만
+       이 크기에서는 눈에 띄지 않는다. */
     font-size: 13px; font-weight: 600; line-height: 1;
-    color: var(--accent); letter-spacing: 0.02em;
+    color: var(--accent); letter-spacing: 1.2px;
     margin-bottom: 18px;
   }
   /* 대제목 위 네모 박스. 폭은 카드 안쪽 내용 너비(패딩 30 제외)에 맞고,
