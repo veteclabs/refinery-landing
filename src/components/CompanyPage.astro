@@ -364,10 +364,10 @@ const alternates = [
        자간 1.2px은 마지막 글자 뒤에도 붙어 글자가 0.6px 왼쪽으로 치우치지만
        이 크기에서는 눈에 띄지 않는다. */
     font-size: 15px; font-weight: 600; line-height: 1;
-    /* 자간도 뿌리 태그라인과 같은 1.2px. 다만 한 글자라 글자 사이에 적용될 곳이
-       없고 마지막 글자 뒤 여백만 남아, 그대로 두면 가운데 정렬 시 숫자가 왼쪽으로
-       0.6px 치우친다. padding-left로 그만큼 되민다(border-box라 지름은 30px 유지). */
-    color: #ffffff; letter-spacing: 1.2px; padding-left: 1.2px;
+    /* 자간은 회사 소개 섹션 태그라인(.cmp-story-tag)과 같은 -0.2px.
+       값이 작아 한 글자 뒤에 붙는 여백도 -0.1px 수준이라 되밀 필요가 없다
+       (자간 1.2px일 때는 0.6px 밀려 padding-left로 보정했었다). */
+    color: #ffffff; letter-spacing: -0.2px;
     /* 번호는 흐름에서 빼서 카드 왼쪽 위에 고정한다. 흐름에 두면 이 배지가
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
        위치값(30px)은 카드 패딩과 같아 보이는 자리는 그대로다. */
@@ -428,7 +428,7 @@ const alternates = [
      물려받는데 여기는 .ind-section 문맥의 1.65가 와서 1px 어긋나 못 박는다. */
   /* 랜딩 #teams는 태그라인 12 / 제목 24 / 설명 15였는데 제목·설명을 각각
      x1.17, x1.2로 키웠다. 태그라인도 같은 비율로 14px에 맞춘다. */
-  .cmp-acc-tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px; }
+  .cmp-acc-tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: -0.2px; color: var(--accent); margin-bottom: 8px; }
   .cmp-acc-title { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; }
   /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
      있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
