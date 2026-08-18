@@ -202,16 +202,14 @@ const alternates = [
           <h2>{T.principlesTitle}</h2>
           <p>{T.principlesSub}</p>
         </header>
-        {/* 번호 매긴 가로 전체 폭 목록. 위 뿌리 섹션(아코디언)과 가로 폭은 맞추되
-            펼침이 없어 형태로 구분되고, 내용이 항상 보여 균형추가 된다. */}
+        {/* 랜딩 솔루션 섹션(#industries)의 .industries-grid / .industry-card 규격을 그대로 따른다.
+            3열 · gap 18 · 900px에서 2열 · 600px에서 1열. */}
         <ol class="cmp-rule">
           {T.principles.map((p, i) => (
-            <li class="cmp-rule-item">
+            <li class="cmp-rule-card">
               <span class="cmp-rule-num">{String(i + 1).padStart(2, '0')}</span>
-              <div class="cmp-rule-body">
-                <h3>{p.title}</h3>
-                <p set:html={p.description}></p>
-              </div>
+              <h3>{p.title}</h3>
+              <p set:html={p.description}></p>
             </li>
           ))}
         </ol>
@@ -333,47 +331,41 @@ const alternates = [
     .cmp-head-row p { margin-top: 12px; max-width: none; }
   }
 
-  /* ───────── 원칙 목록 ─────────
-     아코디언과 같은 1184px 폭을 쓰되 클릭이 없다. 원형 번호 → 연결선 → 둥근 박스
-     순서로 이어 붙여 '기준'이 순서를 가진 것처럼 읽히게 한다. */
-  .cmp-rule { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-  .cmp-rule-item {
-    position: relative;
-    display: grid; grid-template-columns: 44px 1fr; gap: 24px;
-    align-items: start;
+  /* ───────── 원칙 카드 ─────────
+     랜딩 솔루션 섹션(#industries)과 같은 규격.
+     global.css:428 .industries-grid  → 3열 · gap 18 · 900px 2열 · 600px 1열
+     global.css:429 .industry-card    → #fff · 1px border · radius · padding 30
+     global.css:431 .industry-name    → 20px / 600 / margin-bottom 5
+     global.css:432 .industry-desc    → 15px / 1.5 / muted (900px 이하 14px) */
+  .cmp-rule {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   }
-  /* 원과 박스를 잇는 가로선. 그리드 gap(24px) 구간을 그대로 채운다. */
-  .cmp-rule-item::before {
-    content: ''; position: absolute; left: 44px; width: 24px;
-    top: 42px; height: 1px; background: var(--border);
+  .cmp-rule-card {
+    background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 30px; position: relative; overflow: hidden;
+    transition: border-color .2s, background .2s;
   }
   .cmp-rule-num {
     display: flex; align-items: center; justify-content: center;
-    width: 44px; height: 44px; border-radius: 50%;
+    width: 38px; height: 38px; border-radius: 50%;
     background: #eef4fb;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 16px; font-weight: 600; line-height: 1;
+    font-size: 14px; font-weight: 600; line-height: 1;
     color: var(--accent); letter-spacing: 0.02em;
-    /* 박스 안 제목 줄상자(24 x 1.3 = 31px)의 중심에 원 중심을 맞춘다.
-       패딩 26 + (31 - 44) / 2 = 20 */
-    margin-top: 20px;
+    margin-bottom: 18px;
   }
-  .cmp-rule-body {
-    background: #ffffff; border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 26px 30px;
-  }
-  .cmp-rule-body h3 {
-    margin: 0 0 10px; font-size: 24px; font-weight: 600; line-height: 1.3;
+  .cmp-rule-card h3 {
+    margin: 0 0 5px; font-size: 20px; font-weight: 600; line-height: 1.3;
     color: var(--text); word-break: keep-all;
   }
-  .cmp-rule-body p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+  .cmp-rule-card p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
   @media (max-width: 900px) {
-    .cmp-rule-item { grid-template-columns: 1fr; gap: 12px; }
-    .cmp-rule-item::before { display: none; }
-    .cmp-rule-num { width: 38px; height: 38px; font-size: 14px; margin-top: 0; }
-    .cmp-rule-body { padding: 20px 22px; }
-    .cmp-rule-body h3 { font-size: 19px; }
-    .cmp-rule-body p { font-size: 15px; }
+    .cmp-rule { grid-template-columns: repeat(2, 1fr); }
+    .cmp-rule-card p { font-size: 14px; }
+  }
+  @media (max-width: 600px) {
+    .cmp-rule { grid-template-columns: 1fr; }
   }
 
   /* ───────── 강점 아코디언 ───────── */
