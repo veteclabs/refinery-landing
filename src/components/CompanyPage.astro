@@ -463,8 +463,13 @@ const alternates = [
       /* 데스크톱처럼 카드 가장자리까지 채운다. 좌우 여백이나 아래 여백을 두면
          잘린 선과 카드 하단 선 사이가 떠 보인다. 카드에 overflow:hidden과
          radius가 있어 모서리는 그대로 둥글게 잘린다. */
-      order: 1; position: static; width: 100%; height: auto; max-width: none;
+      order: 1; position: static; width: 100%; height: auto;
       margin: 4px 0 0; padding: 0; box-sizing: border-box; display: block;
+      /* 폭 상한 420px. 없으면 720px 카드에서 그림이 718x532까지 커져 카드가
+         807px이 된다. 상한에 걸리면 카드보다 좁아지므로, 데스크톱처럼
+         오른쪽 아래 모서리에 붙여 의도한 배치로 읽히게 한다.
+         카드가 420px보다 좁으면(375px 등) 상한이 걸리지 않아 그대로 꽉 찬다. */
+      max-width: 420px; align-self: flex-end;
       /* 데스크톱과 같은 부분만 보이게 자른다.
          데스크톱은 그림(592x600 등)을 열린 카드 높이 439px이 잘라내므로,
          상자 비율을 <그림 폭> / 439로 잡고 object-fit: cover로 세로만 자른다.
