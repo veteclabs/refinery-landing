@@ -183,8 +183,13 @@ const alternates = [
                 <span class="cmp-acc-tag">{it.tag}</span>
                 <span class="cmp-acc-title" set:html={it.title}></span>
               </button>
+              {/* 패널 밖에 둔다. 패널 안에 넣으면 .cmp-acc-inner의 overflow:hidden이
+                  절대배치된 그림을 잘라 데스크톱 잘림이 달라진다(아래 잘림 162 -> 300px).
+                  좁은 화면에서 본문 아래로 보내는 일은 CSS order가 맡는다. */}
               {it.illust && (
-                <img class="cmp-acc-illust" src={it.illust} style={[it.illustTop && `top:${it.illustTop}`, it.illustRight && `right:${it.illustRight}`].filter(Boolean).join(";") || undefined} alt="" aria-hidden="true" width="1020" height="1020" loading="lazy" decoding="async" />
+                <img class="cmp-acc-illust" src={it.illust}
+                     style={[it.illustTop && `top:${it.illustTop}`, it.illustRight && `right:${it.illustRight}`].filter(Boolean).join(";") || undefined}
+                     alt="" aria-hidden="true" width="1020" height="1020" loading="lazy" decoding="async" />
               )}
               <div class="cmp-acc-panel" id={`cmp-acc-p${i}`} role="region">
                 <div class="cmp-acc-inner"><p set:html={it.description}></p></div>
@@ -440,7 +445,26 @@ const alternates = [
      (2번 591 정사각 · 3번 621 x 1089.57/1020.47 = 663). */
   .cmp-acc-item:nth-child(2) .cmp-acc-illust { height: 591px; }
   .cmp-acc-item:nth-child(3) .cmp-acc-illust { height: 663px; }
-  @media (max-width: 900px) { .cmp-acc-illust { display: none; } }
+  /* 좁은 화면에서는 감추지 않고 본문 아래로 내린다.
+     position을 풀면 DOM 순서(본문 <p> 다음)대로 놓이고, 잘라 보여 주던 데스크톱과
+     달리 카드 폭에 맞춰 그림 전체가 보인다. 벡터라 확대해도 깨지지 않는다.
+     패널 안에 있으므로 카드를 접으면 함께 접힌다. */
+  /* 좁은 화면에서는 감추지 않고 본문 아래로 내린다. 그림은 패널 밖에 있으므로
+     (패널 안에 두면 .cmp-acc-inner의 overflow:hidden이 데스크톱 잘림을 바꾼다)
+     카드를 flex 열로 만들고 order로 맨 뒤에 보낸다. 접힌 카드는 공간을 차지하지
+     않도록 아예 감춘다. 벡터라 확대해도 깨지지 않는다. */
+  @media (max-width: 900px) {
+    .cmp-acc-item { display: flex; flex-direction: column; }
+    /* ⚠️ nth-child 규칙(특정도 0,2,0)을 같이 적으로 잡지 않으면 데스크톱용
+       height: 591px/663px가 그대로 남아 그림이 세로로 늘어난다(325x591로 확인). */
+    .cmp-acc-illust,
+    .cmp-acc-item:nth-child(2) .cmp-acc-illust,
+    .cmp-acc-item:nth-child(3) .cmp-acc-illust {
+      order: 1; position: static; width: 100%; height: auto; max-width: 420px;
+      margin: 0 auto; padding: 4px 20px 22px; box-sizing: border-box;
+    }
+    .cmp-acc-item[data-open="false"] .cmp-acc-illust { display: none; }
+  }
   .cmp-acc-head {
     position: relative; z-index: 1;
     width: 100%; display: block;
@@ -470,7 +494,8 @@ const alternates = [
   /* 소제목을 패널 아래쪽에 붙인다. min-height(299px)로 확보한 공간이 본문보다
      176px 커서 그대로 두면 왼쪽 아래가 뚫리는데, 오른쪽 일러스트는 그 아래까지
      내려온다. 하단 정렬하면 본문 마지막 줄이 일러스트 바닥선과 나란해진다. */
-  .cmp-acc-panel { position: relative; z-index: 1; }
+  /* 본문을 그림 위에 세운다. static이면 절대배치된 그림이 항상 위에 그려진다. */
+  .cmp-acc-inner p { position: relative; z-index: 1; }
   .cmp-acc-inner { overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
   /* 펼친 카드 높이 440px. 일러스트(591px)를 다 담으면 카드가 592px로 커져
      바닥판 아래 빈 여백까지 떠안는다. 그 빈 부분만 잘리게 맞춘 값이다.
