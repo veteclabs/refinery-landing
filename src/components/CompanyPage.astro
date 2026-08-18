@@ -425,6 +425,9 @@ const alternates = [
        값은 1440px에서의 기존 렌더와 같게 뷰박스 비율로 환산했다
        (1번 592 x 1034.16/1020.47 = 600). */
     height: 600px; width: auto; pointer-events: none; user-select: none;
+    /* 카드가 좁아지면 크기가 고정된 그림이 본문 자리까지 들어온다.
+       줄이면 잘리는 부분이 폭마다 달라지므로, 대신 그림을 글 뒤로 보낸다. */
+    z-index: 0;
     opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
   }
   .cmp-acc-item[data-open="true"] .cmp-acc-illust { opacity: 1; }
@@ -437,18 +440,9 @@ const alternates = [
      (2번 591 정사각 · 3번 621 x 1089.57/1020.47 = 663). */
   .cmp-acc-item:nth-child(2) .cmp-acc-illust { height: 591px; }
   .cmp-acc-item:nth-child(3) .cmp-acc-illust { height: 663px; }
-  /* ⚠️ 1280px 아래로는 폭 기준으로 되돌린다.
-     그림 폭이 592px으로 고정되면 카드가 좁아질수록 본문(카드의 46%)을 덮는다
-     — 실측으로 1280px(카드 1169px)까지는 안 겹치고 1200px(카드 1089px)에서
-     25px 겹쳤다. 이 아래에서는 잘리는 부분을 고정하는 것보다 글이 안 가리는
-     쪽이 먼저다. 900px 아래는 원래대로 숨긴다. */
-  @media (max-width: 1280px) {
-    .cmp-acc-illust,
-    .cmp-acc-item:nth-child(2) .cmp-acc-illust,
-    .cmp-acc-item:nth-child(3) .cmp-acc-illust { height: auto; width: 50%; }
-  }
   @media (max-width: 900px) { .cmp-acc-illust { display: none; } }
   .cmp-acc-head {
+    position: relative; z-index: 1;
     width: 100%; display: block;
     padding: 30px; background: none; border: 0; cursor: pointer;
     text-align: left; font: inherit; color: inherit;
@@ -476,6 +470,7 @@ const alternates = [
   /* 소제목을 패널 아래쪽에 붙인다. min-height(299px)로 확보한 공간이 본문보다
      176px 커서 그대로 두면 왼쪽 아래가 뚫리는데, 오른쪽 일러스트는 그 아래까지
      내려온다. 하단 정렬하면 본문 마지막 줄이 일러스트 바닥선과 나란해진다. */
+  .cmp-acc-panel { position: relative; z-index: 1; }
   .cmp-acc-inner { overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
   /* 펼친 카드 높이 440px. 일러스트(591px)를 다 담으면 카드가 592px로 커져
      바닥판 아래 빈 여백까지 떠안는다. 그 빈 부분만 잘리게 맞춘 값이다.
