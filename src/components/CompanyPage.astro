@@ -445,15 +445,14 @@ const alternates = [
      (2번 591 정사각 · 3번 621 x 1089.57/1020.47 = 663). */
   .cmp-acc-item:nth-child(2) .cmp-acc-illust { height: 591px; }
   .cmp-acc-item:nth-child(3) .cmp-acc-illust { height: 663px; }
-  /* 좁은 화면에서는 감추지 않고 본문 아래로 내린다.
-     position을 풀면 DOM 순서(본문 <p> 다음)대로 놓이고, 잘라 보여 주던 데스크톱과
-     달리 카드 폭에 맞춰 그림 전체가 보인다. 벡터라 확대해도 깨지지 않는다.
-     패널 안에 있으므로 카드를 접으면 함께 접힌다. */
   /* 좁은 화면에서는 감추지 않고 본문 아래로 내린다. 그림은 패널 밖에 있으므로
      (패널 안에 두면 .cmp-acc-inner의 overflow:hidden이 데스크톱 잘림을 바꾼다)
      카드를 flex 열로 만들고 order로 맨 뒤에 보낸다. 접힌 카드는 공간을 차지하지
-     않도록 아예 감춘다. 벡터라 확대해도 깨지지 않는다. */
-  @media (max-width: 900px) {
+     않도록 아예 감춘다. 벡터라 확대해도 깨지지 않는다.
+     ⚠️ 기준이 900이 아니라 980이다. 980px 아래에서는 본문 상자가 399px까지
+     좁아져 3줄짜리 글이 7줄로 감긴다. 그 전에 그림을 내려 본문이 카드 폭을
+     쓰게 한다. 카드 나머지(패딩·글자 크기)의 기준은 그대로 900px이다. */
+  @media (max-width: 980px) {
     .cmp-acc-item { display: flex; flex-direction: column; }
     /* ⚠️ nth-child 규칙(특정도 0,2,0)을 같이 적으로 잡지 않으면 데스크톱용
        height: 591px/663px가 그대로 남아 그림이 세로로 늘어난다(325x591로 확인). */
@@ -535,6 +534,15 @@ const alternates = [
     .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
     .cmp-acc-title { font-size: 21px; }
     .cmp-acc-inner p { padding: 48px 20px 22px; font-size: 16px; max-width: none; }
+  }
+  /* ⚠️ 위 .cmp-acc-inner p(max-width 46%)와 min-width:901 min-height 규칙보다
+     반드시 뒤에 와야 한다. 특정도가 같아 순서로 결정된다 — 앞에 뒀을 때는
+     980px에서 그림만 내려가고 글은 46%로 묶여 오른쪽이 통째로 비었다. */
+  @media (max-width: 980px) {
+    /* 그림이 본문 아래로 내려갔으므로 글이 카드 폭을 다 쓰게 푼다. */
+    .cmp-acc-inner p { max-width: none; }
+    /* 그림 자리를 비워 두던 min-height도 함께 푼다. */
+    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 0; }
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
