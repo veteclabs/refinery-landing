@@ -56,9 +56,9 @@ const T = {
     lede: 'Refinery is built on more than thirty years of experience VETEC gathered on industrial sites.<br>Our developers have worked the plants themselves, and we define problems in the language of the site.',
     cta: 'Contact', contactHref: '/en/contact',
     storyTag: 'About us',
-    storyTitle: 'Built by a team<br>that has been on the floor,<br>Industrial AI',
+    storyTitle: 'Industrial AI,<br>built by a team<br>from the floor.',
     storyLede: 'We do not build impressive demos.<br>We build what actually works on site.',
-    storySig: 'Built by VETEC, thirty years in the field — Refinery',
+    storySig: 'Built by VETEC, thirty years in the field – Refinery',
     stats: [
       { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: '/company/icon-stat-02.svg' },
       { num: '100+', label: '<span class="cmp-stat-hl">sites</span> where we handled data', icon: '/company/icon-stat-01.svg' },
@@ -67,9 +67,9 @@ const T = {
     strengthsTitle: 'Three roots of the product',
     strengthsSub: 'From a team that has been on the floor, and thirty years of experience.',
     strengths: [
-      { tag: 'People', illust: '/company/card-illust-01.svg', illustRight: '20px', title: 'Designed by people <br>who have been on the floor.', description: 'Field engineers who know power, manufacturing and energy sites work alongside developers.<br>People who have seen how equipment fails and what an operator watches<br>are the ones designing the product.' },
+      { tag: 'People', illust: '/company/card-illust-01.svg', illustRight: '20px', title: 'Designed by people <br>who have been on the floor.', description: 'Field engineers who know power, manufacturing and energy sites work alongside developers.<br>People who have seen how equipment fails, and what an operator watches, are the ones designing the product.' },
       { tag: 'Experience', illust: '/company/card-illust-02.svg', illustW: '591px', illustTop: '-65px', illustRight: '24px', title: 'Thirty years of know-how, <br>both ways supported.', description: 'We can layer onto existing systems, or build from scratch where none exist.<br>Even a new build starts from a template refined over thirty years.<br>*Template example: an energy management system' },
-      { tag: 'Technology', illust: '/company/card-illust-03.svg', illustW: '621px', illustTop: '-75px', illustRight: '-8px', title: 'Beyond time series, <br>through to AI judgment.', description: 'Not only sensor time series but equipment, documents and history are woven together through an ontology, creating applications across industries — and on top of that, an AI agent helps decide with evidence.' },
+      { tag: 'Technology', illust: '/company/card-illust-03.svg', illustW: '621px', illustTop: '-75px', illustRight: '-8px', title: 'Beyond time series, <br>through to AI judgment.', description: 'Not only sensor time series but equipment, documents and history<br>are woven together through an ontology, creating applications across industries.<br>On top of that, an AI agent helps decide with evidence.' },
     ],
     principlesTitle: 'Three standards we work by',
     principlesSub: 'Only what we have confirmed on site goes into the product.',
@@ -319,6 +319,8 @@ const alternates = [
     font-size: clamp(28px, 4vw, 45px); font-weight: 600;
     letter-spacing: -0.8px; line-height: 1.3;
   }
+  .cmp-page .ind-head h2 { text-wrap: balance; }
+  .cmp-page .ind-head p { text-wrap: pretty; }
   /* 섹션 소제목은 랜딩 .section-header p(18px / 1.7)에 맞춘다 —
      이 페이지 히어로 소제목도 같은 값이라, 16px로 두면 한 페이지 안에서
      두 크기가 섞인다. */
@@ -385,11 +387,12 @@ const alternates = [
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
     margin: 0 0 12px; font-size: 26px; font-weight: 600; line-height: 1.3;
-    color: var(--text); word-break: keep-all;
+    color: var(--text); word-break: keep-all; text-wrap: balance;
   }
   /* 본문 16 / 1.7 — .cmp-acc-inner p와 동일. 아코디언에 모바일 축소가 없으므로
      여기서도 폭이 줄어도 크기를 낮추지 않는다. */
-  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+  /* keep-all 필수: 없으면 한글이 어절 한가운데서 잘린다(1024px·375px에서 확인). */
+  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); text-wrap: pretty; word-break: keep-all; }
   @media (max-width: 900px) {
     .cmp-rule { grid-template-columns: repeat(2, 1fr); }
   }
@@ -434,7 +437,9 @@ const alternates = [
   /* 랜딩 #teams는 태그라인 12 / 제목 24 / 설명 15였는데 제목·설명을 각각
      x1.17, x1.2로 키웠다. 태그라인도 같은 비율로 14px에 맞춘다. */
   .cmp-acc-tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: -0.2px; color: var(--accent); margin-bottom: 8px; }
-  .cmp-acc-title { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; }
+  /* text-wrap balance/pretty: <br>로 잡아 둔 줄이 좁은 폭에서 다시 감길 때
+     마지막 줄에 단어 하나만 남는 것을 막는다. 영문에서 특히 눈에 띈다. */
+  .cmp-acc-title { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; text-wrap: balance; }
   /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
      있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
   .cmp-acc-title :global(br) { display: none; }
@@ -461,7 +466,7 @@ const alternates = [
      카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
   /* 설명을 제목 바로 아래로 올린다(머리쪽 padding-bottom 8 + 여기 12 = 20px).
      카드가 높아진 만큼 아래가 비는데, 그 자리를 일러스트가 온전히 차지한다. */
-  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted);
+  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted); text-wrap: pretty; word-break: keep-all;
     /* 일러스트가 카드 오른쪽 절반을 차지하므로 글 상자를 그 앞에서 끊는다.
        줄바꿈은 <br>로 고정이라 실제 줄 길이는 이 값보다 짧다. */
     max-width: 46%; }
@@ -567,7 +572,7 @@ const alternates = [
   }
   /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
      음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
-  .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; }
+  .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; text-wrap: balance; }
   /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
      어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
   /* 플랫폼 개요 히어로 .wr-tag와 같은 값이다.
