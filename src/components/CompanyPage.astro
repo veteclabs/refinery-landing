@@ -41,9 +41,9 @@ const T = {
     principlesTitle: '일하는 세 가지 기준',
     principlesSub: '현장에서 확인한 것만 제품에 넣습니다.',
     principles: [
-      { title: '현장에서 나온 기준', description: '이론이 아니라 실제 산업 현장의 문제에서 시작합니다.<br>30년 넘게 현장에서 확인한 과제가 제품의 기준입니다.' },
-      { title: '얹거나, 새로 세우거나', description: '이미 SCADA · MES · ERP를 쓰고 있으면 걷어내지 않고 그 위에 통합 지능 레이어를 얹습니다.<br>시스템이 없는 현장은 30년 경험으로 다져진 템플릿(예: 에너지경영시스템)에서 시작합니다.<br>어느 쪽이든 하나의 지능으로 이어집니다.' },
-      { title: '숫자에 붙는 맥락', description: '흩어진 숫자를 온톨로지로 연결해 맥락을 만들고, AI가 근거를 들어 설명하게 합니다.' },
+      { title: '현장에서 나온 기준', description: '이론에서 시작하지 않습니다.<br>멈춘 설비 앞에서 시작합니다.' },
+      { title: '얹거나, 새로 세우거나', description: '쓰던 시스템을 걷어내지 않습니다.<br>그 위에 얹거나, 없으면 세웁니다.' },
+      { title: '숫자에 붙는 맥락', description: '숫자만 보여주지 않습니다.<br>판단까지 잇습니다.' },
     ],
     ctaTitle: '현장의 문제를<br>Refinery 팀과 함께 풀어보세요.',
   },
@@ -74,9 +74,9 @@ const T = {
     principlesTitle: 'Three standards we work by',
     principlesSub: 'Only what we have confirmed on site goes into the product.',
     principles: [
-      { title: 'Standards from the field', description: 'We start from real problems on industrial sites, not from theory.<br>The challenges confirmed over thirty years in the field are the product’s benchmark.' },
-      { title: 'Layer on, or build new', description: 'Where SCADA, MES or ERP is already in use, we layer an integrated intelligence layer on top rather than removing it.<br>Where no system exists, we start from a template refined over thirty years, such as an energy management system.<br>Either path leads to one intelligence.' },
-      { title: 'Meaning in the numbers', description: 'Scattered numbers are connected through an ontology to create context, and AI explains with the evidence behind it.' },
+      { title: 'Standards from the field', description: 'We do not start from theory.<br>We start at the machine that stopped.' },
+      { title: 'Layer on, or build new', description: 'We do not tear out what you already run.<br>We layer on top, or build from scratch.' },
+      { title: 'Meaning in the numbers', description: 'We do not stop at showing numbers.<br>We carry them through to a decision.' },
     ],
     ctaTitle: 'Let’s solve what’s happening on your site,<br>together with the Refinery team.',
   },
@@ -351,6 +351,7 @@ const alternates = [
     background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 30px; position: relative; overflow: hidden;
     transition: border-color .2s, background .2s;
+    text-align: center;
   }
   .cmp-rule-num {
     display: flex; align-items: center; justify-content: center;
@@ -363,10 +364,13 @@ const alternates = [
        이 크기에서는 눈에 띄지 않는다. */
     font-size: 13px; font-weight: 600; line-height: 1;
     color: var(--accent); letter-spacing: 1.2px;
-    margin-bottom: 18px;
+    /* 카드 본문은 가운데 정렬이지만 번호만 왼쪽에 그대로 둔다.
+       원은 폭이 고정이라 text-align의 영향을 받지 않으므로 마진만 0으로 두면 된다. */
+    margin: 0 0 18px;
   }
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
-  .cmp-rule-icon { display: block; width: 160px; height: 160px; margin: 0 auto 20px; }
+  /* 아래 여백은 위 여백(번호 배지의 margin-bottom 18px)과 같은 값으로 맞춘다. */
+  .cmp-rule-icon { display: block; width: 160px; height: 160px; margin: 0 auto 18px; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
