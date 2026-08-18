@@ -144,9 +144,9 @@ const alternates = [
           {/* ⚠️ 본문은 제목 묶음 안(1행)에 있어야 한다. 2행에 두면 space-between이
               만드는 남는 높이가 대제목과 본문 사이로 들어가, 화면이 넓어질수록
               간격이 벌어진다(1920px에서 290px). 여기 있으면 항상 20px이다. */}
-          <p class="cmp-story-lede" set:html={T.storyLede}></p>
+          <p class="cmp-story-lede">{T.storySig}</p>
         </header>
-        <p class="cmp-story-sig">{T.storySig}</p>
+        <p class="cmp-story-sig" set:html={T.storyLede}></p>
 
         <!-- 오른쪽 칸 — 사진이 닿지 않아 비어 있던 자리. 수치를 여기로 옮겼다. -->
         <div class="cmp-stats">
@@ -445,7 +445,10 @@ const alternates = [
      행 경계가 대제목 아래선보다 64px 내려가고, 수치도 그만큼 밀린다.
      본문 사이 간격은 .cmp-story-lede의 margin-top 20px이 담당한다. */
   .cmp-story-bg .cmp-story { grid-column: 1; grid-row: 1; padding-right: 48px; align-self: start; margin-bottom: 0; }
-  /* 본문은 플랫폼 개요 히어로처럼 대제목 바로 아래(20px)에 붙는다.
+  /* ⚠️ 클래스 이름은 자리를 뜻한다 — .cmp-story-lede가 대제목 아래,
+     .cmp-story-sig가 카드 아래선 자리다. 지금 그 자리에 들어가는 글은
+     각각 storySig(30년 현장의 …)와 storyLede(화려한 기술 데모는 …)로 서로 바뀌어 있다.
+     대제목 아래 자리는 플랫폼 개요 히어로처럼 20px 간격을 쓴다.
      ⚠️ font-size를 여기서 명시해야 한다. 그리드를 2행으로 나누며 이 문단을
      .ind-head 밖으로 뺐고, 그때 18px을 물려받던 .cmp-page .ind-head p 경로가
      끊겨 body 기본값 16px로 떨어져 있었다. */
