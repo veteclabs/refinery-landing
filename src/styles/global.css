@@ -226,6 +226,12 @@
     /* 멈춘 상태에서만 화면을 살짝 눌러 아이콘이 읽히게 한다. */
     .hero-demo-toggle.is-paused { background: rgba(11, 14, 20, 0.12); }
     .hero-demo-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+    /* 원이 64px 고정이라 칸이 좁아질수록 상대적으로 커진다 —
+       1440px에서 데모 폭의 5.4%인데 375px에서는 19.6%다. 좁은 화면에서만 줄인다. */
+    @media (max-width: 900px) {
+      .hero-demo-toggle-icon { width: 48px; height: 48px; }
+      .hero-demo-toggle-icon svg { width: 20px; height: 20px; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .hero-demo-toggle-icon { transition: none; }
     }
