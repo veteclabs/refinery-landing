@@ -252,8 +252,11 @@ const capabilityGroups = [
   /* 왼쪽 페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이
      좁아져, 글 끝에 닿는 자리에서 이미 또렷해졌다(1024px에서 실효 불투명도 .29).
      420px으로 못박으면 화면 폭과 무관하게 글 옆 완충 구간이 일정하다(.09 안팎). */
+  /* 칸 폭은 px로 못박는다. 56%면 화면이 좁아질수록 창이 같이 좁아져서,
+     이미지를 px로 잡아도 보이는 부분이 매번 달라졌다.
+     800px은 1440px 화면의 56%(798px)와 같아 넓은 화면 장면이 그대로 유지된다. */
   .wr-hero-fx {
-    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    position: absolute; right: 0; top: 0; bottom: 0; width: 800px;
     overflow: hidden; pointer-events: none; user-select: none;
     -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
     mask-image: linear-gradient(to right, transparent 0px, #000 420px);
@@ -278,35 +281,11 @@ const capabilityGroups = [
     transform: translateY(-205px);
     opacity: .3;
   }
-  /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
-     넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
-     작아져 트리맵 한 조각만 확대돼 보이고(1024px에서 칸 573px — 이미지의 절반),
-     칸 왼쪽 끝이 소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다(실효 .29).
-     칸을 40%로 좁히면 칸 시작점이 글 끝보다 바깥으로 밀려 겹침이 0이 된다. */
-  @media (max-width: 1199px) {
-    .wr-hero-fx { width: 40%; }
-    .wr-hero-fx-inner img { width: 800px; right: -95px; }
-  }
-  /* 900px 미만에서는 본문이 화면 전체를 써서 우측에 자리가 없다. 그렇다고 숨기면
-     장식이 통째로 사라진다. 세로를 615px으로 못박은 덕에 글 아래(콘텐츠 끝 404~431px)에
-     빈 자리가 생겼으니, 칸을 그 자리로 내려 가로 띠로 깐다.
-     칸 위끝은 615-170=445px으로 콘텐츠 끝보다 14px 아래다 — 글과 겹치지 않는다.
-     좌우 페이드 대신 위쪽 페이드를 써서 어두운 배경에서 떠오르듯 나타나게 한다. */
-  @media (max-width: 900px) {
-    .wr-hero-fx {
-      top: auto; bottom: 0; height: 170px; width: 100%;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 70px);
-    }
-    /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
-    .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
-    /* 띠(=화면 폭)보다 항상 넓게 잡아 양끝이 화면 밖으로 나가게 한다. 760px이면
-       900px 화면에서 오른쪽에 140px 어두운 자리가 남아 판 모서리가 직선으로 드러났다.
-       기준은 왼쪽으로 바꾼다. 오른쪽 기준이면 좁은 화면에서 오른쪽 끝만 남아
-       375px에서 '83.97'의 '97'만 잘려 보였다. 왼쪽 기준이면 어느 폭에서나
-       Sankey(Solar PV·CHP·Mainbus)가 통째로 들어온다. */
-    .wr-hero-fx-inner img { width: 1020px; left: -20px; right: auto; transform: translateY(-205px); }
-  }
+  /* 좁은 화면에서도 칸·이미지를 줄이거나 숨기지 않는다. 예전에는 1200px에서 작은 판으로
+     바꾸고 900px에서 아예 감췄는데, 그때마다 보이는 장면이 달라졌다. 글과 겹치더라도
+     장면이 고정되는 쪽을 택했다 — 칸 800px · 이미지 1180px 모두 px라 어느 폭에서나 같다.
+     본문은 .ind-container의 z-index:1로 장식 위에 올라가고, 칸 왼쪽 420px 페이드가
+     글이 닿는 자리의 무늬를 흐려 준다. */
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
