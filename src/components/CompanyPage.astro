@@ -257,6 +257,12 @@ const alternates = [
 </BaseLayout>
 
 <style>
+  /* ⚠️ 페이지 전체에 keep-all을 건다. 개별 규칙으로 붙이다 보니 히어로 소제목
+     (.ind-lede)·섹션 소제목처럼 빠진 곳이 남아, 320~480px에서 '만/들었습니다.'
+     '현/장에서'처럼 어절 한가운데가 끊겼다. overflow-wrap: break-word는
+     한 어절이 줄보다 길 때만 쓰이는 안전장치다. */
+  .cmp-page, .cmp-page * { word-break: keep-all; overflow-wrap: break-word; }
+
   /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
      공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
      플랫폼 개요(.wr-page)·예지보전 등이 쓰는 값(1280/48)과 같다.
