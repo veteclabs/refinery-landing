@@ -19,17 +19,16 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/#industries',
       groups: [
         {
-          // 랜딩 #industries 카드와 같은 목록·같은 순서를 유지한다.
-          // 실제 페이지가 있는 곳만 링크, 나머지는 준비중 배지.
+          // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 준비중 배지.
           title: '산업별',
           items: [
             { label: '에너지 · 유틸리티', href: '/industries/energy' },
-            { label: '정유 · 가스', badge: '준비중' },
-            { label: '데이터센터', badge: '준비중' },
-            { label: '철강', badge: '준비중' },
-            { label: '화학 · 정밀화학', badge: '준비중' },
-            { label: '물류', badge: '준비중' },
-            { label: '환경', badge: '준비중' },
+            { label: '자동차 · 모빌리티', badge: '준비중' },
+            { label: '전자 · 정밀', badge: '준비중' },
+            { label: '가공 · 소재 · 철강', badge: '준비중' },
+            { label: '화학 · 소재', badge: '준비중' },
+            { label: '기계 · 플랜트', badge: '준비중' },
+            { label: '식품 · 음료', badge: '준비중' },
           ],
         },
         {
@@ -53,6 +52,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
+            { label: '산업 AI', href: '/industrial-ai' },
             { label: '블로그', href: '/blog' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
             { label: '문서', badge: '준비중' },
@@ -89,12 +89,12 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           title: 'By industry',
           items: [
             { label: 'Energy & Utilities', href: '/en/industries/energy' },
-            { label: 'Oil & Gas', badge: 'Soon' },
-            { label: 'Data centers', badge: 'Soon' },
-            { label: 'Steel', badge: 'Soon' },
-            { label: 'Chemicals', badge: 'Soon' },
-            { label: 'Logistics', badge: 'Soon' },
-            { label: 'Environment', badge: 'Soon' },
+            { label: 'Automotive & Mobility', badge: 'Soon' },
+            { label: 'Electronics & Precision', badge: 'Soon' },
+            { label: 'Materials & Steel', badge: 'Soon' },
+            { label: 'Chemicals & Materials', badge: 'Soon' },
+            { label: 'Machinery & Plant', badge: 'Soon' },
+            { label: 'Food & Beverage', badge: 'Soon' },
           ],
         },
         {
@@ -160,6 +160,8 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: '리소스',
       items: [
+        { label: '산업 AI', href: '/industrial-ai' },
+        { label: '에너지관리시스템', href: '/energy-management' },
         { label: '블로그', href: '/blog' },
         { label: '자료실', href: '/resources' },
       ],

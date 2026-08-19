@@ -31,6 +31,7 @@ const T = {
     secondary: '플랫폼 개요 →', secondaryPlain: '플랫폼 개요', secondaryHref: '/why-refinery',
     why: '왜 필요한가요?', how: 'Refinery로 푸는 방식', tmplBadge: '템플릿으로 시작',
     signals: '읽는 데이터와 신호', more: '더 읽어보기:', related: '함께 보면 좋은 과제',
+    faqTitle: '자주 묻는 질문',
     ctaTitle: '우리 현장에 어떻게 적용될지<br>함께 살펴봐요.',
   },
   en: {
@@ -39,6 +40,7 @@ const T = {
     secondary: 'Platform overview →', secondaryPlain: 'Platform overview', secondaryHref: '/en#teams',
     why: 'Why it matters', how: 'How Refinery solves it', tmplBadge: 'Start from a template',
     signals: 'Data and signals', more: 'Read more:', related: 'Related use cases',
+    faqTitle: 'FAQ',
     ctaTitle: 'Let’s look at how this fits<br>your operation.',
   },
 }[lang];
@@ -58,13 +60,27 @@ const alternates = [
   { lang: 'en', href: `/en/use-cases/${uc.slug}` },
 ];
 const SITE = 'https://refinery.kr';
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: uc.seo.title,
-  url: `${SITE}${path}`,
-  isPartOf: { '@type': 'WebSite', name: 'Refinery', url: `${SITE}/` },
-};
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: uc.seo.title,
+    url: `${SITE}${path}`,
+    isPartOf: { '@type': 'WebSite', name: 'Refinery', url: `${SITE}/` },
+  },
+  // faq가 있으면 FAQPage 구조화 데이터도 함께 출력한다(답변엔진 최적화).
+  ...(uc.faq && uc.faq.length
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: uc.faq.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }]
+    : []),
+];
 ---
 <BaseLayout title={uc.seo.title} description={uc.seo.description} canonical={path} alternates={alternates} jsonLd={jsonLd}>
   {/* 히어로 사진은 이 페이지의 LCP다. head에서 미리 받아 두면 본문 파싱을 기다리지
@@ -317,6 +333,22 @@ const jsonLd = {
       </section>
     )}
 
+    {uc.faq && uc.faq.length > 0 && (
+      <section class="ind-section">
+        <div class="ind-container">
+          <header class="ind-head"><h2>{T.faqTitle}</h2></header>
+          <div class="uc-faq">
+            {uc.faq.map((f) => (
+              <div class="uc-faq-item">
+                <h3>{f.q}</h3>
+                <p>{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- CTA -->
     <section class={uc.ctaBackgroundImage ? 'ind-cta uc-cta-bg' : 'ind-cta'}>
       {uc.ctaBackgroundImage && (
@@ -339,6 +371,12 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다. */
+  .uc-faq { max-width: 760px; }
+  .uc-faq-item + .uc-faq-item { margin-top: 28px; padding-top: 28px; border-top: 1px solid #e6eaef; }
+  .uc-faq-item h3 { font-size: clamp(18px, 2.2vw, 22px); font-weight: 650; letter-spacing: -0.01em; color: var(--text, #16202c); margin: 0 0 8px; word-break: keep-all; }
+  .uc-faq-item p { font-size: 16.5px; line-height: 1.72; color: #2b3644; margin: 0; word-break: keep-all; }
+
   .uc-narrow { max-width: 760px; }
   /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
   .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; word-break: keep-all; }
