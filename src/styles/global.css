@@ -187,7 +187,9 @@
       margin-top: 80px;
       width: 100%;
       max-width: none;
-      aspect-ratio: 16 / 10;
+      /* 데모 무대(1320x840)와 같은 비율. 16/10이면 무대가 폭을 채우고도
+         세로가 남아 위아래에 데모 배경이 보인다. */
+      aspect-ratio: 1320 / 840;
       position: relative;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -195,6 +197,43 @@
     }
     @media (max-width: 900px) {
       .hero-motion-placeholder { margin-top: 48px; aspect-ratio: 1144 / 900; }
+    }
+    /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다. */
+    .hero-demo-toggle {
+      position: absolute; inset: 0; z-index: 2;
+      display: grid; place-items: center;
+      width: 100%; height: 100%; padding: 0;
+      background: transparent; border: 0; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-demo-toggle-icon {
+      display: grid; place-items: center;
+      width: 64px; height: 64px; border-radius: 50%;
+      /* 'From Data to Intelligence' 섹션(#platform)과 같은 #111316에 투명도.
+         데모 위에 얹히므로 완전 불투명이면 판때기처럼 보인다. */
+      background: rgba(17, 19, 22, 0.55); color: #fff;
+      /* ⚠️ 삼각형은 면적 무게중심이 왼쪽 1/3에 있어 상자 가운데로 두면 왼쪽으로
+         보인다. 그런데 이 SVG는 경로가 이미 뷰박스 오른쪽으로 치우쳐 있어
+         (M8 5v14l11-7z → x 8~19, 중심 13.5 vs 뷰박스 12) 추가로 밀면 과하다.
+         padding-left: 4px일 때 무게중심이 원 중심에서 +3.09px였다.
+         padding은 가운데 정렬된 내용을 절반만큼 옮기므로 오른쪽에 2px을 줘
+         -1px 되민다. */
+      padding-right: 2px;
+      opacity: 0; transform: scale(.9);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .hero-demo-toggle.is-paused .hero-demo-toggle-icon { opacity: 1; transform: scale(1); }
+    /* 멈춘 상태에서만 화면을 살짝 눌러 아이콘이 읽히게 한다. */
+    .hero-demo-toggle.is-paused { background: rgba(11, 14, 20, 0.12); }
+    .hero-demo-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+    /* 원이 64px 고정이라 칸이 좁아질수록 상대적으로 커진다 —
+       1440px에서 데모 폭의 5.4%인데 375px에서는 19.6%다. 좁은 화면에서만 줄인다. */
+    @media (max-width: 900px) {
+      .hero-demo-toggle-icon { width: 48px; height: 48px; }
+      .hero-demo-toggle-icon svg { width: 20px; height: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-demo-toggle-icon { transition: none; }
     }
     #hero .hero-actions { justify-content: flex-end; flex-shrink: 0; }
     #hero .hero-text p:last-child { margin-bottom: 0; }

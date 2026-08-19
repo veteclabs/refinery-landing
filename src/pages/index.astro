@@ -73,6 +73,13 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="hero-motion-placeholder">
+      {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
+          조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
+      <button type="button" id="hero-demo-toggle" class="hero-demo-toggle" aria-label="데모 재생 / 일시정지" aria-pressed="false">
+        <span class="hero-demo-toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </button>
       <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
@@ -80,10 +87,18 @@ const jsonLd = [orgSchema, faqSchema];
   
   <script is:inline>
     (function() {
+      // 데모 안의 무대(.stage)는 1320x840 고정이고 K = min(폭/1320, 높이/840)로 줄어든다.
+      // 예전엔 iframe이 1440x900이라 높이 쪽이 먼저 걸려(900/840 < 1440/1320) 무대 폭이
+      // 1414px에 그쳤고, 남는 13px씩이 데모 페이지 배경(#E9ECEF)으로 보였다.
+      // 높이를 비율보다 살짝 크게 잡아 K가 폭에서 정해지게 하면 무대가 폭을 정확히 채운다.
+      var STAGE_W = 1320, STAGE_H = 840;
       var HERO_AGENT_W = 1440;
-      var HERO_AGENT_H = 900;
-      var HERO_MOBILE_CROP_LEFT = 283;  /* 좌측 세션 레일(.rail) 끝 지점 = 283px (agent-replay-demo 기준). 레일을 잘라 대화 본문만 확대 */
-      var HERO_MOBILE_CROP_RIGHT = 1427; /* 대화 본문(.main) 우측 끝 = 1427px. 본문 전체를 보여준다 */
+      var HERO_AGENT_H = Math.ceil(HERO_AGENT_W * STAGE_H / STAGE_W) + 2;  // 918
+      /* 좌측 세션 레일(.rail)을 잘라 대화 본문만 확대한다. 값은 무대(1320px) 좌표계 기준 —
+         예전엔 iframe 좌표(283/1427)로 적었는데, 무대가 폭을 꽉 채우도록 바뀌면서 기준이 옮겨졌다.
+         무대 배율 1440/1320이 곱해지므로 무대 좌표로 두는 편이 폭이 바뀌어도 어긋나지 않는다. */
+      var STAGE_CROP_LEFT = 252;   /* .rail 끝 = 252 (무대에서 실측) */
+      var STAGE_CROP_RIGHT = 1320; /* .main 오른쪽 끝 = 무대 끝 */
       function resizeHeroAgent() {
         var wrapper = document.querySelector('.hero-motion-placeholder');
         if (!wrapper) return;
@@ -93,11 +108,16 @@ const jsonLd = [orgSchema, faqSchema];
         // 데스크탑: 폭 기준으로만 스케일링해 좌우/우측이 잘리지 않고 전체 화면이 그대로 보이도록 한다.
         // 모바일: 화면이 좁아 전체를 다 보여주면 글씨가 너무 작아지므로,
         // 좌측 세션 레일과 우측 여백/툴바 아이콘을 잘라내고 대화 본문 위주로 확대해서 보여준다.
-        var effectiveW = isMobile ? (HERO_MOBILE_CROP_RIGHT - HERO_MOBILE_CROP_LEFT) : HERO_AGENT_W;
-        var scale = w / effectiveW;
-        var leftOffset = isMobile ? -(HERO_MOBILE_CROP_LEFT * scale) : 0;
+        // 무대는 iframe 폭을 정확히 채우므로 무대 좌표 x는 iframe 좌표 x * (HERO_AGENT_W / STAGE_W)다.
+        var stageToFrame = HERO_AGENT_W / STAGE_W;
+        var cropL = isMobile ? STAGE_CROP_LEFT * stageToFrame : 0;
+        var cropR = isMobile ? STAGE_CROP_RIGHT * stageToFrame : HERO_AGENT_W;
+        var scale = w / (cropR - cropL);
+        var leftOffset = -(cropL * scale);
         var scaledH = HERO_AGENT_H * scale;
-        var topOffset = Math.max(0, (h - scaledH) / 2);
+        // 세로로 남는 자투리는 가운데를 기준으로 잘라 낸다(칸에 overflow: hidden이 걸려 있다).
+        // Math.max(0, ...)이면 자투리가 아래에 배경으로 남는다.
+        var topOffset = (h - scaledH) / 2;
         var iframe = document.getElementById('hero-agent-iframe');
         if (iframe) {
           iframe.style.width = HERO_AGENT_W + 'px';
@@ -107,6 +127,23 @@ const jsonLd = [orgSchema, faqSchema];
           iframe.style.left = leftOffset + 'px';
         }
       }
+      /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
+      function initHeroToggle() {
+        var btn = document.getElementById('hero-demo-toggle');
+        var frame = document.getElementById('hero-agent-iframe');
+        if (!btn || !frame) return;
+        btn.addEventListener('click', function () {
+          if (!frame.getAttribute('src')) return;   /* 아직 안 불러왔으면 무시 */
+          try { frame.contentWindow.postMessage({ type: 'refinery-hero-toggle' }, '*'); } catch (e) {}
+        });
+        window.addEventListener('message', function (e) {
+          if (!e.data || e.data.type !== 'refinery-hero-state') return;
+          btn.classList.toggle('is-paused', !!e.data.paused);
+          btn.setAttribute('aria-pressed', e.data.paused ? 'true' : 'false');
+        });
+      }
+      window.addEventListener('load', initHeroToggle);
+
       window.resizeHeroAgent = resizeHeroAgent;
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);
