@@ -398,10 +398,15 @@ const alternates = [
      여기서도 폭이 줄어도 크기를 낮추지 않는다. */
   /* keep-all 필수: 없으면 한글이 어절 한가운데서 잘린다(1024px·375px에서 확인). */
   .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); text-wrap: pretty; word-break: keep-all; }
-  @media (max-width: 900px) {
+  /* ⚠️ 열이 줄어드는 기준이 랜딩(900/600)과 다르다. 랜딩 카드는 제목이 20px인데
+     여기는 26px이라 더 일찍 감긴다. 실측으로 카드가 290px 아래로 내려가면
+     '얹거나, 새로 세우거나'가 2줄이 되고 본문도 2 -> 4줄로 늘어난다
+     (901px에서 카드 251px · 480px 높이). 3열은 1024px(카드 292px)까지,
+     2열은 640px(카드 287px)까지만 유지한다. */
+  @media (max-width: 1023px) {
     .cmp-rule { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 639px) {
     .cmp-rule { grid-template-columns: 1fr; }
   }
 
@@ -614,8 +619,11 @@ const alternates = [
     .cmp-story-bg .cmp-story-lede { font-size: 16px; }
     .cmp-story-bg .cmp-story-sig { grid-row: auto; padding-right: 0; align-self: start; font-size: 16px; margin-top: 16px; }
   }
-  /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다. */
-  @media (max-width: 900px) {
+  /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다.
+     ⚠️ 기준이 900이 아니라 980이다. 901~980px에서는 왼쪽 칸이 좁아 <br>로 잡아 둔
+     줄이 또 감겼다 — 대제목 2줄 -> 3줄, 소제목 2줄 -> 4줄. 뿌리 일러스트를
+     내리는 기준(980px)과도 맞춘다. */
+  @media (max-width: 980px) {
     .cmp-story-bg > .ind-container { grid-template-columns: 1fr; }
     .cmp-story-bg .cmp-story { grid-row: auto; padding-right: 0; margin-bottom: 0; }
     .cmp-story-bg .cmp-story-lede { grid-row: auto; padding-right: 0; margin-bottom: 40px; align-self: start; }
@@ -751,18 +759,19 @@ const alternates = [
   .cmp-stats .cmp-stat-label { margin-top: 0; text-align: left; }
   /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
      앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
-  @media (max-width: 900px) {
-    /* 좁은 화면은 섹션 상단 여백이 60px이라 같은 값으로 맞춘다.
+  @media (max-width: 980px) {
+    /* 사진 위 2열이 풀리는 980px과 같은 기준으로 맞춘다.
+       좁은 화면은 섹션 상단 여백이 60px이라 같은 값으로 맞춘다.
        패딩 50 -> 24: 카드가 컨테이너 폭을 다 쓰게 되면서 안쪽 글이 본문보다
        50px 더 들어가 왼쪽 선이 어긋났다. 컨테이너 좌우 여백과 같은 24로 맞춘다.
        배경 40% -> 62%: 카드가 사진의 밝고 어두운 경계에 걸쳐 가로 띠가 비쳤다. */
     .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; margin-top: 60px; width: auto; justify-self: stretch;
       padding: 24px; background: rgba(17, 19, 22, 0.62); }
-    .cmp-story-bg > .ind-container { align-content: start; }
     /* 좁은 화면에서는 한 줄에 못 들어가므로 원래대로 위아래로 쌓는다. */
     .cmp-stats .cmp-stat { display: block; width: 100%; }
     .cmp-stats .cmp-stat-num { text-align: left; }
     .cmp-stats .cmp-stat-label { margin-top: 10px; }
+    .cmp-story-bg > .ind-container { align-content: start; }
   }
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
