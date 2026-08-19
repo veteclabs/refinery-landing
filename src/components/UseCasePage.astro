@@ -940,9 +940,14 @@ const jsonLd = [
     background: #0c1015;
   }
   .uc-cta-bg-img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    /* 가로는 정확히 꽉 차고(잘림 없음) 세로만 34%가 보인다.
-       두 번째 값이 그 띠의 위치 — center면 이미지 한가운데다. */
+    /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와
+       같은 처리다. 섹션(1425x298 = 4.8:1)이 사진(3840x2462 = 1.56:1)보다 훨씬
+       납작해 object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록
+       사진이 축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
+       모자란 가로는 좌우 균등하게 잘린다. 1440px 위로는 지금처럼 늘어난다. */
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
+    /* 두 번째 값이 보이는 띠의 위치 — center면 이미지 한가운데다. */
     object-fit: cover; object-position: center 65%;
     pointer-events: none; user-select: none;
   }
