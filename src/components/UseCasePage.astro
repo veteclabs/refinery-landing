@@ -60,6 +60,22 @@ const alternates = [
   { lang: 'en', href: `/en/use-cases/${uc.slug}` },
 ];
 const SITE = 'https://refinery.kr';
+// 줄 끝에서 갈리면 안 되는 토큰을 nowrap으로 감싼다. keep-all은 어절만 다루고
+// 하이픈 뒤·여는 괄호 앞의 줄바꿈은 막지 못한다(실측: 'WISE- / 6610',
+// '에너지관리시스템 / (EMS)은'). 태그 밖 텍스트에만 적용한다.
+//   1) 제품·규격 코드 — 영문 2자 이상 + 하이픈 + 숫자 (WISE-2410, ISO-20816)
+//   2) 한글 + 괄호 약어 + 뒤따르는 조사 (에너지관리시스템(EMS)은)
+const nb = (input) =>
+  String(input ?? '')
+    .split(/(<[^>]+>)/)
+    .map((part, i) =>
+      i % 2
+        ? part
+        : part
+            .replace(/([A-Za-z]{2,}-\d[\w-]*)/g, '<span class="uc-nb">$1</span>')
+            .replace(/([가-힣]+\([A-Za-z0-9]+\)[가-힣]*)/g, '<span class="uc-nb">$1</span>'))
+    .join('');
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -236,10 +252,10 @@ const jsonLd = [
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? T.tmplBadge}</span>
               <h3>{uc.template.title}</h3>
-              <p set:html={uc.template.desc}></p>
+              <p set:html={nb(uc.template.desc)}></p>
               {uc.template.includes && (
                 <ul class="uc-template-list" style={uc.redesigned ? `--uc-tmpl-cols:${uc.template.includes.length % 3 === 0 ? 3 : 2}` : undefined}>
-                  {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
+                  {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i><span set:html={nb(it)}></span></li>)}
                 </ul>
               )}
             </div>
@@ -350,8 +366,8 @@ const jsonLd = [
             <div class="uc-faq-list">
               {uc.faq.map((f) => (
                 <div class="uc-faq-item">
-                  <h3 class="uc-faq-q">{f.q}<i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
-                  <div class="uc-faq-a" set:html={f.a}></div>
+                  <h3 class="uc-faq-q"><span set:html={nb(f.q)}></span><i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
+                  <div class="uc-faq-a" set:html={nb(f.a)}></div>
                 </div>
               ))}
             </div>
@@ -450,7 +466,7 @@ const jsonLd = [
   /* 모델명처럼 하이픈이 든 토큰이 줄 끝에서 갈리는 것을 막는다.
      keep-all은 어절만 다루고 하이픈 뒤 줄바꿈은 막지 못한다
      (320px에서 'WISE- / 2410'으로 갈렸다). */
-  .uc-faq-a :global(.uc-nb) { white-space: nowrap; }
+  .uc-page :global(.uc-nb) { white-space: nowrap; }
 
   .uc-narrow { max-width: 760px; }
   /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
@@ -590,7 +606,13 @@ const jsonLd = [
   @media (max-width: 860px) {
     .uc-redesigned .uc-template-list { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
+  /* ⚠️ .uc-redesigned를 함께 적어야 한다. 위 860px 블록의
+     '.uc-redesigned .uc-template-list'(특정도 0,2,0)가 이 규칙(0,1,0)을 이겨
+     560px 아래에서도 2열이 유지됐고, 칸이 좁아 항목마다 글이 2줄로 감겼다. */
+  @media (max-width: 560px) {
+    .uc-template-list,
+    .uc-redesigned .uc-template-list { grid-template-columns: 1fr; }
+  }
 
   /* ───────────────────────────────────────────────────────────
      아래는 데이터에 해당 필드(heroImage·icon·template.image)를 넣은
