@@ -17,7 +17,7 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 · 설비 · 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 · TCP/IP · Modbus · OPC UA)까지 다룹니다.' },
+  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 · 설비 · 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 · TCP/IP · Modbus · OPC UA)⁠까지 다룹니다.' },
   { icon: '/why-refinery/icon-02.svg', title: '걷어내지 않는 도입', desc: '쓰던 시스템 위에 얹습니다.<br>없으면 30년 경험의 템플릿에서 시작합니다.' },
   { icon: '/why-refinery/icon-03.svg', title: '숫자를 넘어, 지식으로', desc: '설비 · 문서 · 이력까지 온톨로지로 엮습니다.<br>AI가 근거를 들어 답합니다.' },
 ];
@@ -191,6 +191,11 @@ const capabilityGroups = [
      공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
      예지보전 등 유즈케이스 페이지가 쓰는 값(1280/48)과 같다.
      .wr-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+  /* 좁은 화면에서 '잇 / 습니다'처럼 어절 중간이 끊기지 않게 한다.
+     한국어는 공백 없이도 어디서나 감기는 게 기본이라 명시해야 한다.
+     URL·긴 영문은 감겨야 하므로 overflow-wrap은 열어둔다. */
+  .wr-page, .wr-page * { word-break: keep-all; overflow-wrap: break-word; }
+
   .wr-page .ind-container { max-width: 1280px; padding: 0 48px; }
   @media (max-width: 900px) {
     .wr-page .ind-container { padding: 0 24px; }
@@ -227,9 +232,13 @@ const capabilityGroups = [
      여기는 어두운 히어로 아래에 어두운 섹션이 붙어 밝은 실선만 도드라진다. */
   /* 바탕색·이미지 불투명도 모두 소개서 표지 값이다. 표지는 어두운 막을 덮지 않고
      #10141B 위에 이미지를 .9로 얹는 게 전부라, 그 구성을 그대로 쓴다. */
+  /* 세로는 넓은 화면 값 615px으로 못박는다. 글자 크기가 clamp로 줄고 소제목이
+     16px으로 내려가면서 615 -> 476px까지 낮아졌고, 그때마다 배경 사진과 대시보드
+     장식의 보이는 부분이 달라졌다. 고정하면 어느 폭에서나 같은 그림이 나온다. */
   .wr-hero-bg {
     position: relative; overflow: hidden;
     padding: 180px 0 100px; border-bottom: none; background: #10141B;
+    min-height: 615px;
   }
   .wr-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
@@ -278,8 +287,26 @@ const capabilityGroups = [
     .wr-hero-fx { width: 40%; }
     .wr-hero-fx-inner img { width: 800px; right: -95px; }
   }
-  /* 900px 미만에서는 본문이 화면 전체를 쓴다. 어디에 둬도 글 뒤에 깔려 감춘다. */
-  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
+  /* 900px 미만에서는 본문이 화면 전체를 써서 우측에 자리가 없다. 그렇다고 숨기면
+     장식이 통째로 사라진다. 세로를 615px으로 못박은 덕에 글 아래(콘텐츠 끝 404~431px)에
+     빈 자리가 생겼으니, 칸을 그 자리로 내려 가로 띠로 깐다.
+     칸 위끝은 615-170=445px으로 콘텐츠 끝보다 14px 아래다 — 글과 겹치지 않는다.
+     좌우 페이드 대신 위쪽 페이드를 써서 어두운 배경에서 떠오르듯 나타나게 한다. */
+  @media (max-width: 900px) {
+    .wr-hero-fx {
+      top: auto; bottom: 0; height: 170px; width: 100%;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 70px);
+    }
+    /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
+    .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
+    /* 띠(=화면 폭)보다 항상 넓게 잡아 양끝이 화면 밖으로 나가게 한다. 760px이면
+       900px 화면에서 오른쪽에 140px 어두운 자리가 남아 판 모서리가 직선으로 드러났다.
+       기준은 왼쪽으로 바꾼다. 오른쪽 기준이면 좁은 화면에서 오른쪽 끝만 남아
+       375px에서 '83.97'의 '97'만 잘려 보였다. 왼쪽 기준이면 어느 폭에서나
+       Sankey(Solar PV·CHP·Mainbus)가 통째로 들어온다. */
+    .wr-hero-fx-inner img { width: 1020px; left: -20px; right: auto; transform: translateY(-205px); }
+  }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
