@@ -13,6 +13,7 @@ import '../styles/industry.css';
 import SignalIcon from './SignalIcon.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
+import { useCasesEn } from '../data/usecases/en';
 
 interface Props {
   uc: UseCase;
@@ -46,6 +47,9 @@ const T = {
 }[lang];
 
 const base = lang === 'en' ? '/en/use-cases' : '/use-cases';
+// '함께 보면 좋은 과제' 카드도 페이지 언어를 따른다. 한국어 목록을 그대로 쓰면
+// 영문 페이지에 한글 카드가 섞여 나온다.
+const siblings = lang === 'en' ? useCasesEn : useCases;
 const path = `${base}/${uc.slug}`;
 // 개편 디자인에서는 섹션 순서가 문제 → 신호 → 해법이고(입력을 먼저 보이고 처리를 뒤에),
 // '왜 필요한가요?'가 배지 대신 태그라인 형태가 된다. 기존 구성은 문제 → 해법 → 신호.
@@ -326,7 +330,7 @@ const jsonLd = [
         <div class="ind-container uc-narrow">
           <header class="ind-head"><h2>{T.related}</h2></header>
           <div class="uc-cases">
-            {useCases.filter((u) => u.slug !== uc.slug).map((u) => (
+            {siblings.filter((u) => u.slug !== uc.slug).map((u) => (
               <a class={u.cardImage ? 'uc-case uc-case--img' : 'uc-case'} href={`${base}/${u.slug}`}>
                 {u.cardImage && (
                   <img
