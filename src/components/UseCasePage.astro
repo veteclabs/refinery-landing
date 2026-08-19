@@ -940,9 +940,14 @@ const jsonLd = [
     background: #0c1015;
   }
   .uc-cta-bg-img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    /* 가로는 정확히 꽉 차고(잘림 없음) 세로만 34%가 보인다.
-       두 번째 값이 그 띠의 위치 — center면 이미지 한가운데다. */
+    /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와
+       같은 처리다. 섹션(1425x298 = 4.8:1)이 사진(3840x2462 = 1.56:1)보다 훨씬
+       납작해 object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록
+       사진이 축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
+       모자란 가로는 좌우 균등하게 잘린다. 1440px 위로는 지금처럼 늘어난다. */
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
+    /* 두 번째 값이 보이는 띠의 위치 — center면 이미지 한가운데다. */
     object-fit: cover; object-position: center 65%;
     pointer-events: none; user-select: none;
   }
@@ -971,6 +976,13 @@ const jsonLd = [
     gap: 48px; flex-wrap: wrap;
   }
   .uc-redesigned .uc-cta-bg .ind-container > * { flex: none; }
+  /* 좁은 폭에서 상하 여백과 글-버튼 간격을 줄인다. 95px 고정이면 375px에서
+     섹션 337px 중 190px이 여백이라 내용보다 빈 자리가 크다. 값은 사이트 공통
+     규칙(industry.css의 .ind-section이 560px 이하에서 84 -> 60px)을 따른다. */
+  @media (max-width: 560px) {
+    .uc-cta-bg { padding: 60px 0; }
+  }
+
   /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
   .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 0; }
   /* 히어로 '문의하기'와 같은 색 — 투명 면 + 흰 테두리에서 accent 면으로 바꾼다.
@@ -994,9 +1006,11 @@ const jsonLd = [
   @media (max-width: 900px) {
     .uc-redesigned .uc-cta-bg .ind-container { padding: 0 24px; }
   }
-  /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
-  @media (max-width: 780px) {
-    .uc-redesigned .uc-cta-bg .ind-container { gap: 0; }
-    .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 32px; }
-  }
+  /* ⚠️ row-gap과 column-gap을 나눈다. 버튼이 제목 옆에 있을 때와 아래로 내려갔을
+     때 필요한 간격이 다른데 gap 하나로는 구분이 안 된다. 내려가면 row-gap(32px)이,
+     옆에 있으면 column-gap(48px)이 적용돼 중단점 없이 둘 다 맞는다.
+     h2의 margin-bottom은 이 간격과 겹치므로 0으로 둔다.
+     세 CTA(회사 소개·플랫폼 개요·유즈케이스)가 같은 값을 쓴다. */
+  .uc-redesigned .uc-cta-bg .ind-container { column-gap: 48px; row-gap: 32px; }
+  .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
 </style>
