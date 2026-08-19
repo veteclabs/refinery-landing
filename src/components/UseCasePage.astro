@@ -77,7 +77,12 @@ const jsonLd = [
           '@type': 'Question',
           name: f.q,
           // 구조화 데이터에는 표시용 <br>를 빼고 순수 문장만 넣는다.
-          acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<br\s*\/?>/gi, ' ') },
+          // <br>만 공백으로, 나머지 태그는 흔적 없이 지운다.
+          // 한 번에 공백 치환하면 '<span>WISE-2410</span>)는'이 'WISE-2410 )는'이 된다.
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.a.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+          },
         })),
       }]
     : []),
@@ -426,6 +431,19 @@ const jsonLd = [
     word-break: keep-all;
   }
   .uc-faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
+  /* 데이터의 <br>는 넓은 폭에서 문장을 끊어 읽히게 하려고 넣은 것이라,
+     칸이 좁아져 구간이 다시 감기기 시작하면 오히려 줄이 들쭉날쭉해진다.
+     1024px 이하에서는 풀고 자연 줄바꿈에 맡긴다. 어절 중간 끊김은
+     .uc-page 전역 word-break: keep-all이 막는다. */
+  /* ⚠️ :global 필수. 답변은 set:html로 주입돼 <br>에 Astro 스코프 속성이
+     붙지 않는다. .uc-faq-a br로 쓰면 br[data-astro-…]가 되어 하나도 안 맞는다. */
+  @media (max-width: 1024px) {
+    .uc-faq-a :global(br) { display: none; }
+  }
+  /* 모델명처럼 하이픈이 든 토큰이 줄 끝에서 갈리는 것을 막는다.
+     keep-all은 어절만 다루고 하이픈 뒤 줄바꿈은 막지 못한다
+     (320px에서 'WISE- / 2410'으로 갈렸다). */
+  .uc-faq-a :global(.uc-nb) { white-space: nowrap; }
 
   .uc-narrow { max-width: 760px; }
   /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
