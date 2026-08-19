@@ -352,7 +352,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Find the hidden waste and the peaks,<br>and do the same work for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how energy optimisation fits your site,<br>together with Refinery.',
-    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed-<br>each looks small on its own. Totals alone never show where to act, so saving falls back on instinct.',
+    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed - <br>each looks small on its own. Totals alone never show where to act, so saving falls back on instinct.',
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
