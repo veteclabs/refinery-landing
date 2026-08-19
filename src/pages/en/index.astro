@@ -173,6 +173,16 @@ const jsonLd = {
     #platform .section-header p {
       color: #959CA5;
     }
+    /* 소제목을 대제목 아래로 내린다. en #integrations는 제목이 길어 flex-wrap으로
+       이미 아래로 떨어져 있는데, platform은 제목이 짧아 옆에 붙었다. 배치를 맞춘다.
+       max-width는 <br> 기준 2줄을 유지할 만큼 넓힌다(공통값 360px에서는 4줄이 된다). */
+    #platform .section-header-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    #platform .section-header-row p {
+      max-width: 520px;
+    }
     #platform .platform-graphic-img {
       margin-top: 64px;
     }
@@ -463,42 +473,42 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
         <h3>Industrial data integration</h3>
-        <p class="series-desc">Data scattered across field equipment and systems<br>is unified in one place - the first step.</p>
+        <p class="series-desc">Data scattered across your systems<br>is gathered in one place - the first step.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
         <div class="series-tagline">Ontology</div>
-        <h3>A structure that gives data meaning</h3>
-        <p class="series-desc">It attaches meaning to every scattered number and record - "what each piece of<br>data is about." </p>
+        <h3>Data with meaning attached</h3>
+        <p class="series-desc">Every scattered number and record gets<br>a meaning: what the data is about.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
         <div class="series-tagline">Workflow</div>
-        <h3>Operational procedures designed through dialogue</h3>
-        <p class="series-desc">You define which cases need approval and which run automatically -<br>all through conversation.</p>
+        <h3>Procedures set by dialogue</h3>
+        <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
         <div class="series-tagline">Plate</div>
-        <h3>The whole field on a single dashboard</h3>
+        <h3>The field on one dashboard</h3>
         <p class="series-desc">Check real-time KPIs, status, and alarms<br>all on one screen.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
         <div class="series-tagline">Lens</div>
-        <h3>Analysis that finds causes and forecasts the future</h3>
-        <p class="series-desc">It reviews data accumulated over time<br>to spot anomalies and pinpoint their causes.</p>
+        <h3>Analysis that finds causes</h3>
+        <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
         <div class="series-tagline">AI Agent</div>
-        <h3>A field that moves with a single question</h3>
-        <p class="series-desc">Ask a question and it answers from the data,<br>and even suggests the next action.</p>
+        <h3>A field run by one question</h3>
+        <p class="series-desc">Ask, and it answers from your data<br>and suggests the next action.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
-        <h3>Automation - operations that run without hands-on work</h3>
-        <p class="series-desc">Analysis flows into reports, alarms, and workflow execution<br>automatically, without manual steps.</p>
+        <h3>Automation with no hands</h3>
+        <p class="series-desc">Analysis flows into reports, alarms<br>and workflow execution - no manual steps.</p>
       </div>
       </div>
     </div>
@@ -515,13 +525,13 @@ const jsonLd = {
       </div>
     </div>
     <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Unified control of distributed assets,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive maintenance for large-scale assets,<br>AI-optimized energy efficiency</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Data Center</div><div class="industry-desc">Power & cooling efficiency,<br>real-time power-quality monitoring</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Data Center" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">Real-time monitoring of high-temperature processes,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Chemicals · Fine Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals · Fine Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Real-time detection of cold-chain temperature excursions,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Automated data-quality diagnostics for monitoring stations,<br>automated ESG report generation</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Distributed asset control,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive asset maintenance,<br>AI energy optimization</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Data Center</div><div class="industry-desc">Power and cooling efficiency,<br>live power-quality monitoring</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Data Center" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">High-heat process monitoring,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Cold-chain excursion detection,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Station data-quality checks,<br>automated ESG reports</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
           </div>
   </div>
 </section>
@@ -886,7 +896,7 @@ It also cites the data sources behind each answer.</p>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h3>Data encryption</h3><p>Data in transit uses TLS 1.3; data at rest is <br class="mobile-br">encrypted with AES-256.<br>Keys are managed separately and securely with an HSM.</p></div>
+        <div class="sec-card-body"><h3>Data encryption</h3><p>TLS 1.3 in transit, AES-256 <br class="mobile-br">at rest.<br>Keys are held separately in an HSM.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
@@ -896,12 +906,12 @@ It also cites the data sources behind each answer.</p>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control environments such as manufacturing and energy</span></div><p>One-way transfer between field edge (Silo/Agent) and cloud <br class="mobile-br">is supported.<br>Reverse intrusion into control systems is blocked <br class="mobile-br">at the source.</p></div>
+        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control: manufacturing, energy</span></div><p>One-way transfer from field edge <br class="mobile-br">(Silo/Agent) to cloud.<br>Reverse intrusion into control systems <br class="mobile-br">is blocked at source.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task history is recorded <br class="mobile-br">securely.<br>Role-based access control (RBAC) enforces <br class="mobile-br">the principle of least privilege.</p></div>
+        <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record is <br class="mobile-br">stored securely.<br>Role-based access control (RBAC) applies <br class="mobile-br">least privilege.</p></div>
       </div>
     </div>
   </div>
