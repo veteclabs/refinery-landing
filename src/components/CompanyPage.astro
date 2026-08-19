@@ -779,14 +779,23 @@ const alternates = [
        패딩 50 -> 24: 카드가 컨테이너 폭을 다 쓰게 되면서 안쪽 글이 본문보다
        50px 더 들어가 왼쪽 선이 어긋났다. 컨테이너 좌우 여백과 같은 24로 맞춘다.
        배경 40% -> 62%: 카드가 사진의 밝고 어두운 경계에 걸쳐 가로 띠가 비쳤다. */
-    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; margin-top: 60px; width: auto; justify-self: stretch;
-      padding: 24px; background: rgba(17, 19, 22, 0.62); }
-    /* 폭이 줄어도 줄 구성은 그대로 둔다 — 설명 왼쪽, 수치 오른쪽.
-       예전엔 위아래로 쌓았는데, 같은 카드가 폭에 따라 다른 배치로 보였다.
-       고정 440px만 풀고(칸 폭을 그대로 쓰게) flex 배치는 유지한다. */
-    .cmp-stats .cmp-stat { width: 100%; }
+    /* 카드는 데스크톱과 같은 크기(내용 440px + 패딩 50px = 540px)를 유지하고
+       오른쪽에 붙인다. 예전엔 stretch로 칸 폭을 다 써서 같은 카드가 폭에 따라
+       늘어났다. max-width: 100%가 있어 칸이 540px보다 좁아지면 그때만 줄어든다. */
+    .cmp-stats { grid-column: 1; grid-row: auto; justify-items: start; text-align: left; margin-top: 60px;
+      width: fit-content; max-width: 100%; justify-self: end;
+      /* ⚠️ min-width: 0 필수. 그리드 아이템 기본값 auto는 min-content(540px)라
+         max-width: 100%를 무시해 480px에서 카드가 84px 넘쳤다. */
+      min-width: 0;
+      padding: 50px; background: rgba(17, 19, 22, 0.62); }
+    .cmp-stats .cmp-stat { width: 440px; max-width: 100%; }
+    /* 폭이 줄어도 줄 구성은 그대로 둔다 — 설명 왼쪽, 수치 오른쪽. */
     .cmp-story-bg > .ind-container { align-content: start; }
   }
+  /* 카드 자연폭 540px이 칸보다 커지는 구간에서는 카드가 칸에 꽉 차므로,
+     안쪽 글이 본문보다 50px 들어가 왼쪽 선이 어긋난다. 그때만 패딩을
+     컨테이너 여백과 같은 24px으로 줄인다. */
+  @media (max-width: 600px) { .cmp-stats { padding: 24px; } }
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
   /* nowrap 필수: 375px에서 '30년+'가 '30년 / +'로 갈렸다. 수치는 한 덩어리다. */
