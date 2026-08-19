@@ -198,6 +198,30 @@
     @media (max-width: 900px) {
       .hero-motion-placeholder { margin-top: 48px; aspect-ratio: 1144 / 900; }
     }
+    /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다. */
+    .hero-demo-toggle {
+      position: absolute; inset: 0; z-index: 2;
+      display: grid; place-items: center;
+      width: 100%; height: 100%; padding: 0;
+      background: transparent; border: 0; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-demo-toggle-icon {
+      display: grid; place-items: center;
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(11, 14, 20, 0.62); color: #fff;
+      /* 아이콘 좌우 무게중심이 오른쪽이라 살짝 밀어 넣어야 원 가운데로 보인다. */
+      padding-left: 4px;
+      opacity: 0; transform: scale(.9);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .hero-demo-toggle.is-paused .hero-demo-toggle-icon { opacity: 1; transform: scale(1); }
+    /* 멈춘 상태에서만 화면을 살짝 눌러 아이콘이 읽히게 한다. */
+    .hero-demo-toggle.is-paused { background: rgba(11, 14, 20, 0.12); }
+    .hero-demo-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-demo-toggle-icon { transition: none; }
+    }
     #hero .hero-actions { justify-content: flex-end; flex-shrink: 0; }
     #hero .hero-text p:last-child { margin-bottom: 0; }
     #hero .hero-actions .btn-lg { padding: 6px 18px; border-radius: 6px; font-weight: 400; }

@@ -73,6 +73,13 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="hero-motion-placeholder">
+      {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
+          조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
+      <button type="button" id="hero-demo-toggle" class="hero-demo-toggle" aria-label="데모 재생 / 일시정지" aria-pressed="false">
+        <span class="hero-demo-toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </button>
       <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
@@ -120,6 +127,23 @@ const jsonLd = [orgSchema, faqSchema];
           iframe.style.left = leftOffset + 'px';
         }
       }
+      /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
+      function initHeroToggle() {
+        var btn = document.getElementById('hero-demo-toggle');
+        var frame = document.getElementById('hero-agent-iframe');
+        if (!btn || !frame) return;
+        btn.addEventListener('click', function () {
+          if (!frame.getAttribute('src')) return;   /* 아직 안 불러왔으면 무시 */
+          try { frame.contentWindow.postMessage({ type: 'refinery-hero-toggle' }, '*'); } catch (e) {}
+        });
+        window.addEventListener('message', function (e) {
+          if (!e.data || e.data.type !== 'refinery-hero-state') return;
+          btn.classList.toggle('is-paused', !!e.data.paused);
+          btn.setAttribute('aria-pressed', e.data.paused ? 'true' : 'false');
+        });
+      }
+      window.addEventListener('load', initHeroToggle);
+
       window.resizeHeroAgent = resizeHeroAgent;
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);

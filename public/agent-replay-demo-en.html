@@ -1025,6 +1025,9 @@ body {
      (3배로 줄이면 문장을 다 읽기 전에 사라진다). */
   const SPEED = 3;
   let epoch = 0;
+  /* 부모(랜딩 히어로)가 보내는 message로 껐다 켠다. wait/dwell이 남은 시간을
+     깎지 않고 프레임만 넘기므로, 재개하면 멈춘 지점부터 이어진다. */
+  let paused = false;
 
   function wait(ms) {
     const my = epoch;
@@ -1032,6 +1035,7 @@ body {
       let remain = ms, last = performance.now();
       const tick = (now) => {
         if (my !== epoch) return reject(ABORT);
+        if (paused) { last = now; return requestAnimationFrame(tick); }
         const dt = now - last; last = now;
         remain -= dt * SPEED;
         if (remain <= 0) return resolve();
@@ -1048,6 +1052,7 @@ body {
       let remain = ms, last = performance.now();
       const tick = (now) => {
         if (my !== epoch) return reject(ABORT);
+        if (paused) { last = now; return requestAnimationFrame(tick); }
         const dt = now - last; last = now;
         remain -= dt;
         if (remain <= 0) return resolve();
@@ -1098,6 +1103,7 @@ body {
   function startClock() {
     stopClock();
     elapsedTimer = setInterval(() => {
+      if (paused) return;   /* 일시정지 중에는 경과 초도 멈춘다 */
       elapsed += 1;
       const e = $("elapsed"); if (e) e.textContent = elapsed;
     }, 1000 / SPEED);
@@ -1567,6 +1573,20 @@ body {
     $("endcard").classList.remove("is-on");
     run().catch((e) => { if (e !== ABORT) throw e; });
   }
+
+  /* 랜딩 히어로에서 오는 조작. 같은 출처의 iframe이라 postMessage로 주고받는다.
+     refinery-hero-replay는 예전부터 랜딩이 보내고 있었는데 받는 쪽이 없어
+     스크롤로 되돌아와도 다시 재생되지 않았다. 여기서 함께 살린다. */
+  window.addEventListener("message", (e) => {
+    const t = e.data && e.data.type;
+    if (t === "refinery-hero-pause") paused = true;
+    else if (t === "refinery-hero-resume") paused = false;
+    else if (t === "refinery-hero-toggle") paused = !paused;
+    else if (t === "refinery-hero-replay") { paused = false; start(); }
+    else return;
+    /* 부모가 아이콘 상태를 맞출 수 있도록 결과를 돌려준다. */
+    try { e.source && e.source.postMessage({ type: "refinery-hero-state", paused: paused }, "*"); } catch (err) {}
+  });
 
   applyStatic();
   setPhase("idle");
