@@ -401,8 +401,10 @@ const jsonLd = [
   /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다.
      규격은 랜딩 #faq(global.css:560~571)를 그대로 따른다 —
      2열(1fr 2fr) · gap 64 · 질문 17/500 · 답 15/1.7 · 항목 아래선 1px. */
-  /* 섹션 전체가 흰 면이다. 목록에 따로 판을 깔지 않는다. */
-  .uc-redesigned .uc-faq-section { background: #ffffff; }
+  /* 배경은 '왜 필요한가요?'(.uc-problem-section)와 같은 #f6f8fa.
+     목록에는 따로 판을 깔지 않고 구분선만으로 질문을 나눈다.
+     ⚠️ redesigned가 7개 과제 전부라 이 규칙도 7개 페이지에 걸린다. */
+  .uc-redesigned .uc-faq-section { background: #f6f8fa; }
 
   .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
   .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
