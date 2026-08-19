@@ -173,15 +173,11 @@ const jsonLd = {
     #platform .section-header p {
       color: #959CA5;
     }
-    /* 소제목을 대제목 아래로 내린다. en #integrations는 제목이 길어 flex-wrap으로
-       이미 아래로 떨어져 있는데, platform은 제목이 짧아 옆에 붙었다. 배치를 맞춘다.
-       max-width는 <br> 기준 2줄을 유지할 만큼 넓힌다(공통값 360px에서는 4줄이 된다). */
-    #platform .section-header-row {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 긴 줄(391px)이
+       다시 감겨 3줄이 됐다. 400px이면 2줄로 들어가고, 제목 옆 여유(1024px에서
+       522px)가 충분해 우측 배치도 그대로다. */
     #platform .section-header-row p {
-      max-width: 520px;
+      max-width: 400px;
     }
     #platform .platform-graphic-img {
       margin-top: 64px;
@@ -538,6 +534,15 @@ const jsonLd = {
 
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#ffffff;border-top:1px solid #E3E7EC;">
+  <style is:global>
+    /* 소제목을 대제목 아래로 내린다. #integrations는 제목이 길어 flex-wrap으로
+       이미 아래에 떨어져 있는데, 여기는 제목이 짧아 옆에 붙었다. 배치를 맞춘다.
+       줄 간격은 .section-header-row의 gap 32px를 그대로 쓴다(= #integrations와 동일). */
+    #teams .section-header-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  </style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -562,15 +567,15 @@ const jsonLd = {
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
         {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">Ask a question,<br>
-and the ontology finds the answer.</h3>
+the ontology answers.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology<br>
-to infer causes and answer conversationally.<br>
-It also cites the data sources behind each answer.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history<br>
+data in the ontology to infer causes<br>
+and answers with its sources cited.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
         <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
@@ -1083,12 +1088,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question,\nand the ontology finds the answer.', 'The AI reasons over asset, task, and history data stored in the ontology\nto infer causes and answer conversationally.\nIt also cites the data sources behind each answer.', 'AI Agent'],
-  plate: ['See this very moment on the field\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more -\na rich set of widgets so you can pick the representation\nthat fits the nature of your data.', 'Tile'],
-  pipeline: ['Even when your data structure changes,\nthe trail remains.', 'Branch like Git to experiment with schemas,\ncompare snapshots between two points in time,\nand visualize changes as an ERD.', 'Pipeline'],
-  ontology: ['From the language of the field\nto the language of data', 'Define concepts across the field - assets, tasks, documents - as objects\nand relationships. This structure powers both Plate visualizations\nand the reasoning behind the AI agent.', 'Ontology'],
-  calendar: ['Schedules and operations,\nin one place', 'Manage processing schedules, inspection cycles, and team tasks\non a single screen\nso you never lose the operational rhythm.', 'Calendar']
+  llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes\nand answers with its sources cited.', 'AI Agent'],
+  plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more - pick the\nwidget that fits your data.', 'Tile'],
+  pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],
+  ontology: ['From field language\nto data language', 'Define field concepts - assets, tasks,\ndocuments - as objects and relations.\nThis structure powers Plate and the AI agent.', 'Ontology'],
+  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar']
 };
 
 var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 — 우측 크롭 적용 안 함
