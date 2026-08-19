@@ -32,7 +32,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Read the early signs of motor failure<br>and cut unplanned downtime.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how predictive maintenance fits your site,<br>together with Refinery.',
-    problemHtml: 'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure between service intervals.<br>Time is a poor proxy for the actual condition of a machine.<br>But walking the floor to take readings by hand, or wiring a sensor to every machine, is its own cost.',
+    problemHtml: 'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure between service intervals. Time is a poor proxy for the actual condition of a machine.<br>But walking the floor to take readings by hand, or wiring a sensor to every machine, is its own cost.',
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
@@ -59,17 +59,17 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is predictive maintenance?',
         a:
-          'Predictive maintenance (PdM) analyses vibration · temperature · current data in real time to predict failure before it happens,<br>so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
+          'Predictive maintenance (PdM) analyses vibration · temperature · current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
       },
       {
         q: 'Can I start predictive maintenance with a wireless vibration sensor?',
         a:
-          'Yes. A wireless vibration sensor such as the WISE-2410 mounts on the machine with no wiring work, collects 3-axis vibration and temperature,<br>and sends it to a gateway over LoRaWAN.<br>That makes it quick to cover rotating equipment where running cable is difficult.',
+          'Yes. A wireless vibration sensor such as the WISE-2410 mounts on the machine with no wiring work,<br>collects 3-axis vibration and temperature, and sends it to a gateway over LoRaWAN.<br>That makes it quick to cover rotating equipment where running cable is difficult.',
       },
       {
         q: 'How do you do predictive maintenance on a motor?',
         a:
-          'Motors show the first signs of failure in vibration · current · temperature.<br>A vibration spectrum reveals bearing wear · shaft misalignment · imbalance, and reading the current alongside it<br>catches load faults and insulation degradation early.',
+          'Motors show the first signs of failure in vibration · current · temperature.<br>A vibration spectrum reveals bearing wear · shaft misalignment · imbalance,<br>and reading the current alongside it catches load faults and insulation degradation early.',
       },
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
@@ -112,7 +112,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Bring scattered sensors into one structure<br>and read anomalies together.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how sensor monitoring fits your site,<br>together with Refinery.',
-    problemHtml: 'Every machine brings its own sensors and protocols, so the data never reads from one place. Each was added when it was needed,<br>which left the formats and collection methods all different. Scattered signals make it hard to judge an anomaly as a whole.',
+    problemHtml: 'Every machine brings its own sensors and protocols, so the data never reads from one place.<br>Each was added when it was needed, which left the formats and collection methods all different.<br>Scattered signals make it hard to judge an anomaly as a whole.',
     problem:
       'Every machine comes with its own sensors and protocols, so the data is never readable from one place. When signals stay scattered, it is hard to put them together and judge what is actually happening.',
     how: [
@@ -163,7 +163,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Know when, where and how much you use,<br>and cut cost and risk.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power management fits your site,<br>together with Refinery.',
-    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour, or why.<br>Metering sits apart from the records, so when the bill rises the answer is usually an order to use less rather than a cause.<br>Exceed the contracted demand and the peak charge follows for a year.',
+    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. Exceed the contracted demand and the peak charge follows for a year.',
     problem:
       'An electricity bill shows a total and a few peak figures. What it does not show is which equipment used that power, at what hour, and why. Metering is fragmented across machines and records are scattered, so when the bill goes up the response is usually an instruction to use less rather than a search for the cause. Exceeding contracted demand and paying peak charges is often discovered only afterwards, from the bill.',
     how: [
@@ -190,7 +190,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is a power management solution?',
         a:
-          'A power management solution collects and analyses voltage · current · power · power-factor data from the incoming and distribution system in real time<br>to monitor and optimise electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
+          'A power management solution collects and analyses voltage · current · power · power-factor data from the incoming and distribution system in real time to monitor and optimise electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
       },
       {
         q: 'How does power management differ from an energy management system (EMS)?',
@@ -237,7 +237,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Catch power quality faults you cannot see,<br>in real time, on the record.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power quality monitoring fits your site,<br>together with Refinery.',
-    problemHtml: 'Equipment stops for no apparent reason, or a healthy line starts producing defects. Trace it and power quality is often the culprit.<br>A momentary voltage dip or a harmonic is neither visible nor long-lived, so without continuous monitoring the evidence is gone.<br>The fault gets written off as unexplained, and it happens again.',
+    problemHtml: 'Equipment stops for no apparent reason, or a healthy line starts producing defects. Trace it and power quality is<br>often the culprit. A momentary voltage dip or a harmonic is neither visible nor long-lived,<br>so without continuous monitoring the evidence is gone. The fault gets written off as unexplained,<br>and it happens again.',
     problem:
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [
@@ -294,7 +294,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Bring the whole plant’s energy into one view<br>and cut waste and emissions together.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how factory energy management fits your site,<br>together with Refinery.',
-    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department, per machine and per hour,<br>scattered enough that where it goes and why is never visible at a glance. Without the whole flow you cannot say where to cut,<br>and savings stay a guess.',
+    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department,<br>per machine and per hour, scattered enough that where it goes and why is never visible at a glance.<br>Without the whole flow you cannot say where to cut, and savings stay a guess.',
     problem:
       'A plant runs on several forms of energy at once - electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
     how: [
@@ -352,7 +352,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Find the hidden waste and the peaks,<br>and do the same work for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how energy optimisation fits your site,<br>together with Refinery.',
-    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed -<br>each looks small on its own. Totals alone never show where to act, so saving falls back on instinct.',
+    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed-<br>each looks small on its own. Totals alone never show where to act, so saving falls back on instinct.',
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
@@ -400,7 +400,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Read what the process data is signalling<br>and catch defects before they finish.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how quality prediction fits your site,<br>together with Refinery.',
-    problemHtml: 'By the time final inspection finds a defect, the material and the hours are already spent. Scrap it or rework it, the loss stays.<br>And the finished part rarely tells you which step went wrong, so the same defect returns.',
+    problemHtml: 'By the time final inspection finds a defect, the material and the hours are already spent. Scrap it or rework it,<br>the loss stays. And the finished part rarely tells you which step went wrong, so the same defect returns.',
     problem:
       'By the time a defect is found at final inspection, the material and the time have already gone into it. And looking at the finished part alone rarely tells you why.',
     how: [
