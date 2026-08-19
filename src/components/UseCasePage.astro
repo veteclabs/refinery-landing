@@ -340,7 +340,7 @@ const jsonLd = [
     )}
 
     {uc.faq && uc.faq.length > 0 && (
-      <section class="ind-section">
+      <section class="ind-section uc-faq-section">
         <div class="ind-container">
           {/* 랜딩 #faq와 같은 구성 — 제목 왼쪽, 아코디언 목록 오른쪽.
               질문은 h3를 유지한다. 랜딩은 div를 쓰지만 이 페이지는 FAQPage
@@ -401,6 +401,10 @@ const jsonLd = [
   /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다.
      규격은 랜딩 #faq(global.css:560~571)를 그대로 따른다 —
      2열(1fr 2fr) · gap 64 · 질문 17/500 · 답 15/1.7 · 항목 아래선 1px. */
+  /* 배경은 '왜 필요한가요?'(.uc-problem-section)와 같은 #f6f8fa.
+     redesigned가 7개 과제 전부라 이 규칙도 전부에 걸린다. */
+  .uc-redesigned .uc-faq-section { background: #f6f8fa; }
+
   .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
   .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
   /* 랜딩도 900px에서 한 칸으로 접고 간격을 24px로 줄인다. */
