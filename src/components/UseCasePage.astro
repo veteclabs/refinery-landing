@@ -870,8 +870,16 @@ const jsonLd = [
   .uc-template-deco {
     /* 링 중심을 밴드 밖(우상단)에 두고 바깥 호만 밴드에 걸치게 한다.
        크기와 오프셋을 같은 비율로 묶어 두면 구도는 그대로 두고 스케일만 바뀐다. */
-    position: absolute; top: -212px; right: -148px;
-    width: 700px; height: auto;
+    /* ⚠️ 고정 px이 아니라 밴드 폭에 대한 비율이다. 예전에는 700px/-212/-148로
+       못 박아 두고 860px 아래에서는 통째로 감췄는데, 밴드가 좁아져도 링만 그대로라
+       구도가 깨졌기 때문이다. 세 값을 같은 비율로 묶으면 어느 폭에서든 구도가 같다.
+       1440px 기준값을 그대로 환산했다 — 700/1184 = 59.1%, -148/1184 = -12.5%,
+       세로는 자기 높이 기준이다. 이미지가 2100x1224(0.583)라 1440px에서 높이가
+       407px이므로 -212/407 = -52.1%. 정사각으로 잘못 보고 -30.3%을 넣었더니
+       링이 밴드 위로 122px만 나가(원래 211px) 아래로 내려앉았다. */
+    position: absolute; top: 0; right: -12.5%;
+    width: 59.1%; height: auto;
+    transform: translateY(-52.1%);
     /* screen — 어두운 픽셀은 배경을 그대로 통과시키고 밝은 부분만 더한다.
        일반 합성이면 링의 어두운 부분이 배경보다 더 어둡게 깔려 '얹힌 그림'이 된다.
        빛이라면 밝은 곳만 더해져야 하므로 이쪽이 맞다. */
@@ -884,7 +892,7 @@ const jsonLd = [
     pointer-events: none; user-select: none;
   }
   .uc-template-body { position: relative; z-index: 1; }
-  @media (max-width: 860px) { .uc-template-deco { display: none; } }
+  /* 860px 이하 display:none을 걷었다 — 이제 비율로 줄어들어 감출 이유가 없다. */
 
   /* 위 여백은 4개 카드(.ind-card, 24px)와 같게 둔다 — 배지가 카드의 아이콘과
      같은 자리에서 시작하므로 두 블록의 윗선이 맞는다. */
