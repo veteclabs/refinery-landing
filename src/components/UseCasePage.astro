@@ -336,14 +336,19 @@ const jsonLd = [
     {uc.faq && uc.faq.length > 0 && (
       <section class="ind-section">
         <div class="ind-container">
-          <header class="ind-head"><h2>{T.faqTitle}</h2></header>
-          <div class="uc-faq">
-            {uc.faq.map((f) => (
-              <div class="uc-faq-item">
-                <h3>{f.q}</h3>
-                <p>{f.a}</p>
-              </div>
-            ))}
+          {/* 랜딩 #faq와 같은 구성 — 제목 왼쪽, 아코디언 목록 오른쪽.
+              질문은 h3를 유지한다. 랜딩은 div를 쓰지만 이 페이지는 FAQPage
+              스키마와 함께 나가는 정의형 FAQ(AEO)라 제목 의미를 버릴 수 없다. */}
+          <div class="uc-faq-head">
+            <header class="ind-head"><h2>{T.faqTitle}</h2></header>
+            <div class="uc-faq-list">
+              {uc.faq.map((f) => (
+                <div class="uc-faq-item">
+                  <h3 class="uc-faq-q">{f.q}<i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
+                  <div class="uc-faq-a">{f.a}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -368,14 +373,58 @@ const jsonLd = [
     </section>
   </main>
   <Footer />
+
+<script is:inline>
+  // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
+  document.querySelectorAll('.uc-faq-q').forEach(function (q) {
+    q.addEventListener('click', function () {
+      var a = q.nextElementSibling;
+      var isOpen = a.classList.contains('open');
+      document.querySelectorAll('.uc-faq-a').forEach(function (el) { el.classList.remove('open'); });
+      document.querySelectorAll('.uc-faq-item').forEach(function (el) { el.classList.remove('open'); });
+      if (!isOpen) {
+        a.classList.add('open');
+        q.closest('.uc-faq-item').classList.add('open');
+      }
+    });
+  });
+</script>
 </BaseLayout>
 
 <style>
-  /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다. */
-  .uc-faq { max-width: 760px; }
-  .uc-faq-item + .uc-faq-item { margin-top: 28px; padding-top: 28px; border-top: 1px solid #e6eaef; }
-  .uc-faq-item h3 { font-size: clamp(18px, 2.2vw, 22px); font-weight: 650; letter-spacing: -0.01em; color: var(--text, #16202c); margin: 0 0 8px; word-break: keep-all; }
-  .uc-faq-item p { font-size: 16.5px; line-height: 1.72; color: #2b3644; margin: 0; word-break: keep-all; }
+  /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다.
+     규격은 랜딩 #faq(global.css:560~571)를 그대로 따른다 —
+     2열(1fr 2fr) · gap 64 · 질문 17/500 · 답 15/1.7 · 항목 아래선 1px. */
+  .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+  .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
+  /* 랜딩도 900px에서 한 칸으로 접고 간격을 24px로 줄인다. */
+  @media (max-width: 900px) {
+    .uc-faq-head { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .uc-faq-item { border-bottom: 1px solid var(--border, #E3E7EC); overflow: hidden; }
+  .uc-faq-item:last-child { border-bottom: none; }
+  .uc-faq-q {
+    margin: 0; padding: 20px 4px;
+    font-size: 17px; font-weight: 500; letter-spacing: normal;
+    color: var(--text, #16202c); cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    word-break: keep-all;
+  }
+  .uc-faq-icon {
+    font-size: 14px; color: var(--text-dim, #8a94a3);
+    flex-shrink: 0; margin-left: 12px; transition: transform .2s;
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+  .uc-faq-item.open .uc-faq-icon { transform: rotate(180deg); }
+  /* 접힘은 max-height로 만든다(랜딩과 같은 방식). display:none이 아니라
+     DOM에 그대로 남아 FAQPage 스키마·크롤링에는 영향이 없다. */
+  .uc-faq-a {
+    font-size: 15px; line-height: 1.7; color: var(--text-muted, #5b6472);
+    overflow: hidden; max-height: 0; padding: 0 4px; opacity: 0;
+    transition: max-height .4s cubic-bezier(.22,1,.36,1), padding .3s ease, opacity .3s ease;
+    word-break: keep-all;
+  }
+  .uc-faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
 
   .uc-narrow { max-width: 760px; }
   /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
