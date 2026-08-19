@@ -787,10 +787,20 @@ const alternates = [
       /* ⚠️ min-width: 0 필수. 그리드 아이템 기본값 auto는 min-content(540px)라
          max-width: 100%를 무시해 480px에서 카드가 84px 넘쳤다. */
       min-width: 0;
+      /* ⚠️ 암시적 열은 max-content(440px)로 잡혀 카드 안쪽 폭(375px에서 279px)을
+         넘는다. 그 열이 곧 행의 100% 기준이라 max-width: 100%도 440px이 돼
+         무력해진다(320px에서 216px 삐져나감). minmax(0, 1fr)로 열을 묶는다. */
+      grid-template-columns: minmax(0, 1fr);
       padding: 50px; background: rgba(17, 19, 22, 0.62); }
-    .cmp-stats .cmp-stat { width: 440px; max-width: 100%; }
+    /* ⚠️ min-width: 0 필수(행·설명 양쪽). 그리드/플렉스 기본값 auto는 min-content라
+       520px 아래에서 행이 카드 안쪽 폭을 무시하고 삐져나갔다(320px에서 216px).
+       수치는 nowrap이라 못 줄이므로 설명 쪽이 줄어들며 감겨야 한다. */
+    .cmp-stats .cmp-stat { width: 440px; max-width: 100%; min-width: 0; }
+    .cmp-stats .cmp-stat-label { min-width: 0; }
     /* 폭이 줄어도 줄 구성은 그대로 둔다 — 설명 왼쪽, 수치 오른쪽. */
     .cmp-story-bg > .ind-container { align-content: start; }
+    /* 한 칸으로 접히면 DOM 순서상 서명이 카드 위에 온다. order로 맨 뒤에 보낸다. */
+    .cmp-story-bg .cmp-story-sig { order: 1; margin-top: 24px; }
   }
   /* 카드 자연폭 540px이 칸보다 커지는 구간에서는 카드가 칸에 꽉 차므로,
      안쪽 글이 본문보다 50px 들어가 왼쪽 선이 어긋난다. 그때만 패딩을
