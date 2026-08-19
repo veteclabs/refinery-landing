@@ -694,7 +694,14 @@ const alternates = [
     padding: 95px 0; text-align: left; background: #0c1015;
   }
   .cmp-cta-bg-img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    /* ⚠️ min-width로 배율을 세로 기준에 묶는다.
+       섹션(1905x298 = 6.4:1)이 사진(3840x2462 = 1.56:1)보다 훨씬 납작해
+       object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록
+       사진이 축소돼 보이는 원본 영역이 601px -> 1707px로 벌어졌다.
+       상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 0.371에 고정되고,
+       모자란 가로는 좌우 균등하게 잘린다. 1440px 위로는 지금처럼 늘어난다. */
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
     object-fit: cover; object-position: center 65%;
     pointer-events: none; user-select: none;
   }
