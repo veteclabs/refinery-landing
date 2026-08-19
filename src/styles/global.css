@@ -210,8 +210,13 @@
       display: grid; place-items: center;
       width: 64px; height: 64px; border-radius: 50%;
       background: rgba(11, 14, 20, 0.62); color: #fff;
-      /* 아이콘 좌우 무게중심이 오른쪽이라 살짝 밀어 넣어야 원 가운데로 보인다. */
-      padding-left: 4px;
+      /* ⚠️ 삼각형은 면적 무게중심이 왼쪽 1/3에 있어 상자 가운데로 두면 왼쪽으로
+         보인다. 그런데 이 SVG는 경로가 이미 뷰박스 오른쪽으로 치우쳐 있어
+         (M8 5v14l11-7z → x 8~19, 중심 13.5 vs 뷰박스 12) 추가로 밀면 과하다.
+         padding-left: 4px일 때 무게중심이 원 중심에서 +3.09px였다.
+         padding은 가운데 정렬된 내용을 절반만큼 옮기므로 오른쪽에 2px을 줘
+         -1px 되민다. */
+      padding-right: 2px;
       opacity: 0; transform: scale(.9);
       transition: opacity .18s ease, transform .18s ease;
     }
