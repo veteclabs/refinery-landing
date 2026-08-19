@@ -187,7 +187,9 @@
       margin-top: 80px;
       width: 100%;
       max-width: none;
-      aspect-ratio: 16 / 10;
+      /* 데모 무대(1320x840)와 같은 비율. 16/10이면 무대가 폭을 채우고도
+         세로가 남아 위아래에 데모 배경이 보인다. */
+      aspect-ratio: 1320 / 840;
       position: relative;
       overflow: hidden;
       border: 1px solid var(--border);
