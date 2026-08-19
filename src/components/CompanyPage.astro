@@ -802,8 +802,8 @@ const alternates = [
     /* 한 칸으로 접히면 DOM 순서상 서명이 카드 위에 온다. order로 맨 뒤에 보낸다.
        ⚠️ grid-row: auto 필수. 명시적으로 배치된 그리드 아이템은 order를 무시해서,
        데스크톱 grid-row가 남아 있던 901~980px에서는 여전히 카드 위에 있었다.
-       여백은 소제목 -> 카드 간격(60px)의 절반인 30px. */
-    .cmp-story-bg .cmp-story-sig { order: 1; grid-row: auto; margin-top: 30px; }
+       여백 40px (소제목 -> 카드는 60px). */
+    .cmp-story-bg .cmp-story-sig { order: 1; grid-row: auto; margin-top: 40px; }
   }
   /* 카드 자연폭 540px이 칸보다 커지는 구간에서는 카드가 칸에 꽉 차므로,
      안쪽 글이 본문보다 50px 들어가 왼쪽 선이 어긋난다. 그때만 패딩을
