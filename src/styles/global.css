@@ -211,7 +211,7 @@
       width: 64px; height: 64px; border-radius: 50%;
       /* 'From Data to Intelligence' 섹션(#platform)과 같은 #111316에 투명도.
          데모 위에 얹히므로 완전 불투명이면 판때기처럼 보인다. */
-      background: rgba(17, 19, 22, 0.5); color: #fff;
+      background: rgba(17, 19, 22, 0.55); color: #fff;
       /* ⚠️ 삼각형은 면적 무게중심이 왼쪽 1/3에 있어 상자 가운데로 두면 왼쪽으로
          보인다. 그런데 이 SVG는 경로가 이미 뷰박스 오른쪽으로 치우쳐 있어
          (M8 5v14l11-7z → x 8~19, 중심 13.5 vs 뷰박스 12) 추가로 밀면 과하다.
