@@ -76,7 +76,8 @@ const jsonLd = [
         mainEntity: uc.faq.map((f) => ({
           '@type': 'Question',
           name: f.q,
-          acceptedAnswer: { '@type': 'Answer', text: f.a },
+          // 구조화 데이터에는 표시용 <br>를 빼고 순수 문장만 넣는다.
+          acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<br\s*\/?>/gi, ' ') },
         })),
       }]
     : []),
@@ -345,7 +346,7 @@ const jsonLd = [
               {uc.faq.map((f) => (
                 <div class="uc-faq-item">
                   <h3 class="uc-faq-q">{f.q}<i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
-                  <div class="uc-faq-a">{f.a}</div>
+                  <div class="uc-faq-a" set:html={f.a}></div>
                 </div>
               ))}
             </div>
