@@ -434,7 +434,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
-  background: #1a1e24; border-color: #272b32; color: #959ca5;
+  background: #272b32; border-color: #272b32; color: #959ca5;
 }
 
 
@@ -474,7 +474,10 @@ img { max-width: 100%; height: auto; }
 /* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
    랜딩 .section-header p(18px / 1.7)에 맞춘다 — 히어로 소제목도 그 값이라
    16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
-.ind-page .ind-head p { margin: 0; max-width: 360px; font-size: 18px; line-height: 1.7; }
+/* 칸을 400px으로 잡는다. 랜딩 공통값은 360px인데 이 페이지 소제목이 388px이라
+   그대로 두면 두 줄이 되고, 두 줄이 되면 오른쪽 끝이 들쭉날쭉해진다.
+   글도 오른쪽에 맞춰 대제목과 반대편 끝에서 만나게 한다. */
+.ind-page .ind-head p { margin: 0; max-width: 400px; font-size: 18px; line-height: 1.7; text-align: right; }
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
