@@ -47,7 +47,20 @@ const lines = (s: string) => s.split('\n');
   <Nav />
   <main class="ind">
     <!-- HERO -->
-    <section class="ind-hero">
+    <section class={ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
+      {ind.hero.image && (
+        <img
+          class="ind-hero-bg-img"
+          src={ind.hero.image.src}
+          alt=""
+          aria-hidden="true"
+          width={ind.hero.image.width}
+          height={ind.hero.image.height}
+          decoding="async"
+          fetchpriority="high"
+          style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
+        />
+      )}
       <div class="ind-container">
         <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
         <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
