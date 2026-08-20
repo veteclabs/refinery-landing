@@ -379,32 +379,32 @@ img { max-width: 100%; height: auto; }
    max-width가 아니라 width로 못박는다 — justify-self를 준 카드는 격자에서
    늘어나지 않고 내용 크기로 줄어들어 좌우 폭이 어긋난다. */
 .ind-grid-bubble .ind-card { position: relative; width: min(600px, 100%); }
-.ind-grid-bubble .ind-card:nth-child(even) { justify-self: end; }
+.ind-grid-bubble .ind-card:nth-child(odd) { justify-self: end; }
 /* 좁은 화면에서는 폭을 다 쓴다. 68%로 두면 글이 감길 자리가 없다. */
 @media (max-width: 860px) {
   .ind-grid-bubble .ind-card { width: auto; }
-  .ind-grid-bubble .ind-card:nth-child(even) { justify-self: stretch; }
+  .ind-grid-bubble .ind-card:nth-child(odd) { justify-self: stretch; }
 }
 
 /* 꼬리는 45도 돌린 정사각형이다. 삼각형 두 장을 겹치는 방식보다 모서리가
    깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
 .ind-grid-bubble .ind-card::after {
   /* 꼬리는 아바타의 세로 가운데에 붙인다 — 말하는 사람 옆에서 나가야
-     '이 사람의 말'로 읽힌다. 카드 위 여백 26 + 아바타 반지름 30 = 56px이
-     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 56 - 7 = 49px. */
-  content: ''; position: absolute; top: 49px;
+     '이 사람의 말'로 읽힌다. 카드 위 여백 26 + 아바타 반지름 22 = 48px이
+     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 48 - 7 = 41px. */
+  content: ''; position: absolute; top: 41px;
   width: 14px; height: 14px;
   background: var(--bg);
   border: 1px solid var(--border);
   transform: rotate(45deg);
 }
-/* 홀수 = 왼쪽. 왼쪽 아래 두 변만 남긴다. */
+/* 홀수 = 오른쪽. 오른쪽 위 두 변만 남긴다. */
 .ind-grid-bubble .ind-card:nth-child(odd)::after {
-  left: -8px; border-width: 0 0 1px 1px;
-}
-/* 짝수 = 오른쪽. 오른쪽 위 두 변만 남긴다. */
-.ind-grid-bubble .ind-card:nth-child(even)::after {
   right: -8px; border-width: 1px 1px 0 0;
+}
+/* 짝수 = 왼쪽. 왼쪽 아래 두 변만 남긴다. */
+.ind-grid-bubble .ind-card:nth-child(even)::after {
+  left: -8px; border-width: 0 0 1px 1px;
 }
 /* 어두운 면에서는 꼬리 색도 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-grid-bubble .ind-card::after {
@@ -420,24 +420,24 @@ img { max-width: 100%; height: auto; }
 }
 .ind-avatar {
   display: grid; place-items: center; flex: none;
-  /* 제목 + 설명을 합친 높이다. 1440px 실측으로 제목 32 + 여백 5 + 설명 23 = 60px.
-     원이 본문 덩어리와 같은 높이라 둘이 한 줄로 맞물린다. */
-  width: 60px; height: 60px; border-radius: 50%;
+  /* 설명이 두 줄이 되면서 본문 덩어리가 82px이 됐다. 원을 그 높이에 맞추면
+     아바타가 카드를 다 차지한다. 제목 한 줄(32px)보다 조금 큰 44px으로 둔다. */
+  width: 44px; height: 44px; border-radius: 50%;
   background: var(--bg-soft); border: 1px solid var(--border);
   color: var(--text-muted);
 }
-/* 아이콘은 원 지름의 절반이다(34px 원에 18px이던 비율을 유지). */
-.ind-avatar i { font-size: 30px; line-height: 1; }
+/* 아이콘은 원 지름의 절반이다. */
+.ind-avatar i { font-size: 22px; line-height: 1; }
 /* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
 @media (max-width: 640px) {
-  .ind-avatar { width: 46px; height: 46px; }
-  .ind-avatar i { font-size: 23px; }
-  /* 아바타가 46px이면 중심이 26 + 23 = 49px이므로 꼬리는 49 - 7 = 42px. */
-  .ind-grid-bubble .ind-card::after { top: 42px; }
+  .ind-avatar { width: 36px; height: 36px; }
+  .ind-avatar i { font-size: 18px; }
+  /* 아바타가 36px이면 중심이 26 + 18 = 44px이므로 꼬리는 44 - 7 = 37px. */
+  .ind-grid-bubble .ind-card::after { top: 37px; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
-  background: #32373f; border-color: #32373f; color: #424850;
+  background: #32373f; border-color: #32373f; color: #757c85;
 }
 
 
@@ -488,3 +488,11 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-card h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin-bottom: 5px; }
 .ind-page .ind-card p { line-height: 1.5; }
 .ind-page .ind-usecase-body h3 { font-weight: 600; line-height: 1.6; }
+
+/* 639px 이하에서는 단락 나눔을 푼다. 640px까지는 <br> 자리가 그대로 유지되지만
+   그 아래에서는 각 줄이 다시 감겨 줄 수만 늘어난다.
+   데이터의 <br> 앞에 공백을 둔 이유: display:none으로 지우면 br이 흐름에서
+   빠지면서 앞뒤 글자가 '분산되어전체'처럼 붙는다. */
+@media (max-width: 639px) {
+  .ind-grid-bubble .ind-card p br { display: none; }
+}

@@ -112,7 +112,8 @@ const lines = (s: string) => s.split('\n');
               <span class="ind-avatar" aria-hidden="true"><i class="ph ph-user"></i></span>
               <div class="ind-card-body">
                 <h3>{c.title}</h3>
-                <p>{c.description}</p>
+                {/* 줄바꿈은 <br>로 명시한다. 마크업 안의 개행은 빌드 시 공백으로 합쳐진다. */}
+                <p set:html={c.description}></p>
               </div>
             </div>
           ))}
