@@ -393,3 +393,24 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-grid-bubble .ind-card::after {
   background: #111316; border-color: #272b32;
 }
+
+/* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
+   본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
+   설명이 제목 아래에서 어긋나지 않고 같은 선에서 시작한다. */
+.ind-grid-bubble .ind-card {
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px; align-items: start;
+}
+.ind-avatar {
+  display: grid; place-items: center; flex: none;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--bg-soft); border: 1px solid var(--border);
+  color: var(--text-muted);
+  /* 제목(20px · 줄높이 1.6 = 32px)의 세로 가운데에 맞춘다. */
+  margin-top: -1px;
+}
+.ind-avatar i { font-size: 18px; line-height: 1; }
+/* 어두운 면에서는 그 섹션 값을 쓴다. */
+.ind-soft-dark .ind-avatar {
+  background: #1a1e24; border-color: #272b32; color: #959ca5;
+}

@@ -109,8 +109,11 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-grid ind-grid-2 ind-grid-bubble">
           {ind.challenges.items.map((c) => (
             <div class="ind-card">
-              <h3>{c.title}</h3>
-              <p>{c.description}</p>
+              <span class="ind-avatar" aria-hidden="true"><i class="ph ph-hard-hat"></i></span>
+              <div class="ind-card-body">
+                <h3>{c.title}</h3>
+                <p>{c.description}</p>
+              </div>
             </div>
           ))}
         </div>
