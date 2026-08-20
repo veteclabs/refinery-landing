@@ -434,7 +434,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
-  background: #272b32; border-color: #272b32; color: #959ca5;
+  background: #32373f; border-color: #32373f; color: #959ca5;
 }
 
 
