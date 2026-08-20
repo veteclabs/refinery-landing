@@ -600,3 +600,10 @@ img { max-width: 100%; height: auto; }
   background: #191d22; border-color: #272b32; color: #edeef0;
 }
 .ind-dark .ind-systems-note { color: #9aa4b0; }
+
+/* ── 도입 효과 — 섹션 면과 카드 면을 맞바꾼다.
+   .ind-soft는 섹션이 #F6F8FA, 카드가 흰색이다. 여기서는 반대로 섹션을 흰색으로,
+   카드를 #F6F8FA로 둔다. 카드가 배경보다 어두워 판이 눌린 것처럼 보이지만,
+   위아래 섹션(어두운 솔루션 구조 · 어두운 CTA) 사이에서 이 섹션만 밝게 뜬다. */
+.ind-page .ind-soft-invert { background: var(--bg); }
+.ind-page .ind-soft-invert .ind-card { background: var(--bg-soft); }
