@@ -254,12 +254,12 @@ img { max-width: 100%; height: auto; }
   width: var(--ind-hero-icon); height: auto;
   right: calc(var(--ind-hero-icon) * -0.1);
   bottom: calc(var(--ind-hero-icon) * -0.1);
-  opacity: .55; pointer-events: none; user-select: none;
+  /* SVG 안의 #76A6D7을 그대로 쓴다 — 색도 투명도도 건드리지 않는다. */
+  pointer-events: none; user-select: none;
 }
 @media (max-width: 1023px) { .ind-hero-bg { --ind-hero-icon: 240px; } }
-/* 좁은 화면에서는 글이 폭을 다 써서 아이콘 위로 지나간다. 본문이 위에 오도록
-   .ind-container에 z-index:1이 걸려 있고, 무늬는 옅게 낮춰 가독성을 지킨다. */
+/* 좁은 화면에서는 글이 폭을 다 써서 아이콘 위로 지나간다.
+   본문이 위에 오도록 .ind-container에 z-index:1이 걸려 있다. */
 @media (max-width: 767px) {
   .ind-hero-bg { --ind-hero-icon: 180px; }
-  .ind-hero-icon { opacity: .35; }
 }
