@@ -343,10 +343,10 @@ img { max-width: 100%; height: auto; }
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
    카드 면이 섹션 면과 같아서 1px 테두리만으로 구분되는 것이 그 섹션의 특징이다. */
 .ind-soft-dark { background: #111316; border-bottom-color: #24282e; }
-/* 카드 면색은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
-   (.rfn-node)와 같은 #191D22다. 섹션과 같은 #111316이면 테두리로만 구분돼
-   배경 사진 위에서 카드 경계가 흐려졌다. */
-.ind-soft-dark .ind-card { background: #191d22; border: 1px solid #272b32; }
+/* 카드 면색 #272B32. 테두리와 같은 값이라 선이 사라지고 한 덩어리로 보인다.
+   #191D22(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가 같아 카드가 앞으로
+   나오지 않았다 — 대비 1.00:1. */
+.ind-soft-dark .ind-card { background: #272b32; border: 1px solid #272b32; }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -422,7 +422,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 꼬리 색도 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-grid-bubble .ind-card::after {
-  background: #191d22; border-color: #272b32;
+  background: #272b32; border-color: #272b32;
 }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
