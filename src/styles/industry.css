@@ -193,27 +193,51 @@ img { max-width: 100%; height: auto; }
   background: #fff; border-color: #fff; color: #76a6d7;
 }
 
-/* ── 히어로 우측 오버레이 (hero.overlay 지정 시)
-   배경 사진 위에 얹어 오른쪽을 채운다. 왼쪽으로 갈수록 사라지는 마스크를 씌워
-   글이 놓이는 자리에는 번지지 않는다 — 페이드는 %가 아니라 px로 잡는다.
-   %면 칸이 좁아질수록 페이드 구간도 같이 좁아져 글 끝에서 이미 또렷해진다.
-   섞임은 screen이다. 이 사진은 어두운 남색 바탕에 밝은 선만 있어서,
-   screen이면 어두운 부분이 투명해지고 선만 배경 위에 얹힌다 —
-   불투명도만 낮추면 사진의 어두운 면이 배경 그라데이션을 덮어 탁해진다. */
+/* ── 히어로 우측 하단 오버레이 (hero.overlay 지정 시)
+   배경 사진 위에 얹어 오른쪽 아래 모서리를 채운다.
+   위·왼쪽 두 방향에 투명 그라데이션을 겹쳐 경계선을 없앤다 — 마스크 두 장을
+   intersect로 교차시키면 위에서 아래로, 왼쪽에서 오른쪽으로 동시에 나타난다.
+   (구형 웹킷은 -webkit-mask-composite: source-in이 같은 역할을 한다.)
+   아래·오른쪽은 히어로 모서리와 맞닿아 잘리므로 페이드가 필요 없다.
+
+   섞임은 screen이다. 이 사진은 어두운 남색 바탕에 밝은 선만 있어서 screen이면
+   어두운 부분이 투명해지고 선만 배경 위에 얹힌다 — 불투명도만 낮추면 사진의
+   어두운 면이 배경 그라데이션을 덮어 탁해진다.
+   페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이 좁아진다. */
 .ind-hero-overlay {
-  position: absolute; right: 0; top: 0; bottom: 0;
-  width: 62%; height: 100%; object-fit: cover; object-position: center;
-  mix-blend-mode: screen; opacity: .75;
-  -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 360px);
-  mask-image: linear-gradient(to right, transparent 0px, #000 360px);
+  position: absolute; right: 0; bottom: 0; top: auto;
+  width: 46%; height: 64%;
+  object-fit: cover; object-position: center;
+  mix-blend-mode: screen; opacity: .4;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0px, #000 160px),
+    linear-gradient(to right, transparent 0px, #000 260px);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent 0px, #000 160px),
+    linear-gradient(to right, transparent 0px, #000 260px);
+  mask-composite: intersect;
   pointer-events: none; user-select: none;
 }
-@media (max-width: 767px) {
-  /* 글이 폭을 다 쓰는 구간이다. 폭을 넓히되 옅게 깔아 무늬로만 남긴다. */
+@media (max-width: 1023px) {
   .ind-hero-overlay {
-    width: 100%; opacity: .5;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 200px);
-    mask-image: linear-gradient(to bottom, transparent 0px, #000 200px);
+    width: 62%; height: 56%;
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0px, #000 110px),
+      linear-gradient(to right, transparent 0px, #000 170px);
+    mask-image:
+      linear-gradient(to bottom, transparent 0px, #000 110px),
+      linear-gradient(to right, transparent 0px, #000 170px);
+  }
+}
+@media (max-width: 767px) {
+  /* 글이 폭을 다 쓰는 구간이다. 아래쪽 띠로 넓히고 더 옅게 깐다. */
+  .ind-hero-overlay {
+    width: 100%; height: 46%; opacity: .28;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 120px);
+    -webkit-mask-composite: source-over;
+    mask-image: linear-gradient(to bottom, transparent 0px, #000 120px);
+    mask-composite: add;
   }
 }
 
