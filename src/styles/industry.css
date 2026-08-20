@@ -342,22 +342,43 @@ img { max-width: 100%; height: auto; }
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
    카드 면이 섹션 면과 같아서 1px 테두리만으로 구분되는 것이 그 섹션의 특징이다. */
 .ind-soft-dark { background: #111316; border-bottom-color: #24282e; }
-/* 카드 면색 #272B32, 테두리는 한 단계 밝은 #32373F.
-   면과 같은 색이면 선이 사라져 판의 윤곽이 잡히지 않는다.
-   #191D22(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가 같아 카드가 앞으로
-   나오지 않았다 — 대비 1.00:1. */
+/* 카드 면색 #272B32. #191D22(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가
+   같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
 .ind-soft-dark .ind-card { background: #272b32; border: 1px solid #32373f; }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
-   (.rfn-node)와 같은 값이다. 테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대
-   레이아웃이 흔들리지 않는다. */
+   (.rfn-node)와 같은 값이다. */
 .ind-soft-dark .ind-card {
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
 }
 .ind-soft-dark .ind-card:hover {
   box-shadow: 0 0 0 2px #32373f, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+}
+
+/* ── 말풍선은 카드와 꼭지가 한 도형으로 보여야 한다.
+   테두리(border)와 링(box-shadow)은 카드 상자에만 그려지므로 꼭지는 자기 테두리를
+   따로 갖고, 둘이 만나는 자리에 이음매가 생긴다. hover 링은 아예 꼭지를 비껴간다.
+   filter는 요소가 그려진 결과(::after 포함)에 걸리므로, 4방향 drop-shadow로
+   '카드 + 꼭지'의 합집합 바깥에 1px 선을 두른다.
+   그림자도 filter로 옮겨야 같은 합집합을 따라간다 — box-shadow는 상자만 따른다. */
+.ind-soft-dark .ind-grid-bubble .ind-card {
+  border: 0;
+  box-shadow: none;
+  filter:
+    drop-shadow(1px 0 0 #32373f) drop-shadow(-1px 0 0 #32373f)
+    drop-shadow(0 1px 0 #32373f) drop-shadow(0 -1px 0 #32373f)
+    drop-shadow(0 1px 2px rgba(0,0,0,.35));
+  transition: filter .15s ease;
+}
+/* hover는 선을 2px으로 굵힌다 — 링이 카드와 꼭지를 함께 두른다. */
+.ind-soft-dark .ind-grid-bubble .ind-card:hover {
+  box-shadow: none;
+  filter:
+    drop-shadow(2px 0 0 #32373f) drop-shadow(-2px 0 0 #32373f)
+    drop-shadow(0 2px 0 #32373f) drop-shadow(0 -2px 0 #32373f)
+    drop-shadow(0 2px 4px rgba(0,0,0,.35));
 }
 
 /* ───────── 과제 카드 — 말풍선
@@ -400,30 +421,28 @@ img { max-width: 100%; height: auto; }
   .ind-grid-bubble .ind-card:nth-child(odd) { justify-self: stretch; }
 }
 
-/* 꼬리는 45도 돌린 정사각형이다. 삼각형 두 장을 겹치는 방식보다 모서리가
-   깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
+/* 꼭지는 삼각형이다. 예전에는 45도 돌린 정사각형에 바깥 두 변만 테두리를 남겨
+   카드의 선과 잇는 방식이었는데, 윤곽을 filter가 합집합에 그리게 되면서
+   테두리를 맞출 필요가 없어졌다. 삼각형이 더 길고 뾰족하게 빠진다.
+   길이 18px · 높이 22px. 세로는 아바타 중심(카드 위 여백 34 - 올림 4 + 반지름 20
+   = 50px)에 맞춰 top 50 - 11 = 39px. */
 .ind-grid-bubble .ind-card::after {
-  /* 꼬리는 아바타의 세로 가운데에 붙인다 — 말하는 사람 옆에서 나가야
-     '이 사람의 말'로 읽힌다. 카드 위 여백 34 - 아바타 올림 4 + 반지름 20 = 50px이
-     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 50 - 7 = 43px. */
-  content: ''; position: absolute; top: 43px;
-  width: 14px; height: 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  transform: rotate(45deg);
+  content: ''; position: absolute; top: 39px;
+  width: 0; height: 0; border-style: solid; border-color: transparent;
 }
-/* 홀수 = 오른쪽. 오른쪽 위 두 변만 남긴다. */
+/* 홀수 = 오른쪽 */
 .ind-grid-bubble .ind-card:nth-child(odd)::after {
-  right: -8px; border-width: 1px 1px 0 0;
+  right: -18px; border-width: 11px 0 11px 18px;
+  border-left-color: var(--bg);
 }
-/* 짝수 = 왼쪽. 왼쪽 아래 두 변만 남긴다. */
+/* 짝수 = 왼쪽 */
 .ind-grid-bubble .ind-card:nth-child(even)::after {
-  left: -8px; border-width: 0 0 1px 1px;
+  left: -18px; border-width: 11px 18px 11px 0;
+  border-right-color: var(--bg);
 }
-/* 어두운 면에서는 꼬리 색도 그 섹션 값을 쓴다. */
-.ind-soft-dark .ind-grid-bubble .ind-card::after {
-  background: #272b32; border-color: #32373f;
-}
+/* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #272b32; }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #272b32; }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
    본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
