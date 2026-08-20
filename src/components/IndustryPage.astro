@@ -109,7 +109,15 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-grid ind-grid-2 ind-grid-bubble">
           {ind.challenges.items.map((c) => (
             <div class="ind-card">
-              <span class="ind-avatar" aria-hidden="true"><i class="ph ph-user"></i></span>
+              <span class="ind-avatar" aria-hidden="true">
+                {/* 아이콘 폰트(Phosphor)에는 채움 두께가 따로 있어 스타일시트를 하나 더
+                    불러와야 한다. 아이콘 한 개 때문에 요청을 늘리지 않고 인라인 SVG로 그린다.
+                    어깨가 원 아래에서 잘리도록 원에 overflow:hidden을 건다. */}
+                <svg class="ind-avatar-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="8.2" r="4.2" />
+                  <path d="M12 13.6c-4.6 0-8.4 2.9-8.4 6.5V24h16.8v-3.9c0-3.6-3.8-6.5-8.4-6.5z" />
+                </svg>
+              </span>
               <div class="ind-card-body">
                 <h3>{c.title}</h3>
                 {/* 줄바꿈은 <br>로 명시한다. 마크업 안의 개행은 빌드 시 공백으로 합쳐진다. */}
