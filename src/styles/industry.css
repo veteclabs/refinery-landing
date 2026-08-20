@@ -389,7 +389,10 @@ img { max-width: 100%; height: auto; }
 /* 꼬리는 45도 돌린 정사각형이다. 삼각형 두 장을 겹치는 방식보다 모서리가
    깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
 .ind-grid-bubble .ind-card::after {
-  content: ''; position: absolute; bottom: 26px;
+  /* 꼬리는 아바타의 세로 가운데에 붙인다 — 말하는 사람 옆에서 나가야
+     '이 사람의 말'로 읽힌다. 카드 위 여백 26 + 아바타 반지름 30 = 56px이
+     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 56 - 7 = 49px. */
+  content: ''; position: absolute; top: 49px;
   width: 14px; height: 14px;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -429,6 +432,8 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 640px) {
   .ind-avatar { width: 46px; height: 46px; }
   .ind-avatar i { font-size: 23px; }
+  /* 아바타가 46px이면 중심이 26 + 23 = 49px이므로 꼬리는 49 - 7 = 42px. */
+  .ind-grid-bubble .ind-card::after { top: 42px; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
