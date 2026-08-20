@@ -377,8 +377,11 @@ img { max-width: 100%; height: auto; }
    오간다(600 + 300 = 900). 1184px 그대로면 584px씩 벌어져 대화가 아니라
    흩어진 조각으로 보인다.
    대제목·소제목은 원래 칸(1280px)을 그대로 쓴다 — 이 규칙은 격자에만 걸린다.
-   칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝난다. */
+   칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝난다.
+   말풍선 사이는 20px — 예지보전 '읽는 데이터와 신호' 섹션 카드(.uc-signal-cards)와
+   같은 값이다. 공통 .ind-grid의 18px을 덮는다. */
 .ind-grid-bubble {
+  gap: 20px;
   grid-template-columns: 1fr; margin-top: 100px;
   max-width: 900px; margin-left: auto;
 }
