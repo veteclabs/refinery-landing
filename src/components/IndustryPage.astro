@@ -67,7 +67,7 @@ const lines = (s: string) => s.split('\n');
         )}
         <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
         <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
-        <p class="ind-lede">{ind.hero.lede}</p>
+        {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         <div class="ind-hero-actions">
           <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
           <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>

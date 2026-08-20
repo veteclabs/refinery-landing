@@ -13,7 +13,6 @@ export const energyEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence',
-    lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },
   challenges: {
     title: 'Challenges on energy sites',

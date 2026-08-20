@@ -36,7 +36,8 @@ export interface IndustryData {
   hero: {
     eyebrow: string;
     title: string;
-    lede: string;
+    // 소제목(선택). 예지보전 히어로처럼 제목만 두려면 생략한다.
+    lede?: string;
     // 어두운 히어로(선택). 예지보전(.uc-hero-bg)과 같은 구성이 된다 —
     // #111316 바탕에 흰 글자, accent 면 주 버튼.
     dark?: boolean;

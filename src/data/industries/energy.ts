@@ -11,7 +11,6 @@ export const energy: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '에너지 · 유틸리티',
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
-    lede: 'SCADA·EMS·스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지.',
   },
   challenges: {
     title: '에너지 현장의 과제',
