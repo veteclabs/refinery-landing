@@ -21,6 +21,7 @@ export const energy: IndustryData = {
       height: 800,
     },
     icon: '/industry-08.svg',
+    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '에너지 · 유틸리티',
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',

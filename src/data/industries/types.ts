@@ -51,6 +51,8 @@ export interface IndustryData {
     // 히어로 우측 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
     // (예: '/industry-08.svg' = 에너지 · 유틸리티).
     icon?: string;
+    // 보조 버튼(제품 살펴보기). 기본 노출. 주 버튼 하나만 두려면 false.
+    showSecondary?: boolean;
     // 위치 표시(Industries › 산업명). 기본 노출. 태그라인과 같은 말이 두 번
     // 나오는 페이지에서는 false로 끈다(JSON-LD BreadcrumbList는 그대로 남는다).
     showBreadcrumb?: boolean;

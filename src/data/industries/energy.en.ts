@@ -23,6 +23,7 @@ export const energyEn: IndustryData = {
       height: 800,
     },
     icon: '/industry-08.svg',
+    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence',
