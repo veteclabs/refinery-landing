@@ -107,26 +107,32 @@ export const energy: IndustryData = {
     items: [
       {
         title: '이상 조기 감지',
+        icon: 'ph-pulse',
         description: '평소와 다른 신호를 실시간으로 포착해 정지 · 사고 리스크를 줄입니다.',
       },
       {
         title: '통합 관제',
+        icon: 'ph-squares-four',
         description: '분산된 설비 · 계통을 하나의 화면과 하나의 구조로 관제합니다.',
       },
       {
         title: '에너지 효율',
+        icon: 'ph-lightning',
         description: '소비 패턴을 근거로 낭비와 피크를 찾아 운영비를 절감합니다.',
       },
       {
         title: 'ESG 자동화',
+        icon: 'ph-leaf',
         description: '배출 · 소비 리포트를 자동 집계하고 출처를 추적합니다.',
       },
       {
         title: '현장 보안',
+        icon: 'ph-shield-check',
         description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
       },
       {
         title: '통합 또는 신규 구축',
+        icon: 'ph-stack',
         description: '레거시 SCADA⁠/⁠EMS⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
       },
     ],

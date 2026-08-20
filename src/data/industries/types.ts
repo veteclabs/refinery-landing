@@ -16,6 +16,8 @@ export interface UseCase {
 export interface Benefit {
   title: string;
   description: string;
+  // Phosphor 아이콘 이름(선택). 예: 'ph-pulse'
+  icon?: string;
 }
 
 export interface FlowStep {

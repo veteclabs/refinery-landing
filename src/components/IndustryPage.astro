@@ -191,6 +191,7 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-grid ind-grid-3">
           {ind.benefits.items.map((b) => (
             <div class="ind-card">
+              {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}
               <h3>{b.title}</h3>
               <p>{b.description}</p>
             </div>

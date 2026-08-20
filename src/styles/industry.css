@@ -568,3 +568,19 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 639px) {
   .ind-grid-bubble .ind-card p br { display: none; }
 }
+
+/* ── 도입 효과 카드 — 예지보전 '푸는 방식' 섹션 카드와 같은 구성.
+   아이콘을 위에 두고 큰 여백을 띄워 제목·설명을 카드 아래쪽에 붙인다.
+   색은 밝은 면(.ind-soft, #F6F8FA 위 흰 카드) 기준이라 글자는 공통값을 그대로 쓰고
+   아이콘만 브랜드 하늘색으로 둔다. 예지보전은 어두운 면이라 같은 색이 그쪽에서도
+   쓰인다 — 색은 배경 밝기와 무관하게 #76A6D7 하나다. */
+.ind-page .ind-card-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: fit-content; height: auto;
+  margin-bottom: 65px;
+  color: #76a6d7;
+}
+/* 제목을 20px으로 올린 만큼 아이콘도 키운다(랜딩은 26 / 16). */
+.ind-page .ind-card-icon i { font-size: 30px; line-height: 1; }
+/* 카드 안 여백도 예지보전과 같은 24px. */
+.ind-page .ind-grid-3 .ind-card { padding: 24px; }

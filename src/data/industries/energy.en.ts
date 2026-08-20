@@ -109,26 +109,32 @@ export const energyEn: IndustryData = {
     items: [
       {
         title: 'Early anomaly detection',
+        icon: 'ph-pulse',
         description: 'Signals that differ from the norm are caught in real time, reducing stoppage and incident risk.',
       },
       {
         title: 'Unified control',
+        icon: 'ph-squares-four',
         description: 'Distributed assets and grids are monitored on one screen and in one structure.',
       },
       {
         title: 'Energy efficiency',
+        icon: 'ph-lightning',
         description: 'Waste and peaks are found on the evidence of consumption patterns, cutting operating cost.',
       },
       {
         title: 'ESG automation',
+        icon: 'ph-leaf',
         description: 'Emissions and consumption reports are aggregated automatically, with sources traceable.',
       },
       {
         title: 'Site security',
+        icon: 'ph-shield-check',
         description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
       },
       {
         title: 'Integrate or build new',
+        icon: 'ph-stack',
         description: 'Where legacy SCADA, EMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
       },
     ],
