@@ -114,20 +114,19 @@ img { max-width: 100%; height: auto; }
    사진이 도착하기 전에는 공통 .ind-hero의 밝은 회색(#F6F8FA)이 깔려 그 위 흰 글자가
    안 보이고 화면이 한 번 번쩍인다. 스크림과 같은 색(#111316)을 밑판으로 깔아
    첫 페인트부터 어두운 면이 되게 한다 — 사진은 그 뒤에 얹히므로 색이 바뀌는 순간이 없다. */
-.ind-hero-bg { position: relative; overflow: hidden; background: #111316; border-bottom: none; }
+.ind-hero-bg { position: relative; overflow: hidden; background: #10141B; border-bottom: none; }
 .ind-hero-bg-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
   /* 세로 초점. 값을 낮출수록 사진의 위쪽이 보인다(0% = 위쪽 끝, 100% = 아래쪽 끝).
      사진마다 담긴 장면이 달라 데이터의 hero.imagePosition으로 덮어쓴다. */
   object-position: center 45%;
+  /* 플랫폼 개요 히어로와 같은 값. 어두운 밑판(#10141B) 위에 .9로 얹는다. */
+  opacity: .9;
   pointer-events: none; user-select: none;
 }
-/* 사진 위 스크림 — 위 80% → 아래 50%로, 태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
-.ind-hero-bg::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
-}
+/* 스크림은 두지 않는다. 플랫폼 개요 히어로와 같은 구성이다 —
+   #10141B 밑판 위에 사진을 .9로 얹는 게 전부라 어두운 막을 한 겹 더 덮지 않는다. */
 .ind-hero-bg > .ind-container { position: relative; z-index: 1; }
 /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 예지보전 히어로와 같은 값(1280/48).
    공통 .ind-container는 1120/24라 글이 로고보다 74px 안쪽에서 시작했다. */
