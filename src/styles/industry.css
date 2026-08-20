@@ -348,7 +348,7 @@ img { max-width: 100%; height: auto; }
    상자 자체를 낮추고 아래에 붙여야 사진이 실제로 내려간다. */
 .ind-section-bg-img {
   position: absolute; right: 0; bottom: 0; left: 0; top: auto;
-  width: 100%; height: 78%;
+  width: 100%; height: 88%;
   object-fit: cover; object-position: center;
   /* 흑백으로 눕힌다. 색이 남으면 주황 작업복이 이 페이지의 유일한 난색이라
      배경이 앞으로 튀어나온다. */
@@ -363,7 +363,7 @@ img { max-width: 100%; height: auto; }
 /* 네 방향을 모두 흐린다. 마스크 두 장(세로·가로)을 intersect로 교차시키면
    위·아래·좌·우가 동시에 사라진다(구형 웹킷은 -webkit-mask-composite: source-in).
      세로 — 위쪽 40%를 넓게 흘려 사진 상자의 윗변이 드러나지 않게 한다
-            (상자가 섹션 높이의 78%라 40%는 섹션 기준 약 31% 구간이다).
+            (상자가 섹션 높이의 88%라 40%는 섹션 기준 약 35% 구간이다).
             아래쪽 120px은 섹션 경계선과 맞닿는 자리를 없앤다.
      가로 — 좌우 200px. 화면 양끝에서 사진이 잘린 티가 나지 않는다. */
 .ind-section-bg-img {
