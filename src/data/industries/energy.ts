@@ -1,4 +1,4 @@
-import type { IndustryData } from '.⁠/⁠types';
+import type { IndustryData } from './types';
 
 export const energy: IndustryData = {
   slug: 'energy',
@@ -9,24 +9,25 @@ export const energy: IndustryData = {
   hero: {
     dark: true,
     image: {
-      src: '⁠/⁠img_login-bg.webp',
+      src: '/img_login-bg.webp',
       alt: '',
       width: 3840,
       height: 2160,
     },
     imagePosition: 'center 100%',
     overlay: {
-      src: '⁠/⁠industries⁠/⁠energy-hero-mesh.webp',
+      src: '/industries/energy-hero-mesh.webp',
       width: 1600,
       height: 800,
     },
-    icon: '⁠/⁠industry-08.svg',
+    icon: '/industry-08.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '에너지 · 유틸리티',
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
   },
   challenges: {
+    backgroundImage: '/industries/energy-challenges.webp',
     title: '에너지 현장의 과제',
     subtitle: '발전⁠·⁠송배전⁠·⁠유틸리티 운영에서 반복적으로 마주치는 문제들입니다.',
     items: [
@@ -136,7 +137,7 @@ export const energy: IndustryData = {
     note: '목록에 없는 시스템도 표준 프로토콜⁠·⁠API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {
-    backgroundImage: '⁠/⁠use-cases⁠/⁠cta-bg.webp',
+    backgroundImage: '/use-cases/cta-bg.webp',
     title: '에너지 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },

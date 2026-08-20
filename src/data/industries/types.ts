@@ -60,6 +60,8 @@ export interface IndustryData {
   challenges: {
     title: string;
     subtitle?: string;
+    // 섹션 배경 사진(선택). 밝은 면 위에 옅게 깔린다.
+    backgroundImage?: string;
     items: Challenge[];
   };
   useCases: {

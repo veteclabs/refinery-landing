@@ -1,4 +1,4 @@
-import type { IndustryData } from '.⁠/⁠types';
+import type { IndustryData } from './types';
 
 // 영어 산업 데이터. slug는 한국어(energy.ts)와 동일하게 맞춘다.
 // ⚠️ 초안(원어민 검수 전).
@@ -11,24 +11,25 @@ export const energyEn: IndustryData = {
   hero: {
     dark: true,
     image: {
-      src: '⁠/⁠img_login-bg.webp',
+      src: '/img_login-bg.webp',
       alt: '',
       width: 3840,
       height: 2160,
     },
     imagePosition: 'center 100%',
     overlay: {
-      src: '⁠/⁠industries⁠/⁠energy-hero-mesh.webp',
+      src: '/industries/energy-hero-mesh.webp',
       width: 1600,
       height: 800,
     },
-    icon: '⁠/⁠industry-08.svg',
+    icon: '/industry-08.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence',
   },
   challenges: {
+    backgroundImage: '/industries/energy-challenges.webp',
     title: 'Challenges on energy sites',
     subtitle: 'The problems that come up again and again in generation, transmission and utility operations.',
     items: [
@@ -138,7 +139,7 @@ export const energyEn: IndustryData = {
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
-    backgroundImage: '⁠/⁠use-cases⁠/⁠cta-bg.webp',
+    backgroundImage: '/use-cases/cta-bg.webp',
     title: 'Let’s find the answer that fits\nyour energy operation, together.',
     buttonLabel: 'Request a demo',
   },

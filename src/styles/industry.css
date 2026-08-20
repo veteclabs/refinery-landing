@@ -320,3 +320,23 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 560px) {
   .ind-cta-bg { padding: 60px 0; }
 }
+
+/* ───────── 섹션 배경 사진 (challenges.backgroundImage 지정 시)
+   밝은 면(#F6F8FA) 위에 옅게 깔아 결로만 남긴다. 글은 .ind-container의
+   z-index:1로 위에 오고, 카드는 흰 면이라 그대로 읽힌다.
+   흑백으로 바꾸는 이유: 사진의 주황 작업복이 이 페이지에서 유일한 난색이라
+   그대로 두면 배경이 앞으로 튀어나온다. 채도를 빼면 밝기 대비만 남는다. */
+.ind-section-bg { position: relative; overflow: hidden; }
+.ind-section-bg-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: grayscale(1);
+  opacity: .16;
+  pointer-events: none; user-select: none;
+}
+/* 위·아래로 갈수록 사라지게 해 섹션 경계선과 맞닿는 자리를 없앤다. */
+.ind-section-bg-img {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
+}
+.ind-section-bg > .ind-container { position: relative; z-index: 1; }
