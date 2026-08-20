@@ -357,9 +357,12 @@ img { max-width: 100%; height: auto; }
    2열 격자에서는 좌·우 꼬리가 같은 줄에서 서로를 마주 봐 대화가 아니라
    한 쌍처럼 보였다.
    모서리 둥글기는 다른 섹션 카드와 같은 --radius를 쓴다. */
-/* 대제목과의 사이를 섹션 상단 여백과 같은 130px으로 벌린다.
-   .ind-head의 margin-bottom(64px)과 인접해 마진이 상쇄되므로 큰 쪽인 130px이
-   남는다 — 64 + 130 = 194가 되지 않는다.
+/* 대제목과의 사이는 100px이다. 섹션 상단 여백과 같은 130px으로 맞춰 봤더니
+   수치는 같은데 눈에는 더 넓어 보였다 — 위쪽은 섹션 경계선이 기준을 잡아 주는데
+   아래쪽은 빈 어둠이고, 소제목이 오른쪽으로 빠져 대제목 아래가 가로로도 비기
+   때문이다. 보이는 대로 맞춰 100px으로 줄인다.
+   .ind-head의 margin-bottom(64px)과 인접해 마진이 상쇄되므로 큰 쪽인 100px이
+   남는다 — 64 + 100 = 164가 되지 않는다.
    말풍선 섹션에만 걸어 다른 섹션의 64px은 그대로 둔다. */
 /* 말풍선이 오가는 칸만 1000px으로 줄인다. 1184px 그대로면 600px 말풍선이
    좌우로 584px씩 벌어져 대화가 아니라 흩어진 조각으로 보인다.
@@ -367,7 +370,7 @@ img { max-width: 100%; height: auto; }
    칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝나고,
    왼쪽에 남는 184px으로 배경 사진이 더 드러난다. */
 .ind-grid-bubble {
-  grid-template-columns: 1fr; margin-top: 130px;
+  grid-template-columns: 1fr; margin-top: 100px;
   max-width: 1000px; margin-left: auto;
 }
 /* 폭은 600px 고정이다. %로 두면 화면이 넓어질수록 말풍선이 같이 늘어나
@@ -434,7 +437,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
-  background: #32373f; border-color: #32373f; color: #959ca5;
+  background: #32373f; border-color: #32373f; color: #424850;
 }
 
 
