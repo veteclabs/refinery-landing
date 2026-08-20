@@ -348,12 +348,48 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-card { background: #111316; border: 1px solid #272b32; }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
-/* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 — 테두리 색을 바꾸지 않고
-   box-shadow로 2px 링을 덧대 레이아웃이 흔들리지 않게 한다. */
+/* hover는 걸지 않는다 — 누를 수 없는 카드라 반응할 이유가 없다. */
 .ind-soft-dark .ind-card {
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s;
 }
-.ind-soft-dark .ind-card:hover {
-  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+
+/* ───────── 과제 카드 — 말풍선
+   현장에서 나온 말처럼 읽히도록 카드를 말풍선으로 바꾼다.
+   한 줄에 한 장씩 4줄로 쌓고, 꼬리 방향은 위에서부터 좌·우·좌·우다.
+   2열 격자에서는 좌·우 꼬리가 같은 줄에서 서로를 마주 봐 대화가 아니라
+   한 쌍처럼 보였다.
+   모서리 둥글기는 다른 섹션 카드와 같은 --radius를 쓴다. */
+.ind-grid-bubble { grid-template-columns: 1fr; }
+/* 폭은 본문 폭의 68%다. 한 줄을 다 쓰면 말풍선이 아니라 띠로 보이고,
+   짝수 카드의 오른쪽 꼬리가 가리킬 바깥이 없다.
+   max-width가 아니라 width로 못박는다 — justify-self를 준 카드는 격자에서
+   늘어나지 않고 내용 크기로 줄어들어 좌우 폭이 어긋난다. */
+.ind-grid-bubble .ind-card { position: relative; width: 68%; }
+.ind-grid-bubble .ind-card:nth-child(even) { justify-self: end; }
+/* 좁은 화면에서는 폭을 다 쓴다. 68%로 두면 글이 감길 자리가 없다. */
+@media (max-width: 860px) {
+  .ind-grid-bubble .ind-card { width: auto; }
+  .ind-grid-bubble .ind-card:nth-child(even) { justify-self: stretch; }
+}
+
+/* 꼬리는 45도 돌린 정사각형이다. 삼각형 두 장을 겹치는 방식보다 모서리가
+   깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
+.ind-grid-bubble .ind-card::after {
+  content: ''; position: absolute; bottom: 26px;
+  width: 14px; height: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+/* 홀수 = 왼쪽. 왼쪽 아래 두 변만 남긴다. */
+.ind-grid-bubble .ind-card:nth-child(odd)::after {
+  left: -8px; border-width: 0 0 1px 1px;
+}
+/* 짝수 = 오른쪽. 오른쪽 위 두 변만 남긴다. */
+.ind-grid-bubble .ind-card:nth-child(even)::after {
+  right: -8px; border-width: 1px 1px 0 0;
+}
+/* 어두운 면에서는 꼬리 색도 그 섹션 값을 쓴다. */
+.ind-soft-dark .ind-grid-bubble .ind-card::after {
+  background: #111316; border-color: #272b32;
 }
