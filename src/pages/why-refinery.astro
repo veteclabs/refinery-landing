@@ -292,8 +292,10 @@ const capabilityGroups = [
        가로 — 넓은 화면에서 보이는 구간은 원본 1180px 기준 x 170~1040(=폭의 73.7%)이다.
               띠 폭에 그 구간을 채우려면 이미지가 띠의 1/0.737 = 136%여야 하고,
               왼쪽 끝은 0.144 x 136% = 19.6%만큼 밖으로 나가야 한다.
-       세로 — 트리맵 셀 이름줄(HVAC · South · Cooling Tower · Heat Pump · EV Chargers)이
-              이미지 높이의 25%에서 시작한다. 거기서부터 띠 높이만큼 보여준다.
+       세로 — 넓은 화면 히어로 맨 위에 보이던 카드 줄(Sankey · Lighting/Office 패널 ·
+              Today's Consumption 83.97 MWh · 막대그래프)이 이미지 높이의 13%에서 시작한다.
+              트리맵(25%)을 잡았더니 그 카드들이 잘려 나갔다. 원래 가로로 긴 요소라
+              짧은 띠에도 통째로 들어간다 — 셀이 중간에 잘리지 않는다.
      띠 위끝은 615-170=445px으로 콘텐츠 끝(최대 431px)보다 14px 아래다 — 글과 겹치지 않는다. */
   @media (max-width: 900px) {
     .wr-hero-fx {
@@ -306,8 +308,15 @@ const capabilityGroups = [
     /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
     .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
     .wr-hero-fx-inner img {
-      width: 136%; left: -19.6%; right: auto;
-      transform: translateY(-25%);
+      /* 폭이 좁아질수록 이미지를 더 줄여, 같은 170px 띠에 대시보드 아래쪽까지 담는다.
+         900px에서 136%(=넓은 화면과 같은 가로 구간), 375px에서 100%(=대시보드 전체 폭)로
+         이어지는 직선이다. 375px에서는 카드 줄 아래 트리맵까지 들어온다.
+         계단식으로 끊으면 그 지점에서 그림이 튀어 보인다. */
+      width: clamp(100%, 161.7% - 231px, 136%);
+      /* 폭이 계속 변하므로 left를 %로 못박을 수 없다. 가운데 정렬로 두면
+         어느 폭에서든 넘치는 만큼이 좌우로 반씩 나뉜다. */
+      left: 50%; right: auto;
+      transform: translateX(-50%) translateY(-13%);
     }
   }
 
