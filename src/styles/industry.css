@@ -254,7 +254,11 @@ img { max-width: 100%; height: auto; }
   width: var(--ind-hero-icon); height: auto;
   right: calc(var(--ind-hero-icon) * -0.1);
   bottom: calc(var(--ind-hero-icon) * -0.1);
-  /* SVG 안의 #76A6D7을 그대로 쓴다 — 색도 투명도도 건드리지 않는다. */
+  /* 흰색으로 쓴다. SVG 안에 #76A6D7이 박혀 있어 <img>로는 CSS fill이 닿지 않으므로,
+     brightness(0)으로 한 번 검정으로 눌렀다가 invert(1)로 뒤집는다.
+     흰 파일을 따로 만들면 같은 그림이 두 벌이 되므로 필터로 처리한다.
+     투명도는 걸지 않는다. */
+  filter: brightness(0) invert(1);
   pointer-events: none; user-select: none;
 }
 @media (max-width: 1023px) { .ind-hero-bg { --ind-hero-icon: 240px; } }
