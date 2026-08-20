@@ -378,9 +378,9 @@ img { max-width: 100%; height: auto; }
    min()으로 좁은 화면에서는 칸 폭을 넘지 않게 막는다.
    max-width가 아니라 width로 못박는다 — justify-self를 준 카드는 격자에서
    늘어나지 않고 내용 크기로 줄어들어 좌우 폭이 어긋난다. */
-/* 카드 안 여백은 예지보전 '푸는 방식' 섹션 카드와 같은 24px이다.
-   공통 .ind-card의 26px을 직접 고치면 11개 페이지가 함께 바뀌므로 여기서만 덮는다. */
-.ind-grid-bubble .ind-card { position: relative; width: min(600px, 100%); padding: 24px; }
+/* 카드 안 여백 34px. 공통 .ind-card의 26px을 직접 고치면 11개 페이지가 함께
+   바뀌므로 여기서만 덮는다. */
+.ind-grid-bubble .ind-card { position: relative; width: min(600px, 100%); padding: 34px; }
 .ind-grid-bubble .ind-card:nth-child(odd) { justify-self: end; }
 /* 좁은 화면에서는 폭을 다 쓴다. 68%로 두면 글이 감길 자리가 없다. */
 @media (max-width: 860px) {
@@ -392,9 +392,9 @@ img { max-width: 100%; height: auto; }
    깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
 .ind-grid-bubble .ind-card::after {
   /* 꼬리는 아바타의 세로 가운데에 붙인다 — 말하는 사람 옆에서 나가야
-     '이 사람의 말'로 읽힌다. 카드 위 여백 24 + 아바타 반지름 20 = 44px이
-     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 44 - 7 = 37px. */
-  content: ''; position: absolute; top: 37px;
+     '이 사람의 말'로 읽힌다. 카드 위 여백 34 - 아바타 올림 4 + 반지름 20 = 50px이
+     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 50 - 7 = 43px. */
+  content: ''; position: absolute; top: 43px;
   width: 14px; height: 14px;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -425,6 +425,9 @@ img { max-width: 100%; height: auto; }
   /* 40px. 제목 한 줄(32px)보다 조금 크지만, 32px에서는 원이 제목에 눌려
      말하는 사람 표시로 읽히지 않았다. 실루엣은 원 폭의 85%라 함께 커진다. */
   width: 40px; height: 40px; border-radius: 50%;
+  /* 제목 줄상자(32px) 가운데에 원(40px) 가운데를 맞춘다. grid의 align-items:start
+     때문에 둘의 윗변이 붙어 중심이 4px 어긋나 있었다((32-40)/2 = -4). */
+  margin-top: -4px;
   background: var(--bg-soft); border: 1px solid var(--border);
   color: var(--text-muted);
 }
@@ -437,9 +440,8 @@ img { max-width: 100%; height: auto; }
 }
 /* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
 @media (max-width: 640px) {
-  .ind-avatar { width: 34px; height: 34px; }
-  /* 아바타가 34px이면 중심이 24 + 17 = 41px이므로 꼬리는 41 - 7 = 34px. */
-  .ind-grid-bubble .ind-card::after { top: 34px; }
+  .ind-avatar { width: 34px; height: 34px; margin-top: -1px; }
+  /* 34 - 1 + 17 = 50px이 중심이라 꼬리는 넓은 화면과 같은 43px이다. */
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
