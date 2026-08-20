@@ -106,9 +106,9 @@ const lines = (s: string) => s.split('\n');
           <h2>{ind.challenges.title}</h2>
           {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
         </header>
-        <div class="ind-grid ind-grid-zigzag">
+        <div class="ind-grid ind-grid-2">
           {ind.challenges.items.map((c) => (
-            <div class="ind-card ind-card-warn">
+            <div class="ind-card">
               <h3>{c.title}</h3>
               <p>{c.description}</p>
             </div>
