@@ -390,9 +390,9 @@ img { max-width: 100%; height: auto; }
    깔끔하고, 바깥쪽 두 변에만 테두리를 남기면 카드의 1px 선이 그대로 이어진다. */
 .ind-grid-bubble .ind-card::after {
   /* 꼬리는 아바타의 세로 가운데에 붙인다 — 말하는 사람 옆에서 나가야
-     '이 사람의 말'로 읽힌다. 카드 위 여백 26 + 아바타 반지름 16 = 42px이
-     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 42 - 7 = 35px. */
-  content: ''; position: absolute; top: 35px;
+     '이 사람의 말'로 읽힌다. 카드 위 여백 26 + 아바타 반지름 20 = 46px이
+     아바타 중심이고, 14px 사각형은 자기 중심을 축으로 도므로 46 - 7 = 39px. */
+  content: ''; position: absolute; top: 39px;
   width: 14px; height: 14px;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -420,9 +420,9 @@ img { max-width: 100%; height: auto; }
 }
 .ind-avatar {
   display: grid; place-items: center; flex: none;
-  /* 제목 한 줄(20px · 줄높이 1.6 = 32px)과 같은 높이로 둔다. 말하는 사람 표시라
-     제목보다 커질 이유가 없다. 실루엣은 원 폭의 85%라 함께 줄어든다. */
-  width: 32px; height: 32px; border-radius: 50%;
+  /* 40px. 제목 한 줄(32px)보다 조금 크지만, 32px에서는 원이 제목에 눌려
+     말하는 사람 표시로 읽히지 않았다. 실루엣은 원 폭의 85%라 함께 커진다. */
+  width: 40px; height: 40px; border-radius: 50%;
   background: var(--bg-soft); border: 1px solid var(--border);
   color: var(--text-muted);
 }
@@ -435,9 +435,9 @@ img { max-width: 100%; height: auto; }
 }
 /* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
 @media (max-width: 640px) {
-  .ind-avatar { width: 28px; height: 28px; }
-  /* 아바타가 28px이면 중심이 26 + 14 = 40px이므로 꼬리는 40 - 7 = 33px. */
-  .ind-grid-bubble .ind-card::after { top: 33px; }
+  .ind-avatar { width: 34px; height: 34px; }
+  /* 아바타가 34px이면 중심이 26 + 17 = 43px이므로 꼬리는 43 - 7 = 36px. */
+  .ind-grid-bubble .ind-card::after { top: 36px; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
