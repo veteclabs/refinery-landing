@@ -357,17 +357,17 @@ img { max-width: 100%; height: auto; }
 }
 /* 네 방향을 모두 흐린다. 마스크 두 장(세로·가로)을 intersect로 교차시키면
    위·아래·좌·우가 동시에 사라진다(구형 웹킷은 -webkit-mask-composite: source-in).
-     세로 — 위쪽은 섹션 높이의 72%까지 넓게. 사진이 아래쪽에만 남아 대제목·
-            소제목과 앞쪽 말풍선 뒤는 비고, 마지막 말풍선 아래에서 현장이 드러난다.
+     세로 — 위쪽은 섹션 높이의 82%까지 넓게. 사진이 맨 아래에만 남아
+            말풍선 뒤는 거의 비고, 마지막 말풍선 아래에서 현장이 드러난다.
             아래쪽 120px은 섹션 경계선과 맞닿는 자리를 없앤다.
      가로 — 좌우 200px. 화면 양끝에서 사진이 잘린 티가 나지 않는다. */
 .ind-section-bg-img {
   -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0, #000 72%, #000 calc(100% - 120px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 82%, #000 calc(100% - 120px), transparent 100%),
     linear-gradient(to right, transparent 0, #000 200px, #000 calc(100% - 200px), transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to bottom, transparent 0, #000 72%, #000 calc(100% - 120px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 82%, #000 calc(100% - 120px), transparent 100%),
     linear-gradient(to right, transparent 0, #000 200px, #000 calc(100% - 200px), transparent 100%);
   mask-composite: intersect;
 }
