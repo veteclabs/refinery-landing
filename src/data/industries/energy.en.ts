@@ -29,6 +29,7 @@ export const energyEn: IndustryData = {
     title: 'Connecting distributed energy sites\ninto a single intelligence',
   },
   challenges: {
+    dark: true,
     backgroundImage: '/industries/energy-challenges.webp',
     title: 'Challenges on energy sites',
     subtitle: 'The problems that come up again and again in generation, transmission and utility operations.',

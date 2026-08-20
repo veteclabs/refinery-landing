@@ -27,6 +27,7 @@ export const energy: IndustryData = {
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
   },
   challenges: {
+    dark: true,
     backgroundImage: '/industries/energy-challenges.webp',
     title: '에너지 현장의 과제',
     subtitle: '발전⁠·⁠송배전⁠·⁠유틸리티 운영에서 반복적으로 마주치는 문제들입니다.',

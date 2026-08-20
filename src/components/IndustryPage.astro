@@ -90,7 +90,7 @@ const lines = (s: string) => s.split('\n');
     </section>
 
     <!-- CHALLENGES -->
-    <section class={ind.challenges.backgroundImage ? 'ind-section ind-soft ind-section-bg' : 'ind-section ind-soft'}>
+    <section class:list={['ind-section', 'ind-soft', ind.challenges.backgroundImage && 'ind-section-bg', ind.challenges.dark && 'ind-soft-dark']}>
       {ind.challenges.backgroundImage && (
         <img
           class="ind-section-bg-img"
@@ -102,7 +102,7 @@ const lines = (s: string) => s.split('\n');
         />
       )}
       <div class="ind-container">
-        <header class="ind-head">
+        <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
           <h2>{ind.challenges.title}</h2>
           {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
         </header>

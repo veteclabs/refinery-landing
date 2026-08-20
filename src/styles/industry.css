@@ -338,3 +338,20 @@ img { max-width: 100%; height: auto; }
   mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
 }
 .ind-section-bg > .ind-container { position: relative; z-index: 1; }
+
+/* ───────── 어두운 과제 섹션 (challenges.dark 지정 시)
+   예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
+   카드 면이 섹션 면과 같아서 1px 테두리만으로 구분되는 것이 그 섹션의 특징이다. */
+.ind-soft-dark { background: #111316; border-bottom-color: #24282e; }
+.ind-soft-dark .ind-card { background: #111316; border: 1px solid #272b32; }
+.ind-soft-dark .ind-card h3 { color: #edeef0; }
+.ind-soft-dark .ind-card p { color: #959ca5; }
+/* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 — 테두리 색을 바꾸지 않고
+   box-shadow로 2px 링을 덧대 레이아웃이 흔들리지 않게 한다. */
+.ind-soft-dark .ind-card {
+  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  transition: box-shadow .15s;
+}
+.ind-soft-dark .ind-card:hover {
+  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+}

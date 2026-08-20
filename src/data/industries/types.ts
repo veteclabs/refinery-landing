@@ -60,8 +60,11 @@ export interface IndustryData {
   challenges: {
     title: string;
     subtitle?: string;
-    // 섹션 배경 사진(선택). 밝은 면 위에 옅게 깔린다.
+    // 섹션 배경 사진(선택).
     backgroundImage?: string;
+    // 어두운 면(선택). 예지보전 '푸는 방식' 섹션과 같은 #111316이 된다 —
+    // 카드도 같은 면색에 1px 테두리로만 구분한다.
+    dark?: boolean;
     items: Challenge[];
   };
   useCases: {
