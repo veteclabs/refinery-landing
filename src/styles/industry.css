@@ -430,14 +430,14 @@ img { max-width: 100%; height: auto; }
   grid-template-columns: 1fr;
   max-width: 900px; margin-left: auto;
 }
-/* 폭은 600px 고정이다. %로 두면 화면이 넓어질수록 말풍선이 같이 늘어나
+/* 폭은 580px 고정이다. %로 두면 화면이 넓어질수록 말풍선이 같이 늘어나
    한 줄에 담기는 글이 길어진다 — 말풍선은 짧게 읽히는 편이 낫다.
    min()으로 좁은 화면에서는 칸 폭을 넘지 않게 막는다.
    max-width가 아니라 width로 못박는다 — justify-self를 준 카드는 격자에서
    늘어나지 않고 내용 크기로 줄어들어 좌우 폭이 어긋난다. */
 /* 카드 안 여백 34px. 공통 .ind-card의 26px을 직접 고치면 11개 페이지가 함께
    바뀌므로 여기서만 덮는다. */
-.ind-grid-bubble .ind-card { position: relative; width: min(600px, 100%); padding: 34px; }
+.ind-grid-bubble .ind-card { position: relative; width: min(580px, 100%); padding: 34px; }
 .ind-grid-bubble .ind-card:nth-child(odd) { justify-self: end; }
 /* 좁은 화면에서는 폭을 다 쓴다. 68%로 두면 글이 감길 자리가 없다. */
 @media (max-width: 860px) {
