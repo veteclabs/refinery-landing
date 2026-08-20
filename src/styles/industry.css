@@ -28,13 +28,7 @@ img { max-width: 100%; height: auto; }
 
 /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 예지보전이 쓰는 값이다.
    1120/24는 내용이 헤더 로고보다 74px 안쪽에서 시작했다. */
-/* 좁은 화면에서 '큽 / 니다'처럼 어절 중간이 끊기지 않게 한다.
-   한국어는 공백 없이도 어디서나 감기는 게 기본이라 명시해야 한다.
-   예지보전(.uc-page)과 같은 처리다. URL·긴 영문은 감겨야 하므로 overflow-wrap은 연다. */
-.ind, .ind * { word-break: keep-all; overflow-wrap: break-word; }
-
-.ind-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
-@media (max-width: 900px) { .ind-container { padding: 0 24px; } }
+.ind-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
 /* 버튼 */
 .ind-btn-primary {
@@ -57,29 +51,12 @@ img { max-width: 100%; height: auto; }
 .ind-hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 /* 섹션 공통 */
-/* 섹션 공통값을 예지보전(.uc-redesigned)과 맞춘다.
-     섹션 위아래 여백  84px -> 130px (좁은 화면 60px은 공통값과 같다)
-     제목 아래 여백    44px -> 64px */
-.ind-section { padding: 130px 0; border-bottom: 1px solid var(--border); }
+.ind-section { padding: 84px 0; border-bottom: 1px solid var(--border); }
 .ind-soft { background: var(--bg-soft); }
-/* 대제목 왼쪽 · 소제목 오른쪽으로 한 줄에 나눈다 — 랜딩 .section-header-row와
-   같은 값이다. 아래로 쌓으면 소제목이 대제목 폭에 갇혀 두 줄이 되고,
-   랜딩에서 넘어온 사람에게는 같은 자리의 글이 다른 모양으로 보인다. */
-.ind-head {
-  margin-bottom: 64px;
-  display: flex; justify-content: space-between; align-items: flex-end;
-  gap: 32px; flex-wrap: wrap;
-}
-.ind-head h2 { margin-bottom: 0; }
+.ind-head { max-width: 640px; margin-bottom: 44px; }
 .ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
-/* 섹션 대제목 — 예지보전과 같은 값(랜딩 대제목과도 같다).
-   clamp(26,3.4vw,38)/650/-0.02em/1.25 -> clamp(28,4vw,45)/600/-0.8px/1.3 */
-.ind-head h2 { font-size: clamp(28px, 4vw, 45px); font-weight: 600; letter-spacing: -0.8px; line-height: 1.3; }
-/* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
-   대신 랜딩 .section-header p(18px / 1.7)에 맞춘다 — 히어로 소제목도 그 값이라
-   16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
-.ind-head p { margin: 0; max-width: 360px; font-size: 18px; line-height: 1.7; color: var(--text-muted); }
-@media (max-width: 900px) { .ind-head p { font-size: 16px; } }
+.ind-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 650; letter-spacing: -0.02em; line-height: 1.25; }
+.ind-head p { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
 
 /* 카드 그리드 */
 .ind-grid { display: grid; gap: 18px; }
@@ -87,19 +64,15 @@ img { max-width: 100%; height: auto; }
 .ind-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .ind-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
 .ind-soft .ind-card { background: #fff; }
-/* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
-     대제목  18px/650/mb 8px  -> 20px/600/lh 1.6/mb 5px
-     소제목  15px/1.6         -> 15px/1.5
-   색은 배경마다 달라 그대로 둔다 — 예지보전의 #959CA5는 어두운 면 위 값이다. */
-.ind-card h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 5px; }
-.ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
+.ind-card h3 { font-size: 18px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 8px; }
+.ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
 
 /* USE CASES */
 .ind-usecases { display: grid; gap: 16px; }
 .ind-usecase { display: grid; grid-template-columns: 56px 1fr; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 30px; transition: border-color .2s, box-shadow .2s; }
 .ind-usecase:hover { border-color: var(--accent); box-shadow: 0 8px 28px rgba(16, 32, 44, 0.06); }
 .ind-usecase-num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; font-weight: 600; color: var(--accent); }
-.ind-usecase-body h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 16px; }
+.ind-usecase-body h3 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 16px; }
 .ind-usecase dl { display: grid; gap: 10px; }
 .ind-usecase dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
 .ind-usecase dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
@@ -342,7 +315,7 @@ img { max-width: 100%; height: auto; }
   filter: grayscale(1);
   /* 흑백이라 색이 튀지 않으므로 불투명도를 올려도 배경이 앞으로 나오지 않는다.
      카드 면색(#191D22)이 섹션(#111316)보다 밝아 카드 경계는 유지된다. */
-  opacity: .26;
+  opacity: .2;
   pointer-events: none; user-select: none;
 }
 /* 네 방향을 모두 흐린다. 마스크 두 장(세로·가로)을 intersect로 교차시키면
@@ -391,8 +364,12 @@ img { max-width: 100%; height: auto; }
 /* 말풍선이 오가는 칸만 1000px으로 줄인다. 1184px 그대로면 600px 말풍선이
    좌우로 584px씩 벌어져 대화가 아니라 흩어진 조각으로 보인다.
    대제목·소제목은 원래 칸(1280px)을 그대로 쓴다 — 이 규칙은 격자에만 걸린다.
-   왼쪽 기준으로 둬 홀수 말풍선이 대제목과 같은 선에서 시작한다. */
-.ind-grid-bubble { grid-template-columns: 1fr; margin-top: 130px; max-width: 1000px; }
+   칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝나고,
+   왼쪽에 남는 184px으로 배경 사진이 더 드러난다. */
+.ind-grid-bubble {
+  grid-template-columns: 1fr; margin-top: 130px;
+  max-width: 1000px; margin-left: auto;
+}
 /* 폭은 600px 고정이다. %로 두면 화면이 넓어질수록 말풍선이 같이 늘어나
    한 줄에 담기는 글이 길어진다 — 말풍선은 짧게 읽히는 편이 낫다.
    min()으로 좁은 화면에서는 칸 폭을 넘지 않게 막는다.
@@ -459,3 +436,49 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-avatar {
   background: #1a1e24; border-color: #272b32; color: #959ca5;
 }
+
+
+/* ═════════ 산업 페이지 전용 (.ind-page)
+   아래 값들은 예지보전(.uc-redesigned)과 맞춘 것이다. industry.css는 회사 소개·
+   문서·자료·유즈케이스·플랫폼 개요·백서·리포트까지 11개 페이지가 함께 쓰므로
+   공통 클래스를 직접 고치면 그 페이지들이 같이 바뀐다. .ind-page로 묶어둔다.
+   ═════════════════════════════════════════════════════════ */
+
+/* 좁은 화면에서 '큽 / 니다'처럼 어절 중간이 끊기지 않게 한다.
+   한국어는 공백 없이도 어디서나 감기는 게 기본이라 명시해야 한다. */
+.ind-page, .ind-page * { word-break: keep-all; overflow-wrap: break-word; }
+
+/* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다. 공통값 1120/24는 내용이
+   헤더 로고보다 74px 안쪽에서 시작했다. */
+.ind-page .ind-container { max-width: 1280px; padding: 0 48px; }
+@media (max-width: 900px) { .ind-page .ind-container { padding: 0 24px; } }
+
+/* 섹션 위아래 여백 84px -> 130px (좁은 화면 60px은 공통값과 같다). */
+.ind-page .ind-section { padding: 130px 0; }
+
+/* 대제목 왼쪽 · 소제목 오른쪽으로 한 줄에 나눈다 — 랜딩 .section-header-row와
+   같은 값이다. 제목 아래 여백은 44px -> 64px. */
+.ind-page .ind-head {
+  max-width: none; margin-bottom: 64px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 32px; flex-wrap: wrap;
+}
+/* 배지가 있는 섹션은 배지 + 대제목을 한 칸으로 묶는다. 묶지 않으면 배지가
+   flex 항목이 되어 대제목 왼쪽에 나란히 선다. */
+.ind-page .ind-head-main { display: block; }
+.ind-page .ind-head h2 {
+  margin-bottom: 0;
+  font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+  letter-spacing: -0.8px; line-height: 1.3;
+}
+/* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
+   랜딩 .section-header p(18px / 1.7)에 맞춘다 — 히어로 소제목도 그 값이라
+   16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
+.ind-page .ind-head p { margin: 0; max-width: 360px; font-size: 18px; line-height: 1.7; }
+@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
+
+/* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
+   색은 배경마다 달라 그대로 둔다 — 예지보전의 #959CA5는 어두운 면 위 값이다. */
+.ind-page .ind-card h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin-bottom: 5px; }
+.ind-page .ind-card p { line-height: 1.5; }
+.ind-page .ind-usecase-body h3 { font-weight: 600; line-height: 1.6; }

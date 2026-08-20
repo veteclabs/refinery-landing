@@ -97,7 +97,7 @@ export const energyEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Generation and substation assets · smart meters · sensors' },
-      { label: 'Connect', detail: 'SCADA⁠·⁠EMS · Modbus · OPC-⁠UA · DNP3 · IEC 61850' },
+      { label: 'Connect', detail: 'SCADA · EMS · Modbus · OPC-⁠UA · DNP3 · IEC 61850' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation' },
       { label: 'Use', detail: 'Unified dashboard · alerts · ESG reports' },
     ],

@@ -45,7 +45,7 @@ const lines = (s: string) => s.split('\n');
 ---
 <BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} alternates={alternates} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
-  <main class="ind">
+  <main class="ind ind-page">
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
       {ind.hero.image && (
@@ -124,8 +124,10 @@ const lines = (s: string) => s.split('\n');
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head">
-          <span class="ind-badge">USE CASES</span>
-          <h2>{ind.useCases.title}</h2>
+          <div class="ind-head-main">
+            <span class="ind-badge">USE CASES</span>
+            <h2>{ind.useCases.title}</h2>
+          </div>
           {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
         </header>
         <div class="ind-usecases">
@@ -172,8 +174,10 @@ const lines = (s: string) => s.split('\n');
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head">
-          <span class="ind-badge">BENEFITS</span>
-          <h2>{ind.benefits.title}</h2>
+          <div class="ind-head-main">
+            <span class="ind-badge">BENEFITS</span>
+            <h2>{ind.benefits.title}</h2>
+          </div>
           {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
         </header>
         <div class="ind-grid ind-grid-3">
