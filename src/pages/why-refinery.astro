@@ -281,11 +281,33 @@ const capabilityGroups = [
     transform: translateY(-205px);
     opacity: .3;
   }
-  /* 좁은 화면에서도 칸·이미지를 줄이거나 숨기지 않는다. 예전에는 1200px에서 작은 판으로
-     바꾸고 900px에서 아예 감췄는데, 그때마다 보이는 장면이 달라졌다. 글과 겹치더라도
-     장면이 고정되는 쪽을 택했다 — 칸 800px · 이미지 1180px 모두 px라 어느 폭에서나 같다.
+  /* 901px 위에서는 칸·이미지를 줄이지 않는다. 예전에는 1200px에서 작은 판으로 바꿔
+     보이는 장면이 달라졌다. 글과 겹치더라도 장면이 고정되는 쪽을 택했다 —
+     칸 800px · 이미지 1180px 모두 px라 어느 폭에서나 같다.
      본문은 .ind-container의 z-index:1로 장식 위에 올라가고, 칸 왼쪽 420px 페이드가
      글이 닿는 자리의 무늬를 흐려 준다. */
+
+  /* 900px 이하에서는 이미지를 줄여 글 아래 가로 띠로 내린다.
+     보이는 대시보드 영역은 넓은 화면과 같게 맞춘다.
+       가로 — 넓은 화면에서 보이는 구간은 원본 1180px 기준 x 170~1040(=폭의 73.7%)이다.
+              띠 폭에 그 구간을 채우려면 이미지가 띠의 1/0.737 = 136%여야 하고,
+              왼쪽 끝은 0.144 x 136% = 19.6%만큼 밖으로 나가야 한다.
+       세로 — 트리맵 셀 이름줄(HVAC · South · Cooling Tower · Heat Pump · EV Chargers)이
+              이미지 높이의 25%에서 시작한다. 거기서부터 띠 높이만큼 보여준다.
+     띠 위끝은 615-170=445px으로 콘텐츠 끝(최대 431px)보다 14px 아래다 — 글과 겹치지 않는다. */
+  @media (max-width: 900px) {
+    .wr-hero-fx {
+      top: auto; bottom: 0; height: 170px; width: 100%;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 60px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 60px);
+    }
+    /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
+    .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
+    .wr-hero-fx-inner img {
+      width: 136%; left: -19.6%; right: auto;
+      transform: translateY(-25%);
+    }
+  }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
