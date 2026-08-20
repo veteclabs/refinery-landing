@@ -87,5 +87,8 @@ export interface IndustryData {
   cta: {
     title: string;
     buttonLabel: string;
+    // 배경 사진(선택). 지정하면 예지보전 CTA(.uc-cta-bg)와 같은 구성이 된다 —
+    // 어두운 밑판 위 사진, 제목 좌측 · 버튼 우측 한 줄 배치.
+    backgroundImage?: string;
   };
 }

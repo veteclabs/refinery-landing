@@ -26,7 +26,15 @@ body {
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; height: auto; }
 
-.ind-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+/* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 예지보전이 쓰는 값이다.
+   1120/24는 내용이 헤더 로고보다 74px 안쪽에서 시작했다. */
+/* 좁은 화면에서 '큽 / 니다'처럼 어절 중간이 끊기지 않게 한다.
+   한국어는 공백 없이도 어디서나 감기는 게 기본이라 명시해야 한다.
+   예지보전(.uc-page)과 같은 처리다. URL·긴 영문은 감겨야 하므로 overflow-wrap은 연다. */
+.ind, .ind * { word-break: keep-all; overflow-wrap: break-word; }
+
+.ind-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+@media (max-width: 900px) { .ind-container { padding: 0 24px; } }
 
 /* 버튼 */
 .ind-btn-primary {
@@ -49,12 +57,21 @@ img { max-width: 100%; height: auto; }
 .ind-hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 /* 섹션 공통 */
-.ind-section { padding: 84px 0; border-bottom: 1px solid var(--border); }
+/* 섹션 공통값을 예지보전(.uc-redesigned)과 맞춘다.
+     섹션 위아래 여백  84px -> 130px (좁은 화면 60px은 공통값과 같다)
+     제목 아래 여백    44px -> 64px */
+.ind-section { padding: 130px 0; border-bottom: 1px solid var(--border); }
 .ind-soft { background: var(--bg-soft); }
-.ind-head { max-width: 640px; margin-bottom: 44px; }
+.ind-head { max-width: 640px; margin-bottom: 64px; }
 .ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
-.ind-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 650; letter-spacing: -0.02em; line-height: 1.25; }
-.ind-head p { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
+/* 섹션 대제목 — 예지보전과 같은 값(랜딩 대제목과도 같다).
+   clamp(26,3.4vw,38)/650/-0.02em/1.25 -> clamp(28,4vw,45)/600/-0.8px/1.3 */
+.ind-head h2 { font-size: clamp(28px, 4vw, 45px); font-weight: 600; letter-spacing: -0.8px; line-height: 1.3; }
+/* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
+   대신 랜딩 .section-header p(18px / 1.7)에 맞춘다 — 히어로 소제목도 그 값이라
+   16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
+.ind-head p { margin-top: 12px; font-size: 18px; line-height: 1.7; color: var(--text-muted); }
+@media (max-width: 900px) { .ind-head p { font-size: 16px; } }
 
 /* 카드 그리드 */
 .ind-grid { display: grid; gap: 18px; }
@@ -62,15 +79,19 @@ img { max-width: 100%; height: auto; }
 .ind-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .ind-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
 .ind-soft .ind-card { background: #fff; }
-.ind-card h3 { font-size: 18px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 8px; }
-.ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+/* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
+     대제목  18px/650/mb 8px  -> 20px/600/lh 1.6/mb 5px
+     소제목  15px/1.6         -> 15px/1.5
+   색은 배경마다 달라 그대로 둔다 — 예지보전의 #959CA5는 어두운 면 위 값이다. */
+.ind-card h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 5px; }
+.ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
 
 /* USE CASES */
 .ind-usecases { display: grid; gap: 16px; }
 .ind-usecase { display: grid; grid-template-columns: 56px 1fr; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 30px; transition: border-color .2s, box-shadow .2s; }
 .ind-usecase:hover { border-color: var(--accent); box-shadow: 0 8px 28px rgba(16, 32, 44, 0.06); }
 .ind-usecase-num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; font-weight: 600; color: var(--accent); }
-.ind-usecase-body h3 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 16px; }
+.ind-usecase-body h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 16px; }
 .ind-usecase dl { display: grid; gap: 10px; }
 .ind-usecase dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
 .ind-usecase dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
@@ -254,4 +275,48 @@ img { max-width: 100%; height: auto; }
      22px에서는 큐브 경계선이 붙고 07 환경의 가는 획이 배경에 먹혔다. */
   width: 24px; height: 24px; flex: none;
   pointer-events: none; user-select: none;
+}
+
+/* ───────── CTA 배경 사진 (cta.backgroundImage 지정 시)
+   예지보전 CTA(.uc-cta-bg)와 같은 구성이다. */
+.ind-cta-bg {
+  position: relative; overflow: hidden;
+  padding: 95px 0;
+  text-align: left;
+  /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
+     흰 배경이면 글자가 잠깐 보이지 않는다. */
+  background: #0c1015;
+}
+/* ⚠️ min-width로 배율을 세로 기준에 묶는다. 섹션이 사진보다 훨씬 납작해
+   object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록 사진이
+   축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
+   모자란 가로는 좌우 균등하게 잘린다. */
+.ind-cta-bg-img {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; min-width: 1440px; height: 100%;
+  object-fit: cover; object-position: center 65%;
+  pointer-events: none; user-select: none;
+}
+.ind-cta-bg .ind-container { position: relative; z-index: 1; }
+/* 제목 좌측 · 버튼 우측으로 한 줄에 나눈다. 버튼이 제목 아래에 쌓이지 않아
+   시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다. */
+.ind-cta-bg .ind-container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 48px; flex-wrap: wrap;
+}
+.ind-cta-bg .ind-container > * { flex: none; }
+/* 굵기 650 -> 500, 줄높이 1.3 -> 1.35. 한 줄로 나란히 서므로 제목 아래 여백은 없앤다. */
+.ind-cta.ind-cta-bg h2 {
+  font-weight: 500; line-height: 1.35; letter-spacing: -0.8px;
+  color: #fff; margin-bottom: 0; text-wrap: initial;
+}
+/* 히어로 주 버튼과 같은 색 — 같은 문구·같은 행동이라 페이지 위아래가 같아야 한다. */
+.ind-cta-bg .ind-btn-primary {
+  background: #76a6d7; color: #fff; border-color: #76a6d7; margin-top: 0;
+}
+.ind-cta-bg .ind-btn-primary:hover { background: #5a8fc5; border-color: #5a8fc5; transform: none; }
+/* 좁은 폭에서 상하 여백을 줄인다. 95px 고정이면 375px에서 빈 자리가 내용보다 크다.
+   값은 .ind-section이 560px 이하에서 쓰는 60px과 같다. */
+@media (max-width: 560px) {
+  .ind-cta-bg { padding: 60px 0; }
 }

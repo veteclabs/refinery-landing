@@ -1,4 +1,4 @@
-import type { IndustryData } from './types';
+import type { IndustryData } from '.⁠/⁠types';
 
 // 영어 산업 데이터. slug는 한국어(energy.ts)와 동일하게 맞춘다.
 // ⚠️ 초안(원어민 검수 전).
@@ -11,18 +11,18 @@ export const energyEn: IndustryData = {
   hero: {
     dark: true,
     image: {
-      src: '/img_login-bg.webp',
+      src: '⁠/⁠img_login-bg.webp',
       alt: '',
       width: 3840,
       height: 2160,
     },
     imagePosition: 'center 100%',
     overlay: {
-      src: '/industries/energy-hero-mesh.webp',
+      src: '⁠/⁠industries⁠/⁠energy-hero-mesh.webp',
       width: 1600,
       height: 800,
     },
-    icon: '/industry-08.svg',
+    icon: '⁠/⁠industry-08.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',
@@ -95,7 +95,7 @@ export const energyEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Generation and substation assets · smart meters · sensors' },
-      { label: 'Connect', detail: 'SCADA·EMS · Modbus·OPC-UA·DNP3·IEC 61850' },
+      { label: 'Connect', detail: 'SCADA⁠·⁠EMS · Modbus · OPC-⁠UA · DNP3 · IEC 61850' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation' },
       { label: 'Use', detail: 'Unified dashboard · alerts · ESG reports' },
     ],
@@ -123,7 +123,7 @@ export const energyEn: IndustryData = {
       },
       {
         title: 'Site security',
-        description: 'With on-premises deployment, data never leaves your network and the OT/IT boundary stays protected.',
+        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
       },
       {
         title: 'Integrate or build new',
@@ -134,10 +134,11 @@ export const energyEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on energy sites.',
-    systems: ['SCADA', 'EMS', 'Smart meters · AMI', 'Modbus', 'OPC-UA', 'DNP3', 'IEC 61850', 'ERP'],
+    systems: ['SCADA', 'EMS', 'Smart meters · AMI', 'Modbus', 'OPC-⁠UA', 'DNP3', 'IEC 61850', 'ERP'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
+    backgroundImage: '⁠/⁠use-cases⁠/⁠cta-bg.webp',
     title: 'Let’s find the answer that fits\nyour energy operation, together.',
     buttonLabel: 'Request a demo',
   },

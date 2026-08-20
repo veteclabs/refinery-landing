@@ -189,7 +189,17 @@ const lines = (s: string) => s.split('\n');
     </section>
 
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class={ind.cta.backgroundImage ? 'ind-cta ind-cta-bg' : 'ind-cta'}>
+      {ind.cta.backgroundImage && (
+        <img
+          class="ind-cta-bg-img"
+          src={ind.cta.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div class="ind-container">
         <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
