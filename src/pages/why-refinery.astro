@@ -17,7 +17,7 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 · 설비 · 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 · TCP/IP · Modbus · OPC UA)까지 다룹니다.' },
+  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 · 설비 · 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 · TCP/IP · Modbus · OPC UA)⁠까지 다룹니다.' },
   { icon: '/why-refinery/icon-02.svg', title: '걷어내지 않는 도입', desc: '쓰던 시스템 위에 얹습니다.<br>없으면 30년 경험의 템플릿에서 시작합니다.' },
   { icon: '/why-refinery/icon-03.svg', title: '숫자를 넘어, 지식으로', desc: '설비 · 문서 · 이력까지 온톨로지로 엮습니다.<br>AI가 근거를 들어 답합니다.' },
 ];
@@ -191,6 +191,11 @@ const capabilityGroups = [
      공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
      예지보전 등 유즈케이스 페이지가 쓰는 값(1280/48)과 같다.
      .wr-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
+  /* 좁은 화면에서 '잇 / 습니다'처럼 어절 중간이 끊기지 않게 한다.
+     한국어는 공백 없이도 어디서나 감기는 게 기본이라 명시해야 한다.
+     URL·긴 영문은 감겨야 하므로 overflow-wrap은 열어둔다. */
+  .wr-page, .wr-page * { word-break: keep-all; overflow-wrap: break-word; }
+
   .wr-page .ind-container { max-width: 1280px; padding: 0 48px; }
   @media (max-width: 900px) {
     .wr-page .ind-container { padding: 0 24px; }
@@ -227,9 +232,13 @@ const capabilityGroups = [
      여기는 어두운 히어로 아래에 어두운 섹션이 붙어 밝은 실선만 도드라진다. */
   /* 바탕색·이미지 불투명도 모두 소개서 표지 값이다. 표지는 어두운 막을 덮지 않고
      #10141B 위에 이미지를 .9로 얹는 게 전부라, 그 구성을 그대로 쓴다. */
+  /* 세로는 넓은 화면 값 615px으로 못박는다. 글자 크기가 clamp로 줄고 소제목이
+     16px으로 내려가면서 615 -> 476px까지 낮아졌고, 그때마다 배경 사진과 대시보드
+     장식의 보이는 부분이 달라졌다. 고정하면 어느 폭에서나 같은 그림이 나온다. */
   .wr-hero-bg {
     position: relative; overflow: hidden;
     padding: 180px 0 100px; border-bottom: none; background: #10141B;
+    min-height: 615px;
   }
   .wr-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
@@ -243,6 +252,10 @@ const capabilityGroups = [
   /* 왼쪽 페이드는 %가 아니라 px로 잡는다. %면 칸이 좁아질수록 페이드 구간도 같이
      좁아져, 글 끝에 닿는 자리에서 이미 또렷해졌다(1024px에서 실효 불투명도 .29).
      420px으로 못박으면 화면 폭과 무관하게 글 옆 완충 구간이 일정하다(.09 안팎). */
+  /* 칸 폭은 화면의 56%다. 800px으로 못박아 봤더니 1440px보다 넓은 화면에서
+     창이 도리어 좁아져, 트리맵 왼쪽(Chiller Plant · HVAC South)과 상단 카드가
+     잘려 나갔다. %로 두면 넓은 화면일수록 대시보드가 더 많이 보인다.
+     이미지 자체는 1180px 고정이라 확대·축소되지 않는다. */
   .wr-hero-fx {
     position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
     overflow: hidden; pointer-events: none; user-select: none;
@@ -269,17 +282,47 @@ const capabilityGroups = [
     transform: translateY(-205px);
     opacity: .3;
   }
-  /* 1200px 미만에서는 칸과 이미지를 함께 줄인 작은 판을 쓴다.
-     넓은 화면 값(칸 56% · 이미지 1120px)을 그대로 두면 칸이 이미지보다 훨씬
-     작아져 트리맵 한 조각만 확대돼 보이고(1024px에서 칸 573px — 이미지의 절반),
-     칸 왼쪽 끝이 소제목 끝보다 안쪽으로 들어와 글 뒤에 무늬가 깔린다(실효 .29).
-     칸을 40%로 좁히면 칸 시작점이 글 끝보다 바깥으로 밀려 겹침이 0이 된다. */
-  @media (max-width: 1199px) {
-    .wr-hero-fx { width: 40%; }
-    .wr-hero-fx-inner img { width: 800px; right: -95px; }
+  /* 901px 위에서는 칸·이미지를 줄이지 않는다. 예전에는 1200px에서 작은 판으로 바꿔
+     보이는 장면이 달라졌다. 글과 겹치더라도 장면이 고정되는 쪽을 택했다 —
+     칸 800px · 이미지 1180px 모두 px라 어느 폭에서나 같다.
+     본문은 .ind-container의 z-index:1로 장식 위에 올라가고, 칸 왼쪽 420px 페이드가
+     글이 닿는 자리의 무늬를 흐려 준다. */
+
+  /* 900px 이하에서는 이미지를 줄여 글 아래 가로 띠로 내린다.
+     보이는 대시보드 영역은 넓은 화면과 같게 맞춘다.
+       가로 — 넓은 화면에서 보이는 구간은 원본 1180px 기준 x 170~1040(=폭의 73.7%)이다.
+              띠 폭에 그 구간을 채우려면 이미지가 띠의 1/0.737 = 136%여야 하고,
+              왼쪽 끝은 0.144 x 136% = 19.6%만큼 밖으로 나가야 한다.
+       세로 — 넓은 화면 히어로 맨 위에 보이던 카드 줄(Sankey · Lighting/Office 패널 ·
+              Today's Consumption 83.97 MWh · 막대그래프)이 이미지 높이의 13%에서 시작한다.
+              트리맵(25%)을 잡았더니 그 카드들이 잘려 나갔다. 원래 가로로 긴 요소라
+              짧은 띠에도 통째로 들어간다 — 셀이 중간에 잘리지 않는다.
+     띠 위끝은 615-170=445px으로 콘텐츠 끝(최대 431px)보다 14px 아래다 — 글과 겹치지 않는다. */
+  @media (max-width: 900px) {
+    .wr-hero-fx {
+      /* 띠를 230px으로 키워 대시보드를 위로 끌어올린다. 170px일 때는 히어로
+         맨 밑에 눌려 붙어 있었다. 위끝 385px은 콘텐츠 끝(최대 431px)보다 위지만,
+         위쪽 65px이 페이드 구간이라 글에 닿는 자리는 사실상 비어 있다. */
+      top: auto; bottom: 0; height: 230px; width: 100%;
+      /* 아래쪽도 흐린다. 위만 흐리면 히어로 끝선에서 셀 몸통이 가로로 뚝 잘려
+         판을 칼로 자른 것처럼 보였다. 양쪽을 흐려 띠가 배경에서 떠올랐다 잠기게 한다. */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 65px, #000 175px, transparent 230px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 65px, #000 175px, transparent 230px);
+    }
+    /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
+    .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
+    .wr-hero-fx-inner img {
+      /* 폭이 좁아질수록 이미지를 더 줄여, 같은 170px 띠에 대시보드 아래쪽까지 담는다.
+         900px에서 136%(=넓은 화면과 같은 가로 구간), 375px에서 100%(=대시보드 전체 폭)로
+         이어지는 직선이다. 375px에서는 카드 줄 아래 트리맵까지 들어온다.
+         계단식으로 끊으면 그 지점에서 그림이 튀어 보인다. */
+      width: clamp(100%, 161.7% - 231px, 136%);
+      /* 폭이 계속 변하므로 left를 %로 못박을 수 없다. 가운데 정렬로 두면
+         어느 폭에서든 넘치는 만큼이 좌우로 반씩 나뉜다. */
+      left: 50%; right: auto;
+      transform: translateX(-50%) translateY(-13%);
+    }
   }
-  /* 900px 미만에서는 본문이 화면 전체를 쓴다. 어디에 둬도 글 뒤에 깔려 감춘다. */
-  @media (max-width: 900px) { .wr-hero-fx { display: none; } }
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
