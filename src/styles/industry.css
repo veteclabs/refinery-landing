@@ -584,3 +584,19 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-card-icon i { font-size: 30px; line-height: 1; }
 /* 카드 안 여백도 예지보전과 같은 24px. */
 .ind-page .ind-grid-3 .ind-card { padding: 24px; }
+
+/* ── 연동 시스템 — 솔루션 구조 섹션(어두운 면) 안으로 들어온 블록.
+   흐름 2단계(연동)가 무엇과 연결되는지를 바로 아래에서 받는다.
+   칩은 같은 섹션의 흐름 카드와 같은 면·테두리를 써서 한 화면으로 읽힌다. */
+.ind-page .ind-systems-block { margin-top: 64px; }
+.ind-page .ind-systems-block > h3 {
+  font-size: 20px; font-weight: 600; line-height: 1.6;
+  color: #edeef0; margin: 0 0 5px;
+}
+.ind-page .ind-systems-sub {
+  margin: 0 0 24px; font-size: 15px; line-height: 1.5; color: #9aa4b0;
+}
+.ind-dark .ind-system {
+  background: #191d22; border-color: #272b32; color: #edeef0;
+}
+.ind-dark .ind-systems-note { color: #9aa4b0; }
