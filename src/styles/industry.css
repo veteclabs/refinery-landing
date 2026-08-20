@@ -248,6 +248,10 @@ img { max-width: 100%; height: auto; }
    색은 SVG 안의 #76A6D7 그대로다. 태그라인과 같은 색이라 한 덩어리로 읽힌다. */
 .ind-eyebrow-icon { display: inline-flex; align-items: center; gap: 8px; }
 .ind-hero-icon {
-  width: 22px; height: 22px; flex: none;
+  /* 24px. 태그라인 18px보다 크지만, 한글은 글자 상자를 꽉 채우지 않아
+     실제 획 높이 기준으로는 나란히 놓인다. 9개 산업에 두루 쓸 값이라
+     가장 복잡한 아이콘(09 물류, 큐브 3개)이 뭉치지 않는 크기를 기준으로 잡았다.
+     22px에서는 큐브 경계선이 붙고 07 환경의 가는 획이 배경에 먹혔다. */
+  width: 24px; height: 24px; flex: none;
   pointer-events: none; user-select: none;
 }
