@@ -193,3 +193,26 @@ img { max-width: 100%; height: auto; }
 .ind-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
   background: #fff; border-color: #fff; color: #76a6d7;
 }
+
+/* ── 히어로 우측 아이콘 (hero.icon 지정 시)
+   랜딩 산업 카드의 워터마크와 같은 SVG다. 카드에서는 100px · opacity .15로
+   흰 면 구석에 깔리는데, 여기는 어두운 한 면이라 같은 값이면 보이지 않는다.
+   크기를 키우고 불투명도를 올려 히어로의 빈 오른쪽을 채운다. */
+.ind-hero-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+  gap: 64px; align-items: center;
+}
+.ind-hero-icon {
+  display: block; width: 100%; max-width: 320px; height: auto;
+  margin-left: auto; opacity: .55;
+}
+@media (max-width: 1023px) {
+  .ind-hero-row { grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 40px; }
+  .ind-hero-icon { max-width: 200px; }
+}
+/* 767px 이하에서는 한 칸으로 접고 아이콘을 글 아래로 내린다.
+   옆에 두면 제목 칸이 좁아져 375px에서 두 줄이 네 줄로 쪼개졌다. */
+@media (max-width: 767px) {
+  .ind-hero-row { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .ind-hero-icon { max-width: 140px; margin-left: 0; opacity: .45; }
+}

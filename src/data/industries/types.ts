@@ -46,6 +46,9 @@ export interface IndustryData {
     // 사진마다 담긴 장면이 달라 세로 초점은 페이지별로 조정한다.
     // 0% = 위쪽 끝, 50% = 가운데, 100% = 아래쪽 끝. 기본 45%.
     imagePosition?: string;
+    // 히어로 우측 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
+    // (예: '/industry-08.svg' = 에너지 · 유틸리티).
+    icon?: string;
     // 위치 표시(Industries › 산업명). 기본 노출. 태그라인과 같은 말이 두 번
     // 나오는 페이지에서는 false로 끈다(JSON-LD BreadcrumbList는 그대로 남는다).
     showBreadcrumb?: boolean;

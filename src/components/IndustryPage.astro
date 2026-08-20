@@ -62,6 +62,8 @@ const lines = (s: string) => s.split('\n');
         />
       )}
       <div class="ind-container">
+        <div class={ind.hero.icon ? 'ind-hero-row' : undefined}>
+        <div class="ind-hero-text">
         {(ind.hero.showBreadcrumb ?? true) && (
           <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
         )}
@@ -71,6 +73,11 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-hero-actions">
           <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
           <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>
+        </div>
+        </div>
+        {ind.hero.icon && (
+          <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />
+        )}
         </div>
       </div>
     </section>
