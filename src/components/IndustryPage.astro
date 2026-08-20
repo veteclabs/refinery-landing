@@ -166,7 +166,12 @@ const lines = (s: string) => s.split('\n');
             <>
               {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
               <div class="ind-flow-step">
-                <div class="ind-flow-label">{s.label}</div>
+                {/* 랜딩 통합 섹션의 노드 카드(.rfn-node)와 같은 구성 —
+                    아이콘 + 이름이 든 머리 띠, 그 아래 본문. */}
+                <div class="ind-flow-head">
+                  <span class="ind-flow-num">{i + 1}</span>
+                  <span class="ind-flow-label">{s.label}</span>
+                </div>
                 <div class="ind-flow-detail">{s.detail}</div>
               </div>
             </>

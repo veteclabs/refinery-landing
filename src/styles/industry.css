@@ -87,6 +87,41 @@ img { max-width: 100%; height: auto; }
 .ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191d22; border: 1px solid #272b32; border-radius: var(--radius); padding: 22px 20px; }
 .ind-flow-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .ind-flow-detail { font-size: 14.5px; color: #c8ccd1; line-height: 1.55; }
+
+/* ── 솔루션 구조 카드 — 랜딩 통합 섹션의 노드 카드(.rfn-node)와 같은 값이다.
+   머리 띠(아이콘 + 이름) + 본문 두 층으로 나뉘고, 면·테두리·모서리·그림자·hover가
+   전부 그 카드에서 왔다. 공통 .ind-flow-step은 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
+.ind-page .ind-flow-step {
+  border-radius: 10px; padding: 0; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  transition: box-shadow .15s ease;
+}
+.ind-page .ind-flow-step:hover {
+  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+}
+.ind-page .ind-flow-head {
+  display: flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 10px;
+  background: #1e2228; border-bottom: 1px solid #272b32;
+}
+/* .rfn-node-ic와 같은 값. 랜딩은 여기에 Phosphor 아이콘을 넣지만 여기는
+   흐름의 순서를 보여야 하므로 단계 번호를 넣는다. */
+.ind-page .ind-flow-num {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  background: #3f76ae; color: #fff;
+  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
+  font-size: 12px; font-weight: 600; line-height: 1;
+}
+/* .rfn-node-name과 같은 값 — 모노 13px. 공통값의 대문자 변환·자간·accent 색을 덮는다. */
+.ind-page .ind-flow-label {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
+  font-size: 13px; font-weight: 600; letter-spacing: normal;
+  text-transform: none; color: #edeef0; margin-bottom: 0;
+}
+/* 카드 자체의 여백을 없앴으므로 본문이 여백을 갖는다. */
+.ind-page .ind-flow-detail { padding: 16px 14px; }
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
 
