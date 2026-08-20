@@ -427,10 +427,10 @@ img { max-width: 100%; height: auto; }
   color: var(--text-muted);
 }
 /* 실루엣이 원 아래를 가득 채우고 어깨가 원 테두리에서 잘리게 한다.
-   원에 overflow:hidden, SVG는 원 폭의 78%로 아래에 붙인다. */
+   원에 overflow:hidden, SVG는 원 폭의 85%로 아래에 붙인다. */
 .ind-avatar { overflow: hidden; }
 .ind-avatar-svg {
-  display: block; width: 92%; height: auto;
+  display: block; width: 85%; height: auto;
   align-self: end; grid-row: 1; grid-column: 1;
 }
 /* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
