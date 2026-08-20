@@ -332,10 +332,12 @@ img { max-width: 100%; height: auto; }
   opacity: .16;
   pointer-events: none; user-select: none;
 }
-/* 위·아래로 갈수록 사라지게 해 섹션 경계선과 맞닿는 자리를 없앤다. */
+/* 위쪽 페이드를 섹션 높이의 58%까지 넓힌다. 사진이 아래쪽에만 남아
+   대제목·소제목 뒤는 비고, 카드 아래에서 현장이 드러나는 순서가 된다.
+   아래쪽 120px 페이드는 그대로 둬 섹션 경계선과 맞닿는 자리를 없앤다. */
 .ind-section-bg-img {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 58%, #000 calc(100% - 120px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 58%, #000 calc(100% - 120px), transparent 100%);
 }
 .ind-section-bg > .ind-container { position: relative; z-index: 1; }
 
