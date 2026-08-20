@@ -193,3 +193,24 @@ img { max-width: 100%; height: auto; }
 .ind-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
   background: #fff; border-color: #fff; color: #76a6d7;
 }
+
+/* ── 히어로 우측 아이콘 (hero.icons 지정 시)
+   랜딩 솔루션 카드(#platform .series-icon)와 같은 값이다 — accent 색 · 26px. */
+.ind-hero-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 64px; align-items: center; }
+.ind-hero-icons {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.ind-hero-icon {
+  display: grid; place-items: center; aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 14px;
+  background: rgba(255,255,255,.04);
+  color: var(--accent);
+}
+.ind-hero-icon i { font-size: 26px; line-height: 1; }
+@media (max-width: 1023px) {
+  .ind-hero-row { grid-template-columns: 1fr; gap: 48px; }
+  .ind-hero-icons { grid-template-columns: repeat(7, minmax(0, 1fr)); max-width: 420px; }
+}
+@media (max-width: 560px) {
+  .ind-hero-icons { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 260px; gap: 12px; }
+}
