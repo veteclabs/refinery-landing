@@ -195,24 +195,24 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ── 히어로 우측 아이콘 (hero.icon 지정 시)
-   랜딩 산업 카드의 워터마크와 같은 SVG다. 카드에서는 100px · opacity .15로
-   흰 면 구석에 깔리는데, 여기는 어두운 한 면이라 같은 값이면 보이지 않는다.
-   크기를 키우고 불투명도를 올려 히어로의 빈 오른쪽을 채운다. */
-.ind-hero-row {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
-  gap: 64px; align-items: center;
-}
+   랜딩 산업 카드의 워터마크와 같은 SVG이고, 잘리는 모습까지 같게 맞춘다.
+   카드는 100px 아이콘을 right:-10px · bottom:-10px에 두고 overflow:hidden으로
+   자른다 = 가로·세로 각각 10%가 모서리 밖으로 나간다.
+   히어로도 같은 비율을 쓴다 — 크기만 --ind-hero-icon으로 바꾸면 잘리는 양이 따라온다.
+   (.ind-hero-bg가 이미 position:relative · overflow:hidden이다.)
+   카드에서는 흰 면에 opacity .15면 충분하지만 여기는 어두운 한 면이라 .55로 올린다. */
+.ind-hero-bg { --ind-hero-icon: 320px; }
 .ind-hero-icon {
-  display: block; width: 100%; max-width: 320px; height: auto;
-  margin-left: auto; opacity: .55;
+  position: absolute;
+  width: var(--ind-hero-icon); height: auto;
+  right: calc(var(--ind-hero-icon) * -0.1);
+  bottom: calc(var(--ind-hero-icon) * -0.1);
+  opacity: .55; pointer-events: none; user-select: none;
 }
-@media (max-width: 1023px) {
-  .ind-hero-row { grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 40px; }
-  .ind-hero-icon { max-width: 200px; }
-}
-/* 767px 이하에서는 한 칸으로 접고 아이콘을 글 아래로 내린다.
-   옆에 두면 제목 칸이 좁아져 375px에서 두 줄이 네 줄로 쪼개졌다. */
+@media (max-width: 1023px) { .ind-hero-bg { --ind-hero-icon: 240px; } }
+/* 좁은 화면에서는 글이 폭을 다 써서 아이콘 위로 지나간다. 본문이 위에 오도록
+   .ind-container에 z-index:1이 걸려 있고, 무늬는 옅게 낮춰 가독성을 지킨다. */
 @media (max-width: 767px) {
-  .ind-hero-row { grid-template-columns: minmax(0, 1fr); gap: 48px; }
-  .ind-hero-icon { max-width: 140px; margin-left: 0; opacity: .45; }
+  .ind-hero-bg { --ind-hero-icon: 180px; }
+  .ind-hero-icon { opacity: .35; }
 }
