@@ -329,7 +329,10 @@ img { max-width: 100%; height: auto; }
 .ind-section-bg-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center;
-  opacity: .16;
+  /* 흑백으로 눕히고 더 옅게 깐다. 색이 남으면 주황 작업복이 이 페이지의
+     유일한 난색이라 배경이 앞으로 튀어나온다. */
+  filter: grayscale(1);
+  opacity: .10;
   pointer-events: none; user-select: none;
 }
 /* 위쪽 페이드를 섹션 높이의 58%까지 넓힌다. 사진이 아래쪽에만 남아
@@ -345,7 +348,10 @@ img { max-width: 100%; height: auto; }
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
    카드 면이 섹션 면과 같아서 1px 테두리만으로 구분되는 것이 그 섹션의 특징이다. */
 .ind-soft-dark { background: #111316; border-bottom-color: #24282e; }
-.ind-soft-dark .ind-card { background: #111316; border: 1px solid #272b32; }
+/* 카드 면색은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
+   (.rfn-node)와 같은 #191D22다. 섹션과 같은 #111316이면 테두리로만 구분돼
+   배경 사진 위에서 카드 경계가 흐려졌다. */
+.ind-soft-dark .ind-card { background: #191d22; border: 1px solid #272b32; }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* hover는 걸지 않는다 — 누를 수 없는 카드라 반응할 이유가 없다. */
@@ -391,7 +397,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 꼬리 색도 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-grid-bubble .ind-card::after {
-  background: #111316; border-color: #272b32;
+  background: #191d22; border-color: #272b32;
 }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
@@ -403,13 +409,19 @@ img { max-width: 100%; height: auto; }
 }
 .ind-avatar {
   display: grid; place-items: center; flex: none;
-  width: 34px; height: 34px; border-radius: 50%;
+  /* 제목 + 설명을 합친 높이다. 1440px 실측으로 제목 32 + 여백 5 + 설명 23 = 60px.
+     원이 본문 덩어리와 같은 높이라 둘이 한 줄로 맞물린다. */
+  width: 60px; height: 60px; border-radius: 50%;
   background: var(--bg-soft); border: 1px solid var(--border);
   color: var(--text-muted);
-  /* 제목(20px · 줄높이 1.6 = 32px)의 세로 가운데에 맞춘다. */
-  margin-top: -1px;
 }
-.ind-avatar i { font-size: 18px; line-height: 1; }
+/* 아이콘은 원 지름의 절반이다(34px 원에 18px이던 비율을 유지). */
+.ind-avatar i { font-size: 30px; line-height: 1; }
+/* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
+@media (max-width: 640px) {
+  .ind-avatar { width: 46px; height: 46px; }
+  .ind-avatar i { font-size: 23px; }
+}
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
   background: #1a1e24; border-color: #272b32; color: #959ca5;
