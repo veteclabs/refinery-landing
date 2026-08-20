@@ -380,6 +380,8 @@ img { max-width: 100%; height: auto; }
 /* 카드 면색 #272B32. #191D22(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가
    같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
 .ind-soft-dark .ind-card { background: #272b32; border: 1px solid #32373f; }
+/* 말풍선만 반투명 — 뒤의 현장 사진이 옅게 비친다. */
+.ind-soft-dark .ind-grid-bubble .ind-card { background: rgba(39, 43, 50, .72); }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -388,32 +390,16 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
 }
-.ind-soft-dark .ind-card:hover {
-  box-shadow: 0 0 0 2px #32373f, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
 
-/* ── 말풍선은 카드와 꼭지가 한 도형으로 보여야 한다.
-   테두리(border)와 링(box-shadow)은 카드 상자에만 그려지므로 꼭지는 자기 테두리를
-   따로 갖고, 둘이 만나는 자리에 이음매가 생긴다. hover 링은 아예 꼭지를 비껴간다.
-   filter는 요소가 그려진 결과(::after 포함)에 걸리므로, 4방향 drop-shadow로
-   '카드 + 꼭지'의 합집합 바깥에 1px 선을 두른다.
-   그림자도 filter로 옮겨야 같은 합집합을 따라간다 — box-shadow는 상자만 따른다. */
+/* ── 말풍선은 면을 반투명으로 둔다. 테두리와 hover는 걸지 않는다.
+   테두리(border)와 링(box-shadow)은 카드 상자에만 그려져 꼭지와 이음매가 생겼는데,
+   선을 아예 없애니 그 문제도 함께 사라진다.
+   그림자는 filter로 준다 — box-shadow는 상자만 따르고 꼭지를 비껴간다.
+   4방향 윤곽선을 걷어낸 덕에 반투명 면 뒤로 선이 비치는 일도 없다. */
 .ind-soft-dark .ind-grid-bubble .ind-card {
   border: 0;
   box-shadow: none;
-  filter:
-    drop-shadow(1px 0 0 #32373f) drop-shadow(-1px 0 0 #32373f)
-    drop-shadow(0 1px 0 #32373f) drop-shadow(0 -1px 0 #32373f)
-    drop-shadow(0 1px 2px rgba(0,0,0,.35));
-  transition: filter .15s ease;
-}
-/* hover는 선을 2px으로 굵힌다 — 링이 카드와 꼭지를 함께 두른다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:hover {
-  box-shadow: none;
-  filter:
-    drop-shadow(2px 0 0 #32373f) drop-shadow(-2px 0 0 #32373f)
-    drop-shadow(0 2px 0 #32373f) drop-shadow(0 -2px 0 #32373f)
-    drop-shadow(0 2px 4px rgba(0,0,0,.35));
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.35));
 }
 
 /* ───────── 과제 카드 — 말풍선
@@ -475,8 +461,8 @@ img { max-width: 100%; height: auto; }
   border-right-color: var(--bg);
 }
 /* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #272b32; }
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #272b32; }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: rgba(39, 43, 50, .72); }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: rgba(39, 43, 50, .72); }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
    본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
