@@ -46,6 +46,8 @@ export interface IndustryData {
     // 사진마다 담긴 장면이 달라 세로 초점은 페이지별로 조정한다.
     // 0% = 위쪽 끝, 50% = 가운데, 100% = 아래쪽 끝. 기본 45%.
     imagePosition?: string;
+    // 히어로 우측 오버레이 이미지(선택). 배경 사진 위에 얹혀 오른쪽을 채운다.
+    overlay?: { src: string; width: number; height: number };
     // 히어로 우측 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
     // (예: '/industry-08.svg' = 에너지 · 유틸리티).
     icon?: string;

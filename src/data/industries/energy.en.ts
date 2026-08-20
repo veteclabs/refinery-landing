@@ -17,6 +17,11 @@ export const energyEn: IndustryData = {
       height: 2160,
     },
     imagePosition: 'center 100%',
+    overlay: {
+      src: '/industries/energy-hero-mesh.webp',
+      width: 1600,
+      height: 800,
+    },
     icon: '/industry-08.svg',
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',

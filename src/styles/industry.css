@@ -193,6 +193,30 @@ img { max-width: 100%; height: auto; }
   background: #fff; border-color: #fff; color: #76a6d7;
 }
 
+/* ── 히어로 우측 오버레이 (hero.overlay 지정 시)
+   배경 사진 위에 얹어 오른쪽을 채운다. 왼쪽으로 갈수록 사라지는 마스크를 씌워
+   글이 놓이는 자리에는 번지지 않는다 — 페이드는 %가 아니라 px로 잡는다.
+   %면 칸이 좁아질수록 페이드 구간도 같이 좁아져 글 끝에서 이미 또렷해진다.
+   섞임은 screen이다. 이 사진은 어두운 남색 바탕에 밝은 선만 있어서,
+   screen이면 어두운 부분이 투명해지고 선만 배경 위에 얹힌다 —
+   불투명도만 낮추면 사진의 어두운 면이 배경 그라데이션을 덮어 탁해진다. */
+.ind-hero-overlay {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 62%; height: 100%; object-fit: cover; object-position: center;
+  mix-blend-mode: screen; opacity: .75;
+  -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 360px);
+  mask-image: linear-gradient(to right, transparent 0px, #000 360px);
+  pointer-events: none; user-select: none;
+}
+@media (max-width: 767px) {
+  /* 글이 폭을 다 쓰는 구간이다. 폭을 넓히되 옅게 깔아 무늬로만 남긴다. */
+  .ind-hero-overlay {
+    width: 100%; opacity: .5;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 200px);
+    mask-image: linear-gradient(to bottom, transparent 0px, #000 200px);
+  }
+}
+
 /* ── 히어로 우측 아이콘 (hero.icon 지정 시)
    랜딩 산업 카드의 워터마크와 같은 SVG이고, 잘리는 모습까지 같게 맞춘다.
    카드는 100px 아이콘을 right:-10px · bottom:-10px에 두고 overflow:hidden으로

@@ -61,6 +61,17 @@ const lines = (s: string) => s.split('\n');
           style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
         />
       )}
+      {ind.hero.overlay && (
+        <img
+          class="ind-hero-overlay"
+          src={ind.hero.overlay.src}
+          alt=""
+          aria-hidden="true"
+          width={ind.hero.overlay.width}
+          height={ind.hero.overlay.height}
+          decoding="async"
+        />
+      )}
       {ind.hero.icon && (
         <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />
       )}
