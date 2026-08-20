@@ -55,7 +55,7 @@ export const energy: IndustryData = {
     ],
   },
   useCases: {
-    title: '대표 유즈케이스',
+    title: '문제를 푸는 방법',
     subtitle: '에너지 현장에서 Refinery가 실제로 하는 일입니다.',
     items: [
       {

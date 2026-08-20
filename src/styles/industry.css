@@ -506,9 +506,6 @@ img { max-width: 100%; height: auto; }
   display: flex; justify-content: space-between; align-items: flex-end;
   gap: 32px; flex-wrap: wrap;
 }
-/* 배지가 있는 섹션은 배지 + 대제목을 한 칸으로 묶는다. 묶지 않으면 배지가
-   flex 항목이 되어 대제목 왼쪽에 나란히 선다. */
-.ind-page .ind-head-main { display: block; }
 .ind-page .ind-head h2 {
   margin-bottom: 0;
   font-size: clamp(28px, 4vw, 45px); font-weight: 600;
