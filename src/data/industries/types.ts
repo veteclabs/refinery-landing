@@ -37,12 +37,17 @@ export interface IndustryData {
     eyebrow: string;
     title: string;
     lede: string;
-    // 배경 사진(선택). 지정하면 예지보전(.uc-hero-bg)과 같은 어두운 히어로가 된다.
-    // 사진 위에 #111316 스크림이 깔리고 글자가 흰색으로 바뀐다.
+    // 어두운 히어로(선택). 예지보전(.uc-hero-bg)과 같은 구성이 된다 —
+    // #111316 바탕에 흰 글자, accent 면 주 버튼.
+    dark?: boolean;
+    // 배경 사진(선택). dark와 함께 쓰면 사진 위에 스크림이 깔린다.
     image?: { src: string; alt: string; width: number; height: number };
     // 사진마다 담긴 장면이 달라 세로 초점은 페이지별로 조정한다.
     // 0% = 위쪽 끝, 50% = 가운데, 100% = 아래쪽 끝. 기본 45%.
     imagePosition?: string;
+    // 위치 표시(Industries › 산업명). 기본 노출. 태그라인과 같은 말이 두 번
+    // 나오는 페이지에서는 false로 끈다(JSON-LD BreadcrumbList는 그대로 남는다).
+    showBreadcrumb?: boolean;
   };
   challenges: {
     title: string;

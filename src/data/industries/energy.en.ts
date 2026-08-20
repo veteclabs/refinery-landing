@@ -9,16 +9,11 @@ export const energyEn: IndustryData = {
   description:
     'Connect energy data scattered across SCADA, EMS and meters into one structure, let an AI agent catch anomalies first, and automate ESG reporting. Refinery for generation, transmission and utility operations.',
   hero: {
-    eyebrow: 'INDUSTRIES · ENERGY & UTILITIES',
+    dark: true,
+    showBreadcrumb: false,
+    eyebrow: 'Energy · Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence',
     lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
-    image: {
-      src: '/use-cases/heroes/power-management.webp',
-      alt: 'Substation equipment across a power grid site — the assets Refinery monitors.',
-      width: 2560,
-      height: 1709,
-    },
-    imagePosition: 'center 45%',
   },
   challenges: {
     title: 'Challenges on energy sites',

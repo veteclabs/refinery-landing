@@ -16,12 +16,12 @@ const { ind, lang = 'ko' } = Astro.props;
 const T = {
   ko: {
     crumbAria: '위치', industries: 'Industries', industriesHref: '/#industries',
-    cta: '데모 신청하기', contactHref: '/contact', secondary: '제품 살펴보기 →', secondaryHref: '/#teams',
+    cta: '데모 신청하기', contactHref: '/contact', secondary: '제품 살펴보기', secondaryHref: '/#teams',
     problem: '문제', approach: '접근', outcome: '성과',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
-    cta: 'Request a demo', contactHref: '/en/contact', secondary: 'Explore the product →', secondaryHref: '/en#teams',
+    cta: 'Request a demo', contactHref: '/en/contact', secondary: 'Explore the product', secondaryHref: '/en#teams',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
   },
 }[lang];
@@ -47,7 +47,7 @@ const lines = (s: string) => s.split('\n');
   <Nav />
   <main class="ind">
     <!-- HERO -->
-    <section class={ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
+    <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
       {ind.hero.image && (
         <img
           class="ind-hero-bg-img"
@@ -62,7 +62,9 @@ const lines = (s: string) => s.split('\n');
         />
       )}
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
+        {(ind.hero.showBreadcrumb ?? true) && (
+          <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
+        )}
         <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
         <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
         <p class="ind-lede">{ind.hero.lede}</p>
