@@ -399,10 +399,11 @@ img { max-width: 100%; height: auto; }
    흩어진 조각으로 보인다.
    대제목·소제목은 원래 칸(1280px)을 그대로 쓴다 — 이 규칙은 격자에만 걸린다.
    칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝난다.
-   말풍선 사이는 20px — 예지보전 '읽는 데이터와 신호' 섹션 카드(.uc-signal-cards)와
-   같은 값이다. 공통 .ind-grid의 18px을 덮는다. */
+   말풍선 사이는 28px. 예지보전 '읽는 데이터와 신호' 섹션 카드와 같은 20px으로
+   맞춰 봤는데, 그 카드들은 4열로 나란히 서지만 말풍선은 좌우로 엇갈려 쌓여
+   같은 값이 더 좁아 보였다. 공통 .ind-grid의 18px을 덮는다. */
 .ind-grid-bubble {
-  gap: 20px;
+  gap: 28px;
   grid-template-columns: 1fr; margin-top: 100px;
   max-width: 900px; margin-left: auto;
 }
@@ -424,20 +425,20 @@ img { max-width: 100%; height: auto; }
 /* 꼭지는 삼각형이다. 예전에는 45도 돌린 정사각형에 바깥 두 변만 테두리를 남겨
    카드의 선과 잇는 방식이었는데, 윤곽을 filter가 합집합에 그리게 되면서
    테두리를 맞출 필요가 없어졌다. 삼각형이 더 길고 뾰족하게 빠진다.
-   길이 18px · 높이 22px. 세로는 아바타 중심(카드 위 여백 34 - 올림 4 + 반지름 20
-   = 50px)에 맞춰 top 50 - 11 = 39px. */
+   길이 18px · 높이 16px. 세로는 아바타 중심(카드 위 여백 34 - 올림 4 + 반지름 20
+   = 50px)에 맞춰 top 50 - 8 = 42px. */
 .ind-grid-bubble .ind-card::after {
-  content: ''; position: absolute; top: 39px;
+  content: ''; position: absolute; top: 42px;
   width: 0; height: 0; border-style: solid; border-color: transparent;
 }
 /* 홀수 = 오른쪽 */
 .ind-grid-bubble .ind-card:nth-child(odd)::after {
-  right: -18px; border-width: 11px 0 11px 18px;
+  right: -18px; border-width: 8px 0 8px 18px;
   border-left-color: var(--bg);
 }
 /* 짝수 = 왼쪽 */
 .ind-grid-bubble .ind-card:nth-child(even)::after {
-  left: -18px; border-width: 11px 18px 11px 0;
+  left: -18px; border-width: 8px 18px 8px 0;
   border-right-color: var(--bg);
 }
 /* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
