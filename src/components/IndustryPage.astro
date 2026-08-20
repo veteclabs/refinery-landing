@@ -72,14 +72,14 @@ const lines = (s: string) => s.split('\n');
           decoding="async"
         />
       )}
-      {ind.hero.icon && (
-        <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />
-      )}
       <div class="ind-container">
         {(ind.hero.showBreadcrumb ?? true) && (
           <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
         )}
-        <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
+        <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
+          {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
+          <span>{ind.hero.eyebrow}</span>
+        </p>
         <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
         {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         <div class="ind-hero-actions">

@@ -48,7 +48,7 @@ export interface IndustryData {
     imagePosition?: string;
     // 히어로 우측 오버레이 이미지(선택). 배경 사진 위에 얹혀 오른쪽을 채운다.
     overlay?: { src: string; width: number; height: number };
-    // 히어로 우측 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
+    // 태그라인 옆 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
     // (예: '/industry-08.svg' = 에너지 · 유틸리티).
     icon?: string;
     // 보조 버튼(제품 살펴보기). 기본 노출. 주 버튼 하나만 두려면 false.
