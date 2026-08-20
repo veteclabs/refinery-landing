@@ -391,15 +391,14 @@ img { max-width: 100%; height: auto; }
   transition: box-shadow .15s ease;
 }
 
-/* ── 말풍선은 면을 반투명으로 둔다. 테두리와 hover는 걸지 않는다.
+/* ── 말풍선은 면만으로 선다. 테두리 · hover · 그림자를 모두 걸지 않는다.
    테두리(border)와 링(box-shadow)은 카드 상자에만 그려져 꼭지와 이음매가 생겼는데,
    선을 아예 없애니 그 문제도 함께 사라진다.
-   그림자는 filter로 준다 — box-shadow는 상자만 따르고 꼭지를 비껴간다.
-   4방향 윤곽선을 걷어낸 덕에 반투명 면 뒤로 선이 비치는 일도 없다. */
+   그림자까지 빼면서 filter도 없앴다 — 반투명 면 뒤로 무엇도 비치지 않는다. */
 .ind-soft-dark .ind-grid-bubble .ind-card {
   border: 0;
   box-shadow: none;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,.35));
+  filter: none;
 }
 
 /* ───────── 과제 카드 — 말풍선
