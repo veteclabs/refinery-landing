@@ -298,8 +298,10 @@ const capabilityGroups = [
   @media (max-width: 900px) {
     .wr-hero-fx {
       top: auto; bottom: 0; height: 170px; width: 100%;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 60px);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 60px);
+      /* 아래쪽도 흐린다. 위만 흐리면 히어로 끝선에서 셀 몸통이 가로로 뚝 잘려
+         판을 칼로 자른 것처럼 보였다. 양쪽을 흐려 띠가 배경에서 떠올랐다 잠기게 한다. */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 55px, #000 118px, transparent 170px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 55px, #000 118px, transparent 170px);
     }
     /* 안쪽 칸의 아래 페이드는 띠에서는 필요 없다. 띠 자체가 이미 짧다. */
     .wr-hero-fx-inner { -webkit-mask-image: none; mask-image: none; }
