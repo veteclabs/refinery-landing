@@ -605,10 +605,10 @@ img { max-width: 100%; height: auto; }
    탭이 아니라 강조 선택이다.
    플래그를 준 산업에만 붙는다 — 기존 .ind-usecase 목록은 그대로 둔다. */
 .ind-uc-steps {
-  --uc-dot: 44px;      /* 원 지름 */
+  --uc-dot: 56px;      /* 원 지름 */
   --uc-gap: 14px;      /* 줄 사이 */
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: 68px 1fr;
   column-gap: 28px;
   row-gap: var(--uc-gap);
   align-items: stretch;
@@ -619,7 +619,7 @@ img { max-width: 100%; height: auto; }
   position: relative;
   display: grid;
   align-content: center;
-  width: 56px;
+  width: 68px;
   padding: 0;
   border: 0;
   background: none;
@@ -658,7 +658,7 @@ img { max-width: 100%; height: auto; }
   background: var(--bg);
   color: var(--text-muted);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1;
   transition: background-color .18s, border-color .18s, color .18s;
@@ -672,8 +672,9 @@ img { max-width: 100%; height: auto; }
   color: #fff;
 }
 
-/* 상자는 테두리와 면만 바뀐다. 안 여백과 투명 테두리를 늘 갖고 있어
-   선택이 옮겨 다녀도 글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
+/* 선택된 상자는 테두리 없이 면으로만 구분한다 — 도입 효과 섹션 배경과 같은
+   --bg-soft다. 안 여백과 투명 테두리를 늘 갖고 있어 선택이 옮겨 다녀도
+   글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
 .ind-uc-panel {
   position: relative;
   padding: 20px 24px;
@@ -682,13 +683,11 @@ img { max-width: 100%; height: auto; }
   transition: background-color .18s, border-color .18s;
 }
 .ind-uc-panel[data-active='true'] {
-  background: var(--bg);
-  border-color: var(--border);
+  background: var(--bg-soft);
 }
 /* 꼬리 — 상자 왼쪽 한가운데에서 번호 쪽으로 나간다.
-   삼각형 두 장을 1px 어긋나게 겹쳐 테두리선과 면을 함께 만든다
-   (뒷장이 테두리색, 앞장이 면색). */
-.ind-uc-panel::before,
+   문제 섹션 말풍선과 같은 18x16px(border-width: 8px 18px 8px 0)이고, 그쪽처럼
+   면색 삼각형 한 장이다 — 상자에 테두리가 없으니 덧댈 선도 없다. */
 .ind-uc-panel::after {
   content: '';
   position: absolute;
@@ -702,9 +701,7 @@ img { max-width: 100%; height: auto; }
   transition: opacity .18s;
   pointer-events: none;
 }
-.ind-uc-panel::before { left: -11px; border-width: 11px 11px 11px 0; border-right-color: var(--border); }
-.ind-uc-panel::after { left: -10px; border-width: 10px 10px 10px 0; border-right-color: var(--bg); }
-.ind-uc-panel[data-active='true']::before,
+.ind-uc-panel::after { left: -18px; border-width: 8px 18px 8px 0; border-right-color: var(--bg-soft); }
 .ind-uc-panel[data-active='true']::after { opacity: 1; }
 
 .ind-uc-panel h3 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 16px; }
@@ -716,11 +713,10 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-uc-panel h3 { font-weight: 600; line-height: 1.6; }
 
 @media (max-width: 640px) {
-  .ind-uc-steps { --uc-dot: 36px; grid-template-columns: 44px 1fr; column-gap: 16px; }
-  .ind-uc-dot { width: 44px; }
-  .ind-uc-dot-circle { font-size: 14px; }
+  /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
+  .ind-uc-steps { --uc-dot: 44px; grid-template-columns: 48px 1fr; column-gap: 24px; }
+  .ind-uc-dot { width: 48px; }
+  .ind-uc-dot-circle { font-size: 16px; }
   .ind-uc-panel { padding: 16px 18px; }
   .ind-uc-panel dl > div { grid-template-columns: 44px 1fr; gap: 10px; }
-  .ind-uc-panel::before { left: -9px; border-width: 9px 9px 9px 0; }
-  .ind-uc-panel::after { left: -8px; border-width: 8px 8px 8px 0; }
 }
