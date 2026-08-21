@@ -674,9 +674,11 @@ img { max-width: 100%; height: auto; }
   content: '';
   position: absolute;
   left: 50%;
-  width: 1px;
-  margin-left: -0.5px;
-  background: var(--border);
+  /* 두께 · 색 모두 원 테두리와 같다(2px · --accent). 1px 회색일 때는 선과
+     원이 서로 다른 요소처럼 끊겨 보였다. */
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
 }
 .ind-uc-dot::before { top: 0; height: var(--uc-top); }
 .ind-uc-dot::after { top: calc(var(--uc-top) + var(--uc-dot)); bottom: calc(-1 * var(--uc-gap)); }
@@ -717,8 +719,11 @@ img { max-width: 100%; height: auto; }
 /* 선택된 상자는 테두리 없이 면으로만 구분한다 — 큰 카드가 --bg-soft라
    여기는 흰 면(--bg)이다. 안 여백과 투명 테두리를 늘 갖고 있어 선택이
    옮겨 다녀도 글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
+/* 상자를 눌러도 선택된다. 접근성 조작은 번호 버튼이 맡으므로 여기에는
+   탭 순서를 새로 만들지 않는다 — 다섯 칸이 두 번씩 잡히면 오히려 번거롭다. */
 .ind-uc-panel {
   position: relative;
+  cursor: pointer;
   padding: 20px 24px;
   border: 1px solid transparent;
   border-radius: var(--radius);
@@ -789,11 +794,12 @@ img { max-width: 100%; height: auto; }
   line-height: 22.5px;
   /* 두 글자를 조금 벌린다(.35em). 1.2em은 글자 실폭이 54px까지 늘어
      모바일 알약(68px) 안에서 좌우 7px밖에 안 남고 가운데도 어긋났다.
-     가운데 정렬은 따로 손대지 않는다. 마지막 글자 뒤에도 자간이 붙지만
-     place-items: center가 그 몫까지 셈에 넣어 이미 한가운데에 온다 —
-     실측 좌우 차 0px. padding이나 text-indent로 되밀면 오히려 오른쪽으로
-     치우친다(.35em 보정에서 5px). */
+     마지막 글자 뒤에 붙는 자간 때문에 글자가 오른쪽으로 치우친다. 되미는 값은
+     그려진 픽셀로 찾았다 — Range 측정은 마지막 글자의 사각형에 뒤 자간을
+     포함해서 0px으로 보이지만 실제 화면에서는 좌 23 / 우 13px이었다.
+     -0.7em(자간의 두 배)에서 좌우가 맞는다. */
   letter-spacing: .35em;
+  text-indent: -.7em;
   transition: background-color .18s;
 }
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }

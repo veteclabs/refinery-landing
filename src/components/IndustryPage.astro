@@ -281,6 +281,8 @@ const lines = (s: string) => s.split('\n');
       dots.forEach((d, n) => d.setAttribute('aria-pressed', String(n === i)));
       panels.forEach((p, n) => p.setAttribute('data-active', String(n === i)));
     };
+    /* 상자를 눌러도 같은 항목이 선택된다. 번호가 작아 조준하기 번거롭다. */
+    panels.forEach((panel, i) => panel.addEventListener('click', () => select(i)));
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => select(i));
       /* 위·아래 화살표로도 옮긴다. 세로로 늘어선 목록이라 좌우가 아니라 상하다. */
