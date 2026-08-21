@@ -152,14 +152,13 @@ img { max-width: 100%; height: auto; }
   font-size: 14.5px; line-height: 1.55; color: #c8ccd1;
   word-break: keep-all;
 }
-/* 우리 자리(highlight)만 켠다. 카드 값은 그대로 두고 테두리와 광만 얹는다 —
-   면색까지 바꾸면 랜딩 카드와 같은 카드로 안 읽힌다. */
-.ind-page .ind-flow-step.is-on {
-  border-color: rgba(118, 166, 215, .5);
-  box-shadow: 0 0 0 3px rgba(118, 166, 215, .1), 0 6px 22px rgba(118, 166, 215, .16);
-}
+/* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
+   다른 종류의 카드처럼 보이는데, 평소에는 테두리만 하늘색이고 hover 링만
+   색이 다르면 '같은 카드인데 이 칸이 우리'로 읽힌다.
+   다른 카드의 hover 링은 #272B32(랜딩 값)이고 여기만 accent다. */
+.ind-page .ind-flow-step.is-on { border-color: rgba(118, 166, 215, .5); }
 .ind-page .ind-flow-step.is-on:hover {
-  box-shadow: 0 0 0 3px rgba(118, 166, 215, .16), 0 6px 22px rgba(118, 166, 215, .2);
+  box-shadow: 0 0 0 2px var(--accent), 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
 .ind-page .ind-flow-step.is-on .ind-flow-head { background: #20262f; border-bottom-color: #2f3947; }
 .ind-page .ind-flow-step.is-on .ind-flow-num { background: var(--accent); }
