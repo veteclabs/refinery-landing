@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate } from '../data/legal';
+import { company, effectiveDate, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
 
 // 「약관의 규제에 관한 법률」 대응 메모
@@ -15,7 +15,7 @@ import '../styles/legal.css';
 //   고객의 해지권을 함께 둔다.
 // - 제14조1호: 고객에게 부당하게 불리한 전속관할 합의는 무효 → '전속'으로 못 박지 않고
 //   회사 본점 소재지 관할법원을 제1심 관할법원으로 둔다(전속 아님, 부가적 합의관할).
-const isDraft = !effectiveDate || !company.ceo;
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 ---
 <BaseLayout
   title="이용약관 | Refinery"

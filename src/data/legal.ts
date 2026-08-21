@@ -26,7 +26,7 @@ export const company = {
   siteUrl: 'https://refinery.kr',
 
   /** 대표자 성명 */
-  ceo: '',
+  ceo: '최영준',
   /** 사업자등록번호 (000-00-00000) */
   bizNo: '130-81-49638',
   /**
@@ -38,7 +38,7 @@ export const company = {
   /** 본점 소재지 (사업자등록증 기준) */
   address: '대전광역시 유성구 관평동 1311',
   /** 대표 전화 */
-  tel: '',
+  tel: '042-935-3721',
   /** 팩스 (없으면 공란) */
   fax: '',
   /** 대표 이메일 */
@@ -51,12 +51,19 @@ export const company = {
 
   /** 개인정보 고충처리·열람청구 담당부서 (작성지침 2025.4. 권고) */
   privacyDept: '',
-  privacyTel: '',
+  privacyTel: '042-935-3721',
   privacyEmail: 'info@vetec.co.kr',
 
   /** 호스팅 서비스 제공자 — 전자상거래법 제10조① 표시 항목(2022년 의무화) */
   hosting: 'Vercel Inc.',
 };
+
+/**
+ * 법무 검토 완료 + 게시 준비가 되면 true로 바꾼다.
+ * false인 동안에는 값이 모두 채워져 있어도 4개 문서 상단에 초안 경고 배너가 유지된다.
+ * (retention 등 아직 빈 값이 남아도 배너가 성급히 사라지지 않게 하는 최종 스위치)
+ */
+export const legalReviewed = false;
 
 /** 4개 문서 공통 시행일 (예: '2026-09-01') */
 export const effectiveDate = '2026-09-01';

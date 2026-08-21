@@ -3,12 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, retention } from '../data/legal';
+import { company, effectiveDate, retention, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
 
 // 아래 쿠키·저장소 목록은 실제 구현(CookieConsent.astro · LanguageSwitcher.astro · Analytics.astro)
 // 기준의 사실이다. 추적 도구를 추가·제거하면 이 표도 반드시 함께 고칠 것.
-const isDraft = !effectiveDate || !company.ceo;
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 ---
 <BaseLayout
   title="쿠키 정책 | Refinery"

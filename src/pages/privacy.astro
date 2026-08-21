@@ -3,12 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, revisedDate, retention, processors, remedyAgencies } from '../data/legal';
+import { company, effectiveDate, revisedDate, retention, processors, remedyAgencies, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
 
 // 목차·항목 구성은 개인정보보호위원회 「개인정보 처리방침 작성지침(2025.4.)」을 따른다.
 // 해당 사항이 없는 항목도 "해당 없음"을 명시한다(지침: 항목 자체를 빼면 누락으로 평가된다).
-const isDraft = !effectiveDate || !company.ceo || !company.bizNo;
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.bizNo;
 ---
 <BaseLayout
   title="개인정보처리방침 | Refinery"
