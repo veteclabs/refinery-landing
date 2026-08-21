@@ -618,11 +618,11 @@ img { max-width: 100%; height: auto; }
   border-radius: var(--radius);
   padding: 48px;
 }
-/* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 30px — 오른쪽 카드 제목(20px)
+/* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 25px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
    제목과 같은 값이다. 줄 나눔은 데이터의 개행을 lines()가 <br>로 바꿔 넣는다. */
 .ind-uc-lede {
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 600;
   line-height: 1.6;
   letter-spacing: -0.01em;
@@ -794,7 +794,7 @@ img { max-width: 100%; height: auto; }
    소제목이 서너 글자씩 감겨 읽히지 않는다. */
 @media (max-width: 900px) {
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 28px; }
-  .ind-uc-lede { font-size: 24px; }
+  .ind-uc-lede { font-size: 22px; }
 }
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 16px; }
