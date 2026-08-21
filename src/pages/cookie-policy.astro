@@ -60,6 +60,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           모든 분석 쿠키를 이용자가 동의한 경우에만 설치</strong>합니다. 동의하지 않아도 웹사이트의 모든 기능을 제한 없이 이용할 수 있습니다.
         </p>
         <p><strong>회사는 맞춤형 광고를 제공하지 않으며, 제3자 광고사업자가 본 웹사이트에서 행태정보를 수집하도록 허용하지 않습니다.</strong></p>
+        <p>다만 회사가 분석 도구(Mixpanel)로 수집하는 행태정보(클릭·스크롤 등 화면 조작 기록)는 오직 서비스 사용성 분석 목적으로만 이용하며, 광고 목적으로 이용하거나 제3자에게 제공하지 않습니다.</p>
       </section>
 
       <section>
@@ -106,7 +107,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
               <tr>
                 <td><code>mp_*_mixpanel</code>, <code>__mp*</code></td>
                 <td>Mixpanel, Inc. (제3자)</td>
-                <td>로컬 스토리지</td>
+                <td>쿠키·로컬 스토리지</td>
                 <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
                 <td>브라우저 저장소 삭제 시까지<br /><span style="color:#7e8a98;font-size:13px;">(수집된 데이터 보관: <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
               </tr>
