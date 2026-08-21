@@ -79,11 +79,11 @@ export const revisedDate = '2026-09-01';
  */
 export const retention = {
   /** 예: '14개월' */
-  ga: '',
+  ga: '14개월',
   /** 예: '12개월' */
-  mixpanel: '',
+  mixpanel: '12개월',
   /** 세션 리플레이 보관 기간. 예: '30일' */
-  mixpanelReplay: '',
+  mixpanelReplay: '30일',
 };
 
 /** 개인정보 처리 위탁 현황 (개인정보 보호법 제26조 / 제30조①4호) */

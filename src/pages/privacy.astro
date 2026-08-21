@@ -407,13 +407,13 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.biz
                 <td>
                   성명: <Ph value={company.cpoName} label="성명" /><br />
                   직책: <Ph value={company.cpoTitle} label="직책" /><br />
-                  소속: <Ph value={company.cpoDept} label="부서명" />
+                  이메일: <Ph value={company.privacyEmail} label="이메일" />
                 </td>
               </tr>
               <tr>
                 <th>고충처리·열람청구 담당부서</th>
                 <td>
-                  부서명: <Ph value={company.privacyDept} label="부서명" /><br />
+                  담당: <Ph value={company.cpoName} label="성명" /> <Ph value={company.cpoTitle} label="직책" /><br />
                   전화: <Ph value={company.privacyTel} label="전화번호" /><br />
                   이메일: <Ph value={company.privacyEmail} label="이메일" />
                 </td>
@@ -431,7 +431,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.biz
         <h2>19. 개인정보 열람청구의 접수·처리 부서</h2>
         <p>정보주체는 「개인정보 보호법」 제35조에 따른 개인정보 열람청구를 아래의 부서에 할 수 있습니다. 회사는 열람청구가 신속하게 처리되도록 노력하겠습니다.</p>
         <ul>
-          <li>부서명: <Ph value={company.privacyDept} label="부서명" /></li>
+          <li>담당: <Ph value={company.cpoName} label="성명" /> <Ph value={company.cpoTitle} label="직책" /></li>
           <li>전화: <Ph value={company.privacyTel} label="전화번호" /></li>
           <li>이메일: <Ph value={company.privacyEmail} label="이메일" /></li>
         </ul>
