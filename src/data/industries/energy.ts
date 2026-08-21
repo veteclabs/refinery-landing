@@ -110,22 +110,22 @@ export const energy: IndustryData = {
       {
         title: '이상 조기 감지',
         icon: 'ph-pulse',
-        description: '평소와 다른 신호를 실시간으로 포착해 정지 · 사고 리스크를 줄입니다.',
+        description: '평소와 다른 신호를 실시간으로 포착해 \n정지 · 사고 리스크를 줄입니다.',
       },
       {
         title: '통합 관제',
         icon: 'ph-squares-four',
-        description: '분산된 설비 · 계통을 하나의 화면과 하나의 구조로 관제합니다.',
+        description: '분산된 설비 · 계통을 하나의 화면과 \n하나의 구조로 관제합니다.',
       },
       {
         title: '에너지 효율',
         icon: 'ph-lightning',
-        description: '소비 패턴을 근거로 낭비와 피크를 찾아 운영비를 절감합니다.',
+        description: '소비 패턴을 근거로 낭비와 피크를 찾아 \n운영비를 절감합니다.',
       },
       {
         title: 'ESG 자동화',
         icon: 'ph-leaf',
-        description: '배출 · 소비 리포트를 자동 집계하고 출처를 추적합니다.',
+        description: '배출 · 소비 리포트를 자동 집계하고 \n출처를 추적합니다.',
       },
       {
         title: '현장 보안',

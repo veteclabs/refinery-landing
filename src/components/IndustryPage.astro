@@ -249,7 +249,8 @@ const lines = (s: string) => s.split('\n');
             <div class="ind-card">
               {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}
               <h3>{b.title}</h3>
-              <p>{b.description}</p>
+              {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
+              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
             </div>
           ))}
         </div>

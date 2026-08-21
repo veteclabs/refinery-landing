@@ -563,6 +563,13 @@ img { max-width: 100%; height: auto; }
    그 아래에서는 각 줄이 다시 감겨 줄 수만 늘어난다.
    데이터의 <br> 앞에 공백을 둔 이유: display:none으로 지우면 br이 흐름에서
    빠지면서 앞뒤 글자가 '분산되어전체'처럼 붙는다. */
+/* 도입 효과 카드의 단락 나눔은 카드가 넉넉할 때만 쓴다. 1100px 아래로 가면
+   카드가 300px 밑으로 좁아져 나뉜 반쪽이 다시 감기고 세 줄이 된다 —
+   그럴 바에는 단락을 풀어 두 줄로 두는 편이 낫다.
+   데이터의 개행 앞에 공백을 둔 이유: br이 사라져도 앞뒤 글자가 붙지 않는다. */
+@media (max-width: 1100px) {
+  .ind-page .ind-grid-3 .ind-card p br { display: none; }
+}
 @media (max-width: 639px) {
   .ind-grid-bubble .ind-card p br { display: none; }
 }
