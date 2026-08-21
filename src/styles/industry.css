@@ -814,6 +814,11 @@ img { max-width: 100%; height: auto; }
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 40px 32px; }
   .ind-uc-lede { font-size: 24px; }
 }
+/* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
+   칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
+.ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
+.ind-en .ind-uc-panel dt { gap: 0; }
+
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 24px 20px; }
   /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
