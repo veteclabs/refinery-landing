@@ -391,7 +391,7 @@ img { max-width: 100%; height: auto; }
    같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
 .ind-soft-dark .ind-card { background: #272b32; border: 1px solid #32373f; }
 /* 말풍선만 반투명 — 뒤의 현장 사진이 옅게 비친다. */
-.ind-soft-dark .ind-grid-bubble .ind-card { background: rgba(39, 43, 50, .6); }
+.ind-soft-dark .ind-grid-bubble .ind-card { background: rgba(39, 43, 50, .7); }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -471,8 +471,8 @@ img { max-width: 100%; height: auto; }
   border-right-color: var(--bg);
 }
 /* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: rgba(39, 43, 50, .6); }
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: rgba(39, 43, 50, .6); }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: rgba(39, 43, 50, .7); }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: rgba(39, 43, 50, .7); }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
    본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
