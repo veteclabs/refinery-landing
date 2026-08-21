@@ -757,9 +757,9 @@ img { max-width: 100%; height: auto; }
 /* 글자값은 도입 효과 섹션 카드(.ind-page .ind-card)와 같다 —
    제목 20px/600/줄높이 1.6/아래 5px, 본문 15px/줄높이 1.5/--text-muted.
    그 카드에는 없는 것은 항목 이름(문제 · 접근 · 성과)뿐이다. */
-/* 제목 아래 10px — 도입 효과 카드와 같은 5px에서 5px 더 뒀다. 그 카드는 바로
+/* 제목 아래 15px — 도입 효과 카드와 같은 5px에서 10px 더 뒀다. 그 카드는 바로
    문단이 오지만 여기는 알약이 붙은 세 줄이라 제목이 목록에 붙어 보였다. */
-.ind-uc-panel h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 10px; }
+.ind-uc-panel h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 15px; }
 /* 항목 사이 10px. 알약을 두르면서 기준이 글자가 아니라 도형이 됐다 —
    6px일 때 알약과 알약이 6px 간격으로 붙어 세 개가 한 덩어리로 뭉쳤다.
    글자만 있을 때는 줄높이 여백(위아래 7.5px씩)이 사이를 벌려 줬지만
