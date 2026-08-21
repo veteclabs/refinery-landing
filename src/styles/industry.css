@@ -612,11 +612,11 @@ img { max-width: 100%; height: auto; }
 .ind-uc-shell {
   display: grid;
   grid-template-columns: minmax(200px, 280px) 1fr;
-  column-gap: 56px;
+  column-gap: 48px;
   align-items: start;
   background: var(--bg-soft);
   border-radius: var(--radius);
-  padding: 48px;
+  padding: 72px;
 }
 /* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 25px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
@@ -628,6 +628,15 @@ img { max-width: 100%; height: auto; }
   letter-spacing: -0.01em;
   color: var(--text);
   word-break: keep-all;
+}
+/* 형광펜 — 글자 아래 절반에만 하늘색(#76A6D7) 띠를 깐다. 배경을 통째로 칠하면
+   글자가 면 안에 갇혀 라벨처럼 보인다. 그라데이션의 색 경계를 55% 지점에
+   딱 끊어 붓으로 그은 자국처럼 만든다. 글자색은 건드리지 않는다. */
+.ind-uc-lede mark {
+  background: linear-gradient(transparent 55%, rgba(118, 166, 215, .45) 55%);
+  color: inherit;
+  padding: 0 2px;
+  margin: 0 -2px;
 }
 .ind-uc-steps {
   --uc-dot: 56px;      /* 원 지름 */
@@ -748,7 +757,7 @@ img { max-width: 100%; height: auto; }
    글자만 있을 때는 줄높이 여백(위아래 7.5px씩)이 사이를 벌려 줬지만
    도형은 그 여백을 덮어쓴다. */
 .ind-uc-panel dl { display: grid; gap: 12px; }
-.ind-uc-panel dl > div { display: grid; grid-template-columns: 76px 1fr; gap: 16px; }
+.ind-uc-panel dl > div { display: grid; grid-template-columns: 62px 1fr; gap: 14px; }
 /* 항목 이름(문제 · 접근 · 성과)도 내용과 같은 값을 쓴다 — 15px / 줄높이 1.5 /
    --text-muted. 굵기만 600으로 남겨 이름과 내용이 구분된다.
    align-items를 baseline에서 start로 바꾼다 — 크기가 같아지면 첫 줄 밑선이
@@ -793,15 +802,15 @@ img { max-width: 100%; height: auto; }
 /* 900px 이하에서는 두 칸을 위아래로 쌓는다. 왼쪽 칸이 200px 밑으로 좁아지면
    소제목이 서너 글자씩 감겨 읽히지 않는다. */
 @media (max-width: 900px) {
-  .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 28px; }
+  .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 40px 32px; }
   .ind-uc-lede { font-size: 22px; }
 }
 @media (max-width: 640px) {
-  .ind-uc-shell { padding: 16px; }
+  .ind-uc-shell { padding: 24px 20px; }
   /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
   .ind-uc-steps { --uc-dot: 44px; --uc-top: 8px; grid-template-columns: 48px 1fr; column-gap: 24px; }
   .ind-uc-dot { width: 48px; }
   .ind-uc-dot-circle { font-size: 17px; }
   .ind-uc-panel { padding: 16px 18px; }
-  .ind-uc-panel dl > div { grid-template-columns: 68px 1fr; gap: 10px; }
+  .ind-uc-panel dl > div { grid-template-columns: 58px 1fr; gap: 10px; }
 }

@@ -142,8 +142,10 @@ const lines = (s: string) => s.split('\n');
           /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
              줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
           <div class="ind-uc-shell">
+          {/* 개행은 <br>로 바꿔서 낸다. 데이터가 <mark> 같은 강조를 품을 수 있어
+              set:html을 쓴다 — 값은 우리가 쓰는 문자열이라 외부 입력이 아니다. */}
           {ind.useCases.subtitle && (
-            <p class="ind-uc-lede">{lines(ind.useCases.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+            <p class="ind-uc-lede" set:html={lines(ind.useCases.subtitle).join('<br>')} />
           )}
           <div class="ind-uc-steps" data-uc-steps>
             {ind.useCases.items.map((u, i) => (
