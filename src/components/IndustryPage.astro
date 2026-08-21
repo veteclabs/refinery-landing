@@ -162,9 +162,11 @@ const lines = (s: string) => s.split('\n');
                 <article class="ind-uc-panel" data-uc-panel={i} data-active={i === 0 ? 'true' : 'false'}>
                   <h3>{u.title}</h3>
                   <dl>
-                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
-                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
-                    <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                    {/* 이름은 낱자로 쪼개 flex gap으로 벌린다. letter-spacing은 마지막
+                        글자 뒤에도 여백을 남겨 가운데 정렬이 어긋난다. */}
+                    <div><dt>{[...T.problem].map((c) => <span>{c}</span>)}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{[...T.approach].map((c) => <span>{c}</span>)}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{[...T.outcome].map((c) => <span>{c}</span>)}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
                   </dl>
                 </article>
               </>
@@ -179,9 +181,11 @@ const lines = (s: string) => s.split('\n');
                 <div class="ind-usecase-body">
                   <h3>{u.title}</h3>
                   <dl>
-                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
-                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
-                    <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                    {/* 이름은 낱자로 쪼개 flex gap으로 벌린다. letter-spacing은 마지막
+                        글자 뒤에도 여백을 남겨 가운데 정렬이 어긋난다. */}
+                    <div><dt>{[...T.problem].map((c) => <span>{c}</span>)}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{[...T.approach].map((c) => <span>{c}</span>)}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{[...T.outcome].map((c) => <span>{c}</span>)}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
                   </dl>
                 </div>
               </article>

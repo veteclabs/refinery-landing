@@ -727,10 +727,12 @@ img { max-width: 100%; height: auto; }
   padding: 20px 24px;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  transition: background-color .18s, border-color .18s;
+  transition: background-color .18s, border-color .18s, box-shadow .18s;
 }
 .ind-uc-panel[data-active='true'] {
   background: var(--bg);
+  /* 눌린 카드가 큰 카드 면에서 아주 살짝 떠 보이는 정도로만 둔다. */
+  box-shadow: 0 1px 6px rgba(16, 32, 44, .035);
 }
 /* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
    (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
@@ -785,8 +787,13 @@ img { max-width: 100%; height: auto; }
    글자를 감싼 조각처럼 보여서, 좌우로 더 늘려 도형이 먼저 읽히게 했다. */
 .ind-uc-panel dt {
   justify-self: stretch;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 낱자 사이만 벌린다. letter-spacing은 마지막 글자 뒤에도 자간을 남겨
+     가운데 정렬이 어긋나고, 그 여백을 세는 방식이 브라우저마다 달라
+     보정값(text-indent)이 한 브라우저에서만 맞는다. gap은 사이에만 들어간다. */
+  gap: .35em;
   /* 위 2px은 세로 보정이다. 한글 글자는 줄 상자 안에서 위쪽에 놓여, 상자를
      가운데 정렬해도 글자는 1.3~2.4px 떠 보인다. 줄높이를 그만큼 줄여
      상자 높이(22.5px)는 유지한 채 글자만 내린다. */
@@ -795,14 +802,6 @@ img { max-width: 100%; height: auto; }
   background: #eef4fb;
   font-size: 13px; font-weight: 600; color: #5f6873;
   line-height: 20.5px;
-  /* 두 글자를 조금 벌린다(.35em). 1.2em은 글자 실폭이 54px까지 늘어
-     모바일 알약(68px) 안에서 좌우 7px밖에 안 남고 가운데도 어긋났다.
-     마지막 글자 뒤에 붙는 자간 때문에 글자가 오른쪽으로 치우친다. 되미는 값은
-     그려진 픽셀로 찾았다 — Range 측정은 마지막 글자의 사각형에 뒤 자간을
-     포함해서 0px으로 보이지만 실제 화면에서는 좌 23 / 우 13px이었다.
-     -0.7em(자간의 두 배)에서 좌우가 맞는다. */
-  letter-spacing: .35em;
-  text-indent: -.7em;
   transition: background-color .18s;
 }
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
