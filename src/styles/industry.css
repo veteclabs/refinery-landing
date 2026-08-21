@@ -729,12 +729,16 @@ img { max-width: 100%; height: auto; }
   padding: 20px 24px;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  transition: background-color .18s, border-color .18s, box-shadow .18s;
+  transition: background-color .18s, border-color .18s, filter .18s;
 }
 .ind-uc-panel[data-active='true'] {
   background: var(--bg);
-  /* 눌린 카드가 큰 카드 면에서 아주 살짝 떠 보이는 정도로만 둔다. */
-  box-shadow: 0 3px 16px rgba(16, 32, 44, .05);
+  /* 눌린 카드가 큰 카드 면에서 아주 살짝 떠 보이는 정도로만 둔다.
+     box-shadow가 아니라 filter: drop-shadow다 — box-shadow는 상자만 따라가
+     꼬리가 그림자 밖에 남고 이음매가 생긴다. drop-shadow는 가상 요소를 포함한
+     '그려진 결과'를 감싸므로 카드와 꼬리가 하나의 도형으로 그늘을 진다.
+     번짐은 box-shadow의 절반값이 비슷하게 보인다(16px → 8px). */
+  filter: drop-shadow(0 3px 8px rgba(16, 32, 44, .05));
 }
 /* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
    (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
