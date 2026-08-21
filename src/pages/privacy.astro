@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, revisedDate, retention, processors, remedyAgencies, legalReviewed } from '../data/legal';
+import { company, effectiveDate, revisedDate, retention, processors, remedyAgencies, legalReviewed, revisions } from '../data/legal';
 import '../styles/legal.css';
 
 // 목차·항목 구성은 개인정보보호위원회 「개인정보 처리방침 작성지침(2025.4.)」을 따른다.
@@ -471,11 +471,23 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.biz
           법령·정책 또는 보안기술의 변경에 따라 내용의 추가·삭제 및 수정이 있을 경우에는 변경사항의 시행
           <strong>7일 전(정보주체에게 불리한 변경의 경우 30일 전)</strong>부터 웹사이트 공지사항을 통하여 고지합니다.
         </p>
-        <ul>
-          <li>공고일자: <Ph value={revisedDate} label="YYYY-MM-DD" /> · 시행일자: <Ph value={effectiveDate} label="YYYY-MM-DD" /></li>
-        </ul>
+        <p>현행 방침의 공고일자는 <Ph value={revisedDate} label="YYYY-MM-DD" />, 시행일자는 <Ph value={effectiveDate} label="YYYY-MM-DD" />입니다. 개정 이력은 아래와 같습니다.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead><tr><th style="width:150px;">시행일</th><th>주요 변경</th><th style="width:110px;">전문</th></tr></thead>
+            <tbody>
+              {revisions.privacy.map((r) => (
+                <tr>
+                  <td>{r.date}</td>
+                  <td>{r.summary}</td>
+                  <td>{r.href ? <a href={r.href}>전문 보기</a> : '현행'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <p style="font-size:13.5px;color:#7e8a98;">
-          이전 버전의 개인정보 처리방침은 <Ph value={company.privacyEmail} label="이메일" />로 요청하시면 확인하실 수 있습니다.
+          아직 아카이브되지 않은 이전 버전은 <Ph value={company.privacyEmail} label="이메일" />로 요청하시면 확인하실 수 있습니다.
         </p>
       </section>
 

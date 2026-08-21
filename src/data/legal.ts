@@ -72,6 +72,23 @@ export const effectiveDate = '2026-09-01';
 export const revisedDate = '2026-09-01';
 
 /**
+ * 개정 이력. 문서를 개정할 때마다 해당 배열 **맨 위에** 새 항목을 추가한다.
+ *  - date: 시행일(YYYY-MM-DD)
+ *  - summary: 주요 변경 요약
+ *  - href(선택): 과거 전문을 열람하게 하려면, 개정 직전 페이지를 스냅샷으로
+ *    아카이브(예: src/pages/legal/privacy-2026-09-01.astro)한 뒤 그 경로를 넣는다.
+ *    href가 없으면 '현행'으로 표시된다.
+ * 개정 시 effectiveDate·revisedDate도 함께 갱신한다.
+ */
+export type Revision = { date: string; summary: string; href?: string };
+export const revisions: Record<'privacy' | 'terms' | 'eula' | 'cookie', Revision[]> = {
+  privacy: [{ date: '2026-09-01', summary: '최초 제정' }],
+  terms: [{ date: '2026-09-01', summary: '최초 제정' }],
+  eula: [{ date: '2026-09-01', summary: '최초 제정' }],
+  cookie: [{ date: '2026-09-01', summary: '최초 제정' }],
+};
+
+/**
  * 분석 도구의 데이터 보관 기간.
  * ⚠️ 각 콘솔의 실제 설정값을 확인해서 채울 것.
  *  - GA4: 관리 > 데이터 설정 > 데이터 보존 (기본 2개월, 최대 14개월)

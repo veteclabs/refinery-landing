@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, legalReviewed } from '../data/legal';
+import { company, effectiveDate, legalReviewed, revisions } from '../data/legal';
 import '../styles/legal.css';
 
 // 「약관의 규제에 관한 법률」 대응 메모
@@ -352,6 +352,15 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         <ul>
           <li>본 약관은 <Ph value={effectiveDate} label="YYYY-MM-DD" />부터 시행합니다.</li>
         </ul>
+        <p>개정 이력</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead><tr><th style="width:150px;">시행일</th><th>주요 변경</th><th style="width:110px;">전문</th></tr></thead>
+            <tbody>
+              {revisions.terms.map((r) => (<tr><td>{r.date}</td><td>{r.summary}</td><td>{r.href ? <a href={r.href}>전문 보기</a> : '현행'}</td></tr>))}
+            </tbody>
+          </table>
+        </div>
         <h3>문의처</h3>
         <ul>
           <li>상호: <Ph value={company.legalName} label="회사명" /> · 대표자: <Ph value={company.ceo} label="대표자 성명" /></li>
