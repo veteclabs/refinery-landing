@@ -194,13 +194,37 @@ img { max-width: 100%; height: auto; }
 }
 
 /* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다(font-size 0).
-   카드 높이가 서로 같으므로 세로 가운데에 두면 맞는다. */
+   카드 높이가 서로 같으므로 세로 가운데에 두면 맞는다.
+   선 위로 빛이 좌에서 우로 지나간다. 랜딩 통합 섹션은 SVG 선이라
+   stroke-dashoffset(@keyframes flowLine)을 쓰지만, 여기 선은 요소라
+   배경 그라데이션을 움직인다 — 그리는 값이 아니라 배경 위치만 바뀌므로
+   레이아웃을 다시 계산하지 않는다.
+   세 선에 시차를 둬서 1 → 2 → 3 순으로 지나간다. 한꺼번에 반짝이면
+   흐름이 아니라 깜빡임으로 읽힌다. */
 .ind-page .ind-flow-arrow {
   flex: 0 0 24px;
   align-self: center;
   height: 2px;
-  background: rgba(118, 166, 215, .4);
+  background: linear-gradient(90deg,
+    rgba(118, 166, 215, .4) 0%,
+    rgba(118, 166, 215, .4) 38%,
+    rgba(198, 224, 250, .95) 50%,
+    rgba(118, 166, 215, .4) 62%,
+    rgba(118, 166, 215, .4) 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  animation: indFlowLight 2.8s linear infinite;
   font-size: 0; color: transparent;
+}
+.ind-page .ind-flow-arrow:nth-child(4) { animation-delay: .35s; }
+.ind-page .ind-flow-arrow:nth-child(6) { animation-delay: .7s; }
+@keyframes indFlowLight {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+/* 움직임을 줄여 달라고 한 사용자에게는 빛을 멈춘다. */
+@media (prefers-reduced-motion: reduce) {
+  .ind-page .ind-flow-arrow { animation: none; background: rgba(118, 166, 215, .4); }
 }
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
@@ -232,9 +256,30 @@ img { max-width: 100%; height: auto; }
     width: auto; height: 22px; margin: 0;
     background: none; transform: none;
   }
+  /* 세로로 서면 빛도 위에서 아래로 지나간다. 요소 자체는 배경을 비우고
+     ::before가 선과 빛을 함께 맡는다. */
+  .ind-page .ind-flow-arrow { background: none; animation: none; }
   .ind-page .ind-flow-arrow::before {
     content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
-    width: 2px; margin-left: -1px; background: rgba(118, 166, 215, .4);
+    width: 2px; margin-left: -1px;
+    background: linear-gradient(180deg,
+      rgba(118, 166, 215, .4) 0%,
+      rgba(118, 166, 215, .4) 38%,
+      rgba(198, 224, 250, .95) 50%,
+      rgba(118, 166, 215, .4) 62%,
+      rgba(118, 166, 215, .4) 100%);
+    background-size: 100% 300%;
+    background-position: 0 100%;
+    animation: indFlowLightV 2.8s linear infinite;
+  }
+  .ind-page .ind-flow-arrow:nth-child(4)::before { animation-delay: .35s; }
+  .ind-page .ind-flow-arrow:nth-child(6)::before { animation-delay: .7s; }
+  @keyframes indFlowLightV {
+    from { background-position: 0 100%; }
+    to { background-position: 0 -100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ind-page .ind-flow-arrow::before { animation: none; background: rgba(118, 166, 215, .4); }
   }
 }
 @media (max-width: 560px) {
