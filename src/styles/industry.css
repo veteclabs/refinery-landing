@@ -138,10 +138,18 @@ img { max-width: 100%; height: auto; }
 /* 단계 아이콘은 머리 띠 오른쪽에 둔다 — 랜딩 카드의 grip 아이콘과 같은 자리 ·
    같은 색(#424850)이다. 배지는 번호가 쓰고 있으므로 색을 두 번 쓰지 않는다. */
 .ind-page .ind-flow-ic { flex: none; font-size: 14px; line-height: 1; color: #424850; }
-/* 본문 — 카드 여백을 없앴으므로 본문이 여백을 갖는다. */
+/* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
+   담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
+   맞춰 옮겼다(그쪽 --bg-soft 자리에 #1E2228). */
 .ind-page .ind-flow-detail {
-  padding: 16px 14px;
-  font-size: 14.5px; line-height: 1.55; color: #c8ccd1;
+  list-style: none; margin: 0;
+  padding: 14px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.ind-page .ind-flow-detail li {
+  background: #1e2228; border: 1px solid #272b32; border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px; line-height: 1.4; color: #c8ccd1;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
