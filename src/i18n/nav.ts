@@ -178,6 +178,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       items: [
         { label: '개인정보처리방침', href: '/privacy' },
         { label: '이용약관', href: '/terms' },
+        { label: '소프트웨어 사용권 계약', href: '/eula' },
         { label: '쿠키 정책', href: '/cookie-policy' },
         // href 없는 항목은 '쿠키 설정' 버튼으로 렌더된다(배너를 다시 여는 동작).
         { label: '쿠키 설정' },
@@ -218,6 +219,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       items: [
         { label: 'Privacy Policy', href: '/privacy' },
         { label: 'Terms of Service', href: '/terms' },
+        { label: 'Software License (EULA)', href: '/eula' },
         { label: 'Cookie Policy', href: '/cookie-policy' },
         { label: 'Cookie Settings' },
       ],
