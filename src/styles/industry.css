@@ -657,8 +657,9 @@ img { max-width: 100%; height: auto; }
   margin: 0 auto;
   border-radius: 50%;
   /* 테두리와 글자 모두 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로
-     차고 글자만 흰색으로 뒤집힌다. */
-  border: 1px solid var(--accent);
+     차고 글자만 흰색으로 뒤집힌다. 선 두께 2px — 1px은 하늘색이 옅어
+     선이 회색처럼 읽혔다. */
+  border: 2px solid var(--accent);
   background: var(--bg);
   color: var(--accent);
   /* 글자는 히어로 태그라인(.ind-hero-bg .ind-eyebrow)과 같은 값이다 —
