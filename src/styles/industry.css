@@ -743,11 +743,11 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel dl > div { align-items: start; }
 /* 이름은 내용보다 2px 작은 13px이다. 줄높이는 내용과 같은 22.5px으로 못박아
    글자 크기가 달라도 도형 높이와 첫 줄 윗선이 어긋나지 않는다.
-   이름은 알약 도형을 두른다. 면은 글자에 쓰던 색(--text-muted 계열)을
-   그대로 옮기고 글자를 흰색으로 뒤집었다. 선택 여부와 무관하게 늘 보인다.
-   면색은 #6B7581 — #7E8A98을 그대로 쓰면 흰 글자 대비가 3.51:1로 AA(4.5:1)에
-   못 미친다. 13px은 큰 글자 기준(18.66px 굵게 · 24px)에 들지 않아 3:1로
-   완화되지도 않는다. 한 단계 어둡게 잡아 4.68:1을 만든다.
+   이름은 알약 도형을 두른다. 면 #EFF2F5에 글자 #5F6873이다.
+   본문색 #7E8A98을 그대로 쓰면 대비가 3.13:1로 AA(4.5:1)에 못 미친다.
+   13px은 큰 글자 기준(18.66px 굵게 · 24px)에 들지 않아 3:1로 완화되지도
+   않는다. 두 단계 어둡게 잡아 5.03:1을 만든다.
+   면이 카드 색과 다르므로 선택 여부와 무관하게 늘 보인다.
    위아래 여백은 주지 않는다. 줄높이(22.5px)가 그대로 도형 높이가 되어
    이름과 내용의 첫 줄 윗선이 어긋나지 않는다.
    글자는 도형 안에서 가운데 정렬한다 — 세 이름의 글자 폭이 같지 않아
@@ -760,8 +760,8 @@ img { max-width: 100%; height: auto; }
   place-items: center;
   padding: 0 10px;
   border-radius: 999px;
-  background: #6b7581;
-  font-size: 13px; font-weight: 600; color: #fff;
+  background: #eff2f5;
+  font-size: 13px; font-weight: 600; color: #5f6873;
   line-height: 22.5px; letter-spacing: -0.01em;
   transition: background-color .18s;
 }
