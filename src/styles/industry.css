@@ -656,10 +656,11 @@ img { max-width: 100%; height: auto; }
   height: var(--uc-dot);
   margin: 0 auto;
   border-radius: 50%;
-  /* 테두리는 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로 찬다. */
+  /* 테두리와 글자 모두 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로
+     차고 글자만 흰색으로 뒤집힌다. */
   border: 1px solid var(--accent);
   background: var(--bg);
-  color: var(--text-muted);
+  color: var(--accent);
   /* 글자는 히어로 태그라인(.ind-hero-bg .ind-eyebrow)과 같은 값이다 —
      본문 서체 18px/600에 자간 -0.2px. 등폭 서체를 쓰지 않는다. */
   font-size: 18px;
