@@ -56,7 +56,8 @@ export const energy: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '에너지 현장에서 Refinery가 실제로 하는 일입니다.',
+    // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾼다.
+    subtitle: '에너지 현장에서\nRefinery가 실제로\n하는 일입니다.',
     layout: 'steps',
     items: [
       {

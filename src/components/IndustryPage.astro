@@ -142,7 +142,9 @@ const lines = (s: string) => s.split('\n');
           /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
              줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
           <div class="ind-uc-shell">
-          {ind.useCases.subtitle && <p class="ind-uc-lede">{ind.useCases.subtitle}</p>}
+          {ind.useCases.subtitle && (
+            <p class="ind-uc-lede">{lines(ind.useCases.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+          )}
           <div class="ind-uc-steps" data-uc-steps>
             {ind.useCases.items.map((u, i) => (
               <>

@@ -618,12 +618,15 @@ img { max-width: 100%; height: auto; }
   border-radius: var(--radius);
   padding: 48px;
 }
-/* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 섹션 머리(.ind-head p)와
-   같은 글자값이다. 오른쪽 목록이 길어도 따라 내려가지 않도록 위에 붙인다. */
+/* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 글자값은 작은 카드 대제목
+   (.ind-uc-panel h3)과 같다 — 20px / 600 / 줄높이 1.6 / --text.
+   줄 나눔은 데이터의 개행을 lines()가 <br>로 바꿔 넣는다. */
 .ind-uc-lede {
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--text-muted);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--text);
   word-break: keep-all;
 }
 .ind-uc-steps {
@@ -754,8 +757,8 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel dl > div { align-items: start; }
 /* 이름은 내용보다 2px 작은 13px이다. 줄높이는 내용과 같은 22.5px으로 못박아
    글자 크기가 달라도 도형 높이와 첫 줄 윗선이 어긋나지 않는다.
-   이름은 알약 도형을 두른다. 면 #E3E7EC에 글자 #5F6873 — 대비 4.55:1이다.
-   본문색 #7E8A98을 그대로 쓰면 대비가 2.83:1로 AA(4.5:1)에 못 미친다.
+   이름은 알약 도형을 두른다. 면 #EFF2F5에 글자 #5F6873 — 대비 5.03:1이다.
+   본문색 #7E8A98을 그대로 쓰면 대비가 3.13:1로 AA(4.5:1)에 못 미친다.
    13px은 큰 글자 기준(18.66px 굵게 · 24px)에 들지 않아 3:1로 완화되지도
    않는다. 두 단계 어둡게 잡아 기준을 넘긴다.
    면이 카드 색과 다르므로 선택 여부와 무관하게 늘 보인다.
@@ -771,7 +774,7 @@ img { max-width: 100%; height: auto; }
   place-items: center;
   padding: 0 10px;
   border-radius: 999px;
-  background: #e3e7ec;
+  background: #eff2f5;
   font-size: 13px; font-weight: 600; color: #5f6873;
   line-height: 22.5px;
   /* 두 글자를 조금 벌린다(.35em). 1.2em은 글자 실폭이 54px까지 늘어
@@ -791,7 +794,7 @@ img { max-width: 100%; height: auto; }
    소제목이 서너 글자씩 감겨 읽히지 않는다. */
 @media (max-width: 900px) {
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 28px; }
-  .ind-uc-lede { font-size: 16px; }
+  .ind-uc-lede { font-size: 18px; }
 }
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 16px; }
