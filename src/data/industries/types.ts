@@ -72,6 +72,9 @@ export interface IndustryData {
   useCases: {
     title: string;
     subtitle?: string;
+    /** 'steps'면 좌측 번호 레일 + 우측 내용으로 그린다(번호를 누르면 그 내용에 상자).
+     *  지정하지 않으면 기존 카드 목록 그대로다 — 다른 산업 페이지는 건드리지 않는다. */
+    layout?: 'cards' | 'steps';
     items: UseCase[];
   };
   architecture: {

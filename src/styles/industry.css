@@ -598,3 +598,102 @@ img { max-width: 100%; height: auto; }
   background: #191d22; border-color: #272b32; color: #edeef0;
 }
 .ind-dark .ind-systems-note { color: #9aa4b0; }
+
+/* ───────── 유즈케이스 — 번호 레일 (useCases.layout: 'steps')
+   번호 원을 왼쪽에 세로로 세우고 내용을 오른쪽에 둔다. 번호를 누르면 그 내용에만
+   상자가 생긴다. 내용은 처음부터 모두 보이므로 탭이 아니라 강조 선택이다.
+   플래그를 준 산업에만 붙는다 — 기존 .ind-usecase 목록은 그대로 둔다. */
+.ind-uc-steps {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 28px;
+  row-gap: 14px;
+  align-items: stretch;
+}
+/* 버튼을 줄 높이만큼 늘린다. 원은 안쪽 span으로 그려 윗줄에 붙이고, 남은 높이는
+   원과 원을 잇는 선이 지나가는 자리로 쓴다(align-self: start면 선을 그릴 자리가 없다). */
+/* button은 기본으로 내용을 세로 가운데에 두므로 display:block만으로는 원이 줄
+   한가운데에 걸린다. grid + align-content:start로 위에 붙이고, padding-top으로
+   원 중심을 제목 줄 중심에 맞춘다(내용 안 여백 20px + 제목 줄 중심 16px - 반지름 22px). */
+.ind-uc-dot {
+  position: relative;
+  display: grid;
+  align-content: start;
+  width: 56px;
+  padding: 14px 0 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.ind-uc-dot-circle {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  transition: background-color .18s, border-color .18s, color .18s;
+}
+/* 원과 원을 잇는 선. 마지막 원 아래로는 긋지 않는다.
+   row-gap(14px)만큼 더 내려야 다음 원까지 끊기지 않고 이어진다. */
+.ind-uc-dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 58px;
+  bottom: -14px;
+  width: 1px;
+  margin-left: -0.5px;
+  background: var(--border);
+}
+.ind-uc-dot:last-of-type::after { display: none; }
+.ind-uc-dot:hover .ind-uc-dot-circle { border-color: var(--accent); color: var(--accent-ink); }
+.ind-uc-dot:focus-visible { outline: none; }
+.ind-uc-dot:focus-visible .ind-uc-dot-circle { outline: 2px solid var(--accent-ink); outline-offset: 3px; }
+.ind-uc-dot[aria-pressed='true'] .ind-uc-dot-circle {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* 상자는 테두리와 면만 바뀐다. 안 여백과 투명 테두리를 늘 갖고 있어
+   선택이 옮겨 다녀도 글 위치가 흔들리지 않는다. */
+.ind-uc-panel {
+  padding: 20px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  transition: background-color .18s, border-color .18s, box-shadow .18s;
+}
+.ind-uc-panel[data-active='true'] {
+  background: var(--bg);
+  border-color: var(--border);
+  box-shadow: 0 8px 28px rgba(16, 32, 44, .06);
+}
+.ind-uc-panel h3 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 16px; }
+.ind-uc-panel dl { display: grid; gap: 10px; }
+.ind-uc-panel dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
+.ind-uc-panel dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
+.ind-uc-panel dd { font-size: 15px; color: #2b3644; line-height: 1.55; }
+.ind-uc-panel dd.ind-outcome { color: var(--text); font-weight: 550; }
+.ind-page .ind-uc-panel h3 { font-weight: 600; line-height: 1.6; }
+
+@media (max-width: 640px) {
+  .ind-uc-steps { grid-template-columns: 44px 1fr; column-gap: 16px; }
+  .ind-uc-dot { width: 44px; padding-top: 12px; }
+  .ind-uc-dot-circle { width: 36px; height: 36px; font-size: 14px; }
+  .ind-uc-dot::after { top: 48px; }
+  .ind-uc-panel { padding: 16px 18px; }
+  .ind-uc-panel dl > div { grid-template-columns: 44px 1fr; gap: 10px; }
+}

@@ -136,21 +136,49 @@ const lines = (s: string) => s.split('\n');
           <h2>{ind.useCases.title}</h2>
           {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
         </header>
-        <div class="ind-usecases">
-          {ind.useCases.items.map((u, i) => (
-            <article class="ind-usecase">
-              <div class="ind-usecase-num">{String(i + 1).padStart(2, '0')}</div>
-              <div class="ind-usecase-body">
-                <h3>{u.title}</h3>
-                <dl>
-                  <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
-                  <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
-                  <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
-                </dl>
-              </div>
-            </article>
-          ))}
-        </div>
+        {ind.useCases.layout === 'steps' ? (
+          /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
+             줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
+          <div class="ind-uc-steps" data-uc-steps>
+            {ind.useCases.items.map((u, i) => (
+              <>
+                <button
+                  type="button"
+                  class="ind-uc-dot"
+                  data-uc-dot={i}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-label={`${i + 1}. ${u.title}`}
+                >
+                  <span class="ind-uc-dot-circle">{i + 1}</span>
+                </button>
+                <article class="ind-uc-panel" data-uc-panel={i} data-active={i === 0 ? 'true' : 'false'}>
+                  <h3>{u.title}</h3>
+                  <dl>
+                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                  </dl>
+                </article>
+              </>
+            ))}
+          </div>
+        ) : (
+          <div class="ind-usecases">
+            {ind.useCases.items.map((u, i) => (
+              <article class="ind-usecase">
+                <div class="ind-usecase-num">{String(i + 1).padStart(2, '0')}</div>
+                <div class="ind-usecase-body">
+                  <h3>{u.title}</h3>
+                  <dl>
+                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                  </dl>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
 
@@ -231,3 +259,30 @@ const lines = (s: string) => s.split('\n');
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  /* 번호 레일 — 누른 번호의 내용에만 상자를 남긴다.
+     내용은 처음부터 다 보이므로 탭이 아니라 '강조 선택'이다(aria-pressed).
+     스크립트가 없어도 첫 항목에 상자가 있는 정적 화면으로 읽힌다. */
+  const rail = document.querySelector<HTMLElement>('[data-uc-steps]');
+  if (rail) {
+    const dots = [...rail.querySelectorAll<HTMLButtonElement>('[data-uc-dot]')];
+    const panels = [...rail.querySelectorAll<HTMLElement>('[data-uc-panel]')];
+    const select = (i: number) => {
+      dots.forEach((d, n) => d.setAttribute('aria-pressed', String(n === i)));
+      panels.forEach((p, n) => p.setAttribute('data-active', String(n === i)));
+    };
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => select(i));
+      /* 위·아래 화살표로도 옮긴다. 세로로 늘어선 목록이라 좌우가 아니라 상하다. */
+      dot.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = (i + step + dots.length) % dots.length;
+        dots[next].focus();
+        select(next);
+      });
+    });
+  }
+</script>

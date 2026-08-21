@@ -59,6 +59,7 @@ export const energyEn: IndustryData = {
   useCases: {
     title: 'Representative use cases',
     subtitle: 'What Refinery actually does on an energy site.',
+    layout: 'steps',
     items: [
       {
         title: 'Unified control of distributed assets',

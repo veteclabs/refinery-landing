@@ -57,6 +57,7 @@ export const energy: IndustryData = {
   useCases: {
     title: '문제를 푸는 방법',
     subtitle: '에너지 현장에서 Refinery가 실제로 하는 일입니다.',
+    layout: 'steps',
     items: [
       {
         title: '분산 설비 통합 관제',
