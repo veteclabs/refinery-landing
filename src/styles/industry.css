@@ -640,9 +640,9 @@ img { max-width: 100%; height: auto; }
   margin: 0 -2px;
 }
 .ind-uc-steps {
-  --uc-dot: 56px;      /* 원 지름 */
+  --uc-dot: 50px;      /* 원 지름 */
   --uc-gap: 14px;      /* 줄 사이 */
-  --uc-top: 8px;       /* 줄 위끝에서 원 위까지 — 원 중심이 제목 줄 중심에 오는 값 */
+  --uc-top: 11px;      /* 줄 위끝에서 원 위까지 — 원 중심이 제목 줄 중심에 오는 값 */
   display: grid;
   grid-template-columns: 68px 1fr;
   column-gap: 28px;
@@ -651,7 +651,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 원은 제목 줄에 맞춘다. button은 기본으로 내용을 세로 가운데에 두므로
    align-content: start로 위에 붙이고 --uc-top만큼 내린다.
-   내용 안 여백 20px + 제목 줄 중심 16px - 반지름 28px = 8px. */
+   내용 안 여백 20px + 제목 줄 중심 16px - 반지름 25px = 11px. */
 .ind-uc-dot {
   position: relative;
   display: grid;
@@ -697,7 +697,7 @@ img { max-width: 100%; height: auto; }
   /* 테두리와 글자 모두 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로
      차고 글자만 흰색으로 뒤집힌다. 선 두께 3px — 1px은 하늘색이 옅어 선이
      회색처럼 읽혔고, 2px에서는 선택 안 된 빈 원이 선택된 원에 비해 흐릿했다.
-     원이 56px이라 3px도 숫자를 누르지 않는다. */
+     원이 50px이라 3px도 숫자를 누르지 않는다. */
   border: 3px solid var(--accent);
   background: var(--bg);
   color: var(--accent);
@@ -824,7 +824,9 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 24px 20px; }
   /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
-  .ind-uc-steps { --uc-dot: 44px; --uc-top: 8px; grid-template-columns: 48px 1fr; column-gap: 24px; }
+  /* 원이 44px이라 --uc-top도 다시 잡는다 — 안 여백 16px + 제목 줄 중심 16px
+     - 반지름 22px = 10px. */
+  .ind-uc-steps { --uc-dot: 44px; --uc-top: 10px; grid-template-columns: 48px 1fr; column-gap: 24px; }
   .ind-uc-dot { width: 48px; }
   .ind-uc-dot-circle { font-size: 17px; }
   .ind-uc-panel { padding: 16px 18px; }
