@@ -88,75 +88,73 @@ img { max-width: 100%; height: auto; }
 .ind-flow-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .ind-flow-detail { font-size: 14.5px; color: #c8ccd1; line-height: 1.55; }
 
-/* ── 솔루션 구조 — 순서를 보여 주는 인포그래픽.
-   네 단계를 알약 하나씩으로 만들고 사이를 선으로 잇는다. 문제 섹션의 번호
-   레일과 같은 문법이다(번호 원 + 잇는 선), 방향만 가로다.
+/* ── 솔루션 구조 — 판 위에 카드 넷을 놓고 선으로 잇는 도해.
+   카드 = 머리(번호 · 아이콘 · 이름) + 본문. 그중 우리 자리 하나만 켠다.
    공통 .ind-flow*는 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
-/* 판 — 섹션 면(#111316)보다 한 톤 밝은 면에 푸른 기를 아주 옅게 얹는다.
-   네 단계가 배경 위에 흩어져 있지 않고 하나의 도해로 묶여 보인다. */
 .ind-flow-board {
   background:
     radial-gradient(120% 140% at 15% 0%, rgba(118, 166, 215, .07), transparent 60%),
     #14181f;
   border: 1px solid #232a34;
   border-radius: 16px;
-  padding: 52px 40px 40px;
+  padding: 44px 36px 36px;
 }
+/* 카드 높이를 서로 맞춘다(stretch). 본문 줄 수가 달라도 아랫변이 한 선에 온다. */
 .ind-page .ind-flow {
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0;
   flex-wrap: nowrap;
 }
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
-  background: none; border: 0; border-radius: 0; padding: 0; overflow: visible;
+  display: flex; flex-direction: column;
+  background: #1b2028; border: 1px solid #2b323d; border-radius: 14px;
+  padding: 20px 18px; overflow: visible;
   box-shadow: none;
-  text-align: center;
+  text-align: left;
 }
 .ind-page .ind-flow-step:hover { box-shadow: none; }
-/* 알약 — 번호 원 + 아이콘 + 이름. 원은 알약 안에 들어앉아 한 덩어리로 읽힌다. */
+/* 머리 — 번호 원 · 아이콘 · 이름이 한 줄에 선다. 카드가 면을 맡으므로
+   여기에는 따로 면을 두지 않는다. */
 .ind-page .ind-flow-head {
-  display: inline-flex; align-items: center; gap: 9px;
-  height: 52px; padding: 0 20px 0 6px;
-  background: #1b2028; border: 1px solid #2b323d; border-bottom: 1px solid #2b323d;
-  border-radius: 999px;
+  display: flex; align-items: center; gap: 9px;
+  height: auto; padding: 0;
+  background: none; border: 0; border-bottom: 0;
+  border-radius: 0;
+  margin-bottom: 12px;
 }
 .ind-page .ind-flow-num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%;
   background: #2a3340; color: #9fb6cf;
   font-family: inherit;
-  font-size: 15px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
+  font-size: 13px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
 }
 .ind-page .ind-flow-ic { font-size: 18px; line-height: 1; color: var(--accent); }
 .ind-page .ind-flow-label {
-  flex: none; min-width: 0; overflow: visible; white-space: nowrap;
+  flex: 1; min-width: 0; overflow: visible; white-space: nowrap;
   font-family: inherit;
   font-size: 16px; font-weight: 600; letter-spacing: -0.2px;
   text-transform: none; color: #edeef0; margin-bottom: 0;
 }
-/* 우리 자리(highlight)만 켠다. 면을 accent로 채우고 옅은 광을 둘러
-   흐름에서 어디가 Refinery인지 한 번에 잡히게 한다. */
-.ind-page .ind-flow-step.is-on .ind-flow-head {
-  background: linear-gradient(90deg, #3f76ae, #76a6d7);
-  border-color: rgba(118, 166, 215, .55);
-  box-shadow: 0 0 0 4px rgba(118, 166, 215, .1), 0 6px 22px rgba(118, 166, 215, .22);
+/* 우리 자리(highlight)만 켠다 — 면에 accent 기를 얹고 테두리와 광으로 두른다. */
+.ind-page .ind-flow-step.is-on {
+  background: linear-gradient(180deg, rgba(118, 166, 215, .16), rgba(118, 166, 215, .06)), #1b2028;
+  border-color: rgba(118, 166, 215, .5);
+  box-shadow: 0 0 0 4px rgba(118, 166, 215, .07), 0 8px 26px rgba(118, 166, 215, .14);
 }
-.ind-page .ind-flow-step.is-on .ind-flow-num { background: rgba(255, 255, 255, .18); color: #fff; }
-.ind-page .ind-flow-step.is-on .ind-flow-ic { color: #fff; }
+.ind-page .ind-flow-step.is-on .ind-flow-num { background: var(--accent); color: #fff; }
 .ind-page .ind-flow-step.is-on .ind-flow-label { color: #fff; }
-/* 본문은 알약 아래에 둔다. 알약이 순서를, 본문이 내용을 맡는다. */
 .ind-page .ind-flow-detail {
-  padding: 14px 8px 0;
+  padding: 0;
   font-size: 14px; line-height: 1.6; color: #8d96a1;
   word-break: keep-all;
 }
 /* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다(font-size 0).
-   알약 높이(52px)의 한가운데를 지나도록 위 여백을 준다. */
+   카드 높이가 서로 같으므로 세로 가운데(align-self: center)에 두면 맞는다. */
 .ind-page .ind-flow-arrow {
-  flex: 0 0 32px;
-  align-self: flex-start;
-  margin-top: 25px;
+  flex: 0 0 24px;
+  align-self: center;
   height: 2px;
   background: rgba(118, 166, 215, .4);
   font-size: 0; color: transparent;
@@ -181,8 +179,7 @@ img { max-width: 100%; height: auto; }
      본문은 알약과 같은 왼쪽 선에 맞춰 왼쪽 맞춤으로 바꾼다.
      공통 규칙의 rotate(90deg)는 이 레이아웃에서 필요 없으므로 끈다. */
   .ind-page .ind-flow { flex-wrap: wrap; }
-  .ind-page .ind-flow-step { flex: 1 1 100%; text-align: left; }
-  .ind-page .ind-flow-detail { padding: 12px 0 0 8px; }
+  .ind-page .ind-flow-step { flex: 1 1 100%; }
   /* 한 줄을 통째로 차지하되(flex-basis 100%), 선은 그 안에서 ::before로 긋는다.
      flex-basis가 width를 이기므로 요소 자체를 3px로 만들 수 없고,
      margin-left를 주면 100% + 26px이 되어 가로가 넘친다. */
@@ -193,8 +190,8 @@ img { max-width: 100%; height: auto; }
     background: none; transform: none;
   }
   .ind-page .ind-flow-arrow::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 26px;
-    width: 3px; background: rgba(118, 166, 215, .45);
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; margin-left: -1px; background: rgba(118, 166, 215, .4);
   }
 }
 @media (max-width: 560px) {
