@@ -211,11 +211,13 @@ const lines = (s: string) => s.split('\n');
             <>
               {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
               <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
-                {/* 알약 = 번호 원 + 아이콘 + 이름. 번호가 순서를 맡고
-                    아이콘이 그 단계가 무엇인지 한 눈에 준다. */}
+                {/* 배지 + 이름. 배지에는 아이콘을 넣는다 — 랜딩 노드 카드
+                    (.rfn-node-ic)와 같은 자리다. 순서는 카드가 놓인 차례와
+                    사이를 잇는 선이 맡는다. */}
                 <div class="ind-flow-head">
-                  <span class="ind-flow-num">{i + 1}</span>
-                  {s.icon && <i class={`ph ${s.icon} ind-flow-ic`} aria-hidden="true"></i>}
+                  <span class="ind-flow-num">
+                    {s.icon ? <i class={`ph ${s.icon}`} aria-hidden="true"></i> : i + 1}
+                  </span>
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
                 {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요

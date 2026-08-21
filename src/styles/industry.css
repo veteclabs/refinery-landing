@@ -119,8 +119,9 @@ img { max-width: 100%; height: auto; }
   background: #1e2228; border: 0; border-bottom: 1px solid #272b32;
   border-radius: 0; margin-bottom: 0;
 }
-/* 배지 — .rfn-node-ic와 같은 값. 랜딩은 여기에 아이콘을 넣지만 이 섹션은
-   흐름의 순서를 보여야 하므로 단계 번호를 넣는다. */
+/* 배지 — .rfn-node-ic와 같은 값. 안에는 단계 아이콘을 넣는다(랜딩과 같은 자리).
+   순서는 카드가 놓인 차례와 사이를 잇는 선이 맡는다.
+   아이콘이 없는 산업 데이터에서는 단계 번호가 대신 들어간다. */
 .ind-page .ind-flow-num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   width: 22px; height: 22px; border-radius: 6px;
@@ -135,9 +136,8 @@ img { max-width: 100%; height: auto; }
   font-size: 13px; font-weight: 600; letter-spacing: normal;
   text-transform: none; color: #edeef0; margin-bottom: 0;
 }
-/* 단계 아이콘은 머리 띠 오른쪽에 둔다 — 랜딩 카드의 grip 아이콘과 같은 자리 ·
-   같은 색(#424850)이다. 배지는 번호가 쓰고 있으므로 색을 두 번 쓰지 않는다. */
-.ind-page .ind-flow-ic { flex: none; font-size: 14px; line-height: 1; color: #424850; }
+/* .rfn-node-ic .ph와 같은 14px. */
+.ind-page .ind-flow-num .ph { font-size: 14px; line-height: 1; }
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
    담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
    맞춰 옮겼다(그쪽 --bg-soft 자리에 #1E2228). */
@@ -166,7 +166,6 @@ img { max-width: 100%; height: auto; }
 }
 .ind-page .ind-flow-step.is-on .ind-flow-head { background: #20262f; border-bottom-color: #2f3947; }
 .ind-page .ind-flow-step.is-on .ind-flow-num { background: var(--accent); }
-.ind-page .ind-flow-step.is-on .ind-flow-ic { color: var(--accent); }
 /* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다(font-size 0).
    카드 높이가 서로 같으므로 세로 가운데에 두면 맞는다. */
 .ind-page .ind-flow-arrow {
