@@ -94,14 +94,6 @@ img { max-width: 100%; height: auto; }
    그림자 · hover · 머리 띠(38px, #1E2228) · 배지(22px, 모서리 6px, #3F76AE) ·
    이름(등폭 13px). 배치만 이 섹션의 것이다.
    공통 .ind-flow*는 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
-.ind-flow-board {
-  background:
-    radial-gradient(120% 140% at 15% 0%, rgba(118, 166, 215, .07), transparent 60%),
-    #14181f;
-  border: 1px solid #232a34;
-  border-radius: 16px;
-  padding: 44px 36px 36px;
-}
 /* 카드 높이를 서로 맞춘다(stretch). 본문 줄 수가 달라도 아랫변이 한 선에 온다. */
 .ind-page .ind-flow {
   align-items: stretch;
@@ -666,7 +658,18 @@ img { max-width: 100%; height: auto; }
 /* ── 연동 시스템 — 솔루션 구조 섹션(어두운 면) 안으로 들어온 블록.
    흐름 2단계(연동)가 무엇과 연결되는지를 바로 아래에서 받는다.
    칩은 같은 섹션의 흐름 카드와 같은 면·테두리를 써서 한 화면으로 읽힌다. */
-.ind-page .ind-systems-block { margin-top: 64px; }
+/* 연동 시스템은 판 위에 얹는다. 흐름 2단계(연동)가 실제로 무엇과 연결되는지를
+   묶어 보여 주는 자리라, 칩이 배경에 흩어지지 않고 한 덩어리로 읽힌다.
+   면은 섹션(#111316)보다 한 톤 밝은 #14181F에 푸른 기를 아주 옅게 얹는다. */
+.ind-page .ind-systems-block {
+  margin-top: 64px;
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(118, 166, 215, .07), transparent 60%),
+    #14181f;
+  border: 1px solid #232a34;
+  border-radius: 16px;
+  padding: 36px 36px 32px;
+}
 .ind-page .ind-systems-block > h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
   color: #edeef0; margin: 0 0 5px;

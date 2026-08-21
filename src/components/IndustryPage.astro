@@ -206,28 +206,24 @@ const lines = (s: string) => s.split('\n');
           <h2>{ind.architecture.title}</h2>
           {ind.architecture.subtitle && <p>{ind.architecture.subtitle}</p>}
         </header>
-        {/* 흐름은 판 위에 얹는다. 섹션 면과 살짝 다른 면 · 테두리로 묶어
-            네 단계가 하나의 도해로 읽히게 한다. */}
-        <div class="ind-flow-board">
-          <div class="ind-flow">
-            {ind.architecture.steps.map((s, i) => (
-              <>
-                {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
-                <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
-                  {/* 알약 = 번호 원 + 아이콘 + 이름. 번호가 순서를 맡고
-                      아이콘이 그 단계가 무엇인지 한 눈에 준다. */}
-                  <div class="ind-flow-head">
-                    <span class="ind-flow-num">{i + 1}</span>
-                    {s.icon && <i class={`ph ${s.icon} ind-flow-ic`} aria-hidden="true"></i>}
-                    <span class="ind-flow-label">{s.label}</span>
-                  </div>
-                  <div class="ind-flow-detail">{s.detail}</div>
+        <div class="ind-flow">
+          {ind.architecture.steps.map((s, i) => (
+            <>
+              {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
+              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
+                {/* 알약 = 번호 원 + 아이콘 + 이름. 번호가 순서를 맡고
+                    아이콘이 그 단계가 무엇인지 한 눈에 준다. */}
+                <div class="ind-flow-head">
+                  <span class="ind-flow-num">{i + 1}</span>
+                  {s.icon && <i class={`ph ${s.icon} ind-flow-ic`} aria-hidden="true"></i>}
+                  <span class="ind-flow-label">{s.label}</span>
                 </div>
-              </>
-            ))}
-          </div>
-          {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
+                <div class="ind-flow-detail">{s.detail}</div>
+              </div>
+            </>
+          ))}
         </div>
+        {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
 
         {/* 연동 시스템 — 흐름 2단계(연동)가 실제로 무엇과 연결되는지다.
             따로 섹션을 두는 대신 흐름 바로 아래에 붙인다. */}
