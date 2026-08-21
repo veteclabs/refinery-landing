@@ -139,6 +139,7 @@ const lines = (s: string) => s.split('\n');
         {ind.useCases.layout === 'steps' ? (
           /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
              줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
+          <div class="ind-uc-shell">
           <div class="ind-uc-steps" data-uc-steps>
             {ind.useCases.items.map((u, i) => (
               <>
@@ -161,6 +162,7 @@ const lines = (s: string) => s.split('\n');
                 </article>
               </>
             ))}
+          </div>
           </div>
         ) : (
           <div class="ind-usecases">
