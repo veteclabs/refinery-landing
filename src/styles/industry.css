@@ -604,15 +604,16 @@ img { max-width: 100%; height: auto; }
    말풍선 상자가 생기고, 꼬리가 그 번호를 가리킨다. 내용은 처음부터 모두 보이므로
    탭이 아니라 강조 선택이다.
    플래그를 준 산업에만 붙는다 — 기존 .ind-usecase 목록은 그대로 둔다. */
-/* 큰 카드 — 다섯 줄 전체를 한 장 안에 담는다. 섹션이 흰 면이라 카드도 흰
-   면에 테두리로 세우고, 선택된 줄만 --bg-soft로 채워 안에서 구분한다.
+/* 큰 카드 — 다섯 줄 전체를 한 장 안에 담는다. 면은 도입 효과 섹션 배경과 같은
+   --bg-soft(#F6F8FA)다. 그래서 선택된 줄은 반대로 흰 면(--bg)으로 채운다 —
+   둘을 같은 색으로 두면 선택이 카드에 묻혀 아예 보이지 않는다.
    내용은 카드 안에서 가운데로 모은다 — 카드 폭(1184px)을 다 쓰면 한 줄이
    너무 길어져 문제 · 접근 · 성과가 눈으로 이어지지 않는다. */
 .ind-uc-shell {
-  background: var(--bg);
+  background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 56px 48px;
+  padding: 48px;
 }
 .ind-uc-steps {
   max-width: 880px;
@@ -691,9 +692,9 @@ img { max-width: 100%; height: auto; }
   color: #fff;
 }
 
-/* 선택된 상자는 테두리 없이 면으로만 구분한다 — 도입 효과 섹션 배경과 같은
-   --bg-soft다. 안 여백과 투명 테두리를 늘 갖고 있어 선택이 옮겨 다녀도
-   글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
+/* 선택된 상자는 테두리 없이 면으로만 구분한다 — 큰 카드가 --bg-soft라
+   여기는 흰 면(--bg)이다. 안 여백과 투명 테두리를 늘 갖고 있어 선택이
+   옮겨 다녀도 글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
 .ind-uc-panel {
   position: relative;
   padding: 20px 24px;
@@ -702,7 +703,7 @@ img { max-width: 100%; height: auto; }
   transition: background-color .18s, border-color .18s;
 }
 .ind-uc-panel[data-active='true'] {
-  background: var(--bg-soft);
+  background: var(--bg);
 }
 /* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
    (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
@@ -721,7 +722,7 @@ img { max-width: 100%; height: auto; }
   transition: opacity .18s;
   pointer-events: none;
 }
-.ind-uc-panel::after { left: -18px; border-width: 8px 18px 8px 0; border-right-color: var(--bg-soft); }
+.ind-uc-panel::after { left: -18px; border-width: 8px 18px 8px 0; border-right-color: var(--bg); }
 .ind-uc-panel[data-active='true']::after { opacity: 1; }
 
 /* 글자값은 도입 효과 섹션 카드(.ind-page .ind-card)와 같다 —
@@ -733,13 +734,13 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
 
-/* 좁아질수록 카드 안 여백을 줄인다. 48px을 그대로 두면 375px에서 내용이
-   229px밖에 안 남아 글이 잘게 감긴다. */
+/* 안 여백은 상하좌우가 같다. 좁아질수록 값을 줄인다 — 48px을 그대로 두면
+   375px에서 내용이 229px밖에 안 남아 글이 잘게 감긴다. */
 @media (max-width: 900px) {
-  .ind-uc-shell { padding: 40px 28px; }
+  .ind-uc-shell { padding: 28px; }
 }
 @media (max-width: 640px) {
-  .ind-uc-shell { padding: 24px 16px; }
+  .ind-uc-shell { padding: 16px; }
   /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
   .ind-uc-steps { --uc-dot: 44px; --uc-top: 8px; grid-template-columns: 48px 1fr; column-gap: 24px; }
   .ind-uc-dot { width: 48px; }
