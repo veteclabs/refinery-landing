@@ -764,12 +764,13 @@ img { max-width: 100%; height: auto; }
   background: #eff2f5;
   font-size: 13px; font-weight: 600; color: #5f6873;
   line-height: 22.5px;
-  /* 두 글자를 도형 가로에 맞춰 벌린다. 자간 1.2em에서 글자 실폭이 26px에서
-     54px이 되어 76px 도형 안에 좌우 11px씩 남는다.
-     text-indent로 되밀지 않는다 — place-items: center가 마지막 글자 뒤의
-     자간까지 셈에 넣어 이미 가운데에 온다(실측 좌우 차 0px). 되밀면 오히려
-     오른쪽으로 치우친다(.6em에서 13px). */
-  letter-spacing: 1.2em;
+  /* 두 글자를 조금 벌린다(.35em). 1.2em은 글자 실폭이 54px까지 늘어
+     모바일 알약(68px) 안에서 좌우 7px밖에 안 남고 가운데도 어긋났다.
+     가운데 정렬은 따로 손대지 않는다. 마지막 글자 뒤에도 자간이 붙지만
+     place-items: center가 그 몫까지 셈에 넣어 이미 한가운데에 온다 —
+     실측 좌우 차 0px. padding이나 text-indent로 되밀면 오히려 오른쪽으로
+     치우친다(.35em 보정에서 5px). */
+  letter-spacing: .35em;
   transition: background-color .18s;
 }
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
