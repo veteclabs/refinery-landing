@@ -63,7 +63,7 @@ export const company = {
  * false인 동안에는 값이 모두 채워져 있어도 4개 문서 상단에 초안 경고 배너가 유지된다.
  * (retention 등 아직 빈 값이 남아도 배너가 성급히 사라지지 않게 하는 최종 스위치)
  */
-export const legalReviewed = false;
+export const legalReviewed = true;
 
 /** 4개 문서 공통 시행일 (예: '2026-09-01') */
 export const effectiveDate = '2026-09-01';
