@@ -92,6 +92,16 @@ img { max-width: 100%; height: auto; }
    네 단계를 알약 하나씩으로 만들고 사이를 선으로 잇는다. 문제 섹션의 번호
    레일과 같은 문법이다(번호 원 + 잇는 선), 방향만 가로다.
    공통 .ind-flow*는 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
+/* 판 — 섹션 면(#111316)보다 한 톤 밝은 면에 푸른 기를 아주 옅게 얹는다.
+   네 단계가 배경 위에 흩어져 있지 않고 하나의 도해로 묶여 보인다. */
+.ind-flow-board {
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(118, 166, 215, .07), transparent 60%),
+    #14181f;
+  border: 1px solid #232a34;
+  border-radius: 16px;
+  padding: 52px 40px 40px;
+}
 .ind-page .ind-flow {
   align-items: flex-start;
   gap: 0;
@@ -104,41 +114,51 @@ img { max-width: 100%; height: auto; }
   text-align: center;
 }
 .ind-page .ind-flow-step:hover { box-shadow: none; }
-/* 알약 — 번호 원 + 이름. 원은 알약 안에 들어앉아 두 도형이 한 덩어리로 읽힌다. */
+/* 알약 — 번호 원 + 아이콘 + 이름. 원은 알약 안에 들어앉아 한 덩어리로 읽힌다. */
 .ind-page .ind-flow-head {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 9px;
   height: 52px; padding: 0 20px 0 6px;
-  background: #1e2228; border: 1px solid #32373f; border-bottom: 1px solid #32373f;
+  background: #1b2028; border: 1px solid #2b323d; border-bottom: 1px solid #2b323d;
   border-radius: 999px;
 }
 .ind-page .ind-flow-num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 50%;
-  background: var(--accent); color: #fff;
+  background: #2a3340; color: #9fb6cf;
   font-family: inherit;
-  font-size: 16px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
+  font-size: 15px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
 }
+.ind-page .ind-flow-ic { font-size: 18px; line-height: 1; color: var(--accent); }
 .ind-page .ind-flow-label {
   flex: none; min-width: 0; overflow: visible; white-space: nowrap;
   font-family: inherit;
   font-size: 16px; font-weight: 600; letter-spacing: -0.2px;
   text-transform: none; color: #edeef0; margin-bottom: 0;
 }
+/* 우리 자리(highlight)만 켠다. 면을 accent로 채우고 옅은 광을 둘러
+   흐름에서 어디가 Refinery인지 한 번에 잡히게 한다. */
+.ind-page .ind-flow-step.is-on .ind-flow-head {
+  background: linear-gradient(90deg, #3f76ae, #76a6d7);
+  border-color: rgba(118, 166, 215, .55);
+  box-shadow: 0 0 0 4px rgba(118, 166, 215, .1), 0 6px 22px rgba(118, 166, 215, .22);
+}
+.ind-page .ind-flow-step.is-on .ind-flow-num { background: rgba(255, 255, 255, .18); color: #fff; }
+.ind-page .ind-flow-step.is-on .ind-flow-ic { color: #fff; }
+.ind-page .ind-flow-step.is-on .ind-flow-label { color: #fff; }
 /* 본문은 알약 아래에 둔다. 알약이 순서를, 본문이 내용을 맡는다. */
 .ind-page .ind-flow-detail {
   padding: 14px 8px 0;
-  font-size: 14px; line-height: 1.6; color: #959ca5;
+  font-size: 14px; line-height: 1.6; color: #8d96a1;
   word-break: keep-all;
 }
-/* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다. 알약 높이(52px)의 한가운데를
-   지나도록 위 여백을 준다. 색·두께는 번호 레일과 같은 값(3px · --accent)이되
-   어두운 면에서는 그대로 쓰면 너무 튀어 알파를 .45로 낮춘다. */
+/* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다(font-size 0).
+   알약 높이(52px)의 한가운데를 지나도록 위 여백을 준다. */
 .ind-page .ind-flow-arrow {
-  flex: 0 0 28px;
+  flex: 0 0 32px;
   align-self: flex-start;
-  margin-top: 24.5px;
-  height: 3px;
-  background: rgba(118, 166, 215, .45);
+  margin-top: 25px;
+  height: 2px;
+  background: rgba(118, 166, 215, .4);
   font-size: 0; color: transparent;
 }
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }

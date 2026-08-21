@@ -23,6 +23,10 @@ export interface Benefit {
 export interface FlowStep {
   label: string;
   detail: string;
+  /** Phosphor 아이콘 이름(ph-*). 없으면 번호만 든다. */
+  icon?: string;
+  /** 우리 자리를 밝힌다. 흐름에서 한 칸만 켜는 값이다. */
+  highlight?: boolean;
 }
 
 export interface IndustryData {
