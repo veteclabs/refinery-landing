@@ -732,14 +732,33 @@ img { max-width: 100%; height: auto; }
    실제 글자 사이는 5px이 되고, 이 값이 도입 효과 카드 문단의 줄 사이(5px)와
    같다. 10px을 주면 글자 사이가 15px으로 벌어져 세 줄이 문단으로 안 읽혔다. */
 .ind-uc-panel dl { display: grid; gap: 0; }
-.ind-uc-panel dl > div { display: grid; grid-template-columns: 44px 1fr; gap: 16px; }
+.ind-uc-panel dl > div { display: grid; grid-template-columns: 76px 1fr; gap: 16px; }
 /* 항목 이름(문제 · 접근 · 성과)도 내용과 같은 값을 쓴다 — 15px / 줄높이 1.5 /
    --text-muted. 굵기만 600으로 남겨 이름과 내용이 구분된다.
    align-items를 baseline에서 start로 바꾼다 — 크기가 같아지면 첫 줄 밑선이
    저절로 맞으므로 baseline이 필요 없고, 내용이 두 줄이 될 때 이름이 따라
    내려가지 않는다. */
 .ind-uc-panel dl > div { align-items: start; }
-.ind-uc-panel dt { font-size: 15px; font-weight: 600; color: var(--text-muted); line-height: 1.5; letter-spacing: -0.01em; }
+/* 이름은 알약 도형을 두른다. 면은 큰 카드 배경(--bg-soft)과 같은 값이라
+   선택된 흰 카드 위에서만 드러나고, 선택 전에는 카드 면과 같은 색이라
+   보이지 않는다 — 선택한 줄에서만 이름이 도형으로 뜬다.
+   위아래 여백은 주지 않는다. 줄높이(22.5px)가 그대로 도형 높이가 되어
+   이름과 내용의 첫 줄 윗선이 어긋나지 않는다.
+   글자는 도형 안에서 가운데 정렬한다 — 세 이름의 글자 폭이 같지 않아
+   (문제 · 접근 · 성과) 왼쪽에 붙이면 도형 안에서 제각각으로 보인다.
+   가로 길이는 칸 폭(76px)이 정한다. 글자에 딱 맞추면 알약이라기보다
+   글자를 감싼 조각처럼 보여서, 좌우로 더 늘려 도형이 먼저 읽히게 했다. */
+.ind-uc-panel dt {
+  justify-self: stretch;
+  display: grid;
+  place-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  font-size: 15px; font-weight: 600; color: var(--text-muted);
+  line-height: 1.5; letter-spacing: -0.01em;
+  transition: background-color .18s;
+}
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
 
 /* 안 여백은 상하좌우가 같다. 좁아질수록 값을 줄인다 — 48px을 그대로 두면
@@ -754,5 +773,5 @@ img { max-width: 100%; height: auto; }
   .ind-uc-dot { width: 48px; }
   .ind-uc-dot-circle { font-size: 17px; }
   .ind-uc-panel { padding: 16px 18px; }
-  .ind-uc-panel dl > div { grid-template-columns: 44px 1fr; gap: 10px; }
+  .ind-uc-panel dl > div { grid-template-columns: 68px 1fr; gap: 10px; }
 }
