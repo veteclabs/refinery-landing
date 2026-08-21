@@ -734,7 +734,7 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel[data-active='true'] {
   background: var(--bg);
   /* 눌린 카드가 큰 카드 면에서 아주 살짝 떠 보이는 정도로만 둔다. */
-  box-shadow: 0 1px 6px rgba(16, 32, 44, .035);
+  box-shadow: 0 2px 8px rgba(16, 32, 44, .06);
 }
 /* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
    (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
