@@ -730,8 +730,14 @@ img { max-width: 100%; height: auto; }
    그 카드에는 없는 것은 항목 이름(문제 · 접근 · 성과)뿐이다. */
 .ind-uc-panel h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 5px; }
 .ind-uc-panel dl { display: grid; gap: 10px; }
-.ind-uc-panel dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
-.ind-uc-panel dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
+.ind-uc-panel dl > div { display: grid; grid-template-columns: 44px 1fr; gap: 16px; }
+/* 항목 이름(문제 · 접근 · 성과)도 내용과 같은 값을 쓴다 — 15px / 줄높이 1.5 /
+   --text-muted. 굵기만 600으로 남겨 이름과 내용이 구분된다.
+   align-items를 baseline에서 start로 바꾼다 — 크기가 같아지면 첫 줄 밑선이
+   저절로 맞으므로 baseline이 필요 없고, 내용이 두 줄이 될 때 이름이 따라
+   내려가지 않는다. */
+.ind-uc-panel dl > div { align-items: start; }
+.ind-uc-panel dt { font-size: 15px; font-weight: 600; color: var(--text-muted); line-height: 1.5; letter-spacing: -0.01em; }
 .ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
 
 /* 안 여백은 상하좌우가 같다. 좁아질수록 값을 줄인다 — 48px을 그대로 두면
