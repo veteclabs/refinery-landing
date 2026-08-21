@@ -408,7 +408,7 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-grid-bubble .ind-card {
   border: 0;
   box-shadow: none;
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .5));
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .35));
 }
 
 /* ───────── 과제 카드 — 말풍선
