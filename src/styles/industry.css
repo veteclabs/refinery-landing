@@ -607,20 +607,22 @@ img { max-width: 100%; height: auto; }
 .ind-uc-steps {
   --uc-dot: 56px;      /* 원 지름 */
   --uc-gap: 14px;      /* 줄 사이 */
+  --uc-top: 8px;       /* 줄 위끝에서 원 위까지 — 원 중심이 제목 줄 중심에 오는 값 */
   display: grid;
   grid-template-columns: 68px 1fr;
   column-gap: 28px;
   row-gap: var(--uc-gap);
   align-items: stretch;
 }
-/* 원은 줄 한가운데에 둔다 — 내용 상자의 세로 중심과 같은 선이라 꼬리도 여기서 나간다.
-   button은 기본으로 내용을 세로 가운데에 두지만 그건 UA 동작이라 명시해 둔다. */
+/* 원은 제목 줄에 맞춘다. button은 기본으로 내용을 세로 가운데에 두므로
+   align-content: start로 위에 붙이고 --uc-top만큼 내린다.
+   내용 안 여백 20px + 제목 줄 중심 16px - 반지름 28px = 8px. */
 .ind-uc-dot {
   position: relative;
   display: grid;
-  align-content: center;
+  align-content: start;
   width: 68px;
-  padding: 0;
+  padding: var(--uc-top) 0 0;
   border: 0;
   background: none;
   cursor: pointer;
@@ -629,7 +631,7 @@ img { max-width: 100%; height: auto; }
   -webkit-tap-highlight-color: transparent;
 }
 /* 원과 원을 잇는 선. 원에 딱 붙도록 두 토막으로 나눠 긋는다.
-   ::before는 줄 위끝에서 원 위까지, ::after는 원 아래에서 줄 아래끝 + 줄간격까지.
+   ::before는 줄 위끝에서 원 위까지(--uc-top), ::after는 원 아래에서 줄 아래끝 + 줄간격까지.
    ::after가 줄간격을 메우고 다음 줄의 ::before가 이어받아 끊기지 않는다.
    첫 원 위와 마지막 원 아래로는 긋지 않는다. */
 .ind-uc-dot::before,
@@ -641,8 +643,8 @@ img { max-width: 100%; height: auto; }
   margin-left: -0.5px;
   background: var(--border);
 }
-.ind-uc-dot::before { top: 0; height: calc(50% - var(--uc-dot) / 2); }
-.ind-uc-dot::after { top: calc(50% + var(--uc-dot) / 2); bottom: calc(-1 * var(--uc-gap)); }
+.ind-uc-dot::before { top: 0; height: var(--uc-top); }
+.ind-uc-dot::after { top: calc(var(--uc-top) + var(--uc-dot)); bottom: calc(-1 * var(--uc-gap)); }
 .ind-uc-dot:first-of-type::before,
 .ind-uc-dot:last-of-type::after { display: none; }
 .ind-uc-dot-circle {
@@ -654,12 +656,15 @@ img { max-width: 100%; height: auto; }
   height: var(--uc-dot);
   margin: 0 auto;
   border-radius: 50%;
-  border: 1px solid var(--border2);
+  /* 테두리는 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로 찬다. */
+  border: 1px solid var(--accent);
   background: var(--bg);
   color: var(--text-muted);
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  /* 글자는 히어로 태그라인(.ind-hero-bg .ind-eyebrow)과 같은 값이다 —
+     본문 서체 18px/600에 자간 -0.2px. 등폭 서체를 쓰지 않는다. */
   font-size: 18px;
   font-weight: 600;
+  letter-spacing: -0.2px;
   line-height: 1;
   transition: background-color .18s, border-color .18s, color .18s;
 }
@@ -685,13 +690,14 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel[data-active='true'] {
   background: var(--bg-soft);
 }
-/* 꼬리 — 상자 왼쪽 한가운데에서 번호 쪽으로 나간다.
+/* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
+   (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
    문제 섹션 말풍선과 같은 18x16px(border-width: 8px 18px 8px 0)이고, 그쪽처럼
    면색 삼각형 한 장이다 — 상자에 테두리가 없으니 덧댈 선도 없다. */
 .ind-uc-panel::after {
   content: '';
   position: absolute;
-  top: 50%;
+  top: calc(var(--uc-top) + var(--uc-dot) / 2);
   width: 0;
   height: 0;
   border-style: solid;
@@ -714,9 +720,9 @@ img { max-width: 100%; height: auto; }
 
 @media (max-width: 640px) {
   /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
-  .ind-uc-steps { --uc-dot: 44px; grid-template-columns: 48px 1fr; column-gap: 24px; }
+  .ind-uc-steps { --uc-dot: 44px; --uc-top: 8px; grid-template-columns: 48px 1fr; column-gap: 24px; }
   .ind-uc-dot { width: 48px; }
-  .ind-uc-dot-circle { font-size: 16px; }
+  .ind-uc-dot-circle { font-size: 17px; }
   .ind-uc-panel { padding: 16px 18px; }
   .ind-uc-panel dl > div { grid-template-columns: 44px 1fr; gap: 10px; }
 }
