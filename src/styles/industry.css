@@ -146,8 +146,12 @@ img { max-width: 100%; height: auto; }
   padding: 14px;
   display: flex; flex-wrap: wrap; gap: 8px;
 }
+/* 상자는 면만으로 선다. 카드 · 머리 띠에 이미 테두리가 있어 안쪽까지 두르면
+   한 카드에 선이 세 겹이 된다. 참고한 플랫폼 개요 목록도 면만 쓴다.
+   면은 머리 띠(#1E2228)보다 한 톤 밝은 #232830 — 같은 색이면 카드 본문
+   바닥(#191D22) 위에서 머리 띠와 구분이 안 된다. */
 .ind-page .ind-flow-detail li {
-  background: #1e2228; border: 1px solid #272b32; border-radius: 8px;
+  background: #232830; border: 0; border-radius: 8px;
   padding: 6px 10px;
   font-size: 13px; line-height: 1.4; color: #c8ccd1;
   word-break: keep-all;
