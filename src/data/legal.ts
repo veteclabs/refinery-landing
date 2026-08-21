@@ -28,7 +28,7 @@ export const company = {
   /** 대표자 성명 */
   ceo: '',
   /** 사업자등록번호 (000-00-00000) */
-  bizNo: '',
+  bizNo: '130-81-49638',
   /**
    * 통신판매업 신고번호.
    * 홈페이지에서 온라인 자가결제로 구독을 개시하는 구조가 **없다면** 신고 대상이
@@ -36,33 +36,33 @@ export const company = {
    */
   mailOrderNo: '',
   /** 본점 소재지 (사업자등록증 기준) */
-  address: '',
+  address: '대전광역시 유성구 관평동 1311',
   /** 대표 전화 */
   tel: '',
   /** 팩스 (없으면 공란) */
   fax: '',
   /** 대표 이메일 */
-  email: '',
+  email: 'info@vetec.co.kr',
 
   /** 개인정보 보호책임자 — 법 제30조①6호 */
-  cpoName: '',
-  cpoTitle: '',
+  cpoName: '윤현석',
+  cpoTitle: '그룹장',
   cpoDept: '',
 
   /** 개인정보 고충처리·열람청구 담당부서 (작성지침 2025.4. 권고) */
   privacyDept: '',
   privacyTel: '',
-  privacyEmail: '',
+  privacyEmail: 'info@vetec.co.kr',
 
   /** 호스팅 서비스 제공자 — 전자상거래법 제10조① 표시 항목(2022년 의무화) */
   hosting: 'Vercel Inc.',
 };
 
 /** 4개 문서 공통 시행일 (예: '2026-09-01') */
-export const effectiveDate = '';
+export const effectiveDate = '2026-09-01';
 
 /** 최종 개정일. 최초 제정이면 시행일과 같게 둔다. */
-export const revisedDate = '';
+export const revisedDate = '2026-09-01';
 
 /**
  * 분석 도구의 데이터 보관 기간.
