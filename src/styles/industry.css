@@ -88,40 +88,59 @@ img { max-width: 100%; height: auto; }
 .ind-flow-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .ind-flow-detail { font-size: 14.5px; color: #c8ccd1; line-height: 1.55; }
 
-/* ── 솔루션 구조 카드 — 랜딩 통합 섹션의 노드 카드(.rfn-node)와 같은 값이다.
-   머리 띠(아이콘 + 이름) + 본문 두 층으로 나뉘고, 면·테두리·모서리·그림자·hover가
-   전부 그 카드에서 왔다. 공통 .ind-flow-step은 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
+/* ── 솔루션 구조 — 순서를 보여 주는 인포그래픽.
+   네 단계를 알약 하나씩으로 만들고 사이를 선으로 잇는다. 문제 섹션의 번호
+   레일과 같은 문법이다(번호 원 + 잇는 선), 방향만 가로다.
+   공통 .ind-flow*는 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
+.ind-page .ind-flow {
+  align-items: flex-start;
+  gap: 0;
+  flex-wrap: nowrap;
+}
 .ind-page .ind-flow-step {
-  border-radius: 10px; padding: 0; overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s ease;
+  flex: 1 1 0; min-width: 0;
+  background: none; border: 0; border-radius: 0; padding: 0; overflow: visible;
+  box-shadow: none;
+  text-align: center;
 }
-.ind-page .ind-flow-step:hover {
-  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
+.ind-page .ind-flow-step:hover { box-shadow: none; }
+/* 알약 — 번호 원 + 이름. 원은 알약 안에 들어앉아 두 도형이 한 덩어리로 읽힌다. */
 .ind-page .ind-flow-head {
-  display: flex; align-items: center; gap: 8px;
-  height: 38px; padding: 0 10px;
-  background: #1e2228; border-bottom: 1px solid #272b32;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 52px; padding: 0 20px 0 6px;
+  background: #1e2228; border: 1px solid #32373f; border-bottom: 1px solid #32373f;
+  border-radius: 999px;
 }
-/* .rfn-node-ic와 같은 값. 랜딩은 여기에 Phosphor 아이콘을 넣지만 여기는
-   흐름의 순서를 보여야 하므로 단계 번호를 넣는다. */
 .ind-page .ind-flow-num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; border-radius: 6px;
-  background: #3f76ae; color: #fff;
-  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
-  font-size: 12px; font-weight: 600; line-height: 1;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-family: inherit;
+  font-size: 16px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
 }
-/* .rfn-node-name과 같은 값 — 모노 13px. 공통값의 대문자 변환·자간·accent 색을 덮는다. */
 .ind-page .ind-flow-label {
-  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
-  font-size: 13px; font-weight: 600; letter-spacing: normal;
+  flex: none; min-width: 0; overflow: visible; white-space: nowrap;
+  font-family: inherit;
+  font-size: 16px; font-weight: 600; letter-spacing: -0.2px;
   text-transform: none; color: #edeef0; margin-bottom: 0;
 }
-/* 카드 자체의 여백을 없앴으므로 본문이 여백을 갖는다. */
-.ind-page .ind-flow-detail { padding: 16px 14px; }
+/* 본문은 알약 아래에 둔다. 알약이 순서를, 본문이 내용을 맡는다. */
+.ind-page .ind-flow-detail {
+  padding: 14px 8px 0;
+  font-size: 14px; line-height: 1.6; color: #959ca5;
+  word-break: keep-all;
+}
+/* 잇는 선 — 마크업의 화살표 글자를 선으로 바꾼다. 알약 높이(52px)의 한가운데를
+   지나도록 위 여백을 준다. 색·두께는 번호 레일과 같은 값(3px · --accent)이되
+   어두운 면에서는 그대로 쓰면 너무 튀어 알파를 .45로 낮춘다. */
+.ind-page .ind-flow-arrow {
+  flex: 0 0 28px;
+  align-self: flex-start;
+  margin-top: 24.5px;
+  height: 3px;
+  background: rgba(118, 166, 215, .45);
+  font-size: 0; color: transparent;
+}
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
 
@@ -137,6 +156,26 @@ img { max-width: 100%; height: auto; }
 /* 반응형 */
 @media (max-width: 860px) {
   .ind-grid-2, .ind-grid-3 { grid-template-columns: 1fr; }
+  /* 솔루션 구조 — 네 알약을 세로로 쌓고 잇는 선도 세로로 세운다.
+     가로로 두면 알약 하나가 105px인데 칸이 그보다 좁아진다.
+     본문은 알약과 같은 왼쪽 선에 맞춰 왼쪽 맞춤으로 바꾼다.
+     공통 규칙의 rotate(90deg)는 이 레이아웃에서 필요 없으므로 끈다. */
+  .ind-page .ind-flow { flex-wrap: wrap; }
+  .ind-page .ind-flow-step { flex: 1 1 100%; text-align: left; }
+  .ind-page .ind-flow-detail { padding: 12px 0 0 8px; }
+  /* 한 줄을 통째로 차지하되(flex-basis 100%), 선은 그 안에서 ::before로 긋는다.
+     flex-basis가 width를 이기므로 요소 자체를 3px로 만들 수 없고,
+     margin-left를 주면 100% + 26px이 되어 가로가 넘친다. */
+  .ind-page .ind-flow-arrow {
+    position: relative;
+    flex: 0 0 100%; align-self: stretch;
+    width: auto; height: 22px; margin: 0;
+    background: none; transform: none;
+  }
+  .ind-page .ind-flow-arrow::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 26px;
+    width: 3px; background: rgba(118, 166, 215, .45);
+  }
 }
 @media (max-width: 560px) {
   .ind-hero { padding: 118px 0 56px; }
