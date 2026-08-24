@@ -230,11 +230,16 @@ img { max-width: 100%; height: auto; }
   word-break: keep-all;
 }
 
-/* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 칸 폭이 곧 원 지름이라
-   카드가 원에 붙는다. 원은 선 위에 온다(z-index 2). */
+/* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 원은 30px이지만 좌우 margin을
+   -10px씩 줘서 줄에서 차지하는 자리는 10px뿐이다. 그래서 카드가 10px까지
+   다가오고 원은 양쪽 카드 위로 10px씩 걸친다.
+   flex-basis는 30px이어야 한다 — 10px으로 두면 flex-basis가 width를 이겨
+   원이 눌린다(16x30이 됐다).
+   원은 카드보다 위에 온다(z-index 2 · 카드는 1). */
 .ind-page .ind-flow-arrow {
   position: relative; z-index: 2;
   flex: 0 0 30px;
+  margin: 0 -10px;
   align-self: center;
   display: flex; align-items: center; justify-content: center;
   width: 30px; height: 30px;
@@ -279,9 +284,10 @@ img { max-width: 100%; height: auto; }
   .ind-page .ind-flow::before,
   .ind-page .ind-flow::after { display: none; }
   /* 세로에서도 원은 그대로 두고, 선은 원 뒤로 지나간다. */
+  /* 세로에서는 겹칠 카드가 위아래에 있으므로 같은 방식으로 -10px씩 넘긴다. */
   .ind-page .ind-flow-arrow {
     flex: 0 0 30px; align-self: center;
-    width: 30px; height: 30px; margin: 0;
+    width: 30px; height: 30px; margin: -10px 0;
     animation: none;
   }
   .ind-page .ind-flow-arrow .ph { transform: rotate(90deg); }
