@@ -209,7 +209,9 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-flow">
           {ind.architecture.steps.map((s, i) => (
             <>
-              {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
+              {i > 0 && (
+              <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-caret-right"></i></div>
+            )}
               <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
                 {/* 배지 + 이름. 배지에는 아이콘을 넣는다 — 랜딩 노드 카드
                     (.rfn-node-ic)와 같은 자리다. 순서는 카드가 놓인 차례와

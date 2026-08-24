@@ -230,15 +230,20 @@ img { max-width: 100%; height: auto; }
   word-break: keep-all;
 }
 
-/* 칸 — 마크업의 화살표 글자는 자리만 맡는다(font-size 0). 선과 빛은 줄 전체가
-   깔고 있으므로 여기에는 배경을 두지 않는다. */
+/* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 칸 폭이 곧 원 지름이라
+   카드가 원에 붙는다. 원은 선 위에 온다(z-index 2). */
 .ind-page .ind-flow-arrow {
-  flex: 0 0 24px;
+  position: relative; z-index: 2;
+  flex: 0 0 30px;
   align-self: center;
-  height: 2px;
-  background: none;
-  font-size: 0; color: transparent;
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #232830; border: 1px solid #2b323d;
+  color: #9fb6cf;
+  font-size: 0;
 }
+.ind-page .ind-flow-arrow .ph { font-size: 14px; line-height: 1; }
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
 
@@ -273,10 +278,16 @@ img { max-width: 100%; height: auto; }
      세운다. 빛도 위에서 아래로 지나간다. */
   .ind-page .ind-flow::before,
   .ind-page .ind-flow::after { display: none; }
-  .ind-page .ind-flow-arrow { background: none; animation: none; }
+  /* 세로에서도 원은 그대로 두고, 선은 원 뒤로 지나간다. */
+  .ind-page .ind-flow-arrow {
+    flex: 0 0 30px; align-self: center;
+    width: 30px; height: 30px; margin: 0;
+    animation: none;
+  }
+  .ind-page .ind-flow-arrow .ph { transform: rotate(90deg); }
   .ind-page .ind-flow-arrow::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
-    width: 2px; margin-left: -1px;
+    content: ''; position: absolute; top: -12px; bottom: -12px; left: 50%;
+    width: 2px; margin-left: -1px; z-index: -1;
     background: linear-gradient(180deg,
       rgba(118, 166, 215, .4) 0%,
       rgba(118, 166, 215, .4) 38%,
