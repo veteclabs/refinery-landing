@@ -258,7 +258,8 @@ img { max-width: 100%; height: auto; }
   display: flex; align-items: center; justify-content: center;
   width: 30px; height: 30px;
   border-radius: 50%;
-  background: #232830; border: 1px solid #2b323d;
+  /* 면은 카드 hover 링과 같은 #272B32다(.rfn-node:hover의 링 색). */
+  background: #272b32; border: 1px solid #2b323d;
   color: #9fb6cf;
   font-size: 0;
 }
