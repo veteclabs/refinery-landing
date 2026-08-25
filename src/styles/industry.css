@@ -253,11 +253,11 @@ img { max-width: 100%; height: auto; }
   /* 면은 카드 hover 링과 같은 #272B32다(.rfn-node:hover의 링 색).
      테두리는 두지 않는다 — #2B323D를 두르면 면과 대비 1.06:1이라 보이지도
      않으면서 선만 하나 더 늘어난다.
-     그 밑에 더 큰 원(46px, #32373F)을 깐다. spread 8px짜리 box-shadow면
+     그 밑에 더 큰 원(46px, #17191E)을 깐다. spread 8px짜리 box-shadow면
      모서리가 이미 50%라 원으로 퍼진다 — 요소를 하나 더 두거나 ::after를
      쓰면 이 요소가 z-index로 쌓임 맥락을 만들어 작은 원 뒤로 못 보낸다. */
   background: #272b32; border: 0;
-  box-shadow: 0 0 0 8px #32373f;
+  box-shadow: 0 0 0 8px #17191e;
   color: #9fb6cf;
   font-size: 0;
 }
