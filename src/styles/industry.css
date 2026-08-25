@@ -223,7 +223,6 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-step.is-on:hover {
   box-shadow: 0 0 0 2px var(--accent), 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
-.ind-page .ind-flow-step.is-on .ind-flow-head { background: #20262f; border-bottom-color: #2f3947; }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
