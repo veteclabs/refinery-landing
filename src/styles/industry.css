@@ -205,10 +205,10 @@ img { max-width: 100%; height: auto; }
 }
 /* 상자는 면만으로 선다. 카드 · 머리 띠에 이미 테두리가 있어 안쪽까지 두르면
    한 카드에 선이 세 겹이 된다. 참고한 플랫폼 개요 목록도 면만 쓴다.
-   면은 머리 띠(#1E2228)보다 한 톤 밝은 #232830 — 같은 색이면 카드 본문
-   바닥(#191D22) 위에서 머리 띠와 구분이 안 된다. */
+   면 #272B32는 카드 테두리 · hover 링과 같은 값이다. 카드 면(#191D22) 위에서
+   대비 1.19:1로 옅게 떠 있다. */
 .ind-page .ind-flow-detail li {
-  background: #232830; border: 0; border-radius: 8px;
+  background: #272b32; border: 0; border-radius: 8px;
   padding: 6px 10px;
   /* 글자값은 도입 효과 카드 본문(.ind-card p)과 같다 — 15px / 줄높이 1.5.
      색만 어두운 면에 맞춰 #C8CCD1이다(그쪽은 --text-muted). */
