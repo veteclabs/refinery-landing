@@ -254,6 +254,12 @@ img { max-width: 100%; height: auto; }
   text-align: left;
   word-break: keep-all;
 }
+/* 주석임을 표시하는 별표. 데이터가 아니라 표시라서 ::before로 붙인다 —
+   ko/en 문장을 건드리지 않고, 읽기 프로그램에도 글자로 새어 나가지 않는다. */
+.ind-page .ind-flow-note::before {
+  content: '*';
+  margin-right: 4px;
+}
 /* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 원은 30px이지만 좌우 margin을
    -10px씩 줘서 줄에서 차지하는 자리는 10px뿐이다. 그래서 카드가 10px까지
    다가오고 원은 양쪽 카드 위로 10px씩 걸친다.
