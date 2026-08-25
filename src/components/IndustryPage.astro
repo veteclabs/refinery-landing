@@ -242,8 +242,9 @@ const lines = (s: string) => s.split('\n');
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
-          {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
         </div>
+        {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
+        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
       </div>
     </section>
 

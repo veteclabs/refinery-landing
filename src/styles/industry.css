@@ -847,6 +847,19 @@ img { max-width: 100%; height: auto; }
   font-size: 14px; font-weight: 400; line-height: 1.5; color: #c0c4ca;
 }
 .ind-dark .ind-systems-note { color: #9aa4b0; }
+/* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
+   놓이고, 상자 없이 별표 + 13px #EDEEF0으로 왼쪽 끝에 선다. */
+.ind-page .ind-systems-note {
+  max-width: none;
+  margin-top: 20px;
+  font-size: 13px; line-height: 1.5; color: #edeef0;
+  text-align: left;
+  word-break: keep-all;
+}
+.ind-page .ind-systems-note::before {
+  content: '*';
+  margin-right: 4px;
+}
 
 /* ───────── 유즈케이스 — 번호 레일 (useCases.layout: 'steps')
    번호 원을 왼쪽에 세로로 세우고 내용을 오른쪽에 둔다. 번호를 누르면 그 내용에만
