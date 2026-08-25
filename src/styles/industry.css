@@ -151,6 +151,13 @@ img { max-width: 100%; height: auto; }
 }
 /* 카드가 선 위에 온다. 카드 면이 불투명하므로 선은 칸 사이에서만 보인다. */
 .ind-page .ind-flow-step { position: relative; z-index: 1; }
+/* Refinery 칸만 한 층 아래에 둔다. hover 때 퍼지는 하늘색 광이 이웃 카드 위로
+   올라타지 않고 뒤로 지나가게 하려는 것이다 — 광은 요소 바깥으로 퍼지므로,
+   같은 층이면 뒤 카드(DOM 순서상 앞선 현장·연동)를 덮는다.
+   카드끼리는 서로 겹치지 않아 층을 낮춰도 보이는 데는 달라지는 게 없다.
+   선(z-index 0)보다는 여전히 위다. */
+.ind-page .ind-flow-step.is-on { z-index: 1; }
+.ind-page .ind-flow-step:not(.is-on) { z-index: 2; }
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
@@ -234,11 +241,12 @@ img { max-width: 100%; height: auto; }
 /* 평소에는 다른 카드와 똑같고, hover 링도 다른 카드와 같은 #272B32다.
    대신 하늘색 광을 한 겹 더 얹는다 — 링은 같은데 카드 둘레만 은은하게
    밝아져서, 색을 바꾸지 않고도 '이 칸이 우리'가 읽힌다.
-   광은 번짐 24px에 알파 .22로, 링(2px) 바깥으로만 퍼진다. */
+   광은 번짐 48px에 퍼짐 8px, 알파 .22로 링(2px) 바깥으로 퍼진다.
+   퍼짐을 주면 카드 둘레부터 밝게 시작해 광이 닿는 범위가 넓어진다. */
 .ind-page .ind-flow-step.is-on:hover {
   box-shadow:
     0 0 0 2px #272b32,
-    0 0 24px rgba(118, 166, 215, .22),
+    0 0 48px 8px rgba(118, 166, 215, .22),
     0 2px 4px rgba(0,0,0,.35),
     0 1px 1px rgba(0,0,0,.25);
 }
@@ -272,9 +280,10 @@ img { max-width: 100%; height: auto; }
    다가오고 원은 양쪽 카드 위로 10px씩 걸친다.
    flex-basis는 30px이어야 한다 — 10px으로 두면 flex-basis가 width를 이겨
    원이 눌린다(16x30이 됐다).
-   원은 카드보다 위에 온다(z-index 2 · 카드는 1). */
+   원은 어느 카드보다도 위에 온다(z-index 3 · 카드는 1~2). 카드 위에 10.5px씩
+   걸쳐 있어 한 층이라도 밀리면 불투명한 카드 면에 절반이 잘린다. */
 .ind-page .ind-flow-arrow {
-  position: relative; z-index: 2;
+  position: relative; z-index: 3;
   flex: 0 0 35px;
   /* 원형은 35px인데 자리는 14px만 차지한다 — 남는 21px만큼 양쪽 카드 위에
      걸친다. 이 값이 곧 카드 사이 간격이다. */
