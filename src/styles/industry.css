@@ -258,7 +258,8 @@ img { max-width: 100%; height: auto; }
      쌓임 맥락을 만들어 작은 원 뒤로 못 보낸다. */
   background: #17191e; border: 0;
   box-shadow: 0 0 0 8px #1e2228, 0 0 0 9px #272b32;
-  color: #9fb6cf;
+  /* 화살표는 카드 제목과 같은 #EDEEF0이다. */
+  color: #edeef0;
   font-size: 0;
 }
 .ind-page .ind-flow-arrow .ph { font-size: 15px; line-height: 1; }
