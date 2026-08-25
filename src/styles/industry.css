@@ -250,7 +250,9 @@ img { max-width: 100%; height: auto; }
   background: #191d22;
   border: 1px solid #272b32;
   border-radius: 10px;
-  padding: 24px;
+  /* 좌우는 카드와 같은 24px, 위아래만 14px으로 줄인다 — 한 줄짜리 띠라
+     24px을 그대로 두면 세로가 필요 이상으로 두껍다. */
+  padding: 14px 24px;
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
   font-size: 14px; line-height: 1.5; color: #edeef0;
