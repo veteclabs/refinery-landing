@@ -222,7 +222,11 @@ const lines = (s: string) => s.split('\n');
                   </span>
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-                {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
+                {s.image && (
+                <img class="ind-flow-img" src={s.image} alt="" aria-hidden="true"
+                     width="150" height="150" loading="lazy" decoding="async" />
+              )}
+              {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
                   '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
               <ul class="ind-flow-detail">
                 {s.detail.split(' · ').map((d) => <li>{d}</li>)}

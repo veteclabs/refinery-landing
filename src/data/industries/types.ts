@@ -27,6 +27,8 @@ export interface FlowStep {
   icon?: string;
   /** 우리 자리를 밝힌다. 흐름에서 한 칸만 켜는 값이다. */
   highlight?: boolean;
+  /** 카드 안에 놓는 일러스트(public 기준 경로). 어두운 카드 면에 맞춰 그린 것이다. */
+  image?: string;
 }
 
 export interface IndustryData {

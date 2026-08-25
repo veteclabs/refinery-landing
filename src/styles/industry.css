@@ -189,6 +189,14 @@ img { max-width: 100%; height: auto; }
 }
 /* .rfn-node-ic .ph와 같은 14px. */
 .ind-page .ind-flow-num .ph { font-size: 14px; line-height: 1; }
+/* 카드 일러스트 — 어두운 카드 면(#191D22)에 맞춰 그린 그림이라 배경을 따로
+   깔지 않는다. 머리 띠 바로 아래, 상자 목록 위에 놓는다. */
+.ind-page .ind-flow-img {
+  display: block;
+  width: 56px; height: 56px;
+  margin: 16px 14px 0;
+}
+
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
    담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
    맞춰 옮겼다(그쪽 --bg-soft 자리에 #1E2228). */
