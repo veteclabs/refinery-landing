@@ -262,10 +262,12 @@ img { max-width: 100%; height: auto; }
   border: 0;
   border-radius: 0;
   padding: 0;
-  /* 글자색은 카드 제목과 같은 #EDEEF0이다. 섹션 면(#111316) 위 대비 16.03:1.
+  /* 글자색은 섹션 소제목과 같은 #9AA4B0이다. 섹션 면(#111316) 위 대비 7.36:1
+     — AA를 넘기면서 위계가 제목(#EDEEF0) → 상자 글(#C0C4CA) → 주석 순으로
+     선다. 제목과 같은 #EDEEF0을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
-  font-size: 13px; line-height: 1.5; color: #edeef0;
+  font-size: 13px; line-height: 1.5; color: #9aa4b0;
   text-align: left;
   word-break: keep-all;
 }
@@ -871,11 +873,11 @@ img { max-width: 100%; height: auto; }
 }
 .ind-dark .ind-systems-note { color: #9aa4b0; }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
-   놓이고, 상자 없이 별표 + 13px #EDEEF0으로 왼쪽 끝에 선다. */
+   놓이고, 상자 없이 별표 + 13px #9AA4B0으로 왼쪽 끝에 선다. */
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  font-size: 13px; line-height: 1.5; color: #edeef0;
+  font-size: 13px; line-height: 1.5; color: #9aa4b0;
   text-align: left;
   word-break: keep-all;
 }
