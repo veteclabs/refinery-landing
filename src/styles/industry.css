@@ -193,8 +193,11 @@ img { max-width: 100%; height: auto; }
    깔지 않는다. 머리 띠 바로 아래, 상자 목록 위에 놓는다. */
 .ind-page .ind-flow-img {
   display: block;
-  width: 56px; height: 56px;
-  margin: 16px 14px 0;
+  width: 88px; height: 88px;
+  margin: 18px 14px 2px;
+}
+@media (max-width: 960px) {
+  .ind-page .ind-flow-img { width: 72px; height: 72px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
