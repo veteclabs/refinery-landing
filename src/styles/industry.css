@@ -262,7 +262,7 @@ img { max-width: 100%; height: auto; }
   color: #edeef0;
   font-size: 0;
 }
-.ind-page .ind-flow-arrow .ph { font-size: 15px; line-height: 1; }
+.ind-page .ind-flow-arrow .ph { font-size: 13px; line-height: 1; }
 .ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
 
