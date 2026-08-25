@@ -241,28 +241,20 @@ img { max-width: 100%; height: auto; }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
-/* 노트 — 흐름 카드 넷과 같은 값이다(면 #191D22 · 테두리 #272B32 · 모서리 10px ·
-   안 여백 24px · 그림자 · hover 링). 글자는 카드 제목과 같은 #EDEEF0이고
-   이 면 위에서 대비 14.59:1이다 — 하늘색 면일 때의 2.20:1 문제가 사라진다. */
+/* 노트 — 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
+   면 #32373F · 테두리 없음 · 모서리 8px · 글자 14px #C0C4CA · 안 여백 6px 10px.
+   카드가 아니라 상자로 읽히므로 그림자와 hover 링은 두지 않는다. */
 .ind-page .ind-flow-note {
   max-width: none;
   margin-top: 20px;
-  background: #191d22;
-  border: 1px solid #272b32;
-  border-radius: 10px;
-  /* 좌우는 카드와 같은 24px, 위아래만 14px으로 줄인다 — 한 줄짜리 띠라
-     24px을 그대로 두면 세로가 필요 이상으로 두껍다. */
-  padding: 14px 24px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s ease;
-  font-size: 14px; line-height: 1.5; color: #edeef0;
+  background: #32373f;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px; line-height: 1.5; color: #c0c4ca;
   text-align: center;
   word-break: keep-all;
 }
-.ind-page .ind-flow-note:hover {
-  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
-
 /* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 원은 30px이지만 좌우 margin을
    -10px씩 줘서 줄에서 차지하는 자리는 10px뿐이다. 그래서 카드가 10px까지
    다가오고 원은 양쪽 카드 위로 10px씩 걸친다.
