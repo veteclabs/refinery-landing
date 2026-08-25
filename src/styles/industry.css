@@ -241,18 +241,17 @@ img { max-width: 100%; height: auto; }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
-/* 노트 — 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
-   면 #32373F · 테두리 없음 · 모서리 8px · 글자 14px #C0C4CA · 안 여백 6px 10px.
-   카드가 아니라 상자로 읽히므로 그림자와 hover 링은 두지 않는다. */
+/* 노트 — 상자를 두르지 않고 글만 둔다. 흐름 카드 줄의 왼쪽 끝에 맞춰
+   왼쪽 맞춤으로 세운다(줄과 같은 컨테이너 안이라 안 여백 0이면 저절로 맞는다). */
 .ind-page .ind-flow-note {
   max-width: none;
   margin-top: 20px;
-  background: #32373f;
+  background: none;
   border: 0;
-  border-radius: 8px;
-  padding: 6px 10px;
+  border-radius: 0;
+  padding: 0;
   font-size: 14px; line-height: 1.5; color: #c0c4ca;
-  text-align: center;
+  text-align: left;
   word-break: keep-all;
 }
 /* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 원은 30px이지만 좌우 margin을
