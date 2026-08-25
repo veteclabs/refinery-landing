@@ -250,8 +250,10 @@ img { max-width: 100%; height: auto; }
   border: 0;
   border-radius: 0;
   padding: 0;
-  /* 글자색은 카드 제목과 같은 #EDEEF0이다. 섹션 면(#111316) 위 대비 15.8:1. */
-  font-size: 14px; line-height: 1.5; color: #edeef0;
+  /* 글자색은 카드 제목과 같은 #EDEEF0이다. 섹션 면(#111316) 위 대비 16.03:1.
+     크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
+     보다 한 단계 작다. */
+  font-size: 13px; line-height: 1.5; color: #edeef0;
   text-align: left;
   word-break: keep-all;
 }
