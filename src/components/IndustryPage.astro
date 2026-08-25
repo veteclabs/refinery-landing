@@ -237,8 +237,12 @@ const lines = (s: string) => s.split('\n');
         {/* 연동 시스템 — 흐름 2단계(연동)가 실제로 무엇과 연결되는지다.
             따로 섹션을 두는 대신 흐름 바로 아래에 붙인다. */}
         <div class="ind-systems-block">
-          <h3>{ind.integrations.title}</h3>
-          {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+          {/* 제목과 소제목은 한 줄에 둔다 — 섹션 머리(.ind-head)와 같은 배치로,
+              제목이 왼쪽 · 소제목이 오른쪽 끝이다. */}
+          <div class="ind-systems-head">
+            <h3>{ind.integrations.title}</h3>
+            {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+          </div>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
