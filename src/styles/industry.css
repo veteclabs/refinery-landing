@@ -155,7 +155,8 @@ img { max-width: 100%; height: auto; }
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
   background: #191d22; border: 1px solid #272b32; border-radius: 10px;
-  padding: 0; overflow: hidden;
+  /* 안 여백 24px — 도입 효과 카드(.ind-page .ind-grid-3 .ind-card)와 같은 값. */
+  padding: 24px; overflow: hidden;
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
   text-align: left;
@@ -163,38 +164,29 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-step:hover {
   box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
-/* 머리 띠 — .rfn-node-head와 같은 값. */
+/* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
+   아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
 .ind-page .ind-flow-head {
-  display: flex; align-items: center; gap: 8px;
-  height: 38px; padding: 0 10px;
-  background: #1e2228; border: 0; border-bottom: 1px solid #272b32;
-  border-radius: 0; margin-bottom: 0;
+  display: flex; align-items: center;
+  height: auto; padding: 0;
+  background: none; border: 0; border-bottom: 0;
+  border-radius: 0; margin-bottom: 5px;
 }
-/* 배지 — .rfn-node-ic와 같은 값. 안에는 단계 아이콘을 넣는다(랜딩과 같은 자리).
-   순서는 카드가 놓인 차례와 사이를 잇는 선이 맡는다.
-   아이콘이 없는 산업 데이터에서는 단계 번호가 대신 들어간다. */
-.ind-page .ind-flow-num {
-  flex: none; display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; border-radius: 6px;
-  background: #3f76ae; color: #fff;
-  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
-  font-size: 12px; font-weight: 600; letter-spacing: normal; line-height: 1;
-}
-/* 이름 — .rfn-node-name과 같은 값(등폭 13px). */
+/* 이름 — 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다.
+   20px / 600 / 줄높이 1.6. 색만 어두운 면에 맞춰 #EDEEF0이다. */
 .ind-page .ind-flow-label {
   flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
-  font-size: 13px; font-weight: 600; letter-spacing: normal;
-  text-transform: none; color: #edeef0; margin-bottom: 0;
+  font-family: inherit;
+  font-size: 20px; font-weight: 600; line-height: 1.6;
+  letter-spacing: -0.01em; text-transform: none;
+  color: #edeef0; margin-bottom: 0;
 }
-/* .rfn-node-ic .ph와 같은 14px. */
-.ind-page .ind-flow-num .ph { font-size: 14px; line-height: 1; }
 /* 카드 일러스트 — 어두운 카드 면(#191D22)에 맞춰 그린 그림이라 배경을 따로
    깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
 .ind-page .ind-flow-img {
   display: block;
   width: 120px; height: 120px;
-  margin: 22px auto 6px;
+  margin: 14px auto 10px;
 }
 @media (max-width: 1100px) {
   .ind-page .ind-flow-img { width: 96px; height: 96px; }
@@ -208,7 +200,7 @@ img { max-width: 100%; height: auto; }
    맞춰 옮겼다(그쪽 --bg-soft 자리에 #1E2228). */
 .ind-page .ind-flow-detail {
   list-style: none; margin: 0;
-  padding: 14px;
+  padding: 0;
   display: flex; flex-wrap: wrap; gap: 8px;
 }
 /* 상자는 면만으로 선다. 카드 · 머리 띠에 이미 테두리가 있어 안쪽까지 두르면
@@ -218,7 +210,9 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-detail li {
   background: #232830; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  font-size: 13px; line-height: 1.4; color: #c8ccd1;
+  /* 글자값은 도입 효과 카드 본문(.ind-card p)과 같다 — 15px / 줄높이 1.5.
+     색만 어두운 면에 맞춰 #C8CCD1이다(그쪽은 --text-muted). */
+  font-size: 15px; line-height: 1.5; color: #c8ccd1;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
@@ -230,7 +224,6 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 0 0 2px var(--accent), 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
 .ind-page .ind-flow-step.is-on .ind-flow-head { background: #20262f; border-bottom-color: #2f3947; }
-.ind-page .ind-flow-step.is-on .ind-flow-num { background: var(--accent); }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */

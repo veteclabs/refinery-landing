@@ -213,13 +213,10 @@ const lines = (s: string) => s.split('\n');
               <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
             )}
               <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
-                {/* 배지 + 이름. 배지에는 아이콘을 넣는다 — 랜딩 노드 카드
-                    (.rfn-node-ic)와 같은 자리다. 순서는 카드가 놓인 차례와
-                    사이를 잇는 선이 맡는다. */}
+                {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
+                    말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
+                    순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
                 <div class="ind-flow-head">
-                  <span class="ind-flow-num">
-                    {s.icon ? <i class={`ph ${s.icon}`} aria-hidden="true"></i> : i + 1}
-                  </span>
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
                 {s.image && (
