@@ -595,8 +595,12 @@ img { max-width: 100%; height: auto; }
   /* 흑백이라 색이 튀지 않으므로 불투명도를 올려도 배경이 앞으로 나오지 않는다.
      카드 면색(#191D22)이 섹션(#111316)보다 밝아 카드 경계는 유지된다. */
   /* 카드 면이 #191D22일 때는 .2에서 배경(0.0172)이 카드(0.0120)보다 밝아
-     카드가 파인 구멍처럼 읽혔다. 카드를 #272B32로 올린 뒤로는 여유가 생겼다. */
-  opacity: .1;
+     카드가 파인 구멍처럼 읽혔다. 카드를 #272B32로 올린 뒤로는 여유가 생겼다.
+     말풍선을 불투명으로 묶은 뒤 .10에서 .16으로 올렸다 - 사진 밝기가 24.5에서
+     26.8로 오르는데 말풍선 구분은 1.14:1에서 1.20:1로 같이 좋아진다.
+     명도(.75)를 올려 사진을 더 살리는 길도 재봤지만 명암 폭이 20.4에서
+     21.5까지밖에 안 움직이고 구분만 1.08:1로 무너져 접었다. */
+  opacity: .16;
   pointer-events: none; user-select: none;
 }
 /* 네 방향을 모두 흐린다. 마스크 두 장(세로·가로)을 intersect로 교차시키면
@@ -625,7 +629,11 @@ img { max-width: 100%; height: auto; }
    같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
 .ind-soft-dark .ind-card { background: #272b32; border: 1px solid #32373f; }
 /* 말풍선만 반투명 — 뒤의 현장 사진이 옅게 비친다. */
-.ind-soft-dark .ind-grid-bubble .ind-card { background: rgba(39, 43, 50, .7); }
+/* 말풍선 면은 불투명 #272B32다. 반투명(.7)이면 배경 사진이 밝아질 때 말풍선
+   면도 같이 밝아져, 사진만 올리고 말풍선은 제자리인 구조가 된다. 불투명으로
+   묶으면 사진과 말풍선을 따로 조절할 수 있다 - 사진 .10→.16으로 올렸는데도
+   말풍선 구분 대비가 1.14:1에서 1.20:1로 오히려 좋아졌다. */
+.ind-soft-dark .ind-grid-bubble .ind-card { background: #272b32; }
 .ind-soft-dark .ind-card h3 { color: #edeef0; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -709,8 +717,8 @@ img { max-width: 100%; height: auto; }
   border-right-color: var(--bg);
 }
 /* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: rgba(39, 43, 50, .7); }
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: rgba(39, 43, 50, .7); }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #272b32; }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #272b32; }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
    본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
