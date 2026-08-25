@@ -241,13 +241,16 @@ img { max-width: 100%; height: auto; }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
+/* 노트 — 면은 브랜드 하늘색 #76A6D7이다(알파 없이 불투명). 밝은 면이므로
+   글자는 어두운 #16202C를 쓴다 — 대비 6.43:1이다. 흰 글자는 2.56:1로 못 쓴다. */
 .ind-page .ind-flow-note {
   max-width: none;
   margin-top: 20px;
-  background: #232830;
+  background: #76a6d7;
   border-radius: 10px;
   padding: 14px 18px;
-  font-size: 14px; line-height: 1.5; color: #c8ccd1;
+  font-size: 14px; line-height: 1.5; color: #16202c;
+  text-align: center;
   word-break: keep-all;
 }
 
@@ -805,14 +808,19 @@ img { max-width: 100%; height: auto; }
 /* 연동 시스템은 판 위에 얹는다. 흐름 2단계(연동)가 실제로 무엇과 연결되는지를
    묶어 보여 주는 자리라, 칩이 배경에 흩어지지 않고 한 덩어리로 읽힌다.
    면은 섹션(#111316)보다 한 톤 밝은 #14181F에 푸른 기를 아주 옅게 얹는다. */
+/* 연동 시스템 블록 — 흐름 카드 넷과 같은 값이다(면 #191D22 · 테두리 #272B32 ·
+   모서리 10px · 그림자 · hover 링). 같은 섹션 안에서 같은 종류의 상자로 읽힌다. */
 .ind-page .ind-systems-block {
   margin-top: 64px;
-  background:
-    radial-gradient(120% 140% at 15% 0%, rgba(118, 166, 215, .07), transparent 60%),
-    #14181f;
-  border: 1px solid #232a34;
-  border-radius: 16px;
-  padding: 36px 36px 32px;
+  background: #191d22;
+  border: 1px solid #272b32;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  transition: box-shadow .15s ease;
+}
+.ind-page .ind-systems-block:hover {
+  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
 .ind-page .ind-systems-block > h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
