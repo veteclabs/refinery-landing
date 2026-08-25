@@ -276,7 +276,9 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-arrow {
   position: relative; z-index: 2;
   flex: 0 0 35px;
-  margin: 0 -12.5px;
+  /* 원형은 35px인데 자리는 18px만 차지한다 — 남는 17px만큼 양쪽 카드 위에
+     걸친다. 이 값이 곧 카드 사이 간격이다. */
+  margin: 0 -8.5px;
   align-self: center;
   display: flex; align-items: center; justify-content: center;
   width: 35px; height: 35px;
@@ -332,7 +334,7 @@ img { max-width: 100%; height: auto; }
   /* 세로에서는 겹칠 카드가 위아래에 있으므로 같은 방식으로 -10px씩 넘긴다. */
   .ind-page .ind-flow-arrow {
     flex: 0 0 35px; align-self: center;
-    width: 35px; height: 35px; margin: -12.5px 0;
+    width: 35px; height: 35px; margin: -8.5px 0;
     animation: none;
   }
   .ind-page .ind-flow-arrow .ph { transform: rotate(90deg); }
