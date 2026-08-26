@@ -53,6 +53,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: '산업 AI', href: '/industrial-ai' },
+            // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
+            // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
+            { label: '에너지관리시스템', href: '/energy-management' },
             { label: '블로그', href: '/blog' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
             { label: '문서', badge: '준비중' },
