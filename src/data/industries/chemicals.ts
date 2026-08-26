@@ -8,6 +8,7 @@ export const chemicals: IndustryData = {
     '전력 · LNG · 스팀 · 수도를 하나의 구조로 연결하고, AI 에이전트가 연소 효율과 배출량 이상 징후를 먼저 감지합니다. 화학 · 소재 · 제약 공정 현장을 위한 Refinery.',
   hero: {
     dark: true,
+    image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1172 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '화학 · 소재',

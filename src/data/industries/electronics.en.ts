@@ -10,6 +10,7 @@ export const electronicsEn: IndustryData = {
     'Connect power quality, UPS events, temperature, humidity and equipment alarms into one structure, and let an AI agent flag the risk of a line stop before it happens. Refinery for semiconductor, component and precision equipment manufacturing.',
   hero: {
     dark: true,
+    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1206 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Electronics · Precision',

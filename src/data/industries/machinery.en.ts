@@ -10,6 +10,7 @@ export const machineryEn: IndustryData = {
     'Connect shared utilities such as compressed air, HVAC and cooling into one structure, and let an AI agent locate where the energy concentrates. Refinery for machinery and plant operations built on large equipment.',
   hero: {
     dark: true,
+    image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1243 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Machinery · Plant',

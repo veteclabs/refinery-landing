@@ -8,6 +8,7 @@ export const steel: IndustryData = {
     '열처리 온도 · 냉각 곡선 · 압축공기 · 피크 전력을 하나의 구조로 연결하고, AI 에이전트가 품질 편차의 원인을 추적합니다. 철강 · 비철금속 · 소재 코팅 현장을 위한 Refinery.',
   hero: {
     dark: true,
+    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1280 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '가공 · 소재 · 철강',

@@ -10,6 +10,7 @@ export const automotiveEn: IndustryData = {
     'Connect press, body, paint and assembly into one structure, and let an AI agent catch rotating-equipment anomalies and quality variance first. Refinery for automotive and mobility manufacturing.',
   hero: {
     dark: true,
+    image: { src: '/industries/automotive-hero.webp', alt: '', width: 1920, height: 1080 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Automotive · Mobility',

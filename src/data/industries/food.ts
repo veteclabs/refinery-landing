@@ -8,6 +8,7 @@ export const food: IndustryData = {
     '냉동기 · 공기압축기 · 보일러의 운전 상태와 생산 데이터를 하나의 구조로 연결하고, AI 에이전트가 품질 온도 이탈을 먼저 감지합니다. 식품 · 음료 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
+    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '식품 · 음료',
