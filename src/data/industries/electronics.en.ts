@@ -50,7 +50,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Peak demand monitoring and load control',
         problem: 'Peak demand confirmed only once the peak has passed',
-        approach: 'Working with a utility-approved demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
+        approach: 'Working with a demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
