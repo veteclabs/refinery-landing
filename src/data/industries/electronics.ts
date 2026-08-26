@@ -19,24 +19,29 @@ export const electronics: IndustryData = {
     subtitle: '반도체 · 전자부품 · 정밀 장비 제조 현장에서 반복되는 문제입니다.',
     items: [
       {
-        title: '순간 전압 변동이 라인을 세운다',
+        title: '전력 품질 변동',
         description:
           '설비가 전력 품질에 민감해 짧은 변동 하나가 <br>제품 불량과 라인 중단으로 직결됩니다.',
       },
       {
-        title: 'UPS 전환을 나중에 안다',
+        title: 'UPS 전환 이벤트',
         description:
-          '정전과 UPS 전환 이벤트가 설비 이력과 따로 남아 <br>영향 범위를 판단하기 어렵습니다.',
+          '정전과 UPS 전환이 설비 이력과 따로 남아 <br>영향 범위를 판단하기 어렵습니다.',
       },
       {
-        title: '온습도 편차가 품질을 흔든다',
+        title: '라인 온습도 편차',
         description:
-          '라인별 미세한 온습도 차이가 수율에 영향을 주지만 <br>어느 구간이 벗어났는지 보이지 않습니다.',
+          '라인별 미세한 온습도 차이가 수율을 흔들지만 <br>어느 구간이 벗어났는지 보이지 않습니다.',
       },
       {
-        title: '알람이 몰리면 원인이 묻힌다',
+        title: '설비 알람 밀집 구간',
         description:
-          '설비 알람이 한꺼번에 쏟아지면 진짜 원인 하나가 <br>나머지 신호에 가려집니다.',
+          '알람이 한꺼번에 쏟아지면 진짜 원인 하나가 <br>나머지 신호에 묻힙니다.',
+      },
+      {
+        title: '생산 계획 대비 설비 응답',
+        description:
+          '계획과 실제 가동이 어긋나도 <br>드러나지 않은 채 지나갑니다.',
       },
     ],
   },
@@ -46,10 +51,16 @@ export const electronics: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: '최대 수요 전력 감시 · 부하 제어',
+        title: '최대 수요 전력 실시간 감시 · 부하 제어',
         problem: '피크가 지나간 뒤에야 확인되는 최대 수요 전력',
         approach: '실시간 수요를 추종해 피크 도달 전에 부하를 미리 조정합니다.',
         outcome: '전력 요금 절감과 피크 리스크 감소',
+      },
+      {
+        title: '설비별 전력 사용 패턴 분석',
+        problem: '어느 설비가 전력을 많이 쓰는지 알 수 없는 구조',
+        approach: '설비 · 공정 단위로 전력을 분리 계측하고 같은 기준으로 비교합니다.',
+        outcome: '에너지 다소비 공정 식별',
       },
       {
         title: 'UPS 연계 정전 감지 · 알람',
@@ -64,16 +75,22 @@ export const electronics: IndustryData = {
         outcome: '공정 품질 안정화',
       },
       {
-        title: '설비별 전력 사용 패턴 분석',
-        problem: '어느 설비가 전력을 많이 쓰는지 알 수 없는 구조',
-        approach: '설비 · 공정 단위로 전력을 분리 계측하고 같은 기준으로 비교합니다.',
-        outcome: '에너지 다소비 공정 식별',
-      },
-      {
-        title: '생산 계획 대비 설비 응답 추적',
+        title: '생산 계획 대비 설비 상태 추적',
         problem: '계획과 실제 설비 가동이 어긋나도 드러나지 않는 상황',
         approach: '생산 계획과 설비 가동 · 알람 이력을 연결해 응답 지연을 추적합니다.',
         outcome: '생산 예측 정확도 향상',
+      },
+      {
+        title: 'EHS · 화재 감시 연계 알람',
+        problem: '설비 감시와 따로 도는 안전 · 방재 시스템',
+        approach: 'EHS · 화재 감지 신호를 설비 알람과 한 체계로 묶어 함께 알립니다.',
+        outcome: '안전사고 예방',
+      },
+      {
+        title: '무선 기반 전력 · 환경 센서 구축',
+        problem: '배선 공사가 필요해 늘리기 어려운 계측점',
+        approach: '무선 센서로 전력 · 환경 계측점을 늘려 배선 없이 범위를 넓힙니다.',
+        outcome: '구축 비용 절감과 확장성 확보',
       },
     ],
   },
@@ -93,34 +110,24 @@ export const electronics: IndustryData = {
     subtitle: '운영 · 기술 · 경영 관점 모두에서 얻는 이점입니다.',
     items: [
       {
-        title: '무정전 운영',
-        icon: 'ph-plug-charging',
-        description: '정전과 UPS 전환을 즉시 잡아 \n라인 중단을 최소화합니다.',
+        title: '피크 발생 전 사전 부하 제어',
+        icon: 'ph-lightning',
+        description: '피크에 닿기 전에 부하를 \n미리 낮춥니다.',
       },
       {
-        title: '전력품질 감시',
-        icon: 'ph-wave-sine',
-        description: '순간 변동과 피크를 실시간으로 \n추적하고 미리 대응합니다.',
-      },
-      {
-        title: '미세환경 제어',
-        icon: 'ph-thermometer',
-        description: '라인별 온습도 편차를 잡아 \n공정 품질을 안정시킵니다.',
-      },
-      {
-        title: '알람 정리',
+        title: '설비 이상 시 즉시 알람',
         icon: 'ph-bell-ringing',
-        description: '몰려드는 신호에서 원인 하나를 \n앞으로 끌어냅니다.',
+        description: '이상이 나면 담당자를 \n바로 호출합니다.',
       },
       {
-        title: '현장 보안',
-        icon: 'ph-shield-check',
-        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
+        title: '공정 환경 실시간 감시',
+        icon: 'ph-thermometer',
+        description: '온습도 변화를 구간별로 \n실시간 추적합니다.',
       },
       {
-        title: '통합 또는 신규 구축',
-        icon: 'ph-stack',
-        description: '레거시 MES⁠/⁠BEMS⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+        title: '계획 대비 가동 상태 추적',
+        icon: 'ph-clipboard-text',
+        description: '생산 계획과 설비 응답을 \n나란히 놓고 봅니다.',
       },
     ],
   },

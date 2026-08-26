@@ -34,6 +34,10 @@ const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${
 // (히어로 사진은 산업마다 다르므로 기본값을 두지 않는다.)
 const CHALLENGES_BG = '/industries/challenges-bg.webp';
 const challengesBg = ind.challenges.backgroundImage ?? CHALLENGES_BG;
+
+// 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
+// 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
+const benefitCols = ind.benefits.items.length === 4 ? 4 : 3;
 // ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
 const alternates = [
   { lang: 'ko', href: `/industries/${ind.slug}` },
@@ -266,7 +270,7 @@ const lines = (s: string) => s.split('\n');
           <h2>{ind.benefits.title}</h2>
           {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
         </header>
-        <div class="ind-grid ind-grid-3">
+        <div class:list={['ind-grid', `ind-grid-${benefitCols}`]}>
           {ind.benefits.items.map((b) => (
             <div class="ind-card">
               {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}

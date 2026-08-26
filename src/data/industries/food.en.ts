@@ -21,24 +21,29 @@ export const foodEn: IndustryData = {
     subtitle: 'Recurring problems from intake to packaging and storage.',
     items: [
       {
-        title: 'Refrigeration efficiency slips quietly',
+        title: 'Refrigeration efficiency slipping',
         description:
           'Chiller and cold storage performance degrades gradually, and which segment started slipping never surfaces.',
       },
       {
-        title: 'Temperature excursions are noticed late',
+        title: 'Compressed air leaks and overrun',
         description:
-          'When storage or transfer leaves its band, it is confirmed only after the product is out.',
+          'Some segments run regardless of real demand, with no evidence at hand to locate the leak.',
       },
       {
-        title: 'Energy varies batch to batch',
+        title: 'Energy variance between batches',
         description:
           'The same product draws different energy from batch to batch, with no baseline for comparison.',
       },
       {
-        title: 'No basis for replacing ageing equipment',
+        title: 'Energy concentrated in CIP cleaning',
         description:
-          'The need is clear, but there is nothing on hand to show in numbers how much it would save.',
+          'Cleaning cycles draw heavily but are tallied apart from production, so the cost stays hidden.',
+      },
+      {
+        title: 'Quality temperature excursions',
+        description:
+          'When storage or transfer leaves its band, it is confirmed only after the product is out.',
       },
     ],
   },
@@ -48,22 +53,10 @@ export const foodEn: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: 'Chiller and compressor operating pattern analysis',
-        problem: 'Refrigeration efficiency slipping without ever surfacing',
+        title: 'Chiller and compressor power and operating pattern analysis',
+        problem: 'Equipment efficiency slipping without ever surfacing',
         approach: 'Power consumption and operating patterns are stacked to locate where efficiency bends.',
         outcome: 'Better equipment efficiency and lower energy cost',
-      },
-      {
-        title: 'Live quality temperature monitoring',
-        problem: 'Excursions confirmed only after the product is out',
-        approach: 'Storage and transfer temperatures are read live and raised the moment they leave the band.',
-        outcome: 'Steadier quality and minimal loss',
-      },
-      {
-        title: 'Energy intensity by batch',
-        problem: 'Batch-to-batch variance with no baseline to compare',
-        approach: 'Production records and energy use are linked to derive intensity by batch and product automatically.',
-        outcome: 'Better cost structure and comparable process efficiency',
       },
       {
         title: 'Before and after simulation for equipment replacement',
@@ -76,6 +69,24 @@ export const foodEn: IndustryData = {
         problem: 'Utilities tallied separately, each on its own',
         approach: 'Energy sources are defined in one structure so use by asset and process lands on the same screen.',
         outcome: 'Usage patterns made visible by energy source',
+      },
+      {
+        title: 'Energy intensity tied to output',
+        problem: 'Batch-to-batch variance with no baseline to compare',
+        approach: 'Production records and energy use are linked to derive intensity by batch and product automatically.',
+        outcome: 'Better cost structure and comparable process efficiency',
+      },
+      {
+        title: 'Chiller efficiency analysis and operating optimization',
+        problem: 'Chillers running on without a reference point',
+        approach: 'Chiller efficiency is computed continuously and operating conditions are tuned to it.',
+        outcome: 'Lower cooling energy and steadier quality',
+      },
+      {
+        title: 'Vibration-based equipment monitoring',
+        problem: 'Rotating-equipment faults that surface only after a stop',
+        approach: 'Patterns that differ from the norm are learned from vibration data to catch early signs.',
+        outcome: 'Failures prevented and downtime reduced',
       },
     ],
   },
@@ -95,34 +106,24 @@ export const foodEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Refrigeration efficiency',
-        icon: 'ph-snowflake',
-        description: 'Chiller operation is tuned to its optimum, saving cooling energy.',
-      },
-      {
-        title: 'Quality temperature monitoring',
-        icon: 'ph-thermometer',
-        description: 'Excursions are caught live, before they turn into loss.',
-      },
-      {
-        title: 'Energy intensity by batch',
-        icon: 'ph-chart-line',
-        description: 'Batches are compared on energy, improving the cost structure.',
-      },
-      {
-        title: 'Evidence for investment',
+        title: 'Verified case for replacement',
         icon: 'ph-calculator',
-        description: 'Before and after are set out in numbers, verifying the case.',
+        description: 'Before and after are set out in numbers to justify the spend.',
       },
       {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
+        title: 'Chiller and compressor tuning',
+        icon: 'ph-snowflake',
+        description: 'Operating patterns are refined to save cooling energy.',
       },
       {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy PLC, MES or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        title: 'Efficiency compared against output',
+        icon: 'ph-chart-line',
+        description: 'Batches are weighed against each other to improve the cost structure.',
+      },
+      {
+        title: 'Retracing equipment on a quality issue',
+        icon: 'ph-magnifying-glass',
+        description: 'Equipment state at the moment of the issue is retraced on one timeline.',
       },
     ],
   },

@@ -21,22 +21,27 @@ export const machineryEn: IndustryData = {
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [
       {
-        title: 'Equipment pushes on equipment',
+        title: 'Compressed air demand swings',
         description:
-          'Compressed air, HVAC and cooling run entangled, so trimming one place lands as load somewhere else.',
+          'Demand moves by the minute while supply stays fixed, and the spare capacity turns into cost.',
       },
       {
-        title: 'Supply drifts from demand',
+        title: 'HVAC and cooling running coupled',
         description:
-          'Shared utilities keep running when real demand drops, and the spare capacity turns straight into cost.',
+          'HVAC and cooling are entangled, so trimming one place lands as load somewhere else.',
       },
       {
-        title: 'Energy-heavy segments stay hidden',
+        title: 'Energy concentrated in equipment clusters',
         description:
-          'Equipment is grouped in clusters, so which segment is drawing the energy is hard to separate out.',
+          'Equipment is grouped in clusters, so which segment draws the energy is hard to separate out.',
       },
       {
-        title: 'Carbon hot spots are invisible',
+        title: 'Process enthalpy flow',
+        description:
+          'How heat moves through the process is never captured in numbers.',
+      },
+      {
+        title: 'Carbon emission hot spots',
         description:
           'Emissions are not split by process, leaving no basis for deciding where to start.',
       },
@@ -48,7 +53,7 @@ export const machineryEn: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: 'Demand-based compressed air control',
+        title: 'Demand-based compressed air control and monitoring',
         problem: 'Shared utilities running on when demand drops',
         approach: 'Real demand is read and discharge pressure and unit staging are matched to what is needed.',
         outcome: 'Lower energy use and longer equipment life',
@@ -70,6 +75,12 @@ export const machineryEn: IndustryData = {
         problem: 'No baseline for comparing efficiency against production',
         approach: 'Production records and energy use are linked to derive intensity by process automatically.',
         outcome: 'Process efficiency made visible and cost structure improved',
+      },
+      {
+        title: 'DC microgrid based equipment control',
+        problem: 'Operations tied to a single grid feed',
+        approach: 'On-site generation and the grid are read together to distribute power across equipment.',
+        outcome: 'Lower fuel cost and steadier energy operations',
       },
       {
         title: 'Unified carbon emission monitoring',
@@ -95,34 +106,24 @@ export const machineryEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Run to demand',
+        title: 'Demand-based compressed air control',
         icon: 'ph-wind',
         description: 'Shared utilities run only as far as real demand asks.',
       },
       {
-        title: 'Utilities in one place',
-        icon: 'ph-squares-four',
-        description: 'Compressed air, HVAC and cooling are watched on a single screen.',
+        title: 'Savings from HVAC inverter control',
+        icon: 'ph-thermometer',
+        description: 'Load follows enthalpy, cutting cooling energy.',
       },
       {
-        title: 'Energy intensity',
+        title: 'Condition-based maintenance',
+        icon: 'ph-pulse',
+        description: 'Condition data sets the moment to intervene.',
+      },
+      {
+        title: 'Efficiency analysis tied to output',
         icon: 'ph-chart-line',
-        description: 'Output and energy are linked so efficiency can be compared process by process.',
-      },
-      {
-        title: 'Carbon hot spots',
-        icon: 'ph-leaf',
-        description: 'Emissions are split by process so the place to start becomes obvious.',
-      },
-      {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
-      },
-      {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy PLC, BEMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        description: 'Output and energy are joined to compare efficiency by process.',
       },
     ],
   },

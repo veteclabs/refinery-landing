@@ -19,24 +19,29 @@ export const automotive: IndustryData = {
     subtitle: '프레스 · 차체 · 도장 · 조립 라인에서 반복되는 문제입니다.',
     items: [
       {
-        title: '한 공정이 라인 전체를 세운다',
+        title: '공정 연결 구간 병목',
         description:
-          '공정이 연속으로 물려 있어 설비 하나의 이상이 <br>라인 전체 정지로 번집니다.',
+          '프레스 · 차체 · 도장 · 조립이 연속으로 물려 있어 <br>한 구간이 느려지면 라인 전체가 함께 밀립니다.',
       },
       {
-        title: '회전체 이상을 사후에 안다',
+        title: '회전체 설비 이상 패턴',
         description:
-          '모터 · 감속기의 조짐은 진동 데이터에 남지만 <br>정지가 난 뒤에야 확인합니다.',
+          '모터 · 감속기의 조짐은 진동과 전류에 남지만 <br>정지가 난 뒤에야 확인됩니다.',
       },
       {
-        title: '라인마다 에너지 편차가 크다',
+        title: '라인별 에너지 편차',
         description:
-          '같은 공정인데 라인별 전력 사용이 다르고 <br>원인을 짚을 근거가 없습니다.',
+          '같은 공정인데 라인마다 전력 사용이 다르고 <br>차이를 설명할 근거가 없습니다.',
       },
       {
-        title: '품질 이슈의 원인을 못 찾는다',
+        title: '품질 이슈 발생 시 설비 이력',
         description:
-          '불량이 난 시점의 설비 상태와 환경 조건이 <br>따로 기록돼 되짚기 어렵습니다.',
+          '불량이 난 시점의 설비 상태와 환경 조건이 따로 기록돼 <br>원인을 되짚기 어렵습니다.',
+      },
+      {
+        title: '생산 변동 대응 에너지 재배분',
+        description:
+          '생산량이 흔들려도 에너지 배분은 그대로여서 <br>남는 용량이 그대로 비용이 됩니다.',
       },
     ],
   },
@@ -46,16 +51,16 @@ export const automotive: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: '회전체 진동 기반 예지보전',
-        problem: '정지가 난 뒤에야 확인되는 모터 · 회전체 이상',
+        title: '모터 · 회전체 진동 기반 예지보전',
+        problem: '정지가 난 뒤에야 확인되는 회전체 이상',
         approach: '진동 · 전류 시계열에서 평소와 다른 패턴을 학습해 이상 징후를 조기에 포착합니다.',
         outcome: '설비 다운타임 감소와 생산 안정성 확보',
       },
       {
         title: '라인별 전력 사용 패턴 분석',
-        problem: '라인마다 다른 전력 사용과 짚을 수 없는 원인',
+        problem: '라인마다 다른 전력 사용과 설명할 수 없는 차이',
         approach: '라인 · 공정 · 설비를 하나의 구조로 정의해 전력 사용을 같은 기준으로 비교합니다.',
-        outcome: '비효율 공정 식별과 에너지 비용 절감',
+        outcome: '에너지 비용 절감과 비효율 공정 식별',
       },
       {
         title: '공기압축기 수요 기반 제어',
@@ -67,10 +72,10 @@ export const automotive: IndustryData = {
         title: '생산량 연계 에너지 원단위 관리',
         problem: '생산 대비 에너지 효율을 볼 수 없는 구조',
         approach: '생산 실적과 에너지 사용을 연결해 라인 · 차종별 원단위를 자동 산출합니다.',
-        outcome: '생산 대비 효율 가시화와 원가 구조 개선',
+        outcome: '생산 대비 에너지 효율 가시화와 원가 구조 개선',
       },
       {
-        title: '환경 조건 연계 품질 영향 분석',
+        title: '환경 조건 변화에 따른 품질 영향 분석',
         problem: '따로 기록돼 되짚기 어려운 품질 이슈의 원인',
         approach: '온습도 · 설비 상태 · 품질 결과를 같은 시간축에서 연결해 원인을 추적합니다.',
         outcome: '품질 편차 최소화와 공정 조건 최적화',
@@ -93,34 +98,24 @@ export const automotive: IndustryData = {
     subtitle: '운영 · 기술 · 경영 관점 모두에서 얻는 이점입니다.',
     items: [
       {
-        title: '다운타임 감소',
+        title: '설비 다운타임 감소',
         icon: 'ph-pulse',
-        description: '회전체 이상을 미리 잡아 \n계획 외 정지를 줄입니다.',
+        description: '회전체 진동에서 이상을 미리 잡아 \n생산 안정성을 확보합니다.',
       },
       {
-        title: '라인 통합 관제',
-        icon: 'ph-squares-four',
-        description: '프레스부터 조립까지 흐름을 \n하나의 화면으로 봅니다.',
-      },
-      {
-        title: '에너지 원단위',
+        title: '에너지 비용 절감',
         icon: 'ph-lightning',
-        description: '생산량과 에너지를 연결해 \n라인별 효율을 비교합니다.',
+        description: '라인별 전력 패턴을 비교해 \n비효율 공정을 식별합니다.',
       },
       {
-        title: '품질 추적',
-        icon: 'ph-magnifying-glass',
-        description: '불량 시점의 설비 · 환경 조건을 \n시간축으로 되짚습니다.',
+        title: '원가 구조 개선',
+        icon: 'ph-chart-line',
+        description: '생산 대비 에너지 효율을 \n숫자로 드러냅니다.',
       },
       {
-        title: '현장 보안',
-        icon: 'ph-shield-check',
-        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
-      },
-      {
-        title: '통합 또는 신규 구축',
-        icon: 'ph-stack',
-        description: '레거시 MES⁠/⁠PLC⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+        title: '품질 편차 최소화',
+        icon: 'ph-target',
+        description: '환경 조건과 품질 결과를 이어 \n공정 조건을 맞춥니다.',
       },
     ],
   },

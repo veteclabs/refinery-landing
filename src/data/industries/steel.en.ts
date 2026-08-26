@@ -21,24 +21,29 @@ export const steelEn: IndustryData = {
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
       {
-        title: 'Heat-treatment conditions decide quality',
+        title: 'Heat-treatment temperature holds',
         description:
-          'Small differences in temperature, hold time and cooling change the material properties outright.',
+          'Small differences in temperature and hold time change the material properties outright.',
       },
       {
-        title: 'Cooling curve deviations surface late',
+        title: 'Cooling curve deviations',
         description:
-          'When the cooling segment leaves its band, it is often confirmed only once the finished piece is out.',
+          'When the cooling segment leaves its band, it is confirmed only once the finished piece is out.',
       },
       {
-        title: 'Peak demand spikes often',
+        title: 'Compressed air peaks',
+        description:
+          'Some segments run regardless of real demand, with no evidence at hand to locate the leak.',
+      },
+      {
+        title: 'Peak demand surges',
         description:
           'High-temperature, high-power equipment running together drives peak demand up and the bill with it.',
       },
       {
-        title: 'Compressed air leaks and overruns',
+        title: 'Energy spread across processes',
         description:
-          'Some segments run regardless of real demand, with no evidence at hand to locate the leak.',
+          'Energy is scattered process by process, so over-consuming segments are hard to separate out.',
       },
     ],
   },
@@ -48,22 +53,22 @@ export const steelEn: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: 'Heat-treatment temperature and time analysis',
-        problem: 'Process deviations confirmed only once the piece is out',
-        approach: 'Furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
-        outcome: 'Steadier material quality and repeatable results',
-      },
-      {
-        title: 'Peak demand monitoring and load control',
+        title: 'Peak demand monitoring and target-based load control',
         problem: 'Peaks driven up by high-power equipment running together',
         approach: 'A target demand is set and live load is tracked so it can be trimmed before the target is reached.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
-        title: 'Demand-based compressed air control',
+        title: 'Demand-based compressed air control and monitoring',
         problem: 'Compressed air equipment overrunning against real demand',
         approach: 'Demand patterns are read to trim discharge pressure and unit staging, and leaking segments are located.',
         outcome: 'Lower energy use and longer equipment life',
+      },
+      {
+        title: 'Heat-treatment temperature and time analysis',
+        problem: 'Process deviations confirmed only once the piece is out',
+        approach: 'Furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
+        outcome: 'Steadier material quality',
       },
       {
         title: 'Energy flow visualized by process',
@@ -76,6 +81,12 @@ export const steelEn: IndustryData = {
         problem: 'Cooling water equipment that has to be checked on foot',
         approach: 'Cooling water temperature, flow and pump state are monitored remotely and controlled to condition.',
         outcome: 'Steadier equipment operation',
+      },
+      {
+        title: 'Vibration-based equipment monitoring',
+        problem: 'Rotating-equipment faults that surface only after a stop',
+        approach: 'Patterns that differ from the norm are learned from vibration data to catch early signs.',
+        outcome: 'Failures prevented and maintenance made more efficient',
       },
     ],
   },
@@ -95,34 +106,24 @@ export const steelEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Repeatable quality',
+        title: 'Steadier heat-treatment quality',
         icon: 'ph-thermometer',
-        description: 'Heat-treatment conditions are kept batch by batch so the same result repeats.',
+        description: 'Temperature patterns are kept batch by batch so the same result repeats.',
       },
       {
-        title: 'Peak control',
-        icon: 'ph-lightning',
-        description: 'Load is trimmed before peak demand is reached.',
-      },
-      {
-        title: 'Compressed air savings',
+        title: 'Compressed air matched to demand',
         icon: 'ph-wind',
-        description: 'Equipment runs to demand and leaking segments are located.',
+        description: 'Only what is needed is supplied, cutting waste and leaks.',
       },
       {
-        title: 'Equipment condition monitoring',
-        icon: 'ph-pulse',
-        description: 'Vibration catches faults early, making maintenance more efficient.',
+        title: 'Peak demand caught early',
+        icon: 'ph-lightning',
+        description: 'Load is lowered before peak demand is reached.',
       },
       {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
-      },
-      {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy PLC, FEMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        title: 'Energy variance by process',
+        icon: 'ph-chart-line',
+        description: 'Energy is split process by process to pin over-consuming segments.',
       },
     ],
   },

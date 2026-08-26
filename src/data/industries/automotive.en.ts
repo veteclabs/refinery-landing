@@ -21,24 +21,29 @@ export const automotiveEn: IndustryData = {
     subtitle: 'Recurring problems across press, body, paint and assembly.',
     items: [
       {
-        title: 'One process stops the whole line',
+        title: 'Bottlenecks between coupled processes',
         description:
-          'Processes are coupled end to end, so a single piece of equipment going wrong spreads into a full line stoppage.',
+          'Press, body, paint and assembly run end to end, so one slow segment pushes the whole line back.',
       },
       {
-        title: 'Rotating-equipment faults are known too late',
+        title: 'Rotating-equipment fault patterns',
         description:
-          'The early signs of a motor or gearbox fault sit in the vibration data, but they are read only after the stoppage.',
+          'The early signs of a motor or gearbox fault sit in vibration and current, but they are read only after the stoppage.',
       },
       {
-        title: 'Energy varies line to line',
+        title: 'Energy variance between lines',
         description:
-          'The same process draws different power on different lines, with no evidence at hand to explain why.',
+          'The same process draws different power on different lines, with no evidence to explain the gap.',
       },
       {
-        title: 'Quality issues have no traceable cause',
+        title: 'Equipment history when quality slips',
         description:
           'Equipment state and ambient conditions at the moment of a defect are recorded separately, so retracing them is hard.',
+      },
+      {
+        title: 'Energy reallocation as output shifts',
+        description:
+          'Output moves but the energy split stays fixed, and the spare capacity turns straight into cost.',
       },
     ],
   },
@@ -49,7 +54,7 @@ export const automotiveEn: IndustryData = {
     items: [
       {
         title: 'Vibration-based predictive maintenance',
-        problem: 'Motor and rotating-equipment faults confirmed only after a stoppage',
+        problem: 'Rotating-equipment faults confirmed only after a stoppage',
         approach: 'Patterns that differ from the norm are learned from vibration and current time-series to catch early signs.',
         outcome: 'Less equipment downtime and steadier production',
       },
@@ -57,7 +62,7 @@ export const automotiveEn: IndustryData = {
         title: 'Power usage patterns by line',
         problem: 'Different power draw line to line, with no way to explain it',
         approach: 'Lines, processes and assets are defined in one structure so power use can be compared on equal terms.',
-        outcome: 'Inefficient processes identified and energy cost reduced',
+        outcome: 'Lower energy cost and inefficient processes identified',
       },
       {
         title: 'Demand-based compressed air control',
@@ -95,34 +100,24 @@ export const automotiveEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Less downtime',
+        title: 'Less equipment downtime',
         icon: 'ph-pulse',
-        description: 'Rotating-equipment faults are caught early, cutting unplanned stoppages.',
+        description: 'Faults are caught early in vibration data, keeping production steady.',
       },
       {
-        title: 'Unified line control',
-        icon: 'ph-squares-four',
-        description: 'The flow from press to assembly is watched on a single screen.',
-      },
-      {
-        title: 'Energy intensity',
+        title: 'Lower energy cost',
         icon: 'ph-lightning',
-        description: 'Output and energy are linked so efficiency can be compared line by line.',
+        description: 'Power patterns are compared line by line to identify inefficient processes.',
       },
       {
-        title: 'Quality traceability',
-        icon: 'ph-magnifying-glass',
-        description: 'Equipment and ambient conditions at the moment of a defect are retraced on one timeline.',
+        title: 'Better cost structure',
+        icon: 'ph-chart-line',
+        description: 'Efficiency against output is put into numbers.',
       },
       {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
-      },
-      {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy MES, PLC or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        title: 'Less quality variance',
+        icon: 'ph-target',
+        description: 'Ambient conditions and quality results are joined to tune process settings.',
       },
     ],
   },

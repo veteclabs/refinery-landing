@@ -19,24 +19,29 @@ export const machinery: IndustryData = {
     subtitle: '24시간 연속 운전하는 대형 설비 현장에서 반복되는 문제입니다.',
     items: [
       {
-        title: '설비끼리 서로 영향을 준다',
+        title: '압축공기 수요 변동',
         description:
-          '공기압축기 · 공조 · 냉각이 얽혀 돌아가 <br>한 곳의 조정이 다른 곳의 부하로 넘어갑니다.',
+          '수요가 시시각각 흔들려도 공급은 그대로여서 <br>남는 용량이 그대로 비용이 됩니다.',
       },
       {
-        title: '수요와 공급이 어긋난다',
+        title: '공조 · 냉각 연계 운전',
         description:
-          '실제 수요가 줄어도 공용 설비는 그대로 돌아 <br>남는 용량이 그대로 비용이 됩니다.',
+          '공조와 냉각이 서로 물려 돌아가 <br>한 곳의 조정이 다른 곳의 부하로 넘어갑니다.',
       },
       {
-        title: '에너지가 몰리는 구간을 못 짚는다',
+        title: '설비 군집 에너지 집중',
         description:
-          '설비가 군집으로 묶여 있어 어느 구간이 에너지를 <br>삼키는지 분리해 보기 어렵습니다.',
+          '설비가 군집으로 묶여 있어 어느 구간이 <br>에너지를 삼키는지 분리해 보기 어렵습니다.',
       },
       {
-        title: '탄소 배출 Hot Spot이 안 보인다',
+        title: '공정 엔탈피 흐름',
         description:
-          '배출량이 공정별로 나뉘지 않아 어디부터 손대야 할지 <br>판단할 근거가 없습니다.',
+          '열이 공정을 따라 어떻게 흐르는지 <br>수치로 잡히지 않습니다.',
+      },
+      {
+        title: '탄소 배출 Hot Spot',
+        description:
+          '배출량이 공정별로 나뉘지 않아 <br>어디부터 손대야 할지 판단할 근거가 없습니다.',
       },
     ],
   },
@@ -46,7 +51,7 @@ export const machinery: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: '공기압축기 수요 맞춤 제어',
+        title: '공기압축기 수요 맞춤 제어 · 상태 감시',
         problem: '수요가 줄어도 그대로 돌아가는 공용 설비',
         approach: '실제 수요를 읽어 토출 압력과 대수 운전을 필요한 만큼으로 맞춥니다.',
         outcome: '에너지 소비 감소와 설비 수명 연장',
@@ -55,7 +60,7 @@ export const machinery: IndustryData = {
         title: '설비별 전력 사용 실시간 분석',
         problem: '군집으로 묶여 분리해 볼 수 없는 에너지 사용',
         approach: '설비 · 공정 단위로 전력을 분리 계측하고 같은 기준으로 비교합니다.',
-        outcome: '다소비 설비 식별과 운영 효율 개선',
+        outcome: '에너지 다소비 설비 식별과 운영 효율 개선',
       },
       {
         title: '공조 설비 엔탈피 기반 인버터 제어',
@@ -68,6 +73,12 @@ export const machinery: IndustryData = {
         problem: '생산 대비 효율을 비교할 기준이 없는 구조',
         approach: '생산 실적과 에너지 사용을 연결해 공정별 원단위를 자동 산출합니다.',
         outcome: '공정 효율 가시화와 원가 구조 개선',
+      },
+      {
+        title: 'DC 마이크로그리드 기반 설비 제어',
+        problem: '전력 계통 하나에 묶여 흔들리는 설비 운영',
+        approach: '자체 전원과 계통을 함께 보고 설비 전력을 배분해 운전합니다.',
+        outcome: '연료비 절감과 에너지 운영 안정성 확보',
       },
       {
         title: '탄소 배출량 통합 모니터링',
@@ -93,34 +104,24 @@ export const machinery: IndustryData = {
     subtitle: '운영 · 기술 · 경영 관점 모두에서 얻는 이점입니다.',
     items: [
       {
-        title: '수요 맞춤 운전',
+        title: '공기압축기 수요 기반 제어',
         icon: 'ph-wind',
-        description: '실제 수요에 맞춰 공용 설비를 \n필요한 만큼만 돌립니다.',
+        description: '실제 수요에 맞춰 \n필요한 만큼만 돌립니다.',
       },
       {
-        title: '공용 설비 통합',
-        icon: 'ph-squares-four',
-        description: '압축공기 · 공조 · 냉각을 \n하나의 화면으로 봅니다.',
+        title: '공조 인버터 제어 절감',
+        icon: 'ph-thermometer',
+        description: '엔탈피에 맞춰 부하를 \n조정해 냉열을 아낍니다.',
       },
       {
-        title: '에너지 원단위',
+        title: '설비 상태 기반 유지보수',
+        icon: 'ph-pulse',
+        description: '상태 데이터로 손볼 시점을 \n먼저 잡습니다.',
+      },
+      {
+        title: '생산량 연계 효율 분석',
         icon: 'ph-chart-line',
-        description: '생산량과 에너지를 연결해 \n공정별 효율을 비교합니다.',
-      },
-      {
-        title: '탄소 Hot Spot',
-        icon: 'ph-leaf',
-        description: '공정별 배출량을 나눠 \n손댈 곳부터 짚어냅니다.',
-      },
-      {
-        title: '현장 보안',
-        icon: 'ph-shield-check',
-        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
-      },
-      {
-        title: '통합 또는 신규 구축',
-        icon: 'ph-stack',
-        description: '레거시 PLC⁠/⁠BEMS⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+        description: '생산과 에너지를 이어 \n공정별 효율을 비교합니다.',
       },
     ],
   },

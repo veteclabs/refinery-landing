@@ -21,24 +21,29 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'Recurring problems in continuous reaction operations.',
     items: [
       {
-        title: 'Small swings become large losses',
+        title: 'Thermal fluid circulation efficiency',
         description:
-          'A slight wobble in temperature, pressure or flow carries straight through to product quality and production stability.',
+          'Loss differs along every circulation path, and where it leaks never surfaces.',
       },
       {
-        title: 'Utilities are counted separately',
+        title: 'Combustion air-fuel ratio',
         description:
-          'Electricity, LNG, steam and water are each tallied on their own, so where the loss sits is hard to see at once.',
+          'When a boiler drifts off its optimal ratio, how much fuel is wasted stays invisible.',
       },
       {
-        title: 'Air-fuel ratio is set by feel',
+        title: 'Load variance between reactors',
         description:
-          'When a thermal boiler drifts off its optimal air-fuel ratio, how much fuel is being wasted never surfaces.',
+          'The same reaction carries different load reactor to reactor, with no baseline to compare.',
       },
       {
-        title: 'Carbon reporting is manual',
+        title: 'Energy input against reaction load',
         description:
-          'Emissions figures and regulatory reports are gathered by hand, which takes time and leaves room for error.',
+          'Input drifts out of step with actual load, and it is confirmed only after the fact.',
+      },
+      {
+        title: 'Emission anomalies',
+        description:
+          'Emissions move away from the norm, but manual aggregation delays noticing it.',
       },
     ],
   },
@@ -66,10 +71,16 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Better combustion efficiency and lower energy cost',
       },
       {
-        title: 'Reactor load against energy input',
-        problem: 'Energy input drifting out of step with actual load',
-        approach: 'Reaction load and real energy input are placed side by side to pin the deviating segment.',
-        outcome: 'Steadier reactions and energy-intensive assets identified',
+        title: 'Energy use analysis by asset',
+        problem: 'No way to tell which asset consumes the energy',
+        approach: 'Energy is metered separately by asset and compared on equal terms.',
+        outcome: 'Energy-intensive assets identified',
+      },
+      {
+        title: 'Air compressor state and operating factors',
+        problem: 'Compressor faults that surface only after a stop',
+        approach: 'Compressor state and operating factors are tracked together to spot flows that differ from the norm.',
+        outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {
         title: 'Unified greenhouse gas accounting',
@@ -95,34 +106,24 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Reaction stability',
-        icon: 'ph-pulse',
-        description: 'Swings in process variables are caught first, cutting the loss they carry.',
+        title: 'Target-based energy management',
+        icon: 'ph-target',
+        description: 'Targets are set and overrun is raised in real time.',
       },
       {
-        title: 'Utilities in one place',
-        icon: 'ph-squares-four',
-        description: 'Electricity, LNG, steam and water are watched on a single screen.',
-      },
-      {
-        title: 'Combustion efficiency',
+        title: 'Optimal air-fuel ratio control',
         icon: 'ph-flame',
-        description: 'The air-fuel ratio is held at its optimum, cutting fuel waste.',
+        description: 'Combustion data holds the ratio at its optimum.',
       },
       {
-        title: 'Carbon compliance',
-        icon: 'ph-leaf',
-        description: 'Emissions are aggregated automatically, with sources traceable.',
+        title: 'Energy variance by asset',
+        icon: 'ph-chart-line',
+        description: 'Energy is split asset by asset to pin the heavy consumers.',
       },
       {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
-      },
-      {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy DCS, FEMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        title: 'Early detection of energy anomalies',
+        icon: 'ph-pulse',
+        description: 'Flows that differ from the norm are noticed first.',
       },
     ],
   },

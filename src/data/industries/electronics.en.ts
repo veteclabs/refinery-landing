@@ -21,24 +21,29 @@ export const electronicsEn: IndustryData = {
     subtitle: 'Recurring problems in semiconductor and precision plants.',
     items: [
       {
-        title: 'A momentary sag stops the line',
+        title: 'Power quality disturbances',
         description:
           'Equipment is sensitive to power quality, so a single brief disturbance turns directly into scrap and a line stop.',
       },
       {
-        title: 'UPS transfers are noticed late',
+        title: 'UPS transfer events',
         description:
           'Outage and UPS transfer events are logged apart from equipment history, making the blast radius hard to judge.',
       },
       {
-        title: 'Temperature drift moves quality',
+        title: 'Temperature and humidity drift',
         description:
-          'Small differences in temperature and humidity between lines affect yield, but which segment drifted stays invisible.',
+          'Small differences between lines move yield, but which segment drifted stays invisible.',
       },
       {
-        title: 'Alarm floods bury the cause',
+        title: 'Alarm-dense windows',
         description:
-          'When equipment alarms arrive all at once, the one real cause is hidden behind the rest of the noise.',
+          'When equipment alarms arrive all at once, the one real cause is buried in the rest.',
+      },
+      {
+        title: 'Equipment response against the plan',
+        description:
+          'Plan and actual operation drift apart and the gap passes unnoticed.',
       },
     ],
   },
@@ -54,6 +59,12 @@ export const electronicsEn: IndustryData = {
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
+        title: 'Power usage patterns by asset',
+        problem: 'No way to tell which equipment draws the most power',
+        approach: 'Power is metered separately by asset and process, then compared on equal terms.',
+        outcome: 'Energy-intensive processes identified',
+      },
+      {
         title: 'UPS-linked outage detection and alerts',
         problem: 'Outage and UPS transfer events logged apart from equipment history',
         approach: 'Power quality and UPS events are placed on the same timeline as equipment state to pin the blast radius at once.',
@@ -66,16 +77,22 @@ export const electronicsEn: IndustryData = {
         outcome: 'Steadier process quality',
       },
       {
-        title: 'Power usage patterns by asset',
-        problem: 'No way to tell which equipment draws the most power',
-        approach: 'Power is metered separately by asset and process, then compared on equal terms.',
-        outcome: 'Energy-intensive processes identified',
-      },
-      {
-        title: 'Equipment response against the plan',
+        title: 'Equipment state against the production plan',
         problem: 'Plan and actual equipment operation drifting apart unnoticed',
         approach: 'Production plans are linked to equipment operation and alarm history to trace response lag.',
         outcome: 'More accurate production forecasting',
+      },
+      {
+        title: 'EHS and fire monitoring in the same alert stream',
+        problem: 'Safety systems running apart from equipment monitoring',
+        approach: 'EHS and fire detection signals are folded into the same alert structure as equipment alarms.',
+        outcome: 'Safety incidents prevented',
+      },
+      {
+        title: 'Wireless power and environment sensing',
+        problem: 'Measurement points that need cabling work to add',
+        approach: 'Wireless sensors extend power and environment coverage without new cable runs.',
+        outcome: 'Lower build cost and room to scale',
       },
     ],
   },
@@ -95,34 +112,24 @@ export const electronicsEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Uninterrupted operation',
-        icon: 'ph-plug-charging',
-        description: 'Outages and UPS transfers are caught at once, keeping line stops to a minimum.',
+        title: 'Load trimmed before the peak',
+        icon: 'ph-lightning',
+        description: 'Load is lowered ahead of the peak rather than after it.',
       },
       {
-        title: 'Power quality monitoring',
-        icon: 'ph-wave-sine',
-        description: 'Momentary disturbances and peaks are tracked live and acted on ahead of time.',
-      },
-      {
-        title: 'Microclimate control',
-        icon: 'ph-thermometer',
-        description: 'Drift between lines is caught, holding process quality steady.',
-      },
-      {
-        title: 'Alarms made readable',
+        title: 'Immediate alerts on equipment faults',
         icon: 'ph-bell-ringing',
-        description: 'The one real cause is pulled to the front of a crowded signal stream.',
+        description: 'When a fault appears, the responsible engineer is paged at once.',
       },
       {
-        title: 'Site security',
-        icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
+        title: 'Live process environment monitoring',
+        icon: 'ph-thermometer',
+        description: 'Temperature and humidity are tracked segment by segment in real time.',
       },
       {
-        title: 'Integrate or build new',
-        icon: 'ph-stack',
-        description: 'Where legacy MES, BEMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        title: 'Operation tracked against the plan',
+        icon: 'ph-clipboard-text',
+        description: 'Production plan and equipment response are placed side by side.',
       },
     ],
   },
