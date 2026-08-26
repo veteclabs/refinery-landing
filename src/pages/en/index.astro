@@ -443,6 +443,72 @@ const jsonLd = {
       }
     })();
   </script>
+  <!-- 솔루션 섹션 — 산업별·과제별 두 판을 옆으로 넘긴다.
+       위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
+       현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭·버튼이 따라온다. -->
+  <script is:inline>
+    (function () {
+      // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      function init() {
+      var root = document.getElementById('industries');
+      if (!root) return;
+      var vp = root.querySelector('.sol-viewport');
+      var tabs = root.querySelectorAll('[data-sol-tab]');
+      var prev = root.querySelector('.sol-prev');
+      var next = root.querySelector('.sol-next');
+      if (!vp || !tabs.length || !prev || !next) return;
+      var last = 0;
+
+      function current() {
+        var w = vp.clientWidth || 1;
+        return Math.round(vp.scrollLeft / w);
+      }
+      function paint(i) {
+        for (var t = 0; t < tabs.length; t++) {
+          tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
+        }
+        prev.disabled = i <= 0;
+        next.disabled = i >= tabs.length - 1;
+      }
+      function go(i) {
+        if (i < 0) i = 0;
+        if (i > tabs.length - 1) i = tabs.length - 1;
+        vp.scrollTo({ left: i * vp.clientWidth, behavior: 'smooth' });
+        paint(i);
+      }
+
+      for (var t = 0; t < tabs.length; t++) {
+        (function (n) {
+          tabs[n].addEventListener('click', function () { go(n); });
+        })(t);
+      }
+      prev.addEventListener('click', function () { go(current() - 1); });
+      next.addEventListener('click', function () { go(current() + 1); });
+
+      var tick;
+      vp.addEventListener('scroll', function () {
+        clearTimeout(tick);
+        tick = setTimeout(function () {
+          var i = current();
+          if (i !== last) { last = i; paint(i); }
+        }, 80);
+      }, { passive: true });
+
+      // 폭이 바뀌면 스냅 위치가 어긋난다. 보고 있던 판으로 다시 맞춘다.
+      window.addEventListener('resize', function () {
+        vp.scrollLeft = last * vp.clientWidth;
+      });
+
+      paint(0);
+      }
+    })();
+  </script>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -520,15 +586,42 @@ const jsonLd = {
         <p>The Refinery AI Agent learns and solves<br>the unique challenges of each industry.</p>
       </div>
     </div>
-    <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Distributed asset control,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive asset maintenance,<br>AI energy optimization</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Data Center</div><div class="industry-desc">Power and cooling efficiency,<br>live power-quality monitoring</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Data Center" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">High-heat process monitoring,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Cold-chain excursion detection,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Station data-quality checks,<br>automated ESG reports</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-          </div>
+    <div class="sol-switch-row">
+      <div class="sol-tabs" role="tablist">
+        <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="Show industry cards">By industry</button>
+        <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="Show challenge cards">By challenge</button>
+      </div>
+      <div class="sol-nav">
+        <button type="button" class="sol-nav-btn sol-prev" aria-label="Previous" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="sol-nav-btn sol-next" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <div class="sol-viewport">
+      <div class="sol-track">
+        <div class="sol-panel">
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/industries/energy"><span class="industry-thumb"><img src="/industries/energy-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Energy · Utilities</span><span class="industry-desc">Unified control of distributed assets,<br>automated ESG reporting</span></span></a>
+        <a class="industry-card" href="/en/industries/automotive"><span class="industry-thumb"><img src="/industries/automotive-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Automotive · Mobility</span><span class="industry-desc">Vibration-based predictive maintenance,<br>energy intensity by line</span></span></a>
+        <a class="industry-card" href="/en/industries/electronics"><span class="industry-thumb"><img src="/industries/electronics-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Electronics · Precision</span><span class="industry-desc">Power quality and outage monitoring,<br>live microclimate control</span></span></a>
+        <a class="industry-card" href="/en/industries/steel"><span class="industry-thumb"><img src="/industries/steel-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Materials · Steel</span><span class="industry-desc">Steadier heat-treatment quality,<br>peak demand control</span></span></a>
+        <a class="industry-card" href="/en/industries/chemicals"><span class="industry-thumb"><img src="/industries/chemicals-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Chemicals · Materials</span><span class="industry-desc">Utilities managed as one,<br>combustion efficiency and carbon</span></span></a>
+        <a class="industry-card" href="/en/industries/machinery"><span class="industry-thumb"><img src="/industries/machinery-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Machinery · Plant</span><span class="industry-desc">Shared utilities run to demand,<br>energy intensity by process</span></span></a>
+        <a class="industry-card" href="/en/industries/food"><span class="industry-thumb"><img src="/industries/food-hero.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Food · Beverage</span><span class="industry-desc">Refrigeration efficiency analysis,<br>quality temperature monitoring</span></span></a>
+      </div>
+        </div>
+        <div class="sol-panel">
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><span class="industry-thumb"><img src="/use-cases/cards/predictive-maintenance.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Wireless vibration sensors catch early signs,<br>act before failure</span></span></a>
+        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><span class="industry-thumb"><img src="/use-cases/cards/sensor-monitoring.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Multi-sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen,<br>unusual combinations flagged</span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-management"><span class="industry-thumb"><img src="/use-cases/cards/power-management.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset,<br>peaks and anomalies managed</span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-quality"><span class="industry-thumb"><img src="/use-cases/cards/power-quality.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched,<br>events recorded automatically</span></span></a>
+        <a class="industry-card" href="/en/use-cases/factory-energy"><span class="industry-thumb"><img src="/use-cases/cards/factory-energy.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one,<br>intensity against output</span></span></a>
+        <a class="industry-card" href="/en/use-cases/energy-optimization"><span class="industry-thumb"><img src="/use-cases/cards/energy-optimization.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced,<br>peaks cut and held down</span></span></a>
+        <a class="industry-card" href="/en/use-cases/quality-prediction"><span class="industry-thumb"><img src="/use-cases/cards/quality-prediction.webp" alt="" loading="lazy" decoding="async"></span><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results,<br>defect causes traced</span></span></a>
+      </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
