@@ -9,6 +9,12 @@ export const electronics: IndustryData = {
   hero: {
     dark: true,
     image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 810 },
+    // 세로 초점을 끝까지(0%) 내렸다. 다만 이 사진은 원본이 3500x1477로 이미
+    // 가로가 길어 히어로 상자와 비율이 거의 같다 — 세로 이동 여유가 38px뿐이라
+    // 45%에서 0%로 내려도 17px만 움직인다. 더 내리려면 세로가 긴 사진이 필요하다
+    // (transform: scale로 여유를 만들면 하단 페이드가 히어로 밖에서 끝나 경계가
+    //  다시 생긴다 — 확대 1.35에서 경계 차가 1에서 19로 돌아갔다).
+    imagePosition: 'center 0%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '전자 · 정밀',
