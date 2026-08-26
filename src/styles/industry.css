@@ -399,6 +399,13 @@ img { max-width: 100%; height: auto; }
   /* 세로 초점. 값을 낮출수록 사진의 위쪽이 보인다(0% = 위쪽 끝, 100% = 아래쪽 끝).
      사진마다 담긴 장면이 달라 데이터의 hero.imagePosition으로 덮어쓴다. */
   object-position: center 45%;
+  /* 아래쪽 170px을 흘려 다음 섹션과 잇는다. 두 섹션 배경색은 #111316으로 같은데
+     사진이 히어로 밑변에서 뚝 끊겨 가로줄이 보였다(경계 위아래 파랑 채널 42 차).
+     사진 알파가 0이 되는 지점에서 스크림(.5)만 남아 결국 #111316이 되므로
+     색이 정확히 이어진다 — 문제 섹션 배경 사진도 위쪽을 같은 방식으로 흘린다.
+     스크림은 건드리지 않아 사진 중간부는 밝게 살아 있다. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 170px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 170px), transparent 100%);
   pointer-events: none; user-select: none;
 }
 /* 스크림 — 과제별 히어로(.uc-hero-bg::after)와 같은 값이다.
