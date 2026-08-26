@@ -22,7 +22,6 @@ export const energyEn: IndustryData = {
       width: 1600,
       height: 800,
     },
-    icon: '/industry-08.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',

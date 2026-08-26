@@ -10,7 +10,6 @@ export const automotive: IndustryData = {
     dark: true,
     image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
     imagePosition: 'center 100%',
-    icon: '/industry-02.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '자동차 · 모빌리티',

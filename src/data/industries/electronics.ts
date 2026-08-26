@@ -10,7 +10,6 @@ export const electronics: IndustryData = {
     dark: true,
     image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
     imagePosition: 'center 100%',
-    icon: '/industry-06.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '전자 · 정밀',

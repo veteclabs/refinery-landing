@@ -12,7 +12,6 @@ export const machineryEn: IndustryData = {
     dark: true,
     image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
     imagePosition: 'center 100%',
-    icon: '/industry-01.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Machinery · Plant',

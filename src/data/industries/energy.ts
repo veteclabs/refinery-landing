@@ -20,7 +20,6 @@ export const energy: IndustryData = {
       width: 1600,
       height: 800,
     },
-    icon: '/industry-08.svg',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '에너지 · 유틸리티',
