@@ -487,49 +487,38 @@
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    /* 소제목은 <br> 없이 한 줄로 흐른다. 문구를 줄이는 대신 열 수로 폭을 확보한다.
-       가장 긴 문구('전기 · 가스 · 스팀 · 용수 통합, 생산량 대비 원단위 분석')가
-       15px에서 316px, 14px에서 295px를 먹는다. 카드 안쪽 폭이 그보다 좁아지는 지점에서
-       열을 하나씩 내린다 — 3열은 1260px까지, 2열은 760px까지.
-       #industries를 붙여 특이도를 올린다 — 뒤에 오는 900/600px 블록의 .industries-grid가
-       같은 특이도라 그냥 두면 그쪽이 이긴다(760px에서 2열로 되돌아간다). */
-    @media (max-width: 1260px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 760px) { #industries .industries-grid { grid-template-columns: 1fr; } }
-    /* 375px대에서 가장 긴 문구가 몇 px 모자라 두 줄이 된다. 좁은 화면에서만 여백을 줄인다. */
-    @media (max-width: 420px) { #industries .industry-card { padding: 18px; } }
+    /* 카드는 위쪽 16:9 사진 밴드 + 아래 흰 면이다.
+       사진 위에 글을 얹는 형태(과제별 페이지 .uc-case--img)도 만들어 봤지만,
+       이 섹션은 흰 배경 페이지 한가운데라 검은 카드가 흐름을 끊고
+       사진마다 배경 질감이 달라 7장의 글이 같은 리듬으로 안 읽혔다. */
     .industry-card {
-      position: relative; overflow: hidden;
-      display: flex; align-items: flex-end;
-      min-height: 260px;
-      background: var(--bg); border: none;
-      border-radius: var(--radius); padding: 24px;
+      display: block; position: relative; overflow: hidden;
+      background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
+      transition: border-color .2s, box-shadow .2s;
     }
-    /* 층 순서: 사진(0) → 어두운 막(1) → 하단 그라데이션(2) → 글(3).
-       ::before/::after는 생성 순서상 이미지보다 뒤에 그려지므로 z-index를 못 박지 않으면
-       사진이 막을 덮는다(그리는 순서가 DOM 순서). */
+    a.industry-card:hover { border-color: #C8D6E6; box-shadow: 0 2px 10px rgba(16,32,44,.06); }
+    /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
     .industry-img {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; pointer-events: none; user-select: none;
+      display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+      object-fit: cover; background: #10141B;
       transition: transform .3s ease;
     }
-    /* 1층 — 사진마다 제각각인 밝기를 한 단계 내려 7장을 같은 계열로 묶는다. */
-    .industry-card::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(17,19,22,.25); }
-    /* 2층 — 글 묶음이 놓이는 아래쪽부터 빠르게 짙어지는 그라데이션. */
-    .industry-card::after {
-      content: ''; position: absolute; inset: 0; z-index: 2;
-      background: linear-gradient(180deg,
-        rgba(17,19,22,0) 0%,
-        rgba(17,19,22,.12) 28%,
-        rgba(17,19,22,.82) 52%,
-        rgba(17,19,22,1) 100%);
+    /* 과제별 페이지 카드(.uc-case--img::before)와 같은 막 — 사진마다 제각각인 밝기를
+       한 단계 내려 7장이 같은 계열로 묶인다. 거기서는 사진 전체를 덮지만
+       여기는 글이 흰 면에 있으므로 사진 밴드에만 씌운다(그래서 aspect-ratio를 맞춘다).
+       hover 확대는 .industry-img만 커지고 이 막은 그대로라 밴드 밖으로 새지 않는다. */
+    .industry-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      aspect-ratio: 16 / 9; z-index: 1; pointer-events: none;
+      background: rgba(17,19,22,.25);
     }
-    a.industry-card:hover .industry-img { transform: scale(1.04); }
+    a.industry-card:hover .industry-img { transform: scale(1.05); }
     /* keep-all — 없으면 한국어가 어절 중간에서 잘린다. */
-    .industry-body { position: relative; z-index: 3; display: block; word-break: keep-all; }
+    .industry-body { display: block; padding: 22px 24px 24px; word-break: keep-all; }
     /* 카드 안에서는 span으로 감싸므로(a 안에 div를 넣지 않는다) display를 명시한다.
        빠지면 이름과 설명이 한 줄에 붙는다. */
-    .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; color: #ffffff; }
-    .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.82); text-wrap: pretty; }
+    .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+    .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     .industry-link { font-size: 12px; color: var(--accent2); margin-top: 10px; display: block; }
 
