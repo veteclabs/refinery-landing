@@ -11,6 +11,9 @@ export const automotiveEn: IndustryData = {
   hero: {
     dark: true,
     image: { src: '/industries/automotive-hero.webp', alt: '', width: 1920, height: 1080 },
+    // 세로 초점. 공통값 45%에서는 섀시가 대제목 줄에 걸린다. 30%로 낮춰
+    // 사진 위쪽을 보이면 섀시가 제목 아래로 내려간다(이동 여유 239px 중 36px).
+    imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Automotive · Mobility',
