@@ -145,9 +145,22 @@ export const navMenu: Record<Lang, NavMenu[]> = {
 export const footerCols: Record<Lang, FooterCol[]> = {
   ko: [
     {
-      title: '솔루션',
+      // 헤더 메가메뉴의 '산업별'과 같은 목록·순서다.
+      title: '산업별',
       items: [
         { label: '에너지 · 유틸리티', href: '/industries/energy' },
+        { label: '자동차 · 모빌리티', href: '/industries/automotive' },
+        { label: '전자 · 정밀', href: '/industries/electronics' },
+        { label: '가공 · 소재 · 철강', href: '/industries/steel' },
+        { label: '화학 · 소재', href: '/industries/chemicals' },
+        { label: '기계 · 플랜트', href: '/industries/machinery' },
+        { label: '식품 · 음료', href: '/industries/food' },
+      ],
+    },
+    {
+      // 헤더 메가메뉴의 '과제별'과 같은 목록·순서다.
+      title: '과제별',
+      items: [
         { label: '예지보전', href: '/use-cases/predictive-maintenance' },
         { label: '센서 모니터링', href: '/use-cases/sensor-monitoring' },
         { label: '전력관리', href: '/use-cases/power-management' },
@@ -187,9 +200,20 @@ export const footerCols: Record<Lang, FooterCol[]> = {
   ],
   en: [
     {
-      title: 'Solutions',
+      title: 'By industry',
       items: [
         { label: 'Energy & Utilities', href: '/en/industries/energy' },
+        { label: 'Automotive & Mobility', href: '/en/industries/automotive' },
+        { label: 'Electronics & Precision', href: '/en/industries/electronics' },
+        { label: 'Materials & Steel', href: '/en/industries/steel' },
+        { label: 'Chemicals & Materials', href: '/en/industries/chemicals' },
+        { label: 'Machinery & Plant', href: '/en/industries/machinery' },
+        { label: 'Food & Beverage', href: '/en/industries/food' },
+      ],
+    },
+    {
+      title: 'By challenge',
+      items: [
         { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
         { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
         { label: 'Power management', href: '/en/use-cases/power-management' },
