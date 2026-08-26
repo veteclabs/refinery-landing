@@ -11,6 +11,11 @@ export const machineryEn: IndustryData = {
   hero: {
     dark: true,
     image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1243 },
+    // 세로 초점. 공통값 45%에서는 샤프트가 대제목 줄을 정통으로 가로지른다.
+    // 30%로 낮추면 축이 제목 오른쪽으로 비켜간다(이동 여유 360px 중 54px).
+    // 글자 대비도 13.37:1에서 14.06:1로 오른다. 15%는 대비가 더 높지만 축이
+    // 위쪽에 잘려 구도가 답답해진다.
+    imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Machinery · Plant',

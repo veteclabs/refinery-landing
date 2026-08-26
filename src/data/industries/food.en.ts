@@ -11,6 +11,10 @@ export const foodEn: IndustryData = {
   hero: {
     dark: true,
     image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
+    // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
+    // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
+    // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
+    imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Food · Beverage',
