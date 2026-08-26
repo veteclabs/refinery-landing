@@ -63,7 +63,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Energy flow visualized by process',
         problem: 'No visibility into which process consumes the energy',
-        approach: 'Energy is metered separately by process and lined up on equal terms.',
+        approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure and lines up on equal terms.',
         outcome: 'Over-consuming segments identified and process efficiency improved',
       },
       {
@@ -75,7 +75,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Vibration-based equipment monitoring',
         problem: 'Rotating-equipment faults that surface only after a stop',
-        approach: 'Patterns that differ from the norm are learned from vibration data to catch early signs.',
+        approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and maintenance made more efficient',
       },
     ],

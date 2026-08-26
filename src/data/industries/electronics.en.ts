@@ -56,13 +56,13 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Power usage patterns by asset',
         problem: 'No way to tell which equipment draws the most power',
-        approach: 'Power is metered separately by asset and process, then compared on equal terms.',
+        approach: 'Assets and processes are connected through an ontology, giving every signal a meaning, so power can be compared on equal terms.',
         outcome: 'Energy-intensive processes identified',
       },
       {
         title: 'UPS-linked outage detection and alerts',
         problem: 'Outage and UPS transfer events logged apart from equipment history',
-        approach: 'Power quality and UPS events are placed on the same timeline as equipment state to pin the blast radius at once.',
+        approach: 'An AI agent reads power quality and UPS events on the same timeline as equipment state, and proposes both the blast radius and the next action.',
         outcome: 'Uninterrupted operation and minimal line stops',
       },
       {

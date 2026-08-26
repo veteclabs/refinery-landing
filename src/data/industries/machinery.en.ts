@@ -56,7 +56,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Live power analysis by asset',
         problem: 'Energy use grouped in clusters and impossible to separate',
-        approach: 'Power is metered separately by asset and process, then compared on equal terms.',
+        approach: 'An AI agent watches consumption by asset in real time to catch use that departs from the usual pattern, and proposes both the cause and the next action.',
         outcome: 'Energy-intensive assets identified and operations improved',
       },
       {
@@ -68,7 +68,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Energy intensity tied to output',
         problem: 'No baseline for comparing efficiency against production',
-        approach: 'Production records and energy use are linked to derive intensity by process automatically.',
+        approach: 'Production records and energy by asset are connected through an ontology into one structure, and intensity by process is derived automatically.',
         outcome: 'Process efficiency made visible and cost structure improved',
       },
       {

@@ -45,13 +45,13 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Vibration-based predictive maintenance',
         problem: 'Rotating-equipment faults confirmed only after a stoppage',
-        approach: 'Patterns that differ from the norm are learned from vibration and current time-series to catch early signs.',
+        approach: 'An AI agent reads anomalies in vibration and current trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Less equipment downtime and steadier production',
       },
       {
         title: 'Power usage patterns by line',
         problem: 'Different power draw line to line, with no way to explain it',
-        approach: 'Lines, processes and assets are defined in one structure so power use can be compared on equal terms.',
+        approach: 'Lines, processes and assets are connected through an ontology, giving every signal a meaning, so power use can be compared on equal terms.',
         outcome: 'Lower energy cost and inefficient processes identified',
       },
       {

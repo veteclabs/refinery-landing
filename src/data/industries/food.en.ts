@@ -62,7 +62,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
         problem: 'Utilities tallied separately, each on its own',
-        approach: 'Energy sources are defined in one structure so use by asset and process lands on the same screen.',
+        approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole plant energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
       {
@@ -80,7 +80,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Vibration-based equipment monitoring',
         problem: 'Rotating-equipment faults that surface only after a stop',
-        approach: 'Patterns that differ from the norm are learned from vibration data to catch early signs.',
+        approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and downtime reduced',
       },
     ],

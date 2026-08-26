@@ -50,7 +50,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
         problem: 'Utilities tallied separately, each on its own',
-        approach: 'Energy sources are defined in one structure so use by asset and process lands on the same screen.',
+        approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
       {
@@ -74,7 +74,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Air compressor state and operating factors',
         problem: 'Compressor faults that surface only after a stop',
-        approach: 'Compressor state and operating factors are tracked together to spot flows that differ from the norm.',
+        approach: 'An AI agent reads compressor state and operating factors together to catch flows that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {
