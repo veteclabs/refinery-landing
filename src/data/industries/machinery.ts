@@ -144,7 +144,7 @@ export const machinery: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '기계 · 플랜트 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '기계 설비 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };
