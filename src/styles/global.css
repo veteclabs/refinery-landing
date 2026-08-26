@@ -487,6 +487,16 @@
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    /* 소제목은 <br> 없이 한 줄로 흐른다. 문구를 줄이는 대신 열 수로 폭을 확보한다.
+       가장 긴 문구('전기 · 가스 · 스팀 · 용수 통합, 생산량 대비 원단위 분석')가
+       15px에서 316px, 14px에서 295px를 먹는다. 카드 안쪽 폭이 그보다 좁아지는 지점에서
+       열을 하나씩 내린다 — 3열은 1260px까지, 2열은 760px까지.
+       #industries를 붙여 특이도를 올린다 — 뒤에 오는 900/600px 블록의 .industries-grid가
+       같은 특이도라 그냥 두면 그쪽이 이긴다(760px에서 2열로 되돌아간다). */
+    @media (max-width: 1260px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 760px) { #industries .industries-grid { grid-template-columns: 1fr; } }
+    /* 375px대에서 가장 긴 문구가 몇 px 모자라 두 줄이 된다. 좁은 화면에서만 여백을 줄인다. */
+    @media (max-width: 420px) { #industries .industry-card { padding: 18px; } }
     .industry-card {
       position: relative; overflow: hidden;
       display: flex; align-items: flex-end;
