@@ -483,18 +483,55 @@
     #industries .sol-panel { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
     @media (prefers-reduced-motion: reduce) { #industries .sol-viewport { scroll-behavior: auto; } }
 
+    /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
+       사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
+       카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    /* 카드는 위쪽 16:9 사진 밴드 + 아래 흰 면이다. 워터마크 아이콘은 걷어냈다. */
-    .industry-card { display: block; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; position: relative; transition: border-color .2s, box-shadow .2s; }
-    a.industry-card:hover { border-color: #C8D6E6; box-shadow: 0 2px 10px rgba(16,32,44,.06); }
-    .industry-thumb { display: block; aspect-ratio: 16 / 9; background: #10141B; overflow: hidden; }
-    .industry-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
-    a.industry-card:hover .industry-thumb img { transform: scale(1.05); }
-    .industry-body { display: block; padding: 22px 24px 24px; }
+    .industry-card {
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end;
+      min-height: 320px;
+      background: var(--bg); border: none;
+      border-radius: var(--radius); padding: 24px;
+    }
+    /* 층 순서: 사진(0) → 어두운 막(1) → 하단 그라데이션(2) → 글(3).
+       ::before/::after는 생성 순서상 이미지보다 뒤에 그려지므로 z-index를 못 박지 않으면
+       사진이 막을 덮는다(그리는 순서가 DOM 순서). */
+    .industry-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; pointer-events: none; user-select: none;
+      transition: transform .3s ease;
+    }
+    /* 1층 — 사진마다 제각각인 밝기를 한 단계 내려 7장을 같은 계열로 묶는다. */
+    .industry-card::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(17,19,22,.25); }
+    /* 2층 — 글 묶음이 놓이는 아래쪽부터 빠르게 짙어지는 그라데이션. */
+    .industry-card::after {
+      content: ''; position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(180deg,
+        rgba(17,19,22,0) 0%,
+        rgba(17,19,22,.12) 28%,
+        rgba(17,19,22,.82) 52%,
+        rgba(17,19,22,1) 100%);
+    }
+    a.industry-card:hover .industry-img { transform: scale(1.04); }
+    /* keep-all — 없으면 한국어가 어절 중간에서 잘린다. */
+    .industry-body { position: relative; z-index: 3; display: block; word-break: keep-all; }
     /* 카드 안에서는 span으로 감싸므로(a 안에 div를 넣지 않는다) display를 명시한다.
        빠지면 이름과 설명이 한 줄에 붙는다. */
-    .industry-name { display: block; font-size: 20px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
-    .industry-desc { display: block; font-size: 15px; color: var(--text-muted); line-height: 1.55; }
+    .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; color: #ffffff; }
+    .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.82); text-wrap: pretty; }
+    /* 글자 없이 화살표만. 카드 전체가 링크라 이름이 제목을 맡고
+       이 아이콘은 '넘어간다'는 신호만 준다(그래서 aria-hidden).
+       28px — WCAG 2.2 최소 타깃(24px) 아래로 가면 테두리와 화살촉 사이가 뭉갠다. */
+    .industry-go {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; margin-top: 20px;
+      border: 1px solid currentColor; border-radius: 50%;
+      color: #ffffff;
+      transition: transform .2s ease;
+    }
+    .industry-go svg { display: block; }
+    a.industry-card:hover .industry-go { transform: translateX(4px); }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     .industry-link { font-size: 12px; color: var(--accent2); margin-top: 10px; display: block; }
 
