@@ -490,7 +490,7 @@
     .industry-card {
       position: relative; overflow: hidden;
       display: flex; align-items: flex-end;
-      min-height: 320px;
+      min-height: 260px;
       background: var(--bg); border: none;
       border-radius: var(--radius); padding: 24px;
     }
@@ -520,18 +520,6 @@
        빠지면 이름과 설명이 한 줄에 붙는다. */
     .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; color: #ffffff; }
     .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.82); text-wrap: pretty; }
-    /* 글자 없이 화살표만. 카드 전체가 링크라 이름이 제목을 맡고
-       이 아이콘은 '넘어간다'는 신호만 준다(그래서 aria-hidden).
-       28px — WCAG 2.2 최소 타깃(24px) 아래로 가면 테두리와 화살촉 사이가 뭉갠다. */
-    .industry-go {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 28px; height: 28px; margin-top: 20px;
-      border: 1px solid currentColor; border-radius: 50%;
-      color: #ffffff;
-      transition: transform .2s ease;
-    }
-    .industry-go svg { display: block; }
-    a.industry-card:hover .industry-go { transform: translateX(4px); }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     .industry-link { font-size: 12px; color: var(--accent2); margin-top: 10px; display: block; }
 
