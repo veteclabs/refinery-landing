@@ -118,6 +118,11 @@ export const food: IndustryData = {
         icon: 'ph-magnifying-glass',
         description: '이상이 난 시점의 설비를 \n시간축으로 되짚습니다.',
       },
+      {
+        title: '다운타임 감소',
+        icon: 'ph-pulse',
+        description: '진동에서 이상을 미리 잡아 \n고장을 예방합니다.',
+      },
     ],
   },
   integrations: {

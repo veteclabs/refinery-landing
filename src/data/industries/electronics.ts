@@ -124,6 +124,16 @@ export const electronics: IndustryData = {
         icon: 'ph-clipboard-text',
         description: '생산 계획과 설비 응답을 \n나란히 놓고 봅니다.',
       },
+      {
+        title: '안전사고 예방',
+        icon: 'ph-fire-extinguisher',
+        description: 'EHS · 화재 감시 신호를 \n설비 알람과 한 체계로 묶습니다.',
+      },
+      {
+        title: '확장성 확보',
+        icon: 'ph-broadcast',
+        description: '무선 센서로 계측점을 늘려 \n배선 없이 범위를 넓힙니다.',
+      },
     ],
   },
   integrations: {

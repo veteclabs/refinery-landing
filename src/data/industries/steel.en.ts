@@ -115,6 +115,11 @@ export const steelEn: IndustryData = {
         icon: 'ph-chart-line',
         description: 'Energy is split process by process to pin over-consuming segments.',
       },
+      {
+        title: 'Failures prevented',
+        icon: 'ph-pulse',
+        description: 'Vibration catches faults early, making maintenance more efficient.',
+      },
     ],
   },
   integrations: {

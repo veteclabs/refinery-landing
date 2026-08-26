@@ -120,6 +120,11 @@ export const foodEn: IndustryData = {
         icon: 'ph-magnifying-glass',
         description: 'Equipment state at the moment of the issue is retraced on one timeline.',
       },
+      {
+        title: 'Less downtime',
+        icon: 'ph-pulse',
+        description: 'Vibration catches faults early, preventing failures.',
+      },
     ],
   },
   integrations: {

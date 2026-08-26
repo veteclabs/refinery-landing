@@ -126,6 +126,16 @@ export const electronicsEn: IndustryData = {
         icon: 'ph-clipboard-text',
         description: 'Production plan and equipment response are placed side by side.',
       },
+      {
+        title: 'Safety incidents prevented',
+        icon: 'ph-fire-extinguisher',
+        description: 'EHS and fire signals join equipment alarms in one alert structure.',
+      },
+      {
+        title: 'Room to scale',
+        icon: 'ph-broadcast',
+        description: 'Wireless sensors extend coverage without new cable runs.',
+      },
     ],
   },
   integrations: {

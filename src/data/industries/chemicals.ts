@@ -118,6 +118,11 @@ export const chemicals: IndustryData = {
         icon: 'ph-pulse',
         description: '평소와 다른 흐름을 \n먼저 알아챕니다.',
       },
+      {
+        title: '탄소 규제 대응',
+        icon: 'ph-leaf',
+        description: '배출량을 자동 집계하고 \n출처를 추적합니다.',
+      },
     ],
   },
   integrations: {

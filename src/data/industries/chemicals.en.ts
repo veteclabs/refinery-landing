@@ -120,6 +120,11 @@ export const chemicalsEn: IndustryData = {
         icon: 'ph-pulse',
         description: 'Flows that differ from the norm are noticed first.',
       },
+      {
+        title: 'Carbon compliance',
+        icon: 'ph-leaf',
+        description: 'Emissions are aggregated automatically, with sources traceable.',
+      },
     ],
   },
   integrations: {

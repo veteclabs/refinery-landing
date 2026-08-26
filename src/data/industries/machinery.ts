@@ -118,6 +118,16 @@ export const machinery: IndustryData = {
         icon: 'ph-chart-line',
         description: '생산과 에너지를 이어 \n공정별 효율을 비교합니다.',
       },
+      {
+        title: '연료비 절감',
+        icon: 'ph-battery-charging',
+        description: 'DC 마이크로그리드로 전력을 배분해 \n운영 안정성을 함께 얻습니다.',
+      },
+      {
+        title: '탄소 규제 대응',
+        icon: 'ph-leaf',
+        description: '공정별 배출량을 산출해 \nHot Spot부터 짚습니다.',
+      },
     ],
   },
   integrations: {

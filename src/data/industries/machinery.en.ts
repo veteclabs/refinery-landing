@@ -120,6 +120,16 @@ export const machineryEn: IndustryData = {
         icon: 'ph-chart-line',
         description: 'Output and energy are joined to compare efficiency by process.',
       },
+      {
+        title: 'Lower fuel cost',
+        icon: 'ph-battery-charging',
+        description: 'A DC microgrid distributes power and steadies operations at the same time.',
+      },
+      {
+        title: 'Carbon compliance',
+        icon: 'ph-leaf',
+        description: 'Emissions are derived per process so hot spots come first.',
+      },
     ],
   },
   integrations: {

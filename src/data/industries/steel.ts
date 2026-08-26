@@ -113,6 +113,11 @@ export const steel: IndustryData = {
         icon: 'ph-chart-line',
         description: '공정마다 에너지를 나눠 \n과소비 구간을 짚습니다.',
       },
+      {
+        title: '고장 예방',
+        icon: 'ph-pulse',
+        description: '진동에서 이상을 미리 잡아 \n유지 보수 효율을 높입니다.',
+      },
     ],
   },
   integrations: {
