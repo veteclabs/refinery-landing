@@ -801,6 +801,11 @@ img { max-width: 100%; height: auto; }
    이 섹션만 460px으로 올린다 — 공통값을 건드리면 다른 섹션 소제목 줄바꿈이
    함께 달라진다. */
 .ind-page .ind-dark .ind-head p { max-width: 460px; }
+/* 문제 섹션 소제목도 한 줄로 둔다. 산업마다 나열하는 공정 수가 달라 400px에서는
+   7개 중 5개가 두 줄이 됐다(가장 긴 식품 542px). 560px으로 올린다 —
+   가장 넓은 제목(기계·플랜트 432px)과 32px 사이를 두고도 머리 폭 1184px 안에
+   들어간다. 섹션 전용 클래스(.ind-challenges)에만 건다. */
+.ind-page .ind-challenges .ind-head p { max-width: 560px; }
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).

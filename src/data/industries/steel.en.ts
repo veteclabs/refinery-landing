@@ -18,7 +18,7 @@ export const steelEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on materials sites',
-    subtitle: 'The problems that come up again and again in heat treatment, forming and coating.',
+    subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
       {
         title: 'Heat-treatment conditions decide quality',

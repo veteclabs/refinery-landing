@@ -18,7 +18,7 @@ export const chemicalsEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on chemical sites',
-    subtitle: 'The problems that come up again and again where continuous reactions and heat-based equipment run.',
+    subtitle: 'Recurring problems in continuous reaction operations.',
     items: [
       {
         title: 'Small swings become large losses',

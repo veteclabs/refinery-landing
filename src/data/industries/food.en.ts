@@ -17,8 +17,8 @@ export const foodEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on food manufacturing sites',
-    subtitle: 'The problems that come up again and again from raw material intake through processing, packaging and storage.',
+    title: 'Challenges on food sites',
+    subtitle: 'Recurring problems from intake to packaging and storage.',
     items: [
       {
         title: 'Refrigeration efficiency slips quietly',

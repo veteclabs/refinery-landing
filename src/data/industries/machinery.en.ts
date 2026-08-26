@@ -17,8 +17,8 @@ export const machineryEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on machinery and plant sites',
-    subtitle: 'The problems that come up again and again where large equipment runs around the clock.',
+    title: 'Challenges on plant sites',
+    subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [
       {
         title: 'Equipment pushes on equipment',

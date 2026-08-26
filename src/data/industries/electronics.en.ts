@@ -18,7 +18,7 @@ export const electronicsEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on electronics sites',
-    subtitle: 'The problems that come up again and again in semiconductor, component and precision equipment manufacturing.',
+    subtitle: 'Recurring problems in semiconductor and precision plants.',
     items: [
       {
         title: 'A momentary sag stops the line',

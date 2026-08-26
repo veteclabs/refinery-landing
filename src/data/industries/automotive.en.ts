@@ -18,7 +18,7 @@ export const automotiveEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on automotive sites',
-    subtitle: 'The problems that come up again and again across press, body, paint and assembly lines.',
+    subtitle: 'Recurring problems across press, body, paint and assembly.',
     items: [
       {
         title: 'One process stops the whole line',
