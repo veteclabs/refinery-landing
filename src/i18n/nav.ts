@@ -53,6 +53,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           items: [
             { label: '산업 AI', href: '/industrial-ai' },
+            // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
+            // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
+            { label: '에너지관리시스템', href: '/energy-management' },
             { label: '블로그', href: '/blog' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
             { label: '문서', badge: '준비중' },
@@ -117,6 +120,10 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
+            // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
+            // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
+            { label: 'Industrial AI', href: '/industrial-ai' },
+            { label: 'Energy management', href: '/energy-management' },
             { label: 'Blog', href: '/en/blog' },
             { label: 'Docs', badge: 'Soon' },
             { label: 'Resources & whitepapers', href: '/en/resources' },
@@ -145,9 +152,22 @@ export const navMenu: Record<Lang, NavMenu[]> = {
 export const footerCols: Record<Lang, FooterCol[]> = {
   ko: [
     {
-      title: '솔루션',
+      // 헤더 메가메뉴의 '산업별'과 같은 목록·순서다.
+      title: '산업별',
       items: [
         { label: '에너지 · 유틸리티', href: '/industries/energy' },
+        { label: '자동차 · 모빌리티', href: '/industries/automotive' },
+        { label: '전자 · 정밀', href: '/industries/electronics' },
+        { label: '가공 · 소재 · 철강', href: '/industries/steel' },
+        { label: '화학 · 소재', href: '/industries/chemicals' },
+        { label: '기계 · 플랜트', href: '/industries/machinery' },
+        { label: '식품 · 음료', href: '/industries/food' },
+      ],
+    },
+    {
+      // 헤더 메가메뉴의 '과제별'과 같은 목록·순서다.
+      title: '과제별',
+      items: [
         { label: '예지보전', href: '/use-cases/predictive-maintenance' },
         { label: '센서 모니터링', href: '/use-cases/sensor-monitoring' },
         { label: '전력관리', href: '/use-cases/power-management' },
@@ -187,9 +207,20 @@ export const footerCols: Record<Lang, FooterCol[]> = {
   ],
   en: [
     {
-      title: 'Solutions',
+      title: 'By industry',
       items: [
         { label: 'Energy & Utilities', href: '/en/industries/energy' },
+        { label: 'Automotive & Mobility', href: '/en/industries/automotive' },
+        { label: 'Electronics & Precision', href: '/en/industries/electronics' },
+        { label: 'Materials & Steel', href: '/en/industries/steel' },
+        { label: 'Chemicals & Materials', href: '/en/industries/chemicals' },
+        { label: 'Machinery & Plant', href: '/en/industries/machinery' },
+        { label: 'Food & Beverage', href: '/en/industries/food' },
+      ],
+    },
+    {
+      title: 'By challenge',
+      items: [
         { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
         { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
         { label: 'Power management', href: '/en/use-cases/power-management' },
@@ -202,6 +233,10 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Resources',
       items: [
+        // 한국어 푸터와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문
+        // 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+        { label: 'Industrial AI', href: '/industrial-ai' },
+        { label: 'Energy management', href: '/energy-management' },
         { label: 'Blog', href: '/en/blog' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
       ],

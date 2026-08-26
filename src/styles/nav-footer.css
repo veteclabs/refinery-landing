@@ -69,8 +69,11 @@ nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color
     상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
    overflow:hidden — .footer-logo-big이 넘칠 수 있어 필요하다. */
 footer { padding: 60px 0 20px; overflow: hidden; }
-/* 브랜드 + 4열(솔루션·리소스·회사·신뢰). 솔루션 열은 항목이 길어 조금 넓게. */
-.footer-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr; gap: 24px; }
+/* 브랜드 + 5열(산업별·과제별·리소스·회사·약관).
+   솔루션 한 열에 산업 7 + 과제 7을 넣으면 14줄이 되어 푸터가 세로로 길어진다.
+   헤더 메가메뉴와 같은 축으로 둘로 나눈다. 두 열은 항목 이름이 길어 조금 넓게.
+   브랜드 열은 2fr에서 1.6fr로 줄인다 — 태그라인 상한이 220px이라 남는 폭이었다. */
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1.2fr 1.2fr 1fr 1fr 1fr; gap: 24px; }
 .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
 .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
 .footer-links { display: flex; flex-direction: column; gap: 9px; }
@@ -89,7 +92,8 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    (예전엔 그리드 밖에서 width 60% / margin-left 40%로 맞춰, 열이 바뀌면 어긋났다) */
 .footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
 .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
-@media (max-width: 900px) {
+/* 브랜드가 한 줄을 통째로 쓰는 구간부터는 큰 로고도 처음부터 끝까지 쓴다. */
+@media (max-width: 1024px) {
   .footer-logo-big { grid-column: 1 / -1; }
 }
 @media (max-width: 900px) {
@@ -104,12 +108,29 @@ footer { padding: 60px 0 20px; overflow: hidden; }
       .container { padding: 0 24px; }
       .nav-inner { padding: 0 24px; }
     }
-@media (max-width: 900px) {
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-    }
+/* 푸터 열 접기 — 한 번에 6칸에서 2칸으로 떨어지면 링크 열이 지나치게 넓어져
+   글이 왼쪽 끝에만 붙는다(900px에서 한 칸이 407px, 가장 긴 항목은 119px였다).
+   브랜드를 먼저 한 줄로 빼고 링크 열만 3칸 → 2칸으로 줄인다. */
+/* 칸을 줄일수록 푸터가 세로로 길어지고, 칸을 유지할수록 영문 항목이 두 줄이
+   된다(영문 최장 168px). 두 값을 재서 접는 지점을 잡았다.
+     1024px  6칸 en 두 줄 5개 / 5칸 798px  → 아직 6칸이 낫다가 여기서 뒤집힌다
+      768px  6칸 en 두 줄 14개(절반)      → 5칸으로는 못 버틴다
+      640px  3칸이 182px까지 좁아진다      → 두 칸으로 넓힌다
+   4칸과 3칸은 높이가 같다(다섯 열이 두 줄로 접히는 건 마찬가지다). 같은 값이면
+   칸이 넓은 3칸을 쓴다. */
+@media (max-width: 1024px) {
+  .footer-grid { grid-template-columns: repeat(5, 1fr); }
+  .footer-brand { grid-column: 1 / -1; margin-bottom: 8px; }
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+/* 링크 항목이 영문 기준 168px까지 간다. 두 칸이면 390px 화면에서 한 칸이
+   161px이라 가장 긴 것 하나만 두 줄이 되고 나머지는 한 줄로 선다.
+   한 칸으로 두면 세로가 1361px까지 늘어난다(화면 3.5개 분량). */
 @media (max-width: 640px) {
-      .footer-grid { grid-template-columns: 1fr; }
-    }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); column-gap: 20px; }
+}
 /* ===== 메가메뉴 ===== */
 .mm-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .mm-item { position: relative; }
