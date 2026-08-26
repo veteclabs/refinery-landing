@@ -120,6 +120,10 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
+            // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
+            // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
+            { label: 'Industrial AI', href: '/industrial-ai' },
+            { label: 'Energy management', href: '/energy-management' },
             { label: 'Blog', href: '/en/blog' },
             { label: 'Docs', badge: 'Soon' },
             { label: 'Resources & whitepapers', href: '/en/resources' },
@@ -229,6 +233,10 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Resources',
       items: [
+        // 한국어 푸터와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문
+        // 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+        { label: 'Industrial AI', href: '/industrial-ai' },
+        { label: 'Energy management', href: '/energy-management' },
         { label: 'Blog', href: '/en/blog' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
       ],
