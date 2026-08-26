@@ -10,11 +10,6 @@ export const energyEn: IndustryData = {
     'Connect energy data scattered across SCADA, EMS and meters into one structure, let an AI agent catch anomalies first, and automate ESG reporting. Refinery for generation, transmission and utility operations.',
   hero: {
     dark: true,
-    overlay: {
-      src: '/industries/energy-hero-mesh.webp',
-      width: 1600,
-      height: 800,
-    },
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy · Utilities',
