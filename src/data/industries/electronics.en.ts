@@ -21,29 +21,24 @@ export const electronicsEn: IndustryData = {
     subtitle: 'Recurring problems in semiconductor and precision plants.',
     items: [
       {
-        title: 'Power quality disturbances',
+        title: 'Equipment reacts to the smallest change',
         description:
-          'Equipment is sensitive to power quality, so a single brief disturbance turns directly into scrap and a line stop.',
+          'Production equipment is sensitive to temperature shifts and power quality, so a slight wobble carries straight into the process.',
       },
       {
-        title: 'UPS transfer events',
+        title: 'An outage becomes scrap',
         description:
-          'Outage and UPS transfer events are logged apart from equipment history, making the blast radius hard to judge.',
+          'A momentary outage or equipment fault turns directly into defective product and a line stop.',
       },
       {
-        title: 'Temperature and humidity drift',
+        title: 'Operating factors are tangled together',
         description:
-          'Small differences between lines move yield, but which segment drifted stays invisible.',
+          'Peak demand, UPS-backed outage response, temperature, humidity, equipment alarms and now safety and fire systems are all expected to sit in one structure.',
       },
       {
-        title: 'Alarm-dense windows',
+        title: 'High-mix production splits the lines',
         description:
-          'When equipment alarms arrive all at once, the one real cause is buried in the rest.',
-      },
-      {
-        title: 'Equipment response against the plan',
-        description:
-          'Plan and actual operation drift apart and the gap passes unnoticed.',
+          'The finer the lines are divided, the harder process-level energy management and equipment visibility become.',
       },
     ],
   },

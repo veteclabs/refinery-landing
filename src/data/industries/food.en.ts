@@ -21,29 +21,24 @@ export const foodEn: IndustryData = {
     subtitle: 'Recurring problems from intake to packaging and storage.',
     items: [
       {
-        title: 'Refrigeration efficiency slipping',
+        title: 'Refrigeration losses become cost',
         description:
-          'Chiller and cold storage performance degrades gradually, and which segment started slipping never surfaces.',
+          'Air compressors, chillers, boilers and steam equipment carry most of the load, so any efficiency loss turns straight into cost and quality risk.',
       },
       {
-        title: 'Compressed air leaks and overrun',
+        title: 'A stoppage costs a great deal',
         description:
-          'Some segments run regardless of real demand, with no evidence at hand to locate the leak.',
+          'Hygiene standards and quality regulation are strict, so a single interruption leaves a large loss.',
       },
       {
-        title: 'Energy variance between batches',
+        title: 'Energy patterns shift batch to batch',
         description:
-          'The same product draws different energy from batch to batch, with no baseline for comparison.',
+          'With batch production, a change in output changes the energy profile with it.',
       },
       {
-        title: 'Energy concentrated in CIP cleaning',
+        title: 'Cost, carbon and ageing arrive together',
         description:
-          'Cleaning cycles draw heavily but are tallied apart from production, so the cost stays hidden.',
-      },
-      {
-        title: 'Quality temperature excursions',
-        description:
-          'When storage or transfer leaves its band, it is confirmed only after the product is out.',
+          'Cost pressure, carbon compliance and ageing equipment are all happening in the same period.',
       },
     ],
   },

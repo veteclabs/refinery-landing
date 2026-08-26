@@ -21,29 +21,19 @@ export const automotiveEn: IndustryData = {
     subtitle: 'Recurring problems across press, body, paint and assembly.',
     items: [
       {
-        title: 'Bottlenecks between coupled processes',
+        title: 'One process shakes the whole line',
         description:
-          'Press, body, paint and assembly run end to end, so one slow segment pushes the whole line back.',
+          'Press, body, paint and assembly are coupled end to end, so a single piece of equipment going wrong spreads into a full line stoppage.',
       },
       {
-        title: 'Rotating-equipment fault patterns',
+        title: 'High power and fine control at once',
         description:
-          'The early signs of a motor or gearbox fault sit in vibration and current, but they are read only after the stoppage.',
+          'Heavy-draw equipment and precision control share the same line, so tuning one side unsettles the other.',
       },
       {
-        title: 'Energy variance between lines',
+        title: 'Equipment, energy and output stay apart',
         description:
-          'The same process draws different power on different lines, with no evidence to explain the gap.',
-      },
-      {
-        title: 'Equipment history when quality slips',
-        description:
-          'Equipment state and ambient conditions at the moment of a defect are recorded separately, so retracing them is hard.',
-      },
-      {
-        title: 'Energy reallocation as output shifts',
-        description:
-          'Output moves but the energy split stays fixed, and the spare capacity turns straight into cost.',
+          'Electrification and tighter quality standards demand all three together, but the data sits in separate systems.',
       },
     ],
   },

@@ -21,29 +21,24 @@ export const machineryEn: IndustryData = {
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [
       {
-        title: 'Compressed air demand swings',
+        title: 'Several energy sources run at once',
         description:
-          'Demand moves by the minute while supply stays fixed, and the spare capacity turns into cost.',
+          'Compressed air, electricity, cooling and HVAC all run on one site, and where the consumption lands never becomes clear.',
       },
       {
-        title: 'HVAC and cooling running coupled',
+        title: 'Equipment is tightly coupled',
         description:
-          'HVAC and cooling are entangled, so trimming one place lands as load somewhere else.',
+          'A fault in one machine carries straight through to the efficiency of the whole process.',
       },
       {
-        title: 'Energy concentrated in equipment clusters',
+        title: 'Non-stop running with precise conditions',
         description:
-          'Equipment is grouped in clusters, so which segment draws the energy is hard to separate out.',
+          'The plant cannot pause while process conditions must still hold, leaving no obvious moment to intervene.',
       },
       {
-        title: 'Process enthalpy flow',
+        title: 'Ageing, cost and rules arrive at once',
         description:
-          'How heat moves through the process is never captured in numbers.',
-      },
-      {
-        title: 'Carbon emission hot spots',
-        description:
-          'Emissions are not split by process, leaving no basis for deciding where to start.',
+          'Ageing equipment, rising energy cost and carbon compliance run in parallel, so equipment and energy have to be seen as one system.',
       },
     ],
   },

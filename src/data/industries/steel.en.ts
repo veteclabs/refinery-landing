@@ -21,29 +21,19 @@ export const steelEn: IndustryData = {
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
       {
-        title: 'Heat-treatment temperature holds',
+        title: 'Small process shifts decide quality',
         description:
-          'Small differences in temperature and hold time change the material properties outright.',
+          'Furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
       },
       {
-        title: 'Cooling curve deviations',
+        title: 'Heat treatment needs stability and energy control together',
         description:
-          'When the cooling segment leaves its band, it is confirmed only once the finished piece is out.',
+          'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not repeat the result.',
       },
       {
-        title: 'Compressed air peaks',
+        title: 'Complex energy flow, frequent peaks',
         description:
-          'Some segments run regardless of real demand, with no evidence at hand to locate the leak.',
-      },
-      {
-        title: 'Peak demand surges',
-        description:
-          'High-temperature, high-power equipment running together drives peak demand up and the bill with it.',
-      },
-      {
-        title: 'Energy spread across processes',
-        description:
-          'Energy is scattered process by process, so over-consuming segments are hard to separate out.',
+          'Energy is scattered across processes while high-temperature, high-power equipment runs together, making both over-consuming segments and peak demand hard to pin down.',
       },
     ],
   },

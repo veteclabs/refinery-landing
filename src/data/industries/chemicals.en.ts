@@ -21,29 +21,24 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'Recurring problems in continuous reaction operations.',
     items: [
       {
-        title: 'Thermal fluid circulation efficiency',
+        title: 'Several utilities run at once',
         description:
-          'Loss differs along every circulation path, and where it leaks never surfaces.',
+          'Electricity, LNG, steam and water all feed the process, yet each is tallied on its own and the whole picture never forms.',
       },
       {
-        title: 'Combustion air-fuel ratio',
+        title: 'Small changes move quality and stability',
         description:
-          'When a boiler drifts off its optimal ratio, how much fuel is wasted stays invisible.',
+          'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight into the result.',
       },
       {
-        title: 'Load variance between reactors',
+        title: 'Process variables need precise control',
         description:
-          'The same reaction carries different load reactor to reactor, with no baseline to compare.',
+          'Air-fuel ratio, temperature, pressure and flow must be held together, and judgment by feel cannot keep them at the optimum.',
       },
       {
-        title: 'Energy input against reaction load',
+        title: 'Energy cost and carbon rules tighten together',
         description:
-          'Input drifts out of step with actual load, and it is confirmed only after the fact.',
-      },
-      {
-        title: 'Emission anomalies',
-        description:
-          'Emissions move away from the norm, but manual aggregation delays noticing it.',
+          'Beyond simple monitoring, target-based energy management and process optimization are now expected.',
       },
     ],
   },
