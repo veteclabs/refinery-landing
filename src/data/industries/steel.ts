@@ -16,7 +16,7 @@ export const steel: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: '가공 · 소재 현장의 문제',
+    title: '가공 공정 현장의 문제',
     subtitle: '열처리 · 성형 · 코팅 공정에서 반복되는 문제입니다.',
     items: [
       {

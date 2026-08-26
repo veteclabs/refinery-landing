@@ -22,7 +22,7 @@ export const electronics: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: '전자 · 정밀 현장의 문제',
+    title: '전자 제조 현장의 문제',
     subtitle: '반도체 · 전자부품 · 정밀 장비 제조 현장에서 반복되는 문제입니다.',
     items: [
       {

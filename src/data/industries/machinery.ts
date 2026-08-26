@@ -16,7 +16,7 @@ export const machinery: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: '기계 · 플랜트 현장의 문제',
+    title: '기계 설비 현장의 문제',
     subtitle: '24시간 연속 운전하는 대형 설비 현장에서 반복되는 문제입니다.',
     items: [
       {
