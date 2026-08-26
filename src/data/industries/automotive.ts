@@ -1,0 +1,141 @@
+import type { IndustryData } from './types';
+
+export const automotive: IndustryData = {
+  slug: 'automotive',
+  name: '자동차 · 모빌리티',
+  pageTitle: '자동차 · 모빌리티를 위한 Refinery: 라인 병목 해소 · 회전체 예지보전 · 품질 편차 관리',
+  description:
+    '프레스 · 차체 · 도장 · 조립으로 이어지는 라인을 하나의 구조로 연결하고, AI 에이전트가 회전체 이상과 품질 편차를 먼저 감지합니다. 자동차 · 모빌리티 제조 현장을 위한 Refinery.',
+  hero: {
+    dark: true,
+    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
+    imagePosition: 'center 100%',
+    icon: '/industry-02.svg',
+    showSecondary: false,
+    showBreadcrumb: false,
+    eyebrow: '자동차 · 모빌리티',
+    title: '설비 흐름과 품질 일관성을\n데이터로 제어합니다',
+  },
+  challenges: {
+    dark: true,
+    title: '자동차 제조 현장의 문제',
+    subtitle: '프레스 · 차체 · 도장 · 조립 라인에서 반복되는 문제입니다.',
+    items: [
+      {
+        title: '한 공정이 라인 전체를 세운다',
+        description:
+          '공정이 연속으로 물려 있어 설비 하나의 이상이 <br>라인 전체 정지로 번집니다.',
+      },
+      {
+        title: '회전체 이상을 사후에 안다',
+        description:
+          '모터 · 감속기의 조짐은 진동 데이터에 남지만 <br>정지가 난 뒤에야 확인합니다.',
+      },
+      {
+        title: '라인마다 에너지 편차가 크다',
+        description:
+          '같은 공정인데 라인별 전력 사용이 다르고 <br>원인을 짚을 근거가 없습니다.',
+      },
+      {
+        title: '품질 이슈의 원인을 못 찾는다',
+        description:
+          '불량이 난 시점의 설비 상태와 환경 조건이 <br>따로 기록돼 되짚기 어렵습니다.',
+      },
+    ],
+  },
+  useCases: {
+    title: '문제를 푸는 방법',
+    subtitle: '자동차 제조 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
+    layout: 'steps',
+    items: [
+      {
+        title: '회전체 진동 기반 예지보전',
+        problem: '정지가 난 뒤에야 확인되는 모터 · 회전체 이상',
+        approach: '진동 · 전류 시계열에서 평소와 다른 패턴을 학습해 이상 징후를 조기에 포착합니다.',
+        outcome: '설비 다운타임 감소와 생산 안정성 확보',
+      },
+      {
+        title: '라인별 전력 사용 패턴 분석',
+        problem: '라인마다 다른 전력 사용과 짚을 수 없는 원인',
+        approach: '라인 · 공정 · 설비를 하나의 구조로 정의해 전력 사용을 같은 기준으로 비교합니다.',
+        outcome: '비효율 공정 식별과 에너지 비용 절감',
+      },
+      {
+        title: '공기압축기 수요 기반 제어',
+        problem: '실제 수요와 무관하게 돌아가는 공기압축기',
+        approach: '현장 수요를 읽어 토출 압력과 대수 운전을 필요한 만큼으로 조정합니다.',
+        outcome: '에너지 낭비 최소화와 설비 운전 효율 향상',
+      },
+      {
+        title: '생산량 연계 에너지 원단위 관리',
+        problem: '생산 대비 에너지 효율을 볼 수 없는 구조',
+        approach: '생산 실적과 에너지 사용을 연결해 라인 · 차종별 원단위를 자동 산출합니다.',
+        outcome: '생산 대비 효율 가시화와 원가 구조 개선',
+      },
+      {
+        title: '환경 조건 연계 품질 영향 분석',
+        problem: '따로 기록돼 되짚기 어려운 품질 이슈의 원인',
+        approach: '온습도 · 설비 상태 · 품질 결과를 같은 시간축에서 연결해 원인을 추적합니다.',
+        outcome: '품질 편차 최소화와 공정 조건 최적화',
+      },
+    ],
+  },
+  architecture: {
+    title: '솔루션 구조',
+    subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
+    steps: [
+      { label: '현장', detail: '프레스 · 도장 · 조립 설비 · 모터 · 진동 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: '연동', detail: 'MES · PLC · Modbus · OPC-⁠UA · EtherNet⁠/⁠IP · PROFINET', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: '활용', detail: '라인 대시보드 · 예지보전 알람 · 품질 추적', icon: 'ph-monitor', image: '/flow/use.webp' },
+    ],
+    note: '기존 MES⁠/⁠PLC가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+  },
+  benefits: {
+    title: '도입 효과',
+    subtitle: '운영 · 기술 · 경영 관점 모두에서 얻는 이점입니다.',
+    items: [
+      {
+        title: '다운타임 감소',
+        icon: 'ph-pulse',
+        description: '회전체 이상을 미리 잡아 \n계획 외 정지를 줄입니다.',
+      },
+      {
+        title: '라인 통합 관제',
+        icon: 'ph-squares-four',
+        description: '프레스부터 조립까지 흐름을 \n하나의 화면으로 봅니다.',
+      },
+      {
+        title: '에너지 원단위',
+        icon: 'ph-lightning',
+        description: '생산량과 에너지를 연결해 \n라인별 효율을 비교합니다.',
+      },
+      {
+        title: '품질 추적',
+        icon: 'ph-magnifying-glass',
+        description: '불량 시점의 설비 · 환경 조건을 \n시간축으로 되짚습니다.',
+      },
+      {
+        title: '현장 보안',
+        icon: 'ph-shield-check',
+        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
+      },
+      {
+        title: '통합 또는 신규 구축',
+        icon: 'ph-stack',
+        description: '레거시 MES⁠/⁠PLC⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+      },
+    ],
+  },
+  integrations: {
+    title: '연동 시스템',
+    subtitle: '자동차 제조 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
+    systems: ['MES', 'PLC', 'SCADA', 'Modbus', 'OPC-⁠UA', 'EtherNet⁠/⁠IP', 'PROFINET', 'ERP'],
+    note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
+  },
+  cta: {
+    backgroundImage: '/use-cases/cta-bg.webp',
+    title: '자동차 제조 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    buttonLabel: '데모 신청하기',
+  },
+};
