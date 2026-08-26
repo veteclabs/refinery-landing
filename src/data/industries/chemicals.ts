@@ -60,7 +60,7 @@ export const chemicals: IndustryData = {
       {
         title: '열매체 보일러 공기비 기반 송풍기 인버터 제어',
         problem: '감으로 맞추는 열매체 보일러 공기비',
-        approach: '연소 데이터를 읽어 최적 공기비를 산출하고 송풍기 인버터를 자동 조정합니다.',
+        approach: '열매체 보일러 공기비에 따라 송풍기 인버터를 제어해 최적의 공기비를 유지합니다.',
         outcome: '연소 효율 향상과 에너지 비용 절감',
       },
       {
@@ -88,11 +88,11 @@ export const chemicals: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '반응기 · 열매체 보일러 · 송풍기 · 압축기 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'DCS · PLC · FEMS · Modbus · OPC-⁠UA · PROFIBUS', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'SCADA · PLC · FEMS · Modbus · Serial · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '에너지 대시보드 · 목표 알람 · 배출량 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 DCS⁠/⁠FEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '기존 SCADA⁠/⁠FEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },
   benefits: {
     title: '도입 효과',
@@ -128,7 +128,7 @@ export const chemicals: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '화학 공정 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['DCS', 'PLC', 'SCADA', 'FEMS', 'Modbus', 'OPC-⁠UA', 'PROFIBUS', 'ERP'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'ERP', 'Modbus', 'Serial · RS-485', '4-20mA', 'OPC-⁠UA'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

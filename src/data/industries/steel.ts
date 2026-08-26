@@ -43,13 +43,13 @@ export const steel: IndustryData = {
       {
         title: '최대 수요 전력 감시 · 목표전력 부하 제어',
         problem: '겹쳐 돌아가는 대전력 설비로 급증하는 피크',
-        approach: '목표 전력을 두고 실시간 수요를 추종해 도달 전에 부하를 조정합니다.',
+        approach: '목표 전력을 설정해 최대 전력 사용량을 그 안으로 관리하고, 목표 피크 초과 전에 알립니다.',
         outcome: '전력 요금 절감과 피크 리스크 감소',
       },
       {
         title: '압축공기 수요 맞춤 제어 · 상태 감시',
         problem: '수요와 무관하게 과하게 운전되는 압축공기 설비',
-        approach: '수요 패턴을 읽어 토출 압력과 대수 운전을 조정하고 누설 구간을 찾아냅니다.',
+        approach: '소비 전력과 배관 유량, 온·습도를 함께 계측해 수요 맞춤 공급이 되도록 제어합니다.',
         outcome: '에너지 소비 감소와 설비 수명 연장',
       },
       {
@@ -67,7 +67,7 @@ export const steel: IndustryData = {
       {
         title: '냉각수 설비 원격 제어 · 모니터링',
         problem: '사람이 현장에 가야 확인되는 냉각수 설비 상태',
-        approach: '냉각수 온도 · 유량 · 펌프 상태를 원격으로 감시하고 조건에 맞춰 제어합니다.',
+        approach: '냉각수 온도 · 유량 · 펌프 상태를 원격으로 감시하고, 기준을 벗어나면 즉시 알립니다.',
         outcome: '설비 운영 안정성 확보',
       },
       {
@@ -83,7 +83,7 @@ export const steel: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '열처리로 · 압축공기 · 냉각수 · 성형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'PLC · SCADA · FEMS · Modbus · OPC-⁠UA · PROFIBUS', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'SCADA · PLC · FEMS · Modbus TCP · CAN · LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '공정 대시보드 · 피크 알람 · 품질 이력', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -123,7 +123,7 @@ export const steel: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '가공 · 소재 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['PLC', 'SCADA', 'FEMS', 'MES', 'Modbus', 'OPC-⁠UA', 'PROFIBUS', 'ERP'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

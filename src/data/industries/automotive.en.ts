@@ -57,7 +57,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Demand-based compressed air control',
         problem: 'Air compressors running regardless of actual demand',
-        approach: 'Real site demand is read and discharge pressure and unit staging are trimmed to what is needed.',
+        approach: 'Power draw and operating patterns are read so a VSD matches supply to demand, with inspection cycles and fault diagnosis managed alongside.',
         outcome: 'Minimal energy waste and better operating efficiency',
       },
       {
@@ -79,7 +79,7 @@ export const automotiveEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Press, paint and assembly equipment · motors · vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES · PLC · Modbus · OPC-⁠UA · EtherNet⁠/⁠IP · PROFINET', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA · PLC · MES · Modbus TCP⁠/⁠IP · RS-485 · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Line dashboard · maintenance alerts · quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -114,7 +114,7 @@ export const automotiveEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on automotive sites.',
-    systems: ['MES', 'PLC', 'SCADA', 'Modbus', 'OPC-⁠UA', 'EtherNet⁠/⁠IP', 'PROFINET', 'ERP'],
+    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC-⁠UA', 'LTE'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

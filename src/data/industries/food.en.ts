@@ -74,7 +74,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Chiller efficiency analysis and operating optimization',
         problem: 'Chillers running on without a reference point',
-        approach: 'Chiller efficiency is computed continuously and operating conditions are tuned to it.',
+        approach: 'Chiller COP is computed continuously so the most efficient units are run first.',
         outcome: 'Lower cooling energy and steadier quality',
       },
       {
@@ -90,7 +90,7 @@ export const foodEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Chillers · air compressors · boilers · temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'PLC · SCADA · MES · FEMS · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'MES · SCADA · ERP⁠·⁠SAP · Modbus TCP⁠/⁠IP · LoRaWAN · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Equipment dashboard · excursion alerts · batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -130,7 +130,7 @@ export const foodEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on food manufacturing sites.',
-    systems: ['PLC', 'SCADA', 'MES', 'FEMS', 'Modbus', 'OPC-⁠UA', 'BACnet', 'ERP'],
+    systems: ['MES', 'SCADA', 'ERP · SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

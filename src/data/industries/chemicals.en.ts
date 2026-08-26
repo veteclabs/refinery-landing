@@ -62,7 +62,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Air-fuel ratio based blower inverter control',
         problem: 'Thermal boiler air-fuel ratio set by feel',
-        approach: 'Combustion data is read to derive the optimal ratio and the blower inverter is adjusted automatically.',
+        approach: 'The blower inverter is controlled against the thermal boiler air-fuel ratio so the optimum is held.',
         outcome: 'Better combustion efficiency and lower energy cost',
       },
       {
@@ -90,11 +90,11 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Reactors · thermal boilers · blowers · compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'DCS · PLC · FEMS · Modbus · OPC-⁠UA · PROFIBUS', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA · PLC · FEMS · Modbus · Serial · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Energy dashboard · target alerts · emission reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where DCS or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where SCADA or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -130,7 +130,7 @@ export const chemicalsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on chemical sites.',
-    systems: ['DCS', 'PLC', 'SCADA', 'FEMS', 'Modbus', 'OPC-⁠UA', 'PROFIBUS', 'ERP'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'ERP', 'Modbus', 'Serial · RS-485', '4-20mA', 'OPC-⁠UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

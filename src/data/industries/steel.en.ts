@@ -45,13 +45,13 @@ export const steelEn: IndustryData = {
       {
         title: 'Peak demand monitoring and target-based load control',
         problem: 'Peaks driven up by high-power equipment running together',
-        approach: 'A target demand is set and live load is tracked so it can be trimmed before the target is reached.',
+        approach: 'A target demand is set and peak usage is held inside it, with an alert raised before the target is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
         title: 'Demand-based compressed air control and monitoring',
         problem: 'Compressed air equipment overrunning against real demand',
-        approach: 'Demand patterns are read to trim discharge pressure and unit staging, and leaking segments are located.',
+        approach: 'Power draw, pipeline flow, temperature and humidity are measured together so supply is controlled to match demand.',
         outcome: 'Lower energy use and longer equipment life',
       },
       {
@@ -69,7 +69,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Remote cooling water control and monitoring',
         problem: 'Cooling water equipment that has to be checked on foot',
-        approach: 'Cooling water temperature, flow and pump state are monitored remotely and controlled to condition.',
+        approach: 'Cooling water temperature, flow and pump state are monitored remotely, and any departure from the band is raised at once.',
         outcome: 'Steadier equipment operation',
       },
       {
@@ -85,7 +85,7 @@ export const steelEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Heat-treatment furnaces · compressed air · cooling water · forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'PLC · SCADA · FEMS · Modbus · OPC-⁠UA · PROFIBUS', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA · PLC · FEMS · Modbus TCP · CAN · LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Process dashboard · peak alerts · quality history', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -125,7 +125,7 @@ export const steelEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on materials sites.',
-    systems: ['PLC', 'SCADA', 'FEMS', 'MES', 'Modbus', 'OPC-⁠UA', 'PROFIBUS', 'ERP'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

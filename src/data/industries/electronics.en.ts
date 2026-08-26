@@ -50,7 +50,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Peak demand monitoring and load control',
         problem: 'Peak demand confirmed only once the peak has passed',
-        approach: 'Live demand is tracked so load can be trimmed before the peak is reached.',
+        approach: 'Working with a utility-approved demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
@@ -96,11 +96,11 @@ export const electronicsEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Switchgear · UPS · temperature and humidity · process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES · SCADA · BEMS · Modbus · OPC-⁠UA · SECS⁠/⁠GEM', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'MES · SCADA · UPS · demand controllers · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Power quality dashboard · outage alerts · environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or BEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where MES or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -141,7 +141,7 @@ export const electronicsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on electronics sites.',
-    systems: ['MES', 'SCADA', 'BEMS', 'UPS', 'Modbus', 'OPC-⁠UA', 'SECS⁠/⁠GEM', 'ERP'],
+    systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC-⁠UA', 'ERP'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

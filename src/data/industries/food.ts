@@ -72,7 +72,7 @@ export const food: IndustryData = {
       {
         title: '냉동기 효율 분석 · 운전 최적화',
         problem: '기준 없이 계속 도는 냉동기 운전',
-        approach: '냉동기 효율을 상시 계산해 운전 조건을 조건에 맞게 조정합니다.',
+        approach: '냉동기 COP를 상시 계산해 효율이 높은 설비부터 선택적으로 운영합니다.',
         outcome: '냉열 에너지 절감과 품질 안정성 확보',
       },
       {
@@ -88,7 +88,7 @@ export const food: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '냉동기 · 공기압축기 · 보일러 · 온도 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'PLC · SCADA · MES · FEMS · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'MES · SCADA · ERP⁠·⁠SAP · Modbus TCP⁠/⁠IP · LoRaWAN · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '설비 대시보드 · 온도 이탈 알람 · 배치별 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -128,7 +128,7 @@ export const food: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '식품 제조 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['PLC', 'SCADA', 'MES', 'FEMS', 'Modbus', 'OPC-⁠UA', 'BACnet', 'ERP'],
+    systems: ['MES', 'SCADA', 'ERP · SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

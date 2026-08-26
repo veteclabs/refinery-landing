@@ -60,7 +60,7 @@ export const machinery: IndustryData = {
       {
         title: '공조 설비 엔탈피 기반 인버터 제어',
         problem: '외기 조건과 무관하게 고정된 공조 운전',
-        approach: '외기와 실내 엔탈피를 함께 읽어 송풍 · 냉동 부하를 조건에 맞춰 조정합니다.',
+        approach: '라인별 온 · 습도를 엔탈피로 환산해 목표 엔탈피를 유지하도록 공조기 인버터를 제어합니다.',
         outcome: '공정 환경 안정화와 냉열 에너지 절감',
       },
       {
@@ -88,11 +88,11 @@ export const machinery: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '공기압축기 · 공조 · 냉각 설비 · 대형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'PLC · SCADA · BEMS · FEMS · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'FEMS · SCADA · PLC · ERP · Modbus · BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '공용 설비 대시보드 · 원단위 리포트 · 배출량 관리', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 PLC⁠/⁠BEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '기존 FEMS⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },
   benefits: {
     title: '도입 효과',
@@ -133,7 +133,7 @@ export const machinery: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '기계 · 플랜트 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['PLC', 'SCADA', 'BEMS', 'FEMS', 'Modbus', 'OPC-⁠UA', 'BACnet', 'ERP'],
+    systems: ['FEMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', '에너지관리공단'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

@@ -62,7 +62,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Enthalpy-based HVAC inverter control',
         problem: 'HVAC running fixed, regardless of outdoor conditions',
-        approach: 'Outdoor and indoor enthalpy are read together to adjust airflow and cooling load to condition.',
+        approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC inverter is controlled to hold the target.',
         outcome: 'Steadier process environment and lower cooling energy',
       },
       {
@@ -90,11 +90,11 @@ export const machineryEn: IndustryData = {
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Air compressors · HVAC · cooling equipment · large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'PLC · SCADA · BEMS · FEMS · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'FEMS · SCADA · PLC · ERP · Modbus · BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Utility dashboard · intensity reports · emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where PLC or BEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where FEMS or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -135,7 +135,7 @@ export const machineryEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on machinery and plant sites.',
-    systems: ['PLC', 'SCADA', 'BEMS', 'FEMS', 'Modbus', 'OPC-⁠UA', 'BACnet', 'ERP'],
+    systems: ['FEMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', 'OPC-⁠UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

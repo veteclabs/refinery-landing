@@ -48,7 +48,7 @@ export const electronics: IndustryData = {
       {
         title: '최대 수요 전력 실시간 감시 · 부하 제어',
         problem: '피크가 지나간 뒤에야 확인되는 최대 수요 전력',
-        approach: '실시간 수요를 추종해 피크 도달 전에 부하를 미리 조정합니다.',
+        approach: '한전 승인 최대수요관리장치와 연동해 목표 전력 이내로 부하를 제어하고, 피크 초과 전에 알립니다.',
         outcome: '전력 요금 절감과 피크 리스크 감소',
       },
       {
@@ -94,11 +94,11 @@ export const electronics: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '수배전 설비 · UPS · 온습도 · 공정 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'MES · SCADA · BEMS · Modbus · OPC-⁠UA · SECS⁠/⁠GEM', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'MES · SCADA · UPS · 최대수요관리장치 · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '전력품질 대시보드 · 정전 알람 · 환경 감시', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 MES⁠/⁠BEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '기존 MES⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },
   benefits: {
     title: '도입 효과',
@@ -139,7 +139,7 @@ export const electronics: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '전자 · 정밀 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['MES', 'SCADA', 'BEMS', 'UPS', 'Modbus', 'OPC-⁠UA', 'SECS⁠/⁠GEM', 'ERP'],
+    systems: ['MES', 'SCADA', 'UPS', '최대수요관리장치', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC-⁠UA', 'ERP'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

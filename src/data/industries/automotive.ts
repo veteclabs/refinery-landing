@@ -55,7 +55,7 @@ export const automotive: IndustryData = {
       {
         title: '공기압축기 수요 기반 제어',
         problem: '실제 수요와 무관하게 돌아가는 공기압축기',
-        approach: '현장 수요를 읽어 토출 압력과 대수 운전을 필요한 만큼으로 조정합니다.',
+        approach: '소비 전력과 운전 패턴을 읽어 VSD로 수요 맞춤 공급이 되도록 제어하고, 점검 주기와 고장 진단을 함께 관리합니다.',
         outcome: '에너지 낭비 최소화와 설비 운전 효율 향상',
       },
       {
@@ -77,7 +77,7 @@ export const automotive: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '프레스 · 도장 · 조립 설비 · 모터 · 진동 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'MES · PLC · Modbus · OPC-⁠UA · EtherNet⁠/⁠IP · PROFINET', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'SCADA · PLC · MES · Modbus TCP⁠/⁠IP · RS-485 · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '라인 대시보드 · 예지보전 알람 · 품질 추적', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -112,7 +112,7 @@ export const automotive: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '자동차 제조 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
-    systems: ['MES', 'PLC', 'SCADA', 'Modbus', 'OPC-⁠UA', 'EtherNet⁠/⁠IP', 'PROFINET', 'ERP'],
+    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC-⁠UA', 'LTE'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {
