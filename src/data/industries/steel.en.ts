@@ -10,8 +10,6 @@ export const steelEn: IndustryData = {
     'Connect heat-treatment temperature, cooling curves, compressed air and peak demand into one structure, and let an AI agent trace the cause of quality variance. Refinery for steel, non-ferrous and materials coating operations.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Materials · Steel',

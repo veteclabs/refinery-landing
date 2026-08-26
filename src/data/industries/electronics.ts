@@ -8,8 +8,6 @@ export const electronics: IndustryData = {
     '전력 품질 · UPS · 온습도 · 설비 알람을 하나의 구조로 연결하고, AI 에이전트가 라인 중단 가능성을 미리 감지합니다. 반도체 · 전자부품 · 정밀 장비 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '전자 · 정밀',

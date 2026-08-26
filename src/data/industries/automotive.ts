@@ -8,8 +8,6 @@ export const automotive: IndustryData = {
     '프레스 · 차체 · 도장 · 조립으로 이어지는 라인을 하나의 구조로 연결하고, AI 에이전트가 회전체 이상과 품질 편차를 먼저 감지합니다. 자동차 · 모빌리티 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '자동차 · 모빌리티',

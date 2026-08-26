@@ -8,13 +8,6 @@ export const energy: IndustryData = {
     'SCADA · EMS · 미터에 흩어진 에너지 데이터를 하나로 연결하고, AI 에이전트가 이상을 먼저 감지하며 ESG 리포트를 자동화합니다. 발전 · 송배전 · 유틸리티 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: {
-      src: '/img_login-bg.webp',
-      alt: '',
-      width: 3840,
-      height: 2160,
-    },
-    imagePosition: 'center 100%',
     overlay: {
       src: '/industries/energy-hero-mesh.webp',
       width: 1600,

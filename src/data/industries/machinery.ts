@@ -8,8 +8,6 @@ export const machinery: IndustryData = {
     '공기압축기 · 공조 · 냉각 같은 공용 설비를 하나의 구조로 연결하고, AI 에이전트가 에너지 집중 구간을 찾아냅니다. 대형 설비 중심 기계 · 플랜트 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '기계 · 플랜트',

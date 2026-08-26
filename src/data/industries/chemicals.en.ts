@@ -10,8 +10,6 @@ export const chemicalsEn: IndustryData = {
     'Connect electricity, LNG, steam and water into one structure, and let an AI agent catch combustion inefficiency and emission anomalies first. Refinery for chemicals, materials and pharmaceutical process operations.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Chemicals · Materials',

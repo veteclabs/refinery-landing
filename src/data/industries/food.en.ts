@@ -10,8 +10,6 @@ export const foodEn: IndustryData = {
     'Connect chillers, air compressors and boilers to production data in one structure, and let an AI agent catch temperature excursions first. Refinery for food and beverage manufacturing.',
   hero: {
     dark: true,
-    image: { src: '/img_login-bg.webp', alt: '', width: 3840, height: 2160 },
-    imagePosition: 'center 100%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Food · Beverage',
