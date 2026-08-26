@@ -9,6 +9,12 @@ export const chemicals: IndustryData = {
   hero: {
     dark: true,
     image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1172 },
+    // 세로 초점. 값을 올리면 사진 아래쪽이 보여 이미지가 위로 올라간다.
+    // 공통값 45%에서는 대물렌즈가 대제목 줄을 가로질렀다. 75%로 올리면
+    // 렌즈가 제목 위로 가고 슬라이드와 스테이지가 아래에 들어온다
+    // (이동 여유 307px 중 92px). 이 지점이 글자 대비(11.72:1)와
+    // 아래 이음새 어둡기 모두 가장 좋다 — 90% 위로는 이음새가 다시 밝아진다.
+    imagePosition: 'center 75%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '화학 · 소재',
