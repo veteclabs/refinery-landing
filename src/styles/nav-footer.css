@@ -102,7 +102,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
     }
 .mobile-nav-panel.open { display: flex; }
 .mobile-nav-panel a {
-      padding: 14px 2px;
+      padding: 14px 0;
       font-size: 16px;
       color: #333333;
       border-bottom: 1px solid var(--border);
@@ -352,10 +352,12 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 묶음 제목에는 아래선이 없다 — .mobile-nav-panel a의 공통 아래선이 여기까지 붙어
    '솔루션' 밑에 선이 하나, 묶음 끝에 또 하나가 그어져 층이 두 겹으로 보였다.
    가로선은 묶음 경계(.mm-mobile-group)만 담당한다. */
-.mobile-nav-panel .mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: var(--ink-900); padding: 12px 2px 6px; border-bottom: none; }
-.mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px 12px; }
-.mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 2px; border: none !important; }
-.mm-mobile-sub .mm-soon { padding: 7px 2px; font-size: 14.5px; }
+.mobile-nav-panel .mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: var(--ink-900); padding: 12px 0 6px; border-bottom: none; }
+/* 항목을 묶음 제목보다 들여쓰지 않는다 — 12px 들여쓰기가 있으면 제목과 항목의
+   왼쪽 축이 두 개가 되어 목록이 들쭉날쭉해 보인다. 층 구분은 글자 크기·굵기가 맡는다. */
+.mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px; }
+.mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 0; border: none !important; }
+.mm-mobile-sub .mm-soon { padding: 7px 0; font-size: 14.5px; }
 
 /* 브레이크포인트: 메가메뉴는 넓은 폭 필요 → 980px에서 햄버거로 전환 */
 @media (max-width: 980px) {
