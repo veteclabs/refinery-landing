@@ -20,11 +20,11 @@ const home = lang === 'en' ? '/en' : '/';
             {m.groups && (
               <div class="mm-panel">
                 <div class="mm-panel-inner">
-                  {/* 제목이 있는 묶음(솔루션의 산업별·과제별)은 목록으로,
-                      제목이 없는 묶음(리소스·회사)은 카드로 편다.
-                      후자는 항목이 4~5개뿐이라 한 열로 두면 넓은 띠에서 오른쪽이 크게 빈다. */}
+                  {/* 카드로 펼지 목록으로 낼지는 항목에 아이콘이 있는지로 정한다.
+                      리소스·회사는 항목이 4~5개뿐이라 한 열로 두면 넓은 띠에서 오른쪽이 크게 빈다.
+                      (제목 유무와는 무관하다 — 세 메뉴 모두 묶음 제목을 갖는다.) */}
                   {m.groups.map((g) => (
-                    g.title ? (
+                    !g.items.some((it) => it.icon) ? (
                       <div class={g.items.length >= 6 ? 'mm-col mm-col--split' : 'mm-col'}>
                         <div class="mm-col-title">{g.title}</div>
                         <ul>
@@ -38,7 +38,9 @@ const home = lang === 'en' ? '/en' : '/';
                         </ul>
                       </div>
                     ) : (
-                      <div class="mm-cards">
+                      <div class="mm-cardgroup">
+                        {g.title && <div class="mm-col-title">{g.title}</div>}
+                        <div class="mm-cards">
                         {g.items.map((it) => (
                           it.href
                             ? <a class="mm-card" href={it.href}>
@@ -56,6 +58,7 @@ const home = lang === 'en' ? '/en' : '/';
                                 </span>
                               </span>
                         ))}
+                        </div>
                       </div>
                     )
                   ))}

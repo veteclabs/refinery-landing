@@ -54,6 +54,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/blog',
       groups: [
         {
+          title: '리소스',
           items: [
             { label: '산업 AI', href: '/industrial-ai', icon: 'brain', desc: '제조 현장에 맞춘 AI 활용법' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
@@ -72,8 +73,8 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/company',
       groups: [
         {
-          // 한 열이라 제목을 두지 않는다(리소스 메뉴와 같은 형태).
           // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
+          title: '회사',
           items: [
             { label: '회사 소개', href: '/company', icon: 'buildings', desc: '하는 일과 걸어온 길' },
             { label: '연혁 · 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
@@ -122,6 +123,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/en/blog',
       groups: [
         {
+          title: 'Resources',
           items: [
             // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
             // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
@@ -139,6 +141,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/en/company',
       groups: [
         {
+          title: 'Company',
           items: [
             { label: 'About', href: '/en/company', icon: 'buildings', desc: 'What we do and where we came from' },
             { label: 'History & team', badge: 'Soon', icon: 'users-three', desc: 'Milestones and the people' },

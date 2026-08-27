@@ -249,7 +249,11 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* 리소스·회사 — 항목을 카드로 편다. 한 줄에 3장씩 놓고 넘치면 아래로 흐른다
    (리소스 5장 → 3+2, 회사 4장 → 3+1). 한 줄에 다 늘어놓으면 카드가 가늘고 길어져
    글자 한 줄이 넓은 면에 떠 있는 꼴이 된다. */
-.mm-cards { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* 카드 묶음도 제목을 갖는다. 제목은 카드 안쪽 여백(12px)만큼 들여써
+   아이콘 박스와 같은 축에 선다. */
+.mm-cardgroup { flex: 1; min-width: 0; }
+.mm-cardgroup .mm-col-title { margin: 4px 12px 8px; }
+.mm-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 /* 평소에는 면이 없고(네모 박스는 아이콘에만), 호버에서만 옅은 면이 깔린다. */
 .mm-card {
   display: flex; align-items: center; gap: 12px;
@@ -284,7 +288,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-card-label { min-width: 0; }
 /* 12px — 사이트 글자 크기를 11(라벨) · 12(보조 설명) · 13(푸터 링크) ·
    14(헤더 링크) · 15(본문)로 정수 한 줄에 맞춘다. */
-.mm-card-desc { font-size: 13px; line-height: 1.45; color: var(--ink-500); }
+.mm-card-desc { font-size: 13px; line-height: 1.45; color: var(--ink-400); }
 .mm-card.is-soon .mm-card-desc { color: var(--ink-300); }
 /* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
 .mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
