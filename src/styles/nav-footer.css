@@ -200,6 +200,8 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* 15px — 로고(30) → 상단 메뉴(15) → 패널 항목(14)으로 한 단계씩 내려간다.
    14px이면 패널 항목과 같아져 주 내비게이션과 그 하위가 구분되지 않았다. */
 .mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 15px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
+/* 패널을 여는 항목은 button으로 그린다. 링크처럼 보이도록 브라우저 기본값을 지운다. */
+button.mm-top { font-family: inherit; font-weight: inherit; line-height: inherit; background: none; border: 0; cursor: pointer; }
 /* 상단 메뉴는 호버·열림에서 하늘색이 된다. 캐럿은 currentColor라 함께 따라온다. */
 .mm-top:hover { color: #76A6D7; }
 /* 상단 메뉴 호버 — 면은 깔지 않는다. 패널이 바로 아래로 내려오고 캐럿이 뒤집히므로

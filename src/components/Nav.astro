@@ -18,7 +18,11 @@ const home = lang === 'en' ? '/en' : '/';
       <ul class="mm-menu">
         {menu.map((m) => (
           <li class={m.groups ? 'mm-item has-panel' : 'mm-item'}>
-            <a href={m.href} class="mm-top">{m.label}{m.groups && <i class="ph ph-caret-down mm-caret" aria-hidden="true"></i>}</a>
+            {/* 패널이 있는 항목은 링크가 아니라 button이다 — 누르면 페이지가 넘어가는 대신
+                제자리에 머문다. button이라 탭으로도 잡히고, :focus-within으로 패널이 열린다. */}
+            {m.groups
+              ? <button type="button" class="mm-top" aria-haspopup="true">{m.label}<i class="ph ph-caret-down mm-caret" aria-hidden="true"></i></button>
+              : <a href={m.href} class="mm-top">{m.label}</a>}
             {m.groups && (
               <div class="mm-panel">
                 <div class="mm-panel-inner">
