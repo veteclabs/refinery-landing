@@ -8,7 +8,13 @@
   -webkit-backdrop-filter: saturate(180%) blur(10px);
   backdrop-filter: saturate(180%) blur(10px);
   border-bottom: 1px solid #E3E7EC;
+  transition: background .2s ease;
 }
+/* 헤더에 마우스를 올리면 배경을 완전한 흰색으로 굳힌다.
+   메가메뉴 패널은 .mm-nav의 자식이라(화면상으로는 헤더 아래에 있어도)
+   패널 위에 있는 동안에도 :hover가 유지된다 — 헤더와 패널이 한 장의 흰 면으로 읽힌다.
+   :focus-within은 키보드로 메뉴에 들어왔을 때 같은 상태가 되게 한다. */
+.mm-nav:hover, .mm-nav:focus-within { background: #ffffff; }
 .nav-inner {
       max-width: 1280px; margin: 0 auto; height: 100%;
       display: flex; align-items: center; justify-content: space-between;
