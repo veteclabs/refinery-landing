@@ -194,9 +194,9 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    카드 면이 없어졌으므로 글자는 남는 폭을 채우지 않는다 — 채우면 배지가 칸 끝까지
    밀려 '문서 ……… 준비중'처럼 떨어져 보인다. 배지는 글자 바로 뒤에 붙인다. */
 .mm-card-ico {
-  flex: 0 0 auto; width: 40px; height: 40px; border-radius: 11px;
+  flex: 0 0 auto; width: 48px; height: 48px; border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
-  background: #EFF2F5; color: #5A6776; font-size: 20px;
+  background: #EFF2F5; color: #5A6776; font-size: 23px;
   transition: color .15s ease, background .15s ease;
 }
 /* 이름 아래에 한 줄 설명. 이름(14px)보다 작게 두고 색도 한 단계 낮춰
