@@ -310,12 +310,15 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-card-ico .ph-users-three  { transform: translateY(-1.63px); }
 .mm-card-ico .ph-user-plus    { transform: translateX(-0.75px); }
 .mm-card-ico .ph-newspaper    { transform: translate(0.75px, -0.88px); }
-/* 도형을 팔레트의 Status Dot 가운데 '중립 · 대기'(#5B9BD5)로 채우고 글자는 흰색으로 둔다.
-   경고(주황)가 아니라 아직 안 열린 상태라는 뜻이다. */
+/* 조용한 칩 — 면은 옅은 하늘색(#DCE8F5), 글자는 ink-600이다.
+   면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
+   유일하게 누를 수 없는 항목이라 시선이 거꾸로 간다. 형태는 남기고 소리만 줄인 값이다.
+   (면 위 글자 명암비 2.4:1 — 링크가 아니라 상태 표시라 본문 기준을 적용하지 않는다.)
+   좌우 여백이 9/7인 것은 글자가 왼쪽으로 치우쳐 보여 1px 옮긴 광학 보정이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 500; line-height: 1;
-  color: #ffffff; background: #5B9BD5;
+  font-size: 11px; font-weight: 400; line-height: 1;
+  color: #5B9BD5; background: #DCE8F5;
   padding: 3px 9px 3px 7px; border-radius: 999px;
 }
 
