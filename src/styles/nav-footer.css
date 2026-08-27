@@ -308,13 +308,20 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
       따로 캡처하다 생긴 클립 오차였다. 화면을 한 장으로 찍어 재면 가로는 원래 맞다.
    측정: 화면 전체를 한 번 캡처하고 각 박스의 좌표로 잉크 경계를 찾아
    위/아래 여백 차이의 절반만큼 반대로 민다. */
-.mm-card-ico .ph-sparkle      { transform: translate(-0.38px, 0.38px); }
-.mm-card-ico .ph-article      { transform: translateY(-0.88px); }
-.mm-card-ico .ph-file-text    { transform: translateY(-0.94px); }
-.mm-card-ico .ph-folder-open  { transform: translate(-0.75px, -1.25px); }
-.mm-card-ico .ph-users-three  { transform: translateY(-1.63px); }
-.mm-card-ico .ph-user-plus    { transform: translateX(-0.75px); }
-.mm-card-ico .ph-newspaper    { transform: translate(0.75px, -0.88px); }
+/* 아이콘 광학 보정 — 글리프마다 잉크가 상자 한가운데에 오지 않아 실측으로 밀어 준다.
+   기준은 두 가지를 함께 본다: 잉크 바깥 상자의 중심과, 진하기로 가중한 무게중심.
+   둘의 부호가 같고 0.3px 이상일 때만 손댄다 — 한쪽만 보고 고치면 (folder-open처럼)
+   오히려 반대로 밀린다. 전에 folder-open·user-plus를 왼쪽으로 0.75px씩 밀어 둔 것이
+   그 경우였고, 그래서 아이콘이 왼쪽으로 쏠려 보였다.
+   folder-open·buildings는 둘이 엇갈리는 모양이다 — 폴더는 오른쪽 위 모서리가,
+   건물은 왼쪽 동이 튀어나와 바깥 상자와 무게가 서로 다른 쪽을 가리킨다.
+   이 둘만 무게중심 쪽으로 60%쯤 밀어 절충했다. */
+.mm-card-ico .ph-sparkle      { transform: translate(-0.32px, 0.49px); }
+.mm-card-ico .ph-gauge        { transform: translateY(0.6px); }
+.mm-card-ico .ph-folder-open  { transform: translate(0.45px, -0.43px); }
+.mm-card-ico .ph-buildings    { transform: translateX(0.3px); }
+.mm-card-ico .ph-user-plus    { transform: translateY(0.5px); }
+.mm-card-ico .ph-newspaper    { transform: translateX(0.85px); }
 /* 조용한 칩 — 면은 옅은 하늘색(#DCE8F5), 글자는 ink-600이다.
    면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
    유일하게 누를 수 없는 항목이라 시선이 거꾸로 간다. 형태는 남기고 소리만 줄인 값이다.
