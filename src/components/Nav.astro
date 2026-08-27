@@ -41,8 +41,15 @@ const home = lang === 'en' ? '/en' : '/';
                       <div class="mm-cards">
                         {g.items.map((it) => (
                           it.href
-                            ? <a class="mm-card" href={it.href}>{it.label}</a>
-                            : <span class="mm-card is-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+                            ? <a class="mm-card" href={it.href}>
+                                {it.icon && <i class={`ph ph-${it.icon} mm-card-ico`} aria-hidden="true"></i>}
+                                <span class="mm-card-label">{it.label}</span>
+                              </a>
+                            : <span class="mm-card is-soon">
+                                {it.icon && <i class={`ph ph-${it.icon} mm-card-ico`} aria-hidden="true"></i>}
+                                <span class="mm-card-label">{it.label}</span>
+                                <span class="mm-badge">{it.badge}</span>
+                              </span>
                         ))}
                       </div>
                     )

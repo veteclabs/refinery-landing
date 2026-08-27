@@ -4,7 +4,8 @@
 // 영어 페이지가 아직 없는 항목만 Soon 배지로 두고, 페이지가 생기면 href를 채운다.
 // 영어 페이지가 없는 항목만 Soon 배지다.
 
-export type NavLink = { label: string; href?: string; badge?: string };
+// icon — Phosphor 아이콘 이름(ph-<icon>). 카드로 펴는 묶음(리소스·회사)에서만 쓴다.
+export type NavLink = { label: string; href?: string; badge?: string; icon?: string };
 export type NavGroup = { title?: string; items: NavLink[] };
 export type NavMenu = { label: string; href: string; groups?: NavGroup[] };
 export type FooterCol = { title: string; items: NavLink[] };
@@ -52,14 +53,14 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
-            { label: '산업 AI', href: '/industrial-ai' },
+            { label: '산업 AI', href: '/industrial-ai', icon: 'brain' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
             // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
-            { label: '에너지관리시스템', href: '/energy-management' },
-            { label: '블로그', href: '/blog' },
+            { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge' },
+            { label: '블로그', href: '/blog', icon: 'article' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '준비중' },
-            { label: '자료실', href: '/resources' },
+            { label: '문서', badge: '준비중', icon: 'file-text' },
+            { label: '자료실', href: '/resources', icon: 'folder-open' },
           ],
         },
       ],
@@ -72,10 +73,10 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           // 한 열이라 제목을 두지 않는다(리소스 메뉴와 같은 형태).
           // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
           items: [
-            { label: '회사 소개', href: '/company' },
-            { label: '연혁 · 팀', badge: '준비중' },
-            { label: '채용', badge: '준비중' },
-            { label: '뉴스룸', badge: '준비중' },
+            { label: '회사 소개', href: '/company', icon: 'buildings' },
+            { label: '연혁 · 팀', badge: '준비중', icon: 'users-three' },
+            { label: '채용', badge: '준비중', icon: 'user-plus' },
+            { label: '뉴스룸', badge: '준비중', icon: 'newspaper' },
           ],
         },
       ],
@@ -122,11 +123,11 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           items: [
             // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
             // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
-            { label: 'Industrial AI', href: '/industrial-ai' },
-            { label: 'Energy management', href: '/energy-management' },
-            { label: 'Blog', href: '/en/blog' },
-            { label: 'Docs', badge: 'Soon' },
-            { label: 'Resources & whitepapers', href: '/en/resources' },
+            { label: 'Industrial AI', href: '/industrial-ai', icon: 'brain' },
+            { label: 'Energy management', href: '/energy-management', icon: 'gauge' },
+            { label: 'Blog', href: '/en/blog', icon: 'article' },
+            { label: 'Docs', badge: 'Soon', icon: 'file-text' },
+            { label: 'Resources & whitepapers', href: '/en/resources', icon: 'folder-open' },
           ],
         },
       ],
@@ -137,10 +138,10 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       groups: [
         {
           items: [
-            { label: 'About', href: '/en/company' },
-            { label: 'History & team', badge: 'Soon' },
-            { label: 'Careers', badge: 'Soon' },
-            { label: 'Newsroom', badge: 'Soon' },
+            { label: 'About', href: '/en/company', icon: 'buildings' },
+            { label: 'History & team', badge: 'Soon', icon: 'users-three' },
+            { label: 'Careers', badge: 'Soon', icon: 'user-plus' },
+            { label: 'Newsroom', badge: 'Soon', icon: 'newspaper' },
           ],
         },
       ],
