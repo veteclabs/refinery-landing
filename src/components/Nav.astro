@@ -94,6 +94,10 @@ const home = lang === 'en' ? '/en' : '/';
   </div>
 </nav>
 
+{/* 메뉴가 열렸을 때 헤더 아래를 덮는 막. .mm-nav의 backdrop-filter가
+    fixed의 기준을 헤더 상자로 바꾸므로 형제로 둔다. */}
+<div class="mm-scrim" aria-hidden="true"></div>
+
 <script is:inline>
   (function () {
     var btn = document.getElementById('navHamburgerBtn');
