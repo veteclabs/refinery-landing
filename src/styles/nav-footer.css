@@ -116,11 +116,11 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       padding: 12px;
       font-weight: 500;
     }
-.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: #76A6D7; color: #ffffff; border-color: #76A6D7; }
+.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-/* 헤더 문의하기 — 평소에는 테두리만, 호버에서 하늘색 면이 채워지고 글자는 흰색이 된다.
+/* 헤더 문의하기 — 테두리만 있는 버튼. 호버에서 글자와 테두리가 하늘색이 된다(면은 그대로).
    nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
-nav .btn-primary:hover, nav .btn-primary:active { background: #76A6D7; color: #ffffff; border-color: #76A6D7; }
+nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
     상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
@@ -332,22 +332,25 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    (면 위 글자 명암비 2.4:1 — 링크가 아니라 상태 표시라 본문 기준을 적용하지 않는다.)
    위 2 / 아래 3은 세로 보정이다 — 3/3 대칭이면 한글 글자가 1px 아래로 처져 보인다.
    소수점(2.5/3.5)은 브라우저가 글자 위치를 정수 픽셀로 붙여 반영되지 않는다. 1px 단위로 잡는다.
-   왼쪽 여백만 6.875px인 것은 자간 보정이다 — letter-spacing은 마지막 글자 뒤에도
-   공백(0.6px)을 남겨 가운데 정렬이 그만큼 왼쪽으로 밀린다. 실측으로 맞춘 값이라
-   좌우 잉크 여백이 9.2px로 같아진다(8px면 좌 8.3 / 우 10.1로 벌어진다).
+   좌우는 6px으로 같다. letter-spacing이 마지막 글자 뒤에 공백을 남기므로 잉크만 보면
+   왼쪽이 조금 넓지만, 그 값을 보정해 잉크를 정확히 반씩 맞추면 글자가 오른쪽으로
+   쏠려 보인다 — 눈은 자간이 만든 뒤 공백도 글자의 일부로 읽는다.
    위아래는 건드리지 않는다 — line-height가 1이라 여백을 흔들어도 글자는 그대로 있고
    상자만 바뀐다(2.5/3.5로 재봤을 때 잉크 위치가 0.03px밖에 안 움직였다). */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 500; line-height: 1; letter-spacing: .06em;
   color: #5B9BD5; background: #DCE8F5;
-  padding: 2px 6px 3px 6.875px; border-radius: 999px;
+  padding: 2px 6px 3px 6px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */
 .mm-mobile { flex-direction: column; }
 .mm-mobile-group { border-bottom: 1px solid var(--ink-100); padding: 4px 0; }
-.mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: var(--ink-900); padding: 12px 2px 6px; }
+/* 묶음 제목에는 아래선이 없다 — .mobile-nav-panel a의 공통 아래선이 여기까지 붙어
+   '솔루션' 밑에 선이 하나, 묶음 끝에 또 하나가 그어져 층이 두 겹으로 보였다.
+   가로선은 묶음 경계(.mm-mobile-group)만 담당한다. */
+.mobile-nav-panel .mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: var(--ink-900); padding: 12px 2px 6px; border-bottom: none; }
 .mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px 12px; }
 .mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 2px; border: none !important; }
 .mm-mobile-sub .mm-soon { padding: 7px 2px; font-size: 14.5px; }
