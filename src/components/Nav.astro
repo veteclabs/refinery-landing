@@ -43,12 +43,17 @@ const home = lang === 'en' ? '/en' : '/';
                           it.href
                             ? <a class="mm-card" href={it.href}>
                                 {it.icon && <span class="mm-card-ico" aria-hidden="true"><i class={`ph ph-${it.icon}`}></i></span>}
-                                <span class="mm-card-label">{it.label}</span>
+                                <span class="mm-card-text">
+                                  <span class="mm-card-head"><span class="mm-card-label">{it.label}</span></span>
+                                  {it.desc && <span class="mm-card-desc">{it.desc}</span>}
+                                </span>
                               </a>
                             : <span class="mm-card is-soon">
                                 {it.icon && <span class="mm-card-ico" aria-hidden="true"><i class={`ph ph-${it.icon}`}></i></span>}
-                                <span class="mm-card-label">{it.label}</span>
-                                <span class="mm-badge">{it.badge}</span>
+                                <span class="mm-card-text">
+                                  <span class="mm-card-head"><span class="mm-card-label">{it.label}</span><span class="mm-badge">{it.badge}</span></span>
+                                  {it.desc && <span class="mm-card-desc">{it.desc}</span>}
+                                </span>
                               </span>
                         ))}
                       </div>
