@@ -34,22 +34,15 @@ const LIVE: { lang: Lang; label: string; home: string }[] = [
 </script>
 
 <style>
-  /* 알약 토글 — 랜딩 솔루션 섹션의 산업별·과제별 탭과 같은 형태다.
-     현재 언어에 흰 알약이 붙어 지금 어느 쪽인지 한눈에 보인다.
+  /* 글자만 둔다 — 면도 테두리도 없다. 지금 언어는 진하게(ink-900/600),
+     다른 언어는 흐리게(ink-400) 둬서 두 글자만으로 상태가 읽힌다.
      색은 --ink 스케일(nav-footer.css의 :root)에서 가져온다. */
-  .lang-switcher {
-    display: inline-flex; gap: 2px;
-    background: var(--ink-100); border-radius: 999px; padding: 3px;
-  }
+  .lang-switcher { display: inline-flex; align-items: center; gap: 12px; }
   .lang-item {
-    font-size: 13px; font-weight: 600; color: var(--ink-500);
-    padding: 5px 11px; border-radius: 999px; text-decoration: none;
-    transition: background .18s ease;
+    font-size: 13px; font-weight: 500; color: var(--ink-400);
+    text-decoration: none; transition: color .15s ease;
   }
-  /* 호버는 헤더 다른 항목과 같은 규칙 — 글자 색은 그대로 두고 면만 옅게 깔린다. */
-  .lang-item:not(.is-active):hover { background: rgba(255, 255, 255, .6); }
-  .lang-item.is-active {
-    background: #ffffff; color: var(--ink-900);
-    box-shadow: 0 1px 2px rgba(16, 32, 44, .10);
-  }
+  .lang-item.is-active { color: var(--ink-900); font-weight: 600; }
+  /* 헤더의 다른 글자 항목과 같은 호버 — 하늘색. 지금 언어는 바뀌지 않는다. */
+  .lang-item:not(.is-active):hover { color: #76A6D7; }
 </style>
