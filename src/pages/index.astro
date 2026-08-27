@@ -480,9 +480,7 @@ const jsonLd = [orgSchema, faqSchema];
       if (!root) return;
       var vp = root.querySelector('.sol-viewport');
       var tabs = root.querySelectorAll('[data-sol-tab]');
-      var prev = root.querySelector('.sol-prev');
-      var next = root.querySelector('.sol-next');
-      if (!vp || !tabs.length || !prev || !next) return;
+      if (!vp || !tabs.length) return;
       var last = 0;
       var fading = false, token = 0;
 
@@ -491,8 +489,6 @@ const jsonLd = [orgSchema, faqSchema];
         for (var t = 0; t < tabs.length; t++) {
           tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
         }
-        prev.disabled = i <= 0;
-        next.disabled = i >= tabs.length - 1;
       }
 
       // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
@@ -541,8 +537,6 @@ const jsonLd = [orgSchema, faqSchema];
           tabs[n].addEventListener('click', function () { go(n); });
         })(t);
       }
-      prev.addEventListener('click', function () { go(current() - 1); });
-      next.addEventListener('click', function () { go(current() + 1); });
 
       // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
       // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
@@ -646,10 +640,6 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="sol-tabs" role="tablist">
         <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="산업별 카드 보기">산업별</button>
         <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="과제별 카드 보기">과제별</button>
-      </div>
-      <div class="sol-nav">
-        <button type="button" class="sol-nav-btn sol-prev" aria-label="이전" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button type="button" class="sol-nav-btn sol-next" aria-label="다음"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
     <div class="sol-viewport">
