@@ -23,17 +23,9 @@
 .mm-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: 70px;
-  background: rgba(255, 255, 255, 0.9);
-  -webkit-backdrop-filter: saturate(180%) blur(10px);
-  backdrop-filter: saturate(180%) blur(10px);
+  background: #ffffff;
   border-bottom: 1px solid var(--ink-200);
-  transition: background .2s ease;
 }
-/* 헤더에 마우스를 올리면 배경을 완전한 흰색으로 굳힌다.
-   메가메뉴 패널은 .mm-nav의 자식이라(화면상으로는 헤더 아래에 있어도)
-   패널 위에 있는 동안에도 :hover가 유지된다 — 헤더와 패널이 한 장의 흰 면으로 읽힌다.
-   :focus-within은 키보드로 메뉴에 들어왔을 때 같은 상태가 되게 한다. */
-.mm-nav:hover, .mm-nav:focus-within { background: #ffffff; }
 /* 패널이 열려 있는 동안에는 헤더 아래 구분선을 지운다 —
    헤더와 패널이 한 장의 흰 면으로 이어지고, 끝나는 자리는 패널 아래 선이 맡는다.
    :has로 '패널이 열린 상태'만 골라낸다(로고만 스칠 때는 구분선이 그대로 있어야 한다). */
@@ -41,7 +33,7 @@
 .mm-nav:has(.mm-item.has-panel:focus-within) { border-bottom-color: transparent; }
 
 /* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
-   .mm-nav 안에 두면 안 된다 — 헤더에 backdrop-filter가 걸려 있어 그 안의
+   .mm-nav 안에 두면 안 된다 — 헤더가 position: fixed라 그 안의
    position: fixed는 화면이 아니라 헤더 상자(70px) 기준이 된다. 그래서 형제로 뺐다.
    z-index 90 — 헤더(100)보다 아래라 헤더와 그 안의 패널(60)은 막 위에 그대로 뜬다.
    pointer-events: none — 막이 클릭을 가로채지 않는다. */
@@ -58,7 +50,7 @@ body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: vi
 /* 패널이 열린 채로 스크롤하면 닫는다. :hover는 JS로 풀 수 없으므로
    헤더에 클래스를 걸어 눌러 두고, 마우스가 헤더를 벗어나면 푼다. */
 .mm-nav.is-shut .mm-panel { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; }
-.mm-nav.is-shut { background: rgba(255, 255, 255, 0.9) !important; border-bottom-color: var(--ink-200) !important; }
+.mm-nav.is-shut { border-bottom-color: var(--ink-200) !important; }
 .mm-nav.is-shut .mm-caret { transform: none !important; }
 body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden !important; }
 @media (prefers-reduced-motion: reduce) { .mm-scrim { transition: none; } }
