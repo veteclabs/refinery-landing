@@ -187,8 +187,7 @@
     .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
     .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
     .footer-links { display: flex; flex-direction: column; gap: 9px; }
-    .footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
-    .footer-links a:hover { color: #76A6D7; }
+    .footer-links a { font-size: 13px; color: var(--text-muted); }
     .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-bottom-text { font-size: 13px; color: #C8CED5; }
     .footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }

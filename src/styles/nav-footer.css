@@ -237,7 +237,7 @@ footer { padding: 60px 0 20px; overflow: hidden; }
   grid-auto-columns: minmax(0, 1fr); column-gap: 28px;
 }
 /* 왼쪽 여백을 링크의 padding-left(10px)와 맞춰 제목과 항목이 같은 축에 선다. */
-.mm-col-title { font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--ink-400); margin: 4px 10px 20px; }
+.mm-col-title { font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--ink-400); margin: 4px 12px 20px; }
 .mm-col ul { list-style: none; margin: 0; padding: 0; }
 .mm-col li { margin: 3px 0; }
 /* 여백을 상하좌우 같게 둔다. 글은 왼쪽 정렬 그대로다. */
@@ -341,10 +341,12 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 약관 글자는 ink-600이다. 한줄 소개(ink-400)와 맞추면 #F6F8FA 띠 위에서 명암비가 2.2:1로
    떨어져 AA(4.5:1)에 한참 못 미친다 — 법적으로 읽혀야 하는 링크라 ink-600(5.4:1)으로 둔다.
    띠는 패널 폭 전체를 채우고(바깥 요소), 항목은 본문과 같은 1280px 축에 선다(안쪽 ul).
+   좌우 여백이 50px인 것은 본문 38px에 항목 안쪽 여백 12px을 더한 값이다 —
+   메뉴 글자는 카드·링크의 12px 패딩만큼 들어가 있어, 38px로 두면 약관 줄만 왼쪽으로 튀어나온다.
    위아래 여백은 17/19다. 같은 값으로 두면 한글 글자가 1.5px 아래로 처져 보여
    실측(잉크 기준 상 22.5 / 하 21.0)만큼 위로 당겼다. 눈에 맞춘 값이다. */
 .mm-panel-foot { border-top: 1px solid var(--ink-200); background: var(--ink-50); }
-.mm-panel-foot ul { max-width: 1280px; margin: 0 auto; padding: 17px 38px 19px;
+.mm-panel-foot ul { max-width: 1280px; margin: 0 auto; padding: 17px 50px 19px;
   list-style: none; display: flex; flex-wrap: wrap; align-items: center; }
 .mm-panel-foot li { padding: 0 14px; line-height: 1.2; }
 .mm-panel-foot li:first-child { padding-left: 0; }
