@@ -69,7 +69,9 @@ body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: vi
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
 .nav-links a:hover { color: #76A6D7; }
-.nav-actions { display: flex; gap: 12px; align-items: center; }
+/* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
+   12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
+.nav-actions { display: flex; gap: 20px; align-items: center; }
 .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
       background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px;
