@@ -348,6 +348,6 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-panel-foot li:first-child { padding-left: 0; }
 .mm-panel-foot li + li { border-left: 1px solid var(--ink-200); }
 .mm-panel-foot a,
-.mm-panel-foot button { font-family: inherit; font-size: 13px; color: var(--ink-500); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; }
+.mm-panel-foot button { font-family: inherit; font-size: 13px; color: var(--ink-400); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; }
 .mm-panel-foot a:hover,
 .mm-panel-foot button:hover { text-decoration: underline; text-underline-offset: 3px; }
