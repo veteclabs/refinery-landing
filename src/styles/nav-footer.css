@@ -165,8 +165,13 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    제목은 ul 바깥이라 2단 위에 걸쳐 놓인다. 단 사이(28px)보다 묶음 사이(72px)를
    훨씬 넓게 둬야 어느 단이 어느 묶음인지 읽힌다 — 같은 간격이면 4개가 따로 논다. */
 .mm-col--split { min-width: 408px; }
-.mm-col--split ul { columns: 2; column-gap: 28px; }
-.mm-col--split li { break-inside: avoid; }
+/* CSS columns 대신 grid로 단을 나눈다. columns는 두 단의 높이를 알아서 맞추려 해
+   7개가 3+4로 갈렸다. 행 수를 4로 못 박고 세로로 채우면 1~4번이 왼쪽, 5~7번이
+   오른쪽으로 가서 항상 4+3이 된다. */
+.mm-col--split ul {
+  display: grid; grid-template-rows: repeat(4, auto); grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr); column-gap: 28px;
+}
 /* 왼쪽 여백을 링크의 padding-left(10px)와 맞춰 제목과 항목이 같은 축에 선다. */
 .mm-col-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9aa4b0; margin: 4px 10px 8px; }
 .mm-col ul { list-style: none; margin: 0; padding: 0; }
