@@ -476,66 +476,59 @@ const jsonLd = {
         prev.disabled = i <= 0;
         next.disabled = i >= tabs.length - 1;
       }
-      // 판 전환은 직접 그린다. scrollTo({behavior:'smooth'})는 속도 곡선을 정할 수 없고
-      // 스냅과 겹치면 끝에서 한 번 튕긴다.
-      // 곡선은 이 사이트가 이미 쓰는 cubic-bezier(0.22, 1, 0.36, 1)이다
-      // (global.css의 .sec-card-img img). 누르자마자 크게 움직이고 끝에서 길게 눕는
-      // ease-out이라, 사용자가 누른 동작에는 양쪽이 느린 ease-in-out보다 자연스럽다.
-      function bezier(t) {
-        // x(t)=3(1-t)²t·0.22 + 3(1-t)t²·0.36 + t³ 를 뉴턴법으로 뒤집어 y를 구한다.
-        var x1 = 0.22, y1 = 1, x2 = 0.36, y2 = 1;
-        var u = t;
-        for (var n = 0; n < 5; n++) {
-          var s = 1 - u;
-          var x = 3 * s * s * u * x1 + 3 * s * u * u * x2 + u * u * u;
-          var d = 3 * s * s * x1 + 6 * s * u * (x2 - x1) + 3 * u * u * (1 - x2);
-          if (d < 1e-6) break;
-          u -= (x - t) / d;
-          if (u < 0) u = 0; else if (u > 1) u = 1;
-        }
-        var s2 = 1 - u;
-        return 3 * s2 * s2 * u * y1 + 3 * s2 * u * u * y2 + u * u * u;
+      // 판 전환 — 옆으로 미끄러지는 모습을 보여주지 않는다.
+      // 카드 14장이 화면을 가로질러 지나가면 시선이 그걸 따라가느라 산만하다.
+      // 대신 흐려졌다가(150ms) 위치를 순간이동시키고 다시 나타난다(260ms).
+      // 위치는 그대로 가로 스크롤이 갖고 있으므로 모바일 스와이프는 계속 된다.
+      var token = 0, fading = false;
+      function target(i) {
+        // offsetLeft는 스크롤 컨테이너가 아니라 offsetParent 기준이라 컨테이너 여백이
+        // 딸려온다. 첫 판을 빼서 컨테이너 안쪽 거리로 바꾼다.
+        var panels = vp.querySelectorAll('.sol-panel');
+        return panels.length > 1
+          ? panels[i].offsetLeft - panels[0].offsetLeft
+          : i * vp.clientWidth;
       }
-      var anim = null;
+      function jump(to) {
+        // 스냅이 켜진 채로 옮기면 브라우저가 부드럽게 끌고 가 미끄러짐이 보인다.
+        vp.style.scrollSnapType = 'none';
+        vp.scrollLeft = to;
+        vp.style.scrollSnapType = '';
+      }
       function go(i) {
         if (i < 0) i = 0;
         if (i > tabs.length - 1) i = tabs.length - 1;
         paint(i);
         last = i;
-        // clientWidth로 계산하지 않고 판의 실제 위치를 쓴다 — 소수점 폭에서
-        // 목적지가 어긋나 스냅을 되돌릴 때 한 번 튀는 것을 막는다.
-        // offsetLeft는 스크롤 컨테이너가 아니라 offsetParent 기준이라 컨테이너 여백까지
-        // 딸려온다. 첫 판을 빼서 컨테이너 안쪽 거리로 바꾼다
-        // (안 빼면 목적지가 최대 스크롤을 넘어 애니메이션이 중간에 걸려 멈춘다).
-        var panels = vp.querySelectorAll('.sol-panel');
-        var to = panels.length > 1
-          ? panels[i].offsetLeft - panels[0].offsetLeft
-          : i * vp.clientWidth;
-        var from = vp.scrollLeft;
-        if (Math.abs(to - from) < 1) return;
+        var to = target(i);
+        if (Math.abs(to - vp.scrollLeft) < 1) return;
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduce) { vp.scrollLeft = to; return; }
-        if (anim) cancelAnimationFrame(anim);
-        // 스냅이 켜진 채로 scrollLeft를 매 프레임 만지면 브라우저가 목적지로 끌어당겨
-        // 움직임이 끊긴다. 애니메이션 동안만 끄고 끝나면 되돌린다.
-        vp.style.scrollSnapType = 'none';
-        var t0 = 0, D = 620;
-        function step(ts) {
-          if (!t0) t0 = ts;
-          var p = (ts - t0) / D;
-          if (p > 1) p = 1;
-          vp.scrollLeft = from + (to - from) * bezier(p);
-          if (p < 1) {
-            anim = requestAnimationFrame(step);
-          } else {
-            vp.scrollLeft = to;
-            anim = null;
-            vp.style.scrollSnapType = '';
+        if (reduce) { jump(to); return; }
+        var mine = ++token;
+        fading = true;
+        var track = vp.querySelector('.sol-track');
+        vp.style.transition = 'opacity 150ms ease';
+        vp.style.opacity = '0';
+        setTimeout(function () {
+          if (mine !== token) return;   // 그 사이 다시 눌렀으면 이 차례는 버린다
+          jump(to);
+          // 살짝 아래에서 올라오며 나타난다 — 그냥 켜지는 것보다 눈이 덜 놀란다.
+          if (track) {
+            track.style.transition = 'none';
+            track.style.transform = 'translateY(8px)';
           }
-        }
-        anim = requestAnimationFrame(step);
+          requestAnimationFrame(function () {
+            if (mine !== token) return;
+            vp.style.transition = 'opacity 260ms ease';
+            vp.style.opacity = '1';
+            if (track) {
+              track.style.transition = 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1)';
+              track.style.transform = 'translateY(0)';
+            }
+            setTimeout(function () { if (mine === token) fading = false; }, 280);
+          });
+        }, 160);
       }
-
       for (var t = 0; t < tabs.length; t++) {
         (function (n) {
           tabs[n].addEventListener('click', function () { go(n); });
@@ -544,11 +537,11 @@ const jsonLd = {
       prev.addEventListener('click', function () { go(current() - 1); });
       next.addEventListener('click', function () { go(current() + 1); });
 
-      // 스와이프로 넘겼을 때만 되읽는다. 위 애니메이션이 도는 동안에는
-      // 중간 위치가 읽혀 탭이 잠깐 잘못 켜지므로 건너뛴다.
+      // 스와이프로 넘겼을 때만 되읽는다. 위 전환이 도는 동안에는
+      // 우리가 옮긴 위치가 되읽혀 헛도므로 건너뛴다.
       var tick;
       vp.addEventListener('scroll', function () {
-        if (anim) return;
+        if (fading) return;
         clearTimeout(tick);
         tick = setTimeout(function () {
           var i = current();
@@ -558,7 +551,7 @@ const jsonLd = {
 
       // 폭이 바뀌면 스냅 위치가 어긋난다. 보고 있던 판으로 다시 맞춘다.
       window.addEventListener('resize', function () {
-        vp.scrollLeft = last * vp.clientWidth;
+        jump(target(last));
       });
 
       paint(0);
