@@ -316,11 +316,18 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    folder-open·buildings는 둘이 엇갈리는 모양이다 — 폴더는 오른쪽 위 모서리가,
    건물은 왼쪽 동이 튀어나와 바깥 상자와 무게가 서로 다른 쪽을 가리킨다.
    이 둘만 무게중심 쪽으로 60%쯤 밀어 절충했다. */
-.mm-card-ico .ph-sparkle      { transform: translate(-0.32px, 0.49px); }
-.mm-card-ico .ph-gauge        { transform: translateY(0.6px); }
-.mm-card-ico .ph-folder-open  { transform: translate(0.45px, -0.43px); }
-.mm-card-ico .ph-buildings    { transform: translateX(0.3px); }
-.mm-card-ico .ph-user-plus    { transform: translateY(0.5px); }
+/* 아이콘 광학 보정 — 보정을 모두 끈 상태에서 상자 안 잉크의 위/아래·좌/우 여백을
+   4배 화면으로 재고, 그 편차를 그대로 되돌린 값이다(측정 단위 0.25px).
+   세로는 아홉 개 전부 잉크 기준으로 맞췄다.
+   가로는 잉크 상자와 무게중심이 엇갈리는 folder-open·buildings·user-plus만
+   눈으로 고른 값을 유지한다 — 잉크 상자만 따르면 폴더는 왼쪽으로 1px 더 밀린다. */
+.mm-card-ico .ph-sparkle      { transform: translate(-0.32px, 0.5px); }
+.mm-card-ico .ph-gauge        { transform: translateY(1.13px); }
+.mm-card-ico .ph-file-text    { transform: translateY(0.13px); }
+.mm-card-ico .ph-folder-open  { transform: translate(0.45px, -0.38px); }
+.mm-card-ico .ph-buildings    { transform: translate(0.3px, 0.75px); }
+.mm-card-ico .ph-users-three  { transform: translateY(-0.63px); }
+.mm-card-ico .ph-user-plus    { transform: translateY(0.75px); }
 .mm-card-ico .ph-newspaper    { transform: translateX(0.85px); }
 /* 조용한 칩 — 면은 옅은 하늘색(#DCE8F5), 글자는 ink-600이다.
    면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
