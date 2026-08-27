@@ -314,12 +314,13 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
    유일하게 누를 수 없는 항목이라 시선이 거꾸로 간다. 형태는 남기고 소리만 줄인 값이다.
    (면 위 글자 명암비 2.4:1 — 링크가 아니라 상태 표시라 본문 기준을 적용하지 않는다.)
-   좌우 여백이 9/7인 것은 글자가 왼쪽으로 치우쳐 보여 1px 옮긴 광학 보정이다. */
+   좌우 여백이 9/8인 것은 자간 때문이다 — letter-spacing은 마지막 글자 뒤에도 공백을 남겨
+   가운데 정렬이 그만큼 왼쪽으로 밀린다. 왼쪽을 1px 넓혀 되돌린 값이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 400; line-height: 1;
+  font-size: 11px; font-weight: 400; line-height: 1; letter-spacing: .06em;
   color: #5B9BD5; background: #DCE8F5;
-  padding: 3px 9px 3px 7px; border-radius: 999px;
+  padding: 3px 8px 3px 9px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */
