@@ -1,6 +1,7 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { navMenu, navUi, legalLinks } from '../i18n/nav';
+import { navIcons } from './navIcons';
 import '../styles/nav-footer.css';
 
 // 메가메뉴 IA는 로케일별로 src/i18n/nav.ts에 있다. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
@@ -45,14 +46,22 @@ const home = lang === 'en' ? '/en' : '/';
                         {g.items.map((it) => (
                           it.href
                             ? <a class="mm-card" href={it.href}>
-                                {it.icon && <span class="mm-card-ico" aria-hidden="true"><i class={`ph ph-${it.icon}`}></i></span>}
+                                {it.icon && navIcons[it.icon] && (
+                                  <span class="mm-card-ico" aria-hidden="true">
+                                    <svg viewBox={navIcons[it.icon].vb} width="24" height="24" fill="currentColor" focusable="false"><path d={navIcons[it.icon].d}/></svg>
+                                  </span>
+                                )}
                                 <span class="mm-card-text">
                                   <span class="mm-card-head"><span class="mm-card-label">{it.label}</span></span>
                                   {it.desc && <span class="mm-card-desc">{it.desc}</span>}
                                 </span>
                               </a>
                             : <span class="mm-card is-soon">
-                                {it.icon && <span class="mm-card-ico" aria-hidden="true"><i class={`ph ph-${it.icon}`}></i></span>}
+                                {it.icon && navIcons[it.icon] && (
+                                  <span class="mm-card-ico" aria-hidden="true">
+                                    <svg viewBox={navIcons[it.icon].vb} width="24" height="24" fill="currentColor" focusable="false"><path d={navIcons[it.icon].d}/></svg>
+                                  </span>
+                                )}
                                 <span class="mm-card-text">
                                   <span class="mm-card-head"><span class="mm-card-label">{it.label}</span><span class="mm-badge">{it.badge}</span></span>
                                   {it.desc && <span class="mm-card-desc">{it.desc}</span>}

@@ -287,7 +287,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
   flex: 0 0 auto; width: 48px; height: 48px; border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
   background: #ffffff; border: 1px solid var(--ink-200);
-  color: var(--ink-600); font-size: 23px;
+  color: var(--ink-600);
   transition: color .15s ease, background .15s ease, border-color .15s ease;
 }
 /* 이름 아래에 한 줄 설명. 이름(14px)보다 작게 두고 색도 한 단계 낮춰
@@ -324,10 +324,11 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 아이콘 광학 보정 — 기준은 하나다. 보정을 모두 끈 상태에서 4배 화면으로
    상자 안 잉크의 상하좌우 여백을 재고, 그 편차를 그대로 되돌린다.
    예외 없이 아홉 개 전부 같은 규칙을 쓴다(측정 눈금 0.25px). */
-/* 아이콘은 상자 안에서 flex 가운데 정렬에 맡긴다. 글리프별 소수점 보정은 두지 않는다.
-   0.25~1px짜리 보정은 화면 배율(1x/2x)·브라우저 확대·창 너비 홀짝에 따라
-   반올림이 달라져, 재는 환경과 보는 환경이 갈리면 오히려 제각각으로 보인다.
-   남는 편차는 Phosphor 글리프 자체의 것이고 아홉 개가 같은 조건을 받는다. */
+/* 아이콘은 인라인 SVG다(navIcons.ts). 그림이 viewBox 한가운데 오도록 담아 두었으므로
+   여기서는 상자 가운데에 놓기만 하면 된다 — CSS 보정값은 없다.
+   크기가 24px인 것은 상자 안쪽(48 - 테두리 2 = 46px)에서 남는 여백이 11px씩
+   정수로 떨어지게 하기 위해서다. 23px이면 11.5px씩이라 반 픽셀에 걸린다. */
+.mm-card-ico svg { display: block; }
 /* 조용한 칩 — 면은 옅은 하늘색(#DCE8F5), 글자는 ink-600이다.
    면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
    유일하게 누를 수 없는 항목이라 시선이 거꾸로 간다. 형태는 남기고 소리만 줄인 값이다.
