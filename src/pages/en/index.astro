@@ -547,7 +547,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -670,12 +670,12 @@ const jsonLd = {
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -697,7 +697,7 @@ data in the ontology to infer causes<br>
 and answers with its sources cited.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
+        <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery solution dashboard preview">
       </div>
@@ -763,12 +763,12 @@ and answers with its sources cited.</p>
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.webp',
-        'Solutions/Solutions-01-dashboard.webp',
-        'Solutions/Solutions-04-tile.webp',
-        'Solutions/Solutions-05-pipeline.webp',
-        'Solutions/Solutions-06-ontology.webp',
-        'Solutions/Solutions-07-calendar-2.webp'
+        '/Solutions/Solutions-02-ai-agent.webp',
+        '/Solutions/Solutions-01-dashboard.webp',
+        '/Solutions/Solutions-04-tile.webp',
+        '/Solutions/Solutions-05-pipeline.webp',
+        '/Solutions/Solutions-06-ontology.webp',
+        '/Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -900,7 +900,7 @@ and answers with its sources cited.</p>
     <div class="int-flow-connector" id="intFlowConnector"></div>
     <div class="int-refinery-outer" id="intRefineryPill">
       <div class="int-refinery-pill">
-        <img src="logo_Refinery_symbol-text.svg" alt="Refinery">
+        <img src="/logo_Refinery_symbol-text.svg" alt="Refinery">
       </div>
     </div>
     </div>
@@ -1018,22 +1018,22 @@ and answers with its sources cited.</p>
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Data encryption</h3><p>TLS 1.3 in transit, AES-256 <br class="mobile-br">at rest.<br>Keys are held separately in an HSM.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control: manufacturing, energy</span></div><p>One-way transfer from field edge <br class="mobile-br">(Silo/Agent) to cloud.<br>Reverse intrusion into control systems <br class="mobile-br">is blocked at source.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record is <br class="mobile-br">stored securely.<br>Role-based access control (RBAC) applies <br class="mobile-br">least privilege.</p></div>
       </div>
@@ -1061,7 +1061,7 @@ and answers with its sources cited.</p>
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>Experience a new standard for<br>field operations <br class="mobile-br">with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">

@@ -567,7 +567,7 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -681,12 +681,12 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -708,7 +708,7 @@ const jsonLd = [orgSchema, faqSchema];
 근거가 된 데이터 출처도 함께 제시됩니다.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
+        <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery 솔루션 대시보드 미리보기">
       </div>
@@ -774,12 +774,12 @@ const jsonLd = [orgSchema, faqSchema];
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.webp',
-        'Solutions/Solutions-01-dashboard.webp',
-        'Solutions/Solutions-04-tile.webp',
-        'Solutions/Solutions-05-pipeline.webp',
-        'Solutions/Solutions-06-ontology.webp',
-        'Solutions/Solutions-07-calendar-2.webp'
+        '/Solutions/Solutions-02-ai-agent.webp',
+        '/Solutions/Solutions-01-dashboard.webp',
+        '/Solutions/Solutions-04-tile.webp',
+        '/Solutions/Solutions-05-pipeline.webp',
+        '/Solutions/Solutions-06-ontology.webp',
+        '/Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -911,7 +911,7 @@ const jsonLd = [orgSchema, faqSchema];
     <div class="int-flow-connector" id="intFlowConnector"></div>
     <div class="int-refinery-outer" id="intRefineryPill">
       <div class="int-refinery-pill">
-        <img src="logo_Refinery_symbol-text.svg" alt="Refinery">
+        <img src="/logo_Refinery_symbol-text.svg" alt="Refinery">
       </div>
     </div>
     </div>
@@ -1029,22 +1029,22 @@ const jsonLd = [orgSchema, faqSchema];
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>데이터 암호화</h3><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>멀티테넌시 격리</h3><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT 경계 보안</h3><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>감사 로그 &amp; RBAC</h3><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
       </div>
@@ -1072,7 +1072,7 @@ const jsonLd = [orgSchema, faqSchema];
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
