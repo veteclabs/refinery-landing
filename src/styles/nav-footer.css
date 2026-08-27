@@ -217,7 +217,7 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    패널은 화면 폭을 채우지만 글은 페이지 본문과 같은 축에 선다. */
 /* 좌우 여백을 48이 아니라 38로 준다. 링크가 자체 padding 10px를 갖고 있어서
    38 + 10 = 48이 되어야 글자가 로고·본문과 같은 축에 선다. */
-.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 26px 38px 40px; display: flex; gap: 72px; }
+.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 26px 38px 70px; display: flex; gap: 72px; }
 /* 패널 바탕은 화면 폭을 채우되 글은 왼쪽 축에 모아 둔다.
    묶음이 둘 이상이면 사이에 세로선을 둔다(솔루션의 산업별 | 과제별).
    선은 두 번째 묶음부터 왼쪽에 붙이고, 그만큼 안쪽 여백을 더 준다. */
@@ -299,7 +299,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
       따로 캡처하다 생긴 클립 오차였다. 화면을 한 장으로 찍어 재면 가로는 원래 맞다.
    측정: 화면 전체를 한 번 캡처하고 각 박스의 좌표로 잉크 경계를 찾아
    위/아래 여백 차이의 절반만큼 반대로 민다. */
-.mm-card-ico .ph-brain        { transform: translateY(-0.56px); }
+.mm-card-ico .ph-sparkle      { transform: translate(-0.38px, 0.38px); }
 .mm-card-ico .ph-article      { transform: translateY(-0.88px); }
 .mm-card-ico .ph-file-text    { transform: translateY(-0.94px); }
 .mm-card-ico .ph-folder-open  { transform: translate(-0.75px, -1.25px); }
@@ -338,10 +338,16 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 푸터 하단 법적 링크 바 */
 
 /* 패널 하단 약관 띠 — 본문과 같은 1280px 폭·38px 안쪽 여백에 맞춰 왼쪽으로 정렬한다. */
-.mm-panel-foot { max-width: 1280px; margin: 0 auto; padding: 0 38px 28px; }
-.mm-panel-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+/* 띠는 패널 폭 전체를 채우고(바깥 요소), 항목은 본문과 같은 1280px 축에 선다(안쪽 ul).
+   위아래 여백은 17/19다. 같은 값으로 두면 한글 글자가 1.5px 아래로 처져 보여
+   실측(잉크 기준 상 22.5 / 하 21.0)만큼 위로 당겼다. 눈에 맞춘 값이다. */
+.mm-panel-foot { border-top: 1px solid var(--ink-200); background: var(--ink-50); }
+.mm-panel-foot ul { max-width: 1280px; margin: 0 auto; padding: 17px 38px 19px;
+  list-style: none; display: flex; flex-wrap: wrap; align-items: center; }
 .mm-panel-foot li { padding: 0 14px; line-height: 1.2; }
 .mm-panel-foot li:first-child { padding-left: 0; }
 .mm-panel-foot li + li { border-left: 1px solid var(--ink-200); }
 .mm-panel-foot a,
 .mm-panel-foot button { font-family: inherit; font-size: 13px; color: var(--ink-500); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; }
+.mm-panel-foot a:hover,
+.mm-panel-foot button:hover { text-decoration: underline; text-underline-offset: 3px; }

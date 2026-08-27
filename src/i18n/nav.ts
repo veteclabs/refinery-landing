@@ -56,7 +56,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           title: '리소스',
           items: [
-            { label: '산업 AI', href: '/industrial-ai', icon: 'brain', desc: '제조 현장에 맞춘 AI 활용법' },
+            { label: '산업 AI', href: '/industrial-ai', icon: 'sparkle', desc: '제조 현장에 맞춘 AI 활용법' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
             // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
             { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 · 가스 · 스팀 · 용수 통합 관리' },
@@ -127,7 +127,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           items: [
             // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
             // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
-            { label: 'Industrial AI', href: '/industrial-ai', icon: 'brain', desc: 'AI applied to the factory floor' },
+            { label: 'Industrial AI', href: '/industrial-ai', icon: 'sparkle', desc: 'AI applied to the factory floor' },
             { label: 'Energy management', href: '/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
             { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
