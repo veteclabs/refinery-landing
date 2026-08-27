@@ -134,7 +134,6 @@
       nav.nav-hidden { transform: none !important; }
     }
     .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-    nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 
     section { padding: 130px 0; }
     section:not(#hero) { background: #ffffff; }
