@@ -116,11 +116,11 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       padding: 12px;
       font-weight: 500;
     }
-.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: #76A6D7; color: #ffffff; border-color: #76A6D7; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-/* 헤더 문의하기 — 테두리만 있는 버튼. 호버에서 글자·테두리가 하늘색이 된다.
+/* 헤더 문의하기 — 평소에는 테두리만, 호버에서 하늘색 면이 채워지고 글자는 흰색이 된다.
    nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
-nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+nav .btn-primary:hover, nav .btn-primary:active { background: #76A6D7; color: #ffffff; border-color: #76A6D7; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
     상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
