@@ -464,11 +464,119 @@
 
     /* INDUSTRIES */
     #industries { background: #F6F8FA !important; }
-    .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; }
-    .industry-card { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; transition: border-color .2s, background .2s; position: relative; overflow: hidden; }
-    .industry-card:hover img, .industry-card:hover .industry-icon-wm { transform: scale(1.12) !important; opacity: 0.5 !important; }
-    .industry-name { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
-    .industry-desc { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
+    /* 솔루션 섹션 — 산업별·과제별 두 묶음을 옆으로 넘긴다.
+       세로로 쌓으면 섹션이 2520px이 된다. 같은 자리에서 바꿔 끼우면 1400px대다.
+       넘김은 네이티브 가로 스크롤 + 스크롤 스냅이다 — 터치 스와이프가 그냥 되고,
+       버튼은 scrollTo만 부르면 된다(별도 제스처 처리가 필요 없다). */
+    /* 탭은 왼쪽 정렬 — 대제목·카드 격자와 같은 축에 놓여 읽는 순서와 조작 순서가 맞는다.
+       좌우 화살표는 없앴다: 판이 둘뿐이라 둘 중 하나는 늘 비활성이었고,
+       탭과 하는 일이 같은데 어디로 가는지는 탭만 말해 준다.
+       넘김은 탭과 스와이프로 한다. */
+    #industries .sol-switch-row { display: flex; align-items: center; gap: 16px; margin-top: 48px; }
+    #industries .sol-tabs { display: inline-flex; gap: 4px; background: #EFF2F5; border-radius: 999px; padding: 4px; }
+    #industries .sol-tab { font-family: inherit; font-size: 15px; font-weight: 600; color: var(--text-muted); background: none; border: 0; padding: 9px 20px; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s; }
+    #industries .sol-tab[aria-selected="true"] { background: #ffffff; color: var(--text); box-shadow: 0 1px 2px rgba(16,32,44,.08); }
+    /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
+       옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
+       grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
+    #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 20px; }
+    #industries .sol-track { display: grid; }
+    #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
+    /* 숨긴 판은 visibility로 접근성 트리와 탭 이동에서도 빠진다(opacity만으로는 안 빠진다). */
+    #industries .sol-panel[data-off] { visibility: hidden; opacity: 0; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { #industries .sol-panel { transition: none; } }
+
+    /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
+       사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
+       카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
+    .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    /* 3열은 1280px 위에서만 쓴다. 컨테이너 max-width가 1280이라 그 위에서는
+       카드가 383px로 고정되는데, 아래로 내려가면 카드가 같이 좁아진다.
+       영문 소제목은 카드가 383px보다 좁아지는 순간부터 마지막 줄이 길어져
+       오른쪽 아래 화살표에 닿는다(1260px에서 3px, 1120px에서 26px).
+       2열로 내리면 폭이 두 배가 되어 사라진다.
+       #industries를 붙여 특이도를 올린다 — 뒤에 오는 900/600px 블록의
+       .industries-grid가 같은 특이도라 안 붙이면 그쪽이 이긴다.
+       그래서 1열 분기도 여기서 같은 특이도로 다시 잡아 준다. */
+    @media (max-width: 1280px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* 1열도 600px이 아니라 720px부터다. 601~720px의 2열은 카드 안쪽 폭이 250px대라
+       영문 소제목이 세 줄이 된다(국문은 두 줄로 버틴다). */
+    @media (max-width: 720px) { #industries .industries-grid { grid-template-columns: 1fr; } }
+    /* 카드는 위쪽 16:9 사진 밴드 + 아래 흰 면이다.
+       사진 위에 글을 얹는 형태(과제별 페이지 .uc-case--img)도 만들어 봤지만,
+       이 섹션은 흰 배경 페이지 한가운데라 검은 카드가 흐름을 끊고
+       사진마다 배경 질감이 달라 7장의 글이 같은 리듬으로 안 읽혔다. */
+    /* 테두리는 '현장 보안 체계' 섹션 카드(.sec-card)와 같은 값·같은 방식이다 —
+       #ffffff · 1px solid #E3E7EC(= --border) · radius 12 · overflow hidden.
+       ⚠️ 선을 ::after 덧층으로 올리지 말 것. 어두운 사진 위에서 곡선 구간의
+          안티에일리어싱이 사진과 섞여 선이 흐려지고 한 픽셀이 더 번진다
+          (모서리에서 잰 값: border는 239 → 36으로 한 칸, 덧층은 155 → 54 → 36).
+          border로 그리면 곡선에서도 흰 배경과 섞여 선이 또렷하게 남는다. */
+    .industry-card {
+      display: block; position: relative; overflow: hidden;
+      background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
+    /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
+    .industry-img {
+      display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+      object-fit: cover; background: #10141B;
+      transition: transform .3s ease;
+    }
+    /* 사진 위 두 겹 — 과제별 페이지 카드(.uc-case--img)와 같은 값이다. 한 층에 겹쳐 깐다.
+       위: 아래로 갈수록 짙어지는 그라데이션. 과제별과 같은 기울기를 쓰려면 기준 높이도
+           카드 전체여야 하므로 background-size 높이를 밴드의 160%(= 카드 높이)로 준다.
+           그래서 밴드가 끝나는 지점에서 곡선의 62% 지점(약 86%)이 뚝 잘려 보인다 —
+           나머지는 흰 본문 자리라 애초에 그리지 않는다.
+       아래: 사진마다 제각각인 밝기를 한 단계 내리는 고른 막. 7장을 같은 계열로 묶는다.
+       aspect-ratio로 사진 밴드에만 걸리게 한다. hover 확대는 .industry-img만 커지고
+       이 층은 그대로라 밴드 밖으로 새지 않는다. */
+    .industry-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      aspect-ratio: 16 / 9; z-index: 1; pointer-events: none;
+      background:
+        linear-gradient(180deg,
+          rgba(17,19,22,0) 0%,
+          rgba(17,19,22,.12) 28%,
+          rgba(17,19,22,.82) 52%,
+          rgba(17,19,22,1) 100%) top left / 100% 160% no-repeat,
+        rgba(17,19,22,.25);
+    }
+    a.industry-card:hover .industry-img { transform: scale(1.05); }
+    /* keep-all — 없으면 한국어가 어절 중간에서 잘린다. */
+    .industry-body { display: block; position: relative; z-index: 3; background: #ffffff; padding: 22px 24px 24px; word-break: keep-all; }
+    /* 카드 안에서는 span으로 감싸므로(a 안에 div를 넣지 않는다) display를 명시한다.
+       빠지면 이름과 설명이 한 줄에 붙는다. */
+    .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+    .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
+    /* 이동 표시 — 카드 전체가 링크인데 알리는 신호가 호버 시 사진 확대뿐이었다.
+       터치 기기에는 호버가 없어 신호가 아예 없었다.
+       모양은 과제별 페이지 카드(.uc-case-go)와 같은 28px 원형 화살표지만,
+       글 아래에 두면 카드가 장당 50px 커지므로 본문 오른쪽 아래에 절대 배치한다
+       (.industry-body가 position: relative라 그 상자 기준으로 잡힌다).
+       28px — WCAG 2.2 최소 타깃(24px) 아래로 가면 테두리와 화살촉 사이가 뭉갠다.
+       소제목 둘째 줄은 모두 짧아 이 자리와 겹치지 않는다(가장 긴 줄도 165px, 화살표는 307px부터). */
+    .industry-go {
+      position: absolute; right: 24px; bottom: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border: 1px solid currentColor; border-radius: 50%;
+      /* 기본은 팔레트의 ink-400. 호버 색 #76A6D7(2.56:1)과 밝기가 거의 같아
+         (2.27:1) 호버 때 밝기가 아니라 색상만 회색 → 하늘색으로 돈다.
+         카드 테두리(ink-200)를 쓰면 1.24:1이라 흰 면에서 사실상 안 보이고,
+         호버가 없는 터치 기기에서는 끝까지 안 보인다 — 화살표를 넣은 이유가 없어진다.
+         소제목 글씨(ink-500, 3.51:1)보다는 흐려 글을 이기지 않는다.
+         테두리와 화살촉이 함께 바뀌도록 둘 다 currentColor를 쓴다. */
+      color: #A4ADB8;
+      transition: transform .2s ease, color .2s ease;
+    }
+    /* 마지막 줄 끝에 화살표 자리를 비운다. inline-block이라 마지막 줄에만 붙어
+       앞줄들의 폭은 그대로다 — 소제목에 padding-right를 주면 국문 첫 줄
+       ('전기 · 가스 · 스팀 · 용수 통합,' 316px)이 좁아져 세 줄이 된다. */
+    .industry-desc::after { content: ''; display: inline-block; width: 52px; height: 1px; }
+    .industry-go svg { display: block; }
+    a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
+    @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     .industry-link { font-size: 12px; color: var(--accent2); margin-top: 10px; display: block; }
 
