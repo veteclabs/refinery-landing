@@ -170,7 +170,8 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 .mm-col ul { list-style: none; margin: 0; padding: 0; }
 .mm-col li { margin: 1px 0; }
 .mm-col a { display: block; font-size: 14px; color: #2b3644; padding: 8px 10px; border-radius: 8px; transition: background .15s, color .15s; }
-.mm-col a:hover { background: #f4f7fa; color: #4b86bf; }
+/* 호버는 글자 색만 바꾼다 — 면을 깔면 14줄짜리 목록에서 칸이 하나씩 켜져 어수선했다. */
+.mm-col a:hover { color: #76A6D7; }
 .mm-soon { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #b0b8c1; padding: 8px 10px; }
 /* 리소스·회사 — 항목을 카드로 펴서 띠 폭을 채운다.
    grid-auto-flow: column + grid-auto-columns: 1fr → 개수가 몇이든 폭을 고르게 나눈다
