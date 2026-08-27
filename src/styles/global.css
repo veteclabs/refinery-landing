@@ -491,6 +491,18 @@
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    /* 3열은 1280px 위에서만 쓴다. 컨테이너 max-width가 1280이라 그 위에서는
+       카드가 383px로 고정되는데, 아래로 내려가면 카드가 같이 좁아진다.
+       영문 소제목은 카드가 383px보다 좁아지는 순간부터 마지막 줄이 길어져
+       오른쪽 아래 화살표에 닿는다(1260px에서 3px, 1120px에서 26px).
+       2열로 내리면 폭이 두 배가 되어 사라진다.
+       #industries를 붙여 특이도를 올린다 — 뒤에 오는 900/600px 블록의
+       .industries-grid가 같은 특이도라 안 붙이면 그쪽이 이긴다.
+       그래서 1열 분기도 여기서 같은 특이도로 다시 잡아 준다. */
+    @media (max-width: 1280px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* 1열도 600px이 아니라 720px부터다. 601~720px의 2열은 카드 안쪽 폭이 250px대라
+       영문 소제목이 세 줄이 된다(국문은 두 줄로 버틴다). */
+    @media (max-width: 720px) { #industries .industries-grid { grid-template-columns: 1fr; } }
     /* 카드는 위쪽 16:9 사진 밴드 + 아래 흰 면이다.
        사진 위에 글을 얹는 형태(과제별 페이지 .uc-case--img)도 만들어 봤지만,
        이 섹션은 흰 배경 페이지 한가운데라 검은 카드가 흐름을 끊고
@@ -538,6 +550,30 @@
        빠지면 이름과 설명이 한 줄에 붙는다. */
     .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
     .industry-desc { display: block; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
+    /* 이동 표시 — 카드 전체가 링크인데 알리는 신호가 호버 시 사진 확대뿐이었다.
+       터치 기기에는 호버가 없어 신호가 아예 없었다.
+       모양은 과제별 페이지 카드(.uc-case-go)와 같은 28px 원형 화살표지만,
+       글 아래에 두면 카드가 장당 50px 커지므로 본문 오른쪽 아래에 절대 배치한다
+       (.industry-body가 position: relative라 그 상자 기준으로 잡힌다).
+       28px — WCAG 2.2 최소 타깃(24px) 아래로 가면 테두리와 화살촉 사이가 뭉갠다.
+       소제목 둘째 줄은 모두 짧아 이 자리와 겹치지 않는다(가장 긴 줄도 165px, 화살표는 307px부터). */
+    .industry-go {
+      position: absolute; right: 24px; bottom: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border: 1px solid currentColor; border-radius: 50%;
+      /* 기본은 카드 테두리와 같은 색으로 가라앉혀 두고, 호버에서만 하늘색으로 올라온다.
+         테두리와 화살촉이 함께 바뀌도록 둘 다 currentColor를 쓴다. */
+      color: var(--border);
+      transition: transform .2s ease, color .2s ease;
+    }
+    /* 마지막 줄 끝에 화살표 자리를 비운다. inline-block이라 마지막 줄에만 붙어
+       앞줄들의 폭은 그대로다 — 소제목에 padding-right를 주면 국문 첫 줄
+       ('전기 · 가스 · 스팀 · 용수 통합,' 316px)이 좁아져 세 줄이 된다. */
+    .industry-desc::after { content: ''; display: inline-block; width: 52px; height: 1px; }
+    .industry-go svg { display: block; }
+    a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
+    @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     .industry-link { font-size: 12px; color: var(--accent2); margin-top: 10px; display: block; }
 
