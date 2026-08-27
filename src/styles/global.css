@@ -502,18 +502,31 @@
       object-fit: cover; background: #10141B;
       transition: transform .3s ease;
     }
-    /* 과제별 페이지 카드(.uc-case--img::before)와 같은 막 — 사진마다 제각각인 밝기를
-       한 단계 내려 7장이 같은 계열로 묶인다. 거기서는 사진 전체를 덮지만
-       여기는 글이 흰 면에 있으므로 사진 밴드에만 씌운다(그래서 aspect-ratio를 맞춘다).
-       hover 확대는 .industry-img만 커지고 이 막은 그대로라 밴드 밖으로 새지 않는다. */
+    /* 사진에 씌우는 두 층 — 과제별 페이지 카드(.uc-case--img)와 같은 값이다.
+       1층: 사진마다 제각각인 밝기를 한 단계 내려 7장을 같은 계열로 묶는 고른 막.
+            사진 밴드에만 걸리도록 aspect-ratio를 밴드와 맞춘다.
+       hover 확대는 .industry-img만 커지고 이 막들은 그대로라 밴드 밖으로 새지 않는다. */
     .industry-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0;
       aspect-ratio: 16 / 9; z-index: 1; pointer-events: none;
       background: rgba(17,19,22,.25);
     }
+    /* 2층: 아래로 갈수록 짙어지는 그라데이션. 과제별 카드와 같은 기울기를 쓰려면
+       기준 높이도 같아야 하므로 밴드가 아니라 카드 전체(inset 0)에 깐다.
+       아래쪽 절반은 흰 본문이 덮어 가리므로, 화면에는 밴드 끝에서 잘린 만큼만 보인다.
+       (그래서 .industry-body에 흰 배경과 z-index를 못 박는다 — 없으면 그라데이션이
+        본문 위로 올라와 글이 검은 면에 얹힌다) */
+    .industry-card::after {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(180deg,
+        rgba(17,19,22,0) 0%,
+        rgba(17,19,22,.12) 28%,
+        rgba(17,19,22,.82) 52%,
+        rgba(17,19,22,1) 100%);
+    }
     a.industry-card:hover .industry-img { transform: scale(1.05); }
     /* keep-all — 없으면 한국어가 어절 중간에서 잘린다. */
-    .industry-body { display: block; padding: 22px 24px 24px; word-break: keep-all; }
+    .industry-body { display: block; position: relative; z-index: 3; background: #ffffff; padding: 22px 24px 24px; word-break: keep-all; }
     /* 카드 안에서는 span으로 감싸므로(a 안에 div를 넣지 않는다) display를 명시한다.
        빠지면 이름과 설명이 한 줄에 붙는다. */
     .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
