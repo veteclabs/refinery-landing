@@ -4,7 +4,10 @@
 // 영어 페이지가 아직 없는 항목만 Soon 배지로 두고, 페이지가 생기면 href를 채운다.
 // 영어 페이지가 없는 항목만 Soon 배지다.
 
-export type NavLink = { label: string; href?: string; badge?: string };
+// icon — Phosphor 아이콘 이름(ph-<icon>). desc — 항목 아래 한 줄 설명.
+// 둘 다 카드로 펴는 묶음(리소스·회사)에서만 쓴다.
+// desc는 이름을 되풀이하지 않고 '거기 가면 무엇이 있는지'를 적는다.
+export type NavLink = { label: string; href?: string; badge?: string; icon?: string; desc?: string };
 export type NavGroup = { title?: string; items: NavLink[] };
 export type NavMenu = { label: string; href: string; groups?: NavGroup[] };
 export type FooterCol = { title: string; items: NavLink[] };
@@ -19,7 +22,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/#industries',
       groups: [
         {
-          // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 준비중 배지.
+          // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 '예정' 배지.
           title: '산업별',
           items: [
             { label: '에너지 · 유틸리티', href: '/industries/energy' },
@@ -51,15 +54,16 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/blog',
       groups: [
         {
+          title: '리소스',
           items: [
-            { label: '산업 AI', href: '/industrial-ai' },
+            { label: '산업 AI', href: '/industrial-ai', icon: 'sparkle', desc: '업종을 가리지 않는 AI 활용법' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
             // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
-            { label: '에너지관리시스템', href: '/energy-management' },
-            { label: '블로그', href: '/blog' },
+            { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 · 가스 · 스팀 · 용수 통합 관리' },
+            { label: '블로그', href: '/blog', icon: 'article', desc: '현장 적용 사례와 기술 노트' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '준비중' },
-            { label: '자료실', href: '/resources' },
+            { label: '문서', badge: '예정', icon: 'file-text', desc: '설치 · 연동 · 운영 안내' },
+            { label: '자료실', href: '/resources', icon: 'folder-open', desc: '백서 · 리포트 · 제품 자료' },
           ],
         },
       ],
@@ -69,13 +73,13 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/company',
       groups: [
         {
-          // 한 열이라 제목을 두지 않는다(리소스 메뉴와 같은 형태).
           // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
+          title: '회사',
           items: [
-            { label: '회사 소개', href: '/company' },
-            { label: '연혁 · 팀', badge: '준비중' },
-            { label: '채용', badge: '준비중' },
-            { label: '뉴스룸', badge: '준비중' },
+            { label: '회사 소개', href: '/company', icon: 'buildings', desc: '하는 일과 걸어온 길' },
+            { label: '연혁 · 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
+            { label: '채용', badge: '예정', icon: 'user-plus', desc: '함께할 동료를 찾습니다' },
+            { label: '뉴스룸', badge: '예정', icon: 'newspaper', desc: '보도자료와 새소식' },
           ],
         },
       ],
@@ -119,14 +123,15 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/en/blog',
       groups: [
         {
+          title: 'Resources',
           items: [
             // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
             // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
-            { label: 'Industrial AI', href: '/industrial-ai' },
-            { label: 'Energy management', href: '/energy-management' },
-            { label: 'Blog', href: '/en/blog' },
-            { label: 'Docs', badge: 'Soon' },
-            { label: 'Resources & whitepapers', href: '/en/resources' },
+            { label: 'Industrial AI', href: '/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
+            { label: 'Energy management', href: '/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
+            { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
+            { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
+            { label: 'Resources & whitepapers', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
           ],
         },
       ],
@@ -136,11 +141,12 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       href: '/en/company',
       groups: [
         {
+          title: 'Company',
           items: [
-            { label: 'About', href: '/en/company' },
-            { label: 'History & team', badge: 'Soon' },
-            { label: 'Careers', badge: 'Soon' },
-            { label: 'Newsroom', badge: 'Soon' },
+            { label: 'About', href: '/en/company', icon: 'buildings', desc: 'What we do and where we came from' },
+            { label: 'History & team', badge: 'Soon', icon: 'users-three', desc: 'Milestones and the people' },
+            { label: 'Careers', badge: 'Soon', icon: 'user-plus', desc: 'Roles we\'re hiring for' },
+            { label: 'Newsroom', badge: 'Soon', icon: 'newspaper', desc: 'Press releases and updates' },
           ],
         },
       ],
@@ -149,6 +155,26 @@ export const navMenu: Record<Lang, NavMenu[]> = {
 };
 
 /** 푸터 열 */
+/** 약관 — 푸터 '약관' 칸과 메가메뉴 패널 하단 띠가 같은 목록을 쓴다.
+ *  href 없는 '쿠키 설정'은 버튼으로 렌더돼 동의 배너를 다시 연다. */
+export const legalLinks: Record<Lang, NavLink[]> = {
+  ko: [
+    { label: '개인정보처리방침', href: '/privacy' },
+    { label: '이용약관', href: '/terms' },
+    { label: '소프트웨어 사용권 계약', href: '/eula' },
+    { label: '쿠키 정책', href: '/cookie-policy' },
+    { label: '쿠키 설정' },
+  ],
+  // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
+  en: [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Software License (EULA)', href: '/eula' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
+    { label: 'Cookie Settings' },
+  ],
+};
+
 export const footerCols: Record<Lang, FooterCol[]> = {
   ko: [
     {
@@ -195,14 +221,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     },
     {
       title: '약관',
-      items: [
-        { label: '개인정보처리방침', href: '/privacy' },
-        { label: '이용약관', href: '/terms' },
-        { label: '소프트웨어 사용권 계약', href: '/eula' },
-        { label: '쿠키 정책', href: '/cookie-policy' },
-        // href 없는 항목은 '쿠키 설정' 버튼으로 렌더된다(배너를 다시 여는 동작).
-        { label: '쿠키 설정' },
-      ],
+      items: legalLinks.ko,
     },
   ],
   en: [
@@ -251,13 +270,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
       title: 'Legal',
-      items: [
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' },
-        { label: 'Software License (EULA)', href: '/eula' },
-        { label: 'Cookie Policy', href: '/cookie-policy' },
-        { label: 'Cookie Settings' },
-      ],
+      items: legalLinks.en,
     },
   ],
 };

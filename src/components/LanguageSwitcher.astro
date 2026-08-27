@@ -10,18 +10,15 @@ const LIVE: { lang: Lang; label: string; home: string }[] = [
   { lang: 'en', label: 'EN', home: '/en' },
 ];
 ---
-<div class="lang-switcher" aria-label="언어 선택 / Language">
-  {LIVE.map((it, i) => (
-    <>
-      {i > 0 && <span class="lang-sep" aria-hidden="true">·</span>}
-      <a
-        href={it.home}
-        hreflang={it.lang}
-        data-lang={it.lang}
-        class={it.lang === current ? 'lang-item is-active' : 'lang-item'}
-        aria-current={it.lang === current ? 'true' : undefined}
-      >{it.label}</a>
-    </>
+<div class="lang-switcher" role="group" aria-label="언어 선택 / Language">
+  {LIVE.map((it) => (
+    <a
+      href={it.home}
+      hreflang={it.lang}
+      data-lang={it.lang}
+      class={it.lang === current ? 'lang-item is-active' : 'lang-item'}
+      aria-current={it.lang === current ? 'true' : undefined}
+    >{it.label}</a>
   ))}
 </div>
 
@@ -37,9 +34,15 @@ const LIVE: { lang: Lang; label: string; home: string }[] = [
 </script>
 
 <style>
-  .lang-switcher { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
-  .lang-item { color: #7E8A98; text-decoration: none; transition: color .2s; }
-  .lang-item:hover { color: #76A6D7; }
-  .lang-item.is-active { color: #16202C; font-weight: 600; }
-  .lang-sep { color: #d4d4d8; }
+  /* 글자만 둔다 — 면도 테두리도 없다. 지금 언어는 진하게(ink-900/600),
+     다른 언어는 흐리게(ink-400) 둬서 두 글자만으로 상태가 읽힌다.
+     색은 --ink 스케일(nav-footer.css의 :root)에서 가져온다. */
+  .lang-switcher { display: inline-flex; align-items: center; gap: 12px; }
+  .lang-item {
+    font-size: 13px; font-weight: 500; color: var(--ink-400);
+    text-decoration: none; transition: color .15s ease;
+  }
+  .lang-item.is-active { color: var(--ink-900); font-weight: 600; }
+  /* 헤더의 다른 글자 항목과 같은 호버 — 하늘색. 지금 언어는 바뀌지 않는다. */
+  .lang-item:not(.is-active):hover { color: #76A6D7; }
 </style>

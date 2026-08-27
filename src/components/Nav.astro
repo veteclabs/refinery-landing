@@ -1,39 +1,93 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { navMenu, navUi } from '../i18n/nav';
+import { navMenu, navUi, legalLinks } from '../i18n/nav';
+import { navIcons } from './navIcons';
 import '../styles/nav-footer.css';
 
 // 메가메뉴 IA는 로케일별로 src/i18n/nav.ts에 있다. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
 const lang = (Astro.currentLocale === 'en' ? 'en' : 'ko') as 'ko' | 'en';
 const menu = navMenu[lang];
 const ui = navUi[lang];
+const legal = legalLinks[lang];
 const home = lang === 'en' ? '/en' : '/';
 ---
 <nav class="mm-nav">
   <div class="nav-inner">
     <div class="nav-left">
-      <a href={home} class="nav-logo" aria-label={ui.home}><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
+      <a href={home} class="nav-logo" aria-label={ui.home}><img src="/logo_Refinery_symbol-text.svg" alt="Refinery"></a>
       <ul class="mm-menu">
         {menu.map((m) => (
           <li class={m.groups ? 'mm-item has-panel' : 'mm-item'}>
-            <a href={m.href} class="mm-top">{m.label}{m.groups && <i class="ph ph-caret-down mm-caret" aria-hidden="true"></i>}</a>
+            {/* 패널이 있는 항목은 링크가 아니라 button이다 — 누르면 페이지가 넘어가는 대신
+                제자리에 머문다. button이라 탭으로도 잡히고, :focus-within으로 패널이 열린다. */}
+            {m.groups
+              ? <button type="button" class="mm-top" aria-haspopup="true">{m.label}<i class="ph ph-caret-down mm-caret" aria-hidden="true"></i></button>
+              : <a href={m.href} class="mm-top">{m.label}</a>}
             {m.groups && (
               <div class="mm-panel">
                 <div class="mm-panel-inner">
+                  {/* 카드로 펼지 목록으로 낼지는 항목에 아이콘이 있는지로 정한다.
+                      리소스·회사는 항목이 4~5개뿐이라 한 열로 두면 넓은 띠에서 오른쪽이 크게 빈다.
+                      (제목 유무와는 무관하다 — 세 메뉴 모두 묶음 제목을 갖는다.) */}
                   {m.groups.map((g) => (
-                    <div class="mm-col">
-                      {g.title && <div class="mm-col-title">{g.title}</div>}
-                      <ul>
+                    !g.items.some((it) => it.icon) ? (
+                      <div class={g.items.length >= 6 ? 'mm-col mm-col--split' : 'mm-col'}>
+                        <div class="mm-col-title">{g.title}</div>
+                        <ul>
+                          {g.items.map((it) => (
+                            <li>
+                              {it.href
+                                ? <a href={it.href}>{it.label}</a>
+                                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <div class="mm-cardgroup">
+                        {g.title && <div class="mm-col-title">{g.title}</div>}
+                        <div class="mm-cards">
                         {g.items.map((it) => (
-                          <li>
-                            {it.href
-                              ? <a href={it.href}>{it.label}</a>
-                              : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>}
-                          </li>
+                          it.href
+                            ? <a class="mm-card" href={it.href}>
+                                {it.icon && navIcons[it.icon] && (
+                                  <span class="mm-card-ico" aria-hidden="true">
+                                    <svg viewBox={navIcons[it.icon].vb} width="24" height="24" fill="currentColor" focusable="false"><path d={navIcons[it.icon].d}/></svg>
+                                  </span>
+                                )}
+                                <span class="mm-card-text">
+                                  <span class="mm-card-head"><span class="mm-card-label">{it.label}</span></span>
+                                  {it.desc && <span class="mm-card-desc">{it.desc}</span>}
+                                </span>
+                              </a>
+                            : <span class="mm-card is-soon">
+                                {it.icon && navIcons[it.icon] && (
+                                  <span class="mm-card-ico" aria-hidden="true">
+                                    <svg viewBox={navIcons[it.icon].vb} width="24" height="24" fill="currentColor" focusable="false"><path d={navIcons[it.icon].d}/></svg>
+                                  </span>
+                                )}
+                                <span class="mm-card-text">
+                                  <span class="mm-card-head"><span class="mm-card-label">{it.label}</span><span class="mm-badge">{it.badge}</span></span>
+                                  {it.desc && <span class="mm-card-desc">{it.desc}</span>}
+                                </span>
+                              </span>
                         ))}
-                      </ul>
-                    </div>
+                        </div>
+                      </div>
+                    )
                   ))}
+                </div>
+                {/* 패널 아래 약관 띠 — 푸터와 같은 목록(legalLinks)을 한 줄로 편다. */}
+                <div class="mm-panel-foot">
+                  <ul>
+                    {legal.map((it) => (
+                      <li>
+                        {it.href
+                          ? <a href={it.href}>{it.label}</a>
+                          : <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             )}
@@ -69,6 +123,10 @@ const home = lang === 'en' ? '/en' : '/';
   </div>
 </nav>
 
+{/* 메뉴가 열렸을 때 헤더 아래를 덮는 막. .mm-nav의 backdrop-filter가
+    fixed의 기준을 헤더 상자로 바꾸므로 형제로 둔다. */}
+<div class="mm-scrim" aria-hidden="true"></div>
+
 <script is:inline>
   (function () {
     var btn = document.getElementById('navHamburgerBtn');
@@ -79,5 +137,26 @@ const home = lang === 'en' ? '/en' : '/';
     btn.addEventListener('click', function () { panel.classList.contains('open') ? close() : open(); });
     panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
     window.addEventListener('resize', function () { if (window.innerWidth > 980) close(); });
+  })();
+
+  /* 메가메뉴가 열린 채로 스크롤하면 닫는다.
+     패널은 CSS :hover로 열리므로 JS가 hover를 풀 수 없다 — 헤더에 클래스를 걸어
+     눌러 두고, 마우스가 헤더를 벗어나면(또는 헤더 밖에서 움직이면) 다시 푼다. */
+  (function () {
+    var nav = document.querySelector('.mm-nav');
+    if (!nav) return;
+    /* 마우스로 누른 상위 항목에 포커스가 남으면 :focus-within 때문에 그 패널이 계속 열려 있고,
+       다른 항목에 마우스를 올리면 패널 둘이 같은 자리에 겹친다.
+       mousedown을 막아 마우스로는 포커스를 주지 않는다 — 탭 이동은 그대로 동작한다. */
+    nav.addEventListener('mousedown', function (e) {
+      if (e.target.closest && e.target.closest('button.mm-top')) e.preventDefault();
+    });
+    function shut() { nav.classList.add('is-shut'); }
+    function release() { nav.classList.remove('is-shut'); }
+    window.addEventListener('scroll', shut, { passive: true });
+    nav.addEventListener('mouseleave', release);
+    document.addEventListener('mousemove', function (e) {
+      if (nav.classList.contains('is-shut') && !nav.contains(e.target)) release();
+    }, { passive: true });
   })();
 </script>

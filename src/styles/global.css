@@ -134,7 +134,6 @@
       nav.nav-hidden { transform: none !important; }
     }
     .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-    nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 
     section { padding: 130px 0; }
     section:not(#hero) { background: #ffffff; }
@@ -728,37 +727,12 @@
     .cta-badge { font-size: 12px; color: var(--text-dim); background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; padding: 5px 14px; }
 
     /* FOOTER */
-    /* 공통 푸터는 nav-footer.css(Footer 컴포넌트 소유)가 담당한다.
-       여기 남겨둔 이유: /en 랜딩은 Footer 컴포넌트가 아니라 <footer>를 직접 쓰고
-       이 파일만 불러오므로, 지우면 그 페이지만 상단 여백이 사라진다.
-       (en을 Footer 컴포넌트로 바꾸면 이 줄은 지워도 된다) */
-    footer { padding: 60px 0 20px; overflow: hidden; }
-    /* 브랜드 + 4열(솔루션·리소스·회사·신뢰). nav-footer.css의 같은 규칙과 값을 맞춘다. */
-    .footer-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr; gap: 24px; }
-    .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
-    .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-    .footer-links { display: flex; flex-direction: column; gap: 9px; }
-    .footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
-    .footer-links a:hover { color: #76A6D7; }
-    /* '쿠키 설정'은 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
-    .footer-links button {
-      font-family: inherit; font-size: 13px; color: var(--text-muted);
-      background: none; border: none; padding: 0; text-align: left;
-      cursor: pointer; transition: color .2s;
-    }
-    .footer-links button:hover { color: #76A6D7; }
-    .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-bottom-text { font-size: 13px; color: #C8CED5; }
+    /* 공통 푸터는 nav-footer.css(Footer 컴포넌트 소유)가 전부 담당한다.
+       예전에는 /en 랜딩이 <footer>를 직접 쓰고 있어 같은 규칙을 여기에도 뒀는데,
+       지금은 /en도 Footer 컴포넌트를 쓴다 — 남아 있던 사본은 지웠다.
+       하단 링크만 여기 남긴다(공통 푸터 마크업에는 없는 요소다). */
     .footer-bottom-links { display: flex; gap: 22px; }
-    /* 그리드 2번째 열부터 끝까지 차지 → 텍스트 열과 좌우가 자동으로 맞는다.
-       (nav-footer.css의 같은 규칙과 값을 맞춘다) */
-    .footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
-    @media (max-width: 900px) {
-      .footer-logo-big { grid-column: 1 / -1; }
-    }
-    .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
-    .footer-bottom-links a { font-size: 13px; color: var(--text-dim); transition: color .2s; }
-    .footer-bottom-links a:hover { color: var(--text-muted); }
+    .footer-bottom-links a { font-size: 13px; color: var(--text-dim); }
 
     @media (max-width: 900px) {
       .nav-inner { padding: 0 24px; }

@@ -100,7 +100,6 @@
       .nav-hamburger { display: flex; }
     }
     .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-    nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 
     /* CONTACT HERO */
     #contact-hero {
@@ -180,24 +179,10 @@
       .contact-title-mobile-br { display: inline; }
     }
 
-    /* FOOTER (index.html과 동일) */
-    /* 여백은 nav-footer.css 공통값을 쓰고, 문의 페이지에만 있는 윗선만 여기서 더한다. */
+    /* FOOTER — 값은 전부 nav-footer.css(Footer 컴포넌트 소유)가 갖는다.
+       여기에는 문의 페이지에만 있는 윗선만 남긴다.
+       예전에 4열 그리드와 로고 폭(60%)을 여기서 다시 정의하고 있었는데,
+       공통 푸터가 6열로 바뀐 뒤에도 로고 규칙만 살아남아 문의 페이지의 큰 로고가
+       917px이 아니라 550px으로 작게, 오른쪽으로 밀려 그려지고 있었다. */
     footer { border-top: 1px solid var(--border); }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
-    .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
-    .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-    .footer-links { display: flex; flex-direction: column; gap: 9px; }
-    .footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
-    .footer-links a:hover { color: #76A6D7; }
-    .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-bottom-text { font-size: 13px; color: #C8CED5; }
-    .footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }
-    .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
-
-    @media (max-width: 900px) {
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 640px) {
-      .footer-grid { grid-template-columns: 1fr; }
-    }
   

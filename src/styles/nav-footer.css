@@ -1,14 +1,59 @@
+/* ───────── ink 스케일 ─────────
+   회색 계열을 한 줄로 못 박는다. 이 파일은 Nav.astro가 들여오므로 모든 페이지에 걸린다.
+   숫자가 클수록 진하다. 괄호 안은 이 팔레트가 정한 쓰임새다.
+     900 제목/강조 · 800 본문 · 700 보조 텍스트·호버 · 600 흐린 텍스트·아이콘
+     500 캡션·라벨 · 400 비활성·placeholder · 300 강한 테두리
+     200 기본 테두리·구분선 · 100 옅은 면·호버 배경 · 50 페이지 배경 */
+:root {
+  --ink-900: #16202C;
+  --ink-800: #22303F;
+  --ink-700: #3A4856;
+  --ink-600: #5A6776;
+  --ink-500: #7E8A98;
+  --ink-400: #A4ADB8;
+  --ink-300: #C8CED5;
+  --ink-200: #E3E7EC;
+  --ink-100: #EFF2F5;
+  --ink-50:  #F6F8FA;
+}
+
 .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
 
 /* 헤더: 모든 페이지에서 고정 + 일관된 반투명 흰색 배경(스크롤 시 배경이 바뀌지 않도록) */
 .mm-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: 70px;
-  background: rgba(255, 255, 255, 0.9);
-  -webkit-backdrop-filter: saturate(180%) blur(10px);
-  backdrop-filter: saturate(180%) blur(10px);
-  border-bottom: 1px solid #E3E7EC;
+  background: #ffffff;
+  border-bottom: 1px solid var(--ink-200);
 }
+/* 패널이 열려 있는 동안에는 헤더 아래 구분선을 지운다 —
+   헤더와 패널이 한 장의 흰 면으로 이어지고, 끝나는 자리는 패널 아래 선이 맡는다.
+   :has로 '패널이 열린 상태'만 골라낸다(로고만 스칠 때는 구분선이 그대로 있어야 한다). */
+.mm-nav:has(.mm-item.has-panel:hover),
+.mm-nav:has(.mm-item.has-panel:focus-within) { border-bottom-color: transparent; }
+
+/* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
+   .mm-nav 안에 두면 안 된다 — 헤더가 position: fixed라 그 안의
+   position: fixed는 화면이 아니라 헤더 상자(70px) 기준이 된다. 그래서 형제로 뺐다.
+   z-index 90 — 헤더(100)보다 아래라 헤더와 그 안의 패널(60)은 막 위에 그대로 뜬다.
+   pointer-events: none — 막이 클릭을 가로채지 않는다. */
+.mm-scrim {
+  position: fixed; inset: 70px 0 0; z-index: 90;
+  background: rgba(16, 32, 44, .42);
+  /* 흐림(blur)은 쓰지 않는다 — 톤만 한 단계 내린다. */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .2s ease, visibility .2s;
+}
+body:has(.mm-item.has-panel:hover) .mm-scrim,
+body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: visible; }
+
+/* 패널이 열린 채로 스크롤하면 닫는다. :hover는 JS로 풀 수 없으므로
+   헤더에 클래스를 걸어 눌러 두고, 마우스가 헤더를 벗어나면 푼다. */
+.mm-nav.is-shut .mm-panel { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; }
+.mm-nav.is-shut { border-bottom-color: var(--ink-200) !important; }
+.mm-nav.is-shut .mm-caret { transform: none !important; }
+body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden !important; }
+@media (prefers-reduced-motion: reduce) { .mm-scrim { transition: none; } }
 .nav-inner {
       max-width: 1280px; margin: 0 auto; height: 100%;
       display: flex; align-items: center; justify-content: space-between;
@@ -16,10 +61,17 @@
     }
 .nav-left { display: flex; align-items: center; gap: 48px; }
 .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
+/* 로고 높이는 29px이다. 30px에서는 심볼 두 갈래가 서로 다른 서브픽셀 위치에 앉아
+   한쪽만 반 픽셀 회색 테를 물고, 그 결과 오른쪽이 더 굵어 보였다(1x에서 3px 대 4px).
+   29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
+   실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
+.nav-logo img { height: 29px; display: block; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
 .nav-links a:hover { color: #76A6D7; }
-.nav-actions { display: flex; gap: 12px; align-items: center; }
+/* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
+   12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
+.nav-actions { display: flex; gap: 28px; align-items: center; }
 .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
       background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px;
@@ -31,6 +83,9 @@
       width: 40px; height: 40px;
       background: transparent; border: none; cursor: pointer;
       font-size: 22px; color: #111111; padding: 0;
+      /* 아이콘(22px)이 40px 버튼 한가운데 있어 눈에 보이는 오른쪽 여백이 9px 더 넓다.
+         터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
+      margin-right: -9px;
     }
 .mobile-nav-panel {
       display: none;
@@ -47,7 +102,7 @@
     }
 .mobile-nav-panel.open { display: flex; }
 .mobile-nav-panel a {
-      padding: 14px 2px;
+      padding: 14px 0;
       font-size: 16px;
       color: #333333;
       border-bottom: 1px solid var(--border);
@@ -63,6 +118,8 @@
     }
 .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
+/* 헤더 문의하기 — 테두리만 있는 버튼. 호버에서 글자와 테두리가 하늘색이 된다(면은 그대로).
+   nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
 nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
@@ -75,19 +132,25 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    브랜드 열은 2fr에서 1.6fr로 줄인다 — 태그라인 상한이 220px이라 남는 폭이었다. */
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1.2fr 1.2fr 1fr 1fr 1fr; gap: 24px; }
 .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
-.footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+/* 헤더 메가메뉴의 묶음 제목(.mm-col-title)과 같은 처리다 —
+   같은 역할(열 이름)이므로 같은 크기·굵기·자간을 쓴다.
+   링크와 같은 13px였을 때는 굵기로만 구분돼 제목과 항목이 대등해 보였다. */
+.footer-col-title { font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--ink-400); margin-bottom: 12px; }
 .footer-links { display: flex; flex-direction: column; gap: 9px; }
-.footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
-.footer-links a:hover { color: #76A6D7; }
+/* 링크 색은 --text-muted(#7E8A98)가 아니라 ink-600이다. 그 토큰은 다크 섹션(#integrations)에서도
+   쓰여 전역으로 어둡게 할 수 없는데, 흰 배경 위에서는 3.51:1로 AA에 못 미친다.
+   여기서만 ink-600(5.77:1)으로 직접 준다. */
+.footer-links a { font-size: 13px; color: var(--ink-600); }
+/* 푸터는 호버에서 아무것도 바뀌지 않는다(요청). 색·밑줄·면 모두 없다.
+   바뀔 값이 없으니 transition도 두지 않는다. */
 /* '쿠키 설정'은 페이지 이동이 아니라 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
 .footer-links button {
-  font-family: inherit; font-size: 13px; color: var(--text-muted);
+  font-family: inherit; font-size: 13px; color: var(--ink-600);
   background: none; border: none; padding: 0; text-align: left;
-  cursor: pointer; transition: color .2s;
+  cursor: pointer;
 }
-.footer-links button:hover { color: #76A6D7; }
 .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-.footer-bottom-text { font-size: 13px; color: #C8CED5; }
+.footer-bottom-text { font-size: 13px; color: var(--ink-300); }
 /* 그리드 2번째 열부터 끝까지 차지 → 텍스트 열과 좌우가 자동으로 맞는다.
    (예전엔 그리드 밖에서 width 60% / margin-left 40%로 맞춰, 열이 바뀌면 어긋났다) */
 .footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
@@ -134,36 +197,173 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* ===== 메가메뉴 ===== */
 .mm-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .mm-item { position: relative; }
-.mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 14px; color: #3b444e; padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
-.mm-top:hover { color: #16202c; }
-.mm-item.has-panel:hover .mm-top, .mm-item.has-panel:focus-within .mm-top { color: #16202c; background: #f4f7fa; }
+/* 15px — 로고(30) → 상단 메뉴(15) → 패널 항목(14)으로 한 단계씩 내려간다.
+   14px이면 패널 항목과 같아져 주 내비게이션과 그 하위가 구분되지 않았다. */
+.mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 15px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
+/* 패널을 여는 항목은 button으로 그린다. 링크처럼 보이도록 브라우저 기본값을 지운다. */
+button.mm-top { font-family: inherit; font-weight: inherit; line-height: inherit; background: none; border: 0; cursor: pointer; }
+/* 상단 메뉴는 호버·열림에서 하늘색이 된다. 캐럿은 currentColor라 함께 따라온다. */
+.mm-top:hover { color: #76A6D7; }
+/* 상단 메뉴 호버 — 면은 깔지 않는다. 패널이 바로 아래로 내려오고 캐럿이 뒤집히므로
+   지금 어느 메뉴를 보고 있는지는 그것으로 충분히 읽힌다. */
+.mm-item.has-panel:hover .mm-top, .mm-item.has-panel:focus-within .mm-top { color: #76A6D7; }
 .mm-caret { font-size: 12px; opacity: .55; transition: transform .2s; }
 .mm-item.has-panel:hover .mm-caret, .mm-item.has-panel:focus-within .mm-caret { transform: rotate(180deg); }
+/* 메가메뉴 패널은 헤더 아래로 화면 폭을 꽉 채워 내려온다.
+   .mm-item.has-panel을 static으로 둬야 절대 위치가 <li>가 아니라 .mm-nav
+   기준으로 잡힌다(.mm-nav는 fixed라 그 자체로 컨테이닝 블록이다).
+   헤더에 딱 붙이므로(top: 100%) 메뉴에서 패널로 마우스를 내릴 때 끊기지 않는다. */
+.mm-item.has-panel { position: static; }
 .mm-panel {
-  position: absolute; top: calc(100% + 6px); left: 0; z-index: 60;
-  opacity: 0; visibility: hidden; transform: translateY(6px);
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
   transition: opacity .18s ease, transform .18s ease, visibility .18s;
-  background: #fff; border: 1px solid #e3e7ec; border-radius: 14px;
-  box-shadow: 0 14px 40px rgba(16,32,44,.12); padding: 16px; min-width: 220px;
+  background: #fff; border-bottom: 1px solid var(--ink-200);
 }
 .mm-item.has-panel:hover .mm-panel, .mm-item.has-panel:focus-within .mm-panel { opacity: 1; visibility: visible; transform: translateY(0); }
-.mm-panel-inner { display: flex; gap: 28px; }
-.mm-col { min-width: 170px; }
-.mm-col-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9aa4b0; margin: 4px 8px 8px; }
+/* 한 항목에 마우스가 있으면 나머지 패널은 즉시 닫는다. 패널 셋은 모두 같은 자리에 겹쳐
+   있어서, 항목 사이를 옮길 때 나가는 패널이 페이드아웃하는 0.18초 동안 둘이 겹쳐 보인다.
+   (키보드 포커스가 남아 있는 패널도 이 규칙으로 함께 닫힌다.) */
+.mm-menu:has(.mm-item.has-panel:hover) .mm-item.has-panel:not(:hover) .mm-panel {
+  opacity: 0; visibility: hidden; transition: none;
+}
+/* 안쪽 여백은 .container(max-width 1280 · padding 48)와 같게 맞춘다 —
+   패널은 화면 폭을 채우지만 글은 페이지 본문과 같은 축에 선다. */
+/* 좌우 여백을 48이 아니라 38로 준다. 링크가 자체 padding 10px를 갖고 있어서
+   38 + 10 = 48이 되어야 글자가 로고·본문과 같은 축에 선다. */
+.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 40px 38px 64px; display: flex; gap: 72px; }
+/* 패널 바탕은 화면 폭을 채우되 글은 왼쪽 축에 모아 둔다.
+   묶음이 둘 이상이면 사이에 세로선을 둔다(솔루션의 산업별 | 과제별).
+   선은 두 번째 묶음부터 왼쪽에 붙이고, 그만큼 안쪽 여백을 더 준다. */
+/* 두 묶음이 패널 폭을 반씩 나눠 갖는다. 안쪽은 그대로 2단 4행이라
+   패널 전체로는 4단이 고르게 퍼진다(전에는 왼쪽에 몰리고 오른쪽 300px가 비었다). */
+.mm-col { flex: 1; min-width: 0; }
+.mm-col + .mm-col { border-left: 1px solid var(--ink-200); padding-left: 72px; }
+/* 항목이 6개 이상인 묶음(솔루션의 산업별·과제별 7개)만 2단으로 쪼갠다 → 패널 전체 4열.
+   제목은 ul 바깥이라 2단 위에 걸쳐 놓인다. 단 사이(28px)보다 묶음 사이(72px)를
+   훨씬 넓게 둬야 어느 단이 어느 묶음인지 읽힌다 — 같은 간격이면 4개가 따로 논다. */
+.mm-col--split { min-width: 408px; }
+/* CSS columns 대신 grid로 단을 나눈다. columns는 두 단의 높이를 알아서 맞추려 해
+   7개가 3+4로 갈렸다. 행 수를 4로 못 박고 세로로 채우면 1~4번이 왼쪽, 5~7번이
+   오른쪽으로 가서 항상 4+3이 된다. */
+.mm-col--split ul {
+  display: grid; grid-template-rows: repeat(4, auto); grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr); column-gap: 28px;
+}
+/* 왼쪽 여백을 링크의 padding-left(10px)와 맞춰 제목과 항목이 같은 축에 선다. */
+.mm-col-title { font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--ink-400); margin: 4px 12px 20px; }
 .mm-col ul { list-style: none; margin: 0; padding: 0; }
-.mm-col li { margin: 1px 0; }
-.mm-col a { display: block; font-size: 14px; color: #2b3644; padding: 8px 10px; border-radius: 8px; transition: background .15s, color .15s; }
-.mm-col a:hover { background: #f4f7fa; color: #4b86bf; }
-.mm-soon { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #b0b8c1; padding: 8px 10px; }
-.mm-badge { font-size: 10.5px; font-weight: 700; color: #b7791f; background: rgba(183,121,31,.12); padding: 2px 7px; border-radius: 999px; }
+.mm-col li { margin: 3px 0; }
+/* 여백을 상하좌우 같게 둔다. 글은 왼쪽 정렬 그대로다. */
+.mm-col a { display: block; font-size: 15px; color: var(--ink-800); padding: 12px; border-radius: 8px; transition: background .15s, color .15s; }
+/* 호버 — 옅은 면(ink-50)이 깔리고 글자가 ink-900으로 진해진다. */
+.mm-col a:hover { background: var(--ink-50); color: var(--ink-900); }
+/* 아직 공개 전인 항목 — Status Dot의 '오프라인 · 비활성'과 같은 ink-300으로 눕힌다. */
+.mm-soon { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-300); padding: 8px 10px; }
+/* 리소스·회사 — 항목을 카드로 편다. 한 줄에 3장씩 놓고 넘치면 아래로 흐른다
+   (리소스 5장 → 3+2, 회사 4장 → 3+1). 한 줄에 다 늘어놓으면 카드가 가늘고 길어져
+   글자 한 줄이 넓은 면에 떠 있는 꼴이 된다. */
+/* 카드 묶음도 제목을 갖는다. 제목은 카드 안쪽 여백(12px)만큼 들여써
+   아이콘 박스와 같은 축에 선다. */
+.mm-cardgroup { flex: 1; min-width: 0; }
+.mm-cardgroup .mm-col-title { margin: 4px 12px 20px; }
+.mm-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+/* 평소에는 면이 없고(네모 박스는 아이콘에만), 호버에서만 옅은 면이 깔린다. */
+.mm-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 10px;
+  font-size: 15px; color: var(--ink-800);
+  background: none; border: 0;
+  transition: background .15s ease, color .15s ease;
+}
+/* 카드도 같은 규칙 — 면이 깔리고 이름이 ink-900으로 진해진다.
+   설명(ink-500)과 아이콘(ink-600)은 자기 색을 갖고 있어 그대로 남는다. */
+a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
+/* 호버 처리는 위 .mm-col a:hover / a.mm-card:hover에 모아 두었다. */
+/* 아직 공개 전인 항목 — 링크가 아니므로 눌리지 않는다는 게 보이게 한 단계 낮춘다. */
+/* 이름 · 설명 · 아이콘을 모두 ink-300으로 맞춘다(Status Dot의 오프라인 · 비활성 값). */
+.mm-card.is-soon { color: var(--ink-300); }
+/* 네모 박스는 아이콘에만 둔다. 흰 면에 1px 테두리(ink-200)로 잡는다.
+   box-sizing: border-box — 테두리가 48px 안에 들어가야 아이콘 보정값이 그대로 맞는다.
+   카드 면이 없어졌으므로 글자는 남는 폭을 채우지 않는다 — 채우면 배지가 칸 끝까지
+   밀려 '문서 ……… 준비중'처럼 떨어져 보인다. 배지는 글자 바로 뒤에 붙인다. */
+.mm-card-ico {
+  box-sizing: border-box;
+  flex: 0 0 auto; width: 48px; height: 48px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  background: #ffffff; border: 1px solid var(--ink-200);
+  color: var(--ink-600);
+  transition: color .15s ease, background .15s ease, border-color .15s ease;
+}
+/* 이름 아래에 한 줄 설명. 이름(14px)보다 작게 두고 색도 한 단계 낮춰
+   먼저 읽히는 것이 이름이 되게 한다. 배지는 이름 옆에 붙는다. */
+.mm-card-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.mm-card-head { display: flex; align-items: center; gap: 8px; }
+.mm-card-label { min-width: 0; }
+/* 12px — 사이트 글자 크기를 11(라벨) · 12(보조 설명) · 13(푸터 링크) ·
+   14(헤더 링크) · 15(본문)로 정수 한 줄에 맞춘다. */
+.mm-card-desc { font-size: 14px; line-height: 1.45; color: var(--ink-400); }
+.mm-card.is-soon .mm-card-desc { color: var(--ink-300); }
+/* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
+.mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
+
+/* 아이콘 광학 보정 — 세로만 손댄다.
+   Phosphor 글리프는 잉크가 글자 상자 안에서 위아래로 조금씩 치우쳐 있다.
+   ⚠️ 가로는 건드리지 않는다. 한때 좌/우를 3.5px씩 밀었는데, 그 값은 아이콘 하나씩
+      따로 캡처하다 생긴 클립 오차였다. 화면을 한 장으로 찍어 재면 가로는 원래 맞다.
+   측정: 화면 전체를 한 번 캡처하고 각 박스의 좌표로 잉크 경계를 찾아
+   위/아래 여백 차이의 절반만큼 반대로 민다. */
+/* 아이콘 광학 보정 — 글리프마다 잉크가 상자 한가운데에 오지 않아 실측으로 밀어 준다.
+   기준은 두 가지를 함께 본다: 잉크 바깥 상자의 중심과, 진하기로 가중한 무게중심.
+   둘의 부호가 같고 0.3px 이상일 때만 손댄다 — 한쪽만 보고 고치면 (folder-open처럼)
+   오히려 반대로 밀린다. 전에 folder-open·user-plus를 왼쪽으로 0.75px씩 밀어 둔 것이
+   그 경우였고, 그래서 아이콘이 왼쪽으로 쏠려 보였다.
+   folder-open·buildings는 둘이 엇갈리는 모양이다 — 폴더는 오른쪽 위 모서리가,
+   건물은 왼쪽 동이 튀어나와 바깥 상자와 무게가 서로 다른 쪽을 가리킨다.
+   이 둘만 무게중심 쪽으로 60%쯤 밀어 절충했다. */
+/* 아이콘 광학 보정 — 보정을 모두 끈 상태에서 상자 안 잉크의 위/아래·좌/우 여백을
+   4배 화면으로 재고, 그 편차를 그대로 되돌린 값이다(측정 단위 0.25px).
+   세로는 아홉 개 전부 잉크 기준으로 맞췄다.
+   가로는 잉크 상자와 무게중심이 엇갈리는 folder-open·buildings·user-plus만
+   눈으로 고른 값을 유지한다 — 잉크 상자만 따르면 폴더는 왼쪽으로 1px 더 밀린다. */
+/* 아이콘 광학 보정 — 기준은 하나다. 보정을 모두 끈 상태에서 4배 화면으로
+   상자 안 잉크의 상하좌우 여백을 재고, 그 편차를 그대로 되돌린다.
+   예외 없이 아홉 개 전부 같은 규칙을 쓴다(측정 눈금 0.25px). */
+/* 아이콘은 인라인 SVG다(navIcons.ts). 그림이 viewBox 한가운데 오도록 담아 두었으므로
+   여기서는 상자 가운데에 놓기만 하면 된다 — CSS 보정값은 없다.
+   크기가 24px인 것은 상자 안쪽(48 - 테두리 2 = 46px)에서 남는 여백이 11px씩
+   정수로 떨어지게 하기 위해서다. 23px이면 11.5px씩이라 반 픽셀에 걸린다. */
+.mm-card-ico svg { display: block; }
+/* 조용한 칩 — 면은 옅은 하늘색(#DCE8F5), 글자는 ink-600이다.
+   면을 진하게 채우면 패널에서 가장 눈에 띄는 물체가 되는데, 정작 그게 붙은 항목은
+   유일하게 누를 수 없는 항목이라 시선이 거꾸로 간다. 형태는 남기고 소리만 줄인 값이다.
+   (면 위 글자 명암비 2.4:1 — 링크가 아니라 상태 표시라 본문 기준을 적용하지 않는다.)
+   위 2 / 아래 3은 세로 보정이다 — 3/3 대칭이면 한글 글자가 1px 아래로 처져 보인다.
+   소수점(2.5/3.5)은 브라우저가 글자 위치를 정수 픽셀로 붙여 반영되지 않는다. 1px 단위로 잡는다.
+   좌우는 6px으로 같다. letter-spacing이 마지막 글자 뒤에 공백을 남기므로 잉크만 보면
+   왼쪽이 조금 넓지만, 그 값을 보정해 잉크를 정확히 반씩 맞추면 글자가 오른쪽으로
+   쏠려 보인다 — 눈은 자간이 만든 뒤 공백도 글자의 일부로 읽는다.
+   위아래는 건드리지 않는다 — line-height가 1이라 여백을 흔들어도 글자는 그대로 있고
+   상자만 바뀐다(2.5/3.5로 재봤을 때 잉크 위치가 0.03px밖에 안 움직였다). */
+.mm-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 500; line-height: 1; letter-spacing: .06em;
+  color: #5B9BD5; background: #DCE8F5;
+  padding: 2px 6px 3px 6px; border-radius: 999px;
+}
 
 /* 모바일 메가메뉴 */
 .mm-mobile { flex-direction: column; }
-.mm-mobile-group { border-bottom: 1px solid #eef1f4; padding: 4px 0; }
-.mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: #16202c; padding: 12px 2px 6px; }
-.mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px 12px; }
-.mm-mobile-sub a { font-size: 14.5px; color: #47535f; padding: 7px 2px; border: none !important; }
-.mm-mobile-sub .mm-soon { padding: 7px 2px; font-size: 14.5px; }
+.mm-mobile-group { border-bottom: 1px solid var(--ink-100); padding: 4px 0; }
+/* 묶음 제목에는 아래선이 없다 — .mobile-nav-panel a의 공통 아래선이 여기까지 붙어
+   '솔루션' 밑에 선이 하나, 묶음 끝에 또 하나가 그어져 층이 두 겹으로 보였다.
+   가로선은 묶음 경계(.mm-mobile-group)만 담당한다. */
+.mobile-nav-panel .mm-mobile-top { display: block; font-size: 16px; font-weight: 600; color: var(--ink-900); padding: 12px 0 6px; border-bottom: none; }
+/* 항목을 묶음 제목보다 들여쓰지 않는다 — 12px 들여쓰기가 있으면 제목과 항목의
+   왼쪽 축이 두 개가 되어 목록이 들쭉날쭉해 보인다. 층 구분은 글자 크기·굵기가 맡는다. */
+.mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px; }
+.mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 0; border: none !important; }
+.mm-mobile-sub .mm-soon { padding: 7px 0; font-size: 14.5px; }
 
 /* 브레이크포인트: 메가메뉴는 넓은 폭 필요 → 980px에서 햄버거로 전환 */
 @media (max-width: 980px) {
@@ -178,3 +378,37 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 }
 
 /* 푸터 하단 법적 링크 바 */
+
+/* 가운데 정렬을 픽셀 격자에 맞춘다.
+   max-width + margin:0 auto는 (창너비 - 1280) / 2 만큼 왼쪽 여백을 잡는데,
+   창너비가 홀수면 그 값이 x.5px가 된다. 그러면 안쪽 것들이 전부 반 픽셀 왼쪽으로
+   밀려 그려진다 — 특히 48px 아이콘 상자 안의 글리프가 왼쪽으로 쏠려 보인다.
+   (창 1440px에서는 여백이 80px 정수라 멀쩡하고, 1849px에서는 284.5px가 되어 어긋난다.)
+   round()로 내림해 정수 픽셀에 앉힌다. 미지원 브라우저는 기존 margin:0 auto 그대로. */
+@supports (margin-left: round(down, 1px, 1px)) {
+  .nav-inner,
+  .mm-panel-inner,
+  .mm-panel-foot ul {
+    margin-left: round(down, max(0px, calc((100% - 1280px) / 2)), 1px);
+    margin-right: auto;
+  }
+}
+
+/* 패널 하단 약관 띠 — 본문과 같은 1280px 폭·38px 안쪽 여백에 맞춰 왼쪽으로 정렬한다. */
+/* 약관 글자는 ink-600이다. 한줄 소개(ink-400)와 맞추면 #F6F8FA 띠 위에서 명암비가 2.2:1로
+   떨어져 AA(4.5:1)에 한참 못 미친다 — 법적으로 읽혀야 하는 링크라 ink-600(5.4:1)으로 둔다.
+   띠는 패널 폭 전체를 채우고(바깥 요소), 항목은 본문과 같은 1280px 축에 선다(안쪽 ul).
+   좌우 여백이 50px인 것은 본문 38px에 항목 안쪽 여백 12px을 더한 값이다 —
+   메뉴 글자는 카드·링크의 12px 패딩만큼 들어가 있어, 38px로 두면 약관 줄만 왼쪽으로 튀어나온다.
+   위아래 여백은 17/19다. 같은 값으로 두면 한글 글자가 1.5px 아래로 처져 보여
+   실측(잉크 기준 상 22.5 / 하 21.0)만큼 위로 당겼다. 눈에 맞춘 값이다. */
+.mm-panel-foot { border-top: 1px solid var(--ink-200); background: var(--ink-50); }
+.mm-panel-foot ul { max-width: 1280px; margin: 0 auto; padding: 17px 50px 19px;
+  list-style: none; display: flex; flex-wrap: wrap; align-items: center; }
+.mm-panel-foot li { padding: 0 14px; line-height: 1.2; }
+.mm-panel-foot li:first-child { padding-left: 0; }
+.mm-panel-foot li + li { border-left: 1px solid var(--ink-200); }
+.mm-panel-foot a,
+.mm-panel-foot button { font-family: inherit; font-size: 13px; color: var(--ink-600); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; }
+.mm-panel-foot a:hover,
+.mm-panel-foot button:hover { text-decoration: underline; text-underline-offset: 3px; }
