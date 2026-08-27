@@ -476,11 +476,38 @@ const jsonLd = {
         prev.disabled = i <= 0;
         next.disabled = i >= tabs.length - 1;
       }
+      // 판 전환은 직접 그린다. scrollTo({behavior:'smooth'})는 속도 곡선을 정할 수 없고
+      // 스냅과 겹치면 끝에서 한 번 튕긴다. rAF로 easeInOutCubic을 460ms 동안 먹인다.
+      var anim = null;
       function go(i) {
         if (i < 0) i = 0;
         if (i > tabs.length - 1) i = tabs.length - 1;
-        vp.scrollTo({ left: i * vp.clientWidth, behavior: 'smooth' });
         paint(i);
+        last = i;
+        var to = i * vp.clientWidth;
+        var from = vp.scrollLeft;
+        if (Math.abs(to - from) < 1) return;
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) { vp.scrollLeft = to; return; }
+        if (anim) cancelAnimationFrame(anim);
+        // 스냅이 켜진 채로 scrollLeft를 매 프레임 만지면 브라우저가 목적지로 끌어당겨
+        // 움직임이 끊긴다. 애니메이션 동안만 끄고 끝나면 되돌린다.
+        vp.style.scrollSnapType = 'none';
+        var t0 = 0, D = 460;
+        function step(ts) {
+          if (!t0) t0 = ts;
+          var p = (ts - t0) / D;
+          if (p > 1) p = 1;
+          var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+          vp.scrollLeft = from + (to - from) * e;
+          if (p < 1) {
+            anim = requestAnimationFrame(step);
+          } else {
+            anim = null;
+            vp.style.scrollSnapType = '';
+          }
+        }
+        anim = requestAnimationFrame(step);
       }
 
       for (var t = 0; t < tabs.length; t++) {
@@ -491,8 +518,11 @@ const jsonLd = {
       prev.addEventListener('click', function () { go(current() - 1); });
       next.addEventListener('click', function () { go(current() + 1); });
 
+      // 스와이프로 넘겼을 때만 되읽는다. 위 애니메이션이 도는 동안에는
+      // 중간 위치가 읽혀 탭이 잠깐 잘못 켜지므로 건너뛴다.
       var tick;
       vp.addEventListener('scroll', function () {
+        if (anim) return;
         clearTimeout(tick);
         tick = setTimeout(function () {
           var i = current();
