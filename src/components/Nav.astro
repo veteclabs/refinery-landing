@@ -20,19 +20,32 @@ const home = lang === 'en' ? '/en' : '/';
             {m.groups && (
               <div class="mm-panel">
                 <div class="mm-panel-inner">
+                  {/* 제목이 있는 묶음(솔루션의 산업별·과제별)은 목록으로,
+                      제목이 없는 묶음(리소스·회사)은 카드로 편다.
+                      후자는 항목이 4~5개뿐이라 한 열로 두면 넓은 띠에서 오른쪽이 크게 빈다. */}
                   {m.groups.map((g) => (
-                    <div class="mm-col">
-                      {g.title && <div class="mm-col-title">{g.title}</div>}
-                      <ul>
+                    g.title ? (
+                      <div class={g.items.length >= 6 ? 'mm-col mm-col--split' : 'mm-col'}>
+                        <div class="mm-col-title">{g.title}</div>
+                        <ul>
+                          {g.items.map((it) => (
+                            <li>
+                              {it.href
+                                ? <a href={it.href}>{it.label}</a>
+                                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <div class="mm-cards">
                         {g.items.map((it) => (
-                          <li>
-                            {it.href
-                              ? <a href={it.href}>{it.label}</a>
-                              : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>}
-                          </li>
+                          it.href
+                            ? <a class="mm-card" href={it.href}>{it.label}</a>
+                            : <span class="mm-card is-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
                         ))}
-                      </ul>
-                    </div>
+                      </div>
+                    )
                   ))}
                 </div>
               </div>
