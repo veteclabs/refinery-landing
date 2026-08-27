@@ -284,7 +284,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-card-label { min-width: 0; }
 /* 12px — 사이트 글자 크기를 11(라벨) · 12(보조 설명) · 13(푸터 링크) ·
    14(헤더 링크) · 15(본문)로 정수 한 줄에 맞춘다. */
-.mm-card-desc { font-size: 12px; line-height: 1.45; color: var(--ink-500); }
+.mm-card-desc { font-size: 13px; line-height: 1.45; color: var(--ink-500); }
 .mm-card.is-soon .mm-card-desc { color: var(--ink-300); }
 /* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
 .mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
