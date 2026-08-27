@@ -69,6 +69,11 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
     }
 .nav-left { display: flex; align-items: center; gap: 48px; }
 .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
+/* 로고 높이는 29px이다. 30px에서는 심볼 두 갈래가 서로 다른 서브픽셀 위치에 앉아
+   한쪽만 반 픽셀 회색 테를 물고, 그 결과 오른쪽이 더 굵어 보였다(1x에서 3px 대 4px).
+   29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
+   실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
+.nav-logo img { height: 29px; display: block; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
 .nav-links a:hover { color: #76A6D7; }
