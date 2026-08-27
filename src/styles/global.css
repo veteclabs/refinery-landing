@@ -477,13 +477,15 @@
     #industries .sol-nav-btn:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #ffffff; }
     #industries .sol-nav-btn:disabled { opacity: .35; cursor: default; }
     /* 스크롤바는 숨긴다. 넘김은 버튼과 스와이프로 한다. */
-    /* overscroll-behavior-x: contain — 판 끝에서 더 밀었을 때 페이지가 통째로
-       가로로 흔들리는 것을 막는다. */
-    #industries .sol-viewport { overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; margin-top: 20px; }
-    #industries .sol-viewport::-webkit-scrollbar { display: none; }
-    #industries .sol-track { display: flex; }
-    #industries .sol-panel { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
-    @media (prefers-reduced-motion: reduce) { #industries .sol-viewport { scroll-behavior: auto; } }
+    /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
+       옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
+       grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
+    #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 20px; }
+    #industries .sol-track { display: grid; }
+    #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
+    /* 숨긴 판은 visibility로 접근성 트리와 탭 이동에서도 빠진다(opacity만으로는 안 빠진다). */
+    #industries .sol-panel[data-off] { visibility: hidden; opacity: 0; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { #industries .sol-panel { transition: none; } }
 
     /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,

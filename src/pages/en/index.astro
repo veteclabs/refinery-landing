@@ -464,11 +464,9 @@ const jsonLd = {
       var next = root.querySelector('.sol-next');
       if (!vp || !tabs.length || !prev || !next) return;
       var last = 0;
+      var fading = false, token = 0;
 
-      function current() {
-        var w = vp.clientWidth || 1;
-        return Math.round(vp.scrollLeft / w);
-      }
+      function current() { return last; }
       function paint(i) {
         for (var t = 0; t < tabs.length; t++) {
           tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
@@ -476,59 +474,48 @@ const jsonLd = {
         prev.disabled = i <= 0;
         next.disabled = i >= tabs.length - 1;
       }
-      // 판 전환 — 옆으로 미끄러지는 모습을 보여주지 않는다.
-      // 카드 14장이 화면을 가로질러 지나가면 시선이 그걸 따라가느라 산만하다.
-      // 대신 흐려졌다가(150ms) 위치를 순간이동시키고 다시 나타난다(260ms).
-      // 위치는 그대로 가로 스크롤이 갖고 있으므로 모바일 스와이프는 계속 된다.
-      var token = 0, fading = false;
-      function target(i) {
-        // offsetLeft는 스크롤 컨테이너가 아니라 offsetParent 기준이라 컨테이너 여백이
-        // 딸려온다. 첫 판을 빼서 컨테이너 안쪽 거리로 바꾼다.
-        var panels = vp.querySelectorAll('.sol-panel');
-        return panels.length > 1
-          ? panels[i].offsetLeft - panels[0].offsetLeft
-          : i * vp.clientWidth;
-      }
-      function jump(to) {
-        // 스냅이 켜진 채로 옮기면 브라우저가 부드럽게 끌고 가 미끄러짐이 보인다.
-        vp.style.scrollSnapType = 'none';
-        vp.scrollLeft = to;
-        vp.style.scrollSnapType = '';
-      }
+
+      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
+      // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
       function go(i) {
         if (i < 0) i = 0;
         if (i > tabs.length - 1) i = tabs.length - 1;
-        paint(i);
+        if (i === last) return;
+        var ps = root.querySelectorAll('.sol-panel');
+        var out = ps[last], inn = ps[i];
         last = i;
-        var to = target(i);
-        if (Math.abs(to - vp.scrollLeft) < 1) return;
+        paint(i);
+        if (!out || !inn) return;
+
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduce) { jump(to); return; }
+        if (reduce) {
+          out.setAttribute('data-off', '');
+          inn.removeAttribute('data-off');
+          return;
+        }
+
         var mine = ++token;
         fading = true;
-        var track = vp.querySelector('.sol-track');
-        vp.style.transition = 'opacity 150ms ease';
-        vp.style.opacity = '0';
-        setTimeout(function () {
-          if (mine !== token) return;   // 그 사이 다시 눌렀으면 이 차례는 버린다
-          jump(to);
-          // 살짝 아래에서 올라오며 나타난다 — 그냥 켜지는 것보다 눈이 덜 놀란다.
-          if (track) {
-            track.style.transition = 'none';
-            track.style.transform = 'translateY(8px)';
-          }
-          requestAnimationFrame(function () {
+        // visibility에는 전환이 걸리지 않는다. 먼저 보이게만 만들고 투명도는 0에서 시작해
+        // 다음 프레임에 올려야 첫 전환도 페이드로 보인다(바로 올리면 그냥 켜진다).
+        inn.removeAttribute('data-off');
+        inn.style.opacity = '0';
+        out.style.opacity = '1';
+        requestAnimationFrame(function () {
+          if (mine !== token) return;
+          inn.style.opacity = '1';
+          out.style.opacity = '0';
+          setTimeout(function () {
             if (mine !== token) return;
-            vp.style.transition = 'opacity 260ms ease';
-            vp.style.opacity = '1';
-            if (track) {
-              track.style.transition = 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1)';
-              track.style.transform = 'translateY(0)';
-            }
-            setTimeout(function () { if (mine === token) fading = false; }, 280);
-          });
-        }, 160);
+            out.setAttribute('data-off', '');
+            out.style.opacity = '';
+            inn.style.opacity = '';
+            fading = false;
+          }, 320);
+        });
       }
+
       for (var t = 0; t < tabs.length; t++) {
         (function (n) {
           tabs[n].addEventListener('click', function () { go(n); });
@@ -537,22 +524,22 @@ const jsonLd = {
       prev.addEventListener('click', function () { go(current() - 1); });
       next.addEventListener('click', function () { go(current() + 1); });
 
-      // 스와이프로 넘겼을 때만 되읽는다. 위 전환이 도는 동안에는
-      // 우리가 옮긴 위치가 되읽혀 헛도므로 건너뛴다.
-      var tick;
-      vp.addEventListener('scroll', function () {
-        if (fading) return;
-        clearTimeout(tick);
-        tick = setTimeout(function () {
-          var i = current();
-          if (i !== last) { last = i; paint(i); }
-        }, 80);
+      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
+      var sx = 0, sy = 0, tracking = false;
+      vp.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1 || fading) { tracking = false; return; }
+        tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
       }, { passive: true });
-
-      // 폭이 바뀌면 스냅 위치가 어긋난다. 보고 있던 판으로 다시 맞춘다.
-      window.addEventListener('resize', function () {
-        jump(target(last));
-      });
+      vp.addEventListener('touchend', function (e) {
+        if (!tracking) return;
+        tracking = false;
+        var c = e.changedTouches[0];
+        var dx = c.clientX - sx, dy = c.clientY - sy;
+        // 세로로 더 많이 움직였으면 페이지 스크롤이지 넘김이 아니다.
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+        go(current() + (dx < 0 ? 1 : -1));
+      }, { passive: true });
 
       paint(0);
       }
@@ -649,24 +636,24 @@ const jsonLd = {
       <div class="sol-track">
         <div class="sol-panel">
       <div class="industries-grid">
-        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/energy-hero.webp" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy · Utilities</span><span class="industry-desc">Unified control of distributed assets,<br>automated ESG reporting</span></span></a>
-        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/automotive-hero.webp" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Automotive · Mobility</span><span class="industry-desc">Vibration-based predictive maintenance,<br>energy intensity by line</span></span></a>
-        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/electronics-hero.webp" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Electronics · Precision</span><span class="industry-desc">Power quality and outage monitoring,<br>live microclimate control</span></span></a>
-        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/steel-hero.webp" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Materials · Steel</span><span class="industry-desc">Steadier heat-treatment quality,<br>peak demand control</span></span></a>
-        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/chemicals-hero.webp" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Chemicals · Materials</span><span class="industry-desc">Utilities managed as one,<br>combustion efficiency and carbon</span></span></a>
-        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/machinery-hero.webp" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Machinery · Plant</span><span class="industry-desc">Shared utilities run to demand,<br>energy intensity by process</span></span></a>
-        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/food-hero.webp" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Food · Beverage</span><span class="industry-desc">Refrigeration efficiency analysis,<br>quality temperature monitoring</span></span></a>
+        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy · Utilities</span><span class="industry-desc">Unified control of distributed assets,<br>automated ESG reporting</span></span></a>
+        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Automotive · Mobility</span><span class="industry-desc">Vibration-based predictive maintenance,<br>energy intensity by line</span></span></a>
+        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Electronics · Precision</span><span class="industry-desc">Power quality and outage monitoring,<br>live microclimate control</span></span></a>
+        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Materials · Steel</span><span class="industry-desc">Steadier heat-treatment quality,<br>peak demand control</span></span></a>
+        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="549" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Chemicals · Materials</span><span class="industry-desc">Utilities managed as one,<br>combustion efficiency and carbon</span></span></a>
+        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="583" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Machinery · Plant</span><span class="industry-desc">Shared utilities run to demand,<br>energy intensity by process</span></span></a>
+        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Food · Beverage</span><span class="industry-desc">Refrigeration efficiency analysis,<br>quality temperature monitoring</span></span></a>
       </div>
         </div>
-        <div class="sol-panel">
+        <div class="sol-panel" data-off>
       <div class="industries-grid">
-        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/predictive-maintenance.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Wireless vibration sensors catch early signs,<br>act before failure</span></span></a>
-        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sensor-monitoring.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Multi-sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen,<br>unusual combinations flagged</span></span></a>
-        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/power-management.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset,<br>peaks and anomalies managed</span></span></a>
-        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/power-quality.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched,<br>events recorded automatically</span></span></a>
-        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/factory-energy.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one,<br>intensity against output</span></span></a>
-        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/energy-optimization.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced,<br>peaks cut and held down</span></span></a>
-        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/quality-prediction.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results,<br>defect causes traced</span></span></a>
+        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Wireless vibration sensors catch early signs,<br>act before failure</span></span></a>
+        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Multi-sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen,<br>unusual combinations flagged</span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset,<br>peaks and anomalies managed</span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched,<br>events recorded automatically</span></span></a>
+        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one,<br>intensity against output</span></span></a>
+        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced,<br>peaks cut and held down</span></span></a>
+        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1280w" sizes="(max-width: 600px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results,<br>defect causes traced</span></span></a>
       </div>
         </div>
       </div>
