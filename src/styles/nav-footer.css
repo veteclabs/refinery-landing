@@ -191,7 +191,9 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* ===== 메가메뉴 ===== */
 .mm-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .mm-item { position: relative; }
-.mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 14px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
+/* 15px — 로고(30) → 상단 메뉴(15) → 패널 항목(14)으로 한 단계씩 내려간다.
+   14px이면 패널 항목과 같아져 주 내비게이션과 그 하위가 구분되지 않았다. */
+.mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 15px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
 /* 상단 메뉴는 호버·열림에서 하늘색이 된다. 캐럿은 currentColor라 함께 따라온다. */
 .mm-top:hover { color: #76A6D7; }
 /* 상단 메뉴 호버 — 면은 깔지 않는다. 패널이 바로 아래로 내려오고 캐럿이 뒤집히므로
@@ -304,7 +306,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    경고(주황)가 아니라 아직 안 열린 상태라는 뜻이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 10.5px; font-weight: 500; line-height: 1;
+  font-size: 11px; font-weight: 500; line-height: 1;
   color: #ffffff; background: #5B9BD5;
   padding: 4px 9px; border-radius: 999px;
 }
