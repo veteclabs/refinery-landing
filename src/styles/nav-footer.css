@@ -126,8 +126,9 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
 /* 헤더 문의하기 — 로고와 같은 잉크(#0B0E14)로 채운다. 헤더에서 유일하게 채워진 요소라
    눈이 여기로 간다. 호버에서 브랜드 하늘색(#76A6D7)으로 바뀐다.
+   글자 굵기는 500이다 — 검은 면 위의 흰 글자는 400이면 획이 가늘어 보인다.
    nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
-nav .btn-primary { background: #0B0E14; color: #ffffff; border-color: #0B0E14; }
+nav .btn-primary { background: #0B0E14; color: #ffffff; border-color: #0B0E14; font-weight: 500; }
 nav .btn-primary:hover, nav .btn-primary:active { background: #76A6D7; color: #ffffff; border-color: #76A6D7; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
