@@ -217,7 +217,7 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    패널은 화면 폭을 채우지만 글은 페이지 본문과 같은 축에 선다. */
 /* 좌우 여백을 48이 아니라 38로 준다. 링크가 자체 padding 10px를 갖고 있어서
    38 + 10 = 48이 되어야 글자가 로고·본문과 같은 축에 선다. */
-.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 26px 38px 70px; display: flex; gap: 72px; }
+.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 26px 38px 40px; display: flex; gap: 72px; }
 /* 패널 바탕은 화면 폭을 채우되 글은 왼쪽 축에 모아 둔다.
    묶음이 둘 이상이면 사이에 세로선을 둔다(솔루션의 산업별 | 과제별).
    선은 두 번째 묶음부터 왼쪽에 붙이고, 그만큼 안쪽 여백을 더 준다. */
@@ -237,11 +237,11 @@ footer { padding: 60px 0 20px; overflow: hidden; }
   grid-auto-columns: minmax(0, 1fr); column-gap: 28px;
 }
 /* 왼쪽 여백을 링크의 padding-left(10px)와 맞춰 제목과 항목이 같은 축에 선다. */
-.mm-col-title { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--ink-400); margin: 4px 10px 8px; }
+.mm-col-title { font-size: 12px; font-weight: 500; text-transform: uppercase; color: var(--ink-400); margin: 4px 10px 14px; }
 .mm-col ul { list-style: none; margin: 0; padding: 0; }
 .mm-col li { margin: 3px 0; }
 /* 여백을 상하좌우 같게 둔다. 글은 왼쪽 정렬 그대로다. */
-.mm-col a { display: block; font-size: 14px; color: var(--ink-800); padding: 12px; border-radius: 8px; transition: background .15s, color .15s; }
+.mm-col a { display: block; font-size: 15px; color: var(--ink-800); padding: 12px; border-radius: 8px; transition: background .15s, color .15s; }
 /* 호버 — 옅은 면(ink-50)이 깔리고 글자가 ink-900으로 진해진다. */
 .mm-col a:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 아직 공개 전인 항목 — Status Dot의 '오프라인 · 비활성'과 같은 ink-300으로 눕힌다. */
@@ -252,13 +252,13 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* 카드 묶음도 제목을 갖는다. 제목은 카드 안쪽 여백(12px)만큼 들여써
    아이콘 박스와 같은 축에 선다. */
 .mm-cardgroup { flex: 1; min-width: 0; }
-.mm-cardgroup .mm-col-title { margin: 4px 12px 8px; }
+.mm-cardgroup .mm-col-title { margin: 4px 12px 14px; }
 .mm-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 /* 평소에는 면이 없고(네모 박스는 아이콘에만), 호버에서만 옅은 면이 깔린다. */
 .mm-card {
   display: flex; align-items: center; gap: 12px;
   padding: 12px; border-radius: 10px;
-  font-size: 14px; color: var(--ink-800);
+  font-size: 15px; color: var(--ink-800);
   background: none; border: 0;
   transition: background .15s ease, color .15s ease;
 }
@@ -278,7 +278,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
   flex: 0 0 auto; width: 48px; height: 48px; border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
   background: #ffffff; border: 1px solid var(--ink-200);
-  color: var(--ink-600); font-size: 23px;
+  color: var(--ink-500); font-size: 23px;
   transition: color .15s ease, background .15s ease, border-color .15s ease;
 }
 /* 이름 아래에 한 줄 설명. 이름(14px)보다 작게 두고 색도 한 단계 낮춰
@@ -288,7 +288,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-card-label { min-width: 0; }
 /* 12px — 사이트 글자 크기를 11(라벨) · 12(보조 설명) · 13(푸터 링크) ·
    14(헤더 링크) · 15(본문)로 정수 한 줄에 맞춘다. */
-.mm-card-desc { font-size: 13px; line-height: 1.45; color: var(--ink-400); }
+.mm-card-desc { font-size: 14px; line-height: 1.45; color: var(--ink-400); }
 .mm-card.is-soon .mm-card-desc { color: var(--ink-300); }
 /* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
 .mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
@@ -312,7 +312,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 500; line-height: 1;
   color: #ffffff; background: #5B9BD5;
-  padding: 4px 9px; border-radius: 999px;
+  padding: 3px 9px 3px 7px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */
@@ -336,3 +336,12 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 }
 
 /* 푸터 하단 법적 링크 바 */
+
+/* 패널 하단 약관 띠 — 본문과 같은 1280px 폭·38px 안쪽 여백에 맞춰 왼쪽으로 정렬한다. */
+.mm-panel-foot { max-width: 1280px; margin: 0 auto; padding: 0 38px 28px; }
+.mm-panel-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+.mm-panel-foot li { padding: 0 14px; line-height: 1.2; }
+.mm-panel-foot li:first-child { padding-left: 0; }
+.mm-panel-foot li + li { border-left: 1px solid var(--ink-200); }
+.mm-panel-foot a,
+.mm-panel-foot button { font-family: inherit; font-size: 13px; color: var(--ink-500); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: none; }

@@ -155,6 +155,26 @@ export const navMenu: Record<Lang, NavMenu[]> = {
 };
 
 /** 푸터 열 */
+/** 약관 — 푸터 '약관' 칸과 메가메뉴 패널 하단 띠가 같은 목록을 쓴다.
+ *  href 없는 '쿠키 설정'은 버튼으로 렌더돼 동의 배너를 다시 연다. */
+export const legalLinks: Record<Lang, NavLink[]> = {
+  ko: [
+    { label: '개인정보처리방침', href: '/privacy' },
+    { label: '이용약관', href: '/terms' },
+    { label: '소프트웨어 사용권 계약', href: '/eula' },
+    { label: '쿠키 정책', href: '/cookie-policy' },
+    { label: '쿠키 설정' },
+  ],
+  // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
+  en: [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Software License (EULA)', href: '/eula' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
+    { label: 'Cookie Settings' },
+  ],
+};
+
 export const footerCols: Record<Lang, FooterCol[]> = {
   ko: [
     {
@@ -201,14 +221,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     },
     {
       title: '약관',
-      items: [
-        { label: '개인정보처리방침', href: '/privacy' },
-        { label: '이용약관', href: '/terms' },
-        { label: '소프트웨어 사용권 계약', href: '/eula' },
-        { label: '쿠키 정책', href: '/cookie-policy' },
-        // href 없는 항목은 '쿠키 설정' 버튼으로 렌더된다(배너를 다시 여는 동작).
-        { label: '쿠키 설정' },
-      ],
+      items: legalLinks.ko,
     },
   ],
   en: [
@@ -257,13 +270,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
       title: 'Legal',
-      items: [
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' },
-        { label: 'Software License (EULA)', href: '/eula' },
-        { label: 'Cookie Policy', href: '/cookie-policy' },
-        { label: 'Cookie Settings' },
-      ],
+      items: legalLinks.en,
     },
   ],
 };

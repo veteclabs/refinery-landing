@@ -1,12 +1,13 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
-import { navMenu, navUi } from '../i18n/nav';
+import { navMenu, navUi, legalLinks } from '../i18n/nav';
 import '../styles/nav-footer.css';
 
 // 메가메뉴 IA는 로케일별로 src/i18n/nav.ts에 있다. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
 const lang = (Astro.currentLocale === 'en' ? 'en' : 'ko') as 'ko' | 'en';
 const menu = navMenu[lang];
 const ui = navUi[lang];
+const legal = legalLinks[lang];
 const home = lang === 'en' ? '/en' : '/';
 ---
 <nav class="mm-nav">
@@ -62,6 +63,18 @@ const home = lang === 'en' ? '/en' : '/';
                       </div>
                     )
                   ))}
+                </div>
+                {/* 패널 아래 약관 띠 — 푸터와 같은 목록(legalLinks)을 한 줄로 편다. */}
+                <div class="mm-panel-foot">
+                  <ul>
+                    {legal.map((it) => (
+                      <li>
+                        {it.href
+                          ? <a href={it.href}>{it.label}</a>
+                          : <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             )}
