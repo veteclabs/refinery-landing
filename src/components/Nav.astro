@@ -109,4 +109,19 @@ const home = lang === 'en' ? '/en' : '/';
     panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
     window.addEventListener('resize', function () { if (window.innerWidth > 980) close(); });
   })();
+
+  /* 메가메뉴가 열린 채로 스크롤하면 닫는다.
+     패널은 CSS :hover로 열리므로 JS가 hover를 풀 수 없다 — 헤더에 클래스를 걸어
+     눌러 두고, 마우스가 헤더를 벗어나면(또는 헤더 밖에서 움직이면) 다시 푼다. */
+  (function () {
+    var nav = document.querySelector('.mm-nav');
+    if (!nav) return;
+    function shut() { nav.classList.add('is-shut'); }
+    function release() { nav.classList.remove('is-shut'); }
+    window.addEventListener('scroll', shut, { passive: true });
+    nav.addEventListener('mouseleave', release);
+    document.addEventListener('mousemove', function (e) {
+      if (nav.classList.contains('is-shut') && !nav.contains(e.target)) release();
+    }, { passive: true });
+  })();
 </script>

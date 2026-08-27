@@ -48,16 +48,19 @@
 .mm-scrim {
   position: fixed; inset: 70px 0 0; z-index: 90;
   background: rgba(16, 32, 44, .28);
-  /* 뒤 내용을 흐린다. 어두운 막만으로는 글자 모양이 그대로 남아 시선을 끈다.
-     blur를 걸면 형태가 풀려 메뉴만 읽힌다. 막이 안 보일 때(opacity 0)는 그리지 않으므로
-     평소 렌더 비용은 없다. */
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  /* 흐림(blur)은 쓰지 않는다 — 톤만 한 단계 내린다. */
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity .2s ease, visibility .2s;
 }
 body:has(.mm-item.has-panel:hover) .mm-scrim,
 body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: visible; }
+
+/* 패널이 열린 채로 스크롤하면 닫는다. :hover는 JS로 풀 수 없으므로
+   헤더에 클래스를 걸어 눌러 두고, 마우스가 헤더를 벗어나면 푼다. */
+.mm-nav.is-shut .mm-panel { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; }
+.mm-nav.is-shut { background: rgba(255, 255, 255, 0.9) !important; border-bottom-color: var(--ink-200) !important; }
+.mm-nav.is-shut .mm-caret { transform: none !important; }
+body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden !important; }
 @media (prefers-reduced-motion: reduce) { .mm-scrim { transition: none; } }
 .nav-inner {
       max-width: 1280px; margin: 0 auto; height: 100%;
@@ -284,26 +287,26 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
 .mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
 
-/* 아이콘 광학 보정 — 글리프마다 잉크가 박스 안에서 치우쳐 있다.
-   박스 면 색(#EFF2F5)으로 박스 경계를 잡고 그 안에서 잉크 경계를 재어,
-   위/아래·좌/우 여백 차이의 절반만큼 반대로 민다.
-   ⚠️ 앞서 캔버스로 '글자 상자' 기준을 쟀을 때는 부호가 반대로 나와 세로가 더 어긋났다.
-      실제 화면에서 박스 여백을 재는 이 방식이 맞다. */
-.mm-card-ico .ph-brain        { transform: translate(-1.75px, -0.56px); }
-.mm-card-ico .ph-gauge        { transform: translateX(-1.88px); }
-.mm-card-ico .ph-article      { transform: translate(-1.63px, -0.88px); }
-.mm-card-ico .ph-file-text    { transform: translate(-1.75px, -0.94px); }
-.mm-card-ico .ph-folder-open  { transform: translate(-2.63px, -1.25px); }
-.mm-card-ico .ph-users-three  { transform: translate(-0.38px, -1.63px); }
-.mm-card-ico .ph-user-plus    { transform: translateX(-0.38px); }
-.mm-card-ico .ph-newspaper    { transform: translate(0.69px, -0.88px); }
+/* 아이콘 광학 보정 — 세로만 손댄다.
+   Phosphor 글리프는 잉크가 글자 상자 안에서 위아래로 조금씩 치우쳐 있다.
+   ⚠️ 가로는 건드리지 않는다. 한때 좌/우를 3.5px씩 밀었는데, 그 값은 아이콘 하나씩
+      따로 캡처하다 생긴 클립 오차였다. 화면을 한 장으로 찍어 재면 가로는 원래 맞다.
+   측정: 화면 전체를 한 번 캡처하고 각 박스의 좌표로 잉크 경계를 찾아
+   위/아래 여백 차이의 절반만큼 반대로 민다. */
+.mm-card-ico .ph-brain        { transform: translateY(-0.56px); }
+.mm-card-ico .ph-article      { transform: translateY(-0.88px); }
+.mm-card-ico .ph-file-text    { transform: translateY(-0.94px); }
+.mm-card-ico .ph-folder-open  { transform: translate(-0.75px, -1.25px); }
+.mm-card-ico .ph-users-three  { transform: translateY(-1.63px); }
+.mm-card-ico .ph-user-plus    { transform: translateX(-0.75px); }
+.mm-card-ico .ph-newspaper    { transform: translate(0.75px, -0.88px); }
 /* 도형을 팔레트의 Status Dot 가운데 '중립 · 대기'(#5B9BD5)로 채우고 글자는 흰색으로 둔다.
    경고(주황)가 아니라 아직 안 열린 상태라는 뜻이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 10.5px; font-weight: 500; line-height: 1;
   color: #ffffff; background: #5B9BD5;
-  padding: 4px 8px 5px; border-radius: 999px;
+  padding: 4px 9px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */
