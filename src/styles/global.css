@@ -491,23 +491,15 @@
        사진 위에 글을 얹는 형태(과제별 페이지 .uc-case--img)도 만들어 봤지만,
        이 섹션은 흰 배경 페이지 한가운데라 검은 카드가 흐름을 끊고
        사진마다 배경 질감이 달라 7장의 글이 같은 리듬으로 안 읽혔다. */
-    /* 테두리는 '현장 보안 체계' 섹션 카드(.sec-card)와 같은 값이다 —
+    /* 테두리는 '현장 보안 체계' 섹션 카드(.sec-card)와 같은 값·같은 방식이다 —
        #ffffff · 1px solid #E3E7EC(= --border) · radius 12 · overflow hidden.
-       다만 선을 카드의 border로 그리지 않고 맨 위 층(::after)에 얹는다.
-       .sec-card는 사진 밴드가 밝아 티가 안 나지만, 이 카드는 밴드가 어두워서
-       border로 그리면 잘라내는 모서리(패딩 박스 반지름 11px)와 선(보더 박스 12px)
-       사이에 흰 틈이 드러난다 — 모서리에 선이 덧대어 보이던 원인이다.
-       색·굵기·반지름은 .sec-card와 같고 그리는 층만 다르다. */
+       ⚠️ 선을 ::after 덧층으로 올리지 말 것. 어두운 사진 위에서 곡선 구간의
+          안티에일리어싱이 사진과 섞여 선이 흐려지고 한 픽셀이 더 번진다
+          (모서리에서 잰 값: border는 239 → 36으로 한 칸, 덧층은 155 → 54 → 36).
+          border로 그리면 곡선에서도 흰 배경과 섞여 선이 또렷하게 남는다. */
     .industry-card {
       display: block; position: relative; overflow: hidden;
-      background: #ffffff; border-radius: var(--radius);
-    }
-    /* 맨 위 층 — 테두리. 본문(z-index 3)보다 위라 흰 면 구간에서도 선이 보인다.
-       카드에 border가 없어 inset: 0이 보더 박스와 같고, 잘라내는 모서리와 선이
-       같은 반지름(12px)을 따라가 틈이 생기지 않는다. */
-    .industry-card::after {
-      content: ''; position: absolute; inset: 0; z-index: 4; pointer-events: none;
-      border: 1px solid var(--border); border-radius: var(--radius);
+      background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
     }
     /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
     /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
