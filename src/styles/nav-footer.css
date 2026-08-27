@@ -360,6 +360,21 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 
 /* 푸터 하단 법적 링크 바 */
 
+/* 가운데 정렬을 픽셀 격자에 맞춘다.
+   max-width + margin:0 auto는 (창너비 - 1280) / 2 만큼 왼쪽 여백을 잡는데,
+   창너비가 홀수면 그 값이 x.5px가 된다. 그러면 안쪽 것들이 전부 반 픽셀 왼쪽으로
+   밀려 그려진다 — 특히 48px 아이콘 상자 안의 글리프가 왼쪽으로 쏠려 보인다.
+   (창 1440px에서는 여백이 80px 정수라 멀쩡하고, 1849px에서는 284.5px가 되어 어긋난다.)
+   round()로 내림해 정수 픽셀에 앉힌다. 미지원 브라우저는 기존 margin:0 auto 그대로. */
+@supports (margin-left: round(down, 1px, 1px)) {
+  .nav-inner,
+  .mm-panel-inner,
+  .mm-panel-foot ul {
+    margin-left: round(down, max(0px, calc((100% - 1280px) / 2)), 1px);
+    margin-right: auto;
+  }
+}
+
 /* 패널 하단 약관 띠 — 본문과 같은 1280px 폭·38px 안쪽 여백에 맞춰 왼쪽으로 정렬한다. */
 /* 약관 글자는 ink-600이다. 한줄 소개(ink-400)와 맞추면 #F6F8FA 띠 위에서 명암비가 2.2:1로
    떨어져 AA(4.5:1)에 한참 못 미친다 — 법적으로 읽혀야 하는 링크라 ink-600(5.4:1)으로 둔다.
