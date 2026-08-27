@@ -189,10 +189,11 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 .mm-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .mm-item { position: relative; }
 .mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 14px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
-.mm-top:hover { color: var(--ink-900); }
+/* 상단 메뉴는 호버·열림에서 하늘색이 된다. 캐럿은 currentColor라 함께 따라온다. */
+.mm-top:hover { color: #76A6D7; }
 /* 상단 메뉴 호버 — 면은 깔지 않는다. 패널이 바로 아래로 내려오고 캐럿이 뒤집히므로
    지금 어느 메뉴를 보고 있는지는 그것으로 충분히 읽힌다. */
-.mm-item.has-panel:hover .mm-top, .mm-item.has-panel:focus-within .mm-top { color: var(--ink-900); }
+.mm-item.has-panel:hover .mm-top, .mm-item.has-panel:focus-within .mm-top { color: #76A6D7; }
 .mm-caret { font-size: 12px; opacity: .55; transition: transform .2s; }
 .mm-item.has-panel:hover .mm-caret, .mm-item.has-panel:focus-within .mm-caret { transform: rotate(180deg); }
 /* 메가메뉴 패널은 헤더 아래로 화면 폭을 꽉 채워 내려온다.
