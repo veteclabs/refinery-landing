@@ -145,6 +145,12 @@ const home = lang === 'en' ? '/en' : '/';
   (function () {
     var nav = document.querySelector('.mm-nav');
     if (!nav) return;
+    /* 마우스로 누른 상위 항목에 포커스가 남으면 :focus-within 때문에 그 패널이 계속 열려 있고,
+       다른 항목에 마우스를 올리면 패널 둘이 같은 자리에 겹친다.
+       mousedown을 막아 마우스로는 포커스를 주지 않는다 — 탭 이동은 그대로 동작한다. */
+    nav.addEventListener('mousedown', function (e) {
+      if (e.target.closest && e.target.closest('button.mm-top')) e.preventDefault();
+    });
     function shut() { nav.classList.add('is-shut'); }
     function release() { nav.classList.remove('is-shut'); }
     window.addEventListener('scroll', shut, { passive: true });

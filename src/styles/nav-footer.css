@@ -221,6 +221,12 @@ button.mm-top { font-family: inherit; font-weight: inherit; line-height: inherit
   background: #fff; border-bottom: 1px solid var(--ink-200);
 }
 .mm-item.has-panel:hover .mm-panel, .mm-item.has-panel:focus-within .mm-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+/* 한 항목에 마우스가 있으면 나머지 패널은 즉시 닫는다. 패널 셋은 모두 같은 자리에 겹쳐
+   있어서, 항목 사이를 옮길 때 나가는 패널이 페이드아웃하는 0.18초 동안 둘이 겹쳐 보인다.
+   (키보드 포커스가 남아 있는 패널도 이 규칙으로 함께 닫힌다.) */
+.mm-menu:has(.mm-item.has-panel:hover) .mm-item.has-panel:not(:hover) .mm-panel {
+  opacity: 0; visibility: hidden; transition: none;
+}
 /* 안쪽 여백은 .container(max-width 1280 · padding 48)와 같게 맞춘다 —
    패널은 화면 폭을 채우지만 글은 페이지 본문과 같은 축에 선다. */
 /* 좌우 여백을 48이 아니라 38로 준다. 링크가 자체 padding 10px를 갖고 있어서
