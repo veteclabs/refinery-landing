@@ -494,9 +494,8 @@
     .industry-card {
       display: block; position: relative; overflow: hidden;
       background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
-      transition: border-color .2s, box-shadow .2s;
     }
-    a.industry-card:hover { border-color: #C8D6E6; box-shadow: 0 2px 10px rgba(16,32,44,.06); }
+    /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
     /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
     .industry-img {
       display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
