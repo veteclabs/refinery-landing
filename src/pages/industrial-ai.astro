@@ -118,7 +118,7 @@ const uses = [
         </header>
         <div class="ind-grid ind-grid-4">
           {uses.map((u) => (
-            <a class="ind-card" href={u.href}><h3>{u.label}</h3><p>{u.desc}</p><span class="ind-card-go">보기 →</span></a>
+            <a class="ind-card" href={u.href}><h3>{u.label}</h3><p>{u.desc}</p><span class="ind-card-go">자세히보기</span></a>
           ))}
         </div>
       </div>
@@ -268,6 +268,7 @@ const uses = [
      그 24px 규칙이 .ind-grid-3에만 걸려 있어 4열로 오면서 빠졌다. */
   .ind-grid-4 .ind-card { padding: 24px; }
 
-  .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
+  /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
+  .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #76A6D7; }
   a.ind-card { text-decoration: none; }
 </style>
