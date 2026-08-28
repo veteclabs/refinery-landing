@@ -94,10 +94,13 @@ const uses = [
         {/* 아코디언은 <details>로 만든다. JS 없이 열리고 닫히며 키보드로도 조작되고,
             무엇보다 답변 글이 접힌 상태에서도 HTML에 그대로 남는다 —
             이 페이지는 검색·답변엔진에 읽히는 것이 목적이라 그 점이 중요하다.
-            첫 항목만 열어 둬 어떻게 쓰는 것인지 바로 보이게 한다. */}
+            첫 항목만 열어 둬 어떻게 쓰는 것인지 바로 보이게 한다.
+
+            name을 같이 주면 한 번에 하나만 열린다(브라우저 기본 동작, JS 불필요).
+            이 속성을 모르는 옛 브라우저에서는 여러 개가 함께 열릴 뿐 깨지지 않는다. */}
         <div class="qa-list">
           {faqItems.map((f, i) => (
-            <details class="qa-item" open={i === 0}>
+            <details class="qa-item" name="qa" open={i === 0}>
               <summary>
                 <h2>{f.q}</h2>
                 <i class="ph ph-caret-down qa-caret" aria-hidden="true"></i>
@@ -150,12 +153,10 @@ const uses = [
     padding: 20px 0; cursor: pointer; list-style: none;
   }
   .qa-item summary::-webkit-details-marker { display: none; }
-  .qa-item summary:hover h2 { color: #76A6D7; }
   /* 질문·답변·캐럿 값은 예지보전 '자주 묻는 질문'(.uc-faq-*)과 같다. */
   .qa-item h2 {
     font-size: 20px; font-weight: 600; letter-spacing: normal;
     line-height: 1.65; color: #16202C; margin: 0;
-    transition: color .15s ease;
   }
   .qa-caret {
     flex: 0 0 auto; font-size: 14px; color: #8A94A3;
