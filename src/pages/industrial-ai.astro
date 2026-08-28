@@ -508,10 +508,11 @@ const uses = [
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 600; letter-spacing: -0.011em; line-height: 1;
     color: #76A6D7; background: #EEF4FB; border: 1px solid #76A6D7;
-    /* 한글은 글자 상자 안에서 위로 붙어, 여백을 같게 주면 글자가 위로 몰린다.
-       실측(위 5.65 / 아래 8.87)해서 위를 2px 늘리고 아래를 2px 줄였다.
+    /* 위아래 여백은 '찍힌 픽셀'로 맞춘다. 폰트 지표로 계산하면 어긋난다 —
+       계산값은 0.78px 차였는데 실제로는 2.25px였다.
+       7/4에서 위 8.25 · 아래 6.0 -> 6/5에서 위 7.25 · 아래 7.0.
        위아래 합(11px)은 그대로라 칩 높이 26px가 유지된다. */
-    padding: 7px 11px 4px; border-radius: 999px;
+    padding: 6px 11px 5px; border-radius: 999px;
     margin-bottom: 10px;
   }
   .ai-demo-cap-title {
