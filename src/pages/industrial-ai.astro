@@ -155,7 +155,9 @@ const uses = [
   .qa-head .ind-head { max-width: none; margin-bottom: 0; }
   @media (max-width: 900px) { .qa-head { grid-template-columns: 1fr; gap: 24px; } }
 
-  .qa-list { max-width: none; }
+  /* 목록 위아래는 한 단 진한 선(ink-300)으로 묶고, 항목 사이는 옅은 선(ink-200)으로 나눈다.
+     굵기는 둘 다 1px이고 색만 다르다 — 문답 여덟 개가 한 덩어리로 읽힌다. */
+  .qa-list { max-width: none; border-top: 1px solid #C8CED5; border-bottom: 1px solid #C8CED5; }
   .qa-item { border-bottom: 1px solid #E3E7EC; }
   .qa-item:last-child { border-bottom: none; }
 
