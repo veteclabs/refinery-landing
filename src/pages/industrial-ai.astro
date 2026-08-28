@@ -141,29 +141,30 @@ const uses = [
      끊기고, 아래 카드 그리드(1072px)와 오른쪽 끝이 어긋나 페이지가 두 축으로 보였다.
      글줄이 길어지는 것은 문단에만 읽기 폭(72ch)을 걸어 막는다 — 제목과 구분선은
      전체 폭을 쓰고 본문만 짧게 끊긴다. */
-  .qa-list { max-width: none; border-top: 1px solid #e6eaef; }
-  .qa-item { border-bottom: 1px solid #e6eaef; }
+  .qa-list { max-width: none; border-top: 1px solid #E3E7EC; }
+  .qa-item { border-bottom: 1px solid #E3E7EC; }
 
   /* 기본 삼각형 표식을 지우고 제목과 캐럿을 양 끝으로 벌린다. */
   .qa-item summary {
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
-    padding: 24px 0; cursor: pointer; list-style: none;
+    padding: 20px 0; cursor: pointer; list-style: none;
   }
   .qa-item summary::-webkit-details-marker { display: none; }
   .qa-item summary:hover h2 { color: #76A6D7; }
+  /* 질문·답변·캐럿 값은 예지보전 '자주 묻는 질문'(.uc-faq-*)과 같다. */
   .qa-item h2 {
-    font-size: clamp(19px, 2.2vw, 22px); font-weight: 600; letter-spacing: -0.02em;
-    line-height: 1.4; color: var(--text, #16202c); margin: 0;
+    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    line-height: 1.65; color: #16202C; margin: 0;
     transition: color .15s ease;
   }
   .qa-caret {
-    flex: 0 0 auto; font-size: 20px; color: var(--ink-400, #A4ADB8);
-    transition: transform .2s ease, color .15s ease;
+    flex: 0 0 auto; font-size: 14px; color: #8A94A3;
+    transition: transform .2s ease;
   }
-  .qa-item[open] .qa-caret { transform: rotate(180deg); color: var(--ink-600, #5A6776); }
+  .qa-item[open] .qa-caret { transform: rotate(180deg); }
   .qa-item p {
-    font-size: 17px; line-height: 1.75; color: #2b3644;
-    margin: 0; padding: 0 0 28px; max-width: 72ch;
+    font-size: 15px; line-height: 1.5; color: #7E8A98;
+    margin: 0; padding: 0 0 24px; max-width: 72ch;
   }
   /* 키보드로 짚었을 때 어디에 있는지 보이게 한다. */
   .qa-item summary:focus-visible { outline: 2px solid #76A6D7; outline-offset: 4px; border-radius: 4px; }
