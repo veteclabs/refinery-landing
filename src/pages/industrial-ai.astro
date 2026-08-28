@@ -276,7 +276,6 @@ const uses = [
         /* 첫 화면에 머문 뒤 데모를 다시 돌린다. */
         setTimeout(function () {
           holding = false;
-          if (card) card.classList.remove('is-opening');
           var f = document.getElementById('ai-demo-iframe');
           if (!userToggled) {
             try { f.contentWindow.postMessage({ type: 'refinery-hero-resume' }, '*'); } catch (e) {}
@@ -289,7 +288,15 @@ const uses = [
           if (!reduce) { focusBox = d.box || null; render(true); }
 
           if (!card) return;
-          if (d.cap) setCap(d.cap); else card.classList.remove('is-on');
+          if (d.cap) {
+            /* 첫 화면 글은 '다른 글로 바뀔 때' 비로소 장면 크기로 넘긴다.
+               머무름이 끝나는 시점에 떼면, 첫 장면 신호가 오기 전까지
+               같은 문구가 40 -> 32px로 잠깐 줄었다가 바뀐다. */
+            card.classList.remove('is-opening');
+            setCap(d.cap);
+          } else {
+            card.classList.remove('is-on');
+          }
         }
       }
 
@@ -492,10 +499,14 @@ const uses = [
   /* 태그라인과 대제목 비율은 예지보전 히어로를 따른다.
      그쪽은 태그라인 18px / 대제목 45px = 0.4, 굵기 600, 자간 -0.2px(-0.011em),
      아래 여백 14px이다. 여기 대제목이 32px이므로 13px(0.4)과 여백 10px이 된다. */
+  /* 헤더 '예정' 칩(.mm-badge)과 같은 타원 칩. 그쪽은 10px/500이라
+     여기 크기(13px/600)에 맞춰 여백만 키웠다. */
   .ai-demo-cap-eyebrow {
-    display: block;
-    font-size: 13px; font-weight: 600; letter-spacing: -0.011em;
-    color: #76A6D7; margin-bottom: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.011em; line-height: 1;
+    color: #76A6D7; background: #DCE8F5;
+    padding: 6px 12px 7px; border-radius: 999px;
+    margin-bottom: 10px;
   }
   .ai-demo-cap-title {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
