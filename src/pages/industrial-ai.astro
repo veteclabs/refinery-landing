@@ -388,7 +388,7 @@ const uses = [
     padding: 48px;
     /* 좌: 설명 카드 · 우: 데모. 카드를 밖으로 빼서 데모를 가리지 않게 한다. */
     display: grid;
-    grid-template-columns: 336px 1fr;
+    grid-template-columns: 420px 1fr;
     gap: 40px;
     align-items: center;
   }
@@ -405,12 +405,12 @@ const uses = [
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
   .ai-demo-cap-eyebrow {
     display: flex; align-items: center; gap: 10px;
-    font-size: 12px; font-weight: 500; letter-spacing: .08em;
-    color: #22303F; margin-bottom: 14px;
+    font-size: 13px; font-weight: 500; letter-spacing: .08em;
+    color: #22303F; margin-bottom: 16px;
   }
   .ai-demo-cap-eyebrow b { color: #16202C; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-demo-cap-title {
-    font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
+    font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
   .ai-hero-figure {
@@ -430,7 +430,7 @@ const uses = [
   @media (max-width: 900px) {
     .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
     .ai-hero-figure { aspect-ratio: 1144 / 900; }
-    .ai-demo-cap-title { font-size: 22px; }
+    .ai-demo-cap-title { font-size: 26px; }
   }
   /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다.
      랜딩의 .hero-demo-toggle과 같은 값 — 그 규칙은 global.css에 있고
