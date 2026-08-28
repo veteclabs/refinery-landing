@@ -155,9 +155,8 @@ const uses = [
   .qa-head .ind-head { max-width: none; margin-bottom: 0; }
   @media (max-width: 900px) { .qa-head { grid-template-columns: 1fr; gap: 24px; } }
 
-  /* 목록 위아래는 같은 색(ink-200)에 2px으로 묶고, 항목 사이는 1px으로 나눈다.
-     색은 하나로 두고 굵기만 달리해 문답 여덟 개가 한 덩어리로 읽힌다. */
-  .qa-list { max-width: none; border-top: 2px solid #E3E7EC; border-bottom: 2px solid #E3E7EC; }
+  /* 가로선은 항목 사이에만 긋는다 — 목록 위·아래 끝에는 두지 않는다(예지보전과 같다). */
+  .qa-list { max-width: none; }
   .qa-item { border-bottom: 1px solid #E3E7EC; }
   .qa-item:last-child { border-bottom: none; }
 
@@ -286,6 +285,10 @@ const uses = [
   .ind-grid-4 .ind-card { padding: 24px; }
 
   /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
-  .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 400; color: #76A6D7; }
+  /* 설명과 '자세히보기' 사이를 카드 아래 여백(24px)과 같게 둔다 — 글 아래 여백이
+     세 방향(설명 아래·링크 아래)에서 같은 값이 되어 카드가 고르게 끝난다. */
+  /* display: block · line-height: 1 — inline-block이면 줄상자에 붙는 여유(2.3px)가
+     글자 아래에 남아 카드 아래 여백이 26.3px으로 보인다. */
+  .ind-card-go { display: block; line-height: 1; margin-top: 24px; font-size: 14px; font-weight: 400; color: #76A6D7; }
   a.ind-card { text-decoration: none; }
 </style>
