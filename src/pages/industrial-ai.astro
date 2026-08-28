@@ -79,6 +79,7 @@ const uses = [
           <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요</a>
         </div>
 
+        <div class="ai-hero-stage">
         <div class="ai-hero-figure">
           {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
               조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
@@ -88,6 +89,7 @@ const uses = [
             </span>
           </button>
           <iframe id="ai-demo-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+        </div>
         </div>
       </div>
     </section>
@@ -347,17 +349,25 @@ const uses = [
   /* 랜딩 히어로에 쓰는 에이전트 데모를 그대로 얹는다. 무대(.stage)가 1320x840
      고정이라 칸도 같은 비율이어야 위아래에 데모 페이지 배경이 남지 않는다.
      (자리표시자는 16:6이었다 — 칸이 그만큼 세로로 길어진다.) */
-  .ai-hero-figure {
+  /* 데모를 받치는 하늘색 판. 데모 자체가 밝은 회색(#FAFBFC)이라
+     그냥 두면 흰 배경에 묻힌다. 판 위에 얹어 떠 보이게 한다. */
+  .ai-hero-stage {
     margin-top: 64px;
+    background: #76A6D7;
+    border-radius: 20px;
+    padding: 48px;
+  }
+  .ai-hero-figure {
     aspect-ratio: 1320 / 840;
     position: relative;
     overflow: hidden;
-    border: 1px solid #E3E7EC;
-    border-radius: 14px;
+    /* 하늘색 위에서는 회색 테두리가 지저분하다. 그림자로 띄운다. */
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(16, 32, 44, .18);
   }
   @media (max-width: 900px) {
-    /* 좁은 화면에서는 좌측 세션 레일을 잘라내고 본문만 키운다(스크립트와 짝). */
-    .ai-hero-figure { margin-top: 48px; aspect-ratio: 1144 / 900; }
+    .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
+    .ai-hero-figure { aspect-ratio: 1144 / 900; }
   }
   /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다.
      랜딩의 .hero-demo-toggle과 같은 값 — 그 규칙은 global.css에 있고
