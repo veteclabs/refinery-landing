@@ -54,11 +54,13 @@ const faqSchema = {
 };
 
 // 관련 활용 — 실제 존재하는 use-case 페이지로 내부 링크(키워드 앵커).
+// 아이콘은 사이트에서 이미 그 개념에 쓰는 것을 그대로 쓴다 —
+// gauge는 헤더 메가메뉴가 에너지관리시스템에, pulse는 과제 데이터가 진동·신호에 쓴다.
 const uses = [
-  { label: '예지보전', desc: '설비 고장을 미리 예측 · 무선 진동센서와 모터 예지보전까지', href: '/use-cases/predictive-maintenance' },
-  { label: '전력관리 솔루션', desc: '전력 데이터로 피크 · 이상 · 절감 기회를 찾는 에너지 AI', href: '/use-cases/power-management' },
-  { label: '품질 예측', desc: '공정 데이터로 불량을 사전에 잡는 제조 AI', href: '/use-cases/quality-prediction' },
-  { label: '에너지관리시스템(EMS)', desc: 'EMS·전력관리·전력감시·정전감시 개념 한눈에', href: '/energy-management' },
+  { label: '예지보전', desc: '설비 고장을 미리 예측 · 무선 진동센서와 모터 예지보전까지', href: '/use-cases/predictive-maintenance', icon: 'ph-pulse' },
+  { label: '전력관리 솔루션', desc: '전력 데이터로 피크 · 이상 · 절감 기회를 찾는 에너지 AI', href: '/use-cases/power-management', icon: 'ph-lightning' },
+  { label: '품질 예측', desc: '공정 데이터로 불량을 사전에 잡는 제조 AI', href: '/use-cases/quality-prediction', icon: 'ph-check-circle' },
+  { label: '에너지관리시스템(EMS)', desc: 'EMS·전력관리·전력감시·정전감시 개념 한눈에', href: '/energy-management', icon: 'ph-gauge' },
 ];
 ---
 <BaseLayout
@@ -118,7 +120,12 @@ const uses = [
         </header>
         <div class="ind-grid ind-grid-4">
           {uses.map((u) => (
-            <a class="ind-card" href={u.href}><h3>{u.label}</h3><p>{u.desc}</p><span class="ind-card-go">자세히보기</span></a>
+            <a class="ind-card" href={u.href}>
+              <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${u.icon}`}></i></span>
+              <h3>{u.label}</h3>
+              <p>{u.desc}</p>
+              <span class="ind-card-go">자세히보기</span>
+            </a>
           ))}
         </div>
       </div>
@@ -262,6 +269,10 @@ const uses = [
   /* 좁은 폭에서는 여백을 줄인다(사이트 공통 84 → 60px 규칙과 같은 값). */
   @media (max-width: 560px) { .ind-cta.ai-cta-bg { padding: 60px 0; } }
 
+  /* 아이콘 아래 여백은 도입 효과 카드가 65px인데, 그 카드에는 아래 링크가 없다.
+     여기는 '자세히보기'가 한 줄 더 붙으므로 40px으로 줄여 카드가 지나치게 길어지지 않게 한다. */
+  .ind-grid-4 .ind-card-icon { margin-bottom: 40px; }
+
   /* 활용 카드는 4열 한 줄이다 — 항목이 정확히 4개라 3열이면 마지막 줄에 빈칸이 둘 남는다.
      (.ind-grid-4는 1100px에서 2열, 860px에서 1열로 접힌다 — 공통 규칙 그대로.)
      안 여백 24px은 다른 .ind-page 카드와 같은 값이다. 공통 .ind-card의 26px을 덮는데,
@@ -269,6 +280,6 @@ const uses = [
   .ind-grid-4 .ind-card { padding: 24px; }
 
   /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
-  .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #76A6D7; }
+  .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 400; color: #76A6D7; }
   a.ind-card { text-decoration: none; }
 </style>
