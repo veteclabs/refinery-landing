@@ -91,6 +91,7 @@ const uses = [
     <!-- 정의형 Q&A -->
     <section class="ind-section">
       <div class="ind-container">
+        <div class="qa-head">
         <header class="ind-head">
           <h2>자주 묻는 질문</h2>
         </header>
@@ -111,6 +112,7 @@ const uses = [
               <p>{f.a}</p>
             </details>
           ))}
+        </div>
         </div>
       </div>
     </section>
@@ -147,8 +149,15 @@ const uses = [
      끊기고, 아래 카드 그리드(1072px)와 오른쪽 끝이 어긋나 페이지가 두 축으로 보였다.
      글줄이 길어지는 것은 문단에만 읽기 폭(72ch)을 걸어 막는다 — 제목과 구분선은
      전체 폭을 쓰고 본문만 짧게 끊긴다. */
-  .qa-list { max-width: none; border-top: 1px solid #E3E7EC; }
+  /* 제목 왼쪽 · 문답 오른쪽으로 나눈다 — 예지보전 자주 묻는 질문(.uc-faq-head)과 같은 값.
+     오른쪽 칸이 답변 줄 길이를 잡아 주므로 문단에 폭 제한을 따로 걸지 않는다. */
+  .qa-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+  .qa-head .ind-head { max-width: none; margin-bottom: 0; }
+  @media (max-width: 900px) { .qa-head { grid-template-columns: 1fr; gap: 24px; } }
+
+  .qa-list { max-width: none; }
   .qa-item { border-bottom: 1px solid #E3E7EC; }
+  .qa-item:last-child { border-bottom: none; }
 
   /* 기본 삼각형 표식을 지우고 제목과 캐럿을 양 끝으로 벌린다. */
   .qa-item summary {
@@ -169,7 +178,7 @@ const uses = [
   .qa-item[open] .qa-caret { transform: rotate(180deg); }
   .qa-item p {
     font-size: 15px; line-height: 1.5; color: #7E8A98;
-    margin: 0; padding: 0 0 24px; max-width: 72ch;
+    margin: 0; padding: 0 0 24px;
   }
   /* 키보드로 짚었을 때 어디에 있는지 보이게 한다. */
   .qa-item summary:focus-visible { outline: 2px solid #76A6D7; outline-offset: 4px; border-radius: 4px; }
