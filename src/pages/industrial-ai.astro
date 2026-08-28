@@ -223,8 +223,10 @@ const uses = [
              41~319로 다르다. 그래서 배율은 늘 폭에서 정해지고, 보이는 세로는
              폭이 정한 값(=756/칸비율)을 따라간다. 여백을 줄이면 배율이 올라
              그 756짜리 줄이 좌우로 잘려 나간다 — 강조된 줄이 잘리면 비율이
-             어그러져 보인다. 40은 그 줄이 좌우 여유를 갖는 값이다. */
-          var pad = 40 * stageToFrame;
+             어그러져 보인다. 40은 그 줄이 좌우 여유를 갖는 값이다.
+             쉬는 자리(REST_BOX)에는 주지 않는다. 붙이면 위 끝이 43에서 16으로
+             올라가 상단 바(y0..38)가 화면에 들어온다. */
+          var pad = (focusBox ? 40 : 0) * stageToFrame;
           var fx = target.x * stageToFrame - pad;
           var fy = target.y * stageToFrame - pad;
           var fw = target.w * stageToFrame + pad * 2;
