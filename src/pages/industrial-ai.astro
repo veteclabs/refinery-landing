@@ -115,7 +115,8 @@ const uses = [
     </section>
 
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class="ind-cta ai-cta-bg">
+      <img class="ai-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1080" />
       <div class="ind-container">
         <h2>산업 AI, 우리 현장에<br>어떻게 적용할까요?</h2>
         <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
@@ -170,6 +171,46 @@ const uses = [
   /* 히어로 소개글만 읽기 폭을 넓힌다(공통값 60ch → 72ch). 섹션 머리(.ind-head)는
      .ind-page 규칙이 이미 대제목 왼쪽·소제목 오른쪽으로 잡아 두므로 건드리지 않는다. */
   .ind-hero .ind-lede { max-width: 72ch; }
+  /* CTA — 예지보전(.uc-cta-bg)과 같은 모습. 그 규칙은 UseCasePage.astro의 스코프
+     스타일이라 클래스를 붙여도 여기까지 오지 않는다. 같은 값을 옮겨 적는다.
+     사진은 그 페이지가 쓰는 것을 그대로 쓴다(/use-cases/cta-bg.webp). */
+  .ind-cta.ai-cta-bg {
+    position: relative; overflow: hidden;
+    background: #0C1015; padding: 95px 0; text-align: left;
+  }
+  /* 사진이 납작해 폭이 줄면 object-fit이 세로까지 줄인다.
+     min-width로 배율을 묶고 모자란 가로는 좌우 균등하게 잘리게 한다. */
+  .ai-cta-bg-img {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
+    object-fit: cover; object-position: center 65%;
+    pointer-events: none; user-select: none;
+  }
+  /* 제목 왼쪽 · 버튼 오른쪽으로 한 줄에 나눈다. */
+  .ai-cta-bg .ind-container {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .ai-cta-bg .ind-container > * { flex: none; }
+  .ind-cta.ai-cta-bg h2 {
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    letter-spacing: -0.8px; line-height: 1.35; color: #fff;
+    margin-bottom: 0; text-wrap: initial;
+  }
+  .ind-cta.ai-cta-bg .ind-btn-primary {
+    margin-top: 0; padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: #76A6D7; color: #fff;
+    border: 1px solid #76A6D7; border-radius: 6px;
+    transition: all .2s;
+  }
+  .ind-cta.ai-cta-bg .ind-btn-primary:hover {
+    background: #5A8FC5; border-color: #5A8FC5; color: #fff; transform: none;
+  }
+  /* 좁은 폭에서는 여백을 줄인다(사이트 공통 84 → 60px 규칙과 같은 값). */
+  @media (max-width: 560px) { .ind-cta.ai-cta-bg { padding: 60px 0; } }
+
   .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
   a.ind-card { text-decoration: none; }
 </style>
