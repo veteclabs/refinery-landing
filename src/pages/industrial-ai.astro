@@ -529,7 +529,12 @@ const uses = [
     /* 데모 바탕(#FAFBFC)이 판(#F6F8FA)과 거의 같아 경계가 흐리다. 선을 되살린다. */
     border: 1px solid #E3E7EC;
     border-radius: 12px;
-    box-shadow: 0 10px 28px rgba(16, 32, 44, .10);
+    /* 한 겹짜리 큰 번짐은 도장 찍은 것처럼 균일해 떠 있는 느낌이 안 난다.
+       접지(닿는 면) · 중간 · 주변광 세 겹으로 나눠 아래로 갈수록 옅게 퍼뜨린다. */
+    box-shadow:
+      0 1px 2px rgba(16, 32, 44, .05),
+      0 5px 12px rgba(16, 32, 44, .05),
+      0 16px 36px rgba(16, 32, 44, .06);
   }
   @media (max-width: 1024px) {
     /* 좁아지면 설명을 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다.
