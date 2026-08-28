@@ -85,7 +85,6 @@ const uses = [
         <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite">
           <span class="ai-demo-cap-eyebrow"><b id="ai-demo-cap-num">01</b><span id="ai-demo-cap-kicker"></span></span>
           <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
-          <p class="ai-demo-cap-body" id="ai-demo-cap-body"></p>
         </figcaption>
         <div class="ai-hero-figure">
           {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
@@ -227,8 +226,7 @@ const uses = [
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var card = document.getElementById('ai-demo-cap');
         window.addEventListener('message', function (e) {
-          /* 아무 창이나 보낼 수 있는 메시지다. 카드 본문을 innerHTML로 넣으므로
-             우리 iframe에서 온 것만 받는다. */
+          /* 아무 창이나 보낼 수 있는 메시지다. 우리 iframe에서 온 것만 받는다. */
           var frame = document.getElementById('ai-demo-iframe');
           if (e.origin !== window.location.origin) return;
           if (!frame || e.source !== frame.contentWindow) return;
@@ -242,7 +240,6 @@ const uses = [
             document.getElementById('ai-demo-cap-num').textContent = String(t.num).padStart(2, '0');
             document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
             document.getElementById('ai-demo-cap-title').textContent = t.title;
-            document.getElementById('ai-demo-cap-body').innerHTML = t.body;
             card.classList.add('is-on');
           } else {
             card.classList.remove('is-on');
@@ -410,14 +407,8 @@ const uses = [
   .ai-demo-cap-eyebrow b { color: #16202C; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-demo-cap-title {
     font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: -0.012em;
-    color: #16202C; margin: 0 0 10px; text-wrap: balance;
+    color: #16202C; margin: 0; text-wrap: balance;
   }
-  .ai-demo-cap-body {
-    font-size: 15px; line-height: 1.6; color: #5A6776; margin: 0;
-  }
-  /* 본문은 데모가 넘겨준 HTML을 innerHTML로 넣는다. 그렇게 만들어진 <em>에는
-     Astro의 스코프 속성이 붙지 않아 일반 선택자로는 걸리지 않는다. */
-  .ai-demo-cap-body :global(em) { font-style: normal; font-weight: 600; color: #16202C; }
   .ai-hero-figure {
     aspect-ratio: 1320 / 840;
     position: relative;
