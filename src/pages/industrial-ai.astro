@@ -91,6 +91,9 @@ const uses = [
     <!-- 정의형 Q&A -->
     <section class="ind-section">
       <div class="ind-container">
+        <header class="ind-head">
+          <h2>자주 묻는 질문</h2>
+        </header>
         {/* 아코디언은 <details>로 만든다. JS 없이 열리고 닫히며 키보드로도 조작되고,
             무엇보다 답변 글이 접힌 상태에서도 HTML에 그대로 남는다 —
             이 페이지는 검색·답변엔진에 읽히는 것이 목적이라 그 점이 중요하다.
@@ -102,7 +105,7 @@ const uses = [
           {faqItems.map((f, i) => (
             <details class="qa-item" name="qa" open={i === 0}>
               <summary>
-                <h2>{f.q}</h2>
+                <h3>{f.q}</h3>
                 <i class="ph ph-caret-down qa-caret" aria-hidden="true"></i>
               </summary>
               <p>{f.a}</p>
@@ -153,8 +156,9 @@ const uses = [
     padding: 20px 0; cursor: pointer; list-style: none;
   }
   .qa-item summary::-webkit-details-marker { display: none; }
-  /* 질문·답변·캐럿 값은 예지보전 '자주 묻는 질문'(.uc-faq-*)과 같다. */
-  .qa-item h2 {
+  /* 질문·답변·캐럿 값은 예지보전 '자주 묻는 질문'(.uc-faq-*)과 같다.
+     질문은 h3다 — 섹션 제목(h2) 아래 항목이라 한 단 내려온다. */
+  .qa-item h3 {
     font-size: 20px; font-weight: 600; letter-spacing: normal;
     line-height: 1.65; color: #16202C; margin: 0;
   }
