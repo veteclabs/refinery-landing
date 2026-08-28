@@ -157,6 +157,17 @@ const uses = [
   }
   /* 키보드로 짚었을 때 어디에 있는지 보이게 한다. */
   .qa-item summary:focus-visible { outline: 2px solid #76A6D7; outline-offset: 4px; border-radius: 4px; }
+  /* 히어로 글자를 예지보전(.uc-redesigned)과 같은 값으로 맞춘다.
+     그 페이지는 히어로·섹션·CTA 세 대제목을 clamp(28~45px) / 600 / -0.8px / 1.3 하나로 묶어 쓴다.
+     이 페이지는 공통 .ind-hero h1(최대 52px / 700 / -0.03em)을 쓰고 있어 혼자 굵고 컸다. */
+  .ind-hero h1 {
+    font-size: clamp(28px, 4vw, 45px);
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.3;
+  }
+  /* 위아래 여백도 같은 값으로(공통 140/72 → 180/100). */
+  .ind-hero { padding: 180px 0 100px; }
   /* 히어로 소개글만 읽기 폭을 넓힌다(공통값 60ch → 72ch). 섹션 머리(.ind-head)는
      .ind-page 규칙이 이미 대제목 왼쪽·소제목 오른쪽으로 잡아 두므로 건드리지 않는다. */
   .ind-hero .ind-lede { max-width: 72ch; }
