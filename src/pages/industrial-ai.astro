@@ -177,8 +177,10 @@ const uses = [
          넘어간다. 데모의 빈 화면 요소를 실측한 범위는 x551..1021, y250..529
          (아이콘·제목·소개글·추천 카드)이고 가운데는 (786, 390)이다.
          상자 가운데를 그 값에 맞춰야 칸 한가운데로 온다 — 어림잡으면 위아래로
-         치우친다(가운데를 420으로 뒀을 때 내용이 35px 위로 붙었다). */
-      var START_BOX = { x: 491, y: 190, w: 590, h: 400 };
+         치우친다(가운데를 420으로 뒀을 때 내용이 35px 위로 붙었다).
+         상자를 590x400에서 540x340으로 좁혀 배율이 1.047 -> 1.22로 오르고,
+         내용 위아래 여백이 68/70px에서 43/44px로 줄었다. */
+      var START_BOX = { x: 516, y: 220, w: 540, h: 340 };
       /* 첫 화면에 머무는 시간. 이 동안 데모를 세워 두고 장면 신호도 미뤄 둔다. */
       var HOLD_MS = 1600;
       /* 첫 화면에 함께 두는 좌측 글. 장면들과 같은 자리를 쓰고, 첫 장면이 오면
@@ -467,11 +469,9 @@ const uses = [
   .ai-demo-cap.is-on { opacity: 1; }
   /* 첫 화면 글은 머무는 시간이 짧아 빨리 떠야 읽힌다. */
   .ai-demo-cap.is-opening { transition-duration: .18s; }
-  /* 첫 화면만 태그라인 없이 제목 하나로, 장면들보다 크게 간다.
-     40px에서 두 줄은 322px · 181px라 열(352px) 안에 들어간다.
-     44px면 첫 줄이 355px로 넘쳐 세 줄이 된다. */
+  /* 첫 화면만 태그라인 없이 제목 하나로, 장면들보다 크게 간다. */
   .ai-demo-cap.is-opening .ai-demo-cap-eyebrow { display: none; }
-  .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 40px; }
+  .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 36px; }
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
   /* 태그라인과 대제목 비율은 예지보전 히어로를 따른다.
      그쪽은 태그라인 18px / 대제목 45px = 0.4, 굵기 600, 자간 -0.2px(-0.011em),
@@ -490,7 +490,9 @@ const uses = [
     margin-bottom: 10px;
   }
   .ai-demo-cap-title {
-    font-size: 32px; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em;
+    /* 굵기는 600으로 간다. 이 페이지 h1(48px)과 예지보전 히어로 h1이 모두 600이라,
+       더 작은 이 제목만 700이면 큰 제목보다 무겁게 읽힌다. */
+    font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
   .ai-hero-figure {
@@ -518,7 +520,7 @@ const uses = [
     /* 좁은 화면에서는 데모를 통째로 보여준다(따라가기가 꺼진다). */
     .ai-hero-figure { aspect-ratio: 1144 / 900; }
     .ai-demo-cap-title { font-size: 26px; }
-    .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 30px; }
+    .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 28px; }
   }
 
   /* CTA — 예지보전(.uc-cta-bg)과 같은 모습. 그 규칙은 UseCasePage.astro의 스코프
