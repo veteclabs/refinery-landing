@@ -83,7 +83,7 @@ const uses = [
         {/* 설명 카드. 데모 안에 있던 것을 밖으로 빼 왔다 — 내용은 데모가
             refinery-hero-focus로 넘겨준다. 장면이 없는 동안에는 흐려진다. */}
         <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite">
-          <span class="ai-demo-cap-eyebrow"><b id="ai-demo-cap-num">01</b><span id="ai-demo-cap-kicker"></span></span>
+          <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
           <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
         </figcaption>
         <div class="ai-hero-figure">
@@ -237,7 +237,6 @@ const uses = [
           if (!card) return;
           var t = e.data.cap;
           if (t) {
-            document.getElementById('ai-demo-cap-num').textContent = String(t.num).padStart(2, '0');
             document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
             /* 제목은 카피에 넣어둔 \n에서 두 줄로 나눈다. 데모 안 카드는 textContent라
                \n이 공백으로 합쳐져 지금까지와 같은 한 덩어리로 보인다. */
@@ -407,13 +406,10 @@ const uses = [
   .ai-demo-cap.is-on { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
   .ai-demo-cap-eyebrow {
-    display: flex; align-items: center; gap: 10px;
+    display: block;
     font-size: 13px; font-weight: 500; letter-spacing: .08em;
-    /* 흰 면으로 바뀌어 하늘색 위에서 쓰던 #22303F는 과하게 진하다.
-       한 단계 흐린 #5A6776로 내린다(흰 면 대비 5.9:1). */
-    color: #5A6776; margin-bottom: 16px;
+    color: #76A6D7; margin-bottom: 16px;
   }
-  .ai-demo-cap-eyebrow b { color: #16202C; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-demo-cap-title {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
