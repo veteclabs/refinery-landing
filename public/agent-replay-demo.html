@@ -1045,11 +1045,15 @@ body {
     });
   }
 
-  /* 설명 카드 체류. 실시간(1배)으로 흐른다. */
+  /* 설명 카드 체류 배수. 부모가 페이지마다 다르게 잡는다(기본 1).
+     설명을 데모 밖에 크게 띄우는 페이지는 읽는 데 더 걸린다. */
+  let DWELL = 1;
+
+  /* 설명 카드 체류. 실시간(1배)으로 흐른다 — 재생 배속(SPEED)을 곱하지 않는다. */
   function dwell(ms) {
     const my = epoch;
     return new Promise((resolve, reject) => {
-      let remain = ms, last = performance.now();
+      let remain = ms * DWELL, last = performance.now();
       const tick = (now) => {
         if (my !== epoch) return reject(ABORT);
         if (paused) { last = now; return requestAnimationFrame(tick); }
@@ -1615,6 +1619,11 @@ body {
     if (t === "refinery-hero-extcap") { extCap = true; cap.style.display = "none"; return; }
     /* 재생 배속. 부모가 페이지마다 다르게 잡는다(기본 3, 낮을수록 느리다).
        설명 카드가 머무는 시간(dwell)은 읽는 시간이라 여기 곱해지지 않는다. */
+    if (t === "refinery-hero-dwell") {
+      const d = Number(e.data.value);
+      if (d > 0) DWELL = Math.max(0.5, Math.min(3, d));
+      return;
+    }
     if (t === "refinery-hero-speed") {
       const v = Number(e.data.value);
       if (v > 0) SPEED = Math.max(0.5, Math.min(6, v));
