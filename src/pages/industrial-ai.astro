@@ -68,7 +68,7 @@ const uses = [
   jsonLd={faqSchema}
 >
   <Nav />
-  <main class="ind">
+  <main class="ind ind-page">
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -120,10 +120,17 @@ const uses = [
 </BaseLayout>
 
 <style>
-  .qa-list { max-width: 760px; }
+  /* 블록 폭을 컨테이너 하나로 맞춘다. 전에는 Q&A만 760px이라 구분선이 화면 중간에서
+     끊기고, 아래 카드 그리드(1072px)와 오른쪽 끝이 어긋나 페이지가 두 축으로 보였다.
+     글줄이 길어지는 것은 문단에만 읽기 폭(72ch)을 걸어 막는다 — 제목과 구분선은
+     전체 폭을 쓰고 본문만 짧게 끊긴다. */
+  .qa-list { max-width: none; }
   .qa-item + .qa-item { margin-top: 32px; padding-top: 32px; border-top: 1px solid #e6eaef; }
   .qa-item h2 { font-size: clamp(20px, 2.6vw, 26px); font-weight: 650; letter-spacing: -0.02em; color: var(--text, #16202c); margin: 0 0 10px; }
-  .qa-item p { font-size: 17px; line-height: 1.75; color: #2b3644; margin: 0; }
+  .qa-item p { font-size: 17px; line-height: 1.75; color: #2b3644; margin: 0; max-width: 72ch; }
+  /* 히어로 소개글만 읽기 폭을 넓힌다(공통값 60ch → 72ch). 섹션 머리(.ind-head)는
+     .ind-page 규칙이 이미 대제목 왼쪽·소제목 오른쪽으로 잡아 두므로 건드리지 않는다. */
+  .ind-hero .ind-lede { max-width: 72ch; }
   .ind-card-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
   a.ind-card { text-decoration: none; }
 </style>
