@@ -185,6 +185,10 @@ const uses = [
       var START_BOX = { x: 491, y: 190, w: 590, h: 400 };
       /* 첫 화면에 머무는 시간. 이 동안 데모를 세워 두고 장면 신호도 미뤄 둔다. */
       var HOLD_MS = 1600;
+      /* 첫 화면에 함께 두는 좌측 글. 장면들과 같은 자리를 쓰고, 첫 장면이 오면
+         그 내용으로 바뀐다. 태그라인 자리에는 다른 장면들의 범주 명사 대신
+         브랜드를 둔다 — 본편이 시작되기 전이라 여는 화면으로 읽힌다. */
+      var OPENING = { kicker: 'Refinery', title: '묻는 것으로 시작하는\nAI 에이전트' };
       var holding = true;
       var pendingFocus = null;
       var userToggled = false;
@@ -273,6 +277,7 @@ const uses = [
         /* 첫 화면에 머문 뒤 데모를 다시 돌린다. */
         setTimeout(function () {
           holding = false;
+          if (card) card.classList.remove('is-opening');
           var f = document.getElementById('ai-demo-iframe');
           if (!userToggled) {
             try { f.contentWindow.postMessage({ type: 'refinery-hero-resume' }, '*'); } catch (e) {}
@@ -285,22 +290,23 @@ const uses = [
           if (!reduce) { focusBox = d.box || null; render(true); }
 
           if (!card) return;
-          var t = d.cap;
-          if (t) {
-            document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
-            /* 제목은 카피에 넣어둔 \n에서 두 줄로 나눈다. 데모 안 카드는 textContent라
-               \n이 공백으로 합쳐져 지금까지와 같은 한 덩어리로 보인다. */
-            var titleEl = document.getElementById('ai-demo-cap-title');
-            titleEl.textContent = '';
-            String(t.title).split('\n').forEach(function (line, i) {
-              if (i) titleEl.appendChild(document.createElement('br'));
-              titleEl.appendChild(document.createTextNode(line));
-            });
-            card.classList.add('is-on');
-          } else {
-            card.classList.remove('is-on');
-          }
+          if (d.cap) setCap(d.cap); else card.classList.remove('is-on');
         }
+      }
+
+      /* 좌측 글을 채운다. 제목은 카피에 넣어둔 \n에서 두 줄로 나눈다.
+         데모 안 카드는 textContent라 \n이 공백으로 합쳐져 한 덩어리로 보인다. */
+      function setCap(t) {
+        var card = document.getElementById('ai-demo-cap');
+        if (!card) return;
+        document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
+        var titleEl = document.getElementById('ai-demo-cap-title');
+        titleEl.textContent = '';
+        String(t.title).split('\n').forEach(function (line, i) {
+          if (i) titleEl.appendChild(document.createElement('br'));
+          titleEl.appendChild(document.createTextNode(line));
+        });
+        card.classList.add('is-on');
       }
 
       /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
@@ -344,7 +350,15 @@ const uses = [
         }
       }
 
-      window.addEventListener('load', function () { initToggle(); initFocus(); resize(); load(); });
+      window.addEventListener('load', function () {
+        initToggle(); initFocus(); resize();
+        /* 첫 화면 글은 데모를 기다리지 않고 바로 띄운다. 머무는 시간이 짧아
+           천천히 떠오르면 읽을 새가 없다(.is-opening이 전환을 빠르게 잡는다). */
+        var card = document.getElementById('ai-demo-cap');
+        if (card) card.classList.add('is-opening');
+        setCap(OPENING);
+        load();
+      });
       window.addEventListener('resize', resize);
       document.addEventListener('DOMContentLoaded', resize);
     })();
@@ -468,6 +482,8 @@ const uses = [
     transition: opacity .45s ease;
   }
   .ai-demo-cap.is-on { opacity: 1; }
+  /* 첫 화면 글은 머무는 시간이 짧아 빨리 떠야 읽힌다. */
+  .ai-demo-cap.is-opening { transition-duration: .18s; }
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
   /* 태그라인과 대제목 비율은 예지보전 히어로를 따른다.
      그쪽은 태그라인 18px / 대제목 45px = 0.4, 굵기 600, 자간 -0.2px(-0.011em),
