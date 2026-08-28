@@ -175,8 +175,11 @@ const uses = [
       var focusBox = null;
       /* 강조가 없을 때 보여줄 자리(무대 좌표). 무대 전체(1320x840)를 다 담으면
          데모 칸이 좁아 0.5배까지 줄고, 데모 안 13px 글자가 6px대가 되어 안 읽힌다.
-         대화 영역 쪽으로 당겨 두고, 강조가 들어오면 거기로 옮긴다. */
-      var REST_BOX = { x: 348, y: 120, w: 882, h: 500 };
+         대화 영역 쪽으로 당겨 두고, 강조가 들어오면 거기로 옮긴다.
+         위쪽 끝은 질문 말풍선(.user-bubble, 실측 y54..93)이 들어오도록 잡는다 —
+         y를 120에서 시작하면 말풍선이 통째로 위로 잘려 안 보인다.
+         상자 비율(882:560)을 칸 비율(718:457)에 맞춰 배율은 0.746 그대로다. */
+      var REST_BOX = { x: 348, y: 44, w: 882, h: 560 };
       /* 첫 화면(무엇을 분석할까요?)이 있는 자리. 여기서 잠깐 멈췄다가 첫 장면으로
          넘어간다. 데모의 빈 화면 요소를 실측한 범위는 x551..1021, y250..529
          (아이콘·제목·소개글·추천 카드)이고 가운데는 (786, 390)이다.
@@ -504,8 +507,11 @@ const uses = [
   .ai-demo-cap-eyebrow {
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 600; letter-spacing: -0.011em; line-height: 1;
-    color: #76A6D7; background: #EEF4FB;
-    padding: 6px 12px 7px; border-radius: 999px;
+    color: #76A6D7; background: #EEF4FB; border: 1px solid #76A6D7;
+    /* 한글은 글자 상자 안에서 위로 붙어, 여백을 같게 주면 글자가 위로 몰린다.
+       실측(위 5.65 / 아래 8.87)해서 위를 2px 늘리고 아래를 2px 줄였다.
+       위아래 합(11px)은 그대로라 칩 높이 26px가 유지된다. */
+    padding: 7px 11px 4px; border-radius: 999px;
     margin-bottom: 10px;
   }
   .ai-demo-cap-title {
