@@ -1357,10 +1357,24 @@ body {
     const sr = stage.getBoundingClientRect(), r = node.getBoundingClientRect();
     return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: r.width / K, h: r.height / K };
   }
+  /* 부모 창이 강조 지점을 따라 화면을 당겨 보여주는 모드. 켜지면 캡션 카드를
+     강조 상자 옆이 아니라 위아래로 쌓는다 — 옆에 붙으면 (상자 + 22 + 348)로
+     범위가 가로로 넓어져서 당겨봐야 1.1배밖에 확대되지 않는다. */
+  let followMode = false;
+
   function placeCap(box) {
     const CW = 348, GAP = 22, M = 22;
     const ch = cap.offsetHeight || 168;
     let left, top;
+    if (followMode) {
+      /* 가로로는 상자 가운데에 맞춰 겹쳐 두고, 세로로만 아래(또는 위)에 붙인다. */
+      left = Math.min(Math.max(box.x + box.w / 2 - CW / 2, M), STAGE_W - CW - M);
+      top = box.y + box.h + GAP;
+      if (top + ch + M > STAGE_H) top = Math.max(box.y - GAP - ch, M);
+      cap.style.left = left + "px";
+      cap.style.top = top + "px";
+      return;
+    }
     if (box.x + box.w + GAP + CW + M <= STAGE_W) left = box.x + box.w + GAP;
     else if (box.x - GAP - CW >= M) left = box.x - GAP - CW;
     else left = Math.min(Math.max(box.x, M), STAGE_W - CW - M);
@@ -1397,11 +1411,31 @@ body {
     $("capBody").innerHTML = body;
     cap.classList.add("is-on");
     placeCap(box);
+    emitFocus(box);
   }
   function hideSpot() {
     spot.classList.remove("is-on");
     veil.forEach((n) => n.classList.remove("is-on"));
     cap.classList.remove("is-on");
+    emitFocus(null);
+  }
+
+  /* 지금 어디를 강조 중인지 부모 창에 알린다(무대 1320x840 좌표).
+     화면을 그쪽으로 당겨서 보여주려는 페이지가 쓴다 — 산업 AI 페이지가 그렇다.
+     랜딩은 이 메시지를 듣지 않으므로 지금 모습 그대로다.
+     강조 상자만 보내면 캡션 카드가 화면 밖으로 밀린다. 카드까지 합친 범위를 보낸다. */
+  function emitFocus(box) {
+    if (parent === window) return;
+    let payload = null;
+    if (box) {
+      const cl = parseFloat(cap.style.left) || 0;
+      const ct = parseFloat(cap.style.top) || 0;
+      const cw = cap.offsetWidth || 348, ch = cap.offsetHeight || 168;
+      const x1 = Math.min(box.x, cl), y1 = Math.min(box.y, ct);
+      const x2 = Math.max(box.x + box.w, cl + cw), y2 = Math.max(box.y + box.h, ct + ch);
+      payload = { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+    }
+    try { parent.postMessage({ type: "refinery-hero-focus", box: payload }, "*"); } catch (e) {}
   }
 
   async function chapter(i, sel) {
@@ -1579,6 +1613,7 @@ body {
      스크롤로 되돌아와도 다시 재생되지 않았다. 여기서 함께 살린다. */
   window.addEventListener("message", (e) => {
     const t = e.data && e.data.type;
+    if (t === "refinery-hero-follow") { followMode = true; return; }
     if (t === "refinery-hero-pause") paused = true;
     else if (t === "refinery-hero-resume") paused = false;
     else if (t === "refinery-hero-toggle") paused = !paused;

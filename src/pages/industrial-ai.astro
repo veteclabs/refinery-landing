@@ -163,23 +163,62 @@ const uses = [
       var STAGE_W = 1320, STAGE_H = 840;
       var FRAME_W = 1440;
       var FRAME_H = Math.ceil(FRAME_W * STAGE_H / STAGE_W) + 2;
-      /* 좁은 화면에서 잘라낼 좌측 세션 레일. 무대 좌표계 기준이다. */
-      var STAGE_CROP_LEFT = 252;
+      /* 데모가 강조 중인 범위(무대 좌표). 없으면 전체를 보여주는 상태다. */
+      var focusBox = null;
+      /* 최대 확대. 넘기면 글씨가 과하게 커지고 화면이 튄다. */
+      var MAX_ZOOM = 1.9;
 
-      function resize() {
+      function render(animate) {
         var box = document.querySelector('.ai-hero-figure');
         var frame = document.getElementById('ai-demo-iframe');
         if (!box || !frame) return;
-        var isMobile = window.innerWidth <= 900;
+        var bw = box.offsetWidth, bh = box.offsetHeight;
         var stageToFrame = FRAME_W / STAGE_W;
-        var cropL = isMobile ? STAGE_CROP_LEFT * stageToFrame : 0;
-        var scale = box.offsetWidth / (FRAME_W - cropL);
+
+        /* 기본 상태: 폭에 맞춰 전체를 담고 세로 자투리는 가운데를 기준으로 잘라 낸다. */
+        var base = bw / FRAME_W;
+        var s = base, cx = FRAME_W / 2, cy = FRAME_H / 2;
+
+        if (focusBox) {
+          /* 강조 범위를 여백과 함께 화면에 채운다. */
+          var PAD = 28 * stageToFrame;
+          var fx = focusBox.x * stageToFrame - PAD;
+          var fy = focusBox.y * stageToFrame - PAD;
+          var fw = focusBox.w * stageToFrame + PAD * 2;
+          var fh = focusBox.h * stageToFrame + PAD * 2;
+          s = Math.min(bw / fw, bh / fh);
+          s = Math.max(base, Math.min(s, base * MAX_ZOOM));
+          cx = fx + fw / 2; cy = fy + fh / 2;
+        }
+
+        /* 강조 범위 가운데를 칸 가운데로 당긴다. */
+        var tx = bw / 2 - cx * s;
+        var ty = bh / 2 - cy * s;
+        /* 화면 밖으로 밀려 데모 페이지 배경이 보이지 않도록 가둔다. */
+        tx = Math.min(0, Math.max(tx, bw - FRAME_W * s));
+        ty = Math.min(0, Math.max(ty, bh - FRAME_H * s));
+        /* 확대해도 세로가 칸보다 짧으면 가운데에 둔다(기본 상태가 그렇다). */
+        if (FRAME_H * s < bh) ty = (bh - FRAME_H * s) / 2;
+
         frame.style.width = FRAME_W + 'px';
         frame.style.height = FRAME_H + 'px';
-        frame.style.transform = 'scale(' + scale + ')';
-        frame.style.left = -(cropL * scale) + 'px';
-        /* 세로 자투리는 가운데 기준으로 잘라 낸다(칸에 overflow: hidden). */
-        frame.style.top = (box.offsetHeight - FRAME_H * scale) / 2 + 'px';
+        frame.style.left = '0px';
+        frame.style.top = '0px';
+        frame.style.transition = animate ? 'transform .7s cubic-bezier(.22,.61,.36,1)' : 'none';
+        frame.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + s + ')';
+      }
+
+      function resize() { render(false); }
+
+      /* 데모가 알려주는 강조 범위를 따라 화면을 옮긴다. 랜딩과 달리 이 페이지는
+         전체를 멀리서 보여주는 대신 지금 설명 중인 곳으로 당겨서 보여준다. */
+      function initFocus() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        window.addEventListener('message', function (e) {
+          if (!e.data || e.data.type !== 'refinery-hero-focus') return;
+          focusBox = e.data.box || null;
+          render(true);
+        });
       }
 
       /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
@@ -202,12 +241,17 @@ const uses = [
       function load() {
         var f = document.getElementById('ai-demo-iframe');
         if (f && !f.src && f.getAttribute('data-src')) {
-          f.addEventListener('load', resize);
+          f.addEventListener('load', function () {
+            /* 따라가기 모드를 켜 캡션 카드가 강조 상자 위아래로 붙게 한다.
+               옆에 붙으면 범위가 가로로 넓어져 확대가 거의 되지 않는다. */
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-follow' }, '*'); } catch (e) {}
+            resize();
+          });
           f.src = f.getAttribute('data-src');
         }
       }
 
-      window.addEventListener('load', function () { initToggle(); resize(); load(); });
+      window.addEventListener('load', function () { initToggle(); initFocus(); resize(); load(); });
       window.addEventListener('resize', resize);
       document.addEventListener('DOMContentLoaded', resize);
     })();
