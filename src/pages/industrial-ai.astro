@@ -385,15 +385,12 @@ const uses = [
     gap: 40px;
     align-items: center;
   }
-  /* 하늘색 판 위의 흰 카드. 데모 안 카드(.cap)와 같은 구성이지만,
-     iframe 안에서 축소되지 않으므로 글자를 페이지 크기로 키운다. */
+  /* 하늘색 판 위에 글자만 놓는다(면 없음).
+     글자색은 흰색 대신 잉크로 간다 — #76A6D7 위에서 흰색은 대비 2.6:1로
+     기준(3:1)에 못 미치고, #16202C는 6.4:1이다. */
   .ai-demo-cap {
-    /* 히어로가 가운데정렬이라 물려받는다. 카드 본문은 왼쪽으로 되돌린다. */
+    /* 히어로가 가운데정렬이라 물려받는다. 왼쪽으로 되돌린다. */
     text-align: left;
-    background: #FFFFFF;
-    border-radius: 13px;
-    padding: 22px 24px 24px;
-    box-shadow: 0 18px 40px rgba(16, 32, 44, .18);
     opacity: 0;
     transition: opacity .45s ease;
   }
@@ -402,7 +399,7 @@ const uses = [
   .ai-demo-cap-eyebrow {
     display: flex; align-items: center; gap: 10px;
     font-size: 11px; font-weight: 500; letter-spacing: .08em;
-    color: #7E8A98; margin-bottom: 10px;
+    color: #22303F; margin-bottom: 12px;
   }
   .ai-demo-cap-eyebrow b { color: #16202C; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-demo-cap-title {
@@ -424,7 +421,6 @@ const uses = [
   @media (max-width: 900px) {
     .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
     .ai-hero-figure { aspect-ratio: 1144 / 900; }
-    .ai-demo-cap { padding: 18px 20px 20px; }
     .ai-demo-cap-title { font-size: 18px; }
   }
   /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다.
