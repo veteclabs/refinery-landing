@@ -276,6 +276,9 @@ const uses = [
           f.addEventListener('load', function () {
             /* 설명 카드를 이 페이지가 직접 그린다. 데모 안 카드는 숨겨진다. */
             try { f.contentWindow.postMessage({ type: 'refinery-hero-extcap' }, '*'); } catch (e) {}
+            /* 랜딩 기본값은 3배속이다. 이 페이지는 화면이 장면마다 움직이므로
+               더 천천히 간다. 설명이 머무는 시간은 배속과 무관하다. */
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-speed', value: 2 }, '*'); } catch (e) {}
             resize();
           });
           f.src = f.getAttribute('data-src');
@@ -405,10 +408,13 @@ const uses = [
   }
   .ai-demo-cap.is-on { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
+  /* 태그라인과 대제목 비율은 예지보전 히어로를 따른다.
+     그쪽은 태그라인 18px / 대제목 45px = 0.4, 굵기 600, 자간 -0.2px(-0.011em),
+     아래 여백 14px이다. 여기 대제목이 32px이므로 13px(0.4)과 여백 10px이 된다. */
   .ai-demo-cap-eyebrow {
     display: block;
-    font-size: 13px; font-weight: 500; letter-spacing: .08em;
-    color: #76A6D7; margin-bottom: 16px;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.011em;
+    color: #76A6D7; margin-bottom: 10px;
   }
   .ai-demo-cap-title {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;

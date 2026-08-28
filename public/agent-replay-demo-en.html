@@ -1023,7 +1023,7 @@ body {
 
   /* 시나리오 재생 배속. 설명 카드가 머무는 시간은 읽는 시간이라 여기 곱하지 않는다
      (3배로 줄이면 문장을 다 읽기 전에 사라진다). */
-  const SPEED = 3;
+  let SPEED = 3;
   let epoch = 0;
   /* 부모(랜딩 히어로)가 보내는 message로 껐다 켠다. wait/dwell이 남은 시간을
      깎지 않고 프레임만 넘기므로, 재개하면 멈춘 지점부터 이어진다. */
@@ -1613,6 +1613,13 @@ body {
   window.addEventListener("message", (e) => {
     const t = e.data && e.data.type;
     if (t === "refinery-hero-extcap") { extCap = true; cap.style.display = "none"; return; }
+    /* 재생 배속. 부모가 페이지마다 다르게 잡는다(기본 3, 낮을수록 느리다).
+       설명 카드가 머무는 시간(dwell)은 읽는 시간이라 여기 곱해지지 않는다. */
+    if (t === "refinery-hero-speed") {
+      const v = Number(e.data.value);
+      if (v > 0) SPEED = Math.max(0.5, Math.min(6, v));
+      return;
+    }
     if (t === "refinery-hero-pause") paused = true;
     else if (t === "refinery-hero-resume") paused = false;
     else if (t === "refinery-hero-toggle") paused = !paused;
