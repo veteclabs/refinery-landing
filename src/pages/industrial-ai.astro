@@ -79,12 +79,15 @@ const uses = [
           <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요</a>
         </div>
 
-        {/* TODO(자리표시): 그래픽 이미지가 들어갈 자리. 실제 이미지가 준비되면
-            이 div를 <img>로 바꾼다 — WebP로 커밋하고, 표시 크기로 리사이즈하고,
-            CLS 방지를 위해 width/height를 지정한다. 히어로 최상단이므로 lazy는 붙이지 않는다. */}
-        <div class="ai-hero-figure" role="img" aria-label="그래픽 이미지 자리">
-          <span>그래픽 이미지 자리</span>
-          <span class="ai-hero-figure-size">1184 × 444 · 16:6</span>
+        <div class="ai-hero-figure">
+          {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
+              조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
+          <button type="button" id="ai-demo-toggle" class="ai-demo-toggle" aria-label="데모 재생 / 일시정지" aria-pressed="false">
+            <span class="ai-demo-toggle-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </button>
+          <iframe id="ai-demo-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
       </div>
     </section>
@@ -148,6 +151,67 @@ const uses = [
       </div>
     </section>
   </main>
+
+  <script is:inline>
+    /* 히어로 아래 에이전트 데모. 랜딩(index.astro)의 같은 스크립트와 짝이지만
+       ID가 달라 섞이지 않는다. 공용 컴포넌트로 뽑는 건 랜딩 히어로까지 건드리는
+       일이라 여기서는 이 페이지에 필요한 만큼만 둔다. */
+    (function () {
+      /* 무대는 1320x840 고정이고 K = min(폭/1320, 높이/840)로 줄어든다.
+         높이를 비율보다 2px 크게 잡아 K가 폭에서 정해지게 하면 무대가 폭을 정확히 채운다.
+         (높이 쪽이 먼저 걸리면 좌우에 데모 페이지 배경 #E9ECEF가 남는다.) */
+      var STAGE_W = 1320, STAGE_H = 840;
+      var FRAME_W = 1440;
+      var FRAME_H = Math.ceil(FRAME_W * STAGE_H / STAGE_W) + 2;
+      /* 좁은 화면에서 잘라낼 좌측 세션 레일. 무대 좌표계 기준이다. */
+      var STAGE_CROP_LEFT = 252;
+
+      function resize() {
+        var box = document.querySelector('.ai-hero-figure');
+        var frame = document.getElementById('ai-demo-iframe');
+        if (!box || !frame) return;
+        var isMobile = window.innerWidth <= 900;
+        var stageToFrame = FRAME_W / STAGE_W;
+        var cropL = isMobile ? STAGE_CROP_LEFT * stageToFrame : 0;
+        var scale = box.offsetWidth / (FRAME_W - cropL);
+        frame.style.width = FRAME_W + 'px';
+        frame.style.height = FRAME_H + 'px';
+        frame.style.transform = 'scale(' + scale + ')';
+        frame.style.left = -(cropL * scale) + 'px';
+        /* 세로 자투리는 가운데 기준으로 잘라 낸다(칸에 overflow: hidden). */
+        frame.style.top = (box.offsetHeight - FRAME_H * scale) / 2 + 'px';
+      }
+
+      /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
+      function initToggle() {
+        var btn = document.getElementById('ai-demo-toggle');
+        var frame = document.getElementById('ai-demo-iframe');
+        if (!btn || !frame) return;
+        btn.addEventListener('click', function () {
+          if (!frame.getAttribute('src')) return;   /* 아직 안 불러왔으면 무시 */
+          try { frame.contentWindow.postMessage({ type: 'refinery-hero-toggle' }, '*'); } catch (e) {}
+        });
+        window.addEventListener('message', function (e) {
+          if (!e.data || e.data.type !== 'refinery-hero-state') return;
+          btn.classList.toggle('is-paused', !!e.data.paused);
+          btn.setAttribute('aria-pressed', e.data.paused ? 'true' : 'false');
+        });
+      }
+
+      /* 성능: 무거운 데모 iframe은 페이지가 인터랙티브해진 뒤에 불러온다. */
+      function load() {
+        var f = document.getElementById('ai-demo-iframe');
+        if (f && !f.src && f.getAttribute('data-src')) {
+          f.addEventListener('load', resize);
+          f.src = f.getAttribute('data-src');
+        }
+      }
+
+      window.addEventListener('load', function () { initToggle(); resize(); load(); });
+      window.addEventListener('resize', resize);
+      document.addEventListener('DOMContentLoaded', resize);
+    })();
+  </script>
   <Footer />
 </BaseLayout>
 
@@ -236,18 +300,50 @@ const uses = [
 
   /* 그래픽 이미지 자리표시 — 실제 이미지로 교체할 자리다.
      비율(16:6)만 잡아 두면 이미지가 들어와도 아래 섹션이 밀리지 않는다. */
+  /* 랜딩 히어로에 쓰는 에이전트 데모를 그대로 얹는다. 무대(.stage)가 1320x840
+     고정이라 칸도 같은 비율이어야 위아래에 데모 페이지 배경이 남지 않는다.
+     (자리표시자는 16:6이었다 — 칸이 그만큼 세로로 길어진다.) */
   .ai-hero-figure {
     margin-top: 64px;
-    aspect-ratio: 16 / 6;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 6px;
-    background: var(--ink-50, #F6F8FA);
-    border: 1px dashed var(--ink-300, #C8CED5);
+    aspect-ratio: 1320 / 840;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #E3E7EC;
     border-radius: 14px;
-    color: var(--ink-400, #A4ADB8);
-    font-size: 15px;
   }
-  .ai-hero-figure-size { font-size: 13px; color: var(--ink-300, #C8CED5); }
+  @media (max-width: 900px) {
+    /* 좁은 화면에서는 좌측 세션 레일을 잘라내고 본문만 키운다(스크립트와 짝). */
+    .ai-hero-figure { margin-top: 48px; aspect-ratio: 1144 / 900; }
+  }
+  /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다.
+     랜딩의 .hero-demo-toggle과 같은 값 — 그 규칙은 global.css에 있고
+     이 페이지는 global.css를 부르지 않으므로 여기 다시 적는다. */
+  .ai-demo-toggle {
+    position: absolute; inset: 0; z-index: 2;
+    display: grid; place-items: center;
+    width: 100%; height: 100%; padding: 0;
+    background: transparent; border: 0; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ai-demo-toggle-icon {
+    display: grid; place-items: center;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(17, 19, 22, 0.55); color: #fff;
+    /* 삼각형 무게중심 보정. 근거는 global.css의 .hero-demo-toggle-icon 주석 참고. */
+    padding-right: 2px;
+    opacity: 0; transform: scale(.9);
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .ai-demo-toggle.is-paused .ai-demo-toggle-icon { opacity: 1; transform: scale(1); }
+  .ai-demo-toggle.is-paused { background: rgba(11, 14, 20, 0.12); }
+  .ai-demo-toggle:focus-visible { outline: 2px solid #76A6D7; outline-offset: -4px; }
+  @media (max-width: 900px) {
+    .ai-demo-toggle-icon { width: 48px; height: 48px; }
+    .ai-demo-toggle-icon svg { width: 20px; height: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-demo-toggle-icon { transition: none; }
+  }
 
   /* CTA — 예지보전(.uc-cta-bg)과 같은 모습. 그 규칙은 UseCasePage.astro의 스코프
      스타일이라 클래스를 붙여도 여기까지 오지 않는다. 같은 값을 옮겨 적는다.
