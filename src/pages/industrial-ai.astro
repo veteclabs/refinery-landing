@@ -239,7 +239,14 @@ const uses = [
           if (t) {
             document.getElementById('ai-demo-cap-num').textContent = String(t.num).padStart(2, '0');
             document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
-            document.getElementById('ai-demo-cap-title').textContent = t.title;
+            /* 제목은 카피에 넣어둔 \n에서 두 줄로 나눈다. 데모 안 카드는 textContent라
+               \n이 공백으로 합쳐져 지금까지와 같은 한 덩어리로 보인다. */
+            var titleEl = document.getElementById('ai-demo-cap-title');
+            titleEl.textContent = '';
+            String(t.title).split('\n').forEach(function (line, i) {
+              if (i) titleEl.appendChild(document.createElement('br'));
+              titleEl.appendChild(document.createTextNode(line));
+            });
             card.classList.add('is-on');
           } else {
             card.classList.remove('is-on');
@@ -398,13 +405,13 @@ const uses = [
   @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
   .ai-demo-cap-eyebrow {
     display: flex; align-items: center; gap: 10px;
-    font-size: 11px; font-weight: 500; letter-spacing: .08em;
-    color: #22303F; margin-bottom: 12px;
+    font-size: 12px; font-weight: 500; letter-spacing: .08em;
+    color: #22303F; margin-bottom: 14px;
   }
   .ai-demo-cap-eyebrow b { color: #16202C; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-demo-cap-title {
-    font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: -0.012em;
-    color: #16202C; margin: 0; text-wrap: balance;
+    font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
+    color: #16202C; margin: 0;
   }
   .ai-hero-figure {
     aspect-ratio: 1320 / 840;
@@ -415,13 +422,15 @@ const uses = [
     box-shadow: 0 18px 40px rgba(16, 32, 44, .18);
   }
   @media (max-width: 1024px) {
-    /* 좁아지면 카드를 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다. */
+    /* 좁아지면 설명을 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다.
+       폭이 달라졌으니 두 줄 고정도 푼다. */
     .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
+    .ai-demo-cap-title :global(br) { display: none; }
   }
   @media (max-width: 900px) {
     .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
     .ai-hero-figure { aspect-ratio: 1144 / 900; }
-    .ai-demo-cap-title { font-size: 18px; }
+    .ai-demo-cap-title { font-size: 22px; }
   }
   /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다.
      랜딩의 .hero-demo-toggle과 같은 값 — 그 규칙은 global.css에 있고
