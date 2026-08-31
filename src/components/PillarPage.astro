@@ -144,40 +144,51 @@ const faqSchema = {
 
   {!hasDemo && T.heroGraphic && (
   <script is:inline>
-    /* 히어로 그래픽을 순서대로 나타낸다.
-       아래 판이 하나씩 쌓인 뒤, 회선을 따라 Plate -> Lens -> AI Agent 순으로 켜진다.
+    /* 히어로 그래픽을 순서대로 보여준다. 칸 크기는 고정이고, 안에서 화면이
+       확대·이동한다(SVG viewBox를 옮긴다 — 산업 AI 데모의 화면 따라가기와 같은 생각).
 
-       그림은 일러스트레이터 내보내기라 의미 있는 id가 없다. 회선 세 다발만 최상위
-       그룹 번호로 잡고(26 왼쪽 · 27 가운데 · 25 오른쪽), 나머지는 경계 상자로 가른다 —
-       위쪽 띠(아랫변 380 미만)는 모듈, 그 안에서 가로 위치로 세 열을 나눈다.
-       번호에 덜 기대는 편이 원본이 조금 바뀌어도 덜 깨진다. */
+         아래 판이 아래에서부터 하나씩 쌓인다
+         -> 회선이 그려지고 그 끝의 모듈로 확대해 들어간다 (Plate · Lens · AI Agent)
+         -> 전체로 물러난다
+
+       그림에 의미 있는 id가 없어 부분은 경계 상자로 갈랐다. 회선 세 다발만
+       최상위 그룹 번호로 잡는다(26 왼쪽 · 27 가운데 · 25 오른쪽). */
     (function () {
       var obj = document.getElementById('ai-hero-graphic');
       if (!obj) return;
 
-      var LINES = [26, 27, 25];   /* 1-based. 왼쪽 · 가운데 · 오른쪽 회선 다발 */
-      var TOP_BAND = 380;         /* 이 아래로 끝나는 것은 위쪽 모듈이다 */
+      var LINES = [26, 27, 25];
+      var TOP_BAND = 380;          /* 아랫변이 이보다 위면 위쪽 모듈이다 */
+      var VB = 1200;               /* 원본 viewBox는 0 0 1200 1200 */
+      /* 카메라가 잡을 자리(원본 좌표). 실측한 경계 상자에서 왔다. */
+      var SHOTS = {
+        stack: { x: 180, y: 395, w: 840, h: 800 },
+        plate: { x: 20, y: 10, w: 350, h: 370 },
+        lens: { x: 425, y: 20, w: 350, h: 355 },
+        agent: { x: 835, y: 20, w: 350, h: 355 },
+        whole: { x: 0, y: 0, w: VB, h: VB }
+      };
 
       function run() {
         var doc = obj.contentDocument;
-        if (!doc) return;                       /* 못 열면 그림은 그대로 보인다 */
+        if (!doc) return;
         var svg = doc.querySelector('svg');
         var root = doc.querySelector('#_레이어_1') || (svg && svg.querySelector('g'));
         if (!svg || !root) return;
 
         var kids = [];
         for (var i = 0; i < root.children.length; i++) kids.push(root.children[i]);
-        var gIndex = [];                        /* g 요소의 1-based 번호 */
-        var n = 0;
-        kids.forEach(function (el) { gIndex.push(el.tagName === 'g' ? ++n : 0); });
-        if (n < 27) return;                     /* 그림이 바뀌었으면 손대지 않는다 */
+        var gNo = [], n = 0;
+        kids.forEach(function (el) { gNo.push(el.tagName === 'g' ? ++n : 0); });
+        if (n < 27) return;
 
         var lineEls = [], modules = [[], [], []], base = [];
         kids.forEach(function (el, i) {
           var b;
           try { b = el.getBBox(); } catch (e) { return; }
           if (!b || !b.width || !b.height) return;
-          if (LINES.indexOf(gIndex[i]) >= 0) { lineEls[LINES.indexOf(gIndex[i])] = el; return; }
+          var li = LINES.indexOf(gNo[i]);
+          if (li >= 0) { lineEls[li] = el; return; }
           if (b.y + b.height <= TOP_BAND) {
             var cx = b.x + b.width / 2;
             modules[cx < 400 ? 0 : cx < 800 ? 1 : 2].push(el);
@@ -185,13 +196,11 @@ const faqSchema = {
             base.push({ el: el, bottom: b.y + b.height });
           }
         });
-        /* 아래에 그려진 것부터 나타난다. */
         base.sort(function (a, b) { return b.bottom - a.bottom; });
 
-        /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 opacity를 덮으면
-           끝나고 나서 그 층까지 진해진다. 원래 값을 기억했다가 그 값으로 되돌린다. */
-        var all = base.map(function (b) { return b.el; })
-          .concat(modules[0], modules[1], modules[2]);
+        /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 덮으면 끝나고 나서
+           그 층까지 진해지므로, 원래 값을 기억했다가 되돌린다. */
+        var all = base.map(function (b) { return b.el; }).concat(modules[0], modules[1], modules[2]);
         all.forEach(function (el) {
           var o = doc.defaultView.getComputedStyle(el).opacity;
           el.__o = (o === '' || o == null) ? '1' : o;
@@ -201,49 +210,102 @@ const faqSchema = {
 
         var style = doc.createElementNS('http://www.w3.org/2000/svg', 'style');
         style.textContent =
-          '.seq{transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1);transform:translateY(14px)}' +
-          '.seq.on{transform:none}' +
+          '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset .7s ease}' +
-          '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}}';
+          '@keyframes emsFlow{from{stroke-dashoffset:var(--l)}to{stroke-dashoffset:0}}' +
+          '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}' +
+          '.line path{animation:none!important}}';
         svg.appendChild(style);
 
+        /* 회선은 아래(판)에서 위(모듈)로 그려져야 한다. 경로가 어느 쪽에서
+           시작하는지는 제각각이라, 시작점이 끝점보다 위에 있으면 부호를 뒤집어
+           반대 방향으로 그린다. */
         lineEls.forEach(function (g) {
           if (!g) return;
           g.classList.add('line');
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) {
-            var len;
-            try { len = ps[i].getTotalLength(); } catch (e) { continue; }
+            var pth = ps[i], len;
+            try { len = pth.getTotalLength(); } catch (e) { continue; }
             if (!len) continue;
-            ps[i].style.strokeDasharray = len;
-            ps[i].style.strokeDashoffset = len;
+            var up = true;
+            try { up = pth.getPointAtLength(0).y > pth.getPointAtLength(len).y; } catch (e) {}
+            pth.__len = len;
+            pth.__dir = up ? 1 : -1;      /* 1이면 경로 방향이 곧 아래->위 */
+            pth.style.strokeDasharray = len;
+            pth.style.strokeDashoffset = len * pth.__dir;
           }
         });
 
-        var show = function (el) { el.classList.add('on'); el.style.opacity = el.__o; };
-        var drawLine = function (g) {
+        var show = function (el) { el.style.opacity = el.__o; };
+        var draw = function (g) {
           if (!g) return;
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) ps[i].style.strokeDashoffset = '0';
         };
+        /* 다 그려진 뒤에는 짧은 빛 한 토막이 선을 따라 위아래로 오간다. */
+        var pingpong = function (g) {
+          if (!g) return;
+          var ps = g.querySelectorAll('path');
+          for (var i = 0; i < ps.length; i++) {
+            var pth = ps[i];
+            if (!pth.__len) continue;
+            pth.style.transition = 'none';
+            pth.style.strokeDasharray = '26 ' + pth.__len;
+            pth.style.setProperty('--l', (pth.__len * pth.__dir) + 'px');
+            /* 길이가 제각각이라 같은 시간에 돌면 속도가 달라진다. 길이에 맞춘다. */
+            pth.style.animation = 'emsFlow ' + (pth.__len / 260).toFixed(2) + 's ease-in-out infinite alternate';
+            pth.style.animationDelay = (i * 0.12).toFixed(2) + 's';
+          }
+        };
+
+        /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
+        var aspect = obj.clientWidth / obj.clientHeight || 1104 / 682;
+        function fit(s) {
+          var pad = Math.max(s.w, s.h) * 0.08;
+          var x = s.x - pad, y = s.y - pad, w = s.w + pad * 2, h = s.h + pad * 2;
+          if (w / h < aspect) { var nw = h * aspect; x -= (nw - w) / 2; w = nw; }
+          else { var nh = w / aspect; y -= (nh - h) / 2; h = nh; }
+          return [x, y, w, h];
+        }
+
+        var cur = fit(SHOTS.stack);
+        svg.setAttribute('viewBox', cur.join(' '));
+
+        var anim = null;
+        function moveTo(shot, ms) {
+          var to = fit(shot), from = cur.slice(), t0 = performance.now();
+          if (anim) cancelAnimationFrame(anim);
+          (function step(now) {
+            var k = Math.min(1, (now - t0) / ms);
+            var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;  /* ease-in-out */
+            cur = from.map(function (v, i) { return v + (to[i] - v) * e; });
+            svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
+            if (k < 1) anim = requestAnimationFrame(step); else cur = to;
+          })(t0);
+        }
 
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          all.forEach(show); lineEls.forEach(drawLine); return;
+          all.forEach(show); lineEls.forEach(draw);
+          svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
+          return;
         }
 
         var t = 0;
-        base.forEach(function (b) { setTimeout(function () { show(b.el); }, t); t += 90; });
-        t += 200;
-        for (var k = 0; k < 3; k++) {
-          (function (k, at) {
-            setTimeout(function () { drawLine(lineEls[k]); }, at);
-            setTimeout(function () { modules[k].forEach(show); }, at + 380);
-          })(k, t);
-          t += 620;
-        }
+        base.forEach(function (b) { setTimeout(function () { show(b.el); }, t); t += 80; });
+        t += 300;
+        ['plate', 'lens', 'agent'].forEach(function (key, k) {
+          (function (at) {
+            setTimeout(function () { moveTo(SHOTS[key], 900); draw(lineEls[k]); }, at);
+            setTimeout(function () { modules[k].forEach(show); }, at + 700);
+          })(t);
+          t += 1700;
+        });
+        setTimeout(function () { moveTo(SHOTS.whole, 1100); }, t);
+        /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
+        setTimeout(function () { lineEls.forEach(pingpong); }, t + 1100);
       }
 
-      /* 화면에 들어왔을 때 시작한다. 스크롤해 내려오기 전에 끝나버리지 않게. */
       function arm() {
         if (!('IntersectionObserver' in window)) { run(); return; }
         var io = new IntersectionObserver(function (es) {
@@ -676,8 +738,13 @@ const faqSchema = {
   .ai-hero-graphic {
     display: block;
     width: 100%;
-    max-width: 900px;
-    aspect-ratio: 1 / 1;
+    /* 세로 682px 고정(판 전체 762px — 자리표시자 때와 같다).
+       그림이 정사각이라 폭을 키우면 세로도 커진다. 그래서 크게 보여주는 일은
+       칸을 키우는 대신 안에서 확대(viewBox)로 한다.
+       가로는 820px로 좁힌다 — 판 폭(1104)을 다 쓰면 정사각 그림 좌우로
+       여백이 과하게 남아 쉬는 상태에서 그림이 작아 보인다. */
+    max-width: 820px;
+    aspect-ratio: 820 / 682;
     margin: 0 auto;
     pointer-events: none;
   }
