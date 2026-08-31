@@ -472,8 +472,10 @@ const faqSchema = {
              0      잇기 · 따라 오르기 · API 점 걷기를 한꺼번에 건다.
                     다발이 그려지는 1.3초 동안 카메라가 그 다발을 잡는다.
              1300   다발이 닿은 끝, 그 판으로 오른다
-             2100   판이 나온다(그 왼쪽 API도 함께 차례에 든다)
-             2900   집으로 돌아가며 되돌리기를 함께 건다
+             2100   판이 나온다
+             2900   집으로 돌아가며 되돌리기를 함께 건다.
+                    API 점은 여기서 나오지 않는다 — 회선이 셋 다 이어진
+                    마지막 마디에서 한 번에 뜬다.
            플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다.
            마지막 마디만 집 대신 전체로 물러난다 — 다 모인 그림을 보여야 한다. */
         var LAST = 2;
@@ -485,11 +487,10 @@ const faqSchema = {
               moveTo(lineShot(k), 1300);
             }, at);
             setTimeout(function () { moveTo(SHOTS[key], 900); }, at + 1300);
+            setTimeout(function () { modules[k].forEach(show); }, at + 2100);
             setTimeout(function () {
-              modules[k].forEach(show);
-              if (k > 0) gaps.push(k - 1);   /* 이 판 왼쪽의 API가 같이 이어진다 */
-            }, at + 2100);
-            setTimeout(function () {
+              /* API 점은 회선이 다 이어진 뒤, 마지막에 한 번에 뜬다. */
+              if (k === LAST) gaps.push(0, 1);
               moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
               restore();
             }, at + 2900);
