@@ -52,7 +52,7 @@ const faqSchema = {
           <a href={T.ghostHref} class="ind-btn-ghost">{T.ctaGhost}</a>
         </div>
 
-        <div class={hasDemo ? 'ai-hero-stage' : 'ai-hero-stage is-empty'}>
+        <div class={hasDemo ? 'ai-hero-stage' : (T.heroGraphic ? 'ai-hero-stage is-empty has-graphic' : 'ai-hero-stage is-empty')}>
         {hasDemo && (
           <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite" data-open-title={T.openTitle}>
             <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
@@ -480,12 +480,14 @@ const faqSchema = {
            심하게 잘렸다. 게다가 상자가 판 위 빈 하늘에 걸려 박스 안이 여백투성이가
            됐다. 아랫변을 830에 두면 프레임 아래쪽이 판 면으로 꽉 찬다.
            가로는 다발 중심을 따라가되 판 밖으로 나가지 않게 묶는다. */
-        var FOLLOW_W = 486, FOLLOW_H = 404, FOLLOW_BOTTOM = 830;
+        var FOLLOW_H = 404, FOLLOW_BOTTOM = 830;
         function bundleShot(k) {
           var b = lineEls[k].getBBox(), st = SHOTS.stack;
-          var cx = b.x + b.width / 2;
-          var x = Math.min(Math.max(cx - FOLLOW_W / 2, st.x), st.x + st.w - FOLLOW_W);
-          return { x: x, y: FOLLOW_BOTTOM - FOLLOW_H, w: FOLLOW_W, h: FOLLOW_H, pad: 0 };
+          /* 프레임 폭은 화면비가 정한다(칸이 넓어지면 같이 넓어진다). */
+          var w = FOLLOW_H * aspect, cx = b.x + b.width / 2;
+          var x = (w >= st.w) ? st.x + (st.w - w) / 2
+                : Math.min(Math.max(cx - w / 2, st.x), st.x + st.w - w);
+          return { x: x, y: FOLLOW_BOTTOM - FOLLOW_H, w: w, h: FOLLOW_H, pad: 0 };
         }
 
         /* 닿고 나서 잡을 자리 — 그 판 하나. 세 판이 같은 배율 · 같은 여백으로
@@ -1013,6 +1015,27 @@ const faqSchema = {
     transition: opacity .25s ease;
   }
   .ai-hero-graphic.is-ready { opacity: 1; }
+  /* 그래픽만 있는 판은 테두리까지 그림으로 채운다. 안쪽 여백 40px에 더해
+     그림 자체가 820px로 묶여 있어, 1440에서 판 안쪽 1102px 중 좌우로 141px씩
+     비었다 — 그림과 박스 선 사이가 그만큼 떠 보였다.
+     판 여백을 지우고 그림이 칸을 다 쓰게 하되, 판 높이(764px)는 그대로 둔다.
+     정사각 그림이라 폭을 늘리면 세로도 커지므로 비율을 판 크기로 고정한다.
+     안에서 보여주는 범위는 카메라(viewBox)가 정하고, 카메라는 이 칸의
+     가로세로비를 읽어 따라간다. */
+  .ai-hero-stage.has-graphic { padding: 0; overflow: hidden; }
+  /* 데스크톱에서는 판 높이를 그대로 지킨다(762 + 테두리 2 = 764).
+     좁아지면 고정 높이가 과해지므로 그때부터 비율로 넘긴다. */
+  .ai-hero-stage.has-graphic .ai-hero-figure { height: 762px; aspect-ratio: auto; }
+  @media (max-width: 1024px) {
+    .ai-hero-stage.has-graphic .ai-hero-figure { height: auto; aspect-ratio: 1184 / 762; }
+  }
+  .ai-hero-stage.has-graphic .ai-hero-graphic {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+  }
   @media (prefers-reduced-motion: reduce) { .ai-hero-graphic { transition: none; } }
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
   .ai-hero-stage.is-empty .ai-hero-figure:empty {
