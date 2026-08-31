@@ -473,12 +473,21 @@ const faqSchema = {
           });
           return { x1: x1, y1: y1, x2: x2, y2: y2 };
         }
-        /* 오르는 동안 잡을 자리 — 다발 그 자체. 집에서 곧바로 판으로 향하면
-           카메라가 회선을 두고 그림 한가운데로 흘러 중간이 텅 빈다. */
+        /* 오르는 동안 잡을 자리 — 세 다발 모두 같은 크기(486 x 404, 화면 비율에
+           딱 맞아 늘어나지 않는다)로, 판 위에 내려앉힌다.
+           다발 상자를 그대로 쓰면 두 가지가 어긋났다. 가운데 다발은 거의 수직이라
+           폭이 98뿐이고(바깥 둘은 434) 프레임이 321까지 좁아져 판이 좌우로 더
+           심하게 잘렸다. 게다가 상자가 판 위 빈 하늘에 걸려 박스 안이 여백투성이가
+           됐다. 아랫변을 830에 두면 프레임 아래쪽이 판 면으로 꽉 찬다.
+           가로는 다발 중심을 따라가되 판 밖으로 나가지 않게 묶는다. */
+        var FOLLOW_W = 486, FOLLOW_H = 404, FOLLOW_BOTTOM = 830;
         function bundleShot(k) {
-          var b = lineEls[k].getBBox();
-          return { x: b.x, y: b.y, w: b.width, h: b.height, pad: 0.06 };
+          var b = lineEls[k].getBBox(), st = SHOTS.stack;
+          var cx = b.x + b.width / 2;
+          var x = Math.min(Math.max(cx - FOLLOW_W / 2, st.x), st.x + st.w - FOLLOW_W);
+          return { x: x, y: FOLLOW_BOTTOM - FOLLOW_H, w: FOLLOW_W, h: FOLLOW_H, pad: 0 };
         }
+
         /* 닿고 나서 잡을 자리 — 그 판 하나. 세 판이 같은 배율 · 같은 여백으로
            잡혀야 한다. 판마다 제 경계 상자를 쓰면 폭은 같아도(319) 높이가
            339 · 327 · 325로 달라, 높이가 정하는 배율이 판마다 4%씩 어긋나고
