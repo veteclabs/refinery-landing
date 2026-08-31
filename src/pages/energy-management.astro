@@ -1,7 +1,11 @@
 ---
 // 본문은 PillarPage 컴포넌트가 렌더한다(산업 AI 페이지와 같은 구성).
-// 영어 페이지는 아직 없어 hreflang(alternates)은 넘기지 않는다.
 import PillarPage from '../components/PillarPage.astro';
 import { energyManagement } from '../data/pillars/energy-management';
+
+const alternates = [
+  { lang: 'ko', href: '/energy-management' },
+  { lang: 'en', href: '/en/energy-management' },
+];
 ---
-<PillarPage content={energyManagement} />
+<PillarPage content={energyManagement.ko} alternates={alternates} />
