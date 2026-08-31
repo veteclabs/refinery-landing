@@ -205,12 +205,17 @@ const faqSchema = {
         /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 덮으면 끝나고 나서
            그 층까지 진해지므로, 원래 값을 기억했다가 되돌린다. */
         var all = base.map(function (b) { return b.el; }).concat(modules[0], modules[1], modules[2]);
-        all.forEach(function (el) {
+        /* 감출 때는 전환을 끈다. .seq에 걸린 0.5초 전환이 그대로 먹으면 원래 상태에서
+           서서히 사라지느라 그 사이가 보인다 — 회선이 먼저 스쳐 보이던 원인이다.
+           숨긴 뒤 한 프레임 지나서 전환을 되살려, 나타날 때만 부드럽게 한다. */
+        var hide = function (el) {
           var o = doc.defaultView.getComputedStyle(el).opacity;
           el.__o = (o === '' || o == null) ? '1' : o;
           el.classList.add('seq');
+          el.style.transition = 'none';
           el.style.opacity = '0';
-        });
+        };
+        all.forEach(hide);
 
         var style = doc.createElementNS(SVGNS, 'style');
         style.textContent =
@@ -226,6 +231,9 @@ const faqSchema = {
         lineEls.forEach(function (g) {
           if (!g) return;
           g.classList.add('line');
+          /* 다발 안에 path가 아닌 요소(점·끝맺음 등)가 섞여 있으면 dashoffset으로는
+             감춰지지 않아 시작부터 보인다. 그룹째로 감추고 그릴 때 켠다. */
+          hide(g);
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) {
             var pth = ps[i], len;
@@ -243,6 +251,7 @@ const faqSchema = {
         var show = function (el) { el.style.opacity = el.__o; };
         var draw = function (g) {
           if (!g) return;
+          g.style.opacity = g.__o;                 /* 그릴 때 다발을 켠다 */
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) ps[i].style.strokeDashoffset = '0';
         };
@@ -342,6 +351,12 @@ const faqSchema = {
         /* 여기까지가 준비다. 이 시점에 그림은 아래 판도 회선도 모두 감춰져 있다.
            준비가 끝나야 칸을 보인다 — 그 전에 보이면 완성된 그림이 한 번 스쳤다가
            사라진다(회선까지 다 보였다가 감춰졌다). */
+        /* 한 프레임 뒤 전환을 되살린다(나타날 때만 부드럽게). */
+        requestAnimationFrame(function () {
+          all.forEach(function (el) { el.style.transition = ''; });
+          lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
+        });
+
         obj.classList.add('is-ready');
 
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
