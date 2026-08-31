@@ -471,12 +471,12 @@ const faqSchema = {
           var b = lineEls[k].getBBox();
           return { x: b.x, y: b.y, w: b.width, h: b.height, pad: 0.06 };
         }
-        /* 닿고 나서 잡을 자리 — 그 판과, 아래로 이어지는 회선. 판 바로 밑에서
-           끊으면 끝점 여섯이 허공에 떠 회선이 잘려 보인다. 판 높이의 절반쯤
-           아래로 늘려 회선이 프레임 바닥을 지나가게 한다. */
+        /* 닿고 나서 잡을 자리 — 그 판 하나. 여유 0.03이면 보이는 폭이 약 470이라
+           이웃(370 아래 · 835 위)이 밖으로 나간다. 이 배율은 건드리지 않는다.
+           아래로 늘리면 폭도 화면 비율만큼 따라 넓어져 판이 작아진다. */
         function plateShot(k) {
-          var u = union(modules[k]), h = u.y2 - u.y1;
-          return { x: u.x1, y: u.y1, w: u.x2 - u.x1, h: h * 1.55, pad: 0.02 };
+          var u = union(modules[k]);
+          return { x: u.x1, y: u.y1, w: u.x2 - u.x1, h: u.y2 - u.y1, pad: 0.03 };
         }
 
         /* 여기서부터 회선이 한 다발씩 이어진다.
@@ -496,6 +496,7 @@ const faqSchema = {
               seenPlates.forEach(function (j) { modules[j].forEach(fade); });
               seenGaps.forEach(function (g) { betweens[g].forEach(fade); });
               moveTo(plateShot(k), 700);
+              obj.classList.add('is-zoom');
             }, at + 600);
             setTimeout(function () { modules[k].forEach(show); seenPlates.push(k); }, at + 1300);
             setTimeout(function () {
@@ -505,6 +506,7 @@ const faqSchema = {
               /* 점선 기둥은 회선이 다 이어진 뒤에 선다. 판과 함께 미리 세워두면
                  이을 것이 아직 없는데 상자 골격만 먼저 그려져 있다. */
               if (k === LAST) edges.forEach(show);
+              obj.classList.remove('is-zoom');
               seenPlates.forEach(function (j) { modules[j].forEach(show); });
               seenGaps.forEach(function (g) { betweens[g].forEach(show); });
               moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
@@ -971,6 +973,12 @@ const faqSchema = {
     transition: opacity .25s ease;
   }
   .ai-hero-graphic.is-ready { opacity: 1; }
+/* 판으로 좁혀 들어가면 회선이 프레임 아래에서 잘린다. 배율을 지키면서
+   아래를 더 보여줄 방법은 없으므로, 끝을 흐려 잘린 자리를 지운다. */
+.ai-hero-graphic.is-zoom {
+  -webkit-mask-image: linear-gradient(to bottom, #000 90%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 90%, transparent 99%);
+}
   @media (prefers-reduced-motion: reduce) { .ai-hero-graphic { transition: none; } }
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
   .ai-hero-stage.is-empty .ai-hero-figure:empty {
