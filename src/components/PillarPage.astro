@@ -195,17 +195,22 @@ const faqSchema = {
            모듈로 확대해 들어갔을 때 옆에 API가 걸쳐 보이지 않게 하려는 것이고,
            전체로 물러날 때 함께 나온다. */
         var COLS = [[20, 355], [430, 765], [840, 1180]];
-        var lineEls = [], modules = [[], [], []], betweens = [], base = [];
+        var lineEls = [], modules = [[], [], []], betweens = [], base = [], edges = [];
         kids.forEach(function (el, i) {
           var b;
           try { b = el.getBBox(); } catch (e) { return; }
-          if (!b || !b.width || !b.height) return;
+          /* 폭이 0인 <line>도 있다(가운데 점선 기둥). 둘 다 0일 때만 건너뛴다 —
+             폭만 보고 거르면 그 기둥이 감춰지지 않아 처음부터 보인다. */
+          if (!b || (!b.width && !b.height)) return;
           var li = LINES.indexOf(gNo[i]);
           if (li >= 0) { lineEls[li] = el; return; }
           if (b.y + b.height <= TOP_BAND) {
             var cx = b.x + b.width / 2, col = -1;
             for (var k = 0; k < 3; k++) if (cx >= COLS[k][0] && cx <= COLS[k][1]) col = k;
             if (col < 0) betweens.push(el); else modules[col].push(el);
+          } else if (b.height > Math.max(b.width, 1) * 1.6 && b.height > 120) {
+            /* 좌·우·가운데 점선 기둥. 층을 가로지르므로 겹이 다 쌓인 뒤에 나온다. */
+            edges.push(el);
           } else {
             base.push({ el: el, bottom: b.y + b.height });
           }
@@ -215,7 +220,7 @@ const faqSchema = {
         /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 덮으면 끝나고 나서
            그 층까지 진해지므로, 원래 값을 기억했다가 되돌린다. */
         var all = base.map(function (b) { return b.el; })
-          .concat(modules[0], modules[1], modules[2], betweens);
+          .concat(modules[0], modules[1], modules[2], betweens, edges);
         /* 감출 때는 전환을 끈다. .seq에 걸린 0.5초 전환이 그대로 먹으면 원래 상태에서
            서서히 사라지느라 그 사이가 보인다 — 회선이 먼저 스쳐 보이던 원인이다.
            숨긴 뒤 한 프레임 지나서 전환을 되살려, 나타날 때만 부드럽게 한다. */
@@ -399,7 +404,9 @@ const faqSchema = {
           setTimeout(function () { L.els.forEach(show); }, t);
           t += 520;
         });
-        t += 400;
+        /* 겹이 다 쌓인 뒤에 점선 기둥이 선다. */
+        setTimeout(function () { edges.forEach(show); }, t);
+        t += 700;
         ['plate', 'lens', 'agent'].forEach(function (key, k) {
           (function (at) {
             setTimeout(function () { moveTo(SHOTS[key], 900); draw(lineEls[k]); }, at);
