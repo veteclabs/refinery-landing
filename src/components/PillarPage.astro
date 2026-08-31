@@ -854,10 +854,8 @@ const faqSchema = {
     text-align: center;
   }
 
-  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다.
-     점 격자는 지운다. 그래픽 자체가 점무늬(아래판 안쪽 원형 점선)를 갖고 있어
-     배경 격자와 겹치면 둘 다 지저분해 보인다. 데모를 쓰는 판은 그대로 둔다. */
-  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; background-image: none; }
+  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
+  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
   .ai-hero-stage.is-empty .ai-hero-figure {
     border: none;
     box-shadow: none;
