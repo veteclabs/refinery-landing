@@ -438,35 +438,42 @@ const faqSchema = {
         setTimeout(function () { edges.forEach(show); }, t + 250);
         t += 1000;
 
-        /* 다발이 지나는 자리. 집에서 곧바로 위로 향하면 카메라가 회선을 두고
-           그림 한가운데로 흘러 중간이 텅 빈다 — 다발 자체를 잡고 오른다. */
-        function lineShot(k) {
+        /* 카메라가 잡을 자리 — 다발과 그 끝에 달린 판을 함께 넣는다.
+           다발만 잡으면 끝에 닿는 순간 판이 프레임 밖이라 같이 뜨는 것을 못 본다.
+           집에서 곧바로 판으로 향해도 안 된다. 카메라가 회선을 두고 그림
+           한가운데로 흘러 따라 오르는 중간이 텅 빈다. */
+        function followShot(k) {
           var b = lineEls[k].getBBox();
-          return { x: b.x, y: b.y, w: b.width, h: b.height, pad: 0.06 };
+          var x1 = b.x, y1 = b.y, x2 = b.x + b.width, y2 = b.y + b.height;
+          modules[k].forEach(function (el) {
+            var m; try { m = el.getBBox(); } catch (e) { return; }
+            if (!m || (!m.width && !m.height)) return;
+            x1 = Math.min(x1, m.x); y1 = Math.min(y1, m.y);
+            x2 = Math.max(x2, m.x + m.width); y2 = Math.max(y2, m.y + m.height);
+          });
+          return { x: x1, y: y1, w: x2 - x1, h: y2 - y1, pad: 0.05 };
         }
 
-        /* 여기서부터 회선이 한 다발씩 이어진다. 카메라가 그 다발을 잡고 따라
-           오르고, 다 오르면 판 자리로 돌아온다. 작은 판은 아직 나오지 않는다 —
-           하나씩 붙이면 회선이 이어지는 흐름이 판마다 끊긴다.
+        /* 여기서부터 회선이 한 다발씩 이어진다. 카메라가 그 다발과 끝에 달린
+           판을 함께 잡고 따라 오르고, 다발이 끝에 닿는 그 순간 판이 떠오른다.
              0      잇기와 따라 오르기를 함께 건다(1.3초)
-             2100   집으로 돌아온다
-           셋째 다발만 집 대신 전체로 물러나고, 물러난 자리에서 작은 판 셋과
-           API 점이 한꺼번에 뜬다. */
+             1300   다발이 끝에 닿는다. 그 판이 뜬다(왼쪽 API 점도 함께)
+             2200   집으로 돌아온다
+           플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다.
+           셋째만 집 대신 전체로 물러난다 — 다 모인 그림을 보여야 한다. */
         var LAST = 2;
         [0, 1, 2].forEach(function (k) {
           (function (at) {
-            setTimeout(function () { draw(lineEls[k]); moveTo(lineShot(k), 1300); }, at);
-            if (k !== LAST) {
-              setTimeout(function () { moveTo(SHOTS.stack, 900); }, at + 2100);
-              return;
-            }
-            setTimeout(function () { moveTo(SHOTS.whole, 1100); }, at + 2100);
+            setTimeout(function () { draw(lineEls[k]); moveTo(followShot(k), 1300); }, at);
             setTimeout(function () {
-              modules.forEach(function (m) { m.forEach(show); });
-              betweens.forEach(function (b) { b.forEach(show); });
-            }, at + 3000);
+              modules[k].forEach(show);
+              if (k > 0) betweens[k - 1].forEach(show);   /* 이 판 왼쪽의 API */
+            }, at + 1300);
+            setTimeout(function () {
+              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
+            }, at + 2200);
           })(t);
-          t += 2900;
+          t += 3000;
         });
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
         setTimeout(buildFlow, t + 900);
