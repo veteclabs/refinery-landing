@@ -446,40 +446,41 @@ const faqSchema = {
            이때 서는 것은 점선 기둥뿐이다. 겹을 가로지르는 기둥은 판의 일부라
            마지막 판과 같이 가고, 회선과 API 점은 아직 아무것도 나오지 않는다. */
         var drawn = [], gaps = [];
-        var wiring = function (fn) {
-          edges.forEach(fn); betweens[0].forEach(fn); betweens[1].forEach(fn);
+        /* 점선 기둥은 겹을 가로지르는 판의 뼈대다. 모듈 프레임 안에 들어오지도
+           않으므로 확대할 때 걷지 않는다 — 매번 걷었다 되돌리면 그 자리에서 튄다. */
+        var veil = function (fn) {
+          lineEls.forEach(fn); betweens[0].forEach(fn); betweens[1].forEach(fn);
         };
-        /* 걷었다가 되돌릴 때는 여태 나온 것만 되돌린다 — 아직 차례가 아닌
-           회선과 API 점이 미리 나오면 순서가 무너진다. */
+        /* 되돌릴 때는 여태 나온 것만 되돌린다 — 아직 차례가 아닌 회선과 API 점이
+           미리 나오면 순서가 무너진다. */
         var restore = function () {
-          edges.forEach(show);
           gaps.forEach(function (g) { betweens[g].forEach(show); });
           drawn.forEach(function (j) { draw(lineEls[j]); });
         };
         setTimeout(function () { moveTo(SHOTS.whole, 900); }, t);
         setTimeout(function () { edges.forEach(show); }, t + 350);
-        t += 1300;
+        t += 1200;
 
         /* 여기서부터 회선 한 다발 · 작은 판 하나가 번갈아 나온다.
-           한 마디: 다발이 아래에서 위로 이어진다 → 이어진 끝으로 확대하며
-           회선과 점을 걷는다(판만 남는다) → 판이 나온다(그 왼쪽 API도 같이)
-           → 전체로 물러나면 여태 나온 것이 다시 보인다.
+           한 마디는 카메라 움직임에 맞춰 이어진다 —
+             0      다발이 아래에서 위로 이어진다(0.7초)
+             1200   다 이어진 모습을 보고 나서, 걷는 것과 확대를 함께 건다.
+                    회선이 스러지는 0.5초가 카메라가 드는 0.9초 안에 묻힌다.
+             2000   판이 나온다(그 왼쪽 API도 함께 차례에 든다)
+             2700   물러나기와 되돌리기를 함께 건다. 넓어지는 동안 다시 떠올라
+                    멈춘 뒤에 툭 나타나지 않는다.
            플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다. */
         ['plate', 'lens', 'agent'].forEach(function (key, k) {
           (function (at) {
             setTimeout(function () { draw(lineEls[k]); drawn.push(k); }, at);
-            setTimeout(function () {
-              wiring(fade); lineEls.forEach(fade);
-              moveTo(SHOTS[key], 900);
-            }, at + 1000);
+            setTimeout(function () { veil(fade); moveTo(SHOTS[key], 900); }, at + 1200);
             setTimeout(function () {
               modules[k].forEach(show);
               if (k > 0) gaps.push(k - 1);   /* 이 판 왼쪽의 API가 같이 이어진다 */
-            }, at + 1700);
-            setTimeout(function () { moveTo(SHOTS.whole, 900); }, at + 2400);
-            setTimeout(restore, at + 2750);
+            }, at + 2000);
+            setTimeout(function () { moveTo(SHOTS.whole, 900); restore(); }, at + 2700);
           })(t);
-          t += 3300;
+          t += 3500;
         });
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
         setTimeout(buildFlow, t + 300);
