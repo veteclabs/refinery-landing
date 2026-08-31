@@ -65,14 +65,17 @@ const faqSchema = {
             <iframe id="ai-demo-iframe" data-src={T.demoSrc} loading="lazy" scrolling="no" tabindex="-1" title={T.demoTitle} style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
           )}
           {!hasDemo && T.heroGraphic && (
-            <img
+            /* <img>이 아니라 <object>인 이유: 그림 안쪽 그룹을 하나씩 나타나게 하려면
+               스크립트가 SVG 문서에 닿아야 한다. <img>은 문서가 격리돼 닿지 않고,
+               인라인하면 724KB가 HTML에 들어가 캐시가 안 먹는다. 같은 출처라
+               <object>의 contentDocument는 열린다. 스크립트가 없어도 그림은 그대로 뜬다. */
+            <object
               class="ai-hero-graphic"
-              src={T.heroGraphic.src}
-              alt={T.heroGraphic.alt}
-              width={T.heroGraphic.width}
-              height={T.heroGraphic.height}
-              decoding="async"
-            />
+              id="ai-hero-graphic"
+              type="image/svg+xml"
+              data={T.heroGraphic.src}
+              aria-label={T.heroGraphic.alt}
+            ></object>
           )}
         </div>
         </div>
@@ -138,6 +141,122 @@ const faqSchema = {
       </div>
     </section>
   </main>
+
+  {!hasDemo && T.heroGraphic && (
+  <script is:inline>
+    /* 히어로 그래픽을 순서대로 나타낸다.
+       아래 판이 하나씩 쌓인 뒤, 회선을 따라 Plate -> Lens -> AI Agent 순으로 켜진다.
+
+       그림은 일러스트레이터 내보내기라 의미 있는 id가 없다. 회선 세 다발만 최상위
+       그룹 번호로 잡고(26 왼쪽 · 27 가운데 · 25 오른쪽), 나머지는 경계 상자로 가른다 —
+       위쪽 띠(아랫변 380 미만)는 모듈, 그 안에서 가로 위치로 세 열을 나눈다.
+       번호에 덜 기대는 편이 원본이 조금 바뀌어도 덜 깨진다. */
+    (function () {
+      var obj = document.getElementById('ai-hero-graphic');
+      if (!obj) return;
+
+      var LINES = [26, 27, 25];   /* 1-based. 왼쪽 · 가운데 · 오른쪽 회선 다발 */
+      var TOP_BAND = 380;         /* 이 아래로 끝나는 것은 위쪽 모듈이다 */
+
+      function run() {
+        var doc = obj.contentDocument;
+        if (!doc) return;                       /* 못 열면 그림은 그대로 보인다 */
+        var svg = doc.querySelector('svg');
+        var root = doc.querySelector('#_레이어_1') || (svg && svg.querySelector('g'));
+        if (!svg || !root) return;
+
+        var kids = [];
+        for (var i = 0; i < root.children.length; i++) kids.push(root.children[i]);
+        var gIndex = [];                        /* g 요소의 1-based 번호 */
+        var n = 0;
+        kids.forEach(function (el) { gIndex.push(el.tagName === 'g' ? ++n : 0); });
+        if (n < 27) return;                     /* 그림이 바뀌었으면 손대지 않는다 */
+
+        var lineEls = [], modules = [[], [], []], base = [];
+        kids.forEach(function (el, i) {
+          var b;
+          try { b = el.getBBox(); } catch (e) { return; }
+          if (!b || !b.width || !b.height) return;
+          if (LINES.indexOf(gIndex[i]) >= 0) { lineEls[LINES.indexOf(gIndex[i])] = el; return; }
+          if (b.y + b.height <= TOP_BAND) {
+            var cx = b.x + b.width / 2;
+            modules[cx < 400 ? 0 : cx < 800 ? 1 : 2].push(el);
+          } else {
+            base.push({ el: el, bottom: b.y + b.height });
+          }
+        });
+        /* 아래에 그려진 것부터 나타난다. */
+        base.sort(function (a, b) { return b.bottom - a.bottom; });
+
+        /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 opacity를 덮으면
+           끝나고 나서 그 층까지 진해진다. 원래 값을 기억했다가 그 값으로 되돌린다. */
+        var all = base.map(function (b) { return b.el; })
+          .concat(modules[0], modules[1], modules[2]);
+        all.forEach(function (el) {
+          var o = doc.defaultView.getComputedStyle(el).opacity;
+          el.__o = (o === '' || o == null) ? '1' : o;
+          el.classList.add('seq');
+          el.style.opacity = '0';
+        });
+
+        var style = doc.createElementNS('http://www.w3.org/2000/svg', 'style');
+        style.textContent =
+          '.seq{transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1);transform:translateY(14px)}' +
+          '.seq.on{transform:none}' +
+          '.line path{transition:stroke-dashoffset .7s ease}' +
+          '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}}';
+        svg.appendChild(style);
+
+        lineEls.forEach(function (g) {
+          if (!g) return;
+          g.classList.add('line');
+          var ps = g.querySelectorAll('path');
+          for (var i = 0; i < ps.length; i++) {
+            var len;
+            try { len = ps[i].getTotalLength(); } catch (e) { continue; }
+            if (!len) continue;
+            ps[i].style.strokeDasharray = len;
+            ps[i].style.strokeDashoffset = len;
+          }
+        });
+
+        var show = function (el) { el.classList.add('on'); el.style.opacity = el.__o; };
+        var drawLine = function (g) {
+          if (!g) return;
+          var ps = g.querySelectorAll('path');
+          for (var i = 0; i < ps.length; i++) ps[i].style.strokeDashoffset = '0';
+        };
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          all.forEach(show); lineEls.forEach(drawLine); return;
+        }
+
+        var t = 0;
+        base.forEach(function (b) { setTimeout(function () { show(b.el); }, t); t += 90; });
+        t += 200;
+        for (var k = 0; k < 3; k++) {
+          (function (k, at) {
+            setTimeout(function () { drawLine(lineEls[k]); }, at);
+            setTimeout(function () { modules[k].forEach(show); }, at + 380);
+          })(k, t);
+          t += 620;
+        }
+      }
+
+      /* 화면에 들어왔을 때 시작한다. 스크롤해 내려오기 전에 끝나버리지 않게. */
+      function arm() {
+        if (!('IntersectionObserver' in window)) { run(); return; }
+        var io = new IntersectionObserver(function (es) {
+          if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); run(); }
+        }, { threshold: 0.25 });
+        io.observe(obj);
+      }
+
+      if (obj.contentDocument && obj.contentDocument.readyState === 'complete') arm();
+      else obj.addEventListener('load', arm);
+    })();
+  </script>
+  )}
 
   {hasDemo && (
   <script is:inline>
@@ -552,13 +671,15 @@ const faqSchema = {
     aspect-ratio: auto;
     height: auto;
   }
-  /* 그래픽은 배경이 투명해 점 격자가 그대로 비친다. 판 가운데에 둔다. */
+  /* 그래픽은 배경이 투명해 점 격자가 그대로 비친다. 판 가운데에 둔다.
+     정사각(1200x1200)이라 비율을 그대로 잡아 높이를 예약한다(CLS 방지). */
   .ai-hero-graphic {
     display: block;
     width: 100%;
-    max-width: 680px;
-    height: auto;
+    max-width: 900px;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
+    pointer-events: none;
   }
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
   .ai-hero-stage.is-empty .ai-hero-figure:empty {
