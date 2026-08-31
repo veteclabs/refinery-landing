@@ -1,5 +1,11 @@
 ---
-// 본문은 IndustrialAiPage 컴포넌트가 렌더한다(영어 /en/industrial-ai와 공유).
-import IndustrialAiPage from '../components/IndustrialAiPage.astro';
+// 본문은 PillarPage 컴포넌트가 렌더한다(영어 /en/industrial-ai와 내용을 공유).
+import PillarPage from '../components/PillarPage.astro';
+import { industrialAi } from '../data/pillars/industrial-ai';
+
+const alternates = [
+  { lang: 'ko', href: '/industrial-ai' },
+  { lang: 'en', href: '/en/industrial-ai' },
+];
 ---
-<IndustrialAiPage lang="ko" />
+<PillarPage content={industrialAi.ko} alternates={alternates} />
