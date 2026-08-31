@@ -51,6 +51,6 @@ export const energyManagement: PillarContent = {
     { label: '전력관리', desc: '전력 데이터로 피크 · 이상 · \n절감 기회를 찾는 전력관리 솔루션', href: '/use-cases/power-management' },
     { label: '공장 에너지관리', desc: '공장 전체 에너지 사용을 \n통합 관리하는 EMS 활용', href: '/use-cases/factory-energy' },
     { label: '에너지 최적화', desc: '낭비를 찾아 에너지 사용을 \n줄이는 AI 최적화', href: '/use-cases/energy-optimization' },
-    { label: '산업 AI란?', desc: '산업 AI · 제조 AI · 에너지 AI \n개념을 한눈에', href: '/industrial-ai' },
+    { label: '산업 AI', desc: '산업 AI · 제조 AI · 에너지 AI \n개념을 한눈에', href: '/industrial-ai' },
   ],
 };
