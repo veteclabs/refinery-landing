@@ -241,8 +241,30 @@ const faqSchema = {
         style.textContent =
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
+          /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
+                 .flow-on이 걸린 뒤에만 돈다(그 전에는 회선을 그려 보여야 한다). --- */
+          '.flow-on path.cls-2{stroke-dasharray:6 9;animation-duration:1.6s;' +
+            'animation-timing-function:linear;animation-iteration-count:infinite}' +
+          '.flow-on g:nth-of-type(odd)>path.cls-2{animation-name:connector-dot-up}' +
+          '.flow-on g:nth-of-type(even)>path.cls-2{animation-name:connector-dot-down}' +
+          '.flow-on line.cls-2,.flow-on .cls-4,.flow-on .cls-6,.flow-on line.cls-9{' +
+            'stroke-dasharray:2 8;animation:connector-line-flow-up-slow 2.6s linear infinite}' +
+          '.flow-on polygon.cls-9{stroke-width:1.5px;stroke-dasharray:.5 6;' +
+            'stroke-linecap:round;animation:layer-band-breathe 2.8s ease-in-out infinite}' +
+          '.flow-on line.cls-3[y1="185.58"],.flow-on line.cls-3[y1="193.58"]{' +
+            'stroke-width:.75px;stroke-dasharray:6 9;stroke-linecap:round;' +
+            'animation-duration:1.6s;animation-timing-function:linear;' +
+            'animation-iteration-count:infinite}' +
+          '.flow-on line.cls-3[y1="185.58"]{animation-name:api-dot-right}' +
+          '.flow-on line.cls-3[y1="193.58"]{animation-name:api-dot-left}' +
+          '@keyframes connector-dot-up{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
+          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
+          '@keyframes connector-line-flow-up-slow{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}' +
+          '@keyframes layer-band-breathe{0%,100%{opacity:.25}50%{opacity:1}}' +
+          '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
+          '@keyframes api-dot-left{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
           '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}' +
-          '.line path{animation:none!important}}';
+          '.line path,.flow-on *{animation:none!important}}';
         svg.appendChild(style);
 
         /* 회선은 아래(판)에서 위(모듈)로 그려져야 한다. 경로가 어느 쪽에서
@@ -299,74 +321,29 @@ const faqSchema = {
             caps.forEach(function (p) { p.style.opacity = ''; });
           }, DRAW_MS);
         };
-        /* 다 그려진 뒤의 움직임은 랜딩(#integrations)과 같은 방식이다 —
-           선을 따라 흐르는 그라디언트를 겹쳐 그리고, 정지점 offset을 <animate>로
-           밀어 빛 한 줄기가 지나가게 한다. 한 다발씩 차례로, 1초 간격으로 돈다. */
-        var FLOW_MS = 1400, FLOW_GAP = 1000;
-        var flowTimer = null;
+        /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
+           그 그래픽(/From Data to Intelligence.svg)은 파일 안에 CSS 애니메이션을
+           품고 있다. 선 위에 그라디언트 빛줄기를 얹는 방식이 아니라, 선 자체를
+           점선으로 만들고 stroke-dashoffset을 무한히 흘리는 방식이다.
+           두 파일은 같은 원본에서 나와 클래스가 그대로 대응한다 —
+           회선 path.cls-2(19) · 기둥 line.cls-2(4)/cls-4/cls-6/cls-9 ·
+           겹 띠 polygon.cls-9(3) · API 점 line.cls-3[y1=185.58/193.58].
+           그래서 랜딩의 규칙을 값까지 그대로 옮긴다. 다만 여기서는 회선을 먼저
+           그려 보여야 하므로, 다 그린 뒤에 .flow-on을 걸어 시작한다. */
         function buildFlow() {
-          var defs = doc.createElementNS(SVGNS, 'defs');
-          svg.appendChild(defs);
-          lineEls.forEach(function (g, k) {
+          /* 그리기에 쓴 인라인 dasharray/dashoffset을 걷어야 CSS가 먹는다
+             (인라인이 애니메이션 밖 선언보다 우선한다). */
+          lineEls.forEach(function (g) {
             if (!g) return;
             var ps = g.querySelectorAll('path');
             for (var i = 0; i < ps.length; i++) {
-              var pth = ps[i];
-              if (!pth.__len) continue;
-              var a = pth.getPointAtLength(0), b = pth.getPointAtLength(pth.__len);
-              /* 빛은 아래에서 위로 흐른다. 경로 방향이 반대면 두 끝을 바꾼다. */
-              var from = (a.y > b.y) ? a : b, to = (a.y > b.y) ? b : a;
-              var id = 'emsFlow' + k + '_' + i;
-              var lg = doc.createElementNS(SVGNS, 'linearGradient');
-              lg.setAttribute('id', id);
-              lg.setAttribute('gradientUnits', 'userSpaceOnUse');
-              lg.setAttribute('x1', from.x); lg.setAttribute('y1', from.y);
-              lg.setAttribute('x2', to.x); lg.setAttribute('y2', to.y);
-              [['-0.35', '1.35', '#3F76AE', '0'],
-               ['-0.2', '1.5', '#76A6D7', '1'],
-               ['-0.05', '1.65', '#3F76AE', '0']].forEach(function (st) {
-                var stop = doc.createElementNS(SVGNS, 'stop');
-                stop.setAttribute('offset', st[0]);
-                stop.setAttribute('stop-color', st[2]);
-                stop.setAttribute('stop-opacity', st[3]);
-                var an = doc.createElementNS(SVGNS, 'animate');
-                an.setAttribute('attributeName', 'offset');
-                an.setAttribute('values', st[0] + ';' + st[1]);
-                an.setAttribute('dur', (FLOW_MS / 1000) + 's');
-                an.setAttribute('begin', 'indefinite');
-                an.setAttribute('fill', 'freeze');
-                stop.appendChild(an);
-                lg.appendChild(stop);
-              });
-              defs.appendChild(lg);
-              /* 원본 선 위에 같은 모양을 겹쳐 그리고 그라디언트로만 칠한다. */
-              var glow = pth.cloneNode(false);
-              glow.removeAttribute('class');
-              glow.style.cssText = '';
-              glow.setAttribute('fill', 'none');
-              glow.setAttribute('stroke', 'url(#' + id + ')');
-              glow.setAttribute('stroke-width', '2');
-              /* 랜딩 .int-flow-glow와 같은 값 — 원본 선은 끝이 각져(butt) 있어
-                 그대로 두면 빛줄기 끝 모양이 다르다. */
-              glow.setAttribute('stroke-linecap', 'round');
-              glow.__anims = lg.querySelectorAll('animate');
-              g.appendChild(glow);
-              (g.__glows || (g.__glows = [])).push(glow);
+              if (ps[i].__cap) continue;
+              ps[i].style.transition = 'none';
+              ps[i].style.strokeDasharray = '';
+              ps[i].style.strokeDashoffset = '';
             }
           });
-          var step = 0;
-          function fire() {
-            var g = lineEls[step % lineEls.length];
-            step++;
-            if (!g || !g.__glows) return;
-            g.__glows.forEach(function (el) {
-              for (var i = 0; i < el.__anims.length; i++) {
-                try { el.__anims[i].beginElement(); } catch (e) {}
-              }
-            });
-          }
-          fire();
-          flowTimer = setInterval(fire, FLOW_GAP);
+          root.classList.add('flow-on');
         }
 
         /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
