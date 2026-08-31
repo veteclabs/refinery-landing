@@ -125,9 +125,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           title: 'Resources',
           items: [
-            // 한국어와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문 페이지로
-            // 보낸다(임시). 영어 페이지가 생기면 href를 /en/...으로 바꾸면 된다.
-            { label: 'Industrial AI', href: '/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
+            // 한국어와 같은 목록·순서다. 에너지관리는 영어 페이지가 아직 없어
+            // 국문 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+            { label: 'Industrial AI', href: '/en/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
             { label: 'Energy management', href: '/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
             { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
@@ -252,9 +252,9 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Resources',
       items: [
-        // 한국어 푸터와 같은 목록·순서다. 이 둘은 영어 페이지가 아직 없어 국문
-        // 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
-        { label: 'Industrial AI', href: '/industrial-ai' },
+        // 한국어 푸터와 같은 목록·순서다. 에너지관리는 영어 페이지가 아직 없어
+        // 국문 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+        { label: 'Industrial AI', href: '/en/industrial-ai' },
         { label: 'Energy management', href: '/energy-management' },
         { label: 'Blog', href: '/en/blog' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
