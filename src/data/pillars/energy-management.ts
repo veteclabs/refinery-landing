@@ -4,8 +4,8 @@ import type { PillarContent } from './industrial-ai';
 // EMS · BEMS · 전력관리시스템 · 전력감시/모니터링 · 정전감시를 정의형 Q&A로 답한다.
 // 답변은 실제 사실만(온톨로지 · 온프레미스 · 전력 계측). 창작 수치 금지.
 export const energyManagement: PillarContent = {
-  title: '에너지관리시스템(EMS)이란? 전력관리·전력감시·정전감시 | Refinery',
-  description: '에너지관리시스템(EMS)·빌딩에너지관리시스템(BEMS)·전력관리시스템·전력감시·전력모니터링·정전감시가 무엇인지 정리했습니다. Refinery는 전력·에너지 데이터를 온톨로지로 엮어 AI가 근거를 들어 관리합니다.',
+  title: '에너지관리시스템(EMS)이란? 전력관리 · 전력감시 · 정전감시 | Refinery',
+  description: '에너지관리시스템(EMS) · 빌딩에너지관리시스템(BEMS) · 전력관리시스템 · 전력감시 · 전력모니터링 · 정전감시가 무엇인지 정리했습니다. Refinery는 전력 · 에너지 데이터를 온톨로지로 엮어 AI가 근거를 들어 관리합니다.',
   canonical: '/energy-management',
   heroTitle: '전력 · 에너지 데이터를 근거로<br>이상과 절감 기회를 찾는 에너지관리시스템',
   ctaPrimary: '문의하기',
