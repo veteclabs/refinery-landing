@@ -1601,10 +1601,17 @@ body {
     await chapter(6, "#sessions");
 
     await wait(500);
-    $("endcard").classList.add("is-on");
-    await dwell(3600);
-    $("endcard").classList.remove("is-on");
-    await wait(700);
+    if (extCap) {
+      /* 설명을 바깥에서 그리는 페이지(산업 AI)에서는 마무리 카드가 무대 아래쪽
+         (y758~)에 떠서 화면 밖이다. 보이지도 않는 카드를 기다리느라 마지막
+         장면이 5초 넘게 멈춰 있었다. 짧게 넘기고 다음 바퀴로 간다. */
+      await wait(2400);
+    } else {
+      $("endcard").classList.add("is-on");
+      await dwell(3600);
+      $("endcard").classList.remove("is-on");
+      await wait(700);
+    }
     start(); // 무한 반복
   }
 
