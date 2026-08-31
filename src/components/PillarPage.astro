@@ -346,6 +346,9 @@ const faqSchema = {
               glow.setAttribute('fill', 'none');
               glow.setAttribute('stroke', 'url(#' + id + ')');
               glow.setAttribute('stroke-width', '2');
+              /* 랜딩 .int-flow-glow와 같은 값 — 원본 선은 끝이 각져(butt) 있어
+                 그대로 두면 빛줄기 끝 모양이 다르다. */
+              glow.setAttribute('stroke-linecap', 'round');
               glow.__anims = lg.querySelectorAll('animate');
               g.appendChild(glow);
               (g.__glows || (g.__glows = [])).push(glow);
