@@ -389,19 +389,25 @@ const faqSchema = {
         io.observe(obj);
 
         function play() {
-        /* 아래 판은 한 겹씩 또렷하게 쌓여야 한다. 요소 하나하나를 같은 간격으로
-           띄우면 같은 겹의 조각들이 따로 나타나 층이 안 읽힌다.
-           아랫변이 비슷한 것끼리 묶어 한 겹으로 보고, 겹 단위로 천천히 올린다. */
-        var layers = [];
+        /* 판은 다섯이다. 아랫변만으로 자동으로 묶으면 열 덩이로 갈라져
+           같은 판의 조각들이 따로 나타난다(아래판의 점선 무늬가 판보다 늦게 뜨고,
+           맨 위 판은 그 위 내용이 네 번에 나눠 떴다).
+           실측한 아랫변으로 다섯 구간을 직접 나눈다.
+             1180·1121 아래판(점선 무늬 포함)
+             1063 · 1005 · 946+888 가운데 세 겹
+             824 이하  맨 위 판과 그 위 내용 — 한 번에 */
+        var CUTS = [1100, 1040, 980, 870];
+        var layers = [[], [], [], [], []];
         base.forEach(function (b) {
-          var last = layers[layers.length - 1];
-          if (last && Math.abs(last.bottom - b.bottom) <= 45) last.els.push(b.el);
-          else layers.push({ bottom: b.bottom, els: [b.el] });
+          var k = 4;
+          for (var i = 0; i < CUTS.length; i++) if (b.bottom >= CUTS[i]) { k = i; break; }
+          layers[k].push(b.el);
         });
+        layers = layers.filter(function (L) { return L.length; });
 
         var t = 0;
         layers.forEach(function (L) {
-          setTimeout(function () { L.els.forEach(show); }, t);
+          setTimeout(function () { L.forEach(show); }, t);
           t += 520;
         });
         /* 겹이 다 쌓인 뒤에 점선 기둥이 선다. */
