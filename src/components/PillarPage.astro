@@ -15,7 +15,8 @@ interface Props {
 }
 const { content: T, alternates } = Astro.props;
 
-/* 히어로 데모를 넣을지. demoSrc가 비어 있으면 판만 남기고 자리로 둔다. */
+/* 히어로 데모를 넣을지. demoSrc가 비어 있으면 그래픽(heroGraphic)을 쓰고,
+   그것도 없으면 판만 남기고 자리로 둔다. */
 const hasDemo = Boolean(T.demoSrc);
 
 const faqItems = T.faq;
@@ -58,10 +59,20 @@ const faqSchema = {
             <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
           </figcaption>
         )}
-        {/* 데모가 없으면 자리만 남긴다. 판·비율은 그대로라 나중에 넣어도 아래가 밀리지 않는다. */}
+        {/* 데모도 그래픽도 없으면 자리만 남긴다. 비율은 그대로라 나중에 넣어도 아래가 밀리지 않는다. */}
         <div class="ai-hero-figure">
           {hasDemo && (
             <iframe id="ai-demo-iframe" data-src={T.demoSrc} loading="lazy" scrolling="no" tabindex="-1" title={T.demoTitle} style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+          )}
+          {!hasDemo && T.heroGraphic && (
+            <img
+              class="ai-hero-graphic"
+              src={T.heroGraphic.src}
+              alt={T.heroGraphic.alt}
+              width={T.heroGraphic.width}
+              height={T.heroGraphic.height}
+              decoding="async"
+            />
           )}
         </div>
         </div>
@@ -534,8 +545,25 @@ const faqSchema = {
   /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
   .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
   .ai-hero-stage.is-empty .ai-hero-figure {
-    border: 1px dashed #C8CED5;
+    border: none;
     box-shadow: none;
+    background: none;
+    /* 그래픽 높이를 따른다. 데모처럼 비율을 고정하지 않는다. */
+    aspect-ratio: auto;
+    height: auto;
+  }
+  /* 그래픽은 배경이 투명해 점 격자가 그대로 비친다. 판 가운데에 둔다. */
+  .ai-hero-graphic {
+    display: block;
+    width: 100%;
+    max-width: 680px;
+    height: auto;
+    margin: 0 auto;
+  }
+  /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
+  .ai-hero-stage.is-empty .ai-hero-figure:empty {
+    aspect-ratio: 1320 / 840;
+    border: 1px dashed #C8CED5;
     background: #FFFFFF;
   }
 

@@ -22,8 +22,10 @@ export interface PillarContent {
   contactHref: string;
   ctaGhost: string;
   ghostHref: string;
-  /** 히어로 데모 iframe 주소. 언어별 파일이 따로 있다. 빈 문자열이면 자리만 남긴다. */
+  /** 히어로 데모 iframe 주소. 언어별 파일이 따로 있다. 빈 문자열이면 데모를 넣지 않는다. */
   demoSrc: string;
+  /** 데모 대신 넣을 그래픽. demoSrc가 비었을 때만 쓰인다. 둘 다 없으면 자리만 남는다. */
+  heroGraphic?: { src: string; alt: string; width: number; height: number };
   demoTitle: string;
   /** 데모 시작 화면에 띄우는 좌측 글. \n에서 두 줄로 나뉜다. */
   openTitle: string;

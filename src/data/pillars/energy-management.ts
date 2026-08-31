@@ -12,8 +12,14 @@ export const energyManagement: PillarContent = {
   contactHref: '/contact',
   ctaGhost: '플랫폼 개요',
   ghostHref: '/why-refinery',
-  /* 히어로 영상은 넣지 않는다. 자리만 남긴다(PillarPage가 demoSrc로 판정). */
+  /* 히어로에는 영상 대신 그래픽을 넣는다(PillarPage가 demoSrc로 판정). */
   demoSrc: '',
+  heroGraphic: {
+    src: '/energy-management-graphic.svg',
+    alt: '전력 · 에너지 데이터를 수집하고 통합해 Refinery Plate · Lens · AI Agent로 잇는 구조도',
+    width: 1200,
+    height: 1200,
+  },
   demoTitle: '',
   openTitle: '',
   faqHead: '자주 묻는 질문',
