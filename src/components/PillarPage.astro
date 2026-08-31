@@ -115,9 +115,12 @@ const faqSchema = {
     <!-- 관련 활용 -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
+        {/* 줄바꿈은 <br>로 명시한다. 대제목과 소제목은 한 줄에 좌우로 앉는데,
+            영문처럼 문구가 길면 flex-wrap이 걸려 소제목이 아래로 떨어진다.
+            그때 두 줄로 나눠 좌우 자리를 지킨다. */}
         <header class="ind-head">
-          <h2>{T.usesHead}</h2>
-          <p>{T.usesLede}</p>
+          <h2 set:html={T.usesHead}></h2>
+          <p set:html={T.usesLede}></p>
         </header>
         <div class="ind-grid ind-grid-4 pillar-uses">
           {uses.map((u) => (

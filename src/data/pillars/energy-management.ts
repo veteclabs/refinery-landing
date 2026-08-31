@@ -64,7 +64,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
 
   en: {
     title: 'What Is an Energy Management System (EMS)? Power Monitoring Explained | Refinery',
-    description: 'A plain explanation of energy management systems (EMS), building energy management systems (BEMS), power management systems, power monitoring and outage detection. Refinery ties power and energy data into an ontology so AI manages it with evidence.',
+    description: 'A plain explanation of energy management systems (EMS), building energy management systems (BEMS), power management systems, power monitoring and outage detection. Refinery ties power and energy data into an ontology, so AI can explain what it finds with evidence.',
     canonical: '/en/energy-management',
     heroTitle: 'An energy management system that finds<br>anomalies and savings in your power data',
     ctaPrimary: 'Contact',
@@ -82,8 +82,8 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     demoTitle: '',
     openTitle: '',
     faqHead: 'FAQ',
-    usesHead: 'Where energy management is used on site',
-    usesLede: 'See how an energy management system works in real plants, from monitoring to savings.',
+    usesHead: 'Where energy management<br>is used on site',
+    usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
     more: 'Learn more',
     ctaTitle: 'How would energy management<br>work at your site?',
     faq: [
@@ -100,16 +100,16 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
         a: 'A power management system collects and analyzes the voltage, current, power and power factor of incoming and distribution circuits in real time to monitor and optimize electricity use. By managing peak demand and abnormal loads, it lowers both electricity bills and the risk of an outage.',
       },
       {
-        q: 'What are power monitoring and power supervision?',
-        a: 'Power monitoring means watching the electrical data of switchgear and distribution circuits in real time so problems are caught early. Signs such as voltage drop, overload and a falling power factor raise an alarm before they become an incident.',
+        q: 'What is power monitoring?',
+        a: 'Power monitoring means watching the electrical data of switchgear and distribution circuits in real time so problems are caught early. Signs such as voltage drops, overloads and a falling power factor raise an alarm before they become incidents.',
       },
       {
         q: 'How is outage detection done?',
-        a: 'Outage detection senses a power fault or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable is caught and passed to the person on duty in real time.',
+        a: 'Outage detection senses a power fault or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable, the person on duty is notified.',
       },
       {
         q: 'What makes energy and power management on Refinery different?',
-        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings are seen with their context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data never leaves your company.',
+        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings can be read in context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data never leaves your company.',
       },
     ],
     uses: [
