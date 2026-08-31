@@ -339,12 +339,25 @@ const faqSchema = {
           })(t0);
         }
 
+        /* 여기까지가 준비다. 이 시점에 그림은 아래 판도 회선도 모두 감춰져 있다.
+           준비가 끝나야 칸을 보인다 — 그 전에 보이면 완성된 그림이 한 번 스쳤다가
+           사라진다(회선까지 다 보였다가 감춰졌다). */
+        obj.classList.add('is-ready');
+
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           all.forEach(show); lineEls.forEach(draw);
           svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
           return;
         }
 
+        /* 화면에 들어오면 재생한다. */
+        if (!('IntersectionObserver' in window)) { play(); return; }
+        var io = new IntersectionObserver(function (es) {
+          if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); play(); }
+        }, { threshold: 0.25 });
+        io.observe(obj);
+
+        function play() {
         var t = 0;
         base.forEach(function (b) { setTimeout(function () { show(b.el); }, t); t += 80; });
         t += 300;
@@ -358,18 +371,26 @@ const faqSchema = {
         setTimeout(function () { moveTo(SHOTS.whole, 1100); }, t);
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
         setTimeout(buildFlow, t + 1100);
+        }
       }
 
-      function arm() {
-        if (!('IntersectionObserver' in window)) { run(); return; }
-        var io = new IntersectionObserver(function (es) {
-          if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); run(); }
-        }, { threshold: 0.25 });
-        io.observe(obj);
+      /* 불러오는 즉시 준비한다(감추기). 재생은 준비가 끝난 뒤 화면에 들어올 때다.
+         load 시점에는 SVG 레이아웃이 아직이라 getBBox()가 0을 준다 — 그러면
+         모든 부분이 걸러져 준비가 통째로 건너뛰어진다. 크기가 잡힐 때까지 기다린다. */
+      var tries = 0;
+      function ready() {
+        var doc = obj.contentDocument;
+        var root = doc && (doc.querySelector('#_레이어_1') || doc.querySelector('svg > g'));
+        var ok = false;
+        if (root) { try { ok = root.getBBox().width > 0; } catch (e) {} }
+        if (ok) { run(); return; }
+        if (++tries < 60) { requestAnimationFrame(ready); return; }
+        obj.classList.add('is-ready');   /* 끝내 못 재면 그림만이라도 보인다 */
       }
-
-      if (obj.contentDocument && obj.contentDocument.readyState === 'complete') arm();
-      else obj.addEventListener('load', arm);
+      if (obj.contentDocument && obj.contentDocument.readyState === 'complete') ready();
+      else obj.addEventListener('load', ready);
+      /* 스크립트가 못 도는 경우(다른 출처 등)에도 그림은 보여야 한다. */
+      setTimeout(function () { obj.classList.add('is-ready'); }, 2500);
     })();
   </script>
   )}
@@ -801,7 +822,13 @@ const faqSchema = {
     aspect-ratio: 820 / 682;
     margin: 0 auto;
     pointer-events: none;
+    /* 준비가 끝나기 전에는 감춘다. 안 그러면 완성된 그림이 한 번 스쳤다가
+       감춰지면서 회선이 먼저 보인다. 스크립트가 없으면 위 setTimeout이 켜 준다. */
+    opacity: 0;
+    transition: opacity .25s ease;
   }
+  .ai-hero-graphic.is-ready { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ai-hero-graphic { transition: none; } }
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
   .ai-hero-stage.is-empty .ai-hero-figure:empty {
     aspect-ratio: 1320 / 840;
