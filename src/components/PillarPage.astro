@@ -393,10 +393,11 @@ const faqSchema = {
            같은 판의 조각들이 따로 나타난다(아래판의 점선 무늬가 판보다 늦게 뜨고,
            맨 위 판은 그 위 내용이 네 번에 나눠 떴다).
            실측한 아랫변으로 다섯 구간을 직접 나눈다.
-             1180·1121 아래판(점선 무늬 포함)
+             1180·1121·1092 아래판(안쪽 원형 점선 무늬까지 함께 — 무늬는
+                            아랫변이 1092라 경계를 1080으로 내려야 같이 묶인다)
              1063 · 1005 · 946+888 가운데 세 겹
              824 이하  맨 위 판과 그 위 내용 — 한 번에 */
-        var CUTS = [1100, 1040, 980, 870];
+        var CUTS = [1080, 1040, 980, 870];
         var layers = [[], [], [], [], []];
         base.forEach(function (b) {
           var k = 4;
@@ -853,8 +854,10 @@ const faqSchema = {
     text-align: center;
   }
 
-  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
-  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
+  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다.
+     점 격자는 지운다. 그래픽 자체가 점무늬(아래판 안쪽 원형 점선)를 갖고 있어
+     배경 격자와 겹치면 둘 다 지저분해 보인다. 데모를 쓰는 판은 그대로 둔다. */
+  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; background-image: none; }
   .ai-hero-stage.is-empty .ai-hero-figure {
     border: none;
     box-shadow: none;
