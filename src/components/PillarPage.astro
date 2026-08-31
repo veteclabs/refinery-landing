@@ -163,19 +163,12 @@ const faqSchema = {
       /* 카메라가 잡을 자리(원본 좌표). 실측한 경계 상자에서 왔다. */
       var SHOTS = {
         /* pad는 상자 둘레 여유(긴 변 대비 비율).
-           아래 판은 크게 보여야 해서 좁게, 모듈은 좌우가 잘리지 않게 넉넉히 준다. */
+           판은 크게 보여야 해서 좁게, 회선 다발은 좌우가 잘리지 않게 넉넉히 준다. */
         /* 판 다섯의 실측 경계는 x196..1004 · y396..1180이다. 여유를 0.01로 두면
            위 여백이 4밖에 남지 않아, 경계 상자 밖으로 번지는 맨 위 판의 그림자가
            프레임에 잘렸다(그림자는 흐림 효과라 getBBox에 잡히지 않는다).
            경계에 맞추고 여유를 0.03으로 올려 위아래로 24씩 남긴다. */
         stack: { x: 196, y: 396, w: 808, h: 784, pad: 0.03 },
-        /* 모듈 여유 0.04 — 옆 판이 프레임에 들어오지 않으면서 잘리지도 않는 값이다.
-           판 세 개가 x 20..370 · 425..775 · 835..1185에 있고, 이 여유에서 보이는
-           가로 폭이 약 480이라 이웃(353 아래 · 847 위)이 밖으로 나간다.
-           0.2로 두면 폭이 620을 넘어 옆 판이 걸쳐 보였다. */
-        plate: { x: 20, y: 10, w: 350, h: 370, pad: 0.04 },
-        lens: { x: 425, y: 20, w: 350, h: 355, pad: 0.04 },
-        agent: { x: 835, y: 20, w: 350, h: 355, pad: 0.04 },
         whole: { x: 0, y: 0, w: VB, h: VB, pad: 0.02 }
       };
 
@@ -273,9 +266,6 @@ const faqSchema = {
         });
 
         var show = function (el) { if (el) el.style.opacity = el.__o; };
-        /* 처음 감출 때(hide)는 전환을 껐다. 여기서는 이미 보이는 것을 걷는 것이라
-           전환을 그대로 두어 스르르 사라지게 한다. */
-        var fade = function (el) { if (el) el.style.opacity = '0'; };
         var draw = function (g) {
           if (!g) return;
           g.style.opacity = g.__o;                 /* 그릴 때 다발을 켠다 */
@@ -445,60 +435,41 @@ const faqSchema = {
            여기서 물러나면 그림이 한 번 작아졌다가 다시 들어가는 꼴이 된다.
            마지막 판과 함께 서는 것은 점선 기둥뿐 — 겹을 가로지르는 기둥은
            판의 뼈대다. 회선과 API 점은 아직 아무것도 나오지 않는다. */
-        var drawn = [], gaps = [];
-        /* 확대할 때 걷는 것은 API 점뿐이다. 점은 판 옆에 걸쳐 보여 거슬리지만,
-           회선은 카메라가 따라 오르는 대상이라 걷으면 따라갈 것이 없어진다.
-           점선 기둥도 겹을 가로지르는 판의 뼈대이고 모듈 프레임에 들어오지
-           않으므로 두었다 — 매번 걷었다 되돌리면 그 자리에서 튄다. */
-        var veil = function (fn) { betweens[0].forEach(fn); betweens[1].forEach(fn); };
-        /* 되돌릴 때는 여태 나온 것만 되돌린다 — 아직 차례가 아닌 회선과 API 점이
-           미리 나오면 순서가 무너진다. */
-        var restore = function () {
-          gaps.forEach(function (g) { betweens[g].forEach(show); });
-          drawn.forEach(function (j) { draw(lineEls[j]); });
-        };
         setTimeout(function () { edges.forEach(show); }, t + 250);
         t += 1000;
 
-        /* 다발이 지나는 자리. 집에서 곧바로 모듈로 향하면 카메라가 회선을 두고
-           그림 한가운데로 흘러 중간이 텅 빈다 — 다발 자체를 한 번 잡고 오른다. */
+        /* 다발이 지나는 자리. 집에서 곧바로 위로 향하면 카메라가 회선을 두고
+           그림 한가운데로 흘러 중간이 텅 빈다 — 다발 자체를 잡고 오른다. */
         function lineShot(k) {
           var b = lineEls[k].getBBox();
           return { x: b.x, y: b.y, w: b.width, h: b.height, pad: 0.06 };
         }
 
-        /* 여기서부터 회선 한 다발 · 작은 판 하나가 번갈아 나온다.
-           카메라가 회선을 따라 오른다 —
-             0      잇기 · 따라 오르기 · API 점 걷기를 한꺼번에 건다.
-                    다발이 그려지는 1.3초 동안 카메라가 그 다발을 잡는다.
-             1300   다발이 닿은 끝, 그 판으로 오른다
-             2100   판이 나온다
-             2900   집으로 돌아가며 되돌리기를 함께 건다.
-                    API 점은 여기서 나오지 않는다 — 회선이 셋 다 이어진
-                    마지막 마디에서 한 번에 뜬다.
-           플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다.
-           마지막 마디만 집 대신 전체로 물러난다 — 다 모인 그림을 보여야 한다. */
+        /* 여기서부터 회선이 한 다발씩 이어진다. 카메라가 그 다발을 잡고 따라
+           오르고, 다 오르면 판 자리로 돌아온다. 작은 판은 아직 나오지 않는다 —
+           하나씩 붙이면 회선이 이어지는 흐름이 판마다 끊긴다.
+             0      잇기와 따라 오르기를 함께 건다(1.3초)
+             2100   집으로 돌아온다
+           셋째 다발만 집 대신 전체로 물러나고, 물러난 자리에서 작은 판 셋과
+           API 점이 한꺼번에 뜬다. */
         var LAST = 2;
-        ['plate', 'lens', 'agent'].forEach(function (key, k) {
+        [0, 1, 2].forEach(function (k) {
           (function (at) {
+            setTimeout(function () { draw(lineEls[k]); moveTo(lineShot(k), 1300); }, at);
+            if (k !== LAST) {
+              setTimeout(function () { moveTo(SHOTS.stack, 900); }, at + 2100);
+              return;
+            }
+            setTimeout(function () { moveTo(SHOTS.whole, 1100); }, at + 2100);
             setTimeout(function () {
-              draw(lineEls[k]); drawn.push(k);
-              veil(fade);
-              moveTo(lineShot(k), 1300);
-            }, at);
-            setTimeout(function () { moveTo(SHOTS[key], 900); }, at + 1300);
-            setTimeout(function () { modules[k].forEach(show); }, at + 2100);
-            setTimeout(function () {
-              /* API 점은 회선이 다 이어진 뒤, 마지막에 한 번에 뜬다. */
-              if (k === LAST) gaps.push(0, 1);
-              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
-              restore();
-            }, at + 2900);
+              modules.forEach(function (m) { m.forEach(show); });
+              betweens.forEach(function (b) { b.forEach(show); });
+            }, at + 3000);
           })(t);
-          t += 3700;
+          t += 2900;
         });
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
-        setTimeout(buildFlow, t + 500);
+        setTimeout(buildFlow, t + 900);
         }
       }
 
