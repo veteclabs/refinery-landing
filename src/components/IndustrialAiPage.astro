@@ -443,7 +443,13 @@ const alternates = [
         var titleEl = document.getElementById('ai-demo-cap-title');
         titleEl.textContent = '';
         String(t.title).split('\n').forEach(function (line, i) {
-          if (i) titleEl.appendChild(document.createElement('br'));
+          if (i) {
+            /* <br> 앞에 공백을 함께 넣는다. 좁은 폭에서는 CSS가 <br>를 숨겨
+               두 줄을 한 줄로 푸는데, 공백이 없으면 '권한은내가'처럼 붙는다.
+               줄 끝의 공백은 그대로 두어도 보이지 않는다. */
+            titleEl.appendChild(document.createTextNode(' '));
+            titleEl.appendChild(document.createElement('br'));
+          }
           titleEl.appendChild(document.createTextNode(line));
         });
         card.classList.add('is-on');
