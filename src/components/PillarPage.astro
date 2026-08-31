@@ -162,12 +162,16 @@ const faqSchema = {
       var VB = 1200;               /* 원본 viewBox는 0 0 1200 1200 */
       /* 카메라가 잡을 자리(원본 좌표). 실측한 경계 상자에서 왔다. */
       var SHOTS = {
-        stack: { x: 180, y: 395, w: 840, h: 800 },
-        plate: { x: 20, y: 10, w: 350, h: 370 },
-        lens: { x: 425, y: 20, w: 350, h: 355 },
-        agent: { x: 835, y: 20, w: 350, h: 355 },
-        whole: { x: 0, y: 0, w: VB, h: VB }
+        /* pad는 상자 둘레 여유(긴 변 대비 비율).
+           아래 판은 크게 보여야 해서 좁게, 모듈은 좌우가 잘리지 않게 넉넉히 준다. */
+        stack: { x: 205, y: 400, w: 790, h: 780, pad: 0.01 },
+        plate: { x: 20, y: 10, w: 350, h: 370, pad: 0.2 },
+        lens: { x: 425, y: 20, w: 350, h: 355, pad: 0.2 },
+        agent: { x: 835, y: 20, w: 350, h: 355, pad: 0.2 },
+        whole: { x: 0, y: 0, w: VB, h: VB, pad: 0.02 }
       };
+
+      var SVGNS = 'http://www.w3.org/2000/svg';
 
       function run() {
         var doc = obj.contentDocument;
@@ -208,11 +212,10 @@ const faqSchema = {
           el.style.opacity = '0';
         });
 
-        var style = doc.createElementNS('http://www.w3.org/2000/svg', 'style');
+        var style = doc.createElementNS(SVGNS, 'style');
         style.textContent =
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset .7s ease}' +
-          '@keyframes emsFlow{from{stroke-dashoffset:var(--l)}to{stroke-dashoffset:0}}' +
           '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}' +
           '.line path{animation:none!important}}';
         svg.appendChild(style);
@@ -243,26 +246,77 @@ const faqSchema = {
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) ps[i].style.strokeDashoffset = '0';
         };
-        /* 다 그려진 뒤에는 짧은 빛 한 토막이 선을 따라 위아래로 오간다. */
-        var pingpong = function (g) {
-          if (!g) return;
-          var ps = g.querySelectorAll('path');
-          for (var i = 0; i < ps.length; i++) {
-            var pth = ps[i];
-            if (!pth.__len) continue;
-            pth.style.transition = 'none';
-            pth.style.strokeDasharray = '26 ' + pth.__len;
-            pth.style.setProperty('--l', (pth.__len * pth.__dir) + 'px');
-            /* 길이가 제각각이라 같은 시간에 돌면 속도가 달라진다. 길이에 맞춘다. */
-            pth.style.animation = 'emsFlow ' + (pth.__len / 260).toFixed(2) + 's ease-in-out infinite alternate';
-            pth.style.animationDelay = (i * 0.12).toFixed(2) + 's';
+        /* 다 그려진 뒤의 움직임은 랜딩(#integrations)과 같은 방식이다 —
+           선을 따라 흐르는 그라디언트를 겹쳐 그리고, 정지점 offset을 <animate>로
+           밀어 빛 한 줄기가 지나가게 한다. 한 다발씩 차례로, 1초 간격으로 돈다. */
+        var FLOW_MS = 1400, FLOW_GAP = 1000;
+        var flowTimer = null;
+        function buildFlow() {
+          var defs = doc.createElementNS(SVGNS, 'defs');
+          svg.appendChild(defs);
+          lineEls.forEach(function (g, k) {
+            if (!g) return;
+            var ps = g.querySelectorAll('path');
+            for (var i = 0; i < ps.length; i++) {
+              var pth = ps[i];
+              if (!pth.__len) continue;
+              var a = pth.getPointAtLength(0), b = pth.getPointAtLength(pth.__len);
+              /* 빛은 아래에서 위로 흐른다. 경로 방향이 반대면 두 끝을 바꾼다. */
+              var from = (a.y > b.y) ? a : b, to = (a.y > b.y) ? b : a;
+              var id = 'emsFlow' + k + '_' + i;
+              var lg = doc.createElementNS(SVGNS, 'linearGradient');
+              lg.setAttribute('id', id);
+              lg.setAttribute('gradientUnits', 'userSpaceOnUse');
+              lg.setAttribute('x1', from.x); lg.setAttribute('y1', from.y);
+              lg.setAttribute('x2', to.x); lg.setAttribute('y2', to.y);
+              [['-0.35', '1.35', '#3F76AE', '0'],
+               ['-0.2', '1.5', '#76A6D7', '1'],
+               ['-0.05', '1.65', '#3F76AE', '0']].forEach(function (st) {
+                var stop = doc.createElementNS(SVGNS, 'stop');
+                stop.setAttribute('offset', st[0]);
+                stop.setAttribute('stop-color', st[2]);
+                stop.setAttribute('stop-opacity', st[3]);
+                var an = doc.createElementNS(SVGNS, 'animate');
+                an.setAttribute('attributeName', 'offset');
+                an.setAttribute('values', st[0] + ';' + st[1]);
+                an.setAttribute('dur', (FLOW_MS / 1000) + 's');
+                an.setAttribute('begin', 'indefinite');
+                an.setAttribute('fill', 'freeze');
+                stop.appendChild(an);
+                lg.appendChild(stop);
+              });
+              defs.appendChild(lg);
+              /* 원본 선 위에 같은 모양을 겹쳐 그리고 그라디언트로만 칠한다. */
+              var glow = pth.cloneNode(false);
+              glow.removeAttribute('class');
+              glow.style.cssText = '';
+              glow.setAttribute('fill', 'none');
+              glow.setAttribute('stroke', 'url(#' + id + ')');
+              glow.setAttribute('stroke-width', '2');
+              glow.__anims = lg.querySelectorAll('animate');
+              g.appendChild(glow);
+              (g.__glows || (g.__glows = [])).push(glow);
+            }
+          });
+          var step = 0;
+          function fire() {
+            var g = lineEls[step % lineEls.length];
+            step++;
+            if (!g || !g.__glows) return;
+            g.__glows.forEach(function (el) {
+              for (var i = 0; i < el.__anims.length; i++) {
+                try { el.__anims[i].beginElement(); } catch (e) {}
+              }
+            });
           }
-        };
+          fire();
+          flowTimer = setInterval(fire, FLOW_GAP);
+        }
 
         /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
         var aspect = obj.clientWidth / obj.clientHeight || 1104 / 682;
         function fit(s) {
-          var pad = Math.max(s.w, s.h) * 0.08;
+          var pad = Math.max(s.w, s.h) * (s.pad == null ? 0.08 : s.pad);
           var x = s.x - pad, y = s.y - pad, w = s.w + pad * 2, h = s.h + pad * 2;
           if (w / h < aspect) { var nw = h * aspect; x -= (nw - w) / 2; w = nw; }
           else { var nh = w / aspect; y -= (nh - h) / 2; h = nh; }
@@ -303,7 +357,7 @@ const faqSchema = {
         });
         setTimeout(function () { moveTo(SHOTS.whole, 1100); }, t);
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
-        setTimeout(function () { lineEls.forEach(pingpong); }, t + 1100);
+        setTimeout(buildFlow, t + 1100);
       }
 
       function arm() {
