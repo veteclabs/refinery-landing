@@ -16,6 +16,8 @@ export interface PillarContent {
   canonical: string;
   /** <br>로 줄을 나눈다. */
   heroTitle: string;
+  /** 대제목 아래 한 줄 소개. 없는 페이지도 있다(산업 AI). */
+  heroLede?: string;
   ctaPrimary: string;
   contactHref: string;
   ctaGhost: string;

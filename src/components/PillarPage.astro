@@ -45,6 +45,7 @@ const faqSchema = {
     <section class="ind-hero">
       <div class="ind-container">
         <h1 set:html={T.heroTitle}></h1>
+        {T.heroLede && <p class="ind-lede ai-hero-lede">{T.heroLede}</p>}
         <div class="ind-hero-actions">
           <a href={T.contactHref} class="ind-btn-primary">{T.ctaPrimary}</a>
           <a href={T.ghostHref} class="ind-btn-ghost">{T.ctaGhost}</a>
@@ -517,6 +518,14 @@ const faqSchema = {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
+  /* 대제목 아래 한 줄 소개. .ind-lede는 왼쪽 정렬에 60ch 상한이라
+     가운데 정렬 히어로에 맞게 되돌린다. */
+  .ai-hero-lede {
+    margin: 20px auto 0;
+    max-width: 68ch;
+    text-align: center;
+  }
+
   /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
   .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
   .ai-hero-stage.is-empty .ai-hero-figure {
