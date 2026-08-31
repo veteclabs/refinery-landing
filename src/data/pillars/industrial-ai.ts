@@ -20,7 +20,7 @@ export interface PillarContent {
   contactHref: string;
   ctaGhost: string;
   ghostHref: string;
-  /** 히어로 데모 iframe 주소. 언어별 파일이 따로 있다. */
+  /** 히어로 데모 iframe 주소. 언어별 파일이 따로 있다. 빈 문자열이면 자리만 남긴다. */
   demoSrc: string;
   demoTitle: string;
   /** 데모 시작 화면에 띄우는 좌측 글. \n에서 두 줄로 나뉜다. */

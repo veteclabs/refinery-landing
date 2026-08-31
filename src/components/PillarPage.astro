@@ -15,6 +15,9 @@ interface Props {
 }
 const { content: T, alternates } = Astro.props;
 
+/* 히어로 데모를 넣을지. demoSrc가 비어 있으면 판만 남기고 자리로 둔다. */
+const hasDemo = Boolean(T.demoSrc);
+
 const faqItems = T.faq;
 const uses = T.uses;
 
@@ -47,17 +50,18 @@ const faqSchema = {
           <a href={T.ghostHref} class="ind-btn-ghost">{T.ctaGhost}</a>
         </div>
 
-        <div class="ai-hero-stage">
-        {/* 설명 카드. 데모 안에 있던 것을 밖으로 빼 왔다 — 내용은 데모가
-            refinery-hero-focus로 넘겨준다. 장면이 없는 동안에는 흐려진다. */}
-        {/* 시작 화면 글은 스크립트가 data-open-title에서 읽는다.
-            is:inline 스크립트라 Astro 변수를 직접 쓸 수 없다. */}
-        <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite" data-open-title={T.openTitle}>
-          <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
-          <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
-        </figcaption>
+        <div class={hasDemo ? 'ai-hero-stage' : 'ai-hero-stage is-empty'}>
+        {hasDemo && (
+          <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite" data-open-title={T.openTitle}>
+            <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
+            <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
+          </figcaption>
+        )}
+        {/* 데모가 없으면 자리만 남긴다. 판·비율은 그대로라 나중에 넣어도 아래가 밀리지 않는다. */}
         <div class="ai-hero-figure">
-          <iframe id="ai-demo-iframe" data-src={T.demoSrc} loading="lazy" scrolling="no" tabindex="-1" title={T.demoTitle} style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+          {hasDemo && (
+            <iframe id="ai-demo-iframe" data-src={T.demoSrc} loading="lazy" scrolling="no" tabindex="-1" title={T.demoTitle} style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+          )}
         </div>
         </div>
       </div>
@@ -123,6 +127,7 @@ const faqSchema = {
     </section>
   </main>
 
+  {hasDemo && (
   <script is:inline>
     /* 히어로 아래 에이전트 데모. 랜딩(index.astro)의 같은 스크립트와 짝이지만
        ID가 달라 섞이지 않는다. 공용 컴포넌트로 뽑는 건 랜딩 히어로까지 건드리는
@@ -364,6 +369,7 @@ const faqSchema = {
       document.addEventListener('DOMContentLoaded', resize);
     })();
   </script>
+  )}
   <Footer />
 </BaseLayout>
 
@@ -511,6 +517,14 @@ const faqSchema = {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
+  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
+  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
+  .ai-hero-stage.is-empty .ai-hero-figure {
+    border: 1px dashed #C8CED5;
+    box-shadow: none;
+    background: #FFFFFF;
+  }
+
   .ai-hero-figure {
     aspect-ratio: 1320 / 840;
     position: relative;
