@@ -165,9 +165,13 @@ const faqSchema = {
         /* pad는 상자 둘레 여유(긴 변 대비 비율).
            아래 판은 크게 보여야 해서 좁게, 모듈은 좌우가 잘리지 않게 넉넉히 준다. */
         stack: { x: 205, y: 400, w: 790, h: 780, pad: 0.01 },
-        plate: { x: 20, y: 10, w: 350, h: 370, pad: 0.2 },
-        lens: { x: 425, y: 20, w: 350, h: 355, pad: 0.2 },
-        agent: { x: 835, y: 20, w: 350, h: 355, pad: 0.2 },
+        /* 모듈 여유 0.04 — 옆 판이 프레임에 들어오지 않으면서 잘리지도 않는 값이다.
+           판 세 개가 x 20..370 · 425..775 · 835..1185에 있고, 이 여유에서 보이는
+           가로 폭이 약 480이라 이웃(353 아래 · 847 위)이 밖으로 나간다.
+           0.2로 두면 폭이 620을 넘어 옆 판이 걸쳐 보였다. */
+        plate: { x: 20, y: 10, w: 350, h: 370, pad: 0.04 },
+        lens: { x: 425, y: 20, w: 350, h: 355, pad: 0.04 },
+        agent: { x: 835, y: 20, w: 350, h: 355, pad: 0.04 },
         whole: { x: 0, y: 0, w: VB, h: VB, pad: 0.02 }
       };
 
@@ -380,9 +384,22 @@ const faqSchema = {
         io.observe(obj);
 
         function play() {
+        /* 아래 판은 한 겹씩 또렷하게 쌓여야 한다. 요소 하나하나를 같은 간격으로
+           띄우면 같은 겹의 조각들이 따로 나타나 층이 안 읽힌다.
+           아랫변이 비슷한 것끼리 묶어 한 겹으로 보고, 겹 단위로 천천히 올린다. */
+        var layers = [];
+        base.forEach(function (b) {
+          var last = layers[layers.length - 1];
+          if (last && Math.abs(last.bottom - b.bottom) <= 45) last.els.push(b.el);
+          else layers.push({ bottom: b.bottom, els: [b.el] });
+        });
+
         var t = 0;
-        base.forEach(function (b) { setTimeout(function () { show(b.el); }, t); t += 80; });
-        t += 300;
+        layers.forEach(function (L) {
+          setTimeout(function () { L.els.forEach(show); }, t);
+          t += 520;
+        });
+        t += 400;
         ['plate', 'lens', 'agent'].forEach(function (key, k) {
           (function (at) {
             setTimeout(function () { moveTo(SHOTS[key], 900); draw(lineEls[k]); }, at);
