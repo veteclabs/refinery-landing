@@ -399,11 +399,26 @@ const faqSchema = {
              824 이하  맨 위 판과 그 위 내용 — 한 번에 */
         var CUTS = [1080, 1040, 980, 870];
         var layers = [[], [], [], [], []];
+        /* Collect · Refine · Unify 알약은 자기 판보다 90 남짓 위에 떠 있어서
+           아랫변으로 나누면 한 판 위로 밀려 붙는다. 따로 골라내 순서대로 붙인다.
+           실측: x774~830 · 48~58 x 45~51 · 아랫변 971 · 911 · 852(아래부터 Collect). */
+        var pills = [];
+        base = base.filter(function (b) {
+          var el = b.el, bb;
+          try { bb = el.getBBox(); } catch (e) { return true; }
+          var isPill = bb.x > 700 && bb.width >= 40 && bb.width <= 80
+            && bb.height >= 35 && bb.height <= 70 && b.bottom >= 780 && b.bottom <= 1000;
+          if (isPill) { pills.push(b); return false; }
+          return true;
+        });
         base.forEach(function (b) {
           var k = 4;
           for (var i = 0; i < CUTS.length; i++) if (b.bottom >= CUTS[i]) { k = i; break; }
           layers[k].push(b.el);
         });
+        /* 아래에서부터 두 번째·세 번째·네 번째 판에 하나씩. */
+        pills.sort(function (a, b) { return b.bottom - a.bottom; });
+        pills.forEach(function (b, i) { layers[Math.min(i + 1, 3)].push(b.el); });
         layers = layers.filter(function (L) { return L.length; });
 
         var t = 0;
