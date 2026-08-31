@@ -263,8 +263,37 @@ const faqSchema = {
           '@keyframes layer-band-breathe{0%,100%{opacity:.25}50%{opacity:1}}' +
           '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
           '@keyframes api-dot-left{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
+          /* 아이콘 디테일도 랜딩과 같다. 랜딩 파일에 손으로 붙인 pf-* 클래스를
+             이 그림에도 옮겨 붙였다(두 파일이 같은 아트워크라 기하로 대응된다).
+             회선과 달리 처음부터 돈다 — 랜딩도 그렇다. */
+          '.pf-plate-bar{transform-box:fill-box;transform-origin:bottom;' +
+            'animation-name:pf-bar-pulse;animation-duration:2.4s;' +
+            'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
+          '.pf-plate-bar-1{animation-delay:0s}.pf-plate-bar-2{animation-delay:.15s}' +
+          '.pf-plate-bar-3,.pf-plate-bar-4,.pf-plate-bar-5,.pf-lens-knob{animation:none;transform:none}' +
+          '.pf-plate-rearbox{transform-box:fill-box;transform-origin:center;' +
+            'animation:pf-rearbox-bob 2.8s ease-in-out infinite}' +
+          '.pf-lens-cube{transform-box:fill-box;transform-origin:center;' +
+            'animation-name:pf-cube-bob;animation-timing-function:ease-in-out;' +
+            'animation-iteration-count:infinite}' +
+          '.pf-lens-cube-1{animation-duration:2.6s;animation-delay:0s}' +
+          '.pf-lens-cube-2{animation-duration:3s;animation-delay:.3s}' +
+          '.pf-lens-cube-3{animation-duration:2.8s;animation-delay:.6s}' +
+          '.pf-lens-panel{transform-box:fill-box;transform-origin:center;' +
+            'animation:pf-panel-bob 2.8s ease-in-out infinite}' +
+          '.pf-agent-dot,.pf-agent-bubble{transform-box:fill-box;transform-origin:center;' +
+            'animation-name:pf-agent-bob;animation-duration:2.8s;' +
+            'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
+          '.pf-agent-dot-1,.pf-agent-bubble-1{animation-delay:0s}' +
+          '.pf-agent-dot-2,.pf-agent-bubble-2{animation-delay:.3s}' +
+          '.pf-agent-dot-3,.pf-agent-bubble-3{animation-delay:.6s}' +
+          '@keyframes pf-bar-pulse{0%,100%{transform:scale(.7)}50%{transform:scale(1.15)}}' +
+          '@keyframes pf-rearbox-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
+          '@keyframes pf-cube-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
+          '@keyframes pf-panel-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
+          '@keyframes pf-agent-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
           '@media (prefers-reduced-motion:reduce){.seq,.line path{transition:none}' +
-          '.line path,.flow-on *{animation:none!important}}';
+          '.line path,.flow-on *,[class*="pf-"]{animation:none!important}}';
         svg.appendChild(style);
 
         /* 회선은 아래(판)에서 위(모듈)로 그려져야 한다. 경로가 어느 쪽에서
