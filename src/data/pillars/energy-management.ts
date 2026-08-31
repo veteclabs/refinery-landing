@@ -18,7 +18,7 @@ export const energyManagement: PillarContent = {
   openTitle: '',
   faqHead: '자주 묻는 질문',
   usesHead: '현장에서 바로 쓰는 활용',
-  usesLede: '전력 · 에너지 관리가 실제 현장에서 어떻게 쓰이는지 살펴보세요.',
+  usesLede: '에너지관리시스템이 실제 현장에서 어떻게 쓰이는지 살펴보세요.',
   more: '자세히보기',
   ctaTitle: '전력 · 에너지 관리, 우리 현장에<br>어떻게 적용할까요?',
   faq: [

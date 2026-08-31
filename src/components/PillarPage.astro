@@ -518,6 +518,11 @@ const faqSchema = {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
+  /* 활용 섹션 소제목은 한 줄로 둔다. industry.css의 .ind-page .ind-head p가
+     상한을 400px로 잡고 있어 그보다 긴 문구가 두 줄로 접힌다
+     (에너지 페이지 '에너지관리시스템이 실제 현장에서…'가 448px). */
+  .ind-soft .ind-head p { max-width: 480px; }
+
   /* 대제목 아래 한 줄 소개. .ind-lede는 왼쪽 정렬에 60ch 상한이라
      가운데 정렬 히어로에 맞게 되돌린다. */
   .ai-hero-lede {
