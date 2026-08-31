@@ -1028,6 +1028,9 @@ body {
   /* 부모(랜딩 히어로)가 보내는 message로 껐다 켠다. wait/dwell이 남은 시간을
      깎지 않고 프레임만 넘기므로, 재개하면 멈춘 지점부터 이어진다. */
   let paused = false;
+  /* 시나리오가 한 번이라도 시작됐는지. 아래 화면 감지(IntersectionObserver)가
+     뒤늦게 또 시작시켜 처음부터 다시 도는 것을 막는다. */
+  let scenarioStarted = false;
 
   function wait(ms) {
     const my = epoch;
@@ -1607,7 +1610,13 @@ body {
 
   function start() {
     epoch += 1;
+    scenarioStarted = true;
     $("endcard").classList.remove("is-on");
+    /* 한 바퀴가 새로 시작한다고 부모에 알린다. 시작 화면에서 잠깐 멈췄다가
+       가는 페이지가 매 바퀴 같은 연출을 하려면 이 시점을 알아야 한다. */
+    if (parent !== window) {
+      try { parent.postMessage({ type: "refinery-hero-cycle" }, "*"); } catch (e) {}
+    }
     run().catch((e) => { if (e !== ABORT) throw e; });
   }
 
@@ -1645,7 +1654,11 @@ body {
      페이지 하단에 끼워 넣고 로드 시점에 재생하면 방문자가 스크롤해 내려왔을 때
      처음이 아니라 중간부터 보게 된다. */
   const io = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+    if (entries.some((e) => e.isIntersecting)) {
+      io.disconnect();
+      /* 부모가 먼저 시작시켰으면(refinery-hero-replay) 다시 시작하지 않는다. */
+      if (!scenarioStarted) start();
+    }
   }, { threshold: 0.35 });
   io.observe(stage);
 })();
