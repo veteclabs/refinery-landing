@@ -438,29 +438,35 @@ const faqSchema = {
         /* 겹이 다 쌓이면 점선 기둥·회선·API 점이 한꺼번에 선다.
            회선은 아래에서 위로 그려지며 상자 모양이 드러난다. */
         /* 판을 보던 자리 그대로 세우면 회선이 프레임 위로 잘려 나간다 —
-           세우기 직전에 전체로 물러나 상자가 통째로 보이게 한다. */
+           세우기 직전에 전체로 물러나 상자가 통째로 보이게 한다.
+           점선 기둥과 API 점이 먼저 서고, 회선은 아직 잇지 않는다. */
         var wiring = function (fn) { edges.forEach(fn); betweens.forEach(fn); };
         setTimeout(function () { moveTo(SHOTS.whole, 900); }, t);
-        setTimeout(function () { wiring(show); lineEls.forEach(draw); }, t + 350);
-        t += 1900;                    /* 다 선 모습을 한 번 보고 나서 들어간다 */
+        setTimeout(function () { wiring(show); }, t + 350);
+        t += 1300;
 
-        /* 작은 판으로 확대할 때는 회선과 점을 걷는다 — 판만 보이게. 세 번을 잇달아
-           돌므로 들어가기 직전에 한 번 걷고, 전체로 물러날 때 한 번에 되돌린다. */
-        setTimeout(function () { wiring(fade); lineEls.forEach(fade); }, t);
-        t += 450;
+        /* 한 다발씩 잇고, 이어진 끝으로 들어가 그 판을 보인다.
+           들어갈 때는 회선과 점을 걷어 판만 남기고, 물러나면 여태 이은 다발이
+           다시 보인다. 이 세 마디가 플레이트 · 렌즈 · AI 에이전트 순으로 돈다. */
+        var drawn = [];
         ['plate', 'lens', 'agent'].forEach(function (key, k) {
           (function (at) {
-            setTimeout(function () { moveTo(SHOTS[key], 900); }, at);
-            setTimeout(function () { modules[k].forEach(show); }, at + 700);
+            setTimeout(function () { draw(lineEls[k]); drawn.push(k); }, at);
+            setTimeout(function () {
+              wiring(fade); lineEls.forEach(fade);
+              moveTo(SHOTS[key], 900);
+            }, at + 1000);
+            setTimeout(function () { modules[k].forEach(show); }, at + 1700);
+            setTimeout(function () { moveTo(SHOTS.whole, 900); }, at + 2400);
+            setTimeout(function () {
+              wiring(show);
+              drawn.forEach(function (j) { draw(lineEls[j]); });
+            }, at + 2750);
           })(t);
-          t += 1700;
+          t += 3300;
         });
-        setTimeout(function () {
-          moveTo(SHOTS.whole, 1100);
-          wiring(show); lineEls.forEach(draw);
-        }, t);
         /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
-        setTimeout(buildFlow, t + 1100);
+        setTimeout(buildFlow, t + 300);
         }
       }
 
