@@ -454,11 +454,25 @@ const faqSchema = {
           if (isPill) { pills.push(b); return false; }
           return true;
         });
+        /* 아래판 오른쪽 모서리의 'Data' 글씨는 아랫변이 962라 경계값으로는 네 번째
+           판에 붙는다. 아래판의 이름이므로 아래판과 함께 떠야 한다.
+           실측: x963..990 · 27 x 23 · 아랫변 962. 같은 아랫변 구간의 다른 것들은
+           x가 훨씬 왼쪽이라(Collect 774 · Refine 776) x > 940으로 갈린다. */
+        var dataLabel = [];
+        base = base.filter(function (b) {
+          var bb;
+          try { bb = b.el.getBBox(); } catch (e) { return true; }
+          var isLabel = bb.x > 940 && bb.width <= 60 && bb.height <= 40
+            && b.bottom >= 900 && b.bottom <= 1000;
+          if (isLabel) { dataLabel.push(b.el); return false; }
+          return true;
+        });
         base.forEach(function (b) {
           var k = 4;
           for (var i = 0; i < CUTS.length; i++) if (b.bottom >= CUTS[i]) { k = i; break; }
           layers[k].push(b.el);
         });
+        dataLabel.forEach(function (el) { layers[0].push(el); });
         /* 아래에서부터 두 번째·세 번째·네 번째 판에 하나씩. */
         pills.sort(function (a, b) { return b.bottom - a.bottom; });
         pills.forEach(function (b, i) { layers[Math.min(i + 1, 3)].push(b.el); });
