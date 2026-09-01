@@ -114,7 +114,9 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     ],
     uses: [
       { label: 'Power management', desc: 'Find peaks, anomalies and savings\nin your power data', href: '/en/use-cases/power-management' },
-      { label: 'Factory energy management', desc: 'Manage energy use across the\nwhole plant in one EMS', href: '/en/use-cases/factory-energy' },
+      /* 카드 제목은 한 줄로 둔다. 'Factory energy management'는 카드 안쪽
+         폭(235px)을 넘겨 두 줄이 되고, 그 카드만 높아져 넉 장이 어긋난다. */
+      { label: 'Factory energy', desc: 'Manage energy use across the\nwhole plant in one EMS', href: '/en/use-cases/factory-energy' },
       { label: 'Energy optimization', desc: 'AI that finds waste and cuts\nenergy use', href: '/en/use-cases/energy-optimization' },
       { label: 'Industrial AI', desc: 'Industrial, manufacturing and\nenergy AI at a glance', href: '/en/industrial-ai' },
     ],

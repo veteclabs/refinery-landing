@@ -122,7 +122,7 @@ const faqSchema = {
           <h2 set:html={T.usesHead}></h2>
           <p set:html={T.usesLede}></p>
         </header>
-        <div class="ind-grid ind-grid-4 pillar-uses">
+        <div class="ind-grid ind-grid-4">
           {uses.map((u) => (
             <a class="ind-card" href={u.href}>
               <h3>{u.label}</h3>
@@ -1011,13 +1011,6 @@ const faqSchema = {
     font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
     color: #16202C; margin: 0;
   }
-  /* 카드 제목이 두 줄로 접히면 그 카드만 '자세히보기'가 아래로 밀려 넉 장의
-     줄이 어긋난다(영문 'Factory energy management'가 두 줄이다). 링크를 카드
-     바닥에 붙여 맞춘다. 칸 높이는 원래 가장 긴 카드에 맞춰 늘어나 있으므로,
-     제목이 모두 한 줄인 한국어 쪽은 지금과 같다. */
-  .pillar-uses .ind-card { display: flex; flex-direction: column; }
-  .pillar-uses .ind-card .ind-card-go { margin-top: auto; }
-
   /* 활용 섹션 소제목은 한 줄로 둔다. industry.css의 .ind-page .ind-head p가
      상한을 400px로 잡고 있어 그보다 긴 문구가 두 줄로 접힌다
      (에너지 페이지 '에너지관리시스템이 실제 현장에서…'가 448px). */
