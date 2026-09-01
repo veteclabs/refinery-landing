@@ -253,6 +253,12 @@ const faqSchema = {
              그려진다. 판으로 확대해 들어가면(배율 1.9) 이 값을 걷어, 원본대로
              선이 함께 굵어진다. */
           '.thin-guard *{vector-effect:non-scaling-stroke}' +
+          /* 단, 스스로 확대·축소하는 것(pf-*)은 뺀다. non-scaling-stroke는 테두리를
+             변형 밖에서 계산해 화면 기준으로 고정하므로, 막대가 0.7에서 1.15로
+             커지는 동안 안쪽 면만 자라고 테두리는 그대로 있게 된다. 랜딩에는 없는
+             동작이고 2px 막대에서는 가장자리가 어른거려 움직임이 이상해 보인다.
+             이들은 랜딩처럼 테두리도 함께 자라야 한다. */
+          '.thin-guard [class*="pf-"],.thin-guard [class*="pf-"] *{vector-effect:none}' +
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
