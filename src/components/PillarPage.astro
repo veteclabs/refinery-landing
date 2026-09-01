@@ -315,19 +315,6 @@ const faqSchema = {
         style.textContent =
           /* 확대·축소가 오가므로 속도보다 기하 정확도를 우선한다. */
           'svg{shape-rendering:geometricPrecision}' +
-          /* 카메라가 물러나 있을 때만 선 굵기를 화면 기준으로 잡는다.
-             전체 모습에서는 그림이 0.61배로 그려져 기본 선(0.75단위)이 0.46px가
-             된다 — 1픽셀보다 얇으면 브라우저가 흐린 회색으로 반쯤 칠할 수밖에
-             없어 테두리와 글씨가 깨져 보인다. 화면 기준으로 잡으면 0.75px로
-             그려진다. 판으로 확대해 들어가면(배율 1.9) 이 값을 걷어, 원본대로
-             선이 함께 굵어진다. */
-          '.thin-guard *{vector-effect:non-scaling-stroke}' +
-          /* 단, 스스로 확대·축소하는 것(pf-*)은 뺀다. non-scaling-stroke는 테두리를
-             변형 밖에서 계산해 화면 기준으로 고정하므로, 막대가 0.7에서 1.15로
-             커지는 동안 안쪽 면만 자라고 테두리는 그대로 있게 된다. 랜딩에는 없는
-             동작이고 2px 막대에서는 가장자리가 어른거려 움직임이 이상해 보인다.
-             이들은 랜딩처럼 테두리도 함께 자라야 한다. */
-          '.thin-guard [class*="pf-"],.thin-guard [class*="pf-"] *{vector-effect:none}' +
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
@@ -490,22 +477,34 @@ const faqSchema = {
            실측: <object> 21.2 · <img> 36.6.
            시퀀스(판 쌓기 · 카메라 · 회선 잇기)는 스크립트가 SVG 안쪽을 만져야
            하므로 <object>로 하고, 다 끝난 마지막 모습만 구워서 넘긴다. */
-        var baked = false;
-        function bake() {
-          if (baked) return;
-          baked = true;
+        var bakedImg = null, bakeReady = false, wantSwap = false;
+        /* 굽기는 미리 해 둔다. 755KB SVG를 직렬화하는 일을 카메라가 멈추는 그
+           프레임에 몰면 그 순간 한 박자 끊긴다. 에이전트 확대가 끝나고 물러나기
+           시작할 때 구워 두었다가, 다 물러난 순간 바꿔치기만 한다. */
+        function prebake() {
+          if (bakedImg) return;
           var svg = doc.querySelector('svg');
           if (!svg) return;
-          var out = new XMLSerializer().serializeToString(svg.cloneNode(true));
+          var clone = svg.cloneNode(true);
+          /* 구워 넣을 화면은 마지막 전체 모습이다(굽는 시점은 아직 이동 중이다). */
+          clone.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
+          var out = new XMLSerializer().serializeToString(clone);
           var url = URL.createObjectURL(new Blob([out], { type: 'image/svg+xml' }));
           var img = document.createElement('img');
           img.className = obj.className;
           img.alt = obj.getAttribute('aria-label') || '';
           img.setAttribute('aria-hidden', 'true');
-          /* 다 뜬 뒤에 바꿔야 한 프레임도 비지 않는다. */
-          img.onload = function () { obj.style.display = 'none'; };
+          img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;visibility:hidden';
+          img.onload = function () { bakeReady = true; if (wantSwap) swapToImg(); };
           img.src = url;
           obj.parentNode.appendChild(img);
+          bakedImg = img;
+        }
+        function swapToImg() {
+          wantSwap = true;
+          if (!bakedImg || !bakeReady) return;      /* 다 뜨면 onload가 다시 부른다 */
+          bakedImg.style.visibility = 'visible';
+          obj.style.display = 'none';
         }
 
         /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
@@ -532,8 +531,7 @@ const faqSchema = {
           });
           root.classList.add('flow-on');
           applyThicken();          /* 글자 굵히기도 여기서 시작한다 */
-          /* 카메라가 다 서고 나서 지금 모습을 그대로 <img>로 굽는다(아래 bake). */
-          setTimeout(bake, 1200);
+          prebake();               /* 물러나는 동안 미리 구워 둔다 */
           /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
              남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
           doc.querySelectorAll('[style]').forEach(function (el) {
@@ -555,18 +553,8 @@ const faqSchema = {
         var cur = fit(SHOTS.stack);
         svg.setAttribute('viewBox', cur.join(' '));
 
-        /* 배율이 1보다 작아지면 선 굵기를 화면 기준으로 돌린다(위 .thin-guard). */
-        var thin = null;
-        function guard() {
-          var on = (obj.clientWidth / cur[2]) < 1;
-          if (on === thin) return;
-          thin = on;
-          root.classList.toggle('thin-guard', on);
-        }
-        guard();
-
         var anim = null;
-        function moveTo(shot, ms) {
+        function moveTo(shot, ms, done) {
           var to = fit(shot), from = cur.slice(), t0 = performance.now();
           if (anim) cancelAnimationFrame(anim);
           (function step(now) {
@@ -574,8 +562,9 @@ const faqSchema = {
             var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;  /* ease-in-out */
             cur = from.map(function (v, i) { return v + (to[i] - v) * e; });
             svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
-            guard();
-            if (k < 1) anim = requestAnimationFrame(step); else { cur = to; guard(); }
+            if (k < 1) { anim = requestAnimationFrame(step); return; }
+            cur = to;
+            if (done) done();
           })(t0);
         }
 
@@ -756,7 +745,9 @@ const faqSchema = {
               seenPlates.forEach(function (j) { modules[j].forEach(show); });
               seenGaps.forEach(function (g) { betweens[g].forEach(show); });
               drawnLines.forEach(function (j) { relight(lineEls[j]); });
-              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
+              /* 마지막 물러남이 끝나면 미리 구워 둔 <img>로 바꿔치기한다. */
+              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
+                     k === LAST ? swapToImg : null);
               /* 물러나기 시작하고 곧바로 흐름을 건다. 카메라가 다 선 뒤에 걸면
                  그 사이 원본(정지된 실선)이 한 박자 보였다가 모션으로 바뀐다. */
               if (k === LAST) setTimeout(buildFlow, 250);
