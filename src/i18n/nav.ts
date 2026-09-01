@@ -58,7 +58,6 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           items: [
             { label: '산업 AI', href: '/industrial-ai', icon: 'sparkle', desc: '업종을 가리지 않는 AI 활용법' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
-            // (영문은 /en/energy-management가 없어 영문 메뉴에는 넣지 않는다.)
             { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 · 가스 · 스팀 · 용수 통합 관리' },
             { label: '블로그', href: '/blog', icon: 'article', desc: '현장 적용 사례와 기술 노트' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
@@ -125,10 +124,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         {
           title: 'Resources',
           items: [
-            // 한국어와 같은 목록·순서다. 에너지관리는 영어 페이지가 아직 없어
-            // 국문 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+            // 한국어와 같은 목록·순서다.
             { label: 'Industrial AI', href: '/en/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
-            { label: 'Energy management', href: '/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
+            { label: 'Energy management', href: '/en/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
             { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
             { label: 'Resources & whitepapers', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
@@ -252,10 +250,9 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Resources',
       items: [
-        // 한국어 푸터와 같은 목록·순서다. 에너지관리는 영어 페이지가 아직 없어
-        // 국문 페이지로 보낸다(임시). 영어 페이지가 생기면 /en/...으로 바꾼다.
+        // 한국어 푸터와 같은 목록·순서다.
         { label: 'Industrial AI', href: '/en/industrial-ai' },
-        { label: 'Energy management', href: '/energy-management' },
+        { label: 'Energy management', href: '/en/energy-management' },
         { label: 'Blog', href: '/en/blog' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
       ],

@@ -1,5 +1,11 @@
 ---
-// 영어 산업 AI 페이지. 본문은 한국어와 같은 IndustrialAiPage 컴포넌트를 쓰고 문구만 영어다.
-import IndustrialAiPage from '../../components/IndustrialAiPage.astro';
+// 영어 산업 AI 페이지. 본문은 한국어와 같은 PillarPage 컴포넌트를 쓰고 문구만 영어다.
+import PillarPage from '../../components/PillarPage.astro';
+import { industrialAi } from '../../data/pillars/industrial-ai';
+
+const alternates = [
+  { lang: 'ko', href: '/industrial-ai' },
+  { lang: 'en', href: '/en/industrial-ai' },
+];
 ---
-<IndustrialAiPage lang="en" />
+<PillarPage content={industrialAi.en} alternates={alternates} />

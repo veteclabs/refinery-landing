@@ -1,0 +1,11 @@
+---
+// 영어 에너지관리시스템 페이지. 본문은 한국어와 같은 PillarPage 컴포넌트를 쓰고 문구만 영어다.
+import PillarPage from '../../components/PillarPage.astro';
+import { energyManagement } from '../../data/pillars/energy-management';
+
+const alternates = [
+  { lang: 'ko', href: '/energy-management' },
+  { lang: 'en', href: '/en/energy-management' },
+];
+---
+<PillarPage content={energyManagement.en} alternates={alternates} />
