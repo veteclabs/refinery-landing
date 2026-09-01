@@ -259,6 +259,11 @@ const faqSchema = {
              동작이고 2px 막대에서는 가장자리가 어른거려 움직임이 이상해 보인다.
              이들은 랜딩처럼 테두리도 함께 자라야 한다. */
           '.thin-guard [class*="pf-"],.thin-guard [class*="pf-"] *{vector-effect:none}' +
+          /* Collect · Refine · Unify 알약만 키운다. 전체 모습에서 그림이 0.61배로
+             그려지면 알약 안 글자가 6.1~7.2px밖에 안 돼(획이 1픽셀 미만) 뭉개진다.
+             1.45배로 키우면 8.8~10.4px가 되어 읽힌다. 알약은 판 옆 빈 자리에
+             떠 있어 키워도 부딪히지 않는다. */
+          '.pill-label{transform-box:fill-box;transform-origin:center;transform:scale(1.45)}' +
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
@@ -524,7 +529,7 @@ const faqSchema = {
           try { bb = el.getBBox(); } catch (e) { return true; }
           var isPill = bb.x > 700 && bb.width >= 40 && bb.width <= 80
             && bb.height >= 35 && bb.height <= 70 && b.bottom >= 780 && b.bottom <= 1000;
-          if (isPill) { pills.push(b); return false; }
+          if (isPill) { el.classList.add('pill-label'); pills.push(b); return false; }
           return true;
         });
         /* 아래판 오른쪽 모서리의 'Data' 글씨는 아랫변이 962라 경계값으로는 네 번째
