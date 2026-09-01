@@ -190,20 +190,44 @@ const faqSchema = {
         if (!svg || !root) return;
 
         var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        /* 섞기(mix-blend-mode)는 걷는다. 섞으려면 브라우저가 뒤 배경을 버퍼로
-           읽어야 해서 그 자리에 합성 그룹이 생긴다 — 되살려 재보니 레이어가
-           6개에서 33개로 늘고 긴 프레임이 24건 났다.
-           다만 그냥 걷으면 그림이 달라진다. 이 파일에서 섞기가 걸린 것은
-           .cls-16 도형 둘뿐인데(12x7, x936 y608 · x934 y629 — 리파이너리 로고의
-           큐브 그림자), 칠이 흰색이고 획이 하늘색 #76A6D7이다. 곱하기에서 흰색은
-           아무 일도 하지 않으므로 파일에서는 뒤가 그대로 비치고 획만 얹힌다.
-           normal로 덮으면 그 칠이 불투명한 흰 조각이 되어 뒤를 가린다 —
-           색이 달라 보이던 원인이다. 흰색 칠을 비워 같은 모습을 만든다. */
-        [].slice.call(doc.querySelectorAll('[class]')).forEach(function (el) {
-          var cs = doc.defaultView.getComputedStyle(el);
+        /* 섞기(mix-blend-mode)는 걷되, 그림은 파일과 같게 남긴다.
+           섞으려면 브라우저가 뒤 배경을 버퍼로 읽어야 해서 그 자리에 합성
+           그룹이 생긴다 — 그대로 두고 재보니 레이어가 6개에서 33개로 늘고
+           긴 프레임이 26건(최대 58ms) 났다.
+           대신 곱하기의 결과를 미리 칠한다. 곱하기는 두 색의 성분 곱이라
+           배경이 단색이면 값이 정해진다. 이 파일에서 섞기가 걸린 것은 14곳이고
+           두 종류뿐이다:
+             · 흰색 칠 — 곱하기에서 아무 일도 하지 않는다. 칠을 비운다.
+               (리파이너리 로고의 큐브 그림자 등. 획은 그대로 얹힌다.)
+             · #DCE8F5 칠 다섯 — 렌즈 판 위 큐브 그림자다. 판 윗면 #76A6D7에
+               곱해져 rgb(102,151,207)로 그려진다(원본 픽셀 실측치와 같다).
+               그 색을 그대로 칠한다. */
+        var W = 'rgb(255, 255, 255)';
+        var SHADE = 'rgb(220, 232, 245)';                    /* 그림자 칠 #DCE8F5 */
+        var PLATE = [118, 166, 215];                         /* 판 윗면 #76A6D7 */
+        var SHADE_ON_PLATE = 'rgb(' + [220, 232, 245].map(function (v, i) {
+          return Math.round(v * PLATE[i] / 255);
+        }).join(', ') + ')';
+        [].slice.call(doc.querySelectorAll('*')).forEach(function (el) {
+          if (!el.getBBox) return;
+          var view = doc.defaultView, cs = view.getComputedStyle(el);
           if (!cs.mixBlendMode || cs.mixBlendMode === 'normal') return;
-          if (cs.mixBlendMode === 'multiply' && cs.fill === 'rgb(255, 255, 255)') {
-            el.style.fill = 'none';
+          if (cs.mixBlendMode === 'multiply') {
+            if (el.tagName === 'g') {
+              /* 안이 온통 흰색인 묶음도 곱하기에서는 보이지 않는다. */
+              var kids = el.querySelectorAll('path,polygon,rect,circle,ellipse,line,polyline');
+              var blank = kids.length > 0;
+              for (var i = 0; i < kids.length; i++) {
+                var kc = view.getComputedStyle(kids[i]);
+                if (kc.fill !== 'none' && kc.fill !== W) { blank = false; break; }
+                if (kc.stroke !== 'none' && kc.stroke !== W) { blank = false; break; }
+              }
+              if (blank) el.style.opacity = '0';
+            } else if (cs.fill === W) {
+              el.style.fill = 'none';
+            } else if (cs.fill === SHADE) {
+              el.style.fill = SHADE_ON_PLATE;
+            }
           }
           el.style.mixBlendMode = 'normal';
         });
