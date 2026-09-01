@@ -190,18 +190,14 @@ const faqSchema = {
         if (!svg || !root) return;
 
         var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        /* 섞기(mix-blend-mode)를 걷는다. 섞으려면 브라우저가 뒤 배경을 버퍼로
-           읽어야 하고, 그 버퍼가 표시 배율로 잡혀 배경 전체가 흐려진다 — 맨 위 판이
-           뜰 때 아래 판 넷이 흐려지던 원인이다. 되돌리지 않는다.
-
-           하늘색 빛무리(outer-glow)는 그대로 둔다. 판5가 뜰 때 흐려지는 원인으로
-           의심해 걷어 봤지만, 켜고 끄며 재니 선명도가 22.98 대 22.64로 사실상
-           같았다 — 원인은 섞기였다. */
-        [].slice.call(doc.querySelectorAll('[class]')).forEach(function (el) {
-          var cs = doc.defaultView.getComputedStyle(el);
-          if (cs.mixBlendMode && cs.mixBlendMode !== 'normal') el.style.mixBlendMode = 'normal';
-
-        });
+        /* 섞기(mix-blend-mode)는 파일에 적힌 대로 둔다. 한때 이것을 normal로
+           덮어썼다 — 섞으려면 뒤 배경을 버퍼로 읽어야 해서 흐려진다고 봤기
+           때문이다. 그러나 흐림의 진짜 원인은 투명도 전환과 아이콘 애니메이션이
+           만들던 합성 레이어였고(둘 다 프레임 단위 쓰기로 옮겼다), 덮어쓰기는
+           그림을 바꾸는 부작용만 남았다. 이 파일에서 섞기가 걸린 것은 .cls-16
+           흰색 도형 둘(12x7, 리파이너리 로고의 큐브 그림자)뿐인데, 흰색 곱하기는
+           뒤가 그대로 비쳐야 할 자리다. normal로 덮으면 불투명한 흰 조각이 되어
+           파일과 색이 달라 보였다. */
 
         var kids = [];
         for (var i = 0; i < root.children.length; i++) kids.push(root.children[i]);
