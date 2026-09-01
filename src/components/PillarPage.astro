@@ -428,22 +428,15 @@ const faqSchema = {
            그룹(도형 729개, 'Work flow'와 'Refinery Ontology' 글씨 포함)까지
            그렇게 되면서 글씨가 뭉개져 보였다. 원래 반투명한 넷(0.1 · 0.15 ·
            0.25)만 값을 남긴다. */
+        /* 나타날 때는 .seq의 0.5초 전환을 그대로 탄다(원래 모습).
+           값이 1이면 인라인 opacity를 걷는다 — 1을 그대로 두면 그 요소가 계속
+           합성 그룹으로 남는다. */
         var show = function (el) {
           if (!el) return;
-          /* 나타날 때는 전환을 걸지 않는다. 투명도가 0과 1 사이인 동안 그 요소는
-             합성 그룹이 되어(따로 그린 뒤 합친다) 글씨와 가는 선이 흐려졌다가
-             다 뜨고 나서야 선명해진다. 판이 순서대로 쌓일 때 글씨가 흐렸다
-             선명해지던 원인이다. 사라질 때(fade)는 전환을 되살려 그대로 둔다. */
-          el.style.transition = 'none';
           if (el.__o === '1' || el.__o === 1) el.style.removeProperty('opacity');
           else el.style.opacity = el.__o;
         };
-        /* 걷는 것은 스르르 사라지게 둔다 — show()가 꺼 둔 전환을 되살린다. */
-        var fade = function (el) {
-          if (!el) return;
-          el.style.removeProperty('transition');
-          el.style.opacity = '0';
-        };
+        var fade = function (el) { if (el) el.style.opacity = '0'; };
         var DRAW_MS = REDUCE ? 0 : 1300;         /* 스타일시트의 전환 시간과 같다 */
         /* 걷었던 다발을 되돌린다. 이미 다 그려져 있으므로 켜기만 하면 된다 —
            draw()를 다시 부르면 끝의 작은 원이 1.3초 늦게 들어온다. */
@@ -1209,11 +1202,11 @@ const faqSchema = {
     pointer-events: none;
     /* 준비가 끝나기 전에는 감춘다. 안 그러면 완성된 그림이 한 번 스쳤다가
        감춰지면서 회선이 먼저 보인다. 스크립트가 없으면 위 setTimeout이 켜 준다. */
-    /* 페이드 없이 바로 켠다. 투명도가 0과 1 사이인 동안은 그림 전체가 합성
-       그룹이라 글씨가 흐려 보인다 — 준비가 끝나기 전에는 어차피 감춰져 있다. */
     opacity: 0;
+    transition: opacity .25s ease;
   }
   .ai-hero-graphic.is-ready { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ai-hero-graphic { transition: none; } }
   /* 그래픽만 있는 판은 테두리까지 그림으로 채운다. 안쪽 여백 40px에 더해
      그림 자체가 820px로 묶여 있어, 1440에서 판 안쪽 1102px 중 좌우로 141px씩
      비었다 — 그림과 박스 선 사이가 그만큼 떠 보였다.
