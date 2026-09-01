@@ -293,7 +293,14 @@ const faqSchema = {
           '.flow-on .pf-plate-bar{transform-box:fill-box;transform-origin:bottom;' +
             'animation-name:pf-bar-pulse;animation-duration:2.4s;' +
             'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
-          '.flow-on .pf-plate-bar-1{animation-delay:0s}.flow-on .pf-plate-bar-2{animation-delay:.15s}' +
+          /* 지연을 음수로 준다. 랜딩은 페이지가 열릴 때부터 돌아 이미 중간 위상인데,
+             여기는 마지막 순간에 .flow-on으로 시작하므로 0%(scale .7)부터 출발해
+             막대가 1에서 0.7로 뚝 떨어졌다가 자란다. 배율이 1이 되는 위상은
+             0.69초(올라가는 쪽)와 1.71초(내려오는 쪽) 두 곳이다 — 거기서 시작하면
+             튀지 않는다. 1번은 올라가는 쪽에서, 2번은 내려오는 쪽에서 출발시켜
+             둘이 어긋나 돌게 한다(랜딩의 0.15초 시차보다 자연스럽고, 시차를
+             그대로 쓰면 2번이 10% 단차로 튄다). */
+          '.flow-on .pf-plate-bar-1{animation-delay:-.69s}.flow-on .pf-plate-bar-2{animation-delay:-1.71s}' +
           '.flow-on .pf-plate-bar-3,.flow-on .pf-plate-bar-4,.flow-on .pf-plate-bar-5,.flow-on .pf-lens-knob{animation:none;transform:none}' +
           '.flow-on .pf-plate-rearbox{transform-box:fill-box;transform-origin:center;' +
             'animation:pf-rearbox-bob 2.8s ease-in-out infinite}' +
