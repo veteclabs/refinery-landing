@@ -342,7 +342,7 @@ const faqSchema = {
              (실측: 10975ms 1 → 11013ms 0.25 — '작은판 3개가 쿵'하던 것).
              투명도가 1인 50% 지점에서 출발시키면 제자리에서 이어진다.
              주기·곡선은 랜딩 값 그대로다. */
-          '.flow-on polygon.cls-9{animation:layer-band-breathe 2.8s ease-in-out -1.4s infinite}' +
+          '.flow-baked polygon.cls-9{animation:layer-band-breathe 2.8s ease-in-out -1.4s infinite}' +
           '.flow-on line.cls-3[y1="185.58"],.flow-on line.cls-3[y1="193.58"]{' +
             'stroke-width:.75px;stroke-dasharray:6 9;stroke-linecap:round;' +
             'animation-duration:1.6s;animation-timing-function:linear;' +
@@ -359,8 +359,8 @@ const faqSchema = {
              이 그림에도 옮겨 붙였다(두 파일이 같은 아트워크라 기하로 대응된다).
              회선과 함께 .flow-on이 걸린 뒤에만 돈다 — 판으로 확대해 있는 동안
              막대가 뛰고 큐브가 흔들리면 그 판을 보여주는 데 방해가 된다. */
-          '.flow-on .pf-plate-bar{transform-box:fill-box;transform-origin:bottom;' +
-            'animation-name:pf-bar-pulse;animation-duration:2.4s;' +
+          '.flow-on .pf-plate-bar{transform-box:fill-box;transform-origin:bottom}' +
+          '.flow-baked .pf-plate-bar{animation-name:pf-bar-pulse;animation-duration:2.4s;' +
             'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
           /* 지연을 음수로 준다. 랜딩은 페이지가 열릴 때부터 돌아 이미 중간 위상인데,
              여기는 마지막 순간에 .flow-on으로 시작하므로 0%(scale .7)부터 출발해
@@ -371,24 +371,25 @@ const faqSchema = {
              솟았다 — 일러스트가 '살짝 쿵' 하던 것이 이것이다.
              반대 위상(-1.71s)은 시작 단차는 없지만 두 막대가 따로 노는 것으로
              보였다. 같은 위상이면 둘이 한 몸처럼 오르내린다. */
-          '.flow-on .pf-plate-bar-1,.flow-on .pf-plate-bar-2{animation-delay:-.719s}' +
+          '.flow-baked .pf-plate-bar-1,.flow-baked .pf-plate-bar-2{animation-delay:-.719s}' +
           '.flow-on .pf-plate-bar-3,.flow-on .pf-plate-bar-4,.flow-on .pf-plate-bar-5,.flow-on .pf-lens-knob{animation:none;transform:none}' +
-          '.flow-on .pf-plate-rearbox{transform-box:fill-box;transform-origin:center;' +
-            'animation:pf-rearbox-bob 2.8s ease-in-out infinite}' +
-          '.flow-on .pf-lens-cube{transform-box:fill-box;transform-origin:center;' +
-            'animation-name:pf-cube-bob;animation-timing-function:ease-in-out;' +
+          '.flow-on .pf-plate-rearbox{transform-box:fill-box;transform-origin:center}' +
+          '.flow-baked .pf-plate-rearbox{animation:pf-rearbox-bob 2.8s ease-in-out infinite}' +
+          '.flow-on .pf-lens-cube{transform-box:fill-box;transform-origin:center}' +
+          '.flow-baked .pf-lens-cube{animation-name:pf-cube-bob;animation-timing-function:ease-in-out;' +
             'animation-iteration-count:infinite}' +
-          '.flow-on .pf-lens-cube-1{animation-duration:2.6s;animation-delay:0s}' +
-          '.flow-on .pf-lens-cube-2{animation-duration:3s;animation-delay:.3s}' +
-          '.flow-on .pf-lens-cube-3{animation-duration:2.8s;animation-delay:.6s}' +
-          '.flow-on .pf-lens-panel{transform-box:fill-box;transform-origin:center;' +
-            'animation:pf-panel-bob 2.8s ease-in-out infinite}' +
-          '.flow-on .pf-agent-dot,.flow-on .pf-agent-bubble{transform-box:fill-box;transform-origin:center;' +
-            'animation-name:pf-agent-bob;animation-duration:2.8s;' +
-            'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
-          '.flow-on .pf-agent-dot-1,.flow-on .pf-agent-bubble-1{animation-delay:0s}' +
-          '.flow-on .pf-agent-dot-2,.flow-on .pf-agent-bubble-2{animation-delay:.3s}' +
-          '.flow-on .pf-agent-dot-3,.flow-on .pf-agent-bubble-3{animation-delay:.6s}' +
+          '.flow-baked .pf-lens-cube-1{animation-duration:2.6s;animation-delay:0s}' +
+          '.flow-baked .pf-lens-cube-2{animation-duration:3s;animation-delay:.3s}' +
+          '.flow-baked .pf-lens-cube-3{animation-duration:2.8s;animation-delay:.6s}' +
+          '.flow-on .pf-lens-panel{transform-box:fill-box;transform-origin:center}' +
+          '.flow-baked .pf-lens-panel{animation:pf-panel-bob 2.8s ease-in-out infinite}' +
+          '.flow-on .pf-agent-dot,.flow-on .pf-agent-bubble{transform-box:fill-box;transform-origin:center}' +
+          '.flow-baked .pf-agent-dot,.flow-baked .pf-agent-bubble{animation-name:pf-agent-bob;' +
+            'animation-duration:2.8s;animation-timing-function:ease-in-out;' +
+            'animation-iteration-count:infinite}' +
+          '.flow-baked .pf-agent-dot-1,.flow-baked .pf-agent-bubble-1{animation-delay:0s}' +
+          '.flow-baked .pf-agent-dot-2,.flow-baked .pf-agent-bubble-2{animation-delay:.3s}' +
+          '.flow-baked .pf-agent-dot-3,.flow-baked .pf-agent-bubble-3{animation-delay:.6s}' +
           /* 랜딩은 scale()로 가로세로를 함께 키운다. 0.99배로 그려지는 그쪽에서는
              폭 변화가 눈에 띄지 않지만, 여기는 0.61배라 막대 폭이 2px뿐이라
              그 가로 성분이 좌우로 번지는 것처럼 보인다(앞뒤로 미끄러져 보임).
@@ -439,8 +440,8 @@ const faqSchema = {
         /* 나타날 때는 .seq의 0.5초 전환을 그대로 탄다(원래 모습).
            값이 1이면 인라인 opacity를 걷는다 — 1을 그대로 두면 그 요소가 계속
            합성 그룹으로 남는다. */
-        /* CSS의 ease(cubic-bezier(.25,.1,.25,1))를 그대로 쓴다. */
-        var EASE = (function (p1x, p1y, p2x, p2y) {
+        /* CSS의 곡선을 그대로 쓴다 — ease(.25,.1,.25,1)와 ease-in-out(.42,0,.58,1). */
+        function mkEase(p1x, p1y, p2x, p2y) {
           function A(a, b) { return 1 - 3 * b + 3 * a; }
           function B(a, b) { return 3 * b - 6 * a; }
           function C(a) { return 3 * a; }
@@ -454,7 +455,9 @@ const faqSchema = {
             }
             return calc(t, p1y, p2y);
           };
-        })(.25, .1, .25, 1);
+        }
+        var EASE = mkEase(.25, .1, .25, 1);
+        var EASE_IO = mkEase(.42, 0, .58, 1);
         var FADE_MS = REDUCE ? 0 : 500;
         var tw = [], twRaf = null;
         function twEnd(w) {
@@ -535,7 +538,7 @@ const faqSchema = {
              아니어도 되므로, 카메라가 멈춰 있는 동안 미리 구울 수 있다. */
           clone.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
           var croot = clone.querySelector('#_레이어_1') || clone.querySelector('g');
-          if (croot) croot.classList.add('flow-on');
+          if (croot) { croot.classList.add('flow-on'); croot.classList.add('flow-baked'); }
           /* 아직 안 뜬 것들(마지막 회선 · API 점 · 점선 기둥)을 켜 두고, 뜨는
              중인 것은 최종값으로 굽는다. 인라인 값을 그대로 쓰면 안 된다 —
              굽는 시점은 마지막 판(AI 에이전트)이 뜨기 시작한 지 80ms라, 프레임
@@ -616,6 +619,7 @@ const faqSchema = {
           swapping = true;
           bakedImg.style.visibility = 'visible';
           obj.style.display = 'none';
+          if (iconRaf) { cancelAnimationFrame(iconRaf); iconRaf = null; }
         }
 
         /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
@@ -657,6 +661,52 @@ const faqSchema = {
             });
         }
 
+        /* 아이콘 움직임(막대 배율 · 큐브와 말풍선 흔들림 · 겹 띠 숨쉬기)은
+           CSS 애니메이션으로 돌리면 그 요소들이 합성 레이어로 떠서 그림이
+           흐려진다. 실측: 흐름이 도는 동안 레이어 49개 · 선명도 10.50,
+           이 셋만 꺼 보면 레이어 6개 · 선명도 16.67(구운 <img>의 16.62와 같다).
+           그래서 물러남이 끝나 <img>로 넘어가는 한 프레임에 41% 선명해지며
+           그림이 '쿵' 하고 초점이 맞았다.
+           페이드와 같이 프레임마다 값을 직접 써서 레이어를 만들지 않는다.
+           주기 · 지연 · 곡선(ease-in-out)은 CSS 규칙과 같은 값이다.
+           구운 <img>는 스크립트가 없으므로 그쪽만 CSS로 돈다(.flow-baked). */
+        var iconRaf = null;
+        function startIconMotion() {
+          if (REDUCE) return;
+          var items = [];
+          function add(sel, kind, a, b, dur, delay) {
+            [].forEach.call(doc.querySelectorAll(sel), function (el) {
+              items.push({ el: el, k: kind, a: a, b: b, d: dur, w: delay });
+            });
+          }
+          add('.pf-plate-bar-1,.pf-plate-bar-2', 's', .7, 1.15, 2400, -719);
+          add('.pf-plate-rearbox', 'y', 0, -4, 2800, 0);
+          add('.pf-lens-cube-1', 'y', 0, -4, 2600, 0);
+          add('.pf-lens-cube-2', 'y', 0, -4, 3000, 300);
+          add('.pf-lens-cube-3', 'y', 0, -4, 2800, 600);
+          add('.pf-lens-panel', 'y', 0, -4, 2800, 0);
+          add('.pf-agent-dot-1,.pf-agent-bubble-1', 'y', 0, -4, 2800, 0);
+          add('.pf-agent-dot-2,.pf-agent-bubble-2', 'y', 0, -4, 2800, 300);
+          add('.pf-agent-dot-3,.pf-agent-bubble-3', 'y', 0, -4, 2800, 600);
+          add('polygon.cls-9', 'o', .25, 1, 2800, -1400);
+          if (!items.length) return;
+          var t0 = performance.now();
+          (function tick(now) {
+            var e = now - t0;
+            for (var i = 0; i < items.length; i++) {
+              var it = items[i], t = e - it.w;
+              var u = t <= 0 ? 0 : (t % it.d) / it.d;
+              /* 0%,100%가 a · 50%가 b인 한 마디를 두 구간으로 나눠 같은 곡선을 탄다. */
+              var q = u < .5 ? EASE_IO(u / .5) : 1 - EASE_IO((u - .5) / .5);
+              var v = it.a + (it.b - it.a) * q;
+              if (it.k === 's') it.el.style.transform = 'scale(' + (Math.round(v * 10000) / 10000) + ')';
+              else if (it.k === 'y') it.el.style.transform = 'translateY(' + (Math.round(v * 1000) / 1000) + 'px)';
+              else it.el.style.opacity = Math.round(v * 1000) / 1000;
+            }
+            iconRaf = requestAnimationFrame(tick);
+          })(t0);
+        }
+
         function buildFlow() {
           /* 그리기에 쓴 인라인 dasharray/dashoffset을 걷어야 CSS가 먹는다
              (인라인이 애니메이션 밖 선언보다 우선한다). */
@@ -671,6 +721,7 @@ const faqSchema = {
             }
           });
           root.classList.add('flow-on');
+          startIconMotion();
           /* 글자 굵히기는 여기서 걸지 않는다. 흐름은 물러나기 시작할 때 켜지는데
              그 순간 카메라는 아직 1.905배로 확대돼 있어, 획 0.2px가 화면에서
              0.381px로 얹힌다 — 설계값(0.644배에서 0.129px)의 세 배다. 세 판의
