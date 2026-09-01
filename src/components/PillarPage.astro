@@ -318,7 +318,11 @@ const faqSchema = {
           '.flow-on .pf-agent-dot-1,.flow-on .pf-agent-bubble-1{animation-delay:0s}' +
           '.flow-on .pf-agent-dot-2,.flow-on .pf-agent-bubble-2{animation-delay:.3s}' +
           '.flow-on .pf-agent-dot-3,.flow-on .pf-agent-bubble-3{animation-delay:.6s}' +
-          '@keyframes pf-bar-pulse{0%,100%{transform:scale(.7)}50%{transform:scale(1.15)}}' +
+          /* 랜딩은 scale()로 가로세로를 함께 키운다. 0.99배로 그려지는 그쪽에서는
+             폭 변화가 눈에 띄지 않지만, 여기는 0.61배라 막대 폭이 2px뿐이라
+             그 가로 성분이 좌우로 번지는 것처럼 보인다(앞뒤로 미끄러져 보임).
+             세로로만 키워 위아래 움직임만 남긴다 — 폭은 그대로다. */
+          '@keyframes pf-bar-pulse{0%,100%{transform:scaleY(.7)}50%{transform:scaleY(1.15)}}' +
           '@keyframes pf-rearbox-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
           '@keyframes pf-cube-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
           '@keyframes pf-panel-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
