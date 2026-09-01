@@ -637,12 +637,14 @@ const faqSchema = {
               seenGaps.forEach(function (g) { betweens[g].forEach(show); });
               drawnLines.forEach(function (j) { relight(lineEls[j]); });
               moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
+              /* 물러나기 시작하고 곧바로 흐름을 건다. 카메라가 다 선 뒤에 걸면
+                 그 사이 원본(정지된 실선)이 한 박자 보였다가 모션으로 바뀐다. */
+              if (k === LAST) setTimeout(buildFlow, 250);
             }, at + 2300);
           })(t);
           t += 3100;
         });
-        /* 전체로 물러난 뒤부터 회선이 오간다. 확대 중에 돌면 그리는 동작과 겹친다. */
-        setTimeout(buildFlow, t + 900);
+
         }
       }
 
