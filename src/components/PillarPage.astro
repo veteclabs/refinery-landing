@@ -245,6 +245,45 @@ const faqSchema = {
         };
         all.forEach(hide);
 
+        /* 그림 속 글자는 모두 도형으로 떠 있다(<text>가 하나도 없다). 작은 크기에서
+           획이 1픽셀에 못 미쳐 뭉개지므로, 같은 색 획을 얹어 굵기만 보탠다 —
+           자리도 크기도 그대로다. 실측한 글자 뭉치의 왼위 좌표로 찾는다:
+           모듈 라벨 셋 · API 둘 · Refinery Ontology(글자와 로고) · Data ·
+           Work flow(두 낱말). 알약 셋은 아래에서 따로 집는다. */
+        var TEXTS = [[144, 330], [552, 330], [944, 330], [387, 185], [794, 185],
+                     [861, 682], [936, 647], [963, 939], [758, 706], [774, 715]];
+        function thicken(p) {
+          var f = doc.defaultView.getComputedStyle(p).fill;
+          if (!f || f === 'none') return;
+          p.style.stroke = f;
+          p.style.strokeWidth = '0.2px';
+          p.style.paintOrder = 'stroke fill';
+        }
+        doc.querySelectorAll('g').forEach(function (g) {
+          var gb;
+          try { gb = g.getBBox(); } catch (e) { return; }
+          for (var i = 0; i < TEXTS.length; i++) {
+            if (Math.abs(gb.x - TEXTS[i][0]) < 3 && Math.abs(gb.y - TEXTS[i][1]) < 3) {
+              g.querySelectorAll('path,polygon').forEach(thicken);
+              return;
+            }
+          }
+        });
+        /* Collect · Refine · Unify 알약 안 글자. 알약 자체(면)는 두고 글자만 굵힌다. */
+        kids.forEach(function (el) {
+          var b;
+          try { b = el.getBBox(); } catch (e) { return; }
+          if (!b) return;
+          if (b.x > 700 && b.width >= 40 && b.width <= 80 && b.height >= 35
+              && b.height <= 70 && b.y + b.height >= 780 && b.y + b.height <= 1000) {
+            el.querySelectorAll('path,polygon').forEach(function (p) {
+              var pb;
+              try { pb = p.getBBox(); } catch (e) { return; }
+              if (pb.height > 1 && pb.height < 20) thicken(p);
+            });
+          }
+        });
+
         var style = doc.createElementNS(SVGNS, 'style');
         style.textContent =
           /* 확대·축소가 오가므로 속도보다 기하 정확도를 우선한다. */
