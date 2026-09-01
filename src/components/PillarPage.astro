@@ -529,11 +529,20 @@ const faqSchema = {
           clone.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
           var croot = clone.querySelector('#_레이어_1') || clone.querySelector('g');
           if (croot) croot.classList.add('flow-on');
-          /* 아직 안 뜬 것들(마지막 회선 · API 점 · 점선 기둥)을 켜 둔다. */
-          clone.querySelectorAll('.seq').forEach(function (e) {
-            if (e.style.opacity === '0') e.style.removeProperty('opacity');
-            e.style.removeProperty('transition');
-          });
+          /* 아직 안 뜬 것들(마지막 회선 · API 점 · 점선 기둥)을 켜 두고, 뜨는
+             중인 것은 최종값으로 굽는다. 인라인 값을 그대로 쓰면 안 된다 —
+             굽는 시점은 마지막 판(AI 에이전트)이 뜨기 시작한 지 80ms라, 프레임
+             단위로 도는 페이드의 그 순간 중간값(0.08 남짓)이 그대로 구워져
+             그 판만 허옇게 보였다. 원래 값은 hide()가 __o에 적어 두었다.
+             .seq는 살아 있는 문서와 복제본의 순서가 같으므로 짝을 맞춘다. */
+          var liveSeq = doc.querySelectorAll('.seq');
+          var copySeq = clone.querySelectorAll('.seq');
+          for (var si = 0; si < copySeq.length; si++) {
+            var o0 = liveSeq[si] ? liveSeq[si].__o : '1';
+            if (o0 == null || parseFloat(o0) === 1) copySeq[si].style.removeProperty('opacity');
+            else copySeq[si].style.opacity = o0;
+            copySeq[si].style.removeProperty('transition');
+          }
           /* 회선은 그리기에 쓴 인라인 dasharray/dashoffset을 걷어야 흐름 CSS가 먹는다.
              굽는 시점에는 걷혀 있기도 하니 투명도도 되돌린다. */
           clone.querySelectorAll('.line').forEach(function (g) {
