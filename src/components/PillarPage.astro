@@ -190,14 +190,23 @@ const faqSchema = {
         if (!svg || !root) return;
 
         var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        /* 섞기(mix-blend-mode)는 파일에 적힌 대로 둔다. 한때 이것을 normal로
-           덮어썼다 — 섞으려면 뒤 배경을 버퍼로 읽어야 해서 흐려진다고 봤기
-           때문이다. 그러나 흐림의 진짜 원인은 투명도 전환과 아이콘 애니메이션이
-           만들던 합성 레이어였고(둘 다 프레임 단위 쓰기로 옮겼다), 덮어쓰기는
-           그림을 바꾸는 부작용만 남았다. 이 파일에서 섞기가 걸린 것은 .cls-16
-           흰색 도형 둘(12x7, 리파이너리 로고의 큐브 그림자)뿐인데, 흰색 곱하기는
-           뒤가 그대로 비쳐야 할 자리다. normal로 덮으면 불투명한 흰 조각이 되어
-           파일과 색이 달라 보였다. */
+        /* 섞기(mix-blend-mode)는 걷는다. 섞으려면 브라우저가 뒤 배경을 버퍼로
+           읽어야 해서 그 자리에 합성 그룹이 생긴다 — 되살려 재보니 레이어가
+           6개에서 33개로 늘고 긴 프레임이 24건 났다.
+           다만 그냥 걷으면 그림이 달라진다. 이 파일에서 섞기가 걸린 것은
+           .cls-16 도형 둘뿐인데(12x7, x936 y608 · x934 y629 — 리파이너리 로고의
+           큐브 그림자), 칠이 흰색이고 획이 하늘색 #76A6D7이다. 곱하기에서 흰색은
+           아무 일도 하지 않으므로 파일에서는 뒤가 그대로 비치고 획만 얹힌다.
+           normal로 덮으면 그 칠이 불투명한 흰 조각이 되어 뒤를 가린다 —
+           색이 달라 보이던 원인이다. 흰색 칠을 비워 같은 모습을 만든다. */
+        [].slice.call(doc.querySelectorAll('[class]')).forEach(function (el) {
+          var cs = doc.defaultView.getComputedStyle(el);
+          if (!cs.mixBlendMode || cs.mixBlendMode === 'normal') return;
+          if (cs.mixBlendMode === 'multiply' && cs.fill === 'rgb(255, 255, 255)') {
+            el.style.fill = 'none';
+          }
+          el.style.mixBlendMode = 'normal';
+        });
 
         var kids = [];
         for (var i = 0; i < root.children.length; i++) kids.push(root.children[i]);
