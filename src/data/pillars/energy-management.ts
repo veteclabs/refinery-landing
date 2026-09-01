@@ -27,7 +27,8 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     usesHead: '현장에서 바로 쓰는 활용',
     usesLede: '전력 감시부터 절감까지, 현장에 적용된 모습을 살펴보세요.',
     more: '자세히보기',
-    ctaTitle: '전력 · 에너지 관리, 우리 현장에<br>어떻게 적용할까요?',
+    /* 산업 AI 페이지와 같은 문구로 맞춘다. */
+    ctaTitle: '지금 바로<br>Refinery를 경험해보세요.',
     faq: [
       {
         q: '에너지관리시스템(EMS)이란 무엇인가요?',
@@ -85,7 +86,8 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     usesHead: 'Where energy management<br>is used on site',
     usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
     more: 'Learn more',
-    ctaTitle: 'How would energy management<br>work at your site?',
+    /* 산업 AI 페이지와 같은 문구로 맞춘다. */
+    ctaTitle: 'See what Refinery<br>can do for your site.',
     faq: [
       {
         q: 'What is an energy management system (EMS)?',

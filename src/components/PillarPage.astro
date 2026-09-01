@@ -216,7 +216,9 @@ const faqSchema = {
             if (col < 0) betweens[cx < COLS[1][0] ? 0 : 1].push(el);
             else modules[col].push(el);
           } else if (b.height > Math.max(b.width, 1) * 1.6 && b.height > 120) {
-            /* 좌·우·가운데 점선 기둥. 층을 가로지르므로 겹이 다 쌓인 뒤에 나온다. */
+            /* 좌·우·가운데 점선 기둥. 층을 가로지르므로 겹이 다 쌓인 뒤에 나온다.
+               흐름 규칙이 클래스 대신 이 표시를 보고 걸린다. */
+            el.classList.add('flow-edge');
             edges.push(el);
           } else {
             base.push({ el: el, bottom: b.y + b.height });
@@ -246,17 +248,22 @@ const faqSchema = {
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
                  .flow-on이 걸린 뒤에만 돈다(그 전에는 회선을 그려 보여야 한다). --- */
-          /* 회선 점선 간격만 이 그림의 축척으로 바꾼다. 랜딩은 선이 네댓 개로 넓게
-             벌어져 있어 6/9가 '이동하는 점'으로 읽히지만, 여기는 0.75px 곡선
-             열아홉 가닥이 다발로 겹쳐 있어 같은 값이면 선이 잘게 부서진다.
-             20/8이면 선으로 읽히면서 끊긴 자리가 흘러간다.
-             dashoffset 이동량도 주기(28)의 배수로 맞춰야 한 바퀴가 매끄럽다
-             — 랜딩의 30은 그쪽 주기(15)의 두 배였다. */
-          '.flow-on path.cls-2{stroke-dasharray:20 8;animation-duration:1.6s;' +
+          /* 회선은 점선 값을 이 그림의 다발 구조에 맞춘다. 랜딩은 선이 하나씩
+             멀리 떨어져 있어 6/9가 '이동하는 점'으로 읽힌다. 여기는 0.75px 곡선
+             예닐곱 가닥이 모여드는 다발이라, 짧게 끊으면 가닥마다 위상이 어긋나
+             선이 아니라 흩뿌려진 조각으로 보인다(비레티나에서 특히 심하다).
+             200/40이면 선은 이어진 채로 빈틈 하나가 흘러간다.
+             dashoffset 이동량은 주기(240)의 한 배로 맞춰 한 바퀴가 매끄럽다.
+             속도는 기둥과 같은 2.6초로 둔다 — 1.6초면 빈틈이 너무 빨리 지나간다. */
+          '.flow-on path.cls-2{stroke-dasharray:200 40;animation-duration:2.6s;' +
             'animation-timing-function:linear;animation-iteration-count:infinite}' +
           '.flow-on g:nth-of-type(odd)>path.cls-2{animation-name:connector-dot-up}' +
           '.flow-on g:nth-of-type(even)>path.cls-2{animation-name:connector-dot-down}' +
-          '.flow-on line.cls-2,.flow-on .cls-4,.flow-on .cls-6,.flow-on line.cls-9{' +
+          /* 기둥은 클래스가 아니라 스크립트가 찾아 표시한 것(.flow-edge)에 건다.
+             랜딩은 .cls-4 · .cls-6 · line.cls-9로 집었지만, 이 그림은 원본을
+             내보낼 때마다 클래스 번호가 다른 도형에 재사용된다 — 실제로 cls-6이
+             하나에서 다섯으로 늘며 맨 위 판 안쪽 도형까지 점선이 됐다. */
+          '.flow-on .flow-edge line,.flow-on line.flow-edge{' +
             'stroke-dasharray:2 8;animation:connector-line-flow-up-slow 2.6s linear infinite}' +
           /* 겹 띠는 굵기와 간격을 건드리지 않는다. 랜딩 값(1.5px · 0.5/6)은 어두운
              면 위에서 번지는 띠로 읽히지만, 밝은 면에서는 두 배로 굵어진 점이
@@ -268,8 +275,8 @@ const faqSchema = {
             'animation-iteration-count:infinite}' +
           '.flow-on line.cls-3[y1="185.58"]{animation-name:api-dot-right}' +
           '.flow-on line.cls-3[y1="193.58"]{animation-name:api-dot-left}' +
-          '@keyframes connector-dot-up{from{stroke-dashoffset:28}to{stroke-dashoffset:0}}' +
-          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:28}}' +
+          '@keyframes connector-dot-up{from{stroke-dashoffset:240}to{stroke-dashoffset:0}}' +
+          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:240}}' +
           '@keyframes connector-line-flow-up-slow{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}' +
           '@keyframes layer-band-breathe{0%,100%{opacity:.25}50%{opacity:1}}' +
           '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
