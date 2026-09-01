@@ -532,7 +532,8 @@ const faqSchema = {
           });
           root.classList.add('flow-on');
           applyThicken();          /* 글자 굵히기도 여기서 시작한다 */
-
+          /* 카메라가 다 서고 나서 지금 모습을 그대로 <img>로 굽는다(아래 bake). */
+          setTimeout(bake, 1200);
           /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
              남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
           doc.querySelectorAll('[style]').forEach(function (el) {
@@ -565,7 +566,7 @@ const faqSchema = {
         guard();
 
         var anim = null;
-        function moveTo(shot, ms, done) {
+        function moveTo(shot, ms) {
           var to = fit(shot), from = cur.slice(), t0 = performance.now();
           if (anim) cancelAnimationFrame(anim);
           (function step(now) {
@@ -574,9 +575,7 @@ const faqSchema = {
             cur = from.map(function (v, i) { return v + (to[i] - v) * e; });
             svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
             guard();
-            if (k < 1) { anim = requestAnimationFrame(step); return; }
-            cur = to; guard();
-            if (done) done();          /* 카메라가 선 그 프레임에 부른다 */
+            if (k < 1) anim = requestAnimationFrame(step); else { cur = to; guard(); }
           })(t0);
         }
 
@@ -757,10 +756,7 @@ const faqSchema = {
               seenPlates.forEach(function (j) { modules[j].forEach(show); });
               seenGaps.forEach(function (g) { betweens[g].forEach(show); });
               drawnLines.forEach(function (j) { relight(lineEls[j]); });
-              /* 마지막 물러남이 끝나는 그 프레임에 <img>로 굽는다 — 시퀀스가
-                 끝나자마자 바로 선명한 그림으로 넘어간다. */
-              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
-                     k === LAST ? bake : null);
+              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900);
               /* 물러나기 시작하고 곧바로 흐름을 건다. 카메라가 다 선 뒤에 걸면
                  그 사이 원본(정지된 실선)이 한 박자 보였다가 모션으로 바뀐다. */
               if (k === LAST) setTimeout(buildFlow, 250);
