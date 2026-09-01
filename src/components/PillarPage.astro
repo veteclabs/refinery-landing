@@ -1046,7 +1046,12 @@ const faqSchema = {
      정사각 그림이라 폭을 늘리면 세로도 커지므로 비율을 판 크기로 고정한다.
      안에서 보여주는 범위는 카메라(viewBox)가 정하고, 카메라는 이 칸의
      가로세로비를 읽어 따라간다. */
-  .ai-hero-stage.has-graphic { padding: 0; overflow: hidden; }
+  /* 확대해 들어간 작은 판은 윗면이 #FFFFFF다. 판 배경이 #F6F8FA면 밝기 차가
+     8단계(3%)뿐이라 판이 배경에 묻힌다. 판은 이미 흰색이라 더 밝힐 수 없어
+     배경을 한 단계 낮춘다(밝기 차 8 -> 15). 테두리 #E3E7EC(230)는 여전히
+     배경(241)보다 어두워 그대로 둔다.
+     데모가 들어가는 판(산업 AI)은 확대가 없어 이 문제가 없다 — 건드리지 않는다. */
+  .ai-hero-stage.has-graphic { padding: 0; overflow: hidden; background-color: #EFF2F5; }
   /* 데스크톱에서는 판 높이를 그대로 지킨다(762 + 테두리 2 = 764).
      좁아지면 고정 높이가 과해지므로 그때부터 비율로 넘긴다. */
   .ai-hero-stage.has-graphic .ai-hero-figure { height: 762px; aspect-ratio: auto; }
