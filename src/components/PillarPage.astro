@@ -246,22 +246,30 @@ const faqSchema = {
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
                  .flow-on이 걸린 뒤에만 돈다(그 전에는 회선을 그려 보여야 한다). --- */
-          '.flow-on path.cls-2{stroke-dasharray:6 9;animation-duration:1.6s;' +
+          /* 회선 점선 간격만 이 그림의 축척으로 바꾼다. 랜딩은 선이 네댓 개로 넓게
+             벌어져 있어 6/9가 '이동하는 점'으로 읽히지만, 여기는 0.75px 곡선
+             열아홉 가닥이 다발로 겹쳐 있어 같은 값이면 선이 잘게 부서진다.
+             20/8이면 선으로 읽히면서 끊긴 자리가 흘러간다.
+             dashoffset 이동량도 주기(28)의 배수로 맞춰야 한 바퀴가 매끄럽다
+             — 랜딩의 30은 그쪽 주기(15)의 두 배였다. */
+          '.flow-on path.cls-2{stroke-dasharray:20 8;animation-duration:1.6s;' +
             'animation-timing-function:linear;animation-iteration-count:infinite}' +
           '.flow-on g:nth-of-type(odd)>path.cls-2{animation-name:connector-dot-up}' +
           '.flow-on g:nth-of-type(even)>path.cls-2{animation-name:connector-dot-down}' +
           '.flow-on line.cls-2,.flow-on .cls-4,.flow-on .cls-6,.flow-on line.cls-9{' +
             'stroke-dasharray:2 8;animation:connector-line-flow-up-slow 2.6s linear infinite}' +
-          '.flow-on polygon.cls-9{stroke-width:1.5px;stroke-dasharray:.5 6;' +
-            'stroke-linecap:round;animation:layer-band-breathe 2.8s ease-in-out infinite}' +
+          /* 겹 띠는 굵기와 간격을 건드리지 않는다. 랜딩 값(1.5px · 0.5/6)은 어두운
+             면 위에서 번지는 띠로 읽히지만, 밝은 면에서는 두 배로 굵어진 점이
+             자글자글하게 부서져 보인다. 원본이 그린 대로 두고 밝기만 숨쉰다. */
+          '.flow-on polygon.cls-9{animation:layer-band-breathe 2.8s ease-in-out infinite}' +
           '.flow-on line.cls-3[y1="185.58"],.flow-on line.cls-3[y1="193.58"]{' +
             'stroke-width:.75px;stroke-dasharray:6 9;stroke-linecap:round;' +
             'animation-duration:1.6s;animation-timing-function:linear;' +
             'animation-iteration-count:infinite}' +
           '.flow-on line.cls-3[y1="185.58"]{animation-name:api-dot-right}' +
           '.flow-on line.cls-3[y1="193.58"]{animation-name:api-dot-left}' +
-          '@keyframes connector-dot-up{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
-          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
+          '@keyframes connector-dot-up{from{stroke-dashoffset:28}to{stroke-dashoffset:0}}' +
+          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:28}}' +
           '@keyframes connector-line-flow-up-slow{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}' +
           '@keyframes layer-band-breathe{0%,100%{opacity:.25}50%{opacity:1}}' +
           '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
