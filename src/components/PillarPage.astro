@@ -601,6 +601,13 @@ const faqSchema = {
         /* 한 프레임에 갈아끼운다. 겹쳐 넘기면 그 사이 두 그림이 함께 그려져
            빛무리가 두 번 얹히고, 하늘색이 한 번 반짝였다가 사라진다
            (실측: 하늘빛 신호 7.95 → 8.39 → 7.42). */
+        /* 다 물러난 지점. 구운 그림이 준비돼 있으면 그대로 넘긴다 — 그 그림에는
+           굵히기가 이미 들어 있다. 준비가 안 됐을 때만 살아 있는 문서에 건다
+           (이때는 배율이 0.644라 설계값대로 얹힌다). */
+        function finishCamera() {
+          if (!(bakedImg && bakeReady)) applyThicken();
+          swapToImg();
+        }
         function swapToImg() {
           wantSwap = true;
           if (!bakedImg || !bakeReady) return;      /* 다 뜨면 onload가 다시 부른다 */
@@ -633,7 +640,11 @@ const faqSchema = {
             }
           });
           root.classList.add('flow-on');
-          applyThicken();          /* 글자 굵히기도 여기서 시작한다 */
+          /* 글자 굵히기는 여기서 걸지 않는다. 흐름은 물러나기 시작할 때 켜지는데
+             그 순간 카메라는 아직 1.905배로 확대돼 있어, 획 0.2px가 화면에서
+             0.381px로 얹힌다 — 설계값(0.644배에서 0.129px)의 세 배다. 세 판의
+             글자가 한 프레임에 굵어졌다가 물러나며 가늘어져 '쿵'으로 보였다.
+             카메라가 다 선 뒤에 건다(finishCamera). */
           /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
              남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
           doc.querySelectorAll('[style]').forEach(function (el) {
@@ -854,7 +865,7 @@ const faqSchema = {
                  미리 구워 둔 <img>로 바꿔치기한다. */
               if (k === LAST) startWhole();
               moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
-                     k === LAST ? swapToImg : null);
+                     k === LAST ? finishCamera : null);
             }, at + 2300);
           })(t);
           t += 3100;
