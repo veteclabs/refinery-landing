@@ -252,12 +252,19 @@ const faqSchema = {
            Work flow(두 낱말). 알약 셋은 아래에서 따로 집는다. */
         var TEXTS = [[144, 330], [552, 330], [944, 330], [387, 185], [794, 185],
                      [861, 682], [936, 647], [963, 939], [758, 706], [774, 715]];
-        function thicken(p) {
-          var f = doc.defaultView.getComputedStyle(p).fill;
-          if (!f || f === 'none') return;
-          p.style.stroke = f;
-          p.style.strokeWidth = '0.2px';
-          p.style.paintOrder = 'stroke fill';
+        /* 여기서는 모아만 두고, 마지막 전체 모습에서(buildFlow) 굵힌다.
+           확대 구간에서는 글자가 이미 크고, 거기서 걸면 배율이 곱해져 획이
+           0.38px로 설계보다 굵어진다. */
+        var glyphs = [];
+        function thicken(p) { glyphs.push(p); }
+        function applyThicken() {
+          glyphs.forEach(function (p) {
+            var f = doc.defaultView.getComputedStyle(p).fill;
+            if (!f || f === 'none') return;
+            p.style.stroke = f;
+            p.style.strokeWidth = '0.2px';
+            p.style.paintOrder = 'stroke fill';
+          });
         }
         doc.querySelectorAll('g').forEach(function (g) {
           var gb;
@@ -475,6 +482,7 @@ const faqSchema = {
             }
           });
           root.classList.add('flow-on');
+          applyThicken();          /* 글자 굵히기도 여기서 시작한다 */
           /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
              남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
           doc.querySelectorAll('[style]').forEach(function (el) {
