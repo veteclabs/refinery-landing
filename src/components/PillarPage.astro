@@ -244,6 +244,8 @@ const faqSchema = {
 
         var style = doc.createElementNS(SVGNS, 'style');
         style.textContent =
+          /* 확대·축소가 오가므로 속도보다 기하 정확도를 우선한다. */
+          'svg{shape-rendering:geometricPrecision}' +
           '.seq{transition:opacity .5s ease}' +
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
@@ -343,7 +345,16 @@ const faqSchema = {
           }
         });
 
-        var show = function (el) { if (el) el.style.opacity = el.__o; };
+        /* 되돌릴 때 값이 1이면 인라인 opacity를 아예 걷는다. 1을 그대로 써 두면
+           그 요소가 합성 그룹이 되어 브라우저가 따로 그린 뒤 합친다 — 맨 위 판
+           그룹(도형 729개, 'Work flow'와 'Refinery Ontology' 글씨 포함)까지
+           그렇게 되면서 글씨가 뭉개져 보였다. 원래 반투명한 넷(0.1 · 0.15 ·
+           0.25)만 값을 남긴다. */
+        var show = function (el) {
+          if (!el) return;
+          if (el.__o === '1' || el.__o === 1) el.style.removeProperty('opacity');
+          else el.style.opacity = el.__o;
+        };
         /* 처음 감출 때(hide)는 전환을 껐다. 여기서는 이미 보이는 것을 걷는 것이라
            전환을 그대로 두어 스르르 사라지게 한다. */
         var fade = function (el) { if (el) el.style.opacity = '0'; };
@@ -352,13 +363,13 @@ const faqSchema = {
            draw()를 다시 부르면 끝의 작은 원이 1.3초 늦게 들어온다. */
         var relight = function (g) {
           if (!g) return;
-          g.style.opacity = g.__o;
+          show(g);
           var ps = g.querySelectorAll('path');
           for (var i = 0; i < ps.length; i++) if (ps[i].__cap) ps[i].style.opacity = '';
         };
         var draw = function (g) {
           if (!g) return;
-          g.style.opacity = g.__o;                 /* 그릴 때 다발을 켠다 */
+          show(g);                                 /* 그릴 때 다발을 켠다 */
           var ps = g.querySelectorAll('path'), caps = [];
           for (var i = 0; i < ps.length; i++) {
             if (ps[i].__cap) caps.push(ps[i]);
@@ -392,6 +403,12 @@ const faqSchema = {
             }
           });
           root.classList.add('flow-on');
+          /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
+             남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
+          doc.querySelectorAll('[style]').forEach(function (el) {
+            if (el.style.transition) el.style.removeProperty('transition');
+            if (el.style.opacity === '1') el.style.removeProperty('opacity');
+          });
         }
 
         /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
