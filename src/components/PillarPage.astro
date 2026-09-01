@@ -463,7 +463,7 @@ const faqSchema = {
            실측: <object> 21.2 · <img> 36.6.
            시퀀스(판 쌓기 · 카메라 · 회선 잇기)는 스크립트가 SVG 안쪽을 만져야
            하므로 <object>로 하고, 다 끝난 마지막 모습만 구워서 넘긴다. */
-        var bakedImg = null, bakeReady = false, wantSwap = false;
+        var bakedImg = null, bakedUrl = null, bakeReady = false, wantSwap = false;
         /* 굽기는 미리 해 둔다. 755KB SVG를 직렬화하는 일을 카메라가 멈추는 그
            프레임에 몰면 그 순간 한 박자 끊긴다. 에이전트 확대가 끝나고 물러나기
            시작할 때 구워 두었다가, 다 물러난 순간 바꿔치기만 한다. */
@@ -508,16 +508,26 @@ const faqSchema = {
             copy[i].style.paintOrder = 'stroke fill';
           }
           var out = new XMLSerializer().serializeToString(clone);
-          var url = URL.createObjectURL(new Blob([out], { type: 'image/svg+xml' }));
+          bakedUrl = URL.createObjectURL(new Blob([out], { type: 'image/svg+xml' }));
           var img = document.createElement('img');
           img.className = obj.className;
           img.alt = obj.getAttribute('aria-label') || '';
           img.setAttribute('aria-hidden', 'true');
           img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;visibility:hidden';
           img.onload = function () { bakeReady = true; if (wantSwap) swapToImg(); };
-          img.src = url;
           obj.parentNode.appendChild(img);
           bakedImg = img;
+          /* src는 여기서 걸지 않는다. <img> 안의 SVG는 불러오는 순간부터 제
+             애니메이션을 돌리기 시작한다. 미리 걸어 두면 바꿔치는 시점에
+             오브젝트 쪽 흐름과 위상이 1초 넘게 어긋나 점·막대가 한꺼번에 튄다
+             (물러남이 끝날 때 '쿵' 하던 것). 시작은 finishWhole에서 맞춘다. */
+        }
+
+        /* 다 물러난 그 지점에서 오브젝트의 흐름과 <img>의 타임라인을 같이 켠다.
+           그래야 축소가 끝나자마자 모션이 이어 붙고, 바꿔치기도 티가 없다. */
+        function finishWhole() {
+          buildFlow();
+          if (bakedImg && bakedUrl) { wantSwap = true; bakedImg.src = bakedUrl; }
         }
         function swapToImg() {
           wantSwap = true;
@@ -766,12 +776,10 @@ const faqSchema = {
               seenPlates.forEach(function (j) { modules[j].forEach(show); });
               seenGaps.forEach(function (g) { betweens[g].forEach(show); });
               drawnLines.forEach(function (j) { relight(lineEls[j]); });
-              /* 마지막 물러남이 끝나면 미리 구워 둔 <img>로 바꿔치기한다. */
+              /* 마지막 물러남이 끝나는 그 지점에서 흐름을 켜고, 미리 구워 둔
+                 <img>가 다 뜨는 대로 바꿔치기한다(finishWhole). */
               moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
-                     k === LAST ? swapToImg : null);
-              /* 물러나기 시작하고 곧바로 흐름을 건다. 카메라가 다 선 뒤에 걸면
-                 그 사이 원본(정지된 실선)이 한 박자 보였다가 모션으로 바뀐다. */
-              if (k === LAST) setTimeout(buildFlow, 250);
+                     k === LAST ? finishWhole : null);
             }, at + 2300);
           })(t);
           t += 3100;
