@@ -336,7 +336,13 @@ const faqSchema = {
           /* 겹 띠는 굵기와 간격을 건드리지 않는다. 랜딩 값(1.5px · 0.5/6)은 어두운
              면 위에서 번지는 띠로 읽히지만, 밝은 면에서는 두 배로 굵어진 점이
              자글자글하게 부서져 보인다. 원본이 그린 대로 두고 밝기만 숨쉰다. */
-          '.flow-on polygon.cls-9{animation:layer-band-breathe 2.8s ease-in-out infinite}' +
+          /* 지연 -1.4초는 주기의 절반이다. 띠는 원래 투명도 1로 떠 있는데
+             이 애니메이션은 0%가 0.25라, 그냥 걸면 흐름이 시작되는 순간 세 판의
+             띠가 1에서 0.25로 한 프레임에 떨어졌다가 숨쉬기 시작한다
+             (실측: 10975ms 1 → 11013ms 0.25 — '작은판 3개가 쿵'하던 것).
+             투명도가 1인 50% 지점에서 출발시키면 제자리에서 이어진다.
+             주기·곡선은 랜딩 값 그대로다. */
+          '.flow-on polygon.cls-9{animation:layer-band-breathe 2.8s ease-in-out -1.4s infinite}' +
           '.flow-on line.cls-3[y1="185.58"],.flow-on line.cls-3[y1="193.58"]{' +
             'stroke-width:.75px;stroke-dasharray:6 9;stroke-linecap:round;' +
             'animation-duration:1.6s;animation-timing-function:linear;' +
