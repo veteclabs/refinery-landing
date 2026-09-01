@@ -250,14 +250,10 @@ const faqSchema = {
           '.line path{transition:stroke-dashoffset 1.3s ease,opacity .35s ease}' +
           /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
                  .flow-on이 걸린 뒤에만 돈다(그 전에는 회선을 그려 보여야 한다). --- */
-          /* 회선은 점선 값을 이 그림의 다발 구조에 맞춘다. 랜딩은 선이 하나씩
-             멀리 떨어져 있어 6/9가 '이동하는 점'으로 읽힌다. 여기는 0.75px 곡선
-             예닐곱 가닥이 모여드는 다발이라, 짧게 끊으면 가닥마다 위상이 어긋나
-             선이 아니라 흩뿌려진 조각으로 보인다(비레티나에서 특히 심하다).
-             200/40이면 선은 이어진 채로 빈틈 하나가 흘러간다.
-             dashoffset 이동량은 주기(240)의 한 배로 맞춰 한 바퀴가 매끄럽다.
-             속도는 기둥과 같은 2.6초로 둔다 — 1.6초면 빈틈이 너무 빨리 지나간다. */
-          '.flow-on path.cls-2{stroke-dasharray:200 40;animation-duration:2.6s;' +
+          /* 회선은 랜딩 값 그대로다 — 6/9 점선이 1.6초에 한 번, 홀짝 그룹이
+             서로 반대 방향으로 흐른다. 이동량 30은 주기(6+9=15)의 두 배라
+             한 바퀴가 매끄럽다. */
+          '.flow-on path.cls-2{stroke-dasharray:6 9;animation-duration:1.6s;' +
             'animation-timing-function:linear;animation-iteration-count:infinite}' +
           '.flow-on g:nth-of-type(odd)>path.cls-2{animation-name:connector-dot-up}' +
           '.flow-on g:nth-of-type(even)>path.cls-2{animation-name:connector-dot-down}' +
@@ -277,8 +273,8 @@ const faqSchema = {
             'animation-iteration-count:infinite}' +
           '.flow-on line.cls-3[y1="185.58"]{animation-name:api-dot-right}' +
           '.flow-on line.cls-3[y1="193.58"]{animation-name:api-dot-left}' +
-          '@keyframes connector-dot-up{from{stroke-dashoffset:240}to{stroke-dashoffset:0}}' +
-          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:240}}' +
+          '@keyframes connector-dot-up{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
+          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
           '@keyframes connector-line-flow-up-slow{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}' +
           '@keyframes layer-band-breathe{0%,100%{opacity:.25}50%{opacity:1}}' +
           '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
