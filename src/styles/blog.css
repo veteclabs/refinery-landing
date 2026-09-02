@@ -71,10 +71,12 @@ img { max-width: 100%; height: auto; }
    물든 것처럼 보인다.
    밑색은 표지가 있는 글에만 깐다(:has(img)) — 표지가 없는 글은 빈 면 그대로다.
    테두리 그림자는 잉크색(#16202C)을 옅게 깐 것이다. 표지가 어두워 흰 바탕과
-   맞닿는 선이 날카로워 보이는데, 그 선을 눌러 면이 바탕 위에 놓인 것처럼 만든다. */
+   맞닿는 선이 날카로워 보이는데, 그 선을 눌러 면이 바탕 위에 놓인 것처럼 만든다.
+     0 24px 52px -16px .70   면을 띄우는 넓은 그림자
+     0  6px 16px  -6px .50   맞닿는 선을 누르는 좁은 그림자 */
 .post-thumb:has(img) {
   background: #76A6D7;
-  box-shadow: 0 14px 34px -14px rgba(22, 32, 44, .40), 0 2px 8px -6px rgba(22, 32, 44, .30);
+  box-shadow: 0 24px 52px -16px rgba(22, 32, 44, .70), 0 6px 16px -6px rgba(22, 32, 44, .50);
 }
 .post-thumb img { mix-blend-mode: luminosity; }
 /* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.

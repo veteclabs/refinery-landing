@@ -106,7 +106,7 @@
      ⚠️ .blog-list로 한정한다 — 이 파일은 자료실(/resources)과 함께 쓴다. */
   .blog-list .res-thumb:not(.is-empty) {
     background: #76A6D7;
-    box-shadow: 0 14px 34px -14px rgba(22, 32, 44, .40), 0 2px 8px -6px rgba(22, 32, 44, .30);
+    box-shadow: 0 24px 52px -16px rgba(22, 32, 44, .70), 0 6px 16px -6px rgba(22, 32, 44, .50);
   }
   .blog-list .res-thumb:not(.is-empty) img { mix-blend-mode: luminosity; }
   /* 표지 위 글의 종류는 흰색으로 올린다. 하늘색 밑판에 사진이 얹히면 글자
