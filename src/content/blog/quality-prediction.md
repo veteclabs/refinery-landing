@@ -48,6 +48,6 @@ category: "인사이트"
 
 ## 마치며
 
-<span class="lead-dot"></span>흩어진 공정 데이터를 잇는 방법이 궁금하다면 → [산업 데이터 통합](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>흩어진 공정 데이터를 잇는 방법이 궁금하다면 → [데이터 통합 백서](/whitepapers/data-integration)<br>
 <span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
 <span class="lead-dot"></span>우리 공정에 어떻게 적용할지 궁금하다면 → [문의하기](/contact)

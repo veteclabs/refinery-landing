@@ -72,4 +72,4 @@ category: "인사이트"
 ## 마치며
 
 <span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
-<span class="lead-dot"></span>AI가 근거를 들어 판단을 돕는 방식이 궁금하다면 → [산업 AI 에이전트](/whitepapers/ai-agent)
+<span class="lead-dot"></span>AI가 근거를 들어 판단을 돕는 방식이 궁금하다면 → [AI 에이전트 백서](/whitepapers/ai-agent)
