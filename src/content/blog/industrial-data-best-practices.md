@@ -4,7 +4,7 @@ description: "흩어진 현장 데이터를 신뢰할 수 있는 의사결정 �
 cardBreakAfter: "바꾸기"
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["모범사례", "데이터", "온톨로지"]
 category: "가이드"
 ---

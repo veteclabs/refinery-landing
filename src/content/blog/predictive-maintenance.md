@@ -4,7 +4,7 @@ description: "고장을 맞히는 마법이 아니라 데이터로 전조를 읽
 cardBreakAfter: "일입니다."
 pubDate: 2026-07-30
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["예지보전", "AI 에이전트", "현장운영"]
 category: "인사이트"
 ---

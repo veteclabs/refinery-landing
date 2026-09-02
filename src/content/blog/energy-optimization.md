@@ -4,7 +4,7 @@ description: "에너지 비용은 큰 곳이 아니라 눈에 잘 안 띄는 곳
 cardBreakAfter: "샙니다."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["에너지", "ESG", "최적화"]
 category: "인사이트"
 ---

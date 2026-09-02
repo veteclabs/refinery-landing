@@ -4,7 +4,7 @@ description: "완성품 검사만으로는 늦습니다. 공정 데이터에서 
 cardBreakAfter: "늦습니다."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["품질", "데이터", "AI 에이전트"]
 category: "인사이트"
 ---
