@@ -141,6 +141,11 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    쓰여 전역으로 어둡게 할 수 없는데, 흰 배경 위에서는 3.51:1로 AA에 못 미친다.
    여기서만 ink-600(5.77:1)으로 직접 준다. */
 .footer-links a { font-size: 13px; color: var(--ink-600); }
+/* 칸이 좁아지면 링크 글자가 한글 낱자 사이에서 잘린다 — 1040px에서
+   '소프트웨어 사용권 계|약'이 그랬다. keep-all로 어절을 붙여 두고,
+   아주 긴 낱말만 예외로 넘겨 칸 밖으로 나가지 않게 한다(사이트 공통 값). */
+.footer-links a,
+.footer-links button { word-break: keep-all; overflow-wrap: break-word; }
 /* 푸터는 호버에서 아무것도 바뀌지 않는다(요청). 색·밑줄·면 모두 없다.
    바뀔 값이 없으니 transition도 두지 않는다. */
 /* '쿠키 설정'은 페이지 이동이 아니라 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
