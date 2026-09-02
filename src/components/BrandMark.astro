@@ -1,0 +1,25 @@
+---
+/** Refinery 심볼(글자 없는 마크).
+ *
+ *  public/logo_Refinery_symbol.svg와 같은 도형이지만, 그 파일은 잉크색(#0b0e14)이
+ *  박혀 있어 어두운 면 위에서는 보이지 않는다. 여기서는 fill을 currentColor로 두어
+ *  쓰는 쪽에서 색을 정한다(푸터의 큰 로고도 같은 방식으로 흰색을 넣는다).
+ *
+ *  크기는 class로 넘긴 CSS가 정한다 — width만 주면 viewBox 비율(1:1)로 따라온다.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<svg
+  class={className}
+  viewBox="0 0 620 620"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="M380,40H100c-33.14,0-60,26.86-60,60v280c0,33.14,26.86,60,60,60h50c-16.57,0-30-13.43-30-30V150c0-16.57,13.43-30,30-30h260c16.57,0,30,13.43,30,30v-50c0-33.14-26.86-60-60-60Z" />
+  <path d="M520,180h-50c16.57,0,30,13.43,30,30v260c0,16.57-13.43,30-30,30H210c-16.57,0-30-13.43-30-30v50c0,33.14,26.86,60,60,60h280c33.14,0,60-26.86,60-60V240c0-33.14-26.86-60-60-60Z" />
+</svg>

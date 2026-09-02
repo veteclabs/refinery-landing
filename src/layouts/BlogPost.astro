@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import BrandMark from '../components/BrandMark.astro';
 import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import { formatDateKo } from '../utils/date';
@@ -91,6 +92,7 @@ const jsonLd = {
               fetchpriority="high"
             />
           )}
+          {image && <BrandMark class="thumb-mark" />}
         </div>
         <header class="post-header">
           {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
