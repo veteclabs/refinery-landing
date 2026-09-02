@@ -19,13 +19,12 @@ export async function getStaticPaths() {
 }
 
 const { post, newer, older } = Astro.props;
-const { Content, headings } = await render(post);
-const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const { Content } = await render(post);
 const nav = {
   newer: newer ? { slug: newer.id, title: newer.data.title } : null,
   older: older ? { slug: older.id, title: older.data.title } : null,
 };
 ---
-<BlogPost {...post.data} slug={post.id} headings={toc} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
+<BlogPost {...post.data} slug={post.id} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
   <Content />
 </BlogPost>
