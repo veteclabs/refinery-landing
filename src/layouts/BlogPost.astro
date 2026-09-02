@@ -86,20 +86,24 @@ const jsonLd = {
             같은 파일 하나로 목록과 글 양쪽을 덮을 수 있다. */}
         <div class="post-thumb"></div>
         <header class="post-header">
-          <div class="post-meta">
-            <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-            {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
-            <span class="post-bar" aria-hidden="true"></span>
-            <span>{author}</span>
-            {readingTime && <><span class="post-bar" aria-hidden="true"></span><span>{T.reading(readingTime)}</span></>}
-          </div>
+          {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
           <h1>{title}</h1>
           <p class="post-desc">{description}</p>
-          {tags.length > 0 && (
-            <ul class="post-tags">
-              {tags.map((t) => <li>{t}</li>)}
-            </ul>
-          )}
+          {/* 날짜 줄과 태그를 한 줄에 둔다 — 날짜는 왼쪽, 태그는 오른쪽 끝. */}
+          <div class="post-metarow">
+            <div class="post-meta">
+              <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+              {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
+              <span class="post-bar" aria-hidden="true"></span>
+              <span>{author}</span>
+              {readingTime && <><span class="post-bar" aria-hidden="true"></span><span>{T.reading(readingTime)}</span></>}
+            </div>
+            {tags.length > 0 && (
+              <ul class="post-tags">
+                {tags.map((t) => <li>{t}</li>)}
+              </ul>
+            )}
+          </div>
         </header>
         <div class="post-body">
           <slot />
