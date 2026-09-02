@@ -10,20 +10,13 @@ export async function getStaticPaths() {
     params: { slug: post.id },
     props: {
       post,
-      // 최신순 정렬: 앞쪽이 더 최신. 다음 글=더 최신, 이전 글=더 오래된 글.
-      newer: i > 0 ? posts[i - 1] : null,
-      older: i < posts.length - 1 ? posts[i + 1] : null,
     },
   }));
 }
 
-const { post, newer, older } = Astro.props;
+const { post } = Astro.props;
 const { Content } = await render(post);
-const nav = {
-  newer: newer ? { slug: newer.id, title: newer.data.title } : null,
-  older: older ? { slug: older.id, title: older.data.title } : null,
-};
 ---
-<BlogPost {...post.data} slug={post.id} nav={nav}>
+<BlogPost {...post.data} slug={post.id}>
   <Content />
 </BlogPost>

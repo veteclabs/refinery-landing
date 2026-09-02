@@ -5,8 +5,6 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
 
-type NavLink = { slug: string; title: string } | null;
-
 export interface Props {
   title: string;
   description: string;
@@ -17,21 +15,18 @@ export interface Props {
   category?: string;
   ogImage?: string;
   slug: string;
-  nav?: { newer: NavLink; older: NavLink };
   lang?: 'ko' | 'en';
 }
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, slug,
-  nav = { newer: null, older: null }, lang = 'ko',
+  lang = 'ko',
 } = Astro.props;
 
 // 글 UI 문구·날짜 형식·경로를 로케일별로.
 const T = {
-  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', back: '← 블로그', navAria: '다른 글',
-        older: '← 이전 글', newer: '다음 글 →' },
-  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', back: '← Blog', navAria: 'More posts',
-        older: '← Previous', newer: 'Next →' },
+  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그' },
+  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog' },
 }[lang];
 
 // 한국어는 '2026. 07. 31', 영어는 'July 31, 2026'. 목록 카드와 같은 함수를 쓴다.
@@ -94,26 +89,6 @@ const jsonLd = {
           <slot />
         </div>
 
-        {(nav.older || nav.newer) && (
-          <nav class="post-nav" aria-label={T.navAria}>
-            {nav.older
-              ? (
-                <a class="post-nav-item post-nav-prev" href={`${T.base}/${nav.older.slug}`}>
-                  <span class="post-nav-dir">{T.older}</span>
-                  <strong class="post-nav-title">{nav.older.title}</strong>
-                </a>
-              )
-              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
-            {nav.newer
-              ? (
-                <a class="post-nav-item post-nav-next" href={`${T.base}/${nav.newer.slug}`}>
-                  <span class="post-nav-dir">{T.newer}</span>
-                  <strong class="post-nav-title">{nav.newer.title}</strong>
-                </a>
-              )
-              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
-          </nav>
-        )}
       </article>
     </div>
   </main>
