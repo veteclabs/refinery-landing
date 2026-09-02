@@ -148,9 +148,9 @@ img { max-width: 100%; height: auto; }
 .post-body img { border-radius: 10px; }
 /* '마치며'의 두 줄은 통째로 굵게 둔다. 글머리 기호를 단 문단이 그 블록이라
    :has()로 집는다 — 마크다운 문단에 클래스를 달 수 없어서다.
-   링크는 자기 규칙(600)이 더 세므로 함께 700으로 올린다. */
+   링크도 같은 굵기로 맞춘다(자기 규칙이 더 세다). */
 .post-body p:has(.lead-dot),
-.post-body p:has(.lead-dot) a { font-weight: 700; }
+.post-body p:has(.lead-dot) a { font-weight: 600; }
 /* 글머리로 쓰는 가운뎃점(•)은 글꼴이 글자보다 아래에 그린다. 실측으로 글자
    잉크의 세로 중심보다 1.12px 아래였다 — 그만큼 올려 눈높이를 맞춘다.
    position: relative라 줄 높이나 자간에는 영향이 없다. */
