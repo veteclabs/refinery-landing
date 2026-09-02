@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { formatDateKo } from '../utils/date';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
@@ -37,8 +38,11 @@ const T = {
         older: '← Previous', newer: 'Next →' },
 }[lang];
 
+// 한국어는 '2026. 07. 31', 영어는 'July 31, 2026'. 목록 카드와 같은 함수를 쓴다.
 const fmt = (d: Date) =>
-  new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+  lang === 'ko'
+    ? formatDateKo(d)
+    : new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
 const canonical = `${T.base}/${slug}`;

@@ -9,6 +9,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import { readingMinutesForSlug } from '../../utils/readingTime';
+import { formatDateKo } from '../../utils/date';
 import '../../styles/industry.css';
 import '../../styles/res-card.css';
 
@@ -16,8 +17,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lan
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 
-const fmt = (d: Date) =>
-  new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // 카드 소제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 cardBreakAfter에 있고,
 // 그 말 바로 뒤에서 나눈다. description 자체에 <br>을 넣지 않는 이유는
@@ -61,7 +60,7 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
               <h3>{post.data.title}</h3>
               <p>{head}{tail && <><br />{tail}</>}</p>
               <div class="blog-meta">
-                <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+                <time datetime={post.data.pubDate.toISOString()}>{formatDateKo(post.data.pubDate)}</time>
                 <span class="blog-meta-dot">·</span>
                 <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
                 {post.data.tags[0] && <span class="blog-meta-tag">#{post.data.tags[0]}</span>}
