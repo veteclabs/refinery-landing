@@ -1,5 +1,5 @@
 ---
-title: "Before the defect appears: what quality prediction really looks like"
+title: "Defects show up before inspection"
 description: "Final inspection is too late. How to read the early signs of a quality problem in process data."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
