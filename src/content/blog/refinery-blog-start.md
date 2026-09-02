@@ -7,6 +7,7 @@ updatedDate: 2026-07-31
 author: "Refinery팀"
 tags: ["소식", "product"]
 category: "소식"
+image: "../../assets/blog/refinery-blog-start.webp"
 ---
 
 블로그에서는 산업 현장의 데이터를 어떻게 연결하고, 정제하고, AI 에이전트로

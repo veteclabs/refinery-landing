@@ -8,6 +8,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import { formatDateKo } from '../../utils/date';
 import '../../styles/industry.css';
 import '../../styles/res-card.css';
@@ -51,11 +52,21 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
             const [head, tail] = splitDesc(post.data.description, post.data.cardBreakAfter);
             return (
             <a class="ind-card res-card is-link" href={`/blog/${post.id}`}>
-              {/* 표지 자리. 이미지가 들어오기 전까지 빈 면으로 남는다 —
-                  자리를 늘 차지하므로 나중에 넣어도 배치가 흔들리지 않는다.
-                  자료실의 '준비중' 그림·배지는 두지 않는다. 글은 이미 공개된
-                  것이라 준비 중이 아니다. */}
-              <div class="res-thumb is-empty">
+              {/* 표지. 이미지가 없는 글은 빈 면으로 남는다 — 자리를 늘 차지하므로
+                  나중에 넣어도 배치가 흔들리지 않는다. 자료실의 '준비중' 그림·배지는
+                  두지 않는다. 글은 이미 공개된 것이라 준비 중이 아니다.
+                  표지가 있으면 글의 종류(태그)는 그 위에 얹힌다 — 자료실과 같다. */}
+              <div class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'}>
+                {post.data.image && (
+                  <Image
+                    src={post.data.image}
+                    alt=""
+                    widths={[383, 560, 766, 1104, 1440]}
+                    sizes="(max-width: 860px) calc(100vw - 48px), (max-width: 1279px) calc((100vw - 132px) / 3), 383px"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 {post.data.tags[0] && (
                   <div class="res-cover">
                     <span class="res-cover-kind">{post.data.tags[0]}</span>

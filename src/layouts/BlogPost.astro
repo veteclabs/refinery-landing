@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import { formatDateKo } from '../utils/date';
 import Nav from '../components/Nav.astro';
@@ -14,12 +16,14 @@ export interface Props {
   /** 글의 종류(인사이트 · 가이드 · 소식). 목록 카드와 같은 값을 메타 줄에 적는다. */
   category?: string;
   ogImage?: string;
+  /** 표지 이미지(src/assets). 목록 카드와 같은 파일을 쓴다. */
+  image?: ImageMetadata;
   slug: string;
   lang?: 'ko' | 'en';
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, slug,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, slug,
   lang = 'ko',
 } = Astro.props;
 
@@ -71,11 +75,23 @@ const jsonLd = {
     <div class="post-shell">
 
       <article class="post">
-        {/* 표지 자리. 이미지가 들어오기 전까지 빈 면으로 남는다 — 자리를 늘
-            차지하므로 나중에 넣어도 배치가 흔들리지 않는다.
-            비율(16:10)과 면은 목록 카드의 표지 칸(.res-thumb)과 같다.
-            같은 파일 하나로 목록과 글 양쪽을 덮을 수 있다. */}
-        <div class="post-thumb"></div>
+        {/* 표지. 칸이 먼저 자리를 잡고 이미지가 그 안을 cover로 채운다 —
+            이미지가 없는 글은 빈 면으로 남고 배치는 그대로다.
+            목록 카드(.res-thumb)와 같은 파일을 쓰고, 크기만 여기서 더 크다.
+            widths/sizes를 주면 빌드가 폭별 파일을 만들어 각 화면이 제 크기만
+            내려받는다. 접힘선 위라 lazy는 걸지 않는다(LCP). */}
+        <div class="post-thumb">
+          {image && (
+            <Image
+              src={image}
+              alt=""
+              widths={[432, 720, 820, 1440, 1640]}
+              sizes="(max-width: 868px) calc(100vw - 48px), 820px"
+              loading="eager"
+              fetchpriority="high"
+            />
+          )}
+        </div>
         <header class="post-header">
           {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
           <h1>{title}</h1>
