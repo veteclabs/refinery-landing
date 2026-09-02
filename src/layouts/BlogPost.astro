@@ -31,10 +31,10 @@ const {
 // 글 UI 문구·날짜 형식·경로를 로케일별로.
 const T = {
   ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', back: '← 블로그',
-        reading: (m: number) => `약 ${m}분 읽기`, crumbAria: '위치', navAria: '다른 글',
+        reading: (m: number) => `약 ${m}분 읽기`, navAria: '다른 글',
         older: '← 이전 글', newer: '다음 글 →' },
   en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', back: '← Blog',
-        reading: (m: number) => `${m} min read`, crumbAria: 'Breadcrumb', navAria: 'More posts',
+        reading: (m: number) => `${m} min read`, navAria: 'More posts',
         older: '← Previous', newer: 'Next →' },
 }[lang];
 
@@ -80,9 +80,6 @@ const jsonLd = {
     <div class="post-shell">
 
       <article class="post">
-        <nav class="post-breadcrumb" aria-label={T.crumbAria}>
-          <a href={T.base}>{T.back}</a>
-        </nav>
         <header class="post-header">
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>

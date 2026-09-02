@@ -51,10 +51,9 @@ img { max-width: 100%; height: auto; }
 .blog-card-more { display: inline-block; margin-top: 14px; font-size: 14px; color: var(--accent); font-weight: 600; }
 
 /* ---- Post ---- */
-.post-breadcrumb { padding: 24px 0 0; }
-.post-breadcrumb a { font-size: 14px; color: var(--text-muted); }
-.post-breadcrumb a:hover { color: var(--accent); }
-.post-header { padding: 24px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+/* 상단 '← 블로그' 경로를 걷었다. 글 머리가 바로 시작하도록 위 여백을
+   경로가 차지하던 만큼(24 + 24) 합쳐 48px으로 둔다. */
+.post-header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
 .post-meta { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--text-muted); }
 /* 날짜·종류·작성자 사이 구분선. 글자 '|'는 폰트에 따라 굵기와 높이가 달라져,
    글자 색으로 그린 1px 선을 쓴다. 목록 카드(.blog-meta-bar)와 같은 규격이다. */
