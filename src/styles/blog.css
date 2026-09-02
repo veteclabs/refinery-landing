@@ -87,7 +87,15 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 560px) { .site-footer-copy { margin-left: 0; width: 100%; } }
 
 /* ---- 글 레이아웃: 좌측 고정 목차 + 본문 ---- */
-.blog-main--post { max-width: 1080px; }
+/* 좌우를 헤더·블로그 목록과 같은 선에 맞춘다(1280 / 48).
+   전에는 1080/24라 본문 기둥이 페이지마다 다른 자리에서 시작했다 —
+   헤더 로고는 128px, 이 페이지 목차는 204px에서 시작했다. */
+.blog-main--post { max-width: 1280px; padding-left: 48px; padding-right: 48px; }
+/* 좁은 화면에서는 24px로 되돌린다(자료실 .res-page와 같은 규칙).
+   48px을 그대로 두면 375px 화면에서 본문이 279px까지 줄어든다. */
+@media (max-width: 900px) {
+  .blog-main--post { padding-left: 24px; padding-right: 24px; }
+}
 /* align-items: stretch → 목차 셀이 본문 높이만큼 늘어나야 sticky가 본문 내내 유지됨 */
 .post-shell { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 56px; align-items: stretch; }
 .post-shell .post { min-width: 0; max-width: 760px; }
