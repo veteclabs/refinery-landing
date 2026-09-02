@@ -121,6 +121,9 @@ img { max-width: 100%; height: auto; }
 /* 본문 링크는 브랜드 하늘색 #76A6D7이고 밑줄 대신 굵기로 알린다.
    색만으로는 링크인 줄 알기 어렵고(흰 바탕에서 2.56:1), 굵기가 그 몫을 맡는다. */
 .post-body a { color: #76A6D7; font-weight: 600; text-decoration: none; }
+/* 누르기 전과 올렸을 때를 색으로 가른다. 밑줄이 없어 움직임이 없으면
+   링크가 반응하는지 알기 어렵다. */
+.post-body a:hover { color: #5A8FC5; }
 /* 표식은 하늘색 점. 기본 disc를 끄고 백서와 같은 방식으로 직접 그린다. */
 .post-body ul { margin-top: 14px; padding-left: 0; list-style: none; }
 .post-body ol { margin-top: 14px; padding-left: 1.3em; }
@@ -146,18 +149,29 @@ img { max-width: 100%; height: auto; }
 .post-body blockquote { border-left: 3px solid var(--accent); padding-left: 16px; color: var(--text-muted); }
 .post-body hr { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
 .post-body img { border-radius: 10px; }
-/* '마치며'의 두 줄은 통째로 굵게 둔다. 글머리 기호를 단 문단이 그 블록이라
-   :has()로 집는다 — 마크다운 문단에 클래스를 달 수 없어서다.
-   링크도 같은 굵기로 맞춘다(자기 규칙이 더 세다). */
-.post-body p:has(.lead-dot),
-.post-body p:has(.lead-dot) a { font-weight: 600; }
-/* 글머리로 쓰는 가운뎃점(•)은 글꼴이 글자보다 아래에 그린다. 실측으로 글자
-   잉크의 세로 중심보다 1.12px 아래였다 — 그만큼 올려 눈높이를 맞춘다.
-   position: relative라 줄 높이나 자간에는 영향이 없다. */
-.post-body .lead-dot { position: relative; top: -1.1px; }
+/* '마치며'의 두 줄. 글머리 기호를 단 문단이 그 블록이라 :has()로 집는다 —
+   마크다운 문단에 클래스를 달 수 없어서다.
+   글은 600, 링크만 한 단계 더 굵은 700이라 눌러 갈 곳이 먼저 읽힌다. */
+.post-body p:has(.lead-dot) { font-weight: 600; }
+.post-body p:has(.lead-dot) a { font-weight: 700; }
+/* '마치며' 두 줄의 글머리 표식. 크기와 자리는 본문 목록
+   (.post-body ul > li::before)과 같은 3px 점이다 — 글꼴이 그리는 가운뎃점(•)은
+   크기와 높이가 글꼴에 좌우돼 목록의 점과 달라 보였다. CSS로 같은 점을 그린다.
+   오른쪽 9px + 점 3px = 목록의 글자 시작 위치(padding-left 12px)와 같다.
+   색은 글자를 따른다(currentColor) — 목록 표식은 하늘색이지만 여기서는
+   글머리가 글과 같은 색이던 처음 모습을 지킨다.
+   -2.1px은 실측값이다. vertical-align: middle만으로는 점이 글자 잉크의
+   세로 중심보다 1.12px 아래에 놓였다. */
+.post-body .lead-dot {
+  display: inline-block; width: 3px; height: 3px; border-radius: 50%;
+  background: currentColor; vertical-align: middle;
+  position: relative; top: -2.1px; margin-right: 9px;
+}
 /* 글이 끝나는 자리는 푸터 위 구분선이 맡는다(아래 .blog-main--post + footer).
-   본문 기둥(820px)에 선을 그으면 푸터 칸들과 폭이 어긋나 두 개로 읽혔다. */
-.post-body { padding-bottom: 56px; }
+   본문 기둥(820px)에 선을 그으면 푸터 칸들과 폭이 어긋나 두 개로 읽혔다.
+   아래 여백은 main이 잡는다(110px) — 표지 위 여백과 같은 값이라 글이
+   위아래 같은 간격 안에 놓인다. */
+.post-body { padding-bottom: 0; }
 
 @media (max-width: 560px) { .site-footer-copy { margin-left: 0; width: 100%; } }
 
@@ -168,11 +182,13 @@ img { max-width: 100%; height: auto; }
 /* 한국어가 어절 중간에서 잘리지 않게 한다 — 백서(.wp-page)와 같은 값이다.
    아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
 .blog-main--post { word-break: keep-all; overflow-wrap: break-word; }
-.blog-main--post { max-width: 1280px; padding-left: 48px; padding-right: 48px; }
+/* 아래 여백 110px = 표지 위 여백과 같다(백서 히어로가 헤더 아래에 두는 간격).
+   글이 위아래 같은 간격 안에 놓이고, 그 끝에서 푸터 구분선이 받는다. */
+.blog-main--post { max-width: 1280px; padding-left: 48px; padding-right: 48px; padding-bottom: 110px; }
 /* 좁은 화면에서는 24px로 되돌린다(자료실 .res-page와 같은 규칙).
    48px을 그대로 두면 375px 화면에서 본문이 279px까지 줄어든다. */
 @media (max-width: 900px) {
-  .blog-main--post { padding-left: 24px; padding-right: 24px; }
+  .blog-main--post { padding-left: 24px; padding-right: 24px; padding-bottom: 50px; }
   .post-thumb { margin-top: 50px; }
 }
 /* 푸터 위 구분선. 자료실·블로그 목록과 같은 모양이다 — 그쪽은 마지막 섹션
