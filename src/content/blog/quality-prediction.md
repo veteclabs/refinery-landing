@@ -48,8 +48,6 @@ category: "인사이트"
 
 ## 마치며
 
-품질 예측도 결국 잘 연결된 데이터 위에서 동작합니다. 흩어진 공정 데이터를 하나의
-지식으로 잇는 방법은 [산업 데이터 통합](/whitepapers/data-integration) 백서에서,
-데이터를 자산으로 만드는 기본은
-[5가지 원칙](/blog/industrial-data-best-practices)에서 다룹니다. 우리 공정에 어떻게
-적용할지 궁금하다면 [문의하기](/contact)로 연락 주세요.
+<span class="lead-dot"></span>흩어진 공정 데이터를 잇는 방법이 궁금하다면 → [산업 데이터 통합](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>우리 공정에 어떻게 적용할지 궁금하다면 → [문의하기](/contact)

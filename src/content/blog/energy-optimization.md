@@ -45,7 +45,5 @@ category: "인사이트"
 
 ## 마치며
 
-에너지 최적화도 결국 데이터를 어떻게 연결하고 신뢰하느냐의 문제입니다. 데이터를
-자산으로 만드는 기본은 [5가지 원칙](/blog/industrial-data-best-practices)에서,
-에너지·유틸리티 현장에 맞춘 적용은 [에너지 산업 페이지](/industries/energy)에서
-확인할 수 있습니다.
+<span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>에너지·유틸리티 현장 적용이 궁금하다면 → [에너지 산업](/industries/energy)

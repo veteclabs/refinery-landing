@@ -71,8 +71,5 @@ category: "인사이트"
 
 ## 마치며
 
-예지보전은 결국 데이터의 문제입니다. 신뢰할 수 있는 이력과 맥락이 갖춰지면, 예측은
-그 위에서 자연스럽게 따라옵니다. 데이터를 어떻게 자산으로 만드는지는
-[산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)에서,
-AI가 근거를 들어 판단을 돕는 방식은 [산업 AI 에이전트](/whitepapers/ai-agent)
-백서에서 이어집니다.
+<span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>AI가 근거를 들어 판단을 돕는 방식이 궁금하다면 → [산업 AI 에이전트](/whitepapers/ai-agent)
