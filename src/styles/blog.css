@@ -59,9 +59,11 @@ img { max-width: 100%; height: auto; }
    글자 색으로 그린 1px 선을 쓴다. 목록 카드(.blog-meta-bar)와 같은 규격이다. */
 .post-bar { width: 1px; height: 11px; background: currentColor; opacity: .35; display: inline-block; flex: none; }
 /* 대제목·소제목은 백서 히어로(.wp-title · .wp-sub)와 같은 값이다.
-   색만 다르다 — 백서는 짙은 파란 면 위 흰 글자, 여기는 흰 바탕 검은 글자다. */
+   굵기만 700이다 — 백서는 짙은 파란 면 위 흰 글자라 600으로도 또렷한데,
+   흰 바탕에 검은 글자인 여기서는 한 단계 굵어야 같은 무게로 읽힌다
+   (본문 절 제목·굵게도 같은 이유로 700이다). */
 .post-header h1 {
-  font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+  font-size: clamp(28px, 4vw, 45px); font-weight: 700;
   letter-spacing: -0.8px; line-height: 1.3; margin: 14px 0 0;
 }
 /* 위 여백 20px · 폭 600px까지 모두 백서와 같다. 본문(820px)보다 좁게 두어
