@@ -66,8 +66,9 @@ img { max-width: 100%; height: auto; }
   background: var(--bg-soft); border-radius: var(--radius); overflow: hidden;
 }
 .post-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-/* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다. */
-.post-header { padding: 32px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+/* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.
+   아래 구분선의 위아래 여백(39px)은 절 구분선(.post-body h2)과 같은 값이다. */
+.post-header { padding: 32px 0 39px; border-bottom: 1px solid var(--border); margin-bottom: 39px; }
 /* 날짜 줄. 위 여백 20px은 대제목-소제목 사이와 같은 값이라 머리글이 고른
    리듬으로 쌓인다. */
 .post-meta { display: flex; gap: 8px; align-items: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
