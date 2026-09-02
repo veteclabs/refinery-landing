@@ -19,22 +19,19 @@ export interface Props {
   ogImage?: string;
   slug: string;
   nav?: { newer: NavLink; older: NavLink };
-  readingTime?: number;
   lang?: 'ko' | 'en';
 }
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', tags = [], category, ogImage, slug,
-  nav = { newer: null, older: null }, readingTime, lang = 'ko',
+  nav = { newer: null, older: null }, lang = 'ko',
 } = Astro.props;
 
 // 글 UI 문구·날짜 형식·경로를 로케일별로.
 const T = {
-  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', back: '← 블로그',
-        reading: (m: number) => `약 ${m}분 읽기`, navAria: '다른 글',
+  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', back: '← 블로그', navAria: '다른 글',
         older: '← 이전 글', newer: '다음 글 →' },
-  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', back: '← Blog',
-        reading: (m: number) => `${m} min read`, navAria: 'More posts',
+  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', back: '← Blog', navAria: 'More posts',
         older: '← Previous', newer: 'Next →' },
 }[lang];
 
@@ -94,9 +91,6 @@ const jsonLd = {
             <div class="post-meta">
               <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
               {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
-              <span class="post-bar" aria-hidden="true"></span>
-              <span>{author}</span>
-              {readingTime && <><span class="post-bar" aria-hidden="true"></span><span>{T.reading(readingTime)}</span></>}
             </div>
             {tags.length > 0 && (
               <ul class="post-tags">

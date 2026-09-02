@@ -2,7 +2,6 @@
 // 영어 글 상세. 컬렉션 id가 'en/<slug>'라 접두사를 떼고 /en/blog/<slug>로 서빙한다.
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
-import { readingMinutesForSlug } from '../../../utils/readingTime';
 
 const strip = (id: string) => id.replace(/^en\//, '');
 
@@ -28,6 +27,6 @@ const nav = {
   older: older ? { slug: strip(older.id), title: older.data.title } : null,
 };
 ---
-<BlogPost {...post.data} lang="en" slug={strip(post.id)} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
+<BlogPost {...post.data} lang="en" slug={strip(post.id)} nav={nav}>
   <Content />
 </BlogPost>
