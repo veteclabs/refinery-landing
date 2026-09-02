@@ -8,7 +8,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { readingMinutesForSlug } from '../../utils/readingTime';
 import { formatDateKo } from '../../utils/date';
 import '../../styles/industry.css';
 import '../../styles/res-card.css';
@@ -56,14 +55,23 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                   자리를 늘 차지하므로 나중에 넣어도 배치가 흔들리지 않는다.
                   자료실의 '준비중' 그림·배지는 두지 않는다. 글은 이미 공개된
                   것이라 준비 중이 아니다. */}
-              <div class="res-thumb is-empty"></div>
+              <div class="res-thumb is-empty">
+                {post.data.tags[0] && (
+                  <div class="res-cover">
+                    <span class="res-cover-kind">{post.data.tags[0]}</span>
+                  </div>
+                )}
+              </div>
               <h3>{post.data.title}</h3>
               <p>{head}{tail && <><br />{tail}</>}</p>
               <div class="blog-meta">
                 <time datetime={post.data.pubDate.toISOString()}>{formatDateKo(post.data.pubDate)}</time>
-                <span class="blog-meta-dot">·</span>
-                <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
-                {post.data.tags[0] && <span class="blog-meta-tag">#{post.data.tags[0]}</span>}
+                {post.data.category && (
+                  <>
+                    <span class="blog-meta-bar" aria-hidden="true"></span>
+                    <span>{post.data.category}</span>
+                  </>
+                )}
               </div>
             </a>
             );
@@ -76,7 +84,9 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
 </BaseLayout>
 
 <style>
-  /* 날짜·읽는 시간·태그. 자료실 카드에는 없는 줄이라 여기서만 둔다.
+  /* 날짜 · 종류 · 태그. 자료실 카드에는 없는 줄이라 여기서만 둔다.
+     읽는 시간(약 N분)은 카드에서 뺐다 — 분량보다 글의 종류를 알려 주는 편이
+     고르는 데 도움이 된다. 글 상세에는 그대로 있다.
      대제목·소제목 아래에 놓고, 크기는 카드 설명(15px)보다 한 단계 작다.
      위 여백 10px은 소제목 행간(15x1.5=22.5px)의 아랫부분과 겹쳐 보이지 않도록
      띄운 값이다. */
@@ -85,10 +95,20 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
     margin: 10px 0 0;
     font-size: 13px; line-height: 1.4; color: var(--text-muted, #7e8a98);
   }
-  .blog-list .blog-meta-dot { opacity: .6; }
-  /* 태그는 앞의 두 값과 갈라 보이게 하늘색으로 둔다 —
-     자료실 표지의 종류(.res-cover-kind)와 같은 색이다. */
-  .blog-list .blog-meta-tag { color: #76A6D7; font-weight: 600; }
+  /* 날짜와 종류 사이 구분선. 글자 '|'는 폰트에 따라 굵기와 높이가 달라져,
+     글자 색으로 그린 1px 선을 쓴다. 높이 11px은 이 줄 글자 크기(13px)의
+     대문자 높이쯤이라 글자 사이에 자연스럽게 선다. */
+  .blog-list .blog-meta-bar {
+    width: 1px; height: 11px; background: currentColor; opacity: .35;
+    display: inline-block; flex: none;
+  }
+  /* 표지 글자(태그). 자료실과 같은 자리·같은 규격이고, 표지 이미지가 들어오면
+     색까지 그대로 같아진다(#76A6D7).
+     다만 표지가 아직 빈 동안에는 그 하늘색이 밑판(#F6F8FA) 위에서 2.40:1까지밖에
+     안 나와 읽히지 않는다 — 자료실이 빈 표지에 글자를 두지 않기로 한 이유다.
+     여기서는 태그가 카드의 유일한 분류라 비울 수 없어, 비어 있는 동안만
+     본문 보조색(7.39:1)으로 둔다. 하늘색의 톤을 새로 만들지는 않는다. */
+  .blog-list .res-thumb.is-empty .res-cover-kind { color: #47535f; }
   /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
      아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
   .blog-list .res-card h3,

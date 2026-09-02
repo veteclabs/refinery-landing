@@ -6,6 +6,7 @@ pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery 팀"
 tags: ["소식", "product"]
+category: "소식"
 ---
 
 Refinery 블로그를 시작합니다. 이 공간에서는 산업 현장의 데이터를 어떻게 연결하고,

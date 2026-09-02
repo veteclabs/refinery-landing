@@ -6,6 +6,7 @@ pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery 팀"
 tags: ["모범사례", "데이터", "온톨로지"]
+category: "가이드"
 ---
 
 산업 현장에는 데이터가 부족하지 않습니다. 오히려 SCADA, MES, ERP, 센서, 문서에
