@@ -44,5 +44,5 @@ Refinery팀은 발전, 제조, 에너지 현장에서 오래 일해 온 팀입�
 
 ## 마치며
 
-<span class="lead-dot">•</span> 다음 글이 궁금하다면 [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
-<span class="lead-dot">•</span> 다루었으면 하는 다른 주제가 있다면 [문의하기](/contact)
+<span class="lead-dot">•</span> 다음 글이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot">•</span> 다루었으면 하는 다른 주제가 있다면 → [문의하기](/contact)
