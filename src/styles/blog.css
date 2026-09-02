@@ -58,8 +58,18 @@ img { max-width: 100%; height: auto; }
 /* 날짜·종류·작성자 사이 구분선. 글자 '|'는 폰트에 따라 굵기와 높이가 달라져,
    글자 색으로 그린 1px 선을 쓴다. 목록 카드(.blog-meta-bar)와 같은 규격이다. */
 .post-bar { width: 1px; height: 11px; background: currentColor; opacity: .35; display: inline-block; flex: none; }
-.post-header h1 { font-size: clamp(28px, 4.5vw, 40px); font-weight: 700; letter-spacing: -0.5px; margin: 14px 0 12px; line-height: 1.25; }
-.post-desc { color: var(--text-muted); font-size: 17px; }
+/* 대제목·소제목은 백서 히어로(.wp-title · .wp-sub)와 같은 값이다.
+   색만 다르다 — 백서는 짙은 파란 면 위 흰 글자, 여기는 흰 바탕 검은 글자다. */
+.post-header h1 {
+  font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+  letter-spacing: -0.8px; line-height: 1.3; margin: 14px 0 0;
+}
+/* 위 여백 20px · 폭 600px까지 모두 백서와 같다. 본문(820px)보다 좁게 두어
+   머리글이 한 덩어리로 읽히고 본문에서 줄 길이가 한 번 넓어진다. */
+.post-desc { margin-top: 20px; font-size: 18px; line-height: 1.7; color: var(--text-muted); max-width: 600px; }
+@media (max-width: 900px) {
+  .post-desc { font-size: 16px; }
+}
 .post-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .post-tags li { font-size: 13px; color: var(--accent); background: rgba(118,166,215,0.1); padding: 4px 10px; border-radius: 999px; }
 
