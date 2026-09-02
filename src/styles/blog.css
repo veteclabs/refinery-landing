@@ -56,6 +56,9 @@ img { max-width: 100%; height: auto; }
 .post-breadcrumb a:hover { color: var(--accent); }
 .post-header { padding: 24px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
 .post-meta { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--text-muted); }
+/* 날짜·종류·작성자 사이 구분선. 글자 '|'는 폰트에 따라 굵기와 높이가 달라져,
+   글자 색으로 그린 1px 선을 쓴다. 목록 카드(.blog-meta-bar)와 같은 규격이다. */
+.post-bar { width: 1px; height: 11px; background: currentColor; opacity: .35; display: inline-block; flex: none; }
 .post-header h1 { font-size: clamp(28px, 4.5vw, 40px); font-weight: 700; letter-spacing: -0.5px; margin: 14px 0 12px; line-height: 1.25; }
 .post-desc { color: var(--text-muted); font-size: 17px; }
 .post-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
