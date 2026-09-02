@@ -1,6 +1,7 @@
 ---
 title: "낭비는 어디에 숨어 있나"
-description: "에너지 비용은 큰 곳이 아니라 눈에 잘 안 띄는 곳에서 샙니다. 데이터로 낭비와 피크를 찾는 법."
+description: "에너지 비용은 큰 곳이 아니라 눈에 잘 안 띄는 곳에서 샙니다. 데이터로 낭비와 피크를 찾습니다."
+cardBreakAfter: "샙니다."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
 author: "Refinery 팀"

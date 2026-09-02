@@ -18,6 +18,18 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lan
 
 const fmt = (d: Date) =>
   new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+
+// 카드 소제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 cardBreakAfter에 있고,
+// 그 말 바로 뒤에서 나눈다. description 자체에 <br>을 넣지 않는 이유는
+// 같은 값이 meta description과 RSS에도 쓰이기 때문이다.
+// 지점을 못 찾으면 끊지 않고 한 덩어리로 둔다.
+const splitDesc = (desc: string, at?: string): [string, string] => {
+  if (!at) return [desc, ''];
+  const i = desc.indexOf(at);
+  if (i < 0) return [desc, ''];
+  const cut = i + at.length;
+  return [desc.slice(0, cut), desc.slice(cut).trimStart()];
+};
 ---
 <BaseLayout
   title="블로그 | Refinery"
@@ -37,7 +49,9 @@ const fmt = (d: Date) =>
     <section class="ind-section">
       <div class="ind-container">
         <div class="ind-grid ind-grid-3">
-          {posts.map((post) => (
+          {posts.map((post) => {
+            const [head, tail] = splitDesc(post.data.description, post.data.cardBreakAfter);
+            return (
             <a class="ind-card res-card is-link" href={`/blog/${post.id}`}>
               {/* 표지 자리. 이미지가 들어오기 전까지 빈 면으로 남는다 —
                   자리를 늘 차지하므로 나중에 넣어도 배치가 흔들리지 않는다.
@@ -45,7 +59,7 @@ const fmt = (d: Date) =>
                   것이라 준비 중이 아니다. */}
               <div class="res-thumb is-empty"></div>
               <h3>{post.data.title}</h3>
-              <p>{post.data.description}</p>
+              <p>{head}{tail && <><br />{tail}</>}</p>
               <div class="blog-meta">
                 <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
                 <span class="blog-meta-dot">·</span>
@@ -53,7 +67,8 @@ const fmt = (d: Date) =>
                 {post.data.tags[0] && <span class="blog-meta-tag">#{post.data.tags[0]}</span>}
               </div>
             </a>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -75,4 +90,15 @@ const fmt = (d: Date) =>
   /* 태그는 앞의 두 값과 갈라 보이게 하늘색으로 둔다 —
      자료실 표지의 종류(.res-cover-kind)와 같은 색이다. */
   .blog-list .blog-meta-tag { color: #76A6D7; font-weight: 600; }
+  /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
+     아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
+  .blog-list .res-card h3,
+  .blog-list .res-card p { word-break: keep-all; overflow-wrap: break-word; }
+  /* 손으로 넣은 줄바꿈은 칸이 설계 폭(382px = 1280 컨테이너 기준 3열)일 때만
+     맞는다. 컨테이너가 1280을 못 채우기 시작하면 칸이 좁아져 끊어 둔 두 도막이
+     각각 다시 감기고, 카드마다 3~4줄로 들쭉날쭉해진다(실측 1100px에서 3줄,
+     900px에서 한 장만 4줄). 그 아래로는 풀어 자연스럽게 감기게 둔다. */
+  @media (max-width: 1279px) {
+    .blog-list .res-card p br { display: none; }
+  }
 </style>

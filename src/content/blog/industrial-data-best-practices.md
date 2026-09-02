@@ -1,6 +1,7 @@
 ---
 title: "산업 데이터를 자산으로 만드는 5가지 원칙"
 description: "흩어진 현장 데이터를 신뢰할 수 있는 의사결정 근거로 바꾸기 위한 실무 원칙을 정리했습니다."
+cardBreakAfter: "바꾸기"
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery 팀"
