@@ -13,7 +13,6 @@ export interface Props {
   pubDate: Date;
   updatedDate?: Date;
   author?: string;
-  tags?: string[];
   /** 글의 종류(인사이트 · 가이드 · 소식). 목록 카드와 같은 값을 메타 줄에 적는다. */
   category?: string;
   ogImage?: string;
@@ -23,7 +22,7 @@ export interface Props {
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', tags = [], category, ogImage, slug,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, slug,
   nav = { newer: null, older: null }, lang = 'ko',
 } = Astro.props;
 
@@ -86,17 +85,9 @@ const jsonLd = {
           {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
           <h1>{title}</h1>
           <p class="post-desc">{description}</p>
-          {/* 날짜 줄과 태그를 한 줄에 둔다 — 날짜는 왼쪽, 태그는 오른쪽 끝. */}
-          <div class="post-metarow">
-            <div class="post-meta">
-              <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-              {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
-            </div>
-            {tags.length > 0 && (
-              <ul class="post-tags">
-                {tags.map((t) => <li>{t}</li>)}
-              </ul>
-            )}
+          <div class="post-meta">
+            <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+            {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
           </div>
         </header>
         <div class="post-body">
