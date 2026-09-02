@@ -121,8 +121,10 @@
   .blog-list .res-thumb .thumb-mark {
     position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2;
     width: 78px; height: auto; color: #fff; opacity: .92;
-    --mark-plate: #0F1622;
-    filter: drop-shadow(0 2px 8px rgba(11, 14, 20, .55));
+    --mark-plate: #16202C;
+    /* 블러 크기는 심볼 크기 비율(78/120)에 맞춰 줄인 값이다. */
+    filter: drop-shadow(0 0 22px #16202C) drop-shadow(0 0 9px #16202C)
+            drop-shadow(0 0 9px #16202C);
   }
   /* 표지 위 글의 종류는 흰색으로 올린다. 하늘색 밑판에 사진이 얹히면 글자
      뒤가 rgb(90,116,147)쯤이 되어 #76A6D7이 1.88:1까지 떨어진다(실측).

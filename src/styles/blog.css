@@ -90,13 +90,16 @@ img { max-width: 100%; height: auto; }
 /* 표지 한가운데 브랜드 심볼. 안쪽 테두리 그림자(::after)보다 위에 온다.
    심볼은 둥근 사각 테두리 두 개라 가운데가 뚫려 있다 — 그 구멍으로 빛줄기가
    들여다보이면 마크가 어수선해져, 같은 윤곽의 판(--mark-plate)을 뒤에 깔아 막는다.
-   판 색은 순검정이 아니라 짙은 남색이다. 표지의 가장 어두운 자리와 이어져
-   판이 따로 붙인 것처럼 보이지 않는다. */
+   판 색은 잉크색(#16202C)이다.
+   심볼 바깥도 같은 색 블러로 막는다 — 흰 획 가장자리에 빛줄기가 닿으면 마크가
+   묻히기 때문이다. drop-shadow를 겹쳐 쌓으면 도형 윤곽을 따라 짙어진다
+   (넓은 34px 한 겹이 넓게 깔고, 좁은 14px 두 겹이 획 둘레를 확실히 덮는다). */
 .post-thumb .thumb-mark {
   position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2;
   width: 120px; height: auto; color: #fff; opacity: .92;
-  --mark-plate: #0F1622;
-  filter: drop-shadow(0 2px 10px rgba(11, 14, 20, .55));
+  --mark-plate: #16202C;
+  filter: drop-shadow(0 0 34px #16202C) drop-shadow(0 0 14px #16202C)
+          drop-shadow(0 0 14px #16202C);
 }
 @media (max-width: 560px) { .post-thumb .thumb-mark { width: 86px; } }
 /* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.
