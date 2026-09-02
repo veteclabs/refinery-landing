@@ -1,10 +1,16 @@
 ---
+// 블로그 목록. 자료실(/resources)과 같은 카드 목록 구조를 쓴다 —
+// 히어로(h1만) + 3열 그리드 + 표지 칸이 위에 붙은 카드.
+// 공통 스타일은 res-card.css에 있고 자료실과 함께 쓴다(<main class="ind res-page">).
+// 표지 이미지는 아직 없다. 칸(.res-thumb)만 자리를 잡아 두고, 파일이 준비되면
+// 그 안에 <img>를 넣으면 된다 — 자료실 카드와 같은 방식이다.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import { readingMinutesForSlug } from '../../utils/readingTime';
-import '../../styles/blog.css';
+import '../../styles/industry.css';
+import '../../styles/res-card.css';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'ko')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
@@ -19,30 +25,55 @@ const fmt = (d: Date) =>
   canonical="/blog"
 >
   <Nav />
-  <main class="blog-main">
-    <header class="blog-hero">
-      <p class="blog-eyebrow">BLOG</p>
-      <h1>인사이트 &amp; 소식</h1>
-      <p class="blog-lede">산업 데이터를 정제해 의사결정으로 잇는 방법, 그리고 Refinery의 제품 이야기.</p>
-    </header>
+  <main class="ind res-page blog-list">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <h1>블로그</h1>
+      </div>
+    </section>
 
-    <ul class="blog-grid">
-      {posts.map((post) => (
-        <li class="blog-card">
-          <a href={`/blog/${post.id}`}>
-            <div class="blog-card-meta">
-              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
-              <span class="blog-card-dot">·</span>
-              <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
-              {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
-            </div>
-            <h2>{post.data.title}</h2>
-            <p>{post.data.description}</p>
-            <span class="blog-card-more">읽기 →</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <!-- GRID -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="ind-grid ind-grid-3">
+          {posts.map((post) => (
+            <a class="ind-card res-card is-link" href={`/blog/${post.id}`}>
+              {/* 표지 자리. 이미지가 들어오기 전까지 빈 면으로 남는다 —
+                  자리를 늘 차지하므로 나중에 넣어도 배치가 흔들리지 않는다.
+                  자료실의 '준비중' 그림·배지는 두지 않는다. 글은 이미 공개된
+                  것이라 준비 중이 아니다. */}
+              <div class="res-thumb is-empty"></div>
+              <div class="blog-meta">
+                <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+                <span class="blog-meta-dot">·</span>
+                <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
+                {post.data.tags[0] && <span class="blog-meta-tag">#{post.data.tags[0]}</span>}
+              </div>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  /* 날짜·읽는 시간·태그. 자료실 카드에는 없는 줄이라 여기서만 둔다.
+     표지 칸과 대제목 사이에 놓고, 크기는 카드 설명(15px)보다 한 단계 작다. */
+  .blog-list .blog-meta {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+    margin: 0 0 6px;
+    font-size: 13px; line-height: 1.4; color: var(--text-muted, #7e8a98);
+  }
+  .blog-list .blog-meta-dot { opacity: .6; }
+  /* 태그는 앞의 두 값과 갈라 보이게 하늘색으로 둔다 —
+     자료실 표지의 종류(.res-cover-kind)와 같은 색이다. */
+  .blog-list .blog-meta-tag { color: #76A6D7; font-weight: 600; }
+  /* 표지가 아직 없어 카드 사이 세로 간격이 자료실보다 성기게 보인다.
+     대제목이 표지 바로 아래 붙는 자료실과 달리 메타 한 줄이 끼어 있어서다. */
+  .blog-list .res-card h3 { margin-bottom: 4px; }
+</style>
