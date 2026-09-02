@@ -107,13 +107,14 @@ img { max-width: 100%; height: auto; }
 /* 굵기만 700이다. 나머지(크기·자간·행간)는 백서와 같은 값이다 —
    백서는 파란 띠 위 흰 글자라 600으로도 또렷한데, 흰 바탕 검은 글자인
    여기서는 한 단계 굵어야 같은 무게로 읽힌다.
-   절마다 구분선을 하나 긋는다. 선 위아래 여백은 39px으로 같다.
-   눈에 보이는 간격은 위 47 · 아래 44px이다 — 행간이 달라 생기는 3px 차이다
+   절마다 구분선을 하나 긋는다. 선 위아래 여백은 48px으로 같다 —
+   절 사이가 96px + 선이 되어, 문단 사이(29px)와 확실히 갈린다.
+   눈에 보이는 간격은 위 56 · 아래 53px이다 — 행간이 달라 생기는 3px 차이다
    (위 문단 1.82 · 절 제목 1.3이라 글자 위아래로 남는 반쪽 여백이 다르다). */
 .post-body h2 {
   font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
   line-height: 1.3; color: #16202c;
-  margin-top: 39px; padding-top: 39px; border-top: 1px solid var(--border);
+  margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--border);
 }
 .post-body h3 { font-size: 18px; font-weight: 700; color: #16202c; margin-top: 26px; }
 /* 소제목 바로 아래 문단은 붙인다. 문단 사이 값(29px)을 그대로 쓰면 제목이
