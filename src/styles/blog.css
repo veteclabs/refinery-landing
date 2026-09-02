@@ -66,13 +66,17 @@ img { max-width: 100%; height: auto; }
   background: var(--bg-soft); border-radius: var(--radius); overflow: hidden;
 }
 .post-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-/* 표지는 브랜드 하늘색(#76A6D7) 위에 얹는다. 사진은 screen으로 섞여, 어두운
-   자리는 밑에 깐 하늘색 그대로 남고 밝은 자리만 그 위로 번진다 — 사진이 통째로
-   덮이는 대신 색감이 스며든 것처럼 보인다.
+/* 표지는 브랜드 하늘색(#76A6D7) 위에 얹는다. 사진은 luminosity로 섞여 밝기만
+   넘기고 색은 밑판에서 가져온다 — 사진이 통째로 덮이는 대신 하늘색 계열로
+   물든 것처럼 보인다.
    밑색은 표지가 있는 글에만 깐다(:has(img)) — 표지가 없는 글은 빈 면 그대로다.
-   multiply와 달리 screen은 뒤를 읽지 않아 합성 레이어가 늘지 않는다. */
-.post-thumb:has(img) { background: #76A6D7; }
-.post-thumb img { mix-blend-mode: screen; }
+   테두리 그림자는 잉크색(#16202C)을 옅게 깐 것이다. 표지가 어두워 흰 바탕과
+   맞닿는 선이 날카로워 보이는데, 그 선을 눌러 면이 바탕 위에 놓인 것처럼 만든다. */
+.post-thumb:has(img) {
+  background: #76A6D7;
+  box-shadow: 0 14px 34px -14px rgba(22, 32, 44, .40), 0 2px 8px -6px rgba(22, 32, 44, .30);
+}
+.post-thumb img { mix-blend-mode: luminosity; }
 /* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.
    아래 구분선의 위아래 여백(48px)은 절 구분선(.post-body h2)과 같은 값이다. */
 .post-header { padding: 32px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
