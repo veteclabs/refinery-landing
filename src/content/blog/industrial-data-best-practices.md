@@ -108,6 +108,10 @@ AI 에이전트의 역할이 여기에 있습니다. 다만 그 답에는 반드
 
 ## 마치며
 
+다섯 가지 원칙은 서로 이어져 있습니다. 출처가 남아야 신뢰가 생기고, 의미가 부여돼야
+맥락이 생기며, 추세와 함께 봐야 판단이 서고, 사람의 언어로 돌아와야 행동이 됩니다.
+그리고 이 모든 것은 기존 위에 얹든 새로 세우든 하나의 지식으로 모일 때 완성됩니다.
+
 <span class="lead-dot"></span>데이터 통합이 궁금하다면 → [산업 데이터 통합](/whitepapers/data-integration)<br>
 <span class="lead-dot"></span>AI 에이전트가 궁금하다면 → [산업 AI 에이전트](/whitepapers/ai-agent)<br>
 <span class="lead-dot"></span>우리 현장에 어떻게 적용할지 궁금하다면 → [문의하기](/contact)
