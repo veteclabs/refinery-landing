@@ -25,7 +25,7 @@ export interface Props {
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverColor, titleBreakAfter, slug,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverColor, coverTextColor, titleBreakAfter, slug,
   lang = 'ko',
 } = Astro.props;
 
@@ -96,7 +96,10 @@ const jsonLd = {
         <div
           class="post-thumb"
           data-tone={coverTone(coverColor)}
-          style={coverColor ? `--cover-bg: ${coverColor}` : undefined}
+          style={[
+            coverColor && `--cover-bg: ${coverColor}`,
+            coverTextColor && `--cover-fg: ${coverTextColor}`,
+          ].filter(Boolean).join('; ') || undefined}
         >
           {image && (
             <Image

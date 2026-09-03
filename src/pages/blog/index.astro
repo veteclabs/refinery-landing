@@ -61,7 +61,10 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
               <div
                 class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'}
                 data-tone={coverTone(post.data.coverColor)}
-                style={post.data.coverColor ? `--cover-bg: ${post.data.coverColor}` : undefined}
+                style={[
+                  post.data.coverColor && `--cover-bg: ${post.data.coverColor}`,
+                  post.data.coverTextColor && `--cover-fg: ${post.data.coverTextColor}`,
+                ].filter(Boolean).join('; ') || undefined}
               >
                 {post.data.image && (
                   <Image
@@ -155,6 +158,9 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
   .blog-list .res-thumb[data-tone="ink"] .res-cover-kind { color: #16202C; }
   .blog-list .res-thumb[data-tone="white"] .res-cover-line,
   .blog-list .res-thumb[data-tone="white"] .res-cover-kind { color: #fff; }
+  /* 글에서 색을 직접 정했으면 자동 판정보다 우선한다(선택자를 하나 더 얹어 이긴다). */
+  .blog-list .res-thumb[style*="--cover-fg"] .res-cover-line,
+  .blog-list .res-thumb[style*="--cover-fg"] .res-cover-kind { color: var(--cover-fg); }
   /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
      아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
   .blog-list .res-card h3,

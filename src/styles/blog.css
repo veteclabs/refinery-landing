@@ -94,6 +94,8 @@ img { max-width: 100%; height: auto; }
    배경으로 깔리는 표지 사진만 세어야 한다. */
 /* 밑색 위에서 잘 읽히는 쪽을 빌드 때 골라 data-tone으로 넘겨 준다. */
 .post-thumb[data-tone="white"] .post-cover-line { color: #fff; }
+/* 글에서 색을 직접 정했으면 자동 판정보다 우선한다. */
+.post-thumb[style*="--cover-fg"] .post-cover-line { color: var(--cover-fg); }
 .post-thumb:has(img:not(.thumb-icon)) .post-cover-line { color: #fff; }
 @media (max-width: 560px) {
   .post-cover { padding: 24px 22px; }
