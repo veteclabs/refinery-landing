@@ -27,6 +27,12 @@ const blog = defineCollection({
       // 표지 오른쪽 아래에 얹는 아이콘(public 경로). 표지 사진과 별개로 붙는다 —
       // 사진이 없는 글에서는 빈 면 위에 아이콘만 놓인다.
       coverIcon: z.string().optional(),
+      // 표지 밑색(hex). 사진이 없는 글에서 표지 면에 깔린다. 글마다 다르게 준다.
+      // 글자색은 정하지 않는다 — 이 색 위에서 잉크색과 흰색 중 잘 읽히는 쪽을
+      // 빌드 때 골라 쓴다(src/utils/cover-tone.ts).
+      coverColor: z.string().optional(),
+      // 표지 왼쪽 위 태그라인(첫 태그)을 감춘다. 표지가 그림 하나로 충분한 글에 쓴다.
+      hideCoverKind: z.boolean().default(false),
       // 표지 안에 대제목을 얹을 때 두 줄로 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
       // 값이 없으면 표지에 대제목을 넣지 않는다(글마다 켜고 끈다).
       // title 자체에 <br>을 넣지 않는 이유는 cardBreakAfter와 같다 — 같은 값이

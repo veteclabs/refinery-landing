@@ -7,6 +7,7 @@ updatedDate: 2026-07-31
 author: "Refinery팀"
 tags: ["소식", "product"]
 category: "소식"
+hideCoverKind: true
 image: "../../assets/blog/refinery-blog-start.webp"
 ---
 

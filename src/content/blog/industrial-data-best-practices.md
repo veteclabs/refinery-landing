@@ -7,6 +7,7 @@ updatedDate: 2026-07-31
 author: "Refinery팀"
 tags: ["모범사례", "데이터", "온톨로지"]
 category: "가이드"
+coverColor: "#E2ECF9"
 coverIcon: "/icon_blog.svg"
 titleBreakAfter: "자산으로"
 ---

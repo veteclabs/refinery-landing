@@ -11,6 +11,7 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import BrandMark from '../../components/BrandMark.astro';
 import { formatDateKo } from '../../utils/date';
+import { coverTone } from '../../utils/cover-tone';
 import '../../styles/industry.css';
 import '../../styles/res-card.css';
 
@@ -57,7 +58,11 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                   나중에 넣어도 배치가 흔들리지 않는다. 자료실의 '준비중' 그림·배지는
                   두지 않는다. 글은 이미 공개된 것이라 준비 중이 아니다.
                   표지가 있으면 글의 종류(태그)는 그 위에 얹힌다 — 자료실과 같다. */}
-              <div class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'} data-cat={post.data.category}>
+              <div
+                class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'}
+                data-tone={coverTone(post.data.coverColor)}
+                style={post.data.coverColor ? `--cover-bg: ${post.data.coverColor}` : undefined}
+              >
                 {post.data.image && (
                   <Image
                     src={post.data.image}
@@ -72,7 +77,7 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                 {post.data.coverIcon && (
                   <img class="thumb-icon" src={post.data.coverIcon} alt="" width="120" height="120" loading="lazy" decoding="async" />
                 )}
-                {post.data.tags[0] && (
+                {post.data.tags[0] && !post.data.hideCoverKind && (
                   <div class="res-cover">
                     <span class="res-cover-kind">{post.data.tags[0]}</span>
                     {/* 표지 안 대제목. titleBreakAfter를 적은 글에만 나온다.
@@ -143,8 +148,13 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
      100단계(500 기준색을 흰색과 15%로 섞은 값)라 잉크 제목이 13~14:1로 남는다.
      200단계는 카드가 무거워지고 50단계는 흰 바탕과 구별되지 않는다(넷 다 렌더해 비교).
      표지 사진이 들어오면 사진이 덮으므로 이 색은 보이지 않는다. */
-  .blog-list .res-thumb.is-empty[data-cat="가이드"]   { background: #E2ECF9; }  /* Blue 100 */
-  .blog-list .res-thumb.is-empty[data-cat="인사이트"] { background: #EFEBF6; }  /* Purple 100 */
+  .blog-list .res-thumb.is-empty[style*="--cover-bg"] { background: var(--cover-bg); }
+  /* 글자색은 밑색 위에서 잘 읽히는 쪽을 빌드 때 골라 data-tone으로 넘겨 준다.
+     밝은 밑색(앰버·틸)에는 잉크색, 짙은 밑색에는 흰색이 붙는다. */
+  .blog-list .res-thumb[data-tone="ink"] .res-cover-line,
+  .blog-list .res-thumb[data-tone="ink"] .res-cover-kind { color: #16202C; }
+  .blog-list .res-thumb[data-tone="white"] .res-cover-line,
+  .blog-list .res-thumb[data-tone="white"] .res-cover-kind { color: #fff; }
   /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
      아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
   .blog-list .res-card h3,

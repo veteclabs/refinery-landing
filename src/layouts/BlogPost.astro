@@ -4,6 +4,7 @@ import BrandMark from '../components/BrandMark.astro';
 import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import { formatDateKo } from '../utils/date';
+import { coverTone } from '../utils/cover-tone';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
@@ -24,7 +25,7 @@ export interface Props {
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, titleBreakAfter, slug,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverColor, titleBreakAfter, slug,
   lang = 'ko',
 } = Astro.props;
 
@@ -92,7 +93,11 @@ const jsonLd = {
             목록 카드(.res-thumb)와 같은 파일을 쓰고, 크기만 여기서 더 크다.
             widths/sizes를 주면 빌드가 폭별 파일을 만들어 각 화면이 제 크기만
             내려받는다. 접힘선 위라 lazy는 걸지 않는다(LCP). */}
-        <div class="post-thumb" data-cat={category}>
+        <div
+          class="post-thumb"
+          data-tone={coverTone(coverColor)}
+          style={coverColor ? `--cover-bg: ${coverColor}` : undefined}
+        >
           {image && (
             <Image
               src={image}

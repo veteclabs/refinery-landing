@@ -7,6 +7,7 @@ updatedDate: 2026-07-31
 author: "Refinery팀"
 tags: ["예지보전", "AI 에이전트", "현장운영"]
 category: "인사이트"
+coverColor: "#7884D8"
 ---
 
 설비가 멈추면 그 순간부터 손실이 쌓입니다. 그래서 많은 현장이 고장을 미리 막으려
