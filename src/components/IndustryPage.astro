@@ -16,17 +16,28 @@ const { ind, lang = 'ko' } = Astro.props;
 const T = {
   ko: {
     crumbAria: '위치', industries: 'Industries', industriesHref: '/#industries',
-    cta: '데모 신청하기', contactHref: '/contact', secondary: '제품 살펴보기 →', secondaryHref: '/#teams',
+    cta: '데모 신청하기', contactHref: '/contact', secondary: '제품 살펴보기', secondaryHref: '/#teams',
     problem: '문제', approach: '접근', outcome: '성과',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
-    cta: 'Request a demo', contactHref: '/en/contact', secondary: 'Explore the product →', secondaryHref: '/en#teams',
+    cta: 'Request a demo', contactHref: '/en/contact', secondary: 'Explore the product', secondaryHref: '/en#teams',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
   },
 }[lang];
 
 const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${ind.slug}`;
+
+// 문제 섹션 배경은 모든 산업이 같은 사진을 쓴다. 데이터 파일마다 같은 경로를
+// 적어 두면 한 장을 바꿀 때 7개 파일을 손대야 하므로 기본값을 여기에 둔다.
+// 산업별로 다른 사진을 쓰려면 데이터에서 challenges.backgroundImage로 덮는다.
+// (히어로 사진은 산업마다 다르므로 기본값을 두지 않는다.)
+const CHALLENGES_BG = '/industries/challenges-bg.webp';
+const challengesBg = ind.challenges.backgroundImage ?? CHALLENGES_BG;
+
+// 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
+// 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
+const benefitCols = ind.benefits.items.length === 4 ? 4 : 3;
 // ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
 const alternates = [
   { lang: 'ko', href: `/industries/${ind.slug}` },
@@ -45,33 +56,84 @@ const lines = (s: string) => s.split('\n');
 ---
 <BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} alternates={alternates} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
-  <main class="ind">
+  <main class:list={['ind', 'ind-page', lang === 'en' && 'ind-en']}>
     <!-- HERO -->
-    <section class="ind-hero">
+    <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
+      {ind.hero.image && (
+        <img
+          class="ind-hero-bg-img"
+          src={ind.hero.image.src}
+          alt=""
+          aria-hidden="true"
+          width={ind.hero.image.width}
+          height={ind.hero.image.height}
+          decoding="async"
+          fetchpriority="high"
+          style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
+        />
+      )}
+      {ind.hero.overlay && (
+        <img
+          class="ind-hero-overlay"
+          src={ind.hero.overlay.src}
+          alt=""
+          aria-hidden="true"
+          width={ind.hero.overlay.width}
+          height={ind.hero.overlay.height}
+          decoding="async"
+        />
+      )}
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
-        <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
+        {(ind.hero.showBreadcrumb ?? true) && (
+          <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
+        )}
+        <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
+          {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
+          <span>{ind.hero.eyebrow}</span>
+        </p>
         <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
-        <p class="ind-lede">{ind.hero.lede}</p>
+        {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         <div class="ind-hero-actions">
           <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
-          <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>
+          {(ind.hero.showSecondary ?? true) && <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>}
         </div>
       </div>
     </section>
 
     <!-- CHALLENGES -->
-    <section class="ind-section ind-soft">
+    <section class:list={['ind-section', 'ind-soft', 'ind-challenges', challengesBg && 'ind-section-bg', ind.challenges.dark && 'ind-soft-dark']}>
+      {challengesBg && (
+        <img
+          class="ind-section-bg-img"
+          src={challengesBg}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div class="ind-container">
-        <header class="ind-head">
+        <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
           <h2>{ind.challenges.title}</h2>
           {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
         </header>
-        <div class="ind-grid ind-grid-2">
+        <div class="ind-grid ind-grid-2 ind-grid-bubble">
           {ind.challenges.items.map((c) => (
             <div class="ind-card">
-              <h3>{c.title}</h3>
-              <p>{c.description}</p>
+              <span class="ind-avatar" aria-hidden="true">
+                {/* 아이콘 폰트(Phosphor)에는 채움 두께가 따로 있어 스타일시트를 하나 더
+                    불러와야 한다. 아이콘 한 개 때문에 요청을 늘리지 않고 인라인 SVG로 그린다.
+                    어깨가 원 아래에서 잘리도록 원에 overflow:hidden을 건다. */}
+                <svg class="ind-avatar-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="8.2" r="4.2" />
+                  <path d="M12 13.6c-4.6 0-8.4 2.9-8.4 6.5V24h16.8v-3.9c0-3.6-3.8-6.5-8.4-6.5z" />
+                </svg>
+              </span>
+              <div class="ind-card-body">
+                <h3>{c.title}</h3>
+                {/* 줄바꿈은 <br>로 명시한다. 마크업 안의 개행은 빌드 시 공백으로 합쳐진다. */}
+                <p set:html={c.description}></p>
+              </div>
             </div>
           ))}
         </div>
@@ -82,25 +144,69 @@ const lines = (s: string) => s.split('\n');
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head">
-          <span class="ind-badge">USE CASES</span>
           <h2>{ind.useCases.title}</h2>
-          {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
+          {/* steps 레이아웃에서는 소제목을 큰 카드 왼쪽 칸에서 낸다 —
+              같은 문장을 머리와 카드에 두 번 두지 않는다. */}
+          {ind.useCases.subtitle && ind.useCases.layout !== 'steps' && <p>{ind.useCases.subtitle}</p>}
         </header>
-        <div class="ind-usecases">
-          {ind.useCases.items.map((u, i) => (
-            <article class="ind-usecase">
-              <div class="ind-usecase-num">{String(i + 1).padStart(2, '0')}</div>
-              <div class="ind-usecase-body">
-                <h3>{u.title}</h3>
-                <dl>
-                  <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
-                  <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
-                  <div><dt>{T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
-                </dl>
-              </div>
-            </article>
-          ))}
-        </div>
+        {ind.useCases.layout === 'steps' ? (
+          /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
+             줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
+          <div class="ind-uc-shell">
+          {/* 개행은 <br>로 바꿔서 낸다. 데이터가 <mark> 같은 강조를 품을 수 있어
+              set:html을 쓴다 — 값은 우리가 쓰는 문자열이라 외부 입력이 아니다. */}
+          {ind.useCases.subtitle && (
+            <p class="ind-uc-lede" set:html={lines(ind.useCases.subtitle).join('<br>')} />
+          )}
+          <div class="ind-uc-steps" data-uc-steps>
+            {ind.useCases.items.map((u, i) => (
+              <>
+                <button
+                  type="button"
+                  class="ind-uc-dot"
+                  data-uc-dot={i}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-label={`${i + 1}. ${u.title}`}
+                >
+                  <span class="ind-uc-dot-circle">{i + 1}</span>
+                </button>
+                <article class="ind-uc-panel" data-uc-panel={i} data-active={i === 0 ? 'true' : 'false'}>
+                  <h3>{u.title}</h3>
+                  <dl>
+                    {/* 한국어 이름은 두 글자라 낱자로 쪼개 flex gap으로 벌린다
+                        (letter-spacing은 마지막 글자 뒤에도 여백을 남겨 가운데 정렬이
+                        어긋난다). 영어는 Problem · Approach · Outcome처럼 길어
+                        낱자를 벌리면 알약을 넘치므로 그대로 둔다. */}
+                    <div><dt>{lang === 'ko' ? [...T.problem].map((c) => <span>{c}</span>) : T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{lang === 'ko' ? [...T.approach].map((c) => <span>{c}</span>) : T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{lang === 'ko' ? [...T.outcome].map((c) => <span>{c}</span>) : T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                  </dl>
+                </article>
+              </>
+            ))}
+          </div>
+          </div>
+        ) : (
+          <div class="ind-usecases">
+            {ind.useCases.items.map((u, i) => (
+              <article class="ind-usecase">
+                <div class="ind-usecase-num">{String(i + 1).padStart(2, '0')}</div>
+                <div class="ind-usecase-body">
+                  <h3>{u.title}</h3>
+                  <dl>
+                    {/* 한국어 이름은 두 글자라 낱자로 쪼개 flex gap으로 벌린다
+                        (letter-spacing은 마지막 글자 뒤에도 여백을 남겨 가운데 정렬이
+                        어긋난다). 영어는 Problem · Approach · Outcome처럼 길어
+                        낱자를 벌리면 알약을 넘치므로 그대로 둔다. */}
+                    <div><dt>{lang === 'ko' ? [...T.problem].map((c) => <span>{c}</span>) : T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{lang === 'ko' ? [...T.approach].map((c) => <span>{c}</span>) : T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{lang === 'ko' ? [...T.outcome].map((c) => <span>{c}</span>) : T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                  </dl>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
 
@@ -114,15 +220,46 @@ const lines = (s: string) => s.split('\n');
         <div class="ind-flow">
           {ind.architecture.steps.map((s, i) => (
             <>
-              {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
-              <div class="ind-flow-step">
-                <div class="ind-flow-label">{s.label}</div>
-                <div class="ind-flow-detail">{s.detail}</div>
+              {i > 0 && (
+              <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
+            )}
+              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
+                {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
+                    말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
+                    순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
+                <div class="ind-flow-head">
+                  <span class="ind-flow-label">{s.label}</span>
+                </div>
+                {s.image && (
+                <img class="ind-flow-img" src={s.image} alt="" aria-hidden="true"
+                     width="240" height="240" loading="lazy" decoding="async" />
+              )}
+              {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
+                  '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
+              <ul class="ind-flow-detail">
+                {s.detail.split(' · ').map((d) => <li>{d}</li>)}
+              </ul>
               </div>
             </>
           ))}
         </div>
         {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
+
+        {/* 연동 시스템 — 흐름 2단계(연동)가 실제로 무엇과 연결되는지다.
+            따로 섹션을 두는 대신 흐름 바로 아래에 붙인다. */}
+        <div class="ind-systems-block">
+          {/* 제목과 소제목은 한 줄에 둔다 — 섹션 머리(.ind-head)와 같은 배치로,
+              제목이 왼쪽 · 소제목이 오른쪽 끝이다. */}
+          <div class="ind-systems-head">
+            <h3>{ind.integrations.title}</h3>
+            {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+          </div>
+          <div class="ind-systems">
+            {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
+          </div>
+        </div>
+        {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
+        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
       </div>
     </section>
 
@@ -130,37 +267,34 @@ const lines = (s: string) => s.split('\n');
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head">
-          <span class="ind-badge">BENEFITS</span>
           <h2>{ind.benefits.title}</h2>
           {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
         </header>
-        <div class="ind-grid ind-grid-3">
+        <div class:list={['ind-grid', `ind-grid-${benefitCols}`]}>
           {ind.benefits.items.map((b) => (
             <div class="ind-card">
+              {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}
               <h3>{b.title}</h3>
-              <p>{b.description}</p>
+              {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
+              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- INTEGRATIONS -->
-    <section class="ind-section">
-      <div class="ind-container">
-        <header class="ind-head">
-          <h2>{ind.integrations.title}</h2>
-          {ind.integrations.subtitle && <p>{ind.integrations.subtitle}</p>}
-        </header>
-        <div class="ind-systems">
-          {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
-        </div>
-        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
-      </div>
-    </section>
-
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class={ind.cta.backgroundImage ? 'ind-cta ind-cta-bg' : 'ind-cta'}>
+      {ind.cta.backgroundImage && (
+        <img
+          class="ind-cta-bg-img"
+          src={ind.cta.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div class="ind-container">
         <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
@@ -169,3 +303,32 @@ const lines = (s: string) => s.split('\n');
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  /* 번호 레일 — 누른 번호의 내용에만 상자를 남긴다.
+     내용은 처음부터 다 보이므로 탭이 아니라 '강조 선택'이다(aria-pressed).
+     스크립트가 없어도 첫 항목에 상자가 있는 정적 화면으로 읽힌다. */
+  const rail = document.querySelector<HTMLElement>('[data-uc-steps]');
+  if (rail) {
+    const dots = [...rail.querySelectorAll<HTMLButtonElement>('[data-uc-dot]')];
+    const panels = [...rail.querySelectorAll<HTMLElement>('[data-uc-panel]')];
+    const select = (i: number) => {
+      dots.forEach((d, n) => d.setAttribute('aria-pressed', String(n === i)));
+      panels.forEach((p, n) => p.setAttribute('data-active', String(n === i)));
+    };
+    /* 상자를 눌러도 같은 항목이 선택된다. 번호가 작아 조준하기 번거롭다. */
+    panels.forEach((panel, i) => panel.addEventListener('click', () => select(i)));
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => select(i));
+      /* 위·아래 화살표로도 옮긴다. 세로로 늘어선 목록이라 좌우가 아니라 상하다. */
+      dot.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = (i + step + dots.length) % dots.length;
+        dots[next].focus();
+        select(next);
+      });
+    });
+  }
+</script>

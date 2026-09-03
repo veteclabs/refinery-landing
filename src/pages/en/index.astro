@@ -443,6 +443,102 @@ const jsonLd = {
       }
     })();
   </script>
+  <!-- 솔루션 섹션 — 산업별·과제별 두 판을 옆으로 넘긴다.
+       위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
+       현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭·버튼이 따라온다. -->
+  <script is:inline>
+    (function () {
+      // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      function init() {
+      var root = document.getElementById('industries');
+      if (!root) return;
+      var vp = root.querySelector('.sol-viewport');
+      var tabs = root.querySelectorAll('[data-sol-tab]');
+      if (!vp || !tabs.length) return;
+      var last = 0;
+      var fading = false, token = 0;
+
+      function current() { return last; }
+      function paint(i) {
+        for (var t = 0; t < tabs.length; t++) {
+          tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
+        }
+      }
+
+      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
+      // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
+      function go(i) {
+        if (i < 0) i = 0;
+        if (i > tabs.length - 1) i = tabs.length - 1;
+        if (i === last) return;
+        var ps = root.querySelectorAll('.sol-panel');
+        var out = ps[last], inn = ps[i];
+        last = i;
+        paint(i);
+        if (!out || !inn) return;
+
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) {
+          out.setAttribute('data-off', '');
+          inn.removeAttribute('data-off');
+          return;
+        }
+
+        var mine = ++token;
+        fading = true;
+        // visibility에는 전환이 걸리지 않는다. 먼저 보이게만 만들고 투명도는 0에서 시작해
+        // 다음 프레임에 올려야 첫 전환도 페이드로 보인다(바로 올리면 그냥 켜진다).
+        inn.removeAttribute('data-off');
+        inn.style.opacity = '0';
+        out.style.opacity = '1';
+        requestAnimationFrame(function () {
+          if (mine !== token) return;
+          inn.style.opacity = '1';
+          out.style.opacity = '0';
+          setTimeout(function () {
+            if (mine !== token) return;
+            out.setAttribute('data-off', '');
+            out.style.opacity = '';
+            inn.style.opacity = '';
+            fading = false;
+          }, 320);
+        });
+      }
+
+      for (var t = 0; t < tabs.length; t++) {
+        (function (n) {
+          tabs[n].addEventListener('click', function () { go(n); });
+        })(t);
+      }
+
+      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
+      var sx = 0, sy = 0, tracking = false;
+      vp.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1 || fading) { tracking = false; return; }
+        tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+      }, { passive: true });
+      vp.addEventListener('touchend', function (e) {
+        if (!tracking) return;
+        tracking = false;
+        var c = e.changedTouches[0];
+        var dx = c.clientX - sx, dy = c.clientY - sy;
+        // 세로로 더 많이 움직였으면 페이지 스크롤이지 넘김이 아니다.
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+        go(current() + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      paint(0);
+      }
+    })();
+  </script>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -451,7 +547,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -516,19 +612,42 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Optimized for every field,<br>a solution for any industry</h2>
+        <h2>Optimized for every field,<br>any industry, any challenge</h2>
         <p>The Refinery AI Agent learns and solves<br>the unique challenges of each industry.</p>
       </div>
     </div>
-    <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Distributed asset control,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive asset maintenance,<br>AI energy optimization</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Data Center</div><div class="industry-desc">Power and cooling efficiency,<br>live power-quality monitoring</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Data Center" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">High-heat process monitoring,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Cold-chain excursion detection,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Station data-quality checks,<br>automated ESG reports</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-          </div>
+    <div class="sol-switch-row">
+      <div class="sol-tabs" role="tablist">
+        <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="Show industry cards">By industry</button>
+        <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="Show challenge cards">By challenge</button>
+      </div>
+    </div>
+    <div class="sol-viewport">
+      <div class="sol-track">
+        <div class="sol-panel">
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy · Utilities</span><span class="industry-desc">Unified control of distributed assets,<br>automated ESG reporting</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Automotive · Mobility</span><span class="industry-desc">Vibration-based predictive maintenance,<br>energy intensity by line</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Electronics · Precision</span><span class="industry-desc">Power quality and outage monitoring,<br>live microclimate control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Materials · Steel</span><span class="industry-desc">Steadier heat-treatment quality,<br>peak demand control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="549" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Chemicals · Materials</span><span class="industry-desc">Utilities managed as one,<br>combustion efficiency and carbon</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="583" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Machinery · Plant</span><span class="industry-desc">Shared utilities run to demand,<br>energy intensity by process</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Food · Beverage</span><span class="industry-desc">Refrigeration efficiency analysis,<br>quality temperature monitoring</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+        <div class="sol-panel" data-off>
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Vibration sensors catch early signs,<br>act before failure</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Multi-sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen,<br>unusual combinations flagged</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset,<br>peaks and anomalies managed</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched,<br>events recorded automatically</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one,<br>intensity against output</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced,<br>peaks cut and held down</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results,<br>defect causes traced</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -551,12 +670,12 @@ const jsonLd = {
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -578,7 +697,7 @@ data in the ontology to infer causes<br>
 and answers with its sources cited.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
+        <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery solution dashboard preview">
       </div>
@@ -644,12 +763,12 @@ and answers with its sources cited.</p>
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.webp',
-        'Solutions/Solutions-01-dashboard.webp',
-        'Solutions/Solutions-04-tile.webp',
-        'Solutions/Solutions-05-pipeline.webp',
-        'Solutions/Solutions-06-ontology.webp',
-        'Solutions/Solutions-07-calendar-2.webp'
+        '/Solutions/Solutions-02-ai-agent.webp',
+        '/Solutions/Solutions-01-dashboard.webp',
+        '/Solutions/Solutions-04-tile.webp',
+        '/Solutions/Solutions-05-pipeline.webp',
+        '/Solutions/Solutions-06-ontology.webp',
+        '/Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -781,7 +900,7 @@ and answers with its sources cited.</p>
     <div class="int-flow-connector" id="intFlowConnector"></div>
     <div class="int-refinery-outer" id="intRefineryPill">
       <div class="int-refinery-pill">
-        <img src="logo_Refinery_symbol-text.svg" alt="Refinery">
+        <img src="/logo_Refinery_symbol-text.svg" alt="Refinery">
       </div>
     </div>
     </div>
@@ -899,22 +1018,22 @@ and answers with its sources cited.</p>
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Data encryption</h3><p>TLS 1.3 in transit, AES-256 <br class="mobile-br">at rest.<br>Keys are held separately in an HSM.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control: manufacturing, energy</span></div><p>One-way transfer from field edge <br class="mobile-br">(Silo/Agent) to cloud.<br>Reverse intrusion into control systems <br class="mobile-br">is blocked at source.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record is <br class="mobile-br">stored securely.<br>Role-based access control (RBAC) applies <br class="mobile-br">least privilege.</p></div>
       </div>
@@ -942,7 +1061,7 @@ and answers with its sources cited.</p>
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>Experience a new standard for<br>field operations <br class="mobile-br">with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">

@@ -1,0 +1,1453 @@
+---
+// 필러 페이지(개념 설명 + 정의형 Q&A) 본문. 내용은 content prop으로 받는다.
+// AEO(답변엔진 최적화)용 — 본문 Q&A와 FAQPage 스키마가 같은 배열에서 나온다.
+// 쓰는 곳: /industrial-ai · /en/industrial-ai · /energy-management
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { PillarContent } from '../data/pillars/industrial-ai';
+import '../styles/industry.css';
+
+interface Props {
+  content: PillarContent;
+  /** ko/en 양쪽이 있는 페이지만 넘긴다. 없으면 hreflang을 내보내지 않는다. */
+  alternates?: { lang: string; href: string }[];
+}
+const { content: T, alternates } = Astro.props;
+
+/* 히어로 데모를 넣을지. demoSrc가 비어 있으면 그래픽(heroGraphic)을 쓰고,
+   그것도 없으면 판만 남기고 자리로 둔다. */
+const hasDemo = Boolean(T.demoSrc);
+
+const faqItems = T.faq;
+const uses = T.uses;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    // 화면용 개행은 스키마에서 빼고 한 줄로 넘긴다.
+    acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\s*\n\s*/g, ' ') },
+  })),
+};
+---
+<BaseLayout
+  title={T.title}
+  description={T.description}
+  canonical={T.canonical}
+  alternates={alternates}
+  jsonLd={faqSchema}
+>
+  <Nav />
+  <main class="ind ind-page">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <h1 set:html={T.heroTitle}></h1>
+        {T.heroLede && <p class="ind-lede ai-hero-lede">{T.heroLede}</p>}
+        <div class="ind-hero-actions">
+          <a href={T.contactHref} class="ind-btn-primary">{T.ctaPrimary}</a>
+          <a href={T.ghostHref} class="ind-btn-ghost">{T.ctaGhost}</a>
+        </div>
+
+        <div class={hasDemo ? 'ai-hero-stage' : (T.heroGraphic ? 'ai-hero-stage is-empty has-graphic' : 'ai-hero-stage is-empty')}>
+        {hasDemo && (
+          <figcaption class="ai-demo-cap" id="ai-demo-cap" aria-live="polite" data-open-title={T.openTitle}>
+            <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
+            <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
+          </figcaption>
+        )}
+        {/* 데모도 그래픽도 없으면 자리만 남긴다. 비율은 그대로라 나중에 넣어도 아래가 밀리지 않는다. */}
+        <div class="ai-hero-figure">
+          {hasDemo && (
+            <iframe id="ai-demo-iframe" data-src={T.demoSrc} loading="lazy" scrolling="no" tabindex="-1" title={T.demoTitle} style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+          )}
+          {!hasDemo && T.heroGraphic && (
+            /* <img>이 아니라 <object>인 이유: 그림 안쪽 그룹을 하나씩 나타나게 하려면
+               스크립트가 SVG 문서에 닿아야 한다. <img>은 문서가 격리돼 닿지 않고,
+               인라인하면 724KB가 HTML에 들어가 캐시가 안 먹는다. 같은 출처라
+               <object>의 contentDocument는 열린다. 스크립트가 없어도 그림은 그대로 뜬다. */
+            <object
+              class="ai-hero-graphic"
+              id="ai-hero-graphic"
+              type="image/svg+xml"
+              data={T.heroGraphic.src}
+              aria-label={T.heroGraphic.alt}
+            ></object>
+          )}
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 정의형 Q&A -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="qa-head">
+        <header class="ind-head">
+          <h2>{T.faqHead}</h2>
+        </header>
+        {/* 아코디언은 <details>로 만든다. JS 없이 열리고 닫히며 키보드로도 조작되고,
+            무엇보다 답변 글이 접힌 상태에서도 HTML에 그대로 남는다 —
+            이 페이지는 검색·답변엔진에 읽히는 것이 목적이라 그 점이 중요하다.
+            첫 항목만 열어 둬 어떻게 쓰는 것인지 바로 보이게 한다.
+
+            name을 같이 주면 한 번에 하나만 열린다(브라우저 기본 동작, JS 불필요).
+            이 속성을 모르는 옛 브라우저에서는 여러 개가 함께 열릴 뿐 깨지지 않는다. */}
+        <div class="qa-list">
+          {faqItems.map((f, i) => (
+            <details class="qa-item" name="qa" open={i === 0}>
+              <summary>
+                <h3>{f.q}</h3>
+                <i class="ph ph-caret-down qa-caret" aria-hidden="true"></i>
+              </summary>
+              {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
+              <p>{f.a.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+            </details>
+          ))}
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 관련 활용 -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        {/* 줄바꿈은 <br>로 명시한다. 대제목과 소제목은 한 줄에 좌우로 앉는데,
+            영문처럼 문구가 길면 flex-wrap이 걸려 소제목이 아래로 떨어진다.
+            그때 두 줄로 나눠 좌우 자리를 지킨다. */}
+        <header class="ind-head">
+          <h2 set:html={T.usesHead}></h2>
+          <p set:html={T.usesLede}></p>
+        </header>
+        <div class="ind-grid ind-grid-4">
+          {uses.map((u) => (
+            <a class="ind-card" href={u.href}>
+              <h3>{u.label}</h3>
+              {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
+              <p>{u.desc.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+              <span class="ind-card-go">{T.more}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta ai-cta-bg">
+      <img class="ai-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1080" />
+      <div class="ind-container">
+        <h2 set:html={T.ctaTitle}></h2>
+        <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.ctaPrimary}</a>
+      </div>
+    </section>
+  </main>
+
+  {!hasDemo && T.heroGraphic && (
+  <script is:inline>
+    /* 히어로 그래픽을 순서대로 보여준다. 칸 크기는 고정이고, 안에서 화면이
+       확대·이동한다(SVG viewBox를 옮긴다 — 산업 AI 데모의 화면 따라가기와 같은 생각).
+
+         아래 판이 아래에서부터 하나씩 쌓인다
+         -> 회선이 그려지고 그 끝의 모듈로 확대해 들어간다 (Plate · Lens · AI Agent)
+         -> 전체로 물러난다
+
+       그림에 의미 있는 id가 없어 부분은 경계 상자로 갈랐다. 회선 세 다발만
+       최상위 그룹 번호로 잡는다(26 왼쪽 · 27 가운데 · 25 오른쪽). */
+    (function () {
+      var obj = document.getElementById('ai-hero-graphic');
+      if (!obj) return;
+
+      var LINES = [26, 27, 25];
+      var TOP_BAND = 380;          /* 아랫변이 이보다 위면 위쪽 모듈이다 */
+      var VB = 1200;               /* 원본 viewBox는 0 0 1200 1200 */
+      /* 카메라가 잡을 자리(원본 좌표). 실측한 경계 상자에서 왔다. */
+      var SHOTS = {
+        /* pad는 상자 둘레 여유(긴 변 대비 비율).
+           판은 크게 보여야 해서 좁게, 회선 다발은 좌우가 잘리지 않게 넉넉히 준다. */
+        /* 판 다섯의 실측 경계는 x196..1004 · y396..1180이다. 여유를 0.01로 두면
+           위 여백이 4밖에 남지 않아, 경계 상자 밖으로 번지는 맨 위 판의 그림자가
+           프레임에 잘렸다(그림자는 흐림 효과라 getBBox에 잡히지 않는다).
+           경계에 맞추고 여유를 올려 위아래로 여백을 남긴다.
+           0.055 — 그림자를 살리는 데는 0.03이면 됐지만, 칸이 테두리까지 넓어지며
+           그림 높이가 682에서 762로 커져 판이 그만큼 크게 보인다. 조금 눅인 값. */
+        stack: { x: 196, y: 396, w: 808, h: 784, pad: 0.055 },
+        /* 그림 내용의 실측 경계(x34..1166 · y20..1180)다. 0 0 1200 1200으로 잡으면
+           위아래 빈 자리까지 프레임에 넣느라 배율이 0.61로 깎인다. 경계에 맞추면
+           0.644 — 판 높이(762)와 내용 높이(1160)로 가능한, 잘리지 않는 최대다. */
+        whole: { x: 34, y: 20, w: 1132, h: 1160, pad: 0.01 }
+      };
+
+      var SVGNS = 'http://www.w3.org/2000/svg';
+
+      function run() {
+        var doc = obj.contentDocument;
+        if (!doc) return;
+        var svg = doc.querySelector('svg');
+        var root = doc.querySelector('#_레이어_1') || (svg && svg.querySelector('g'));
+        if (!svg || !root) return;
+
+        var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        /* 섞기(mix-blend-mode)는 걷되, 그림은 파일과 같게 남긴다.
+           섞으려면 브라우저가 뒤 배경을 버퍼로 읽어야 해서 그 자리에 합성
+           그룹이 생긴다 — 그대로 두고 재보니 레이어가 6개에서 33개로 늘고
+           긴 프레임이 26건(최대 58ms) 났다.
+           대신 곱하기의 결과를 미리 칠한다. 곱하기는 두 색의 성분 곱이라
+           배경이 단색이면 값이 정해진다. 이 파일에서 섞기가 걸린 것은 14곳이고
+           두 종류뿐이다:
+             · 흰색 칠 — 곱하기에서 아무 일도 하지 않는다. 칠을 비운다.
+               (리파이너리 로고의 큐브 그림자 등. 획은 그대로 얹힌다.)
+             · #DCE8F5 칠 다섯 — 렌즈 판 위 큐브 그림자다. 판 윗면 #76A6D7에
+               곱해져 rgb(102,151,207)로 그려진다(원본 픽셀 실측치와 같다).
+               그 색을 그대로 칠한다. */
+        var W = 'rgb(255, 255, 255)';
+        var SHADE = 'rgb(220, 232, 245)';                    /* 그림자 칠 #DCE8F5 */
+        var PLATE = [118, 166, 215];                         /* 판 윗면 #76A6D7 */
+        var SHADE_ON_PLATE = 'rgb(' + [220, 232, 245].map(function (v, i) {
+          return Math.round(v * PLATE[i] / 255);
+        }).join(', ') + ')';
+        [].slice.call(doc.querySelectorAll('*')).forEach(function (el) {
+          if (!el.getBBox) return;
+          var view = doc.defaultView, cs = view.getComputedStyle(el);
+          if (!cs.mixBlendMode || cs.mixBlendMode === 'normal') return;
+          if (cs.mixBlendMode === 'multiply') {
+            if (el.tagName === 'g') {
+              /* 안이 온통 흰색인 묶음도 곱하기에서는 보이지 않는다. */
+              var kids = el.querySelectorAll('path,polygon,rect,circle,ellipse,line,polyline');
+              var blank = kids.length > 0;
+              for (var i = 0; i < kids.length; i++) {
+                var kc = view.getComputedStyle(kids[i]);
+                if (kc.fill !== 'none' && kc.fill !== W) { blank = false; break; }
+                if (kc.stroke !== 'none' && kc.stroke !== W) { blank = false; break; }
+              }
+              if (blank) el.style.opacity = '0';
+            } else if (cs.fill === W) {
+              el.style.fill = 'none';
+            } else if (cs.fill === SHADE) {
+              el.style.fill = SHADE_ON_PLATE;
+            }
+          }
+          el.style.mixBlendMode = 'normal';
+        });
+
+        var kids = [];
+        for (var i = 0; i < root.children.length; i++) kids.push(root.children[i]);
+        var gNo = [], n = 0;
+        kids.forEach(function (el) { gNo.push(el.tagName === 'g' ? ++n : 0); });
+        if (n < 27) return;
+
+        /* 모듈 세 판이 놓인 가로 구간(실측). 그 사이 빈 구간에 있는 것은
+           API 알약과 이음선이다 — 어느 한 모듈에 속하지 않으므로 따로 둔다.
+           모듈로 확대해 들어갔을 때 옆에 API가 걸쳐 보이지 않게 하려는 것이고,
+           전체로 물러날 때 함께 나온다. */
+        var COLS = [[20, 355], [430, 765], [840, 1180]];
+        var lineEls = [], modules = [[], [], []], betweens = [[], []], base = [], edges = [];
+        kids.forEach(function (el, i) {
+          var b;
+          try { b = el.getBBox(); } catch (e) { return; }
+          /* 폭이 0인 <line>도 있다(가운데 점선 기둥). 둘 다 0일 때만 건너뛴다 —
+             폭만 보고 거르면 그 기둥이 감춰지지 않아 처음부터 보인다. */
+          if (!b || (!b.width && !b.height)) return;
+          var li = LINES.indexOf(gNo[i]);
+          if (li >= 0) { lineEls[li] = el; return; }
+          if (b.y + b.height <= TOP_BAND) {
+            var cx = b.x + b.width / 2, col = -1;
+            for (var k = 0; k < 3; k++) if (cx >= COLS[k][0] && cx <= COLS[k][1]) col = k;
+            /* 어느 모듈도 아니면 사이 구간의 API다. 왼쪽 틈(플레이트–렌즈)과
+               오른쪽 틈(렌즈–AI 에이전트)으로 나눠, 각각 그 오른쪽 판이 나올 때
+               함께 나오게 한다 — 판보다 먼저 떠 있으면 순서가 어긋나 보인다. */
+            if (col < 0) betweens[cx < COLS[1][0] ? 0 : 1].push(el);
+            else modules[col].push(el);
+          } else if (b.height > Math.max(b.width, 1) * 1.6 && b.height > 120) {
+            /* 좌·우·가운데 점선 기둥. 층을 가로지르므로 겹이 다 쌓인 뒤에 나온다.
+               흐름 규칙이 클래스 대신 이 표시를 보고 걸린다. */
+            el.classList.add('flow-edge');
+            edges.push(el);
+          } else {
+            base.push({ el: el, bottom: b.y + b.height });
+          }
+        });
+        base.sort(function (a, b) { return b.bottom - a.bottom; });
+
+        /* 그룹마다 원래 투명도가 다르다(옅은 층이 있다). CSS로 덮으면 끝나고 나서
+           그 층까지 진해지므로, 원래 값을 기억했다가 되돌린다. */
+        var all = base.map(function (b) { return b.el; })
+          .concat(modules[0], modules[1], modules[2], betweens[0], betweens[1], edges);
+        /* 감출 때는 전환을 끈다. .seq에 걸린 0.5초 전환이 그대로 먹으면 원래 상태에서
+           서서히 사라지느라 그 사이가 보인다 — 회선이 먼저 스쳐 보이던 원인이다.
+           숨긴 뒤 한 프레임 지나서 전환을 되살려, 나타날 때만 부드럽게 한다. */
+        var hide = function (el) {
+          var o = doc.defaultView.getComputedStyle(el).opacity;
+          el.__o = (o === '' || o == null) ? '1' : o;
+          el.classList.add('seq');
+          el.style.transition = 'none';
+          el.style.opacity = '0';
+          el.__cur = 0;
+        };
+        all.forEach(hide);
+
+        /* 그림 속 글자는 모두 도형으로 떠 있다(<text>가 하나도 없다). 작은 크기에서
+           획이 1픽셀에 못 미쳐 뭉개지므로, 같은 색 획을 얹어 굵기만 보탠다 —
+           자리도 크기도 그대로다. 실측한 글자 뭉치의 왼위 좌표로 찾는다:
+           모듈 라벨 셋 · API 둘 · Refinery Ontology(글자와 로고) · Data ·
+           Work flow(두 낱말). 알약 셋은 아래에서 따로 집는다. */
+        var TEXTS = [[144, 330], [552, 330], [944, 330], [387, 185], [794, 185],
+                     [861, 682], [936, 647], [963, 939], [758, 706], [774, 715]];
+        /* 여기서는 모아만 두고, 마지막 전체 모습에서(buildFlow) 굵힌다.
+           확대 구간에서는 글자가 이미 크고, 거기서 걸면 배율이 곱해져 획이
+           0.38px로 설계보다 굵어진다. */
+        var glyphs = [];
+        function thicken(p) { glyphs.push(p); }
+        function applyThicken() {
+          glyphs.forEach(function (p) {
+            var f = doc.defaultView.getComputedStyle(p).fill;
+            if (!f || f === 'none') return;
+            p.style.stroke = f;
+            p.style.strokeWidth = '0.2px';
+            p.style.paintOrder = 'stroke fill';
+          });
+        }
+        doc.querySelectorAll('g').forEach(function (g) {
+          var gb;
+          try { gb = g.getBBox(); } catch (e) { return; }
+          for (var i = 0; i < TEXTS.length; i++) {
+            if (Math.abs(gb.x - TEXTS[i][0]) < 3 && Math.abs(gb.y - TEXTS[i][1]) < 3) {
+              g.querySelectorAll('path,polygon').forEach(thicken);
+              return;
+            }
+          }
+        });
+        /* Collect · Refine · Unify 알약 안 글자. 알약 자체(면)는 두고 글자만 굵힌다. */
+        kids.forEach(function (el) {
+          var b;
+          try { b = el.getBBox(); } catch (e) { return; }
+          if (!b) return;
+          if (b.x > 700 && b.width >= 40 && b.width <= 80 && b.height >= 35
+              && b.height <= 70 && b.y + b.height >= 780 && b.y + b.height <= 1000) {
+            el.querySelectorAll('path,polygon').forEach(function (p) {
+              var pb;
+              try { pb = p.getBBox(); } catch (e) { return; }
+              if (pb.height > 1 && pb.height < 20) thicken(p);
+            });
+          }
+        });
+
+        var style = doc.createElementNS(SVGNS, 'style');
+        style.textContent =
+          /* 확대·축소가 오가므로 속도보다 기하 정확도를 우선한다. */
+          'svg{shape-rendering:geometricPrecision}' +
+          /* 투명도는 CSS 전환으로 걸지 않는다. 브라우저가 투명도 전환을
+             컴포지터로 넘기면서 그 0.5초 동안 해당 요소들이 합성 레이어로 뜨고,
+             카메라가 그 사이에 확대되면 옛 배율로 구운 그림이 늘어나 흐려진다
+             (레이어 실측: 평소 6개 → 페이드마다 12·19·24개, 지속 500ms).
+             전환이 끝나 레이어가 사라지는 순간 제 배율로 다시 그려져 '흐렸다가
+             선명해지는' 것으로 보였다. 같은 곡선·같은 시간으로 매 프레임 값을
+             직접 쓴다(tweenOpacity) — 그러면 레이어가 생기지 않는다.
+             stroke-dashoffset은 합성 대상이 아니라 그대로 둔다. */
+          '.line path{transition:stroke-dashoffset 1.3s ease}' +
+          /* --- 아래는 메인 랜딩 SVG의 규칙을 값까지 그대로 옮긴 것이다.
+                 .flow-on이 걸린 뒤에만 돈다(그 전에는 회선을 그려 보여야 한다). --- */
+          /* 회선은 랜딩 값 그대로다 — 6/9 점선이 1.6초에 한 번, 홀짝 그룹이
+             서로 반대 방향으로 흐른다. 이동량 30은 주기(6+9=15)의 두 배라
+             한 바퀴가 매끄럽다. */
+          '.flow-on path.cls-2{stroke-dasharray:6 9;animation-duration:1.6s;' +
+            'animation-timing-function:linear;animation-iteration-count:infinite}' +
+          '.flow-on g:nth-of-type(odd)>path.cls-2{animation-name:connector-dot-up}' +
+          '.flow-on g:nth-of-type(even)>path.cls-2{animation-name:connector-dot-down}' +
+          /* 기둥은 클래스가 아니라 스크립트가 찾아 표시한 것(.flow-edge)에 건다.
+             랜딩은 .cls-4 · .cls-6 · line.cls-9로 집었지만, 이 그림은 원본을
+             내보낼 때마다 클래스 번호가 다른 도형에 재사용된다 — 실제로 cls-6이
+             하나에서 다섯으로 늘며 맨 위 판 안쪽 도형까지 점선이 됐다. */
+          '.flow-on .flow-edge line,.flow-on line.flow-edge{' +
+            'stroke-dasharray:2 8;animation:connector-line-flow-up-slow 2.6s linear infinite}' +
+          /* 겹 띠는 굵기와 간격을 건드리지 않는다. 랜딩 값(1.5px · 0.5/6)은 어두운
+             면 위에서 번지는 띠로 읽히지만, 밝은 면에서는 두 배로 굵어진 점이
+             자글자글하게 부서져 보인다. 원본이 그린 대로 두고 밝기만 숨쉰다. */
+          /* 지연 -1.4초는 주기의 절반이다. 띠는 원래 투명도 1로 떠 있는데
+             이 애니메이션은 0%가 0.25라, 그냥 걸면 흐름이 시작되는 순간 세 판의
+             띠가 1에서 0.25로 한 프레임에 떨어졌다가 숨쉬기 시작한다
+             (실측: 10975ms 1 → 11013ms 0.25 — '작은판 3개가 쿵'하던 것).
+             투명도가 1인 50% 지점에서 출발시키면 제자리에서 이어진다.
+             주기·곡선은 랜딩 값 그대로다. */
+          '.flow-on line.cls-3[y1="185.58"],.flow-on line.cls-3[y1="193.58"]{' +
+            'stroke-width:.75px;stroke-dasharray:6 9;stroke-linecap:round;' +
+            'animation-duration:1.6s;animation-timing-function:linear;' +
+            'animation-iteration-count:infinite}' +
+          '.flow-on line.cls-3[y1="185.58"]{animation-name:api-dot-right}' +
+          '.flow-on line.cls-3[y1="193.58"]{animation-name:api-dot-left}' +
+          '@keyframes connector-dot-up{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
+          '@keyframes connector-dot-down{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
+          '@keyframes connector-line-flow-up-slow{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}' +
+          '@keyframes api-dot-right{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}' +
+          '@keyframes api-dot-left{from{stroke-dashoffset:0}to{stroke-dashoffset:30}}' +
+          /* 아이콘 디테일도 랜딩과 같다. 랜딩 파일에 손으로 붙인 pf-* 클래스를
+             이 그림에도 옮겨 붙였다(두 파일이 같은 아트워크라 기하로 대응된다).
+             회선과 함께 .flow-on이 걸린 뒤에만 돈다 — 판으로 확대해 있는 동안
+             막대가 뛰고 큐브가 흔들리면 그 판을 보여주는 데 방해가 된다. */
+          '.flow-on .pf-plate-bar{transform-box:fill-box;transform-origin:bottom}' +
+          /* 지연을 음수로 준다. 랜딩은 페이지가 열릴 때부터 돌아 이미 중간 위상인데,
+             여기는 마지막 순간에 .flow-on으로 시작하므로 0%(scale .7)부터 출발해
+             막대가 1에서 0.7로 뚝 떨어졌다가 자란다. 배율이 1이 되는 위상은
+             0.719초 지점이다(0~50% 구간 1.2초 중 진행도 0.599, ease-in-out).
+             둘 다 같은 지점에서 출발시킨다. 시차 0.15초를 두었더니 2번이 배율
+             0.887에서 시작해 흐름이 걸리는 프레임에 10%(4.16단위)를 한 번에
+             솟았다 — 일러스트가 '살짝 쿵' 하던 것이 이것이다.
+             반대 위상(-1.71s)은 시작 단차는 없지만 두 막대가 따로 노는 것으로
+             보였다. 같은 위상이면 둘이 한 몸처럼 오르내린다. */
+          '.flow-on .pf-plate-bar-3,.flow-on .pf-plate-bar-4,.flow-on .pf-plate-bar-5,.flow-on .pf-lens-knob{animation:none;transform:none}' +
+          '.flow-on .pf-plate-rearbox{transform-box:fill-box;transform-origin:center}' +
+          '.flow-on .pf-lens-cube{transform-box:fill-box;transform-origin:center}' +
+          '.flow-on .pf-lens-panel{transform-box:fill-box;transform-origin:center}' +
+          '.flow-on .pf-agent-dot,.flow-on .pf-agent-bubble{transform-box:fill-box;transform-origin:center}' +
+          /* 랜딩은 scale()로 가로세로를 함께 키운다. 0.99배로 그려지는 그쪽에서는
+             폭 변화가 눈에 띄지 않지만, 여기는 0.61배라 막대 폭이 2px뿐이라
+             그 가로 성분이 좌우로 번지는 것처럼 보인다(앞뒤로 미끄러져 보임).
+             세로로만 키워 위아래 움직임만 남긴다 — 폭은 그대로다. */
+          /* 랜딩 원본 값 그대로다. */
+          '@media (prefers-reduced-motion:reduce){.line path{transition:none}' +
+          '.line path,.flow-on *,[class*="pf-"]{animation:none!important}}';
+        svg.appendChild(style);
+
+        /* 회선은 아래(판)에서 위(모듈)로 그려져야 한다. 경로가 어느 쪽에서
+           시작하는지는 제각각이라, 시작점이 끝점보다 위에 있으면 부호를 뒤집어
+           반대 방향으로 그린다. */
+        lineEls.forEach(function (g) {
+          if (!g) return;
+          g.classList.add('line');
+          /* 다발 안에 path가 아닌 요소(점·끝맺음 등)가 섞여 있으면 dashoffset으로는
+             감춰지지 않아 시작부터 보인다. 그룹째로 감추고 그릴 때 켠다. */
+          hide(g);
+          var ps = g.querySelectorAll('path');
+          for (var i = 0; i < ps.length; i++) {
+            var pth = ps[i], len;
+            try { len = pth.getTotalLength(); } catch (e) { continue; }
+            if (!len) continue;
+            /* 길이 14짜리는 선 끝에 달린 작은 원이다(다발마다 여섯, 선은 243~566).
+               dashoffset으로 같이 그리면 짧아서 곧바로 다 차, 선이 닿기도 전에
+               끝점이 먼저 떠 있다 — 다발이 먼저 보이고 회선이 그 끝으로 가는
+               모양이 된다. 원은 감췄다가 선이 닿을 때 켠다. */
+            if (len < 60) { pth.__cap = true; pth.style.opacity = '0'; pth.__cur = 0; continue; }
+            var up = true;
+            try { up = pth.getPointAtLength(0).y > pth.getPointAtLength(len).y; } catch (e) {}
+            pth.__len = len;
+            pth.__dir = up ? 1 : -1;      /* 1이면 경로 방향이 곧 아래->위 */
+            pth.style.strokeDasharray = len;
+            pth.style.strokeDashoffset = len * pth.__dir;
+          }
+        });
+
+        /* 되돌릴 때 값이 1이면 인라인 opacity를 아예 걷는다. 1을 그대로 써 두면
+           그 요소가 합성 그룹이 되어 브라우저가 따로 그린 뒤 합친다 — 맨 위 판
+           그룹(도형 729개, 'Work flow'와 'Refinery Ontology' 글씨 포함)까지
+           그렇게 되면서 글씨가 뭉개져 보였다. 원래 반투명한 넷(0.1 · 0.15 ·
+           0.25)만 값을 남긴다. */
+        /* 나타날 때는 .seq의 0.5초 전환을 그대로 탄다(원래 모습).
+           값이 1이면 인라인 opacity를 걷는다 — 1을 그대로 두면 그 요소가 계속
+           합성 그룹으로 남는다. */
+        /* CSS의 곡선을 그대로 쓴다 — ease(.25,.1,.25,1)와 ease-in-out(.42,0,.58,1). */
+        function mkEase(p1x, p1y, p2x, p2y) {
+          function A(a, b) { return 1 - 3 * b + 3 * a; }
+          function B(a, b) { return 3 * b - 6 * a; }
+          function C(a) { return 3 * a; }
+          function calc(t, a, b) { return ((A(a, b) * t + B(a, b)) * t + C(a)) * t; }
+          function slope(t, a, b) { return 3 * A(a, b) * t * t + 2 * B(a, b) * t + C(a); }
+          return function (x) {
+            var t = x;
+            for (var i = 0; i < 5; i++) {
+              var sl = slope(t, p1x, p2x); if (!sl) break;
+              t -= (calc(t, p1x, p2x) - x) / sl;
+            }
+            return calc(t, p1y, p2y);
+          };
+        }
+        var EASE = mkEase(.25, .1, .25, 1);
+        var EASE_IO = mkEase(.42, 0, .58, 1);
+        var FADE_MS = REDUCE ? 0 : 500;
+        var tw = [], twRaf = null;
+        function twEnd(w) {
+          if (w.to === 1) w.el.style.removeProperty('opacity');
+          else w.el.style.opacity = w.to;
+          w.el.__cur = w.to; w.el.__tw = null;
+        }
+        function twTick(now) {
+          var live = [];
+          for (var i = 0; i < tw.length; i++) {
+            var w = tw[i], k = (now - w.t0) / w.ms;
+            if (k >= 1) { twEnd(w); continue; }
+            var v = w.from + (w.to - w.from) * EASE(k);
+            w.el.style.opacity = Math.round(v * 1000) / 1000;
+            w.el.__cur = v; live.push(w);
+          }
+          tw = live;
+          twRaf = tw.length ? requestAnimationFrame(twTick) : null;
+        }
+        function tweenOpacity(el, to, ms) {
+          if (!el) return;
+          if (el.__tw) { var j = tw.indexOf(el.__tw); if (j >= 0) tw.splice(j, 1); el.__tw = null; }
+          var from = (el.__cur == null) ? (parseFloat(el.__o) || 1) : el.__cur;
+          if (!ms || from === to) {
+            twEnd({ el: el, to: to });
+            return;
+          }
+          var w = { el: el, from: from, to: to, t0: performance.now(), ms: ms };
+          el.__tw = w; tw.push(w);
+          if (!twRaf) twRaf = requestAnimationFrame(twTick);
+        }
+        var show = function (el) { if (el) tweenOpacity(el, parseFloat(el.__o) || 1, FADE_MS); };
+        var fade = function (el) { if (el) tweenOpacity(el, 0, FADE_MS); };
+        var DRAW_MS = REDUCE ? 0 : 1300;         /* 스타일시트의 전환 시간과 같다 */
+        /* 걷었던 다발을 되돌린다. 이미 다 그려져 있으므로 켜기만 하면 된다 —
+           draw()를 다시 부르면 끝의 작은 원이 1.3초 늦게 들어온다. */
+        var relight = function (g) {
+          if (!g) return;
+          show(g);
+          var ps = g.querySelectorAll('path');
+          var CAP_MS = REDUCE ? 0 : 350;
+          for (var i = 0; i < ps.length; i++) if (ps[i].__cap) tweenOpacity(ps[i], 1, CAP_MS);
+        };
+        var draw = function (g) {
+          if (!g) return;
+          show(g);                                 /* 그릴 때 다발을 켠다 */
+          var ps = g.querySelectorAll('path'), caps = [];
+          for (var i = 0; i < ps.length; i++) {
+            if (ps[i].__cap) caps.push(ps[i]);
+            else ps[i].style.strokeDashoffset = '0';
+          }
+          /* 선이 다 닿고 나서 끝의 작은 원을 켠다. */
+          setTimeout(function () {
+            caps.forEach(function (p) { tweenOpacity(p, 1, REDUCE ? 0 : 350); });
+          }, DRAW_MS);
+        };
+        /* 한때 마지막 모습만 <img>로 구워 바꿔치웠다 — <object>는 살아 있는
+           중첩 문서라 안쪽 요소가 페이지 합성 트리에 참여해 흐렸기 때문이다.
+           그 원인(투명도 전환 · 아이콘 애니메이션)을 프레임 단위 쓰기로 옮긴
+           뒤로는 <object>도 같은 선명도가 나온다 — 같은 자리 실측 14.49 대 14.61.
+           그래서 바꿔치기를 걷었다. 별도 문서를 감추는 일은 한 프레임 늦게
+           반영돼, 그 한 프레임 동안 두 그림이 겹쳐 그려지며 판 셋이 위아래로
+           흔들려 보였다(카메라를 세우고 잰 세로 무게중심: 한 프레임 +0.83px
+           갔다가 다음 프레임 -0.92px로 되돌아옴). 겹치는 프레임을 없애는
+           방법이 없어 교체 자체를 그만둔다. */
+
+        /* 카메라가 다 선 뒤에 글자를 굵힌다 — 확대 구간에서 걸면 배율이
+           곱해져 설계보다 굵어진다. */
+        function finishCamera() { applyThicken(); }
+
+        /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
+           그 그래픽(/From Data to Intelligence.svg)은 파일 안에 CSS 애니메이션을
+           품고 있다. 선 위에 그라디언트 빛줄기를 얹는 방식이 아니라, 선 자체를
+           점선으로 만들고 stroke-dashoffset을 무한히 흘리는 방식이다.
+           두 파일은 같은 원본에서 나와 클래스가 그대로 대응한다 —
+           회선 path.cls-2(19) · 기둥 line.cls-2(4)/cls-4/cls-6/cls-9 ·
+           겹 띠 polygon.cls-9(3) · API 점 line.cls-3[y1=185.58/193.58].
+           그래서 랜딩의 규칙을 값까지 그대로 옮긴다. 다만 여기서는 회선을 먼저
+           그려 보여야 하므로, 다 그린 뒤에 .flow-on을 걸어 시작한다. */
+        /* 점선 무늬만 미리 걸어 둔다. .flow-on이 걸리는 순간 회선과 기둥이
+           실선에서 점선으로 한 프레임에 쪼개져 한 번 튕겼다(실측: 그 프레임에
+           바뀌는 칠하기 속성은 이 21개뿐이었다). 마지막 판을 보여주는 동안
+           회선은 걷혀 있고 기둥·API 점은 아직 뜨지 않았으므로, 그때 무늬를
+           입혀 두면 전환이 눈에 띄지 않는다. 흐름이 걸릴 때는 무늬가 이미
+           같아서 시작하는 것은 움직임뿐이다.
+           흘림의 시작값(회선 30 · 기둥 100)은 각 무늬 주기(15 · 10)의 배수라
+           무늬가 어긋나지 않는다. */
+        function preDash() {
+          lineEls.forEach(function (g) {
+            if (!g) return;
+            var ps = g.querySelectorAll('path.cls-2');
+            for (var i = 0; i < ps.length; i++) {
+              if (ps[i].__cap) continue;
+              ps[i].style.transition = 'none';
+              ps[i].style.strokeDasharray = '6 9';
+              ps[i].style.strokeDashoffset = '0';
+            }
+          });
+          [].forEach.call(doc.querySelectorAll('.flow-edge line,line.flow-edge'), function (l) {
+            l.style.strokeDasharray = '2 8';
+          });
+          [].forEach.call(doc.querySelectorAll('line.cls-3[y1="185.58"],line.cls-3[y1="193.58"]'),
+            function (l) {
+              l.style.strokeWidth = '.75px';
+              l.style.strokeDasharray = '6 9';
+              l.style.strokeLinecap = 'round';
+            });
+        }
+
+        /* 아이콘 움직임(막대 배율 · 큐브와 말풍선 흔들림 · 겹 띠 숨쉬기)은
+           CSS 애니메이션으로 돌리면 그 요소들이 합성 레이어로 떠서 그림이
+           흐려진다. 실측: 흐름이 도는 동안 레이어 49개 · 선명도 10.50,
+           이 셋만 꺼 보면 레이어 6개 · 선명도 16.67.
+           한때 이 흐림 때문에 마지막 모습을 <img>로 구워 바꿔치웠고, 그 교체가
+           또 다른 튐을 만들었다. 여기서 레이어를 없애 교체 자체가 필요 없어졌다.
+           페이드와 같이 프레임마다 값을 직접 써서 레이어를 만들지 않는다.
+           주기 · 지연 · 곡선(ease-in-out)은 CSS 규칙과 같은 값이다. */
+        var iconRaf = null;
+        function startIconMotion() {
+          if (REDUCE) return;
+          var items = [];
+          function add(sel, kind, a, b, dur, delay) {
+            [].forEach.call(doc.querySelectorAll(sel), function (el) {
+              items.push({ el: el, k: kind, a: a, b: b, d: dur, w: delay });
+            });
+          }
+          add('.pf-plate-bar-1,.pf-plate-bar-2', 's', .7, 1.15, 2400, -719);
+          add('.pf-plate-rearbox', 'y', 0, -4, 2800, 0);
+          add('.pf-lens-cube-1', 'y', 0, -4, 2600, 0);
+          add('.pf-lens-cube-2', 'y', 0, -4, 3000, 300);
+          add('.pf-lens-cube-3', 'y', 0, -4, 2800, 600);
+          add('.pf-lens-panel', 'y', 0, -4, 2800, 0);
+          add('.pf-agent-dot-1,.pf-agent-bubble-1', 'y', 0, -4, 2800, 0);
+          add('.pf-agent-dot-2,.pf-agent-bubble-2', 'y', 0, -4, 2800, 300);
+          add('.pf-agent-dot-3,.pf-agent-bubble-3', 'y', 0, -4, 2800, 600);
+          add('polygon.cls-9', 'o', .25, 1, 2800, -1400);
+          if (!items.length) return;
+          /* 폭은 0에서 키운다. 흔들림 · 배율 · 숨쉬기가 모두 제자리에서 동시에
+             출발하면 첫 한 번의 스윙이 한꺼번에 나서 '툭 움직였다가 모션이
+             시작'하는 것으로 보인다. 첫 프레임은 정확히 제자리(폭 0)이고
+             0.6초에 걸쳐 제 폭이 된다 — 시작하는 자리가 그대로라 튀지 않고,
+             움직임은 첫 프레임부터 이어진다.
+             물러남 1.1초보다 짧게 끝내야 구운 <img>로 넘어갈 때 폭이 같다. */
+          var RAMP = 600;
+          var t0 = performance.now();
+          (function tick(now) {
+            var e = now - t0;
+            var amp = e >= RAMP ? 1 : EASE_IO(e / RAMP);
+            for (var i = 0; i < items.length; i++) {
+              var it = items[i], t = e - it.w;
+              var u = t <= 0 ? 0 : (t % it.d) / it.d;
+              /* 0%,100%가 a · 50%가 b인 한 마디를 두 구간으로 나눠 같은 곡선을 탄다. */
+              var q = u < .5 ? EASE_IO(u / .5) : 1 - EASE_IO((u - .5) / .5);
+              /* 제자리 값(a에서 출발하는 것은 a, 배율·숨쉬기는 1)에서 폭만 키운다. */
+              var rest = it.k === 'y' ? it.a : 1;
+              var v = rest + (it.a + (it.b - it.a) * q - rest) * amp;
+              if (it.k === 's') it.el.style.transform = 'scale(' + (Math.round(v * 10000) / 10000) + ')';
+              else if (it.k === 'y') it.el.style.transform = 'translateY(' + (Math.round(v * 1000) / 1000) + 'px)';
+              else it.el.style.opacity = Math.round(v * 1000) / 1000;
+            }
+            iconRaf = requestAnimationFrame(tick);
+          })(t0);
+        }
+
+        function buildFlow() {
+          /* 그리기에 쓴 인라인 dasharray/dashoffset을 걷어야 CSS가 먹는다
+             (인라인이 애니메이션 밖 선언보다 우선한다). */
+          lineEls.forEach(function (g) {
+            if (!g) return;
+            var ps = g.querySelectorAll('path');
+            for (var i = 0; i < ps.length; i++) {
+              if (ps[i].__cap) continue;
+              ps[i].style.transition = 'none';
+              ps[i].style.strokeDasharray = '';
+              ps[i].style.strokeDashoffset = '';
+            }
+          });
+          root.classList.add('flow-on');
+          startIconMotion();
+          /* 글자 굵히기는 여기서 걸지 않는다. 흐름은 물러나기 시작할 때 켜지는데
+             그 순간 카메라는 아직 1.905배로 확대돼 있어, 획 0.2px가 화면에서
+             0.381px로 얹힌다 — 설계값(0.644배에서 0.129px)의 세 배다. 세 판의
+             글자가 한 프레임에 굵어졌다가 물러나며 가늘어져 '쿵'으로 보였다.
+             카메라가 다 선 뒤에 건다(finishCamera). */
+          /* 다 끝난 뒤에는 순서를 맞추려고 걸었던 인라인 자국을 지운다.
+             남겨 두면 그 요소들이 계속 합성 그룹으로 남아 선과 글씨가 흐려진다. */
+          doc.querySelectorAll('[style]').forEach(function (el) {
+            if (el.style.transition) el.style.removeProperty('transition');
+            if (el.style.opacity === '1') el.style.removeProperty('opacity');
+          });
+        }
+
+        /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
+        var aspect = obj.clientWidth / obj.clientHeight || 1104 / 682;
+        function fit(s) {
+          var pad = Math.max(s.w, s.h) * (s.pad == null ? 0.08 : s.pad);
+          var x = s.x - pad, y = s.y - pad, w = s.w + pad * 2, h = s.h + pad * 2;
+          if (w / h < aspect) { var nw = h * aspect; x -= (nw - w) / 2; w = nw; }
+          else { var nh = w / aspect; y -= (nh - h) / 2; h = nh; }
+          return [x, y, w, h];
+        }
+
+        var cur = fit(SHOTS.stack);
+        svg.setAttribute('viewBox', cur.join(' '));
+
+        var anim = null;
+        function moveTo(shot, ms, done) {
+          var to = fit(shot), from = cur.slice(), t0 = performance.now();
+          if (anim) cancelAnimationFrame(anim);
+          (function step(now) {
+            var k = Math.min(1, (now - t0) / ms);
+            var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;  /* ease-in-out */
+            cur = from.map(function (v, i) { return v + (to[i] - v) * e; });
+            svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
+            if (k < 1) { anim = requestAnimationFrame(step); return; }
+            cur = to;
+            if (done) done();
+          })(t0);
+        }
+
+        /* 여기까지가 준비다. 이 시점에 그림은 아래 판도 회선도 모두 감춰져 있다.
+           준비가 끝나야 칸을 보인다 — 그 전에 보이면 완성된 그림이 한 번 스쳤다가
+           사라진다(회선까지 다 보였다가 감춰졌다). */
+        /* 한 프레임 뒤 전환을 되살린다(나타날 때만 부드럽게). */
+        requestAnimationFrame(function () {
+          all.forEach(function (el) { el.style.transition = ''; });
+          lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
+        });
+
+        obj.classList.add('is-ready');
+
+        if (REDUCE) {
+          all.forEach(show); lineEls.forEach(draw);
+          svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
+          return;
+        }
+
+        /* 화면에 들어오면 재생한다. */
+        if (!('IntersectionObserver' in window)) { play(); return; }
+        var io = new IntersectionObserver(function (es) {
+          if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); play(); }
+        }, { threshold: 0.25 });
+        io.observe(obj);
+
+        function play() {
+        /* 판은 다섯이다. 아랫변만으로 자동으로 묶으면 열 덩이로 갈라져
+           같은 판의 조각들이 따로 나타난다(아래판의 점선 무늬가 판보다 늦게 뜨고,
+           맨 위 판은 그 위 내용이 네 번에 나눠 떴다).
+           실측한 아랫변으로 다섯 구간을 직접 나눈다.
+             1180·1121·1092 아래판(안쪽 원형 점선 무늬까지 함께 — 무늬는
+                            아랫변이 1092라 경계를 1080으로 내려야 같이 묶인다)
+             1063 · 1005 · 946+888 가운데 세 겹
+             900 미만  맨 위 판과 그 위 내용 — 한 번에.
+                       맨 위 판의 회색 슬래브는 아랫변이 888이라 기준을 870으로 두면
+                       네 번째 판과 함께 먼저 떴다. 900으로 올려 내용과 같이 뜬다. */
+        var CUTS = [1080, 1040, 980, 900];
+        var layers = [[], [], [], [], []];
+        /* Collect · Refine · Unify 알약은 자기 판보다 90 남짓 위에 떠 있어서
+           아랫변으로 나누면 한 판 위로 밀려 붙는다. 따로 골라내 순서대로 붙인다.
+           실측: x774~830 · 48~58 x 45~51 · 아랫변 971 · 911 · 852(아래부터 Collect). */
+        var pills = [];
+        base = base.filter(function (b) {
+          var el = b.el, bb;
+          try { bb = el.getBBox(); } catch (e) { return true; }
+          var isPill = bb.x > 700 && bb.width >= 40 && bb.width <= 80
+            && bb.height >= 35 && bb.height <= 70 && b.bottom >= 780 && b.bottom <= 1000;
+          if (isPill) { pills.push(b); return false; }
+          return true;
+        });
+        /* 아래판 오른쪽 모서리의 'Data' 글씨는 아랫변이 962라 경계값으로는 네 번째
+           판에 붙는다. 아래판의 이름이므로 아래판과 함께 떠야 한다.
+           실측: x963..990 · 27 x 23 · 아랫변 962. 같은 아랫변 구간의 다른 것들은
+           x가 훨씬 왼쪽이라(Collect 774 · Refine 776) x > 940으로 갈린다. */
+        var dataLabel = [];
+        base = base.filter(function (b) {
+          var bb;
+          try { bb = b.el.getBBox(); } catch (e) { return true; }
+          var isLabel = bb.x > 940 && bb.width <= 60 && bb.height <= 40
+            && b.bottom >= 900 && b.bottom <= 1000;
+          if (isLabel) { dataLabel.push(b.el); return false; }
+          return true;
+        });
+        base.forEach(function (b) {
+          var k = 4;
+          for (var i = 0; i < CUTS.length; i++) if (b.bottom >= CUTS[i]) { k = i; break; }
+          layers[k].push(b.el);
+        });
+        dataLabel.forEach(function (el) { layers[0].push(el); });
+        /* 아래에서부터 두 번째·세 번째·네 번째 판에 하나씩. */
+        pills.sort(function (a, b) { return b.bottom - a.bottom; });
+        pills.forEach(function (b, i) { layers[Math.min(i + 1, 3)].push(b.el); });
+        layers = layers.filter(function (L) { return L.length; });
+
+        var t = 0;
+        layers.forEach(function (L) {
+          setTimeout(function () { L.forEach(show); }, t);
+          t += 520;
+        });
+        /* 겹이 다 쌓이면 점선 기둥·회선·API 점이 한꺼번에 선다.
+           회선은 아래에서 위로 그려지며 상자 모양이 드러난다. */
+        /* 마지막 판을 보던 자리(판이 크게 보이는 자리)를 그대로 집으로 삼는다.
+           여기서 물러나면 그림이 한 번 작아졌다가 다시 들어가는 꼴이 된다.
+           마지막 판까지 쌓이고 나면 회선도 점선 기둥도 API 점도 아직 없다 —
+           셋 다 회선이 이어지는 동안, 또는 다 이어진 뒤에 나온다. */
+        t += 700;                     /* 마지막 판을 한 박자 보고 나서 잇는다 */
+
+        function union(els, seed) {
+          var x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
+          if (seed) { x1 = seed.x; y1 = seed.y; x2 = seed.x + seed.width; y2 = seed.y + seed.height; }
+          els.forEach(function (el) {
+            var b; try { b = el.getBBox(); } catch (e) { return; }
+            if (!b || (!b.width && !b.height)) return;
+            x1 = Math.min(x1, b.x); y1 = Math.min(y1, b.y);
+            x2 = Math.max(x2, b.x + b.width); y2 = Math.max(y2, b.y + b.height);
+          });
+          return { x1: x1, y1: y1, x2: x2, y2: y2 };
+        }
+        /* 오르는 동안 잡을 자리 — 세 다발 모두 같은 크기(486 x 404, 화면 비율에
+           딱 맞아 늘어나지 않는다)로, 판 위에 내려앉힌다.
+           다발 상자를 그대로 쓰면 두 가지가 어긋났다. 가운데 다발은 거의 수직이라
+           폭이 98뿐이고(바깥 둘은 434) 프레임이 321까지 좁아져 판이 좌우로 더
+           심하게 잘렸다. 게다가 상자가 판 위 빈 하늘에 걸려 박스 안이 여백투성이가
+           됐다. 아랫변을 830에 두면 프레임 아래쪽이 판 면으로 꽉 찬다.
+           가로는 다발 중심을 따라가되 판 밖으로 나가지 않게 묶는다. */
+        var FOLLOW_H = 404, FOLLOW_BOTTOM = 830;
+        function bundleShot(k) {
+          var b = lineEls[k].getBBox(), st = SHOTS.stack;
+          /* 프레임 폭은 화면비가 정한다(칸이 넓어지면 같이 넓어진다). */
+          var w = FOLLOW_H * aspect, cx = b.x + b.width / 2;
+          var x = (w >= st.w) ? st.x + (st.w - w) / 2
+                : Math.min(Math.max(cx - w / 2, st.x), st.x + st.w - w);
+          return { x: x, y: FOLLOW_BOTTOM - FOLLOW_H, w: w, h: FOLLOW_H, pad: 0 };
+        }
+
+        /* 닿고 나서 잡을 자리 — 그 판 하나. 세 판이 같은 배율 · 같은 여백으로
+           잡혀야 한다. 판마다 제 경계 상자를 쓰면 폭은 같아도(319) 높이가
+           339 · 327 · 325로 달라, 높이가 정하는 배율이 판마다 4%씩 어긋나고
+           좌우가 제각각 잘린다. 셋 중 가장 큰 상자 하나를 정해 두고, 그 상자를
+           각 판의 중심에 얹는다.
+           여유 0.09 — 칸이 테두리까지 넓어지며 그림 높이가 682에서 762로 커져
+           확대가 12% 세졌다. 여유를 0.03에서 올려 그만큼 되돌린다. 이 여유에서는
+           이웃 판이 프레임 가장자리에 걸치지만, 확대해 있는 동안은 걷어 둔다. */
+        var plateBox = null;
+        function plateShot(k) {
+          if (!plateBox) {
+            plateBox = { w: 0, h: 0 };
+            [0, 1, 2].forEach(function (j) {
+              var u = union(modules[j]);
+              plateBox.w = Math.max(plateBox.w, u.x2 - u.x1);
+              plateBox.h = Math.max(plateBox.h, u.y2 - u.y1);
+            });
+          }
+          var u = union(modules[k]);
+          var cx = (u.x1 + u.x2) / 2, cy = (u.y1 + u.y2) / 2;
+          return {
+            x: cx - plateBox.w / 2, y: cy - plateBox.h / 2,
+            w: plateBox.w, h: plateBox.h, pad: 0.09
+          };
+        }
+
+        /* 여기서부터 회선이 한 다발씩 이어진다.
+             0      잇기와 따라 오르기를 함께 건다(회선 1.3초)
+             600    다발을 좇던 프레임을 그 판으로 좁힌다(0.7초). 옆 판과 API 점은
+                    여기서 걷는다 — 따라오름 · 좁힘 · 닿음이 한 흐름으로 이어진다.
+             1300   카메라가 서고, 회선이 끝에 닿고, 그 판이 뜬다. 닿는 그 순간부터
+                    회선이 물러난다. 좁힌 프레임은 회선을 중간에서 자르는데,
+                    배율을 지키면서 아래를 더 보여줄 방법이 없다 — 자를 바에는
+                    거두어 잘린 자리를 남기지 않는다.
+             2300   집으로 돌아오며 걷었던 것과 그 판 왼쪽의 API 점이 나온다
+           플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다.
+           셋째만 집 대신 전체로 물러난다 — 다 모인 그림을 보여야 한다. */
+        var LAST = 2, seenPlates = [], seenGaps = [], drawnLines = [];
+        [0, 1, 2].forEach(function (k) {
+          (function (at) {
+            setTimeout(function () {
+              draw(lineEls[k]); drawnLines.push(k);
+              moveTo(bundleShot(k), 800);
+            }, at);
+            setTimeout(function () {
+              seenPlates.forEach(function (j) { modules[j].forEach(fade); });
+              seenGaps.forEach(function (g) { betweens[g].forEach(fade); });
+              moveTo(plateShot(k), 700);
+            }, at + 600);
+            setTimeout(function () {
+              modules[k].forEach(show); seenPlates.push(k);
+              drawnLines.forEach(function (j) { fade(lineEls[j]); });
+              /* 마지막 판이 뜨고 카메라가 멈춰 있는 동안 미리 굽는다. 물러나는
+                 도중에 755KB를 직렬화하면 그 프레임이 통째로 밀려 한 번 '쿵' 한다. */
+              if (k === LAST) setTimeout(preDash, 600);
+            }, at + 1300);
+            setTimeout(function () {
+              /* 이 판 왼쪽의 API는 물러나면서 나온다. 좁힌 프레임 안에 알약이
+                 걸쳐 보여, 그 판만 보이게 하려던 것이 깨졌다. */
+              if (k > 0) seenGaps.push(k - 1);
+              /* 점선 기둥은 회선이 다 이어진 뒤에 선다. 판과 함께 미리 세워두면
+                 이을 것이 아직 없는데 상자 골격만 먼저 그려져 있다. */
+              if (k === LAST) edges.forEach(show);
+              seenPlates.forEach(function (j) { modules[j].forEach(show); });
+              seenGaps.forEach(function (g) { betweens[g].forEach(show); });
+              drawnLines.forEach(function (j) { relight(lineEls[j]); });
+              /* 물러나기 시작하면서 흐름을 켠다. */
+              if (k === LAST) buildFlow();
+              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
+                     k === LAST ? finishCamera : null);
+            }, at + 2300);
+          })(t);
+          t += 3100;
+        });
+
+        }
+      }
+
+      /* 불러오는 즉시 준비한다(감추기). 재생은 준비가 끝난 뒤 화면에 들어올 때다.
+         load 시점에는 SVG 레이아웃이 아직이라 getBBox()가 0을 준다 — 그러면
+         모든 부분이 걸러져 준비가 통째로 건너뛰어진다. 크기가 잡힐 때까지 기다린다. */
+      var tries = 0;
+      function ready() {
+        var doc = obj.contentDocument;
+        var root = doc && (doc.querySelector('#_레이어_1') || doc.querySelector('svg > g'));
+        var ok = false;
+        if (root) { try { ok = root.getBBox().width > 0; } catch (e) {} }
+        if (ok) { run(); return; }
+        if (++tries < 60) { requestAnimationFrame(ready); return; }
+        obj.classList.add('is-ready');   /* 끝내 못 재면 그림만이라도 보인다 */
+      }
+      if (obj.contentDocument && obj.contentDocument.readyState === 'complete') ready();
+      else obj.addEventListener('load', ready);
+      /* 스크립트가 못 도는 경우(다른 출처 등)에도 그림은 보여야 한다. */
+      setTimeout(function () { obj.classList.add('is-ready'); }, 2500);
+    })();
+  </script>
+  )}
+
+  {hasDemo && (
+  <script is:inline>
+    /* 히어로 아래 에이전트 데모. 랜딩(index.astro)의 같은 스크립트와 짝이지만
+       ID가 달라 섞이지 않는다. 공용 컴포넌트로 뽑는 건 랜딩 히어로까지 건드리는
+       일이라 여기서는 이 페이지에 필요한 만큼만 둔다. */
+    (function () {
+      /* 무대는 1320x840 고정이고 K = min(폭/1320, 높이/840)로 줄어든다.
+         높이를 비율보다 2px 크게 잡아 K가 폭에서 정해지게 하면 무대가 폭을 정확히 채운다.
+         (높이 쪽이 먼저 걸리면 좌우에 데모 페이지 배경 #E9ECEF가 남는다.) */
+      var STAGE_W = 1320, STAGE_H = 840;
+      var FRAME_W = 1440;
+      var FRAME_H = Math.ceil(FRAME_W * STAGE_H / STAGE_W) + 2;
+      /* 데모가 강조 중인 범위(무대 좌표). 없으면 기본 자리를 보여준다. */
+      var focusBox = null;
+      /* 강조가 없을 때 보여줄 자리(무대 좌표). 무대 전체(1320x840)를 다 담으면
+         데모 칸이 좁아 0.5배까지 줄고, 데모 안 13px 글자가 6px대가 되어 안 읽힌다.
+         대화 영역 쪽으로 당겨 두고, 강조가 들어오면 거기로 옮긴다.
+         위쪽 끝은 질문 말풍선(.user-bubble, 실측 y54..93)이 들어오도록 잡는다 —
+         y를 120에서 시작하면 말풍선이 통째로 위로 잘려 안 보인다.
+         상자 비율(882:560)을 칸 비율(718:457)에 맞춰 배율은 0.746 그대로다. */
+      var REST_BOX = { x: 348, y: 44, w: 882, h: 560 };
+      /* 첫 화면(무엇을 분석할까요?)이 있는 자리. 여기서 잠깐 멈췄다가 첫 장면으로
+         넘어간다. 데모의 빈 화면 요소를 실측한 범위는 x551..1021, y250..529
+         (아이콘·제목·소개글·추천 카드)이고 가운데는 (786, 390)이다.
+         상자 가운데를 그 값에 맞춰야 칸 한가운데로 온다 — 어림잡으면 위아래로
+         치우친다(가운데를 420으로 뒀을 때 내용이 35px 위로 붙었다).
+         상자 크기로 배율이 정해진다. 590x400은 1.047배(여백 68/70px)로 위가
+         허전했고, 540x340은 1.22배로 과했다. 580x380에서 1.10배(여백 60/61px)다. */
+      var START_BOX = { x: 496, y: 200, w: 580, h: 380 };
+      /* 첫 화면에 머무는 시간. 이 동안 데모를 세워 두고 장면 신호도 미뤄 둔다. */
+      var HOLD_MS = 1600;
+      /* 첫 화면에 함께 두는 좌측 글. 장면들과 같은 자리를 쓰고, 첫 장면이 오면
+         그 내용으로 바뀐다. 여기만 태그라인 없이 제목 하나로 간다(.is-opening). */
+      var OPENING = {
+        kicker: '',
+        title: (document.getElementById('ai-demo-cap') || {}).dataset
+          ? document.getElementById('ai-demo-cap').dataset.openTitle
+          : ''
+      };
+      var holding = true;
+      var pendingFocus = null;
+      var holdTimer = null;
+      /* 데모가 한 바퀴를 시작했는지. 아래 '직접 시작' 신호를 중복으로 보내지 않는다. */
+      var started = false;
+      /* 배율 하한. 강조 대상이 이 배율에 다 안 들어오면 좌우가 잘린다 —
+         다 보여주려다 못 읽는 것보다 잘리더라도 읽히는 편이 낫다. */
+      var MIN_SCALE = 0.68;
+      var MAX_ZOOM = 2.2;
+
+      function render(animate) {
+        var box = document.querySelector('.ai-hero-figure');
+        var frame = document.getElementById('ai-demo-iframe');
+        if (!box || !frame) return;
+        var bw = box.offsetWidth, bh = box.offsetHeight;
+        var stageToFrame = FRAME_W / STAGE_W;
+        var fit = bw / FRAME_W;                    /* 무대 전체를 담는 배율 */
+        /* 설명이 데모 위로 올라가는 폭에서는 데모가 칸을 넓게 쓰므로 당기지 않고
+           전체를 보여준다. 좁은 화면에서 당기면 화면 대부분이 잘려 나간다. */
+        var stacked = window.innerWidth <= 1024;
+
+        var s, cx, cy;
+        if (holding) {
+          /* 첫 화면 자리. 좁은 화면에서는 전체를 보여준다. */
+          if (stacked) { s = fit; cx = FRAME_W / 2; cy = FRAME_H / 2; }
+          else {
+            var sx = START_BOX.x * stageToFrame, sy = START_BOX.y * stageToFrame;
+            var sw = START_BOX.w * stageToFrame, sh = START_BOX.h * stageToFrame;
+            s = Math.max(MIN_SCALE, Math.min(bw / sw, bh / sh));
+            cx = sx + sw / 2; cy = sy + sh / 2;
+          }
+        } else if (stacked && !focusBox) {
+          s = fit; cx = FRAME_W / 2; cy = FRAME_H / 2;
+        } else {
+          var target = focusBox || REST_BOX;
+          /* 강조 상자 둘레 여백(무대 좌표).
+             강조 상자는 확장(레일)을 빼면 6개가 모두 폭 756으로 같고 높이만
+             41~319로 다르다. 그래서 배율은 늘 폭에서 정해지고, 보이는 세로는
+             폭이 정한 값(=756/칸비율)을 따라간다. 여백을 줄이면 배율이 올라
+             그 756짜리 줄이 좌우로 잘려 나간다 — 강조된 줄이 잘리면 비율이
+             어그러져 보인다. 40은 그 줄이 좌우 여유를 갖는 값이다.
+             쉬는 자리(REST_BOX)에는 주지 않는다. 붙이면 위 끝이 43에서 16으로
+             올라가 상단 바(y0..38)가 화면에 들어온다. */
+          var pad = (focusBox ? 40 : 0) * stageToFrame;
+          var fx = target.x * stageToFrame - pad;
+          var fy = target.y * stageToFrame - pad;
+          var fw = target.w * stageToFrame + pad * 2;
+          var fh = target.h * stageToFrame + pad * 2;
+          s = Math.min(bw / fw, bh / fh);
+          var floor = stacked ? fit : MIN_SCALE;
+          s = Math.max(floor, Math.min(s, floor * MAX_ZOOM));
+          cx = fx + fw / 2; cy = fy + fh / 2;
+        }
+
+        /* 보고 있는 자리의 가운데를 칸 가운데로 당긴다. */
+        var tx = bw / 2 - cx * s;
+        var ty = bh / 2 - cy * s;
+        /* 데모 페이지 배경이 비치지 않도록 가장자리를 넘지 않게 가둔다. */
+        tx = Math.min(0, Math.max(tx, bw - FRAME_W * s));
+        ty = Math.min(0, Math.max(ty, bh - FRAME_H * s));
+        if (FRAME_W * s < bw) tx = (bw - FRAME_W * s) / 2;
+        if (FRAME_H * s < bh) ty = (bh - FRAME_H * s) / 2;
+
+        frame.style.width = FRAME_W + 'px';
+        frame.style.height = FRAME_H + 'px';
+        frame.style.left = '0px';
+        frame.style.top = '0px';
+        frame.style.transition = animate ? 'transform .7s cubic-bezier(.22,.61,.36,1)' : 'none';
+        frame.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + s + ')';
+      }
+
+      function resize() { render(false); }
+
+      /* 데모가 알려주는 강조 범위를 따라 화면을 옮기고, 설명 카드를 좌측에 그린다.
+         랜딩과 달리 이 페이지는 전체를 멀리서 보여주는 대신 지금 설명 중인 곳으로
+         당겨서 보여주고, 설명은 데모 밖 카드가 맡는다. */
+      function initFocus() {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var card = document.getElementById('ai-demo-cap');
+        window.addEventListener('message', function (e) {
+          /* 아무 창이나 보낼 수 있는 메시지다. 우리 iframe에서 온 것만 받는다. */
+          var frame = document.getElementById('ai-demo-iframe');
+          if (e.origin !== window.location.origin) return;
+          if (!frame || e.source !== frame.contentWindow) return;
+          if (!e.data) return;
+
+          /* 한 바퀴가 새로 시작한다는 신호. 매 바퀴 시작 화면에 다시 머문다. */
+          if (e.data.type === 'refinery-hero-cycle') { started = true; beginHold(); return; }
+          if (e.data.type !== 'refinery-hero-focus') return;
+
+          if (holding) {
+            /* 첫 화면에 머무는 동안은 장면을 반영하지 않는다. 마지막 것만 들고
+               있다가 다시 풀릴 때 적용한다(데모도 세워 둔 상태라 장면은 안 넘어간다). */
+            pendingFocus = e.data;
+            return;
+          }
+          apply(e.data);
+        });
+
+        beginHold();
+
+        /* 시작 화면에 머문다. 데모를 세워 두고 좌측에는 여는 글을 띄운 뒤,
+           HOLD_MS가 지나면 다시 돌린다. 첫 로드와 매 바퀴 시작에 쓴다. */
+        function beginHold() {
+          var f = document.getElementById('ai-demo-iframe');
+          /* 이미 머무는 중이면 그대로 둔다. 첫 로드에서는 데모가 스스로 시작한
+             신호와 우리가 보낸 시작 신호가 겹칠 수 있는데, 그때마다 다시 걸면
+             첫 머무름만 두 배로 길어진다. */
+          if (holding && holdTimer) return;
+          if (holdTimer) clearTimeout(holdTimer);
+          holdTimer = null;
+          holding = true;
+          pendingFocus = null;
+          focusBox = null;
+          if (card) card.classList.add('is-opening');
+          setCap(OPENING);
+          render(true);
+          /* 데모를 아직 안 불러왔으면 세울 대상이 없다. 여는 글만 띄워 두고,
+             데모가 한 바퀴를 시작하며 보내는 신호(refinery-hero-cycle)를 기다린다.
+             그때 이 함수가 다시 불려 제대로 머무른다. */
+          if (!f || !f.src) return;
+          try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
+          holdTimer = setTimeout(function () {
+            holding = false;
+            holdTimer = null;
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-resume' }, '*'); } catch (e) {}
+            if (pendingFocus) { apply(pendingFocus); pendingFocus = null; }
+            else render(true);
+          }, HOLD_MS);
+        }
+
+        function apply(d) {
+          if (!reduce) { focusBox = d.box || null; render(true); }
+
+          if (!card) return;
+          if (d.cap) {
+            /* 첫 화면 글은 '다른 글로 바뀔 때' 비로소 장면 크기로 넘긴다.
+               머무름이 끝나는 시점에 떼면, 첫 장면 신호가 오기 전까지
+               같은 문구가 40 -> 32px로 잠깐 줄었다가 바뀐다. */
+            card.classList.remove('is-opening');
+            setCap(d.cap);
+          } else {
+            card.classList.remove('is-on');
+          }
+        }
+      }
+
+      /* 좌측 글을 채운다. 제목은 카피에 넣어둔 \n에서 두 줄로 나눈다.
+         데모 안 카드는 textContent라 \n이 공백으로 합쳐져 한 덩어리로 보인다. */
+      function setCap(t) {
+        var card = document.getElementById('ai-demo-cap');
+        if (!card) return;
+        document.getElementById('ai-demo-cap-kicker').textContent = t.kicker;
+        var titleEl = document.getElementById('ai-demo-cap-title');
+        titleEl.textContent = '';
+        String(t.title).split('\n').forEach(function (line, i) {
+          if (i) {
+            /* <br> 앞에 공백을 함께 넣는다. 좁은 폭에서는 CSS가 <br>를 숨겨
+               두 줄을 한 줄로 푸는데, 공백이 없으면 '권한은내가'처럼 붙는다.
+               줄 끝의 공백은 그대로 두어도 보이지 않는다. */
+            titleEl.appendChild(document.createTextNode(' '));
+            titleEl.appendChild(document.createElement('br'));
+          }
+          titleEl.appendChild(document.createTextNode(line));
+        });
+        card.classList.add('is-on');
+      }
+
+      /* 성능: 무거운 데모 iframe은 페이지가 인터랙티브해진 뒤에 불러온다. */
+      function load() {
+        var f = document.getElementById('ai-demo-iframe');
+        if (f && !f.src && f.getAttribute('data-src')) {
+          f.addEventListener('load', function () {
+            /* 설명 카드를 이 페이지가 직접 그린다. 데모 안 카드는 숨겨진다. */
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-extcap' }, '*'); } catch (e) {}
+            /* 시작 화면 머무름(pause)은 beginHold가 맡는다. 데모는 첫 장면을
+               로드 179ms에 띄우므로 세워 두지 않으면 첫 화면이 보이지 않는다. */
+            /* 랜딩 기본값은 3배속이다. 이 페이지는 화면이 장면마다 움직이므로
+               더 천천히 간다. 설명이 머무는 시간은 배속과 무관하다. */
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-speed', value: 2 }, '*'); } catch (e) {}
+            /* 설명 체류는 배속과 별개다(실시간). 좌측에 32px 두 줄로 크게 띄우는
+               페이지라 기본 2.36초로는 읽기 빠듯해 1.3배로 늘린다. */
+            try { f.contentWindow.postMessage({ type: 'refinery-hero-dwell', value: 1.3 }, '*'); } catch (e) {}
+            /* 데모는 자기 무대가 35% 이상 보일 때만 스스로 시작한다
+               (IntersectionObserver). 이 페이지는 화면을 당겨서 보여주므로
+               시작 화면(1.10배)에서는 20%만 보여 영영 시작하지 않는다.
+               스스로 시작하지 못했을 때만 직접 시작시킨다 — 둘 다 걸리면
+               한 바퀴가 두 번 시작해 첫 머무름만 길어진다. */
+            setTimeout(function () {
+              if (started) return;
+              try { f.contentWindow.postMessage({ type: 'refinery-hero-replay' }, '*'); } catch (e) {}
+            }, 400);
+            resize();
+          });
+          f.src = f.getAttribute('data-src');
+        }
+      }
+
+      window.addEventListener('load', function () { initFocus(); resize(); load(); });
+      window.addEventListener('resize', resize);
+      document.addEventListener('DOMContentLoaded', resize);
+    })();
+  </script>
+  )}
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* 블록 폭을 컨테이너 하나로 맞춘다. 전에는 Q&A만 760px이라 구분선이 화면 중간에서
+     끊기고, 아래 카드 그리드(1072px)와 오른쪽 끝이 어긋나 페이지가 두 축으로 보였다.
+     글줄이 길어지는 것은 문단에만 읽기 폭(72ch)을 걸어 막는다 — 제목과 구분선은
+     전체 폭을 쓰고 본문만 짧게 끊긴다. */
+  /* 제목 왼쪽 · 문답 오른쪽으로 나눈다 — 예지보전 자주 묻는 질문(.uc-faq-head)과 같은 값.
+     오른쪽 칸이 답변 줄 길이를 잡아 주므로 문단에 폭 제한을 따로 걸지 않는다. */
+  .qa-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+  .qa-head .ind-head { max-width: none; margin-bottom: 0; }
+  @media (max-width: 900px) { .qa-head { grid-template-columns: 1fr; gap: 24px; } }
+
+  /* 가로선은 항목 사이에만 긋는다 — 목록 위·아래 끝에는 두지 않는다(예지보전과 같다). */
+  .qa-list { max-width: none; }
+  .qa-item { border-bottom: 1px solid #E3E7EC; }
+  .qa-item:last-child { border-bottom: none; }
+
+  /* 기본 삼각형 표식을 지우고 제목과 캐럿을 양 끝으로 벌린다. */
+  .qa-item summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 20px 0; cursor: pointer; list-style: none;
+  }
+  .qa-item summary::-webkit-details-marker { display: none; }
+  /* 질문·답변·캐럿 값은 예지보전 '자주 묻는 질문'(.uc-faq-*)과 같다.
+     질문은 h3다 — 섹션 제목(h2) 아래 항목이라 한 단 내려온다. */
+  .qa-item h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    line-height: 1.65; color: #16202C; margin: 0;
+  }
+  .qa-caret {
+    flex: 0 0 auto; font-size: 14px; color: #8A94A3;
+    transition: transform .2s ease;
+  }
+  .qa-item[open] .qa-caret { transform: rotate(180deg); }
+  /* 답변 칸이 747px일 때(창 1280px 이상) 맞춘 단락이라, 칸이 좁아지면 푼다.
+     개행 앞에 공백을 둬 br이 사라져도 앞뒤 어절이 붙지 않는다.
+     어절 중간에서 끊기지 않는 것은 .ind-page의 word-break: keep-all이 맡는다. */
+  @media (max-width: 1279px) { .qa-item p br { display: none; } }
+  .qa-item p {
+    font-size: 15px; line-height: 1.5; color: #7E8A98;
+    margin: 0; padding: 0 0 24px;
+  }
+  /* 키보드로 짚었을 때 어디에 있는지 보이게 한다. */
+  .qa-item summary:focus-visible { outline: 2px solid #76A6D7; outline-offset: 4px; border-radius: 4px; }
+  /* 히어로를 자료실(.res-page .ind-hero)과 같은 값으로 맞춘다.
+     면과 아래 구분선을 빼 다음 섹션과 한 흐름으로 잇고, 아래 여백은 0으로 둔다 —
+     제목과 본문 사이는 섹션 위 여백이 잡는다. */
+  .ind-hero {
+    padding: 180px 0 0;
+    background: none;
+    border-bottom: none;
+    text-align: center;
+  }
+  .ind-hero h1 {
+    font-size: clamp(30px, 4.2vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.3;
+  }
+  @media (max-width: 900px) { .ind-hero { padding: 120px 0 0; } }
+  /* 히어로 버튼 — 예지보전 히어로와 같은 형태다(9px 22px · 15px/400 · 반경 6px ·
+     테두리 1px · 묶음 margin-top 48px · gap 16px).
+     색은 그 페이지의 '밝은 배경용' 규칙을 따른다. 거기 히어로는 어두운 사진 위라
+     보조 버튼이 흰 테두리인데, 이 히어로는 밝은 면이라 그대로 쓰면 보이지 않는다.
+     주 버튼만 같은 accent 면(#76A6D7)을 유지해 시선이 먼저 닿는 자리를 지킨다. */
+  .ind-hero-actions { margin-top: 48px; gap: 16px; justify-content: center; }
+  .ind-hero-actions .ind-btn-primary,
+  .ind-hero-actions .ind-btn-ghost {
+    padding: 9px 22px; font-size: 15px; font-weight: 400;
+    border-radius: 6px; border: 1px solid; transition: all .2s;
+  }
+  .ind-hero-actions .ind-btn-primary {
+    background: #76A6D7; color: #fff; border-color: #76A6D7;
+  }
+  .ind-hero-actions .ind-btn-primary:hover {
+    background: #5A8FC5; border-color: #5A8FC5; color: #fff; transform: none;
+  }
+  .ind-hero-actions .ind-btn-ghost {
+    background: transparent; color: #111111; border-color: rgba(17, 17, 17, .6);
+  }
+  .ind-hero-actions .ind-btn-ghost:hover {
+    background: #111111; border-color: #111111; color: #fff;
+  }
+
+  /* 그래픽 이미지 자리표시 — 실제 이미지로 교체할 자리다.
+     비율(16:6)만 잡아 두면 이미지가 들어와도 아래 섹션이 밀리지 않는다. */
+  /* 랜딩 히어로에 쓰는 에이전트 데모를 그대로 얹는다. 무대(.stage)가 1320x840
+     고정이라 칸도 같은 비율이어야 위아래에 데모 페이지 배경이 남지 않는다.
+     (자리표시자는 16:6이었다 — 칸이 그만큼 세로로 길어진다.) */
+  /* 데모를 받치는 판. 랜딩 #integrations의 점 격자를 그대로 쓰되,
+     그쪽은 어두운 면 위 흰 점(rgba(255,255,255,.08))이라 밝은 면에 맞춰 뒤집는다.
+     background-size가 격자 간격과 같아 어느 크기에서도 이어지고 끊기지 않는다. */
+  .ai-hero-stage {
+    margin-top: 64px;
+    background-color: #F6F8FA;
+    background-image: radial-gradient(rgba(22, 32, 44, .10) 1px, transparent 1px);
+    background-size: 24px 24px;
+    /* 페이지(흰색)와 붙는 밝은 면이라 바깥 테두리로 박스를 남긴다. */
+    border: 1px solid #E3E7EC;
+    border-radius: 20px;
+    padding: 40px;
+    /* 좌: 설명 · 우: 데모. 설명을 밖으로 빼서 데모를 가리지 않게 한다.
+       열 너비는 제목 두 줄에 실제로 필요한 폭(가장 긴 줄 342px)에 맞춘다.
+       남는 폭은 전부 데모로 간다 — 데모가 작으면 안이 안 읽힌다. */
+    display: grid;
+    grid-template-columns: 352px 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  /* 판 위에 글자만 놓는다(면 없음). */
+  .ai-demo-cap {
+    /* 히어로가 가운데정렬이라 물려받는다. 왼쪽으로 되돌린다. */
+    text-align: left;
+    opacity: 0;
+    transition: opacity .45s ease;
+  }
+  .ai-demo-cap.is-on { opacity: 1; }
+  /* 첫 화면 글은 머무는 시간이 짧아 빨리 떠야 읽힌다. */
+  .ai-demo-cap.is-opening { transition-duration: .18s; }
+  /* 첫 화면만 태그라인 없이 제목 하나로, 장면들보다 크게 간다. */
+  .ai-demo-cap.is-opening .ai-demo-cap-eyebrow { display: none; }
+  .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 36px; }
+  @media (prefers-reduced-motion: reduce) { .ai-demo-cap { transition: none; } }
+  /* 태그라인과 대제목 비율은 예지보전 히어로를 따른다.
+     그쪽은 태그라인 18px / 대제목 45px = 0.4, 굵기 600, 자간 -0.2px(-0.011em),
+     아래 여백 14px이다. 여기 대제목이 32px이므로 13px(0.4)과 여백 10px이 된다. */
+  /* 헤더 '예정' 칩(.mm-badge)과 같은 타원 칩. 그쪽은 10px/500이라
+     여기 크기(13px/600)에 맞춰 여백만 키웠다. 면은 한 단계 옅게 #EEF4FB. */
+  .ai-demo-cap-eyebrow {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.011em; line-height: 1;
+    color: #76A6D7; background: #EEF4FB; border: 1px solid #76A6D7;
+    /* 위아래 여백은 '찍힌 픽셀'로 맞춘다. 폰트 지표로 계산하면 어긋난다 —
+       계산값은 0.78px 차였는데 실제로는 2.25px였다.
+       7/4에서 위 8.25 · 아래 6.0 -> 6/5에서 위 7.25 · 아래 7.0.
+       위아래 합(11px)은 그대로라 칩 높이 26px가 유지된다. */
+    padding: 6px 11px 5px; border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .ai-demo-cap-title {
+    /* 굵기는 600으로 간다. 이 페이지 h1(48px)과 예지보전 히어로 h1이 모두 600이라,
+       더 작은 이 제목만 700이면 큰 제목보다 무겁게 읽힌다. */
+    font-size: 32px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em;
+    color: #16202C; margin: 0;
+  }
+  /* 활용 섹션 소제목은 한 줄로 둔다. industry.css의 .ind-page .ind-head p가
+     상한을 400px로 잡고 있어 그보다 긴 문구가 두 줄로 접힌다
+     (에너지 페이지 '에너지관리시스템이 실제 현장에서…'가 448px). */
+  .ind-soft .ind-head p { max-width: 480px; }
+
+  /* 대제목 아래 한 줄 소개. .ind-lede는 왼쪽 정렬에 60ch 상한이라
+     가운데 정렬 히어로에 맞게 되돌린다. */
+  .ai-hero-lede {
+    margin: 20px auto 0;
+    max-width: 68ch;
+    text-align: center;
+  }
+
+  /* 데모가 없는 판 — 설명 열 없이 한 칸으로 두고 비율만 지킨다. */
+  .ai-hero-stage.is-empty { grid-template-columns: 1fr; column-gap: 0; }
+  .ai-hero-stage.is-empty .ai-hero-figure {
+    border: none;
+    box-shadow: none;
+    background: none;
+    /* 그래픽 높이를 따른다. 데모처럼 비율을 고정하지 않는다. */
+    aspect-ratio: auto;
+    height: auto;
+  }
+  /* 그래픽은 배경이 투명해 점 격자가 그대로 비친다. 판 가운데에 둔다.
+     정사각(1200x1200)이라 비율을 그대로 잡아 높이를 예약한다(CLS 방지). */
+  .ai-hero-graphic {
+    display: block;
+    width: 100%;
+    /* 세로 682px 고정(판 전체 762px — 자리표시자 때와 같다).
+       그림이 정사각이라 폭을 키우면 세로도 커진다. 그래서 크게 보여주는 일은
+       칸을 키우는 대신 안에서 확대(viewBox)로 한다.
+       가로는 820px로 좁힌다 — 판 폭(1104)을 다 쓰면 정사각 그림 좌우로
+       여백이 과하게 남아 쉬는 상태에서 그림이 작아 보인다. */
+    max-width: 820px;
+    aspect-ratio: 820 / 682;
+    margin: 0 auto;
+    pointer-events: none;
+    /* 준비가 끝나기 전에는 감춘다. 안 그러면 완성된 그림이 한 번 스쳤다가
+       감춰지면서 회선이 먼저 보인다. 스크립트가 없으면 위 setTimeout이 켜 준다. */
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .ai-hero-graphic.is-ready { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ai-hero-graphic { transition: none; } }
+  /* 그래픽만 있는 판은 테두리까지 그림으로 채운다. 안쪽 여백 40px에 더해
+     그림 자체가 820px로 묶여 있어, 1440에서 판 안쪽 1102px 중 좌우로 141px씩
+     비었다 — 그림과 박스 선 사이가 그만큼 떠 보였다.
+     판 여백을 지우고 그림이 칸을 다 쓰게 하되, 판 높이(764px)는 그대로 둔다.
+     정사각 그림이라 폭을 늘리면 세로도 커지므로 비율을 판 크기로 고정한다.
+     안에서 보여주는 범위는 카메라(viewBox)가 정하고, 카메라는 이 칸의
+     가로세로비를 읽어 따라간다. */
+  .ai-hero-stage.has-graphic { padding: 0; overflow: hidden; }
+  /* 데스크톱에서는 판 높이를 그대로 지킨다(762 + 테두리 2 = 764).
+     좁아지면 고정 높이가 과해지므로 그때부터 비율로 넘긴다. */
+  .ai-hero-stage.has-graphic .ai-hero-figure { height: 762px; aspect-ratio: auto; }
+  @media (max-width: 1024px) {
+    .ai-hero-stage.has-graphic .ai-hero-figure { height: auto; aspect-ratio: 1184 / 762; }
+  }
+  .ai-hero-stage.has-graphic .ai-hero-graphic {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+  }
+  /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
+  .ai-hero-stage.is-empty .ai-hero-figure:empty {
+    aspect-ratio: 1320 / 840;
+    border: 1px dashed #C8CED5;
+    background: #FFFFFF;
+  }
+
+  .ai-hero-figure {
+    aspect-ratio: 1320 / 840;
+    position: relative;
+    overflow: hidden;
+    /* 데모 바탕(#FAFBFC)이 판(#F6F8FA)과 거의 같아 경계가 흐리다. 선을 되살린다. */
+    border: 1px solid #E3E7EC;
+    border-radius: 12px;
+    /* 한 겹짜리 큰 번짐은 도장 찍은 것처럼 균일해 떠 있는 느낌이 안 난다.
+       접지(닿는 면) · 중간 · 주변광 세 겹으로 나눠 아래로 갈수록 옅게 퍼뜨린다. */
+    box-shadow:
+      0 1px 2px rgba(16, 32, 44, .03),
+      0 4px 10px rgba(16, 32, 44, .03),
+      0 12px 28px rgba(16, 32, 44, .04);
+  }
+  @media (max-width: 1024px) {
+    /* 좁아지면 설명을 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다.
+       폭이 달라졌으니 두 줄 고정도 푼다. */
+    .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
+    .ai-demo-cap-title :global(br) { display: none; }
+  }
+  @media (max-width: 900px) {
+    .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
+    /* 좁은 화면에서는 데모를 통째로 보여준다(따라가기가 꺼진다). */
+    .ai-hero-figure { aspect-ratio: 1144 / 900; }
+    .ai-demo-cap-title { font-size: 26px; }
+    .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 28px; }
+  }
+
+  /* CTA — 예지보전(.uc-cta-bg)과 같은 모습. 그 규칙은 UseCasePage.astro의 스코프
+     스타일이라 클래스를 붙여도 여기까지 오지 않는다. 같은 값을 옮겨 적는다.
+     사진은 그 페이지가 쓰는 것을 그대로 쓴다(/use-cases/cta-bg.webp). */
+  .ind-cta.ai-cta-bg {
+    position: relative; overflow: hidden;
+    background: #0C1015; padding: 95px 0; text-align: left;
+  }
+  /* 사진이 납작해 폭이 줄면 object-fit이 세로까지 줄인다.
+     min-width로 배율을 묶고 모자란 가로는 좌우 균등하게 잘리게 한다. */
+  .ai-cta-bg-img {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
+    object-fit: cover; object-position: center 65%;
+    pointer-events: none; user-select: none;
+  }
+  /* 제목 왼쪽 · 버튼 오른쪽으로 한 줄에 나눈다. */
+  .ai-cta-bg .ind-container {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .ai-cta-bg .ind-container > * { flex: none; }
+  .ind-cta.ai-cta-bg h2 {
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    letter-spacing: -0.8px; line-height: 1.35; color: #fff;
+    margin-bottom: 0; text-wrap: initial;
+  }
+  .ind-cta.ai-cta-bg .ind-btn-primary {
+    margin-top: 0; padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: #76A6D7; color: #fff;
+    border: 1px solid #76A6D7; border-radius: 6px;
+    transition: all .2s;
+  }
+  .ind-cta.ai-cta-bg .ind-btn-primary:hover {
+    background: #5A8FC5; border-color: #5A8FC5; color: #fff; transform: none;
+  }
+  /* 좁은 폭에서는 여백을 줄인다(사이트 공통 84 → 60px 규칙과 같은 값). */
+  @media (max-width: 560px) { .ind-cta.ai-cta-bg { padding: 60px 0; } }
+
+  /* 4열이 2열로 접히는 1100px부터는 단락 나눔을 푼다 — 칸이 넓어져 억지로 끊긴다.
+     (산업별 도입 효과 카드도 같은 폭에서 br을 숨긴다.) */
+  @media (max-width: 1100px) { .ind-grid-4 .ind-card p br { display: none; } }
+
+  /* 활용 카드는 4열 한 줄이다 — 항목이 정확히 4개라 3열이면 마지막 줄에 빈칸이 둘 남는다.
+     (.ind-grid-4는 1100px에서 2열, 860px에서 1열로 접힌다 — 공통 규칙 그대로.)
+     안 여백 24px은 다른 .ind-page 카드와 같은 값이다. 공통 .ind-card의 26px을 덮는데,
+     그 24px 규칙이 .ind-grid-3에만 걸려 있어 4열로 오면서 빠졌다. */
+  .ind-grid-4 .ind-card { padding: 24px; }
+
+  /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
+  /* 설명과 '자세히보기' 사이 20px. */
+  /* display: block · line-height: 1 — inline-block이면 줄상자에 붙는 여유(2.3px)가
+     글자 아래에 남아 카드 아래 여백이 26.3px으로 보인다. */
+  .ind-card-go { display: block; line-height: 1; margin-top: 20px; font-size: 14px; font-weight: 400; color: #76A6D7; }
+  a.ind-card { text-decoration: none; }
+  /* 카드 전체가 링크인데 호버에서 아무것도 바뀌지 않아 눌리는 카드로 보이지 않았다.
+     테두리 색만 바꾼다 — 그림자와 떠오름은 두지 않는다. 밝은 면의 카드는
+     사이트 어디에도 그림자가 없고 1px 테두리로만 구분한다(랜딩 산업 카드도
+     호버 그림자를 뺐다). 같은 페이지의 도입 효과 카드는 링크가 아니라 정적 카드라
+     반응이 없는 것이 맞고, 이 카드만 반응한다. */
+  .ind-grid-4 .ind-card { transition: border-color .2s ease; }
+  .ind-grid-4 .ind-card:hover { border-color: #76A6D7; }
+</style>

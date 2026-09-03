@@ -462,6 +462,103 @@ const jsonLd = [orgSchema, faqSchema];
       }
     })();
   </script>
+
+  <!-- 솔루션 섹션 — 산업별·과제별 두 판을 옆으로 넘긴다.
+       위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
+       현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭·버튼이 따라온다. -->
+  <script is:inline>
+    (function () {
+      // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      function init() {
+      var root = document.getElementById('industries');
+      if (!root) return;
+      var vp = root.querySelector('.sol-viewport');
+      var tabs = root.querySelectorAll('[data-sol-tab]');
+      if (!vp || !tabs.length) return;
+      var last = 0;
+      var fading = false, token = 0;
+
+      function current() { return last; }
+      function paint(i) {
+        for (var t = 0; t < tabs.length; t++) {
+          tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
+        }
+      }
+
+      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
+      // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
+      function go(i) {
+        if (i < 0) i = 0;
+        if (i > tabs.length - 1) i = tabs.length - 1;
+        if (i === last) return;
+        var ps = root.querySelectorAll('.sol-panel');
+        var out = ps[last], inn = ps[i];
+        last = i;
+        paint(i);
+        if (!out || !inn) return;
+
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) {
+          out.setAttribute('data-off', '');
+          inn.removeAttribute('data-off');
+          return;
+        }
+
+        var mine = ++token;
+        fading = true;
+        // visibility에는 전환이 걸리지 않는다. 먼저 보이게만 만들고 투명도는 0에서 시작해
+        // 다음 프레임에 올려야 첫 전환도 페이드로 보인다(바로 올리면 그냥 켜진다).
+        inn.removeAttribute('data-off');
+        inn.style.opacity = '0';
+        out.style.opacity = '1';
+        requestAnimationFrame(function () {
+          if (mine !== token) return;
+          inn.style.opacity = '1';
+          out.style.opacity = '0';
+          setTimeout(function () {
+            if (mine !== token) return;
+            out.setAttribute('data-off', '');
+            out.style.opacity = '';
+            inn.style.opacity = '';
+            fading = false;
+          }, 320);
+        });
+      }
+
+      for (var t = 0; t < tabs.length; t++) {
+        (function (n) {
+          tabs[n].addEventListener('click', function () { go(n); });
+        })(t);
+      }
+
+      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
+      var sx = 0, sy = 0, tracking = false;
+      vp.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1 || fading) { tracking = false; return; }
+        tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+      }, { passive: true });
+      vp.addEventListener('touchend', function (e) {
+        if (!tracking) return;
+        tracking = false;
+        var c = e.changedTouches[0];
+        var dx = c.clientX - sx, dy = c.clientY - sy;
+        // 세로로 더 많이 움직였으면 페이지 스크롤이지 넘김이 아니다.
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+        go(current() + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      paint(0);
+      }
+    })();
+  </script>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -470,7 +567,7 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -535,19 +632,42 @@ const jsonLd = [orgSchema, faqSchema];
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>모든 현장에 최적화된<br>산업을 가리지 않는 솔루션</h2>
+        <h2>산업도 과제도 가리지 않는<br>모든 현장에 최적화된 솔루션</h2>
         <p>Refinery AI Agent가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
       </div>
     </div>
-    <div class="industries-grid">
-      <a class="industry-card" href="/industries/energy" aria-label="에너지 · 유틸리티 산업 페이지"><div class="industry-name">에너지 · 유틸리티</div><div class="industry-desc">분산 설비 통합 관제,<br>ESG 대응 자동화</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="에너지 · 유틸리티" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></a>
-      <div class="industry-card"><div class="industry-name">정유 · 가스</div><div class="industry-desc">대규모 설비 예지보전,<br>에너지 효율 AI 최적화</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="정유 · 가스" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">데이터센터</div><div class="industry-desc">전력·냉각 효율 최적화,<br>전력품질 실시간 감시</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="데이터센터" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">철강</div><div class="industry-desc">고온 공정 실시간 모니터링,<br>AI 품질 예측</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="철강" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">화학 · 정밀화학</div><div class="industry-desc">반응 공정 최적화,<br>AI 안전 모니터링</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="화학 · 정밀화학" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">물류</div><div class="industry-desc">콜드체인 온도 이탈 구간 실시간 감지,<br>AI 이상 알림</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="물류" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">환경</div><div class="industry-desc">측정소 데이터 품질 자동 진단,<br>ESG 리포트 자동 생성</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="환경" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-          </div>
+    <div class="sol-switch-row">
+      <div class="sol-tabs" role="tablist">
+        <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="산업별 카드 보기">산업별</button>
+        <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="과제별 카드 보기">과제별</button>
+      </div>
+    </div>
+    <div class="sol-viewport">
+      <div class="sol-track">
+        <div class="sol-panel">
+      <div class="industries-grid">
+        <a class="industry-card" href="/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">에너지 · 유틸리티</span><span class="industry-desc">분산 설비 통합 관제,<br>ESG 대응 자동화</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">자동차 · 모빌리티</span><span class="industry-desc">회전체 진동 예지보전,<br>라인별 에너지 원단위</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">전자 · 정밀</span><span class="industry-desc">전력품질 · 무정전 감시,<br>미세환경 실시간 제어</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">가공 · 소재 · 철강</span><span class="industry-desc">열처리 품질 안정화,<br>최대 수요 전력 제어</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="549" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">화학 · 소재</span><span class="industry-desc">다중 에너지원 통합 관리,<br>연소 효율 · 탄소 대응</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="583" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">기계 · 플랜트</span><span class="industry-desc">공용 설비 수요 맞춤 운전,<br>공정별 에너지 원단위</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">식품 · 음료</span><span class="industry-desc">냉열 설비 효율 분석,<br>품질 온도 이탈 감시</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+        <div class="sol-panel" data-off>
+      <div class="industries-grid">
+        <a class="industry-card" href="/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">예지보전</span><span class="industry-desc">무선 진동센서로 전조 포착,<br>고장 전 선제 대응</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">센서 모니터링</span><span class="industry-desc">흩어진 센서 한 화면 통합,<br>평소와 다른 조합 감지</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">전력관리</span><span class="industry-desc">설비별 사용 가시화,<br>피크와 이상 사용 관리</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">전력품질</span><span class="industry-desc">sag · swell · 고조파 감시,<br>이벤트 자동 기록</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">공장 에너지관리</span><span class="industry-desc">전기 · 가스 · 스팀 · 용수 통합,<br>생산량 대비 원단위 분석</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">에너지 최적화</span><span class="industry-desc">낭비 구간 발굴,<br>피크 저감과 지속 관리</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">품질 예측</span><span class="industry-desc">공정 조건과 검사 결과 연결,<br>불량 원인 추적</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -561,12 +681,12 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -588,7 +708,7 @@ const jsonLd = [orgSchema, faqSchema];
 근거가 된 데이터 출처도 함께 제시됩니다.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
+        <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery 솔루션 대시보드 미리보기">
       </div>
@@ -654,12 +774,12 @@ const jsonLd = [orgSchema, faqSchema];
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.webp',
-        'Solutions/Solutions-01-dashboard.webp',
-        'Solutions/Solutions-04-tile.webp',
-        'Solutions/Solutions-05-pipeline.webp',
-        'Solutions/Solutions-06-ontology.webp',
-        'Solutions/Solutions-07-calendar-2.webp'
+        '/Solutions/Solutions-02-ai-agent.webp',
+        '/Solutions/Solutions-01-dashboard.webp',
+        '/Solutions/Solutions-04-tile.webp',
+        '/Solutions/Solutions-05-pipeline.webp',
+        '/Solutions/Solutions-06-ontology.webp',
+        '/Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -791,7 +911,7 @@ const jsonLd = [orgSchema, faqSchema];
     <div class="int-flow-connector" id="intFlowConnector"></div>
     <div class="int-refinery-outer" id="intRefineryPill">
       <div class="int-refinery-pill">
-        <img src="logo_Refinery_symbol-text.svg" alt="Refinery">
+        <img src="/logo_Refinery_symbol-text.svg" alt="Refinery">
       </div>
     </div>
     </div>
@@ -909,22 +1029,22 @@ const jsonLd = [orgSchema, faqSchema];
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>데이터 암호화</h3><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>멀티테넌시 격리</h3><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT 경계 보안</h3><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>감사 로그 &amp; RBAC</h3><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
       </div>
@@ -952,7 +1072,7 @@ const jsonLd = [orgSchema, faqSchema];
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
