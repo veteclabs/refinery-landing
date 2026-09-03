@@ -80,6 +80,9 @@
      종류별 배경색은 쓰지 않는다 — 이미지가 들어갈 자리라 색이 이미지와 겹쳐 보였다. */
   .res-thumb {
     position: relative;
+    /* 표지 안 글자·아이콘을 칸 폭에 대한 비율(cqw)로 잡기 위한 기준.
+       자료실 카드는 cqw를 쓰지 않으므로 이 선언만으로는 화면이 바뀌지 않는다. */
+    container-type: inline-size;
     margin: 0 0 18px; aspect-ratio: 16 / 10;
     /* 표지가 아직 없는 카드의 밑판. 이 페이지 히어로와 같은 면(#F6F8FA)이라
        빈 칸이 페이지 배경의 연장으로 읽힌다(#EEF2F6이었다).
@@ -112,8 +115,8 @@
      ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어
      같은 2개로 올려야 밀리지 않는다(.res-empty-icon과 같은 사정). */
   .blog-list .res-thumb img.thumb-icon {
-    position: absolute; right: 16px; bottom: 16px; z-index: 2;
-    width: 120px; height: 120px; object-fit: contain;
+    position: absolute; right: 4.178cqw; bottom: 4.178cqw; z-index: 2;
+    width: 31.332cqw; height: 31.332cqw; object-fit: contain;
   }
   /* 표지 한가운데 브랜드 심볼. 도형만 그대로 얹는다(글 머리와 같다) —
      뒷판도 그림자도 없다. 글자 막(.res-cover, z-index 1)보다 위에 둔다. */
