@@ -24,6 +24,14 @@ const blog = defineCollection({
       // 글 머리(1184px)가 같은 원본에서 각자 크기에 맞는 파일을 받는다.
       // 없으면 표지 칸이 빈 면으로 남는다(자리는 그대로라 배치가 흔들리지 않는다).
       image: image().optional(),
+      // 표지 오른쪽 아래에 얹는 아이콘(public 경로). 표지 사진과 별개로 붙는다 —
+      // 사진이 없는 글에서는 빈 면 위에 아이콘만 놓인다.
+      coverIcon: z.string().optional(),
+      // 표지 안에 대제목을 얹을 때 두 줄로 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
+      // 값이 없으면 표지에 대제목을 넣지 않는다(글마다 켜고 끈다).
+      // title 자체에 <br>을 넣지 않는 이유는 cardBreakAfter와 같다 — 같은 값이
+      // <title>·og:title·JSON-LD에도 쓰여 태그가 그대로 새어 나간다.
+      titleBreakAfter: z.string().optional(),
       // 글의 종류. 목록 카드에서 날짜 옆에 적는다(자료실 표지의 '백서'·'리포트'와 같은 자리).
       // 미지정 시 카드에 종류를 적지 않는다.
       category: z.string().optional(),

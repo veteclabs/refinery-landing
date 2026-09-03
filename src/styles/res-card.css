@@ -108,6 +108,13 @@
      잘리므로(각 21px) 이 값이 화면을 바꾸지는 않는다. 칸 비율이나 사진이 바뀌어
      위아래를 자르게 되면 그때 하단이 남는다. */
   .blog-list .res-thumb:not(.is-empty) img { object-position: center bottom; }
+  /* 표지 오른쪽 아래 아이콘. 글 머리 표지와 같은 자리이고 크기만 작다.
+     ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어
+     같은 2개로 올려야 밀리지 않는다(.res-empty-icon과 같은 사정). */
+  .blog-list .res-thumb img.thumb-icon {
+    position: absolute; right: 16px; bottom: 16px; z-index: 2;
+    width: 48px; height: 48px; object-fit: contain;
+  }
   /* 표지 한가운데 브랜드 심볼. 도형만 그대로 얹는다(글 머리와 같다) —
      뒷판도 그림자도 없다. 글자 막(.res-cover, z-index 1)보다 위에 둔다. */
   .blog-list .res-thumb .thumb-mark {

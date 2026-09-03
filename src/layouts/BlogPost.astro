@@ -24,7 +24,7 @@ export interface Props {
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, slug,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, titleBreakAfter, slug,
   lang = 'ko',
 } = Astro.props;
 
@@ -41,6 +41,17 @@ const fmt = (d: Date) =>
     : new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
+// 표지 안 대제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 titleBreakAfter에 있고,
+// 그 말 바로 뒤에서 나눈다. 목록 카드가 소제목을 끊는 방식과 같다.
+const coverTitle = titleBreakAfter
+  ? (() => {
+      const i = title.indexOf(titleBreakAfter);
+      if (i < 0) return null;
+      const cut = i + titleBreakAfter.length;
+      return [title.slice(0, cut), title.slice(cut).trimStart()];
+    })()
+  : null;
+
 const canonical = `${T.base}/${slug}`;
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -93,10 +104,18 @@ const jsonLd = {
             />
           )}
           {image && <BrandMark class="thumb-mark" />}
+          {coverIcon && <img class="thumb-icon" src={coverIcon} alt="" width="72" height="72" loading="lazy" decoding="async" />}
+          {coverTitle && (
+            <div class="post-cover">
+              <strong class="post-cover-line">{coverTitle[0]}{coverTitle[1] && <><br />{coverTitle[1]}</>}</strong>
+            </div>
+          )}
         </div>
         <header class="post-header">
           {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
-          <h1>{title}</h1>
+          {/* 표지에 제목이 올라간 글에서는 여기 제목을 화면에서만 감춘다 —
+              같은 글이 두 번 보이지 않게 하되, 검색·스크린리더에는 남긴다. */}
+          <h1 class={coverTitle ? 'is-in-cover' : undefined}>{title}</h1>
           <p class="post-desc">{description}</p>
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
