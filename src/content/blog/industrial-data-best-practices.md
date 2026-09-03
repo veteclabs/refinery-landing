@@ -8,7 +8,7 @@ author: "Refinery팀"
 tags: ["모범사례", "데이터", "온톨로지"]
 category: "가이드"
 coverIcon: "/icon_blog.svg"
-titleBreakAfter: "만드는"
+titleBreakAfter: "자산으로"
 ---
 
 산업 현장에는 데이터가 부족하지 않습니다. 오히려 SCADA, MES, ERP, 센서, 문서에
