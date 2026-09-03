@@ -17,14 +17,14 @@ const jsonLd = {
   "name": "Refinery",
   "url": "https://refinery.kr/",
   "logo": "https://refinery.kr/logo_Refinery_symbol.svg",
-  "description": "Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data.",
+  "description": "Refine the complexity of industrial data into clear insight - from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data.",
   "sameAs": []
 };
 ---
 <BaseLayout
-  title="Refinery — Refining complexity into pure insight"
+  title="Refinery - Refining complexity into pure insight"
   ogTitle="Refinery"
-  description="Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data."
+  description="Refine the complexity of industrial data into clear insight - from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data."
   ogDescription="Refining complexity into pure insight"
   canonical="/en"
   alternates={alternates}
@@ -40,7 +40,7 @@ const jsonLd = {
     <div class="hero-row">
       <div class="hero-text">
         <h1>Refinery <span class="hero-title-accent">Agentic AI</span></h1>
-        <p>Connect the data and documents scattered across your operations <br class="mobile-br">into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision — <br class="mobile-br">from predictive maintenance to quality, energy, and autonomous operation.</p>
+        <p>Connect the data and documents scattered across your operations <br class="mobile-br">into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision - <br class="mobile-br">from predictive maintenance to quality, energy, and autonomous operation.</p>
       </div>
       <div class="hero-actions">
         <a href="/contact" class="hero-demo-link" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">
@@ -50,6 +50,13 @@ const jsonLd = {
       </div>
     </div>
     <div class="hero-motion-placeholder">
+      {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
+          조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
+      <button type="button" id="hero-demo-toggle" class="hero-demo-toggle" aria-label="Play / pause demo" aria-pressed="false">
+        <span class="hero-demo-toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </button>
       <iframe id="hero-agent-iframe" data-src="/agent-replay-demo-en" loading="lazy" title="Refinery AI agent demo" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
@@ -57,10 +64,18 @@ const jsonLd = {
   
   <script is:inline>
     (function() {
+      // 데모 안의 무대(.stage)는 1320x840 고정이고 K = min(폭/1320, 높이/840)로 줄어든다.
+      // 예전엔 iframe이 1440x900이라 높이 쪽이 먼저 걸려(900/840 < 1440/1320) 무대 폭이
+      // 1414px에 그쳤고, 남는 13px씩이 데모 페이지 배경(#E9ECEF)으로 보였다.
+      // 높이를 비율보다 살짝 크게 잡아 K가 폭에서 정해지게 하면 무대가 폭을 정확히 채운다.
+      var STAGE_W = 1320, STAGE_H = 840;
       var HERO_AGENT_W = 1440;
-      var HERO_AGENT_H = 900;
-      var HERO_MOBILE_CROP_LEFT = 283;  /* 좌측 세션 레일(.rail) 끝 지점 = 283px (agent-replay-demo 기준). 레일을 잘라 대화 본문만 확대 */
-      var HERO_MOBILE_CROP_RIGHT = 1427; /* 대화 본문(.main) 우측 끝 = 1427px. 본문 전체를 보여준다 */
+      var HERO_AGENT_H = Math.ceil(HERO_AGENT_W * STAGE_H / STAGE_W) + 2;  // 918
+      /* 좌측 세션 레일(.rail)을 잘라 대화 본문만 확대한다. 값은 무대(1320px) 좌표계 기준 —
+         예전엔 iframe 좌표(283/1427)로 적었는데, 무대가 폭을 꽉 채우도록 바뀌면서 기준이 옮겨졌다.
+         무대 배율 1440/1320이 곱해지므로 무대 좌표로 두는 편이 폭이 바뀌어도 어긋나지 않는다. */
+      var STAGE_CROP_LEFT = 252;   /* .rail 끝 = 252 (무대에서 실측) */
+      var STAGE_CROP_RIGHT = 1320; /* .main 오른쪽 끝 = 무대 끝 */
       function resizeHeroAgent() {
         var wrapper = document.querySelector('.hero-motion-placeholder');
         if (!wrapper) return;
@@ -70,11 +85,16 @@ const jsonLd = {
         // 데스크탑: 폭 기준으로만 스케일링해 좌우/우측이 잘리지 않고 전체 화면이 그대로 보이도록 한다.
         // 모바일: 화면이 좁아 전체를 다 보여주면 글씨가 너무 작아지므로,
         // 좌측 세션 레일과 우측 여백/툴바 아이콘을 잘라내고 대화 본문 위주로 확대해서 보여준다.
-        var effectiveW = isMobile ? (HERO_MOBILE_CROP_RIGHT - HERO_MOBILE_CROP_LEFT) : HERO_AGENT_W;
-        var scale = w / effectiveW;
-        var leftOffset = isMobile ? -(HERO_MOBILE_CROP_LEFT * scale) : 0;
+        // 무대는 iframe 폭을 정확히 채우므로 무대 좌표 x는 iframe 좌표 x * (HERO_AGENT_W / STAGE_W)다.
+        var stageToFrame = HERO_AGENT_W / STAGE_W;
+        var cropL = isMobile ? STAGE_CROP_LEFT * stageToFrame : 0;
+        var cropR = isMobile ? STAGE_CROP_RIGHT * stageToFrame : HERO_AGENT_W;
+        var scale = w / (cropR - cropL);
+        var leftOffset = -(cropL * scale);
         var scaledH = HERO_AGENT_H * scale;
-        var topOffset = Math.max(0, (h - scaledH) / 2);
+        // 세로로 남는 자투리는 가운데를 기준으로 잘라 낸다(칸에 overflow: hidden이 걸려 있다).
+        // Math.max(0, ...)이면 자투리가 아래에 배경으로 남는다.
+        var topOffset = (h - scaledH) / 2;
         var iframe = document.getElementById('hero-agent-iframe');
         if (iframe) {
           iframe.style.width = HERO_AGENT_W + 'px';
@@ -84,6 +104,23 @@ const jsonLd = {
           iframe.style.left = leftOffset + 'px';
         }
       }
+      /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
+      function initHeroToggle() {
+        var btn = document.getElementById('hero-demo-toggle');
+        var frame = document.getElementById('hero-agent-iframe');
+        if (!btn || !frame) return;
+        btn.addEventListener('click', function () {
+          if (!frame.getAttribute('src')) return;   /* 아직 안 불러왔으면 무시 */
+          try { frame.contentWindow.postMessage({ type: 'refinery-hero-toggle' }, '*'); } catch (e) {}
+        });
+        window.addEventListener('message', function (e) {
+          if (!e.data || e.data.type !== 'refinery-hero-state') return;
+          btn.classList.toggle('is-paused', !!e.data.paused);
+          btn.setAttribute('aria-pressed', e.data.paused ? 'true' : 'false');
+        });
+      }
+      window.addEventListener('load', initHeroToggle);
+
       window.resizeHeroAgent = resizeHeroAgent;
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);
@@ -135,6 +172,12 @@ const jsonLd = {
   <style is:global>
     #platform .section-header p {
       color: #959CA5;
+    }
+    /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 긴 줄(391px)이
+       다시 감겨 3줄이 됐다. 400px이면 2줄로 들어가고, 제목 옆 여유(1024px에서
+       522px)가 충분해 우측 배치도 그대로다. */
+    #platform .section-header-row p {
+      max-width: 400px;
     }
     #platform .platform-graphic-img {
       margin-top: 64px;
@@ -400,6 +443,102 @@ const jsonLd = {
       }
     })();
   </script>
+  <!-- 솔루션 섹션 — 산업별·과제별 두 판을 옆으로 넘긴다.
+       위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
+       현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭·버튼이 따라온다. -->
+  <script is:inline>
+    (function () {
+      // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      function init() {
+      var root = document.getElementById('industries');
+      if (!root) return;
+      var vp = root.querySelector('.sol-viewport');
+      var tabs = root.querySelectorAll('[data-sol-tab]');
+      if (!vp || !tabs.length) return;
+      var last = 0;
+      var fading = false, token = 0;
+
+      function current() { return last; }
+      function paint(i) {
+        for (var t = 0; t < tabs.length; t++) {
+          tabs[t].setAttribute('aria-selected', t === i ? 'true' : 'false');
+        }
+      }
+
+      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
+      // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
+      function go(i) {
+        if (i < 0) i = 0;
+        if (i > tabs.length - 1) i = tabs.length - 1;
+        if (i === last) return;
+        var ps = root.querySelectorAll('.sol-panel');
+        var out = ps[last], inn = ps[i];
+        last = i;
+        paint(i);
+        if (!out || !inn) return;
+
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) {
+          out.setAttribute('data-off', '');
+          inn.removeAttribute('data-off');
+          return;
+        }
+
+        var mine = ++token;
+        fading = true;
+        // visibility에는 전환이 걸리지 않는다. 먼저 보이게만 만들고 투명도는 0에서 시작해
+        // 다음 프레임에 올려야 첫 전환도 페이드로 보인다(바로 올리면 그냥 켜진다).
+        inn.removeAttribute('data-off');
+        inn.style.opacity = '0';
+        out.style.opacity = '1';
+        requestAnimationFrame(function () {
+          if (mine !== token) return;
+          inn.style.opacity = '1';
+          out.style.opacity = '0';
+          setTimeout(function () {
+            if (mine !== token) return;
+            out.setAttribute('data-off', '');
+            out.style.opacity = '';
+            inn.style.opacity = '';
+            fading = false;
+          }, 320);
+        });
+      }
+
+      for (var t = 0; t < tabs.length; t++) {
+        (function (n) {
+          tabs[n].addEventListener('click', function () { go(n); });
+        })(t);
+      }
+
+      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
+      var sx = 0, sy = 0, tracking = false;
+      vp.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1 || fading) { tracking = false; return; }
+        tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+      }, { passive: true });
+      vp.addEventListener('touchend', function (e) {
+        if (!tracking) return;
+        tracking = false;
+        var c = e.changedTouches[0];
+        var dx = c.clientX - sx, dy = c.clientY - sy;
+        // 세로로 더 많이 움직였으면 페이지 스크롤이지 넘김이 아니다.
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+        go(current() + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      paint(0);
+      }
+    })();
+  </script>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -408,7 +547,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -426,42 +565,42 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
         <h3>Industrial data integration</h3>
-        <p class="series-desc">Data scattered across field equipment and systems<br>is unified in one place — the first step.</p>
+        <p class="series-desc">Data scattered across your systems<br>is gathered in one place - the first step.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
         <div class="series-tagline">Ontology</div>
-        <h3>A structure that gives data meaning</h3>
-        <p class="series-desc">It attaches meaning to every scattered number and record — "what each piece of<br>data is about." </p>
+        <h3>Data with meaning attached</h3>
+        <p class="series-desc">Every scattered number and record gets<br>a meaning: what the data is about.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
         <div class="series-tagline">Workflow</div>
-        <h3>Operational procedures designed through dialogue</h3>
-        <p class="series-desc">You define which cases need approval and which run automatically —<br>all through conversation.</p>
+        <h3>Procedures set by dialogue</h3>
+        <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
         <div class="series-tagline">Plate</div>
-        <h3>The whole field on a single dashboard</h3>
+        <h3>The field on one dashboard</h3>
         <p class="series-desc">Check real-time KPIs, status, and alarms<br>all on one screen.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
         <div class="series-tagline">Lens</div>
-        <h3>Analysis that finds causes and forecasts the future</h3>
-        <p class="series-desc">It reviews data accumulated over time<br>to spot anomalies and pinpoint their causes.</p>
+        <h3>Analysis that finds causes</h3>
+        <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
         <div class="series-tagline">AI Agent</div>
-        <h3>A field that moves with a single question</h3>
-        <p class="series-desc">Ask a question and it answers from the data,<br>and even suggests the next action.</p>
+        <h3>A field run by one question</h3>
+        <p class="series-desc">Ask, and it answers from your data<br>and suggests the next action.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
-        <h3>Automation — operations that run without hands-on work</h3>
-        <p class="series-desc">Analysis flows into reports, alarms, and workflow execution<br>automatically, without manual steps.</p>
+        <h3>Automation with no hands</h3>
+        <p class="series-desc">Analysis flows into reports, alarms<br>and workflow execution - no manual steps.</p>
       </div>
       </div>
     </div>
@@ -473,38 +612,70 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Optimized for every field,<br>a solution for any industry</h2>
+        <h2>Optimized for every field,<br>any industry, any challenge</h2>
         <p>The Refinery AI Agent learns and solves<br>the unique challenges of each industry.</p>
       </div>
     </div>
-    <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Unified control of distributed assets,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive maintenance for large-scale assets,<br>AI-optimized energy efficiency</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Data Center</div><div class="industry-desc">Power & cooling efficiency,<br>real-time power-quality monitoring</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Data Center" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">Real-time monitoring of high-temperature processes,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Chemicals · Fine Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals · Fine Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Real-time detection of cold-chain temperature excursions,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Automated data-quality diagnostics for monitoring stations,<br>automated ESG report generation</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-          </div>
+    <div class="sol-switch-row">
+      <div class="sol-tabs" role="tablist">
+        <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="Show industry cards">By industry</button>
+        <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="Show challenge cards">By challenge</button>
+      </div>
+    </div>
+    <div class="sol-viewport">
+      <div class="sol-track">
+        <div class="sol-panel">
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy · Utilities</span><span class="industry-desc">Unified control of distributed assets,<br>automated ESG reporting</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Automotive · Mobility</span><span class="industry-desc">Vibration-based predictive maintenance,<br>energy intensity by line</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Electronics · Precision</span><span class="industry-desc">Power quality and outage monitoring,<br>live microclimate control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Materials · Steel</span><span class="industry-desc">Steadier heat-treatment quality,<br>peak demand control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="549" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Chemicals · Materials</span><span class="industry-desc">Utilities managed as one,<br>combustion efficiency and carbon</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="583" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Machinery · Plant</span><span class="industry-desc">Shared utilities run to demand,<br>energy intensity by process</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Food · Beverage</span><span class="industry-desc">Refrigeration efficiency analysis,<br>quality temperature monitoring</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+        <div class="sol-panel" data-off>
+      <div class="industries-grid">
+        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Vibration sensors catch early signs,<br>act before failure</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Multi-sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen,<br>unusual combinations flagged</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset,<br>peaks and anomalies managed</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched,<br>events recorded automatically</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one,<br>intensity against output</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced,<br>peaks cut and held down</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1280w" sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results,<br>defect causes traced</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+      </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#ffffff;border-top:1px solid #E3E7EC;">
+  <style is:global>
+    /* 소제목을 대제목 아래로 내린다. #integrations는 제목이 길어 flex-wrap으로
+       이미 아래에 떨어져 있는데, 여기는 제목이 짧아 옆에 붙었다. 배치를 맞춘다.
+       줄 간격은 .section-header-row의 gap 32px를 그대로 쓴다(= #integrations와 동일). */
+    #teams .section-header-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  </style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
         <h2>Everything your operations need,<br>in one platform</h2>
-        <p style="max-width:640px;">From collecting and visualizing data to making decisions —<br>every capability your operations need lives in one platform. <br class="mobile-br"></p>
+        <p style="max-width:640px;">From collecting and visualizing data to making decisions -<br>every capability your operations need lives in one platform. <br class="mobile-br"></p>
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -515,18 +686,18 @@ const jsonLd = {
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
         {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">Ask a question,<br>
-and the ontology finds the answer.</h3>
+the ontology answers.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology<br>
-to infer causes and answer conversationally.<br>
-It also cites the data sources behind each answer.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history<br>
+data in the ontology to infer causes<br>
+and answers with its sources cited.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
+        <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery solution dashboard preview">
       </div>
@@ -592,12 +763,12 @@ It also cites the data sources behind each answer.</p>
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.webp',
-        'Solutions/Solutions-01-dashboard.webp',
-        'Solutions/Solutions-04-tile.webp',
-        'Solutions/Solutions-05-pipeline.webp',
-        'Solutions/Solutions-06-ontology.webp',
-        'Solutions/Solutions-07-calendar-2.webp'
+        '/Solutions/Solutions-02-ai-agent.webp',
+        '/Solutions/Solutions-01-dashboard.webp',
+        '/Solutions/Solutions-04-tile.webp',
+        '/Solutions/Solutions-05-pipeline.webp',
+        '/Solutions/Solutions-06-ontology.webp',
+        '/Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -632,7 +803,7 @@ It also cites the data sources behind each answer.</p>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Adopt it anew, <br class="mobile-br">seamlessly — <br class="desktop-br">natural integration with <br class="mobile-br">your existing systems</h2>
+        <h2>Adopt it anew, <br class="mobile-br">seamlessly - <br class="desktop-br">natural integration with <br class="mobile-br">your existing systems</h2>
         <p>Integrates both ways with your legacy, cloud and AI tools,<br>and builds from data collection up where no system exists.</p>
       </div>
     </div>
@@ -729,7 +900,7 @@ It also cites the data sources behind each answer.</p>
     <div class="int-flow-connector" id="intFlowConnector"></div>
     <div class="int-refinery-outer" id="intRefineryPill">
       <div class="int-refinery-pill">
-        <img src="logo_Refinery_symbol-text.svg" alt="Refinery">
+        <img src="/logo_Refinery_symbol-text.svg" alt="Refinery">
       </div>
     </div>
     </div>
@@ -847,24 +1018,24 @@ It also cites the data sources behind each answer.</p>
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h3>Data encryption</h3><p>Data in transit uses TLS 1.3; data at rest is <br class="mobile-br">encrypted with AES-256.<br>Keys are managed separately and securely with an HSM.</p></div>
+        <div class="sec-card-body"><h3>Data encryption</h3><p>TLS 1.3 in transit, AES-256 <br class="mobile-br">at rest.<br>Keys are held separately in an HSM.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control environments such as manufacturing and energy</span></div><p>One-way transfer between field edge (Silo/Agent) and cloud <br class="mobile-br">is supported.<br>Reverse intrusion into control systems is blocked <br class="mobile-br">at the source.</p></div>
+        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control: manufacturing, energy</span></div><p>One-way transfer from field edge <br class="mobile-br">(Silo/Agent) to cloud.<br>Reverse intrusion into control systems <br class="mobile-br">is blocked at source.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task history is recorded <br class="mobile-br">securely.<br>Role-based access control (RBAC) enforces <br class="mobile-br">the principle of least privilege.</p></div>
+        <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record is <br class="mobile-br">stored securely.<br>Role-based access control (RBAC) applies <br class="mobile-br">least privilege.</p></div>
       </div>
     </div>
   </div>
@@ -890,7 +1061,7 @@ It also cites the data sources behind each answer.</p>
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>Experience a new standard for<br>field operations <br class="mobile-br">with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
@@ -1036,12 +1207,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question,\nand the ontology finds the answer.', 'The AI reasons over asset, task, and history data stored in the ontology\nto infer causes and answer conversationally.\nIt also cites the data sources behind each answer.', 'AI Agent'],
-  plate: ['See this very moment on the field\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more —\na rich set of widgets so you can pick the representation\nthat fits the nature of your data.', 'Tile'],
-  pipeline: ['Even when your data structure changes,\nthe trail remains.', 'Branch like Git to experiment with schemas,\ncompare snapshots between two points in time,\nand visualize changes as an ERD.', 'Pipeline'],
-  ontology: ['From the language of the field\nto the language of data', 'Define concepts across the field — assets, tasks, documents — as objects\nand relationships. This structure powers both Plate visualizations\nand the reasoning behind the AI agent.', 'Ontology'],
-  calendar: ['Schedules and operations,\nin one place', 'Manage processing schedules, inspection cycles, and team tasks\non a single screen\nso you never lose the operational rhythm.', 'Calendar']
+  llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes\nand answers with its sources cited.', 'AI Agent'],
+  plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more - pick the\nwidget that fits your data.', 'Tile'],
+  pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],
+  ontology: ['From field language\nto data language', 'Define field concepts - assets, tasks,\ndocuments - as objects and relations.\nThis structure powers Plate and the AI agent.', 'Ontology'],
+  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar']
 };
 
 var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 — 우측 크롭 적용 안 함
@@ -1339,7 +1510,7 @@ challenges you are facing in the field."></textarea>
     <div class="cd-success" id="contactDrawerSuccess">
       <i class="ph ph-check-circle"></i>
       <h3>Your inquiry has been received</h3>
-      <p>Our team will review it and get back to you within 1–2 business days.</p>
+      <p>Our team will review it and get back to you within 1-2 business days.</p>
     </div>
   </div>
 </aside>

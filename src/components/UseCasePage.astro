@@ -13,6 +13,7 @@ import '../styles/industry.css';
 import SignalIcon from './SignalIcon.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
+import { useCasesEn } from '../data/usecases/en';
 
 interface Props {
   uc: UseCase;
@@ -46,6 +47,9 @@ const T = {
 }[lang];
 
 const base = lang === 'en' ? '/en/use-cases' : '/use-cases';
+// '함께 보면 좋은 과제' 카드도 페이지 언어를 따른다. 한국어 목록을 그대로 쓰면
+// 영문 페이지에 한글 카드가 섞여 나온다.
+const siblings = lang === 'en' ? useCasesEn : useCases;
 const path = `${base}/${uc.slug}`;
 // 개편 디자인에서는 섹션 순서가 문제 → 신호 → 해법이고(입력을 먼저 보이고 처리를 뒤에),
 // '왜 필요한가요?'가 배지 대신 태그라인 형태가 된다. 기존 구성은 문제 → 해법 → 신호.
@@ -60,6 +64,25 @@ const alternates = [
   { lang: 'en', href: `/en/use-cases/${uc.slug}` },
 ];
 const SITE = 'https://refinery.kr';
+// 줄 끝에서 갈리면 안 되는 토큰을 nowrap으로 감싼다. keep-all은 어절만 다루고
+// 하이픈 뒤·여는 괄호 앞의 줄바꿈은 막지 못한다(실측: 'WISE- / 6610',
+// '에너지관리시스템 / (EMS)은'). 태그 밖 텍스트에만 적용한다.
+//   1) 제품·규격 코드 — 영문 2자 이상 + 하이픈 + 숫자 (WISE-2410, ISO-20816)
+//   2) 한글 + 괄호 약어 + 뒤따르는 조사 (에너지관리시스템(EMS)은)
+//   3) 숫자로 시작하는 복합어 (3-axis, 2-year) — 숫자만 떨어지면 읽기 나쁘다.
+//      power-factor 같은 낱말끼리의 하이픈은 영어에서 정상적인 줄바꿈이라 두었다.
+const nb = (input) =>
+  String(input ?? '')
+    .split(/(<[^>]+>)/)
+    .map((part, i) =>
+      i % 2
+        ? part
+        : part
+            .replace(/([A-Za-z]{2,}-\d[\w-]*)/g, '<span class="uc-nb">$1</span>')
+            .replace(/([가-힣]+\([A-Za-z0-9]+\)[가-힣]*)/g, '<span class="uc-nb">$1</span>')
+            .replace(/(\d+-[A-Za-z]+)/g, '<span class="uc-nb">$1</span>'))
+    .join('');
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -76,7 +99,13 @@ const jsonLd = [
         mainEntity: uc.faq.map((f) => ({
           '@type': 'Question',
           name: f.q,
-          acceptedAnswer: { '@type': 'Answer', text: f.a },
+          // 구조화 데이터에는 표시용 <br>를 빼고 순수 문장만 넣는다.
+          // <br>만 공백으로, 나머지 태그는 흔적 없이 지운다.
+          // 한 번에 공백 치환하면 '<span>WISE-2410</span>)는'이 'WISE-2410 )는'이 된다.
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.a.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+          },
         })),
       }]
     : []),
@@ -91,7 +120,7 @@ const jsonLd = [
   <Nav />
   {/* slug 클래스로 페이지별 스타일 스코프를 연다. 공통 .ind-* 규칙은 건드리지 않으므로
       이 클래스를 쓰지 않는 다른 유즈케이스는 기존 디자인 그대로다. */}
-  <main class={`ind uc-page uc-${uc.slug}${uc.redesigned ? ' uc-redesigned' : ''}`}>
+  <main class={`ind uc-page uc-${uc.slug}${uc.redesigned ? ' uc-redesigned' : ''}${lang === 'en' ? ' uc-en' : ''}`}>
     <!-- HERO -->
     <section class={uc.heroImageAsBackground && uc.heroImage ? 'ind-hero uc-hero-bg' : 'ind-hero'}>
       {uc.heroImageAsBackground && uc.heroImage && (
@@ -121,7 +150,7 @@ const jsonLd = [
                 {/* 위계를 뒤집은 형태 — 과제명이 태그라인, tagline 문장이 대제목이다.
                     설명 문단은 그 문장과 겹치므로 렌더하지 않는다. */}
                 <p class="uc-tag">{uc.name}</p>
-                <h1 set:html={uc.heroTitle ?? uc.tagline}></h1>
+                <h1 set:html={nb(uc.heroTitle ?? uc.tagline)}></h1>
               </Fragment>
             ) : (
               <Fragment>
@@ -159,7 +188,7 @@ const jsonLd = [
         <header class="ind-head">
           {signalsFirst ? <p class="uc-tag">{T.why}</p> : <span class="ind-badge">{T.why}</span>}
         </header>
-        <p class="uc-problem" set:html={uc.problemHtml ?? uc.problem}></p>
+        <p class="uc-problem" set:html={nb(uc.problemHtml ?? uc.problem)}></p>
       </div>
     </section>
 
@@ -229,11 +258,11 @@ const jsonLd = [
             )}
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? T.tmplBadge}</span>
-              <h3>{uc.template.title}</h3>
-              <p set:html={uc.template.desc}></p>
+              <h3 set:html={nb(uc.template.title)}></h3>
+              <p set:html={nb(uc.template.desc)}></p>
               {uc.template.includes && (
                 <ul class="uc-template-list" style={uc.redesigned ? `--uc-tmpl-cols:${uc.template.includes.length % 3 === 0 ? 3 : 2}` : undefined}>
-                  {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
+                  {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i><span set:html={nb(it)}></span></li>)}
                 </ul>
               )}
             </div>
@@ -304,7 +333,7 @@ const jsonLd = [
         <div class="ind-container uc-narrow">
           <header class="ind-head"><h2>{T.related}</h2></header>
           <div class="uc-cases">
-            {useCases.filter((u) => u.slug !== uc.slug).map((u) => (
+            {siblings.filter((u) => u.slug !== uc.slug).map((u) => (
               <a class={u.cardImage ? 'uc-case uc-case--img' : 'uc-case'} href={`${base}/${u.slug}`}>
                 {u.cardImage && (
                   <img
@@ -321,7 +350,7 @@ const jsonLd = [
                 )}
                 <div class="uc-case-body">
                   <span class="uc-case-label">{u.name}</span>
-                  <p class="uc-case-desc" set:html={u.cardDesc ?? u.tagline}></p>
+                  <p class="uc-case-desc" set:html={nb(u.cardDesc ?? u.tagline)}></p>
                   <span class="uc-case-go" aria-hidden="true">
                     <svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
                   </span>
@@ -334,16 +363,21 @@ const jsonLd = [
     )}
 
     {uc.faq && uc.faq.length > 0 && (
-      <section class="ind-section">
+      <section class="ind-section uc-faq-section">
         <div class="ind-container">
-          <header class="ind-head"><h2>{T.faqTitle}</h2></header>
-          <div class="uc-faq">
-            {uc.faq.map((f) => (
-              <div class="uc-faq-item">
-                <h3>{f.q}</h3>
-                <p>{f.a}</p>
-              </div>
-            ))}
+          {/* 랜딩 #faq와 같은 구성 — 제목 왼쪽, 아코디언 목록 오른쪽.
+              질문은 h3를 유지한다. 랜딩은 div를 쓰지만 이 페이지는 FAQPage
+              스키마와 함께 나가는 정의형 FAQ(AEO)라 제목 의미를 버릴 수 없다. */}
+          <div class="uc-faq-head">
+            <header class="ind-head"><h2>{T.faqTitle}</h2></header>
+            <div class="uc-faq-list">
+              {uc.faq.map((f) => (
+                <div class="uc-faq-item">
+                  <h3 class="uc-faq-q"><span set:html={nb(f.q)}></span><i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
+                  <div class="uc-faq-a" set:html={nb(f.a)}></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -362,24 +396,101 @@ const jsonLd = [
         />
       )}
       <div class="ind-container">
-        <h2 set:html={uc.ctaTitle ?? T.ctaTitle}></h2>
+        <h2 set:html={nb(uc.ctaTitle ?? T.ctaTitle)}></h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.contact}</a>
       </div>
     </section>
   </main>
   <Footer />
+
+<script is:inline>
+  // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
+  document.querySelectorAll('.uc-faq-q').forEach(function (q) {
+    q.addEventListener('click', function () {
+      var a = q.nextElementSibling;
+      var isOpen = a.classList.contains('open');
+      document.querySelectorAll('.uc-faq-a').forEach(function (el) { el.classList.remove('open'); });
+      document.querySelectorAll('.uc-faq-item').forEach(function (el) { el.classList.remove('open'); });
+      if (!isOpen) {
+        a.classList.add('open');
+        q.closest('.uc-faq-item').classList.add('open');
+      }
+    });
+  });
+</script>
 </BaseLayout>
 
 <style>
-  /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다. */
-  .uc-faq { max-width: 760px; }
-  .uc-faq-item + .uc-faq-item { margin-top: 28px; padding-top: 28px; border-top: 1px solid #e6eaef; }
-  .uc-faq-item h3 { font-size: clamp(18px, 2.2vw, 22px); font-weight: 650; letter-spacing: -0.01em; color: var(--text, #16202c); margin: 0 0 8px; word-break: keep-all; }
-  .uc-faq-item p { font-size: 16.5px; line-height: 1.72; color: #2b3644; margin: 0; word-break: keep-all; }
+  /* 정의형 FAQ(AEO). 본문 Q&A + FAQPage 스키마와 함께 렌더된다.
+     규격은 랜딩 #faq(global.css:560~571)를 그대로 따른다 —
+     2열(1fr 2fr) · gap 64 · 질문 17/500 · 답 15/1.7 · 항목 아래선 1px. */
+  /* 배경은 '왜 필요한가요?'(.uc-problem-section)와 같은 #f6f8fa.
+     목록에는 따로 판을 깔지 않고 구분선만으로 질문을 나눈다.
+     ⚠️ redesigned가 7개 과제 전부라 이 규칙도 7개 페이지에 걸린다. */
+  .uc-redesigned .uc-faq-section { background: #f6f8fa; }
+
+  .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+  .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
+  /* 랜딩도 900px에서 한 칸으로 접고 간격을 24px로 줄인다. */
+  @media (max-width: 900px) {
+    .uc-faq-head { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .uc-faq-item { border-bottom: 1px solid var(--border, #E3E7EC); overflow: hidden; }
+  .uc-faq-item:last-child { border-bottom: none; }
+  .uc-faq-q {
+    margin: 0; padding: 20px 4px;
+    /* '함께 보면 좋은 과제' 카드 대제목(.uc-case-label)과 같은 20px / 600. */
+    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    color: var(--text, #16202c); cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    word-break: keep-all;
+  }
+  .uc-faq-icon {
+    font-size: 14px; color: var(--text-dim, #8a94a3);
+    flex-shrink: 0; margin-left: 12px; transition: transform .2s;
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+  .uc-faq-item.open .uc-faq-icon { transform: rotate(180deg); }
+  /* 접힘은 max-height로 만든다(랜딩과 같은 방식). display:none이 아니라
+     DOM에 그대로 남아 FAQPage 스키마·크롤링에는 영향이 없다. */
+  .uc-faq-a {
+    /* 같은 카드의 소제목(.uc-case-desc)과 같은 15px / 1.5. */
+    font-size: 15px; line-height: 1.5; color: var(--text-muted, #5b6472);
+    overflow: hidden; max-height: 0; padding: 0 4px; opacity: 0;
+    transition: max-height .4s cubic-bezier(.22,1,.36,1), padding .3s ease, opacity .3s ease;
+    word-break: keep-all;
+  }
+  .uc-faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
+  /* 데이터의 <br>는 넓은 폭에서 문장을 끊어 읽히게 하려고 넣은 것이라,
+     칸이 좁아져 구간이 다시 감기기 시작하면 오히려 줄이 들쭉날쭉해진다.
+     1024px 이하에서는 풀고 자연 줄바꿈에 맡긴다. 어절 중간 끊김은
+     .uc-page 전역 word-break: keep-all이 막는다. */
+  /* ⚠️ :global 필수. 답변은 set:html로 주입돼 <br>에 Astro 스코프 속성이
+     붙지 않는다. .uc-faq-a br로 쓰면 br[data-astro-…]가 되어 하나도 안 맞는다. */
+  @media (max-width: 1024px) {
+    .uc-faq-a :global(br) { display: none; }
+  }
+  /* 모델명처럼 하이픈이 든 토큰이 줄 끝에서 갈리는 것을 막는다.
+     keep-all은 어절만 다루고 하이픈 뒤 줄바꿈은 막지 못한다
+     (320px에서 'WISE- / 2410'으로 갈렸다). */
+  .uc-page :global(.uc-nb) { white-space: nowrap; }
 
   .uc-narrow { max-width: 760px; }
   /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
+  /* ⚠️ 페이지 전체에 keep-all을 건다. 요소별로 붙이다 보니 빠진 곳이 남아
+     좁은 폭에서 한글이 어절 한가운데서 끊겼다 — 600px '정상인/지' '읽/어',
+     375px '배선 없/이' '게이트웨/이가', 320px '부착식 설/치' '3축 가/속도계'.
+     overflow-wrap: break-word는 한 어절이 줄보다 길 때만 쓰이는 안전장치다. */
+  .uc-page, .uc-page * { word-break: keep-all; overflow-wrap: break-word; }
+
   .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; word-break: keep-all; }
+  /* 데이터의 <br>는 넓은 폭에서 문단을 끊어 읽히게 하려고 넣은 것이다. 글 상자가
+     좁아져 구간이 다시 감기기 시작하면 줄이 들쭉날쭉해지므로 그 아래에서는 푼다.
+     실측 — 1200px(글 폭 829)까지는 구간이 [2+1]로 유지되고 1100px(729)부터 [3+2].
+     ⚠️ :global 필수. problemHtml은 set:html로 주입돼 <br>에 스코프 속성이 없다. */
+  @media (max-width: 1199px) {
+    .uc-problem :global(br) { display: none; }
+  }
   .uc-chips { display: flex; flex-wrap: wrap; gap: 10px; }
   .uc-chip {
     font-size: 14px; color: #16202c; background: #fff; border: 1px solid var(--border);
@@ -509,7 +620,24 @@ const jsonLd = [
   @media (max-width: 860px) {
     .uc-redesigned .uc-template-list { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
+  /* ⚠️ .uc-redesigned를 함께 적어야 한다. 위 860px 블록의
+     '.uc-redesigned .uc-template-list'(특정도 0,2,0)가 이 규칙(0,1,0)을 이겨
+     560px 아래에서도 2열이 유지됐고, 칸이 좁아 항목마다 글이 2줄로 감겼다. */
+  @media (max-width: 560px) {
+    .uc-template-list,
+    .uc-redesigned .uc-template-list { grid-template-columns: 1fr; }
+  }
+  /* 영문은 항목 문자열이 길어 같은 칸에서 한국어보다 일찍 두 줄이 된다.
+     실측(예지보전) — 3열은 1200px(항목 332px)까지, 2열은 800px(332px)까지
+     한 줄로 버티고 그 아래부터 'Built-in 3-axis accelerometer + temperature'가
+     감긴다. 그래서 영문만 열을 한 단계 일찍 줄인다.
+     ⚠️ 위 860/560 블록보다 뒤에 와야 이긴다. */
+  @media (max-width: 1199px) {
+    .uc-en.uc-redesigned .uc-template-list { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 799px) {
+    .uc-en.uc-redesigned .uc-template-list { grid-template-columns: 1fr; }
+  }
 
   /* ───────────────────────────────────────────────────────────
      아래는 데이터에 해당 필드(heroImage·icon·template.image)를 넣은
@@ -789,8 +917,16 @@ const jsonLd = [
   .uc-template-deco {
     /* 링 중심을 밴드 밖(우상단)에 두고 바깥 호만 밴드에 걸치게 한다.
        크기와 오프셋을 같은 비율로 묶어 두면 구도는 그대로 두고 스케일만 바뀐다. */
-    position: absolute; top: -212px; right: -148px;
-    width: 700px; height: auto;
+    /* ⚠️ 고정 px이 아니라 밴드 폭에 대한 비율이다. 예전에는 700px/-212/-148로
+       못 박아 두고 860px 아래에서는 통째로 감췄는데, 밴드가 좁아져도 링만 그대로라
+       구도가 깨졌기 때문이다. 세 값을 같은 비율로 묶으면 어느 폭에서든 구도가 같다.
+       1440px 기준값을 그대로 환산했다 — 700/1184 = 59.1%, -148/1184 = -12.5%,
+       세로는 자기 높이 기준이다. 이미지가 2100x1224(0.583)라 1440px에서 높이가
+       407px이므로 -212/407 = -52.1%. 정사각으로 잘못 보고 -30.3%을 넣었더니
+       링이 밴드 위로 122px만 나가(원래 211px) 아래로 내려앉았다. */
+    position: absolute; top: 0; right: -12.5%;
+    width: 59.1%; height: auto;
+    transform: translateY(-52.1%);
     /* screen — 어두운 픽셀은 배경을 그대로 통과시키고 밝은 부분만 더한다.
        일반 합성이면 링의 어두운 부분이 배경보다 더 어둡게 깔려 '얹힌 그림'이 된다.
        빛이라면 밝은 곳만 더해져야 하므로 이쪽이 맞다. */
@@ -803,7 +939,7 @@ const jsonLd = [
     pointer-events: none; user-select: none;
   }
   .uc-template-body { position: relative; z-index: 1; }
-  @media (max-width: 860px) { .uc-template-deco { display: none; } }
+  /* 860px 이하 display:none을 걷었다 — 이제 비율로 줄어들어 감출 이유가 없다. */
 
   /* 위 여백은 4개 카드(.ind-card, 24px)와 같게 둔다 — 배지가 카드의 아이콘과
      같은 자리에서 시작하므로 두 블록의 윗선이 맞는다. */
@@ -858,7 +994,11 @@ const jsonLd = [
   /* global.css의 .hero-demo-link와 같은 표현(18px · hover 시 화살표 이동).
      기본은 옆 대제목과 같은 색이라 한 줄로 붙어 읽히고, 하늘색은 hover에만 쓴다. */
   .uc-more-link {
-    display: inline-flex; align-items: center; gap: 8px; flex: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    /* ⚠️ flex: none이면 줄어들지 못해, keep-all로 어절이 안 쪼개지는 320px에서
+       링크가 325.8px 그대로 남아 가로 스크롤 30px을 만들었다.
+       0 1 auto + max-width로 칸에 맞춰 줄어들고 글이 감기게 한다. */
+    flex: 0 1 auto; max-width: 100%; flex-wrap: wrap;
     font-size: 18px; font-weight: 400; color: var(--text);
     transition: color .2s ease;
   }
@@ -940,9 +1080,14 @@ const jsonLd = [
     background: #0c1015;
   }
   .uc-cta-bg-img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    /* 가로는 정확히 꽉 차고(잘림 없음) 세로만 34%가 보인다.
-       두 번째 값이 그 띠의 위치 — center면 이미지 한가운데다. */
+    /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와
+       같은 처리다. 섹션(1425x298 = 4.8:1)이 사진(3840x2462 = 1.56:1)보다 훨씬
+       납작해 object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록
+       사진이 축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
+       모자란 가로는 좌우 균등하게 잘린다. 1440px 위로는 지금처럼 늘어난다. */
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; min-width: 1440px; height: 100%;
+    /* 두 번째 값이 보이는 띠의 위치 — center면 이미지 한가운데다. */
     object-fit: cover; object-position: center 65%;
     pointer-events: none; user-select: none;
   }
@@ -971,6 +1116,13 @@ const jsonLd = [
     gap: 48px; flex-wrap: wrap;
   }
   .uc-redesigned .uc-cta-bg .ind-container > * { flex: none; }
+  /* 좁은 폭에서 상하 여백과 글-버튼 간격을 줄인다. 95px 고정이면 375px에서
+     섹션 337px 중 190px이 여백이라 내용보다 빈 자리가 크다. 값은 사이트 공통
+     규칙(industry.css의 .ind-section이 560px 이하에서 84 -> 60px)을 따른다. */
+  @media (max-width: 560px) {
+    .uc-cta-bg { padding: 60px 0; }
+  }
+
   /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
   .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 0; }
   /* 히어로 '문의하기'와 같은 색 — 투명 면 + 흰 테두리에서 accent 면으로 바꾼다.
@@ -994,9 +1146,11 @@ const jsonLd = [
   @media (max-width: 900px) {
     .uc-redesigned .uc-cta-bg .ind-container { padding: 0 24px; }
   }
-  /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
-  @media (max-width: 780px) {
-    .uc-redesigned .uc-cta-bg .ind-container { gap: 0; }
-    .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 32px; }
-  }
+  /* ⚠️ row-gap과 column-gap을 나눈다. 버튼이 제목 옆에 있을 때와 아래로 내려갔을
+     때 필요한 간격이 다른데 gap 하나로는 구분이 안 된다. 내려가면 row-gap(32px)이,
+     옆에 있으면 column-gap(48px)이 적용돼 중단점 없이 둘 다 맞는다.
+     h2의 margin-bottom은 이 간격과 겹치므로 0으로 둔다.
+     세 CTA(회사 소개·플랫폼 개요·유즈케이스)가 같은 값을 쓴다. */
+  .uc-redesigned .uc-cta-bg .ind-container { column-gap: 48px; row-gap: 32px; }
+  .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
 </style>
