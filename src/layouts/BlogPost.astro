@@ -127,7 +127,7 @@ const jsonLd = {
             />
           )}
           {image && <BrandMark class="thumb-mark" />}
-          {coverIcon && <img class="thumb-icon" src={coverIcon} alt="" width="180" height="180" loading="lazy" decoding="async" />}
+          {coverIcon && <img class="thumb-icon" src={coverIcon} alt="" loading="lazy" decoding="async" />}
           {/* 표지 안 구성은 목록 카드(.res-cover)와 같다 — 왼쪽 위 태그라인, 대제목,
               왼쪽 아래 글. 칸이 커진 만큼 글자와 안여백을 1.5배로 키웠다. */}
           {(coverTitle || coverFoot || (tags[0] && !hideCoverKind)) && (

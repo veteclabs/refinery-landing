@@ -112,15 +112,13 @@
      위아래를 자르게 되면 그때 하단이 남는다. */
   .blog-list .res-thumb:not(.is-empty) img { object-position: center bottom; }
   /* 표지 오른쪽 아래 아이콘. 글 머리 표지와 같은 자리·같은 비율이다.
-     ⚠️ 여백은 그림이 실제로 보이는 가장자리 기준으로 잡는다. SVG 안에서 그림이
-     오른쪽 19.5/150·아래 24.5/150만큼 비어 있어(실측), 상자 여백을 그대로 주면
-     보이는 가장자리가 그만큼 더 떠 보인다. 그 빈 폭을 빼고 남긴 값이다.
-     결과: 보이는 오른쪽 5.744cqw(22px@383) · 아래 7.311cqw(28px) — 표지 안여백과 같은 선.
+     아이콘 파일의 viewBox를 그림에 딱 맞게 좁혀 두어(public/icon_*.svg), 여기 여백이
+     곧 보이는 가장자리의 여백이다. 표지 안여백과 같은 값을 준다(22px · 28px @383).
      ⚠️ 위의 .res-thumb img(선택자 2개)가 width/height 100% · cover를 걸고 있어
      같은 2개로 올려야 밀리지 않는다(.res-empty-icon과 같은 사정). */
   .blog-list .res-thumb img.thumb-icon {
-    position: absolute; right: 1.671cqw; bottom: 2.193cqw; z-index: 2;
-    width: 31.332cqw; height: 31.332cqw; object-fit: contain;
+    position: absolute; right: 5.744cqw; bottom: 7.311cqw; z-index: 2;
+    width: 23.24cqw; height: auto; object-fit: contain;
   }
   /* 표지 한가운데 브랜드 심볼. 도형만 그대로 얹는다(글 머리와 같다) —
      뒷판도 그림자도 없다. 글자 막(.res-cover, z-index 1)보다 위에 둔다. */
