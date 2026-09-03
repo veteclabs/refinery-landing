@@ -103,15 +103,11 @@
   /* 블로그 카드 표지 사진은 손대지 않는다 — 글 머리 표지와 같은 방침이다.
      (하늘색 밑판 + luminosity + 밝기·채도 조정을 거쳤다가 전부 걷어냈다.)
      ⚠️ 이 파일은 자료실(/resources)과 함께 쓴다 — 블로그 전용 규칙은 .blog-list로 한정한다. */
-  /* 표지 한가운데 브랜드 심볼. 글자 막(.res-cover, z-index 1)보다 위에 둔다.
-     뚫린 가운데는 같은 윤곽의 판(--mark-plate)으로 막는다 — 글 머리와 같은 색이다. */
+  /* 표지 한가운데 브랜드 심볼. 도형만 그대로 얹는다(글 머리와 같다) —
+     뒷판도 그림자도 없다. 글자 막(.res-cover, z-index 1)보다 위에 둔다. */
   .blog-list .res-thumb .thumb-mark {
     position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2;
-    width: 78px; height: auto; color: #fff; opacity: .92;
-    --mark-plate: #16202C;
-    /* 블러 크기는 심볼 크기 비율(78/120)에 맞춰 줄인 값이다. */
-    filter: drop-shadow(0 0 22px #16202C) drop-shadow(0 0 9px #16202C)
-            drop-shadow(0 0 9px #16202C);
+    width: 78px; height: auto; color: #fff;
   }
   /* 표지 위 글의 종류는 흰색으로 올린다. 하늘색 밑판에 사진이 얹히면 글자
      뒤가 rgb(90,116,147)쯤이 되어 #76A6D7이 1.88:1까지 떨어진다(실측).
