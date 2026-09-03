@@ -81,7 +81,11 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 560px) { .post-thumb .thumb-mark { width: 86px; } }
 /* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.
    아래 구분선의 위아래 여백(48px)은 절 구분선(.post-body h2)과 같은 값이다. */
-.post-header { padding: 32px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+/* 아래 여백 110px = 표지 위 여백과 같은 값이다(.post-thumb의 margin-top).
+   페이지 맨 위와 머리글 끝이 같은 간격으로 열려, 표지·머리글이 한 덩어리로 뜬다.
+   구분선 아래 48px은 그대로다 — 본문 절 구분선(.post-body h2)과 같은 값이라
+   본문이 시작되는 간격은 절이 바뀌는 간격과 같다. */
+.post-header { padding: 32px 0 110px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
 /* 날짜 줄. 위 여백 20px은 대제목-소제목 사이와 같은 값이라 머리글이 고른
    리듬으로 쌓인다. */
 .post-meta { display: flex; gap: 8px; align-items: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
