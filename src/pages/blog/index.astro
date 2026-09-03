@@ -135,6 +135,10 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
      여기서는 밝은 밑판(#F6F8FA) 위라 잉크색이어야 읽힌다.
      크기·굵기·행간·자간은 자료실(.res-cover-line)과 같은 값을 그대로 쓴다. */
   .blog-list .res-thumb.is-empty .res-cover-line { color: #16202C; }
+  /* 굵기만 자료실(600)보다 한 단계 올린다. 크기·행간·자간은 그대로다.
+     자료실 표지는 어두운 사진 위 흰 글자라 같은 600도 더 굵어 보이는데,
+     여기는 밝은 면 위 잉크색이라 같은 값에서 가늘어 보인다. */
+  .blog-list .res-cover-line { font-weight: 700; }
   /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
      아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
   .blog-list .res-card h3,
