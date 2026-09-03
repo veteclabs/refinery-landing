@@ -65,6 +65,8 @@ img { max-width: 100%; height: auto; }
   /* 16:9. 표지로 쓰는 사진이 16:9라 잘리는 곳 없이 통째로 들어온다
      (2.34:1이던 때는 세로 111px이 잘려 나갔다). 820px 기둥에서 높이 461px이다. */
   margin-top: 110px; aspect-ratio: 16 / 9;
+  /* 표지 안 글자를 칸 폭에 대한 비율로 잡기 위한 기준. 아래 cqw 값들이 이 칸을 센다. */
+  container-type: inline-size;
   background: var(--bg-soft); border-radius: var(--radius); overflow: hidden;
 }
 /* 아래쪽 기준. 지금은 칸과 사진이 같은 16:9라 잘리는 곳이 없어 이 값이 화면을
@@ -88,19 +90,23 @@ img { max-width: 100%; height: auto; }
    색은 밑면에 따라 갈린다 — 사진이 없는 표지는 밝은 면(#F6F8FA)이라 잉크색을 쓰고,
    사진이 깔린 표지에서만 흰색이 읽힌다. */
 /* 표지 안 구성은 목록 카드(.res-cover)와 같다 — 왼쪽 위 태그라인, 대제목,
-   왼쪽 아래 글. 칸이 383x239에서 820x461로 커진 만큼 글자와 안여백을 1.5배로
-   키웠다(대제목 24 → 36px이 이미 그 배율이라 나머지를 거기에 맞췄다).
-     안여백  28/22/28/30  →  42/33/42/45
-     태그라인 14 → 21px · 대제목 24 → 36px · 아래 글 13 → 20px · 사이 8 → 12px */
+   왼쪽 아래 글.
+   크기는 px이 아니라 칸 폭에 대한 비율(cqw)로 잡는다. 앞서 1.5배 고정으로 키웠더니
+   칸은 가로로 2.14배(383 → 820px) 커지는데 글자만 1.5배라 비율이 어긋났다.
+   기준은 목록 카드의 383px 칸이다 — 그 폭에서 카드와 똑같은 크기가 나오고,
+   칸이 커지거나 좁아지면 같은 비율로 따라간다(모바일 표지도 자동으로 맞는다).
+     태그라인 14/383 = 3.655cqw · 대제목 24 → 6.266 · 아래 글 13 → 3.394
+     사이 8 → 2.089 · 안여백 28/22/30 → 7.311 / 5.744 / 7.833 */
 .post-cover {
   position: absolute; inset: 0; z-index: 2;
-  padding: 42px 33px 42px 45px; display: flex; flex-direction: column; gap: 12px;
+  padding: 7.311cqw 5.744cqw 7.311cqw 7.833cqw;
+  display: flex; flex-direction: column; gap: 2.089cqw;
   pointer-events: none;
 }
-.post-cover-kind { font-size: 21px; font-weight: 600; letter-spacing: -0.3px; color: #16202C; }
-.post-cover-line { font-size: 36px; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; color: #16202C; }
+.post-cover-kind { font-size: 3.655cqw; font-weight: 600; letter-spacing: -0.014em; color: #16202C; }
+.post-cover-line { font-size: 6.266cqw; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; color: #16202C; }
 /* 카드와 같이 아래로 밀어 붙인다. */
-.post-cover-foot { margin-top: auto; font-size: 20px; font-weight: 400; letter-spacing: -0.3px; color: #16202C; }
+.post-cover-foot { margin-top: auto; font-size: 3.394cqw; font-weight: 400; letter-spacing: -0.015em; color: #16202C; }
 /* ⚠️ :has(img)만으로는 안 된다 — 표지 오른쪽 아래 아이콘(.thumb-icon)도 img라
    사진이 없는 표지까지 '사진 있음'으로 잡혀 흰 글자가 밝은 면에 얹혔다.
    배경으로 깔리는 표지 사진만 세어야 한다. */
@@ -114,10 +120,6 @@ img { max-width: 100%; height: auto; }
 .post-thumb[style*="--cover-fg"] .post-cover-foot { color: var(--cover-fg); }
 .post-thumb:has(img:not(.thumb-icon)) .post-cover-line { color: #fff; }
 @media (max-width: 560px) {
-  .post-cover { padding: 24px 20px 24px 22px; gap: 8px; }
-  .post-cover-kind { font-size: 14px; }
-  .post-cover-line { font-size: 22px; }
-  .post-cover-foot { font-size: 13px; }
 }
 /* 표지에 제목이 올라간 글의 머리글 제목. 화면에서만 감추고 검색·스크린리더에는 남긴다. */
 .post-header h1.is-in-cover {
