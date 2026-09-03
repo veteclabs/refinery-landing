@@ -82,7 +82,7 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                 )}
                 {post.data.tags[0] && !post.data.hideCoverKind && (
                   <div class="res-cover">
-                    <span class="res-cover-kind">{post.data.tags[0]}</span>
+                    <span class="res-cover-kind">#{post.data.tags[0]}</span>
                     {/* 표지 안 대제목. titleBreakAfter를 적은 글에만 나온다.
                         글자 규격은 자료실 표지 한 줄(.res-cover-line)과 같은 것을 그대로 쓴다. */}
                     {post.data.titleBreakAfter && (() => {

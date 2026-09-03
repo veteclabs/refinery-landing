@@ -132,7 +132,7 @@ const jsonLd = {
               왼쪽 아래 글. 칸이 커진 만큼 글자와 안여백을 1.5배로 키웠다. */}
           {(coverTitle || coverFoot || (tags[0] && !hideCoverKind)) && (
             <div class="post-cover">
-              {tags[0] && !hideCoverKind && <span class="post-cover-kind">{tags[0]}</span>}
+              {tags[0] && !hideCoverKind && <span class="post-cover-kind">#{tags[0]}</span>}
               {coverTitle && (
                 <strong class="post-cover-line">{coverTitle[0]}{coverTitle[1] && <><br />{coverTitle[1]}</>}</strong>
               )}
