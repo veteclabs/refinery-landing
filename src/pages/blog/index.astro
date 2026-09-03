@@ -57,7 +57,7 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                   나중에 넣어도 배치가 흔들리지 않는다. 자료실의 '준비중' 그림·배지는
                   두지 않는다. 글은 이미 공개된 것이라 준비 중이 아니다.
                   표지가 있으면 글의 종류(태그)는 그 위에 얹힌다 — 자료실과 같다. */}
-              <div class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'}>
+              <div class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'} data-cat={post.data.category}>
                 {post.data.image && (
                   <Image
                     src={post.data.image}
@@ -139,6 +139,12 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
      자료실 표지는 어두운 사진 위 흰 글자라 같은 600도 더 굵어 보이는데,
      여기는 밝은 면 위 잉크색이라 같은 값에서 가늘어 보인다. */
   .blog-list .res-cover-line { font-weight: 700; }
+  /* 표지가 비어 있는 글은 종류별 색을 면에 깐다. 아이콘 색과 같은 계열의
+     100단계(500 기준색을 흰색과 15%로 섞은 값)라 잉크 제목이 13~14:1로 남는다.
+     200단계는 카드가 무거워지고 50단계는 흰 바탕과 구별되지 않는다(넷 다 렌더해 비교).
+     표지 사진이 들어오면 사진이 덮으므로 이 색은 보이지 않는다. */
+  .blog-list .res-thumb.is-empty[data-cat="인사이트"] { background: #E2ECF9; }  /* Blue 100 */
+  .blog-list .res-thumb.is-empty[data-cat="가이드"]   { background: #EFEBF6; }  /* Purple 100 */
   /* 한국어가 어절 중간에서 잘리지 않게 한다(사이트 공통 규칙과 같은 값).
      아주 긴 낱말만 예외로 넘겨 상자 밖으로 나가지 않게 한다. */
   .blog-list .res-card h3,
