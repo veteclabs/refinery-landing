@@ -84,11 +84,11 @@ img { max-width: 100%; height: auto; }
 /* 표지 오른쪽 아래 아이콘. 사진과 무관하게 붙는다 — 사진이 없는 글에서는
    빈 면 위에 아이콘만 놓인다. 여백 24px은 표지 모서리(반지름 12px)에서
    충분히 떨어지는 값이다. */
-/* 아이콘도 글자와 같은 기준으로 잡는다 — 카드(383px 칸에서 120px, 여백 16px)의
-   비율이다. 820px 표지에서 257px, 342px 모바일 표지에서 107px이 된다. */
-.post-thumb .thumb-icon {
-  position: absolute; right: 4.178cqw; bottom: 4.178cqw; z-index: 2;
-  width: 31.332cqw; height: 31.332cqw;
+/* 아이콘만 고정 크기다(요청). 표지 안 글자는 칸 폭 비율(cqw)로 따라가지만
+   아이콘은 어느 폭에서나 이 크기로 둔다. 비율대로면 820px 표지에서 257px이 된다. */
+.post-thumb .thumb-icon { position: absolute; right: 24px; bottom: 24px; z-index: 2; width: 180px; height: 180px; }
+@media (max-width: 560px) {
+  .post-thumb .thumb-icon { right: 16px; bottom: 16px; width: 110px; height: 110px; }
 }
 /* 표지 안 대제목. 자리는 자료실 표지(.res-cover)와 같은 왼쪽 위이고, 칸이 큰 만큼
    안여백과 글자만 키웠다. 굵기·행간·자간은 자료실 표지 한 줄과 같은 값이다.
