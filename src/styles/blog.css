@@ -65,7 +65,9 @@ img { max-width: 100%; height: auto; }
   margin-top: 110px; aspect-ratio: 1532 / 654;
   background: var(--bg-soft); border-radius: var(--radius); overflow: hidden;
 }
-.post-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+/* 칸(2.34:1)이 사진(16:9)보다 납작해 가로를 채우고 위아래를 잘라낸다(세로 111px).
+   아래쪽을 기준으로 붙여, 잘리는 111px이 전부 위에서 나가고 사진 하단이 남는다. */
+.post-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
 /* 표지 사진은 손대지 않는다 — 색을 입히거나 밝기를 누르지 않고 원본 그대로 쓴다.
    (하늘색 밑판 + luminosity + 밝기·채도 조정을 거쳤다가 전부 걷어냈다.
    표지로 쓰는 이미지 자체가 이미 사이트 색감이라 덧칠할 이유가 없다.)
@@ -81,11 +83,10 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 560px) { .post-thumb .thumb-mark { width: 86px; } }
 /* 표지가 위 여백을 맡으므로 글 머리는 32px에서 시작한다.
    아래 구분선의 위아래 여백(48px)은 절 구분선(.post-body h2)과 같은 값이다. */
-/* 아래 여백 110px = 표지 위 여백과 같은 값이다(.post-thumb의 margin-top).
-   페이지 맨 위와 머리글 끝이 같은 간격으로 열려, 표지·머리글이 한 덩어리로 뜬다.
+/* 날짜 줄 아래 80px. 표지 위 여백(110px)과 같게 뒀다가 한 단계 좁힌 값이다.
    구분선 아래 48px은 그대로다 — 본문 절 구분선(.post-body h2)과 같은 값이라
    본문이 시작되는 간격은 절이 바뀌는 간격과 같다. */
-.post-header { padding: 32px 0 110px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+.post-header { padding: 32px 0 80px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
 /* 날짜 줄. 위 여백 20px은 대제목-소제목 사이와 같은 값이라 머리글이 고른
    리듬으로 쌓인다. */
 .post-meta { display: flex; gap: 8px; align-items: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
