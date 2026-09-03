@@ -87,19 +87,37 @@ img { max-width: 100%; height: auto; }
    안여백과 글자만 키웠다. 굵기·행간·자간은 자료실 표지 한 줄과 같은 값이다.
    색은 밑면에 따라 갈린다 — 사진이 없는 표지는 밝은 면(#F6F8FA)이라 잉크색을 쓰고,
    사진이 깔린 표지에서만 흰색이 읽힌다. */
-.post-cover { position: absolute; inset: 0; z-index: 2; padding: 40px 44px; display: flex; flex-direction: column; pointer-events: none; }
-.post-cover-line { font-size: 36px; font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; color: #16202C; }
+/* 표지 안 구성은 목록 카드(.res-cover)와 같다 — 왼쪽 위 태그라인, 대제목,
+   왼쪽 아래 글. 칸이 383x239에서 820x461로 커진 만큼 글자와 안여백을 1.5배로
+   키웠다(대제목 24 → 36px이 이미 그 배율이라 나머지를 거기에 맞췄다).
+     안여백  28/22/28/30  →  42/33/42/45
+     태그라인 14 → 21px · 대제목 24 → 36px · 아래 글 13 → 20px · 사이 8 → 12px */
+.post-cover {
+  position: absolute; inset: 0; z-index: 2;
+  padding: 42px 33px 42px 45px; display: flex; flex-direction: column; gap: 12px;
+  pointer-events: none;
+}
+.post-cover-kind { font-size: 21px; font-weight: 600; letter-spacing: -0.3px; color: #16202C; }
+.post-cover-line { font-size: 36px; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; color: #16202C; }
+/* 카드와 같이 아래로 밀어 붙인다. */
+.post-cover-foot { margin-top: auto; font-size: 20px; font-weight: 400; letter-spacing: -0.3px; color: #16202C; }
 /* ⚠️ :has(img)만으로는 안 된다 — 표지 오른쪽 아래 아이콘(.thumb-icon)도 img라
    사진이 없는 표지까지 '사진 있음'으로 잡혀 흰 글자가 밝은 면에 얹혔다.
    배경으로 깔리는 표지 사진만 세어야 한다. */
 /* 밑색 위에서 잘 읽히는 쪽을 빌드 때 골라 data-tone으로 넘겨 준다. */
-.post-thumb[data-tone="white"] .post-cover-line { color: #fff; }
+.post-thumb[data-tone="white"] .post-cover-line,
+.post-thumb[data-tone="white"] .post-cover-kind,
+.post-thumb[data-tone="white"] .post-cover-foot { color: #fff; }
 /* 글에서 색을 직접 정했으면 자동 판정보다 우선한다. */
-.post-thumb[style*="--cover-fg"] .post-cover-line { color: var(--cover-fg); }
+.post-thumb[style*="--cover-fg"] .post-cover-line,
+.post-thumb[style*="--cover-fg"] .post-cover-kind,
+.post-thumb[style*="--cover-fg"] .post-cover-foot { color: var(--cover-fg); }
 .post-thumb:has(img:not(.thumb-icon)) .post-cover-line { color: #fff; }
 @media (max-width: 560px) {
-  .post-cover { padding: 24px 22px; }
+  .post-cover { padding: 24px 20px 24px 22px; gap: 8px; }
+  .post-cover-kind { font-size: 14px; }
   .post-cover-line { font-size: 22px; }
+  .post-cover-foot { font-size: 13px; }
 }
 /* 표지에 제목이 올라간 글의 머리글 제목. 화면에서만 감추고 검색·스크린리더에는 남긴다. */
 .post-header h1.is-in-cover {
