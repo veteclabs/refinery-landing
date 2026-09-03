@@ -89,6 +89,8 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                       const [a, b] = splitDesc(post.data.title, post.data.titleBreakAfter);
                       return <strong class="res-cover-line">{a}{b && <><br />{b}</>}</strong>;
                     })()}
+                    {/* 표지 왼쪽 아래 글. 태그라인과 같은 규격이고 자리만 아래다. */}
+                    {post.data.coverFoot && <span class="res-cover-foot">{post.data.coverFoot}</span>}
                   </div>
                 )}
               </div>
@@ -160,7 +162,16 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
   .blog-list .res-thumb[data-tone="white"] .res-cover-kind { color: #fff; }
   /* 글에서 색을 직접 정했으면 자동 판정보다 우선한다(선택자를 하나 더 얹어 이긴다). */
   .blog-list .res-thumb[style*="--cover-fg"] .res-cover-line,
-  .blog-list .res-thumb[style*="--cover-fg"] .res-cover-kind { color: var(--cover-fg); }
+  .blog-list .res-thumb[style*="--cover-fg"] .res-cover-kind,
+  .blog-list .res-thumb[style*="--cover-fg"] .res-cover-foot { color: var(--cover-fg); }
+  /* 표지 왼쪽 아래 글. 글자 규격은 태그라인(.res-cover-kind)과 같은 값을 그대로 쓰고,
+     margin-top: auto로 표지 아래쪽에 붙인다(.res-cover가 세로 flex다).
+     안여백은 .res-cover의 아래 28px·왼쪽 30px을 그대로 받는다. */
+  .blog-list .res-cover-foot {
+    margin-top: auto;
+    font-size: 14px; font-weight: 600; letter-spacing: -0.2px; color: #16202C;
+  }
+  .blog-list .res-thumb[data-tone="white"] .res-cover-foot { color: #fff; }
   /* 표지 확대 호버는 걸지 않는다(요청). 자료실 카드는 그대로 1.10배로 커진다 —
      이 규칙은 .blog-list 안에서만 되돌린다. 선택자 수를 자료실 쪽(3개)보다
      많게 잡아야 이긴다. */

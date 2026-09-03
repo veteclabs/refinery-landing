@@ -36,6 +36,9 @@ const blog = defineCollection({
       // 표지 글자색(hex). 지정하면 자동 판정(잉크/흰색)보다 우선한다.
       // 밑색과 같은 계열의 짙은 단계를 쓰고 싶을 때 넣는다.
       coverTextColor: z.string().optional(),
+      // 표지 왼쪽 아래에 넣을 글(예: 글의 종류). 태그라인과 같은 글자 규격을 쓴다.
+      // 값이 없으면 아무것도 넣지 않는다.
+      coverFoot: z.string().optional(),
       // 표지 안에 대제목을 얹을 때 두 줄로 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
       // 값이 없으면 표지에 대제목을 넣지 않는다(글마다 켜고 끈다).
       // title 자체에 <br>을 넣지 않는 이유는 cardBreakAfter와 같다 — 같은 값이

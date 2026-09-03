@@ -9,6 +9,7 @@ tags: ["모범사례", "데이터", "온톨로지"]
 category: "가이드"
 coverColor: "#E2ECF9"
 coverTextColor: "#173B6B"
+coverFoot: "가이드"
 coverIcon: "/icon_blog.svg"
 titleBreakAfter: "자산으로"
 ---
