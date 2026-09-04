@@ -40,7 +40,7 @@ export interface Props {
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverTexture, coverIconAt = 'corner', coverColor, coverTextColor, coverFoot,
-  hideCoverKind = false, tags = [], titleBreakAfter, slug,
+  hideCoverKind = false, tags = [], titleBreakAfter, coverKindBreakAfter, slug,
   lang = 'ko',
 } = Astro.props;
 
@@ -135,7 +135,15 @@ const jsonLd = {
               왼쪽 아래 글. 칸이 커진 만큼 글자와 안여백을 1.5배로 키웠다. */}
           {(coverTitle || coverFoot || (tags[0] && !hideCoverKind)) && (
             <div class="post-cover">
-              {tags[0] && !hideCoverKind && <span class="post-cover-kind">#{tags[0]}</span>}
+              {tags[0] && !hideCoverKind && (() => {
+                const [a, b] = coverKindBreakAfter
+                  ? (() => { const i = tags[0].indexOf(coverKindBreakAfter);
+                             if (i < 0) return [tags[0], ''];
+                             const cut = i + coverKindBreakAfter.length;
+                             return [tags[0].slice(0, cut), tags[0].slice(cut).trimStart()]; })()
+                  : [tags[0], ''];
+                return <span class="post-cover-kind">#{a}{b && <><br />{b}</>}</span>;
+              })()}
               {coverTitle && (
                 <strong class="post-cover-line">{coverTitle[0]}{coverTitle[1] && <><br />{coverTitle[1]}</>}</strong>
               )}

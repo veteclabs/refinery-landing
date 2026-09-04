@@ -38,6 +38,9 @@ const blog = defineCollection({
       coverColor: z.string().optional(),
       // 표지 왼쪽 위 태그라인(첫 태그)을 감춘다. 표지가 그림 하나로 충분한 글에 쓴다.
       hideCoverKind: z.boolean().default(false),
+      // 표지 태그라인을 두 줄로 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
+      // 태그가 긴 영어 글에 쓴다(#predictive maintenance).
+      coverKindBreakAfter: z.string().optional(),
       // 표지 글자색(hex). 지정하면 자동 판정(잉크/흰색)보다 우선한다.
       // 밑색과 같은 계열의 짙은 단계를 쓰고 싶을 때 넣는다.
       coverTextColor: z.string().optional(),

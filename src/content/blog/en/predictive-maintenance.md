@@ -11,6 +11,7 @@ coverTextColor: "#2C388B"
 coverTexture: "/img_cover-ribbon.webp"
 coverIcon: "/icon_insight-maintenance.svg"
 coverIconAt: "center"
+coverKindBreakAfter: "predictive"
 cardBreakAfter: "but the work of reading early signs in data."
 lang: "en"
 ---
