@@ -44,7 +44,7 @@ defects can be identified in the data.
 
 ## From warning to action
 
-The point of quality prediction is not a defect-rate chart but action that reduces
+The point of quality prediction is not a <span class="nb">defect-rate</span> chart but action that reduces
 defects. When guidance arrives with its evidence – "current conditions resemble a period
 that produced defects; check the temperature" – the floor can intervene before the part
 is finished. Here too, an answer needs its evidence attached before anyone will act on it.

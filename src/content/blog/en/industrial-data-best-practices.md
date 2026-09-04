@@ -35,7 +35,7 @@ recalibration than when it arrives at the end of an unusual trend. Unless it is 
 alongside the value – which system, which tag, collected when, and what transformations it
 passed through – there is no way to tell whether that number is fact or error.
 
-Data lineage is therefore not a nice-to-have but the minimum condition for trust. Make the
+Data lineage is therefore not a <span class="nb">nice-to-have</span> but the minimum condition for trust. Make the
 source system, tag, collection time, and any unit conversions or corrections travel with
 the value. Buried inside an ETL script it is of no use. It has to be something you can
 trace back the moment you need to.
@@ -62,7 +62,7 @@ down the common sense of the site as data. Which machine belongs where, and what
 to what, is already in the head of someone who has worked there a long time. The point is
 to get that knowledge out into a structure.
 
-Trying to draw an enterprise-wide ontology from the start is exhausting. Pick the single
+Trying to draw an <span class="nb">enterprise-wide</span> ontology from the start is exhausting. Pick the single
 judgment that repeats most often right now, and define only the entities and relationships
 that judgment needs. Starting small and widening as you confirm it is actually used lasts
 much longer.
@@ -73,7 +73,7 @@ Anomalies show up in the **trend**, not in an instantaneous value. A temperature
 tells you nothing on its own about whether it is normal or a warning. You need to know the
 range this machine usually moves within, and how fast the value is climbing now.
 
-So the real-time stream and past history have to be comparable on one screen. When the
+So the <span class="nb">real-time</span> stream and past history have to be comparable on one screen. When the
 current value sits alongside the last few days, the pattern from the same period last
 season, and the curve leading into a past failure, you can tell whether what is happening
 now is a signal you have never seen or one you recognize.
@@ -90,7 +90,7 @@ it into action falls entirely on a person. A red gauge only signals that "someth
 wrong." It does not answer what, why, or how.
 
 For data to lead to action, the last step has to come back into human language. "Vibration
-on pump 3, line B is trending upward in a pattern resembling the run-up to the last
+on pump 3, line B is trending upward in a pattern resembling the <span class="nb">run-up</span> to the last
 failure. Bearing wear is suspected; inspection recommended." When a likely cause and a
 next action arrive as a sentence, someone with less experience can reach the same judgment.
 

@@ -53,8 +53,8 @@ is no small amount of construction.
 
 So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
 on the motor – with no wiring work it can go onto equipment that is already running. A
-built-in 3-axis accelerometer measures vibration along with temperature, and the data goes
-out over LoRaWAN. Because LoRaWAN is low-power, the battery lasts and the signal carries
+<span class="nb">built-in</span> 3-axis accelerometer measures vibration along with temperature, and the data goes
+out over LoRaWAN. Because LoRaWAN is <span class="nb">low-power</span>, the battery lasts and the signal carries
 far, so sensors spread across a large plant can be collected by one or two gateways such
 as the <span class="nb">WISE-6610</span>.
 
@@ -70,7 +70,7 @@ sensor to the machine you want to watch.
 ## In a form a person can act on
 
 A risk score alone does not move anyone. More than "this pump is at 0.87 risk," it is a
-sentence like "vibration is rising in a pattern similar to the run-up to the last failure;
+sentence like "vibration is rising in a pattern similar to the <span class="nb">run-up</span> to the last failure;
 bearing wear is suspected; inspection recommended" that produces action. An AI agent turns
 the analysis back into human language like this, and presents the data and history the
 judgment rests on alongside it.
