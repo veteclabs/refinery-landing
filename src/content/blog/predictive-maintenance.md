@@ -8,6 +8,7 @@ author: "Refinery팀"
 tags: ["예지보전", "AI 에이전트", "현장운영"]
 category: "인사이트"
 coverColor: "#7884D8"
+coverTextColor: "#2C388B"
 coverTexture: "/img_cover-ribbon.webp"
 ---
 

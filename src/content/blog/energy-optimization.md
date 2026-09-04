@@ -8,6 +8,7 @@ author: "Refinery팀"
 tags: ["에너지", "ESG", "최적화"]
 category: "인사이트"
 coverColor: "#F0A93A"
+coverTextColor: "#84550D"
 coverTexture: "/img_cover-ribbon.webp"
 coverIcon: "/icon_insight.svg"
 coverIconAt: "center"
