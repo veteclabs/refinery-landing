@@ -5,6 +5,13 @@ pubDate: 2026-07-30
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["predictive maintenance", "AI agents", "operations"]
+category: "Insight"
+coverColor: "#7884D8"
+coverTextColor: "#2C388B"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-maintenance.svg"
+coverIconAt: "center"
+cardBreakAfter: "but the work of reading early signs in data."
 lang: "en"
 ---
 

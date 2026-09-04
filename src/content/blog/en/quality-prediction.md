@@ -5,6 +5,13 @@ pubDate: 2026-07-31
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["quality", "data", "AI agents"]
+category: "Insight"
+coverColor: "#4DB2A1"
+coverTextColor: "#204640"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-quality.svg"
+coverIconAt: "center"
+cardBreakAfter: "Final inspection is too late."
 lang: "en"
 ---
 

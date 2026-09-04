@@ -5,6 +5,10 @@ pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["news", "product"]
+category: "News"
+hideCoverKind: true
+image: "../../../assets/blog/refinery-blog-start.webp"
+cardBreakAfter: "Insight and product news on industrial data,"
 lang: "en"
 ---
 

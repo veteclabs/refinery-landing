@@ -5,6 +5,13 @@ pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["best practices", "data", "ontology"]
+category: "Guide"
+coverColor: "#D3E7F8"
+coverTextColor: "#173B6B"
+coverIcon: "/icon_blog.svg"
+coverFoot: "Guide"
+titleBreakAfter: "for turning"
+cardBreakAfter: "Practical principles for turning scattered site data"
 lang: "en"
 ---
 

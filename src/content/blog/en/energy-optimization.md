@@ -5,6 +5,13 @@ pubDate: 2026-07-31
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["energy", "ESG", "optimization"]
+category: "Insight"
+coverColor: "#F0A93A"
+coverTextColor: "#84550D"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-energy.svg"
+coverIconAt: "center"
+cardBreakAfter: "looks at, not the obvious ones."
 lang: "en"
 ---
 
