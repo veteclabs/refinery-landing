@@ -7,7 +7,7 @@ updatedDate: 2026-07-31
 author: "Refinery팀"
 tags: ["모범사례", "데이터", "온톨로지"]
 category: "가이드"
-coverColor: "#D3E7F8"
+coverColor: "#EDF4FC"
 coverTextColor: "#173B6B"
 coverFoot: "가이드"
 coverIcon: "/icon_blog.svg"
