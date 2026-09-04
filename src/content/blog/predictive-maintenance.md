@@ -9,7 +9,6 @@ tags: ["예지보전", "AI 에이전트", "현장운영"]
 category: "인사이트"
 coverColor: "#7884D8"
 coverTextColor: "#2C388B"
-coverFoot: "인사이트"
 coverTexture: "/img_cover-ribbon.webp"
 coverIcon: "/icon_insight-maintenance.svg"
 coverIconAt: "center"

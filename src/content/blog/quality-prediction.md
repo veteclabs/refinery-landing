@@ -9,7 +9,6 @@ tags: ["품질", "데이터", "AI 에이전트"]
 category: "인사이트"
 coverColor: "#4DB2A1"
 coverTextColor: "#204640"
-coverFoot: "인사이트"
 coverTexture: "/img_cover-ribbon.webp"
 coverIcon: "/icon_insight-quality.svg"
 coverIconAt: "center"
