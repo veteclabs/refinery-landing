@@ -124,7 +124,6 @@ context; seeing the trend makes judgment possible; returning to human language m
 action. And all of it is complete only when — layered on or newly built — it gathers into
 one body of knowledge.
 
-How data integration and AI agents actually fit together is covered in more depth in the
-[industrial data integration](/whitepapers/data-integration) and
-[industrial AI agents](/whitepapers/ai-agent) whitepapers. If you would like to talk
-through how it applies to your site, get in touch through [contact](/en/contact).
+<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/whitepapers/ai-agent)<br>
+<span class="lead-dot"></span>To talk through your own site → [Contact](/en/contact)

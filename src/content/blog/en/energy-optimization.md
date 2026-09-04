@@ -54,8 +54,5 @@ was actually happening is where the waste starts to show.
 
 ## In closing
 
-Energy optimization comes down, in the end, to how data is connected and how far it can be
-trusted. The groundwork is in
-[five principles for turning data into an asset](/en/blog/industrial-data-best-practices),
-and how it applies to energy and utility sites is on the
-[energy industry page](/en/industries/energy).
+<span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>For how it lands on site → [Energy · Utilities](/en/industries/energy)

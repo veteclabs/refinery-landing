@@ -84,9 +84,5 @@ actually being caught, and widen the scope from there.
 
 ## In closing
 
-Predictive maintenance is, in the end, a data problem. Once trustworthy history and
-context are in place, prediction follows naturally on top. How data becomes an asset is
-covered in
-[five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices),
-and how AI helps decide with evidence continues in the
-[industrial AI agents](/whitepapers/ai-agent) whitepaper.
+<span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>For how AI decides with evidence → [AI agent whitepaper](/whitepapers/ai-agent)
