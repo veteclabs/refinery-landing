@@ -52,12 +52,18 @@ const t =
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
     background: #ffffff; color: #16202c;
     border-top: 1px solid #e3e7ec;
-    padding: 16px 24px;
+    padding: 16px 0;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
+  /* 안쪽 단은 헤더(.nav-inner)·본문(.container)과 같은 값이다 — 1280 / 좌우 48.
+     그래야 배너 글이 헤더 로고와 같은 선에서 시작한다(1440px에서 128px).
+     900px 아래에서 24로 좁히는 것도 그쪽 규칙을 그대로 따른다. */
   .cc-inner {
-    max-width: 1280px; margin: 0 auto;
+    max-width: 1280px; margin: 0 auto; padding: 0 48px;
     display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  @media (max-width: 900px) {
+    .cc-inner { padding: 0 24px; }
   }
   .cc[hidden] { display: none; }
   .cc-copy { flex: 1 1 320px; }
@@ -73,7 +79,7 @@ const t =
   .cc-ghost { background: transparent; color: #47535f; border-color: #d4d4d8; }
   .cc-ghost:hover { border-color: #16202c; color: #16202c; }
   @media (max-width: 560px) {
-    .cc { padding: 14px 20px; }
+    .cc { padding: 14px 0; }
     .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
     /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
     .cc-copy { flex: 0 1 auto; }
