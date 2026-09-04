@@ -39,7 +39,7 @@ export interface Props {
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverTexture, coverColor, coverTextColor, coverFoot,
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverTexture, coverIconAt = 'corner', coverColor, coverTextColor, coverFoot,
   hideCoverKind = false, tags = [], titleBreakAfter, slug,
   lang = 'ko',
 } = Astro.props;
@@ -130,7 +130,7 @@ const jsonLd = {
           {coverTexture && (
             <img class="thumb-texture" src={coverTexture} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           )}
-          {coverIcon && <img class="thumb-icon" src={coverIcon} alt="" loading="lazy" decoding="async" />}
+          {coverIcon && <img class:list={['thumb-icon', coverIconAt === 'center' && 'is-center']} src={coverIcon} alt="" loading="lazy" decoding="async" />}
           {/* 표지 안 구성은 목록 카드(.res-cover)와 같다 — 왼쪽 위 태그라인, 대제목,
               왼쪽 아래 글. 칸이 커진 만큼 글자와 안여백을 1.5배로 키웠다. */}
           {(coverTitle || coverFoot || (tags[0] && !hideCoverKind)) && (

@@ -9,6 +9,8 @@ tags: ["에너지", "ESG", "최적화"]
 category: "인사이트"
 coverColor: "#F0A93A"
 coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight.svg"
+coverIconAt: "center"
 ---
 
 에너지 비용을 줄이려면 먼저 어디서 새는지를 알아야 합니다. 그런데 낭비는 대체로

@@ -82,7 +82,7 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                   <img class="thumb-texture" src={post.data.coverTexture} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {post.data.coverIcon && (
-                  <img class="thumb-icon" src={post.data.coverIcon} alt="" loading="lazy" decoding="async" />
+                  <img class:list={['thumb-icon', post.data.coverIconAt === 'center' && 'is-center']} src={post.data.coverIcon} alt="" loading="lazy" decoding="async" />
                 )}
                 {post.data.tags[0] && !post.data.hideCoverKind && (
                   <div class="res-cover">
