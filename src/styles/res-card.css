@@ -111,6 +111,14 @@
      잘리므로(각 21px) 이 값이 화면을 바꾸지는 않는다. 칸 비율이나 사진이 바뀌어
      위아래를 자르게 되면 그때 하단이 남는다. */
   .blog-list .res-thumb:not(.is-empty) img { object-position: center bottom; }
+  /* 표지 밑색 위에 깔리는 무늬(글 머리 표지와 같은 값).
+     ⚠️ 위의 .res-thumb img(선택자 2개)가 이미 width/height 100%·cover를 걸고 있어
+     같은 2개로 올려야 밀리지 않는다. */
+  .blog-list .res-thumb img.thumb-texture {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    mix-blend-mode: multiply; opacity: .30; pointer-events: none;
+  }
   /* 표지 오른쪽 아래 아이콘. 글 머리 표지와 같은 자리·같은 비율이다.
      아이콘 파일의 viewBox를 그림에 딱 맞게 좁혀 두어(public/icon_*.svg), 여기 여백이
      곧 보이는 가장자리의 여백이다. 표지 안여백과 같은 값을 준다(22px · 28px @383).

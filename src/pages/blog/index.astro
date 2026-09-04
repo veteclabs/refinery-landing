@@ -77,6 +77,10 @@ const splitDesc = (desc: string, at?: string): [string, string] => {
                   />
                 )}
                 {post.data.image && <BrandMark class="thumb-mark" />}
+                {/* 밑색 위에 깔리는 무늬. 표지 사진(image)과 달리 덮지 않고 섞인다. */}
+                {post.data.coverTexture && (
+                  <img class="thumb-texture" src={post.data.coverTexture} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                )}
                 {post.data.coverIcon && (
                   <img class="thumb-icon" src={post.data.coverIcon} alt="" loading="lazy" decoding="async" />
                 )}

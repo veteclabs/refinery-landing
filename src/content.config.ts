@@ -27,6 +27,9 @@ const blog = defineCollection({
       // 표지 오른쪽 아래에 얹는 아이콘(public 경로). 표지 사진과 별개로 붙는다 —
       // 사진이 없는 글에서는 빈 면 위에 아이콘만 놓인다.
       coverIcon: z.string().optional(),
+      // 표지 밑색 위에 깔 무늬(public 경로). 흑백 이미지를 곱하기로 얹어
+      // 밑색에 묻히게 한다 — 사진처럼 덮는 표지(image)와는 다른 자리다.
+      coverTexture: z.string().optional(),
       // 표지 밑색(hex). 사진이 없는 글에서 표지 면에 깔린다. 글마다 다르게 준다.
       // 글자색은 정하지 않는다 — 이 색 위에서 잉크색과 흰색 중 잘 읽히는 쪽을
       // 빌드 때 골라 쓴다(src/utils/cover-tone.ts).
