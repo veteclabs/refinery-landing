@@ -30,26 +30,34 @@ const t =
       };
 ---
 <div id="cookieConsent" class="cc" role="dialog" aria-label={t.aria} aria-live="polite" hidden>
-  <div class="cc-copy">
-    <p class="cc-text">{t.text}</p>
-    <p class="cc-links">{t.more} <a href={t.cookieHref}>{t.cookie}</a> · <a href={t.privacyHref}>{t.privacy}</a></p>
-  </div>
-  <div class="cc-actions">
-    <button type="button" id="ccDecline" class="cc-btn cc-ghost">{t.decline}</button>
-    <button type="button" id="ccAccept" class="cc-btn cc-primary">{t.accept}</button>
+  <div class="cc-inner">
+    <div class="cc-copy">
+      <p class="cc-text">{t.text}</p>
+      <p class="cc-links">{t.more} <a href={t.cookieHref}>{t.cookie}</a> · <a href={t.privacyHref}>{t.privacy}</a></p>
+    </div>
+    <div class="cc-actions">
+      <button type="button" id="ccDecline" class="cc-btn cc-ghost">{t.decline}</button>
+      <button type="button" id="ccAccept" class="cc-btn cc-primary">{t.accept}</button>
+    </div>
   </div>
 </div>
 
 <style>
+  /* 화면 아래에 폭을 꽉 채워 붙는 띠. 떠 있는 상자가 아니라 창의 일부처럼 앉는다.
+     그래서 좌우·아래 여백과 모서리를 없애고, 그림자 대신 위쪽 선 하나로 본문과
+     나눈다 — 떠 있지 않으므로 그림자가 할 일이 없다.
+     글은 안쪽 단(.cc-inner)에서 사이트의 다른 단과 같은 1280px 선에 맞춘다.
+     띠는 끝까지 가되 글까지 화면 끝에 붙으면 읽기 어렵다. */
   .cc {
-    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 200;
-    max-width: 720px; margin: 0 auto;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
     background: #ffffff; color: #16202c;
-    border: 1px solid #e3e7ec; border-radius: 14px;
-    box-shadow: 0 10px 40px rgba(10, 14, 20, 0.18);
-    padding: 18px 20px;
-    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    border-top: 1px solid #e3e7ec;
+    padding: 16px 24px;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .cc-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
   }
   .cc[hidden] { display: none; }
   .cc-copy { flex: 1 1 320px; }
@@ -65,7 +73,8 @@ const t =
   .cc-ghost { background: transparent; color: #47535f; border-color: #d4d4d8; }
   .cc-ghost:hover { border-color: #16202c; color: #16202c; }
   @media (max-width: 560px) {
-    .cc { flex-direction: column; align-items: stretch; }
+    .cc { padding: 14px 20px; }
+    .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
     /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
     .cc-copy { flex: 0 1 auto; }
     .cc-actions { margin-left: 0; }
