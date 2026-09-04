@@ -19,7 +19,7 @@ const t =
       }
     : {
         text: '저희는 쿠키를 사용하여 사이트 탐색을 개선하고 사이트 사용량을 분석합니다. \'모두 허용\' 시 분석 데이터가 미국(Google·Mixpanel)으로 이전될 수 있습니다.',
-        more: '자세한 내용:',
+        more: '자세한 내용 :',
         accept: '모두 허용',
         decline: '모두 거부',
         cookie: '쿠키 정책',
@@ -30,42 +30,90 @@ const t =
       };
 ---
 <div id="cookieConsent" class="cc" role="dialog" aria-label={t.aria} aria-live="polite" hidden>
-  <div class="cc-copy">
-    <p class="cc-text">{t.text}</p>
-    <p class="cc-links">{t.more} <a href={t.cookieHref}>{t.cookie}</a> · <a href={t.privacyHref}>{t.privacy}</a></p>
-  </div>
-  <div class="cc-actions">
-    <button type="button" id="ccDecline" class="cc-btn cc-ghost">{t.decline}</button>
-    <button type="button" id="ccAccept" class="cc-btn cc-primary">{t.accept}</button>
+  <div class="cc-inner">
+    <div class="cc-copy">
+      <p class="cc-text">{t.text}</p>
+      <p class="cc-links">{t.more} <a href={t.cookieHref}>{t.cookie}</a> · <a href={t.privacyHref}>{t.privacy}</a></p>
+    </div>
+    <div class="cc-actions">
+      <button type="button" id="ccDecline" class="cc-btn cc-ghost">{t.decline}</button>
+      <button type="button" id="ccAccept" class="cc-btn cc-primary">{t.accept}</button>
+    </div>
   </div>
 </div>
 
 <style>
+  /* 화면 아래에 폭을 꽉 채워 붙는 띠. 떠 있는 상자가 아니라 창의 일부처럼 앉는다.
+     그래서 좌우·아래 여백과 모서리를 없애고, 그림자 대신 위쪽 선 하나로 본문과
+     나눈다 — 떠 있지 않으므로 그림자가 할 일이 없다.
+     글은 안쪽 단(.cc-inner)에서 사이트의 다른 단과 같은 1280px 선에 맞춘다.
+     띠는 끝까지 가되 글까지 화면 끝에 붙으면 읽기 어렵다. */
   .cc {
-    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 200;
-    max-width: 720px; margin: 0 auto;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
     background: #ffffff; color: #16202c;
-    border: 1px solid #e3e7ec; border-radius: 14px;
-    box-shadow: 0 10px 40px rgba(10, 14, 20, 0.18);
-    padding: 18px 20px;
-    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    border-top: 1px solid #e3e7ec;
+    padding: 32px 0;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  /* 안쪽 단은 헤더(.nav-inner)·본문(.container)과 같은 값이다 — 1280 / 좌우 48.
+     그래야 배너 글이 헤더 로고와 같은 선에서 시작한다(1440px에서 128px).
+     900px 아래에서 24로 좁히는 것도 그쪽 규칙을 그대로 따른다. */
+  .cc-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 48px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  @media (max-width: 900px) {
+    .cc-inner { padding: 0 24px; }
   }
   .cc[hidden] { display: none; }
   .cc-copy { flex: 1 1 320px; }
   /* keep-all: 없으면 좁은 폭에서 한글이 어절 한가운데서 끊긴다
      (320px에서 '개선하/고', 640px에서 '분/석합니다'). 전 페이지 공통 배너다. */
-  .cc-text { margin: 0; font-size: 13.5px; line-height: 1.6; color: #47535f; word-break: keep-all; overflow-wrap: break-word; }
+  /* 글자는 모두 디자인시스템 ink 스케일로 맞춘다.
+     본문은 ink-700(9.37:1) — 전에 쓰던 #47535F(8.42:1)는 시스템에 없는 값이었고
+     ink-700이 무게가 가장 가깝다. */
+  .cc-text { margin: 0; font-size: 13.5px; line-height: 1.6; color: #3a4856; word-break: keep-all; overflow-wrap: break-word; }
+  /* 링크줄은 ink-500(#7E8A98, 3.51:1). '자세한 내용:'이라는 안내말이라 본문보다
+     두 단계 옅게 둔다 — 정작 읽어야 할 것은 그 뒤의 링크다.
+     ⚠️ 12.5px 글자 기준(4.5:1)에는 못 미친다. 한 단계 올리려면 ink-600(#5A6776,
+     5.77:1)이다. */
   .cc-links { margin: 6px 0 0; font-size: 12.5px; color: #7e8a98; }
-  .cc-links a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; }
+  /* 링크 #3F76AE (4.94:1). 12.5px 기준(4.5:1)을 넘는다.
+     Blue 스케일에 정확히 있는 값은 아니고 500(#3B7FD4)과 600(#2965B4) 사이다. */
+  .cc-links a { color: #3f76ae; text-decoration: underline; text-underline-offset: 2px; }
   .cc-actions { display: flex; gap: 8px; margin-left: auto; }
-  .cc-btn { font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; font-family: inherit; }
-  .cc-primary { background: #16202c; color: #fff; }
-  .cc-primary:hover { background: #0b1219; }
-  .cc-ghost { background: transparent; color: #47535f; border-color: #d4d4d8; }
-  .cc-ghost:hover { border-color: #16202c; color: #16202c; }
+  /* 헤더의 '문의하기'(.btn-primary)와 같은 규격이다 —
+     6px 18px · 14px · 400 · 테두리 1px 60% · 모서리 6px.
+     ⚠️ 색만 다르다. 헤더는 #111111 / rgba(17,17,17,.6)을 쓰는데 둘 다 디자인
+     시스템 ink 스케일에 없는 날것의 검정이다(ink-900은 #16202C). 여기서는
+     시스템 값으로 맞춘다 — 글자 ink-900(#16202C), 테두리 ink-500(#7E8A98).
+     테두리를 불투명한 단계로 두는 이유: 반투명은 뒤 배경에 따라 색이 달라진다.
+     지금은 배너가 흰 면 위에 있지만 값 자체가 배경에 기대지 않게 한다.
+     헤더도 같은 문제를 갖고 있지만 전 페이지에 걸리는 값이라 여기서 손대지 않는다.
+     line-height는 헤더가 페이지에서 물려받는 값(1.65 = 23.1px)을 그대로 적는다.
+     <button>은 기본이 normal이라 이걸 안 적으면 높이가 37px 대신 30px이 된다.
+     호버는 두지 않는다(요청) — 그래서 transition도 없다.
+     두 버튼은 색으로 갈리지 않는다. '모두 허용'만 굵기를 한 단계 올려
+     어느 쪽이 기본인지 알린다. */
+  .cc-btn {
+    padding: 6px 18px; font-size: 14px; font-weight: 400; line-height: 1.65;
+    font-family: inherit;
+    background: transparent; color: #16202c;
+    border: 1px solid #7e8a98; border-radius: 6px;
+    cursor: pointer;
+  }
+  /* '모두 허용'은 잉크색으로 면을 채운다 — 두 버튼이 같은 모양이라 기본 동작을
+     면으로 알린다. 흰 글자가 15.94:1로 또렷하다.
+     테두리도 같은 색으로 둔다. 그냥 두면 면과 겹쳐 가장자리만 두 번 칠해진다. */
+  .cc-primary {
+    font-weight: 600;
+    background: #16202c;
+    border-color: #16202c;
+    color: #ffffff;
+  }
   @media (max-width: 560px) {
-    .cc { flex-direction: column; align-items: stretch; }
+    .cc { padding: 24px 0; }
+    .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
     /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
     .cc-copy { flex: 0 1 auto; }
     .cc-actions { margin-left: 0; }
