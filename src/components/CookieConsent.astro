@@ -73,11 +73,21 @@ const t =
   .cc-links { margin: 6px 0 0; font-size: 12.5px; color: #7e8a98; }
   .cc-links a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; }
   .cc-actions { display: flex; gap: 8px; margin-left: auto; }
-  .cc-btn { font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; font-family: inherit; }
-  .cc-primary { background: #16202c; color: #fff; }
-  .cc-primary:hover { background: #0b1219; }
-  .cc-ghost { background: transparent; color: #47535f; border-color: #d4d4d8; }
-  .cc-ghost:hover { border-color: #16202c; color: #16202c; }
+  /* 헤더의 '문의하기'(.btn-primary)와 같은 규격이다 —
+     6px 18px · 14px · 400 · 테두리 1px rgba(17,17,17,.6) · 모서리 6px.
+     line-height는 헤더가 페이지에서 물려받는 값(1.65 = 23.1px)을 그대로 적는다.
+     <button>은 기본이 normal이라 이걸 안 적으면 높이가 37px 대신 30px이 된다.
+     호버는 두지 않는다(요청) — 그래서 transition도 없다.
+     두 버튼은 색으로 갈리지 않는다. '모두 허용'만 굵기를 한 단계 올려
+     어느 쪽이 기본인지 알린다. */
+  .cc-btn {
+    padding: 6px 18px; font-size: 14px; font-weight: 400; line-height: 1.65;
+    font-family: inherit;
+    background: transparent; color: #111111;
+    border: 1px solid rgba(17, 17, 17, 0.6); border-radius: 6px;
+    cursor: pointer;
+  }
+  .cc-primary { font-weight: 600; }
   @media (max-width: 560px) {
     .cc { padding: 14px 0; }
     .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
