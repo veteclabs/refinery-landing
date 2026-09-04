@@ -9,6 +9,7 @@ tags: ["에너지", "ESG", "최적화"]
 category: "인사이트"
 coverColor: "#F0A93A"
 coverTextColor: "#84550D"
+coverFoot: "인사이트"
 coverTexture: "/img_cover-ribbon.webp"
 coverIcon: "/icon_insight-energy.svg"
 coverIconAt: "center"
