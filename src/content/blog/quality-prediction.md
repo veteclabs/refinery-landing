@@ -10,7 +10,7 @@ category: "인사이트"
 coverColor: "#4DB2A1"
 coverTextColor: "#204640"
 coverTexture: "/img_cover-ribbon.webp"
-coverIcon: "/icon_insight-02.svg"
+coverIcon: "/icon_insight-quality.svg"
 coverIconAt: "center"
 ---
 

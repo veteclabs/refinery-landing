@@ -10,6 +10,8 @@ category: "인사이트"
 coverColor: "#7884D8"
 coverTextColor: "#2C388B"
 coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-maintenance.svg"
+coverIconAt: "center"
 ---
 
 설비가 멈추면 그 순간부터 손실이 쌓입니다. 그래서 많은 현장이 고장을 미리 막으려
