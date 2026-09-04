@@ -4,8 +4,8 @@ import type { IndustryData } from './types';
 // ⚠️ 초안(원어민 검수 전).
 export const steelEn: IndustryData = {
   slug: 'steel',
-  name: 'Materials & Steel',
-  pageTitle: 'Refinery for materials & steel: heat-treatment quality, peak load control, compressed air optimization',
+  name: 'Steel & Materials',
+  pageTitle: 'Refinery for steel & materials: heat-treatment quality, peak load control, compressed air optimization',
   description:
     'Connect heat-treatment temperature, cooling curves, compressed air and peak demand into one structure, and let an AI agent trace the cause of quality variance. Refinery for steel, non-ferrous and materials coating operations.',
   hero: {
@@ -17,12 +17,12 @@ export const steelEn: IndustryData = {
     imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Materials · Steel',
+    eyebrow: 'Steel · Materials',
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {
     dark: true,
-    title: 'Challenges on materials sites',
+    title: 'Challenges on steel sites',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
       {
@@ -44,7 +44,7 @@ export const steelEn: IndustryData = {
   },
   useCases: {
     title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a materials site.',
+    subtitle: 'What <mark>Refinery\nactually does</mark>\non a steel site.',
     layout: 'steps',
     items: [
       {
@@ -129,13 +129,13 @@ export const steelEn: IndustryData = {
   },
   integrations: {
     title: 'Systems we connect to',
-    subtitle: 'The systems and protocols commonly used on materials sites.',
+    subtitle: 'The systems and protocols commonly used on steel sites.',
     systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour materials operation, together.',
+    title: 'Let’s find the answer that fits\nyour steel operation, together.',
     buttonLabel: 'Request a demo',
   },
 };
