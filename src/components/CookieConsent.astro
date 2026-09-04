@@ -87,13 +87,13 @@ const t =
     border: 1px solid rgba(17, 17, 17, 0.6); border-radius: 6px;
     cursor: pointer;
   }
-  /* '모두 허용'은 테두리와 같은 색으로 면을 채운다 — 두 버튼이 같은 모양이라
-     기본 동작을 면으로 알린다. 글자는 흰색이다(4.95:1, 잉크색은 3.81:1로 미달).
-     테두리를 그대로 두면 면과 겹쳐 두 번 칠해지므로 테두리 색도 같게 맞춘다. */
+  /* '모두 허용'은 잉크색으로 면을 채운다 — 두 버튼이 같은 모양이라 기본 동작을
+     면으로 알린다. 흰 글자가 15.94:1로 또렷하다.
+     테두리도 같은 색으로 둔다. 그냥 두면 면과 겹쳐 가장자리만 두 번 칠해진다. */
   .cc-primary {
     font-weight: 600;
-    background: rgba(17, 17, 17, 0.6);
-    border-color: rgba(17, 17, 17, 0.6);
+    background: #16202c;
+    border-color: #16202c;
     color: #ffffff;
   }
   @media (max-width: 560px) {
