@@ -52,7 +52,7 @@ const t =
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
     background: #ffffff; color: #16202c;
     border-top: 1px solid #e3e7ec;
-    padding: 16px 0;
+    padding: 32px 0;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   /* 안쪽 단은 헤더(.nav-inner)·본문(.container)과 같은 값이다 — 1280 / 좌우 48.
@@ -87,9 +87,17 @@ const t =
     border: 1px solid rgba(17, 17, 17, 0.6); border-radius: 6px;
     cursor: pointer;
   }
-  .cc-primary { font-weight: 600; }
+  /* '모두 허용'은 테두리와 같은 색으로 면을 채운다 — 두 버튼이 같은 모양이라
+     기본 동작을 면으로 알린다. 글자는 흰색이다(4.95:1, 잉크색은 3.81:1로 미달).
+     테두리를 그대로 두면 면과 겹쳐 두 번 칠해지므로 테두리 색도 같게 맞춘다. */
+  .cc-primary {
+    font-weight: 600;
+    background: rgba(17, 17, 17, 0.6);
+    border-color: rgba(17, 17, 17, 0.6);
+    color: #ffffff;
+  }
   @media (max-width: 560px) {
-    .cc { padding: 14px 0; }
+    .cc { padding: 24px 0; }
     .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
     /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
     .cc-copy { flex: 0 1 auto; }
