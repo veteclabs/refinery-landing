@@ -134,7 +134,7 @@ img { max-width: 100%; height: auto; }
   display: flex; flex-direction: column; gap: 2.089cqw;
   pointer-events: none;
 }
-.post-cover-kind { font-size: 3.655cqw; font-weight: 600; letter-spacing: -0.014em; color: #16202C; }
+.post-cover-kind { font-size: 3.655cqw; font-weight: 600; line-height: 1.25; letter-spacing: -0.014em; color: #16202C; }
 .post-cover-line { font-size: 6.266cqw; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; color: #16202C; }
 /* 카드와 같이 아래로 밀어 붙인다. */
 .post-cover-foot { margin-top: auto; font-size: 3.394cqw; font-weight: 400; letter-spacing: -0.015em; color: #16202C; }
