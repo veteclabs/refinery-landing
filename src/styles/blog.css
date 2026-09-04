@@ -108,11 +108,13 @@ img { max-width: 100%; height: auto; }
   position: absolute; right: 5.744cqw; bottom: 7.311cqw; z-index: 2;
   width: 23.24cqw; height: auto;
 }
-/* 가운데 놓는 자리. 모서리에 붙을 때보다 조금 키운다 — 옆에 아무것도 없어
-   같은 크기면 작아 보인다. 좌우 여백을 지워 정확히 가운데에 둔다. */
+/* 가운데 놓는 자리. 모서리에 붙을 때(23.24cqw)보다 키운다 — 옆에 아무것도 없어
+   같은 크기면 작아 보인다. 좌우 여백을 지워 정확히 가운데에 둔다.
+   여섯 크기를 렌더해 비교했다. 더 키우면(42cqw 위) 카드에서 그림 아래가 표지
+   밑변에 닿고, 더 줄이면(27cqw 아래) 카드에서 세부가 뭉갠다. */
 .post-thumb .thumb-icon.is-center {
   right: auto; bottom: auto; left: 50%; top: 50%; translate: -50% -50%;
-  width: 31.33cqw;
+  width: 36cqw;
 }
 /* 표지 안 대제목. 자리는 자료실 표지(.res-cover)와 같은 왼쪽 위이고, 칸이 큰 만큼
    안여백과 글자만 키웠다. 굵기·행간·자간은 자료실 표지 한 줄과 같은 값이다.
