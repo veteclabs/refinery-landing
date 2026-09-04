@@ -129,7 +129,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
             { label: 'Energy management', href: '/en/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
             { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
-            { label: 'Resources & whitepapers', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
+            { label: 'Resource library', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
           ],
         },
       ],
@@ -254,7 +254,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
         { label: 'Industrial AI', href: '/en/industrial-ai' },
         { label: 'Energy management', href: '/en/energy-management' },
         { label: 'Blog', href: '/en/blog' },
-        { label: 'Resources & whitepapers', href: '/en/resources' },
+        { label: 'Resource library', href: '/en/resources' },
       ],
     },
     {
