@@ -8,6 +8,7 @@ author: "Refinery팀"
 tags: ["품질", "데이터", "AI 에이전트"]
 category: "인사이트"
 coverColor: "#4DB2A1"
+coverTexture: "/img_cover-ribbon.webp"
 ---
 
 불량 하나가 검사에서 걸러졌다면 그건 다행입니다. 문제는 걸러진 그 시점에 이미
