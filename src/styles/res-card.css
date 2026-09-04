@@ -131,7 +131,7 @@
   /* 가운데 놓는 자리(글 머리 표지와 같은 값). */
   .blog-list .res-thumb img.thumb-icon.is-center {
     right: auto; bottom: auto; left: 50%; top: 50%; translate: -50% -50%;
-    width: 36cqw;
+    width: 42cqw;
   }
   /* 표지 한가운데 브랜드 심볼. 도형만 그대로 얹는다(글 머리와 같다) —
      뒷판도 그림자도 없다. 글자 막(.res-cover, z-index 1)보다 위에 둔다. */

@@ -114,7 +114,7 @@ img { max-width: 100%; height: auto; }
    밑변에 닿고, 더 줄이면(27cqw 아래) 카드에서 세부가 뭉갠다. */
 .post-thumb .thumb-icon.is-center {
   right: auto; bottom: auto; left: 50%; top: 50%; translate: -50% -50%;
-  width: 36cqw;
+  width: 42cqw;
 }
 /* 표지 안 대제목. 자리는 자료실 표지(.res-cover)와 같은 왼쪽 위이고, 칸이 큰 만큼
    안여백과 글자만 키웠다. 굵기·행간·자간은 자료실 표지 한 줄과 같은 값이다.
