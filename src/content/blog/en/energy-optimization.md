@@ -5,6 +5,13 @@ pubDate: 2026-07-31
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["energy", "ESG", "optimization"]
+category: "Insight"
+coverColor: "#F0A93A"
+coverTextColor: "#84550D"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-energy.svg"
+coverIconAt: "center"
+cardBreakAfter: "looks at, not the obvious ones."
 lang: "en"
 ---
 
@@ -15,7 +22,7 @@ that "where" visible in the data.
 ## Looking only at the big machines misses it
 
 Energy saving tends to bring the largest equipment to mind first. In practice the larger
-waste is often scattered where nobody is looking — machines idling in standby, a
+waste is often scattered where nobody is looking – machines idling in standby, a
 temperature held higher than it needs to be, consumption in hours no one pays attention to.
 
 ## Waste shows up in patterns
@@ -47,8 +54,5 @@ was actually happening is where the waste starts to show.
 
 ## In closing
 
-Energy optimization comes down, in the end, to how data is connected and how far it can be
-trusted. The groundwork is in
-[five principles for turning data into an asset](/en/blog/industrial-data-best-practices),
-and how it applies to energy and utility sites is on the
-[energy industry page](/en/industries/energy).
+<span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>For how it lands on site → [Energy · Utilities](/en/industries/energy)

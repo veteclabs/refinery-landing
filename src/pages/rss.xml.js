@@ -8,7 +8,7 @@ export async function GET(context) {
 
   return rss({
     title: 'Refinery 블로그',
-    description: '산업 데이터·AI 에이전트·현장 운영에 대한 인사이트와 제품 소식.',
+    description: '산업 데이터 · AI 에이전트 · 현장 운영에 대한 인사이트와 제품 소식.',
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,

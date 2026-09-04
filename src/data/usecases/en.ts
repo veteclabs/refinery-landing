@@ -54,7 +54,7 @@ export const useCasesEn: UseCase[] = [
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts, and the hardware holds up in harsh industrial conditions.',
       includes: ['No wiring · mount-on install', 'LoRaWAN wireless · up to 5 km', 'Up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 · −20 to 85°C'],
     },
-    related: { label: 'What predictive maintenance actually predicts', href: '/en/blog/predictive-maintenance' },
+    related: { href: '/en/blog/predictive-maintenance' },
     faq: [
       {
         q: 'What is predictive maintenance?',
@@ -128,7 +128,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Pressure', icon: 'pressure' },
       { label: 'Flow', icon: 'flow' },
     ],
-    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
+    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Multi-sensor monitoring (IoT) | Refinery',
       description: 'Standardize and gather scattered sensors - from IoT devices to existing instrumentation - and connect them through an ontology for real-time monitoring.',
@@ -185,7 +185,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Hourly consumption', icon: 'hourly-usage' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     faq: [
       {
         q: 'What is a power management solution?',
@@ -259,7 +259,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Imbalance', icon: 'imbalance' },
       { label: 'Sag/swell', icon: 'sag-swell' },
     ],
-    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
+    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
       description: 'Monitor voltage, frequency, harmonics and imbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
@@ -316,7 +316,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Energy intensity', icon: 'intensity' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
       description: 'Meter electricity, gas, steam and water across the plant, analyze energy intensity to find waste, and aggregate ESG reports automatically.',
@@ -365,7 +365,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Peak', icon: 'peak' },
       { label: 'Energy intensity', icon: 'intensity' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
       description: 'Find hidden waste and peaks in the data to reduce energy cost - overlaying consumption patterns on work context to uncover inefficiency.',
@@ -415,7 +415,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Process conditions', icon: 'process-condition' },
       { label: 'Inspection results', icon: 'inspection-result' },
     ],
-    related: { label: 'Before the defect appears: what quality prediction really looks like', href: '/en/blog/quality-prediction' },
+    related: { href: '/en/blog/quality-prediction' },
     seo: {
       title: 'Quality prediction | Refinery',
       description: 'Read the early signs of a defect in process data and catch it before the part is finished, connecting process conditions with inspection results.',

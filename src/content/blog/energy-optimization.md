@@ -1,15 +1,22 @@
 ---
 title: "낭비는 어디에 숨어 있나"
-description: "에너지 비용은 큰 곳이 아니라 눈에 잘 안 띄는 곳에서 샙니다. 데이터로 낭비와 피크를 찾는 법."
+description: "에너지 비용은 큰 곳이 아니라 눈에 잘 안 띄는 곳에서 샙니다. 데이터로 낭비와 피크를 찾습니다."
+cardBreakAfter: "샙니다."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["에너지", "ESG", "최적화"]
+category: "인사이트"
+coverColor: "#F0A93A"
+coverTextColor: "#84550D"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-energy.svg"
+coverIconAt: "center"
 ---
 
 에너지 비용을 줄이려면 먼저 어디서 새는지를 알아야 합니다. 그런데 낭비는 대체로
 조용해서, 청구서의 총액만 봐서는 어디를 손봐야 할지 보이지 않습니다. 에너지
-최적화는 이 "어디서"를 데이터로 드러내는 일에서 시작합니다.
+최적화는 이 “어디서<span class="nb">”를</span> 데이터로 드러내는 일에서 시작합니다.
 
 ## 큰 설비만 보면 놓친다
 
@@ -43,7 +50,5 @@ tags: ["에너지", "ESG", "최적화"]
 
 ## 마치며
 
-에너지 최적화도 결국 데이터를 어떻게 연결하고 신뢰하느냐의 문제입니다. 데이터를
-자산으로 만드는 기본은 [5가지 원칙](/blog/industrial-data-best-practices)에서,
-에너지·유틸리티 현장에 맞춘 적용은 [에너지 산업 페이지](/industries/energy)에서
-확인할 수 있습니다.
+<span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>현장 적용이 궁금하다면 → [에너지 · 유틸리티](/industries/energy)

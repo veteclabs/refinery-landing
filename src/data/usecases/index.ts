@@ -57,7 +57,7 @@ export const useCases: UseCase[] = [
       desc: '배선 공사 없이 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
       includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · 동작온도 -20~85℃'],
     },
-    related: { label: '예지보전은 무엇을 예측하는가', href: '/blog/predictive-maintenance' },
+    related: { href: '/blog/predictive-maintenance' },
     faq: [
       { q: '예지보전이란 무엇인가요?', a: '예지보전(PdM)은 설비의 진동 · 온도 · 전류 데이터를 실시간으로 분석해 고장을 사전에 예측하고,<br>필요한 시점에만 정비하는 방식입니다.<br>정해진 주기로 점검하는 예방보전과 달리 실제 상태에 근거해 정비하므로 불필요한 정지와 비용을 줄입니다.' },
       { q: '무선 진동센서로 예지보전을 시작할 수 있나요?', a: '네 가능합니다. 무선 진동센서(예: WISE-2410)는 배선 공사 없이 설비에 부착해 3축 진동과 온도를 수집하고<br>LoRaWAN으로 게이트웨이에 전송합니다.<br>기존 배선이 어려운 회전설비에도 빠르게 예지보전을 적용할 수 있습니다.' },
@@ -116,7 +116,7 @@ export const useCases: UseCase[] = [
       { label: '압력', icon: 'pressure' },
       { label: '유량', icon: 'flow' },
     ],
-    related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
+    related: { href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '센서 모니터링(IoT) | Refinery',
       description: 'IoT 센서부터 기존 계측기까지 흩어진 다중 센서를 표준화해 모으고, 온톨로지로 연결해 실시간으로 감시합니다.',
@@ -175,7 +175,7 @@ export const useCases: UseCase[] = [
       { label: '시간대별 소비', icon: 'hourly-usage' },
       { label: '피크', icon: 'peak' },
     ],
-    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
+    related: { href: '/blog/energy-optimization' },
     faq: [
       { q: '전력관리 솔루션이란 무엇인가요?', a: '전력관리 솔루션은 수전 · 분전 계통의 전압 · 전류 · 전력 · 역률 데이터를 실시간으로 수집 · 분석해<br>전력 사용을 감시하고 최적화하는 시스템입니다.<br>피크 수요, 이상 부하, 역률 저하를 조기에 파악해 전력 요금과 정전 위험을 줄입니다.' },
       { q: '전력관리와 에너지관리시스템(EMS)은 어떻게 다른가요?', a: '전력관리는 전력 계통의 감시 · 품질에 초점을 두고, EMS는 전력을 포함한 에너지 전반의 사용 · 효율 · 절감을 다룹니다.<br>Refinery는 전력 데이터를 EMS · 설비 데이터와 하나로 엮어 근거 있는 절감 방안을 제안합니다.' },
@@ -239,7 +239,7 @@ export const useCases: UseCase[] = [
       { label: '불평형', icon: 'imbalance' },
       { label: 'sag/swell', icon: 'sag-swell' },
     ],
-    related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
+    related: { href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '전력품질 감시 | Refinery',
       description: '전압·주파수·고조파·불평형 등 전력품질 지표를 실시간 감시하고, 순간 이벤트를 자동 기록해 설비 고장·불량의 숨은 원인을 짚습니다.',
@@ -298,7 +298,7 @@ export const useCases: UseCase[] = [
       { label: '원단위', icon: 'intensity' },
       { label: '피크', icon: 'peak' },
     ],
-    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
+    related: { href: '/blog/energy-optimization' },
     seo: {
       title: '공장 에너지관리(FEMS) | Refinery',
       description: '공장 전체의 전기 · 가스 · 스팀 · 용수 흐름을 통합 계량하고 원단위로 분석해 낭비를 찾고, ESG 리포트를 자동으로 집계합니다.',
@@ -348,7 +348,7 @@ export const useCases: UseCase[] = [
       { label: '피크', icon: 'peak' },
       { label: '원단위', icon: 'intensity' },
     ],
-    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
+    related: { href: '/blog/energy-optimization' },
     seo: {
       title: '에너지 최적화 | Refinery',
       description: '숨은 낭비와 피크를 데이터로 찾아 에너지 비용을 줄입니다. 소비 패턴을 작업 맥락과 겹쳐 비효율을 발굴하는 유즈케이스.',
@@ -399,7 +399,7 @@ export const useCases: UseCase[] = [
       { label: '공정 조건', icon: 'process-condition' },
       { label: '검사 결과', icon: 'inspection-result' },
     ],
-    related: { label: '불량은 검사보다 먼저 드러난다', href: '/blog/quality-prediction' },
+    related: { href: '/blog/quality-prediction' },
     seo: {
       title: '품질 예측 | Refinery',
       description: '공정 데이터가 보내는 신호를 읽어 불량이 완성되기 전에 잡습니다. 공정과 검사 결과를 연결해 원인을 짚는 품질 예측 유즈케이스.',

@@ -1,11 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import BrandMark from '../components/BrandMark.astro';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
+import { formatDateKo } from '../utils/date';
+import { coverTone } from '../utils/cover-tone';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
-
-type Heading = { depth: number; slug: string; text: string };
-type NavLink = { slug: string; title: string } | null;
 
 export interface Props {
   title: string;
@@ -13,34 +15,59 @@ export interface Props {
   pubDate: Date;
   updatedDate?: Date;
   author?: string;
-  tags?: string[];
+  /** 글의 종류(인사이트 · 가이드 · 소식). 목록 카드와 같은 값을 메타 줄에 적는다. */
+  category?: string;
   ogImage?: string;
+  /** 표지 이미지(src/assets). 목록 카드와 같은 파일을 쓴다. */
+  image?: ImageMetadata;
+  /** 표지 오른쪽 아래 아이콘(public 경로). */
+  coverIcon?: string;
+  /** 표지 밑색(hex). 사진이 없는 글에서 표지 면에 깔린다. */
+  coverColor?: string;
+  /** 표지 글자색(hex). 지정하면 자동 판정(잉크/흰색)보다 우선한다. */
+  coverTextColor?: string;
+  /** 표지 왼쪽 아래 글(목록 카드와 같은 자리). */
+  coverFoot?: string;
+  /** 표지 왼쪽 위 태그라인(첫 태그)을 감춘다. */
+  hideCoverKind?: boolean;
+  /** 태그. 첫 값이 표지 왼쪽 위 태그라인이 된다. */
+  tags?: string[];
+  /** 표지 안 대제목의 줄바꿈 지점. 값이 있을 때만 표지에 제목이 들어간다. */
+  titleBreakAfter?: string;
   slug: string;
-  headings?: Heading[];
-  nav?: { newer: NavLink; older: NavLink };
-  readingTime?: number;
   lang?: 'ko' | 'en';
 }
 
 const {
-  title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug,
-  headings = [], nav = { newer: null, older: null }, readingTime, lang = 'ko',
+  title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverTexture, coverIconAt = 'corner', coverColor, coverTextColor, coverFoot,
+  hideCoverKind = false, tags = [], titleBreakAfter, coverKindBreakAfter, slug,
+  lang = 'ko',
 } = Astro.props;
 
 // 글 UI 문구·날짜 형식·경로를 로케일별로.
 const T = {
-  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', toc: '목차', back: '← 블로그',
-        reading: (m: number) => `약 ${m}분 읽기`, crumbAria: '위치', navAria: '다른 글',
-        older: '← 이전 글', newer: '다음 글 →' },
-  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', toc: 'Contents', back: '← Blog',
-        reading: (m: number) => `${m} min read`, crumbAria: 'Breadcrumb', navAria: 'More posts',
-        older: '← Previous', newer: 'Next →' },
+  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그' },
+  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog' },
 }[lang];
 
+// 한국어는 '2026. 07. 31', 영어는 'July 31, 2026'. 목록 카드와 같은 함수를 쓴다.
 const fmt = (d: Date) =>
-  new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+  lang === 'ko'
+    ? formatDateKo(d)
+    : new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
+// 표지 안 대제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 titleBreakAfter에 있고,
+// 그 말 바로 뒤에서 나눈다. 목록 카드가 소제목을 끊는 방식과 같다.
+const coverTitle = titleBreakAfter
+  ? (() => {
+      const i = title.indexOf(titleBreakAfter);
+      if (i < 0) return null;
+      const cut = i + titleBreakAfter.length;
+      return [title.slice(0, cut), title.slice(cut).trimStart()];
+    })()
+  : null;
+
 const canonical = `${T.base}/${slug}`;
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -74,93 +101,74 @@ const jsonLd = {
   <Nav />
   <main class="blog-main blog-main--post">
     <div class="post-shell">
-      {headings.length > 0 && (
-        <aside class="post-toc" aria-label={T.toc}>
-          <div class="post-toc-inner">
-            <p class="post-toc-title">{T.toc}</p>
-            <nav>
-              <ul>
-                {headings.map((h) => (
-                  <li class={`toc-d${h.depth}`}><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </aside>
-      )}
 
       <article class="post">
-        <nav class="post-breadcrumb" aria-label={T.crumbAria}>
-          <a href={T.base}>{T.back}</a>
-        </nav>
+        {/* 표지. 칸이 먼저 자리를 잡고 이미지가 그 안을 cover로 채운다 —
+            이미지가 없는 글은 빈 면으로 남고 배치는 그대로다.
+            목록 카드(.res-thumb)와 같은 파일을 쓰고, 크기만 여기서 더 크다.
+            widths/sizes를 주면 빌드가 폭별 파일을 만들어 각 화면이 제 크기만
+            내려받는다. 접힘선 위라 lazy는 걸지 않는다(LCP). */}
+        <div
+          class="post-thumb"
+          data-tone={coverTone(coverColor)}
+          style={[
+            coverColor && `--cover-bg: ${coverColor}`,
+            coverTextColor && `--cover-fg: ${coverTextColor}`,
+          ].filter(Boolean).join('; ') || undefined}
+        >
+          {image && (
+            <Image
+              src={image}
+              alt=""
+              widths={[432, 720, 820, 1440, 1640]}
+              sizes="(max-width: 868px) calc(100vw - 48px), 820px"
+              loading="eager"
+              fetchpriority="high"
+            />
+          )}
+          {image && <BrandMark class="thumb-mark" />}
+          {coverTexture && (
+            <img class="thumb-texture" src={coverTexture} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+          )}
+          {coverIcon && <img class:list={['thumb-icon', coverIconAt === 'center' && 'is-center']} src={coverIcon} alt="" loading="lazy" decoding="async" />}
+          {/* 표지 안 구성은 목록 카드(.res-cover)와 같다 — 왼쪽 위 태그라인, 대제목,
+              왼쪽 아래 글. 칸이 커진 만큼 글자와 안여백을 1.5배로 키웠다. */}
+          {(coverTitle || coverFoot || (tags[0] && !hideCoverKind)) && (
+            <div class="post-cover">
+              {tags[0] && !hideCoverKind && (() => {
+                const [a, b] = coverKindBreakAfter
+                  ? (() => { const i = tags[0].indexOf(coverKindBreakAfter);
+                             if (i < 0) return [tags[0], ''];
+                             const cut = i + coverKindBreakAfter.length;
+                             return [tags[0].slice(0, cut), tags[0].slice(cut).trimStart()]; })()
+                  : [tags[0], ''];
+                return <span class="post-cover-kind">#{a}{b && <><br />{b}</>}</span>;
+              })()}
+              {coverTitle && (
+                <strong class="post-cover-line">{coverTitle[0]}{coverTitle[1] && <><br />{coverTitle[1]}</>}</strong>
+              )}
+              {coverFoot && <span class="post-cover-foot">{coverFoot}</span>}
+            </div>
+          )}
+        </div>
         <header class="post-header">
+          {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
+          {/* 표지에 제목이 올라간 글에서는 여기 제목을 화면에서만 감춘다 —
+              같은 글이 두 번 보이지 않게 하되, 검색·스크린리더에는 남긴다. */}
+          <h1 class={coverTitle ? 'is-in-cover' : undefined}>{title}</h1>
+          <p class="post-desc">{description}</p>
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-            <span class="post-dot">·</span>
-            <span>{author}</span>
-            {readingTime && <><span class="post-dot">·</span><span>{T.reading(readingTime)}</span></>}
+            {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
           </div>
-          <h1>{title}</h1>
-          <p class="post-desc">{description}</p>
-          {tags.length > 0 && (
-            <ul class="post-tags">
-              {tags.map((t) => <li>#{t}</li>)}
-            </ul>
-          )}
         </header>
         <div class="post-body">
           <slot />
         </div>
 
-        {(nav.older || nav.newer) && (
-          <nav class="post-nav" aria-label={T.navAria}>
-            {nav.older
-              ? (
-                <a class="post-nav-item post-nav-prev" href={`${T.base}/${nav.older.slug}`}>
-                  <span class="post-nav-dir">{T.older}</span>
-                  <strong class="post-nav-title">{nav.older.title}</strong>
-                </a>
-              )
-              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
-            {nav.newer
-              ? (
-                <a class="post-nav-item post-nav-next" href={`${T.base}/${nav.newer.slug}`}>
-                  <span class="post-nav-dir">{T.newer}</span>
-                  <strong class="post-nav-title">{nav.newer.title}</strong>
-                </a>
-              )
-              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
-          </nav>
-        )}
       </article>
     </div>
   </main>
 
-  {headings.length > 0 && (
-    <script is:inline>
-      (function () {
-        var links = Array.prototype.slice.call(document.querySelectorAll('.post-toc a[data-toc]'));
-        if (!links.length) return;
-        var map = {};
-        links.forEach(function (a) { map[a.getAttribute('data-toc')] = a; });
-        var targets = links
-          .map(function (a) { return document.getElementById(a.getAttribute('data-toc')); })
-          .filter(Boolean);
-        var current = null;
-        function activate(id) {
-          if (current === id) return;
-          current = id;
-          links.forEach(function (a) { a.classList.remove('is-active'); });
-          if (map[id]) map[id].classList.add('is-active');
-        }
-        var obs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) activate(e.target.id);
-          });
-        }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
-        targets.forEach(function (t) { obs.observe(t); });
-      })();
-    </script>
-  )}
   <Footer />
 </BaseLayout>

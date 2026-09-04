@@ -5,11 +5,19 @@ pubDate: 2026-07-30
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["predictive maintenance", "AI agents", "operations"]
+category: "Insight"
+coverColor: "#7884D8"
+coverTextColor: "#2C388B"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-maintenance.svg"
+coverIconAt: "center"
+coverKindBreakAfter: "predictive"
+cardBreakAfter: "but the work of reading early signs in data."
 lang: "en"
 ---
 
 The moment equipment stops, losses start accumulating. So plants work hard to prevent
-failures in advance — but setting the standard for "in advance" is not easy. Predictive
+failures in advance – but setting the standard for "in advance" is not easy. Predictive
 maintenance is an attempt to set that standard from data rather than instinct.
 
 ## The limits of preventive maintenance
@@ -30,9 +38,9 @@ reading.
 ## What has to be in place for prediction to work
 
 The quality of a prediction depends more on the data beneath it than on the model. First
-you need history of how that machine normally behaves — without a baseline to compare
+you need history of how that machine normally behaves – without a baseline to compare
 against, you cannot even tell whether the current value is unusual. And you need context
-for which machine a signal belongs to and what it connects to — an ontology — before a
+for which machine a signal belongs to and what it connects to – an ontology – before a
 cause can be narrowed down. If data is scattered and its provenance unclear, even a good
 model will chase the wrong thing.
 
@@ -43,12 +51,12 @@ measure it consistently. Sending someone around with a handheld meter is hard to
 and the records vary from person to person. Wiring a sensor to every machine, meanwhile,
 is no small amount of construction.
 
-So we use wireless vibration sensors. A sensor like the Advantech WISE-2410 simply mounts
-on the motor — with no wiring work it can go onto equipment that is already running. A
-built-in 3-axis accelerometer measures vibration along with temperature, and the data goes
-out over LoRaWAN. Because LoRaWAN is low-power, the battery lasts and the signal carries
+So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
+on the motor – with no wiring work it can go onto equipment that is already running. A
+<span class="nb">built-in</span> 3-axis accelerometer measures vibration along with temperature, and the data goes
+out over LoRaWAN. Because LoRaWAN is <span class="nb">low-power</span>, the battery lasts and the signal carries
 far, so sensors spread across a large plant can be collected by one or two gateways such
-as the WISE-6610.
+as the <span class="nb">WISE-6610</span>.
 
 The measured 3-axis values are assessed against an international standard such as ISO
 20816. That lets you say whether "this much vibration is normal" against a benchmark
@@ -62,7 +70,7 @@ sensor to the machine you want to watch.
 ## In a form a person can act on
 
 A risk score alone does not move anyone. More than "this pump is at 0.87 risk," it is a
-sentence like "vibration is rising in a pattern similar to the run-up to the last failure;
+sentence like "vibration is rising in a pattern similar to the <span class="nb">run-up</span> to the last failure;
 bearing wear is suspected; inspection recommended" that produces action. An AI agent turns
 the analysis back into human language like this, and presents the data and history the
 judgment rests on alongside it.
@@ -76,9 +84,5 @@ actually being caught, and widen the scope from there.
 
 ## In closing
 
-Predictive maintenance is, in the end, a data problem. Once trustworthy history and
-context are in place, prediction follows naturally on top. How data becomes an asset is
-covered in
-[five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices),
-and how AI helps decide with evidence continues in the
-[industrial AI agents](/whitepapers/ai-agent) whitepaper.
+<span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>For how AI decides with evidence → [AI agent whitepaper](/whitepapers/ai-agent)

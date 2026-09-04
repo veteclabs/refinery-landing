@@ -5,11 +5,18 @@ pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
 tags: ["best practices", "data", "ontology"]
+category: "Guide"
+coverColor: "#D3E7F8"
+coverTextColor: "#173B6B"
+coverIcon: "/icon_blog.svg"
+coverFoot: "Guide"
+titleBreakAfter: "for turning"
+cardBreakAfter: "Practical principles for turning scattered site data"
 lang: "en"
 ---
 
-Industrial sites do not lack data. If anything it is **too scattered** — across SCADA,
-MES, ERP, sensors and documents — to be of use at the moment a decision has to be made.
+Industrial sites do not lack data. If anything it is **too scattered** – across SCADA,
+MES, ERP, sensors and documents – to be of use at the moment a decision has to be made.
 The problem is not volume. It is connection and trust.
 
 What we have seen repeat across many sites is that turning data into an asset does not
@@ -25,10 +32,10 @@ provenance cannot be used for a decision, however convincing it looks.
 When an anomaly appears on site, the first question anyone asks is "is this real?" The
 same value of 90 means something entirely different when it comes right after a sensor
 recalibration than when it arrives at the end of an unusual trend. Unless it is recorded
-alongside the value — which system, which tag, collected when, and what transformations it
-passed through — there is no way to tell whether that number is fact or error.
+alongside the value – which system, which tag, collected when, and what transformations it
+passed through – there is no way to tell whether that number is fact or error.
 
-Data lineage is therefore not a nice-to-have but the minimum condition for trust. Make the
+Data lineage is therefore not a <span class="nb">nice-to-have</span> but the minimum condition for trust. Make the
 source system, tag, collection time, and any unit conversions or corrections travel with
 the value. Buried inside an ETL script it is of no use. It has to be something you can
 trace back the moment you need to.
@@ -40,10 +47,10 @@ When provenance is visible, that error can be traced back and corrected.
 ## 2. Give it meaning (the ontology)
 
 If only one person in the organization knows what `TAG_0421` means, that data is not an
-organizational asset — it is that person’s memory. The moment they are away or leave the
+organizational asset – it is that person’s memory. The moment they are away or leave the
 company, years of accumulated data revert to an uninterpretable pile of numbers.
 
-Giving data meaning means defining things — equipment, lines, processes, documents — as
+Giving data meaning means defining things – equipment, lines, processes, documents – as
 entities, and describing the relationships between them. The structure that results is
 called an ontology. With one in place, a single signal can be read together with the
 context it connects to. When a vibration value spikes, the system can follow on its own
@@ -55,7 +62,7 @@ down the common sense of the site as data. Which machine belongs where, and what
 to what, is already in the head of someone who has worked there a long time. The point is
 to get that knowledge out into a structure.
 
-Trying to draw an enterprise-wide ontology from the start is exhausting. Pick the single
+Trying to draw an <span class="nb">enterprise-wide</span> ontology from the start is exhausting. Pick the single
 judgment that repeats most often right now, and define only the entities and relationships
 that judgment needs. Starting small and widening as you confirm it is actually used lasts
 much longer.
@@ -66,12 +73,12 @@ Anomalies show up in the **trend**, not in an instantaneous value. A temperature
 tells you nothing on its own about whether it is normal or a warning. You need to know the
 range this machine usually moves within, and how fast the value is climbing now.
 
-So the real-time stream and past history have to be comparable on one screen. When the
+So the <span class="nb">real-time</span> stream and past history have to be comparable on one screen. When the
 current value sits alongside the last few days, the pattern from the same period last
 season, and the curve leading into a past failure, you can tell whether what is happening
 now is a signal you have never seen or one you recognize.
 
-Put a threshold on instantaneous values alone and the alarms never stop — until nobody
+Put a threshold on instantaneous values alone and the alarms never stop – until nobody
 looks at alarms at all. Alert fatigue mostly comes from thresholds without context. Seen
 together with the trend and a basis for comparison, the signals worth acting on separate
 from ordinary noise.
@@ -83,7 +90,7 @@ it into action falls entirely on a person. A red gauge only signals that "someth
 wrong." It does not answer what, why, or how.
 
 For data to lead to action, the last step has to come back into human language. "Vibration
-on pump 3, line B is trending upward in a pattern resembling the run-up to the last
+on pump 3, line B is trending upward in a pattern resembling the <span class="nb">run-up</span> to the last
 failure. Bearing wear is suspected; inspection recommended." When a likely cause and a
 next action arrive as a sentence, someone with less experience can reach the same judgment.
 
@@ -99,8 +106,8 @@ years. Others are only beginning to collect data at all.
 
 Where systems already exist, ripping them out mostly fails. The cost is high, and so is the
 risk of replacing tools the site has long grown accustomed to in one move. Here it is more
-realistic to leave the existing systems in place and layer an integrated intelligence layer
-on top, integrating both ways. The existing systems keep running, and a layer that adds
+realistic to leave the existing systems in place and add an intelligence layer on top that
+integrates in both directions. The existing systems keep running, and a layer that adds
 meaning to their data sits above them.
 
 Where no system is in place yet, there are no legacy constraints to accommodate, so
@@ -114,10 +121,9 @@ whether the result comes together as one body of knowledge.
 
 The five principles connect to one another. Provenance creates trust; meaning creates
 context; seeing the trend makes judgment possible; returning to human language makes it
-action. And all of it is complete only when — layered on or newly built — it gathers into
+action. And all of it is complete only when – layered on or newly built – it gathers into
 one body of knowledge.
 
-How data integration and AI agents actually fit together is covered in more depth in the
-[industrial data integration](/whitepapers/data-integration) and
-[industrial AI agents](/whitepapers/ai-agent) whitepapers. If you would like to talk
-through how it applies to your site, get in touch through [contact](/en/contact).
+<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/whitepapers/ai-agent)<br>
+<span class="lead-dot"></span>To talk through your own site → [Contact](/en/contact)
