@@ -2,8 +2,8 @@ import type { IndustryData } from './types';
 
 export const steel: IndustryData = {
   slug: 'steel',
-  name: '가공 · 소재 · 철강',
-  pageTitle: '가공 · 소재 · 철강을 위한 Refinery: 열처리 품질 안정화 · 피크 전력 제어 · 압축공기 최적화',
+  name: '철강 · 소재',
+  pageTitle: '철강 · 소재를 위한 Refinery: 열처리 품질 안정화 · 피크 전력 제어 · 압축공기 최적화',
   description:
     '열처리 온도 · 냉각 곡선 · 압축공기 · 피크 전력을 하나의 구조로 연결하고, AI 에이전트가 품질 편차의 원인을 추적합니다. 철강 · 비철금속 · 소재 코팅 현장을 위한 Refinery.',
   hero: {
@@ -15,12 +15,12 @@ export const steel: IndustryData = {
     imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '가공 · 소재 · 철강',
+    eyebrow: '철강 · 소재',
     title: '소재 품질과 에너지 효율을\n함께 확보합니다',
   },
   challenges: {
     dark: true,
-    title: '가공 공정 현장의 문제',
+    title: '철강 공정 현장의 문제',
     subtitle: '열처리 · 성형 · 코팅 공정에서 반복되는 문제입니다.',
     items: [
       {
@@ -42,7 +42,7 @@ export const steel: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '가공 · 소재 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
+    subtitle: '철강 · 소재 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
     layout: 'steps',
     items: [
       {
@@ -127,13 +127,13 @@ export const steel: IndustryData = {
   },
   integrations: {
     title: '연동 시스템',
-    subtitle: '가공 · 소재 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
+    subtitle: '철강 · 소재 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
     systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
     note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '가공 공정 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '철강 공정 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };
