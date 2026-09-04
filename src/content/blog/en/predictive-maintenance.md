@@ -51,12 +51,12 @@ measure it consistently. Sending someone around with a handheld meter is hard to
 and the records vary from person to person. Wiring a sensor to every machine, meanwhile,
 is no small amount of construction.
 
-So we use wireless vibration sensors. A sensor like the Advantech WISE-2410 simply mounts
+So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
 on the motor – with no wiring work it can go onto equipment that is already running. A
 built-in 3-axis accelerometer measures vibration along with temperature, and the data goes
 out over LoRaWAN. Because LoRaWAN is low-power, the battery lasts and the signal carries
 far, so sensors spread across a large plant can be collected by one or two gateways such
-as the WISE-6610.
+as the <span class="nb">WISE-6610</span>.
 
 The measured 3-axis values are assessed against an international standard such as ISO
 20816. That lets you say whether "this much vibration is normal" against a benchmark
