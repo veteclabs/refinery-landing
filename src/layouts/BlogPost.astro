@@ -153,9 +153,10 @@ const jsonLd = {
         </div>
         <header class="post-header">
           {/* 목록 카드와 같은 순서다 — 대제목 · 소제목 · 날짜. */}
-          {/* 표지에 제목이 올라간 글에서는 여기 제목을 화면에서만 감춘다 —
-              같은 글이 두 번 보이지 않게 하되, 검색·스크린리더에는 남긴다. */}
-          <h1 class={coverTitle ? 'is-in-cover' : undefined}>{title}</h1>
+          {/* 표지에 제목이 올라간 글도 여기 제목을 그대로 보인다. 표지의 글자는
+              그림에 가깝고, 글의 대제목은 본문이 시작되는 자리를 알리는 역할이라
+              둘은 하는 일이 다르다. (한때 중복으로 보고 감췄다가 되살렸다.) */}
+          <h1>{title}</h1>
           <p class="post-desc">{description}</p>
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
