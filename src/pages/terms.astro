@@ -27,7 +27,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
   <main class="legal-main">
     <nav class="legal-crumb" aria-label="위치"><a href="/">Home</a> › 이용약관</nav>
     <h1>이용약관</h1>
-    <p class="legal-updated">시행일: <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
+    <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
     {isDraft && (
       <div class="legal-draft">
@@ -377,12 +377,12 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         </div>
         <h3>문의처</h3>
         <ul>
-          <li>상호: <Ph value={company.legalName} label="회사명" /> · 대표자: <Ph value={company.ceo} label="대표자 성명" /></li>
-          <li>사업자등록번호: <Ph value={company.bizNo} label="000-00-00000" /></li>
-          {company.mailOrderNo && <li>통신판매업 신고번호: {company.mailOrderNo}</li>}
-          <li>주소: <Ph value={company.address} label="본점 주소" /></li>
-          <li>전화: <Ph value={company.tel} label="전화번호" /> · 이메일: <Ph value={company.email} label="이메일" /> · <a href="/contact">문의하기</a></li>
-          <li>호스팅 서비스 제공자: {company.hosting}</li>
+          <li>상호 : <Ph value={company.legalName} label="회사명" /> · 대표자 : <Ph value={company.ceo} label="대표자 성명" /></li>
+          <li>사업자등록번호 : <Ph value={company.bizNo} label="000-00-00000" /></li>
+          {company.mailOrderNo && <li>통신판매업 신고번호 : {company.mailOrderNo}</li>}
+          <li>주소 : <Ph value={company.address} label="본점 주소" /></li>
+          <li>전화 : <Ph value={company.tel} label="전화번호" /> · 이메일 : <Ph value={company.email} label="이메일" /> · <a href="/contact">문의하기</a></li>
+          <li>호스팅 서비스 제공자 : {company.hosting}</li>
         </ul>
       </section>
     </div>

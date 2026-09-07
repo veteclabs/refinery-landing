@@ -25,7 +25,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
   <main class="legal-main">
     <nav class="legal-crumb" aria-label="위치"><a href="/">Home</a> › 소프트웨어 사용권 계약</nav>
     <h1>소프트웨어 사용권 계약 (EULA)</h1>
-    <p class="legal-updated">시행일: <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
+    <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
     {isDraft && (
       <div class="legal-draft">
@@ -79,9 +79,9 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>제4조 (사용권의 유형)</h2>
         <ol>
-          <li><strong>구독형 사용권</strong>: 개별계약에서 정한 기간 동안 소프트웨어를 사용할 수 있으며, 기간이 만료되면 사용권이 소멸합니다.</li>
-          <li><strong>영구형 사용권</strong>: 기간의 제한 없이 해당 버전의 소프트웨어를 사용할 수 있습니다. 다만 업데이트 및 기술 지원은 별도의 유지보수 계약이 유효한 기간 동안에만 제공됩니다.</li>
-          <li><strong>평가판 · 시험판</strong>: 회사가 정한 기간과 범위 내에서 <strong>평가 목적으로만</strong> 사용할 수 있으며, 상용 운영에 사용할 수 없습니다. 평가 기간이 종료되면 사용권이 즉시 소멸합니다.</li>
+          <li><strong>구독형 사용권</strong> : 개별계약에서 정한 기간 동안 소프트웨어를 사용할 수 있으며, 기간이 만료되면 사용권이 소멸합니다.</li>
+          <li><strong>영구형 사용권</strong> : 기간의 제한 없이 해당 버전의 소프트웨어를 사용할 수 있습니다. 다만 업데이트 및 기술 지원은 별도의 유지보수 계약이 유효한 기간 동안에만 제공됩니다.</li>
+          <li><strong>평가판 · 시험판</strong> : 회사가 정한 기간과 범위 내에서 <strong>평가 목적으로만</strong> 사용할 수 있으며, 상용 운영에 사용할 수 없습니다. 평가 기간이 종료되면 사용권이 즉시 소멸합니다.</li>
         </ol>
       </section>
 
@@ -287,10 +287,10 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         </div>
         <h3>문의처</h3>
         <ul>
-          <li>상호: <Ph value={company.legalName} label="회사명" /> · 대표자: <Ph value={company.ceo} label="대표자 성명" /></li>
-          <li>사업자등록번호: <Ph value={company.bizNo} label="000-00-00000" /></li>
-          <li>주소: <Ph value={company.address} label="본점 주소" /></li>
-          <li>전화: <Ph value={company.tel} label="전화번호" /> · 이메일: <Ph value={company.email} label="이메일" /> · <a href="/contact">문의하기</a></li>
+          <li>상호 : <Ph value={company.legalName} label="회사명" /> · 대표자 : <Ph value={company.ceo} label="대표자 성명" /></li>
+          <li>사업자등록번호 : <Ph value={company.bizNo} label="000-00-00000" /></li>
+          <li>주소 : <Ph value={company.address} label="본점 주소" /></li>
+          <li>전화 : <Ph value={company.tel} label="전화번호" /> · 이메일 : <Ph value={company.email} label="이메일" /> · <a href="/contact">문의하기</a></li>
         </ul>
       </section>
     </div>
