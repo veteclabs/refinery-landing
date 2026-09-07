@@ -70,7 +70,9 @@
     .btn-ghost:hover { color: #111111; background: #f4f4f5; }
     .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px;
+      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
+         테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
+      background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
       transition: all .2s;
     }
 
@@ -118,7 +120,11 @@
     .mobile-nav-panel .mobile-nav-cta {
       margin-top: 14px;
       text-align: center;
-      border: 1px solid rgba(17,17,17,0.6);
+      /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
+         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 #333333을 물려받아
+         같은 버튼인데 모바일만 글자색이 달라진다. */
+      color: #16202C;
+      border: 1px solid #5A6776;
       border-radius: 6px;
       padding: 12px;
       font-weight: 500;
