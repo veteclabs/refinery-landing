@@ -46,7 +46,10 @@ img { max-width: 100%; height: auto; }
    같은 처리다. keep-all만 두면 아주 긴 낱말(URL·영문 고유명사)이 상자 밖으로
    나가므로 overflow-wrap으로 그것만 예외를 둔다. */
 .legal-body { margin-top: 32px; word-break: keep-all; overflow-wrap: break-word; }
-.legal-body section { margin-top: 40px; }
+/* 절 사이 64px. 블로그 본문의 절 간격(위 48 + 제목 위 안여백 48 = 96px)보다는
+   좁다 — 조문이 22개라 같은 값을 쓰면 페이지가 그만큼 길어진다.
+   40px일 때는 문단 사이(12px)와 층이 얕아 절이 바뀌는 자리가 덜 읽혔다. */
+.legal-body section { margin-top: 64px; }
 .legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
 /* 글자값은 블로그 글(.post-body)·백서와 같게 맞춘다 — 문단 16px/1.82,
