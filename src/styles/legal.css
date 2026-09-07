@@ -38,16 +38,17 @@ img { max-width: 100%; height: auto; }
 /* 본문 문단과 같은 값에 굵기만 한 단계 올린다(400 → 600).
    14px·ink-500이던 것을 옮겼다 — 시행일은 곁들이는 말이 아니라 이 문서가
    언제부터 효력을 갖는지 알리는 줄이라 본문과 같은 무게로 선다. */
-/* 대제목과의 간격은 절 사이(.legal-body section)와 같은 64px이다 —
-   문서 안에서 덩어리가 바뀌는 자리는 한 값으로 둔다. */
-.legal-updated { margin-top: 64px; font-size: 16px; line-height: 1.82; font-weight: 600; color: #22303F; }
+/* 머리 영역의 세 간격은 40px 한 값으로 둔다 — 대제목→시행일, 시행일→본문,
+   본문→목차. 절 사이(64px)보다 한 단계 좁아, 머리 안에서 줄이 바뀌는 것과
+   본문에서 절이 바뀌는 것이 다른 층으로 읽힌다. */
+.legal-updated { margin-top: 40px; font-size: 16px; line-height: 1.82; font-weight: 600; color: #22303F; }
 
 .legal-draft { margin: 28px 0 8px; padding: 14px 18px; border-radius: 10px; background: rgba(183,121,31,0.1); border: 1px solid rgba(183,121,31,0.3); color: #8a5a12; font-size: 13.5px; line-height: 1.6; }
 
 /* 한글이 낱자 사이에서 끊기지 않게 한다 — 블로그 본문(.blog-main--post)과
    같은 처리다. keep-all만 두면 아주 긴 낱말(URL·영문 고유명사)이 상자 밖으로
    나가므로 overflow-wrap으로 그것만 예외를 둔다. */
-.legal-body { margin-top: 32px; word-break: keep-all; overflow-wrap: break-word; }
+.legal-body { margin-top: 40px; word-break: keep-all; overflow-wrap: break-word; }
 /* 절 사이 64px. 블로그 본문의 절 간격(위 48 + 제목 위 안여백 48 = 96px)보다는
    좁다 — 조문이 22개라 같은 값을 쓰면 페이지가 그만큼 길어진다.
    40px일 때는 문단 사이(12px)와 층이 얕아 절이 바뀌는 자리가 덜 읽혔다. */
@@ -108,7 +109,7 @@ img { max-width: 100%; height: auto; }
    단마다 달라지는데, 여기서는 12 · 11로 고정해야 한다.
    grid-auto-flow: column + 행 수 고정이면 세로로 채우고 다음 단으로 넘어간다.
    두 단이라 12 · 11로 갈린다. */
-.legal-toc { margin: 36px 0 8px; }
+.legal-toc { margin: 40px 0 8px; }
 .legal-toc-title {
   font-size: 16px; font-weight: 650; color: var(--text);
   margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
