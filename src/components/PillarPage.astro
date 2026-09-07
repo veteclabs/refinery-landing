@@ -1219,11 +1219,15 @@ const faqSchema = {
   .ind-hero-actions .ind-btn-primary:hover {
     background: #5A8FC5; border-color: #5A8FC5; color: #fff; transform: none;
   }
+  /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
+     테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5).
+     호버는 면을 채우는 방식 그대로 두고 값만 옮긴다. 옆의 주 버튼이 하늘색 면이라,
+     호버까지 하늘색으로 가면 두 버튼이 같아 보인다. */
   .ind-hero-actions .ind-btn-ghost {
-    background: transparent; color: #111111; border-color: rgba(17, 17, 17, .6);
+    background: transparent; color: #16202C; border-color: #5A6776;
   }
   .ind-hero-actions .ind-btn-ghost:hover {
-    background: #111111; border-color: #111111; color: #fff;
+    background: #16202C; border-color: #16202C; color: #fff;
   }
 
   /* 그래픽 이미지 자리표시 — 실제 이미지로 교체할 자리다.
