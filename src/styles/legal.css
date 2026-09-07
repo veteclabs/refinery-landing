@@ -140,9 +140,12 @@ img { max-width: 100%; height: auto; }
    두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다. */
 .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
 .legal-toc a {
-  display: flex; gap: 9px; align-items: baseline;
-  padding: 7px 0;
-  font-size: 16px; line-height: 1.5; color: #22303F;
+  /* baseline이 아니라 flex-start로 둔다 — 번호 칸이 inline-flex라 baseline이
+     칸 안 글자가 아니라 칸 아래쪽에 잡혀, 눈으로 맞춘 보정값을 계속 얹어야 했다.
+     위에서부터 쌓고 칸만 1px 내려 첫 줄 한가운데에 앉힌다((24-22)/2 = 1). */
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 4px 0;
+  font-size: 15px; line-height: 1.45; color: #22303F;
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
 }
@@ -163,7 +166,9 @@ img { max-width: 100%; height: auto; }
   font-size: 12px; font-weight: 600; line-height: 1;
   font-variant-numeric: tabular-nums; color: var(--text-muted);
   transition: border-color .15s ease, color .15s ease;
-  position: relative; top: 2px;
+  /* 첫 줄의 줄상자(15 x 1.45 = 21.75px)보다 칸이 0.25px 크다. 실측으로 칸 중심이
+     글자 중심보다 1px 아래에 놓여 그만큼 올린다. */
+  margin-top: -1px;
 }
 .legal-toc a:hover .legal-toc-no { border-color: var(--accent); color: var(--accent-ink); }
 /* 번호 없는 항목(사업자 정보)은 칸을 그리지 않고 자리만 지킨다. */
