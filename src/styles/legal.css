@@ -113,9 +113,13 @@ img { max-width: 100%; height: auto; }
    grid-auto-flow: column + 행 수 고정이면 세로로 채우고 다음 단으로 넘어간다.
    두 단이라 12 · 11로 갈린다. */
 .legal-toc { margin: 40px 0 8px; }
+/* 아래 선은 두지 않는다 — 항목마다 선이 깔려 있어 제목 밑에도 선을 그으면
+   같은 굵기의 가로선이 이어져 어디까지가 제목인지 흐려진다.
+   조문 제목(.legal-body h2)의 선은 그대로 둔다. 그쪽은 아래에 선이 없다.
+   글자 규격(16px / 650)은 조문 제목과 같다. */
 .legal-toc-title {
   font-size: 16px; font-weight: 650; color: var(--text);
-  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
 }
 .legal-toc ol {
   list-style: none; padding: 0; margin: 0;
