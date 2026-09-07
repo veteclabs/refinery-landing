@@ -53,9 +53,9 @@ const keepDots = (t: string) =>
   {/* 이 문서만 글 기둥이 넓다 — 아래 .legal-main--wide 주석 참고. */}
   <main class="legal-main legal-main--wide">
     <h1>개인정보처리방침</h1>
-    <p class="legal-updated">
-      시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /> · 최종 개정일 : <Ph value={revisedDate} label="YYYY-MM-DD" />
-    </p>
+    {/* 나머지 법적 고지 3종과 같이 시행일만 둔다. 개정일은 22항의 개정 이력 표에
+        있고, 최초 제정 상태에서는 두 날짜가 같아 정보 없이 시선만 쓰게 했다. */}
+    <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
     {isDraft && (
       <div class="legal-draft">
