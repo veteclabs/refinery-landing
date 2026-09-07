@@ -55,19 +55,7 @@
     }
     .nav-left { display: flex; align-items: center; gap: 48px; }
     .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; transition: color .25s ease; }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
-    .nav-links a:hover { color: #76A6D7; }
-    .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .nav-dropdown > a { display: flex; align-items: center; cursor: pointer; }
-    .nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 140px; padding-top: 12px; opacity: 0; pointer-events: none; transition: opacity .18s; }
-    .nav-dropdown-menu-inner { background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 6px; }
-    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; pointer-events: auto; }
-    .nav-dropdown-menu a { display: block; padding: 8px 14px; font-size: 14px; color: #555; border-radius: 6px; transition: background .15s, color .15s; white-space: nowrap; }
-    .nav-dropdown-menu a:hover { background: #f4f4f5; color: #76A6D7; }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
-    .btn-ghost { padding: 6px 18px; font-size: 14px; font-weight: 400; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px; transition: all .25s ease; }
-    .btn-ghost:hover { color: #111111; background: #f4f4f5; }
     .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
       /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
@@ -742,7 +730,6 @@
 
     @media (max-width: 900px) {
       .nav-inner { padding: 0 24px; }
-      .nav-links { display: none; }
       .container { padding: 0 24px; }
       .problem-grid, .platform-grid, .ba-grid, .dna-grid, .teams-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: repeat(2, 1fr); }

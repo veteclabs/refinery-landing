@@ -66,9 +66,6 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
    29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
    실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
 .nav-logo img { height: 29px; display: block; }
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
-.nav-links a:hover { color: #76A6D7; }
 /* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
    12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
 .nav-actions { display: flex; gap: 28px; align-items: center; }
@@ -176,7 +173,6 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 @media (max-width: 900px) {
       .contact-layout { grid-template-columns: 1fr; gap: 48px; }
       .form-row { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
     }
 @media (max-width: 900px) {
       .container { padding: 0 24px; }
