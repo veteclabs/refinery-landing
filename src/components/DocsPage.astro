@@ -14,11 +14,11 @@ const { lang = 'ko' } = Astro.props;
 const T = {
   ko: {
     title: '문서 | Refinery',
-    description: 'Refinery 제품 문서. 설치·연동·온톨로지·AI 에이전트·자동화·배포 가이드를 준비하고 있습니다.',
+    description: 'Refinery 제품 문서. 설치 · 연동 · 온톨로지 · AI 에이전트 · 자동화 · 배포 가이드를 준비하고 있습니다.',
     canonical: '/docs',
     crumbAria: '위치', home: 'Home', crumb: '문서',
     h1: '제품 문서',
-    lede: '설치·연동부터 온톨로지·AI 에이전트·자동화·배포까지, Refinery를 현장에 적용하는 데 필요한 문서를 준비하고 있습니다.',
+    lede: '설치 · 연동부터 온톨로지 · AI 에이전트 · 자동화 · 배포까지, Refinery를 현장에 적용하는 데 필요한 문서를 준비하고 있습니다.',
     noteBefore: '문서를 정리하는 중입니다. 지금 필요한 자료가 있으시면 ',
     noteAfter: '로 요청해 주세요. 우선 안내드립니다.',
     contactLabel: '문의하기', contactHref: '/contact',
@@ -33,24 +33,24 @@ const T = {
       {
         title: '시작하기',
         items: [
-          { label: '빠른 시작', desc: '설치·초기 설정부터 첫 대시보드까지', ready: false },
-          { label: '핵심 개념 한눈에', desc: '온톨로지·AI 에이전트·파이프라인·자동화', ready: false },
+          { label: '빠른 시작', desc: '설치 · 초기 설정부터 첫 대시보드까지', ready: false },
+          { label: '핵심 개념 한눈에', desc: '온톨로지 · AI 에이전트 · 파이프라인 · 자동화', ready: false },
         ],
       },
       {
         title: '플랫폼 가이드',
         items: [
-          { label: '데이터 연동', desc: 'SCADA·MES·ERP·센서, OPC-UA·Modbus 등 프로토콜', ready: false },
+          { label: '데이터 연동', desc: 'SCADA · MES · ERP · 센서, OPC-UA · Modbus 등 프로토콜', ready: false },
           { label: '온톨로지 설계', desc: '흩어진 데이터에 의미를 부여하는 구조', ready: false },
-          { label: 'AI 에이전트', desc: '대화형 질의·근거 추론·다음 조치 제안', ready: false },
-          { label: '자동화 · 워크플로우', desc: '승인/자동 처리 규칙을 대화로 설계', ready: false },
+          { label: 'AI 에이전트', desc: '대화형 질의 · 근거 추론 · 다음 조치 제안', ready: false },
+          { label: '자동화 · 워크플로우', desc: '승인/자동 처리 규칙을 대화로 설계', ready: false },
         ],
       },
       {
-        title: '운영 · 확장',
+        title: '운영 · 확장',
         items: [
-          { label: '배포 · 보안', desc: '온프레미스/클라우드, 권한·암호화·OT/IT 경계', ready: false },
-          { label: 'API · 웹훅', desc: '외부 시스템과 연결하는 확장 인터페이스', ready: false },
+          { label: '배포 · 보안', desc: '온프레미스/클라우드, 권한 · 암호화 · OT/IT 경계', ready: false },
+          { label: 'API · 웹훅', desc: '외부 시스템과 연결하는 확장 인터페이스', ready: false },
         ],
       },
     ] as { title: string; items: { label: string; desc: string; ready: boolean; href?: string }[] }[],

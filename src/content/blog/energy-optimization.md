@@ -51,4 +51,4 @@ coverIconAt: "center"
 ## 마치며
 
 <span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
-<span class="lead-dot"></span>현장 적용이 궁금하다면 → [에너지 · 유틸리티](/industries/energy)
+<span class="lead-dot"></span>현장 적용이 궁금하다면 → [에너지 · 유틸리티](/industries/energy)

@@ -16,7 +16,7 @@ export const automotiveEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Automotive · Mobility',
+    eyebrow: 'Automotive · Mobility',
     title: 'Holding equipment flow and\nquality steady, with data',
   },
   challenges: {
@@ -82,10 +82,10 @@ export const automotiveEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Press, paint and assembly equipment · motors · vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA · PLC · MES · Modbus TCP⁠/⁠IP · RS-485 · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Line dashboard · maintenance alerts · quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Press, paint and assembly equipment · motors · vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'SCADA · PLC · MES · Modbus TCP⁠/⁠IP · RS-485 · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: 'Use', detail: 'Line dashboard · maintenance alerts · quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where MES or PLC already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },

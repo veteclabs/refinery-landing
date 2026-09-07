@@ -17,7 +17,7 @@ export const foodEn: IndustryData = {
     imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Food · Beverage',
+    eyebrow: 'Food · Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
   },
   challenges: {
@@ -94,10 +94,10 @@ export const foodEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Chillers · air compressors · boilers · temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES · SCADA · ERP⁠·⁠SAP · Modbus TCP⁠/⁠IP · LoRaWAN · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Equipment dashboard · excursion alerts · batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Chillers · air compressors · boilers · temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'MES · SCADA · ERP⁠ · ⁠SAP · Modbus TCP⁠/⁠IP · LoRaWAN · 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: 'Use', detail: 'Equipment dashboard · excursion alerts · batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where PLC or MES already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
@@ -135,7 +135,7 @@ export const foodEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on food manufacturing sites.',
-    systems: ['MES', 'SCADA', 'ERP · SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
+    systems: ['MES', 'SCADA', 'ERP · SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
