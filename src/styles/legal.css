@@ -91,30 +91,43 @@ img { max-width: 100%; height: auto; }
 
 /* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
    조문이 22개라 원하는 항을 스크롤로 찾아야 했다. 1항 바로 위에 두고
-   각 절 앵커로 보낸다. 세로로 23줄을 쌓으면 목차만 한 화면을 넘기므로
-   두 단으로 나눈다(넓은 화면에서는 세 단). */
-.legal-toc {
-  margin: 32px 0 8px;
-  padding: 22px 24px 24px;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+   각 절 앵커로 보낸다. 상자(면·테두리)를 두르지 않고 본문 글자값 그대로
+   둔다 — 목차도 문서의 일부지 따로 얹은 카드가 아니다.
+
+   단은 grid로 나눈다. column-count는 높이를 스스로 맞추려 해서 항목 수가
+   단마다 달라지는데, 여기서는 12 · 11로 고정해야 한다.
+   grid-auto-flow: column + 행 수 고정이면 세로로 채우고 다음 단으로 넘어간다.
+   두 단이라 12 · 11로 갈린다. */
+.legal-toc { margin: 36px 0 8px; }
+.legal-toc-title {
+  font-size: 16px; font-weight: 650; color: var(--text);
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
 }
-.legal-toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 12px; }
-/* column-count로 나누면 항목이 단 경계에서 잘린다 — break-inside로 막는다. */
-.legal-toc ol { list-style: none; padding: 0; margin: 0; column-count: 2; column-gap: 36px; }
-@media (min-width: 900px) { .legal-toc ol { column-count: 3; column-gap: 32px; } }
-.legal-toc li { margin: 0; break-inside: avoid; }
+.legal-toc ol {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-auto-flow: column;
+  grid-template-rows: repeat(12, auto);   /* 23항목 → 12 · 11 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 40px;
+}
+.legal-toc li { margin: 0; }
 .legal-toc a {
-  display: flex; gap: 8px; align-items: baseline;
+  display: flex; gap: 9px; align-items: baseline;
   padding: 5px 0;
-  font-size: 14px; line-height: 1.5; color: #3A4856;
+  font-size: 16px; line-height: 1.7; color: #22303F;
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
 }
 .legal-toc a:hover { color: var(--accent-ink); }
-.legal-toc-no { flex: 0 0 17px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--text-muted); }
+.legal-toc-no { flex: 0 0 19px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }
 .legal-toc .nb { white-space: nowrap; }
+/* 좁아지면 한 단으로 편다. 두 단을 유지하면 항목이 세 줄까지 접힌다. */
+@media (max-width: 900px) {
+  .legal-toc ol { column-gap: 28px; }
+}
+@media (max-width: 560px) {
+  .legal-toc ol { grid-template-rows: none; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
+}
 /* 목차에서 눌러 이동할 때 제목이 고정 내비 밑으로 들어가지 않게 한다. */
 .legal-body section { scroll-margin-top: 90px; }
 html { scroll-behavior: smooth; }
