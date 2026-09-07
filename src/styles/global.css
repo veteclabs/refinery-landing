@@ -81,7 +81,7 @@
       align-items: center; justify-content: center;
       width: 40px; height: 40px;
       background: transparent; border: none; cursor: pointer;
-      font-size: 22px; color: #111111; padding: 0;
+      font-size: 22px; color: #16202C; padding: 0;
       touch-action: manipulation;
     }
     .mobile-nav-panel {
@@ -101,7 +101,12 @@
     .mobile-nav-panel a {
       padding: 14px 2px;
       font-size: 16px;
-      color: #333333;
+      /* ink-800. #333333이던 임의값에서 옮겼다.
+         주의: 이 색은 지금 화면에 나오지 않는다. 패널 안 링크는 전부
+         .mm-mobile-top(ink-900)이나 .mm-mobile-sub a(ink-700)에 잡혀
+         더 구체적인 선택자가 이긴다. 클래스 없는 링크가 생겼을 때를 위한
+         바탕값으로만 남긴다 — 그때 임의값이 튀어나오지 않도록. */
+      color: #22303F;
       border-bottom: 1px solid var(--border);
     }
     .mobile-nav-panel a:last-child:not(.mobile-nav-cta) { border-bottom: none; }
@@ -109,7 +114,7 @@
       margin-top: 14px;
       text-align: center;
       /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
-         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 #333333을 물려받아
+         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
          같은 버튼인데 모바일만 글자색이 달라진다. */
       color: #16202C;
       border: 1px solid #5A6776;

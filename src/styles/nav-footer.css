@@ -81,7 +81,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       align-items: center; justify-content: center;
       width: 40px; height: 40px;
       background: transparent; border: none; cursor: pointer;
-      font-size: 22px; color: #111111; padding: 0;
+      font-size: 22px; color: #16202C; padding: 0;
       /* 아이콘(22px)이 40px 버튼 한가운데 있어 눈에 보이는 오른쪽 여백이 9px 더 넓다.
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
@@ -103,7 +103,12 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
 .mobile-nav-panel a {
       padding: 14px 0;
       font-size: 16px;
-      color: #333333;
+      /* ink-800. #333333이던 임의값에서 옮겼다.
+         주의: 이 색은 지금 화면에 나오지 않는다. 패널 안 링크는 전부
+         .mm-mobile-top(ink-900)이나 .mm-mobile-sub a(ink-700)에 잡혀
+         더 구체적인 선택자가 이긴다. 클래스 없는 링크가 생겼을 때를 위한
+         바탕값으로만 남긴다 — 그때 임의값이 튀어나오지 않도록. */
+      color: #22303F;
       border-bottom: 1px solid var(--border);
     }
 .mobile-nav-panel a:last-child:not(.mobile-nav-cta) { border-bottom: none; }
@@ -111,7 +116,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       margin-top: 14px;
       text-align: center;
       /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
-         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 #333333을 물려받아
+         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
          같은 버튼인데 모바일만 글자색이 달라진다. */
       color: #16202C;
       border: 1px solid #5A6776;
