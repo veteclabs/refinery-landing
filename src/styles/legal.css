@@ -20,9 +20,9 @@ img { max-width: 100%; height: auto; }
 .legal-body section { margin-top: 40px; }
 .legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
-.legal-body p { color: #2b3644; margin-bottom: 12px; }
+.legal-body p { color: #22303F; margin-bottom: 12px; }
 .legal-body ul { padding-left: 20px; margin-bottom: 12px; }
-.legal-body li { margin: 6px 0; color: #2b3644; }
+.legal-body li { margin: 6px 0; color: #22303F; }
 .legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
 .legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
 
@@ -34,7 +34,7 @@ img { max-width: 100%; height: auto; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
-.legal-body ol > li { margin: 10px 0; color: #2b3644; }
+.legal-body ol > li { margin: 10px 0; color: #22303F; }
 .legal-body ol > li::marker { color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
