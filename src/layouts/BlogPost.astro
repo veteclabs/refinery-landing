@@ -33,7 +33,7 @@ export interface Props {
   /** 태그. 첫 값이 표지 왼쪽 위 태그라인이 된다. */
   tags?: string[];
   /** 표지 안 대제목의 줄바꿈 지점. 값이 있을 때만 표지에 제목이 들어간다. */
-  titleBreakAfter?: string;
+  titleBreakAfter?: string | string[];
   slug: string;
   lang?: 'ko' | 'en';
 }
@@ -57,14 +57,24 @@ const fmt = (d: Date) =>
     : new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
-// 표지 안 대제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 titleBreakAfter에 있고,
-// 그 말 바로 뒤에서 나눈다. 목록 카드가 소제목을 끊는 방식과 같다.
+// 표지 안 대제목을 끊는다. 끊을 지점은 글 원본의 titleBreakAfter에 있고, 그 말
+// 바로 뒤에서 나눈다. 목록 카드가 소제목을 끊는 방식과 같다.
+// 배열을 주면 지점 수 + 1 줄이 된다(두 지점 → 세 줄). 앞에서부터 차례로 자르므로
+// 같은 말이 제목에 두 번 나와도 뒤엣것이 먼저 잘리는 일은 없다.
 const coverTitle = titleBreakAfter
   ? (() => {
-      const i = title.indexOf(titleBreakAfter);
-      if (i < 0) return null;
-      const cut = i + titleBreakAfter.length;
-      return [title.slice(0, cut), title.slice(cut).trimStart()];
+      const marks = Array.isArray(titleBreakAfter) ? titleBreakAfter : [titleBreakAfter];
+      const lines: string[] = [];
+      let rest = title;
+      for (const m of marks) {
+        const i = rest.indexOf(m);
+        if (i < 0) return null;   // 한 곳이라도 못 찾으면 표지 제목을 넣지 않는다
+        const cut = i + m.length;
+        lines.push(rest.slice(0, cut));
+        rest = rest.slice(cut).trimStart();
+      }
+      lines.push(rest);
+      return lines;
     })()
   : null;
 
@@ -145,7 +155,9 @@ const jsonLd = {
                 return <span class="post-cover-kind">#{a}{b && <><br />{b}</>}</span>;
               })()}
               {coverTitle && (
-                <strong class="post-cover-line">{coverTitle[0]}{coverTitle[1] && <><br />{coverTitle[1]}</>}</strong>
+                <strong class="post-cover-line">
+                  {coverTitle.map((l, i) => <>{i > 0 && <br />}{l}</>)}
+                </strong>
               )}
               {coverFoot && <span class="post-cover-foot">{coverFoot}</span>}
             </div>

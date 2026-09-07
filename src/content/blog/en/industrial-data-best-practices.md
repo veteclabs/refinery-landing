@@ -10,7 +10,7 @@ coverColor: "#D3E7F8"
 coverTextColor: "#173B6B"
 coverIcon: "/icon_blog.svg"
 coverFoot: "Guide"
-titleBreakAfter: "for turning"
+titleBreakAfter: ["principles for", "turning industrial"]
 cardBreakAfter: "Practical principles for turning scattered site data"
 lang: "en"
 ---

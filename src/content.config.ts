@@ -47,11 +47,13 @@ const blog = defineCollection({
       // 표지 왼쪽 아래에 넣을 글(예: 글의 종류). 태그라인과 같은 글자 규격을 쓴다.
       // 값이 없으면 아무것도 넣지 않는다.
       coverFoot: z.string().optional(),
-      // 표지 안에 대제목을 얹을 때 두 줄로 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
+      // 표지 안에 대제목을 얹을 때 줄을 끊을 지점. 여기 적은 말 바로 뒤에서 나눈다.
       // 값이 없으면 표지에 대제목을 넣지 않는다(글마다 켜고 끈다).
+      // 배열로 두 지점을 주면 세 줄이 된다 — 영어는 같은 뜻이라도 한국어보다 길어
+      // 두 줄로는 오른쪽 아이콘에 닿는다.
       // title 자체에 <br>을 넣지 않는 이유는 cardBreakAfter와 같다 — 같은 값이
       // <title>·og:title·JSON-LD에도 쓰여 태그가 그대로 새어 나간다.
-      titleBreakAfter: z.string().optional(),
+      titleBreakAfter: z.union([z.string(), z.array(z.string())]).optional(),
       // 글의 종류. 목록 카드에서 날짜 옆에 적는다(자료실 표지의 '백서'·'리포트'와 같은 자리).
       // 미지정 시 카드에 종류를 적지 않는다.
       category: z.string().optional(),
