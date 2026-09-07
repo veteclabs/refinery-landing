@@ -100,10 +100,10 @@ img { max-width: 100%; height: auto; }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
 /* 약관규제법 제3조①의 '중요한 내용 명확 표시' — 굵기만으로 부족하지 않도록 색도 진하게 준다 */
-.legal-body strong { font-weight: 700; color: #16202c; }
+.legal-body strong { font-weight: 600; color: #16202c; }
 .legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
-.legal-body h2.legal-chapter { margin-top: 56px; margin-bottom: 4px; padding-bottom: 0; border-bottom: none; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--accent-ink); }
+.legal-body h2.legal-chapter { margin-top: 56px; margin-bottom: 4px; padding-bottom: 0; border-bottom: none; font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--accent-ink); }
 .legal-body h2.legal-chapter + section { margin-top: 16px; }
 .legal-table td code { white-space: nowrap; }
 
