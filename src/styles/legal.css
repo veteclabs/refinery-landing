@@ -24,7 +24,10 @@ img { max-width: 100%; height: auto; }
 
 .legal-draft { margin: 28px 0 8px; padding: 14px 18px; border-radius: 10px; background: rgba(183,121,31,0.1); border: 1px solid rgba(183,121,31,0.3); color: #8a5a12; font-size: 13.5px; line-height: 1.6; }
 
-.legal-body { margin-top: 32px; }
+/* 한글이 낱자 사이에서 끊기지 않게 한다 — 블로그 본문(.blog-main--post)과
+   같은 처리다. keep-all만 두면 아주 긴 낱말(URL·영문 고유명사)이 상자 밖으로
+   나가므로 overflow-wrap으로 그것만 예외를 둔다. */
+.legal-body { margin-top: 32px; word-break: keep-all; overflow-wrap: break-word; }
 .legal-body section { margin-top: 40px; }
 .legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
@@ -34,8 +37,18 @@ img { max-width: 100%; height: auto; }
    여백(margin)은 조문 문서의 값을 그대로 둔다 — 절이 22개라 문단 간격이 넓으면
    페이지가 늘어진다. */
 .legal-body p { font-size: 16px; line-height: 1.82; color: #22303F; margin-bottom: 12px; }
-.legal-body ul { padding-left: 20px; margin-bottom: 12px; }
+/* 목록 표식은 블로그 본문(.post-body ul > li::before)과 같게 CSS로 그린다.
+   브라우저 기본 disc는 글꼴이 그리는 점이라 크기·높이가 글꼴에 좌우돼
+   블로그의 3px 점과 달라 보였다(실측 7px). 색도 같은 하늘색으로 둔다.
+   왼쪽 안여백 12px = 점 3px + 글자까지 9px, 블로그와 같은 값이다. */
+.legal-body ul { margin-bottom: 12px; padding-left: 0; list-style: none; }
 .legal-body li { font-size: 16px; line-height: 1.7; margin: 6px 0; color: #22303F; }
+.legal-body ul > li { position: relative; padding-left: 12px; }
+.legal-body ul > li::before {
+  content: ''; position: absolute;
+  left: 1px; top: calc(0.5lh - 1.5px);
+  width: 3px; height: 3px; border-radius: 50%; background: #76a6d7;
+}
 .legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
 .legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
 
