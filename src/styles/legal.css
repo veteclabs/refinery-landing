@@ -5,7 +5,10 @@
 }
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
-a { color: inherit; }
+/* text-decoration: none을 빠뜨리면 브라우저 기본 밑줄이 남아 헤더 로고·메가메뉴·
+   푸터 링크까지 전부 밑줄이 그어진다. global.css·blog.css·industry.css의
+   같은 자리와 값을 맞춘다. 본문 조문 안 링크는 아래 .legal-body a가 다시 밑줄을 준다. */
+a { color: inherit; text-decoration: none; }
 img { max-width: 100%; height: auto; }
 
 .legal-main { max-width: 800px; margin: 0 auto; padding: 110px 24px 96px; } /* 70px 고정 내비 + 여백 */
