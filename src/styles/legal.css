@@ -1,7 +1,11 @@
 /* 법적 문서(개인정보처리방침·쿠키정책) 스타일 — 브랜드 토큰 */
 :root {
   --bg: #ffffff; --bg-soft: #f6f8fa; --border: #e3e7ec;
-  --text: #16202c; --text-muted: #7e8a98; --accent: #76a6d7; --accent-ink: #4b86bf;
+  /* --accent-ink는 글자에 쓰는 하늘색이다. #4B86BF였는데 흰 배경 대비 3.85:1로
+     16px 본문 기준(4.5:1)에 못 미쳤고, 쿠키 배너 링크(#3F76AE)와도 갈렸다.
+     #3F76AE는 4.76:1로 기준을 넘고 배너와 같은 값이다.
+     --accent(#76A6D7)는 2.56:1이라 글자에 쓰지 않는다 — 테두리·면에만 쓴다. */
+  --text: #16202c; --text-muted: #7e8a98; --accent: #76a6d7; --accent-ink: #3f76ae;
 }
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
