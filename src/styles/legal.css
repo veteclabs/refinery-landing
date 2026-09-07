@@ -60,8 +60,8 @@ img { max-width: 100%; height: auto; }
    좁다 — 조문이 22개라 같은 값을 쓰면 페이지가 그만큼 길어진다.
    40px일 때는 문단 사이(12px)와 층이 얕아 절이 바뀌는 자리가 덜 읽혔다. */
 .legal-body section { margin-top: 64px; }
-.legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
+.legal-body h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.legal-body h3 { font-size: 16px; font-weight: 700; margin: 22px 0 8px; }
 /* 글자값은 블로그 글(.post-body)·백서와 같게 맞춘다 — 문단 16px/1.82,
    목록 16px/1.7. 크기를 적어 두는 이유: 안 적으면 브라우저 기본값에 기대게 되어
    나중에 body에 크기를 주면 조용히 따라 바뀐다.
@@ -90,7 +90,7 @@ img { max-width: 100%; height: auto; }
 .legal-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 0; margin: 12px 0; }
 .legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.legal-table th { background: var(--bg-soft); font-weight: 650; color: var(--text); }
+.legal-table th { background: var(--bg-soft); font-weight: 700; color: var(--text); }
 .legal-table tr:last-child td { border-bottom: none; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
@@ -123,9 +123,9 @@ img { max-width: 100%; height: auto; }
 /* 아래 선은 두지 않는다 — 항목마다 선이 깔려 있어 제목 밑에도 선을 그으면
    같은 굵기의 가로선이 이어져 어디까지가 제목인지 흐려진다.
    조문 제목(.legal-body h2)의 선은 그대로 둔다. 그쪽은 아래에 선이 없다.
-   글자 규격(16px / 650)은 조문 제목과 같다. */
+   글자 규격(16px / 700)은 조문 제목과 같다. */
 .legal-toc-title {
-  font-size: 16px; font-weight: 650; color: var(--text);
+  font-size: 16px; font-weight: 700; color: var(--text);
   margin-bottom: 14px;
 }
 .legal-toc ol {
