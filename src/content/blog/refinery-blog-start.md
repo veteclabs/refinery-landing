@@ -1,6 +1,6 @@
 ---
 title: "Refinery 블로그를 시작합니다"
-description: "산업 데이터 · AI 에이전트 · 현장 운영에 대한 인사이트와 제품 소식을 이곳에서 전합니다."
+description: "산업 데이터 · AI 에이전트 · 현장 운영에 대한 인사이트와 제품 소식을 이곳에서 전합니다."
 cardBreakAfter: "인사이트와"
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
