@@ -121,7 +121,27 @@ img { max-width: 100%; height: auto; }
   transition: color .15s ease;
 }
 .legal-toc a:hover { color: var(--accent-ink); }
-.legal-toc-no { flex: 0 0 19px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+/* 번호는 각진 칸에 담는다(모서리 4px). 원이던 것을 표(모서리 0)와 같은 방향으로
+   맞춘 값이다 — 다만 표만큼 완전히 각지지는 않다. 22px짜리 작은 칸이라 0으로
+   두면 네 귀가 뾰족해 글자보다 먼저 눈에 걸린다.
+   유니코드 원문자(①⑭㉒)를 쓰지 않는 이유는 셋이다 — ㉑㉒가 다른 블록이라
+   글꼴이 달라지고, 글꼴이 없는 환경에서 모양이 제각각이며, 조문을 복사하면
+   '⑭'가 그대로 따라간다. CSS로 그리면 22까지 한 모양이다.
+   두 자리(10~22)가 열셋이라 폭을 22px로 잡고 글자를 12px로 둔다.
+   align-self: flex-start — 항목이 두 줄이 되어도 칸은 첫 줄에 머문다. */
+.legal-toc-no {
+  flex: 0 0 22px; align-self: flex-start;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 4px;
+  border: 1px solid var(--border);
+  font-size: 12px; font-weight: 600; line-height: 1;
+  font-variant-numeric: tabular-nums; color: var(--text-muted);
+  transition: border-color .15s ease, color .15s ease;
+  position: relative; top: 2px;
+}
+.legal-toc a:hover .legal-toc-no { border-color: var(--accent); color: var(--accent-ink); }
+/* 번호 없는 항목(사업자 정보)은 칸을 그리지 않고 자리만 지킨다. */
+.legal-toc-no.is-empty { border-color: transparent; }
 .legal-toc .nb { white-space: nowrap; }
 /* 좁아지면 한 단으로 편다. 두 단을 유지하면 항목이 세 줄까지 접힌다. */
 @media (max-width: 900px) {

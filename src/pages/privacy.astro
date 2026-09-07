@@ -86,7 +86,11 @@ const keepDots = (t: string) =>
         <ol>
           {toc.map((t) => (
             <li>
-              <a href={`#${t.id}`}><span class="legal-toc-no">{t.no}</span><span set:html={keepDots(t.label)} /></a>
+              <a href={`#${t.id}`}>
+                {/* 번호 없는 항목(사업자 정보)은 빈 원이 남지 않게 자리만 비운다. */}
+                <span class={t.no ? 'legal-toc-no' : 'legal-toc-no is-empty'}>{t.no}</span>
+                <span set:html={keepDots(t.label)} />
+              </a>
             </li>
           ))}
         </ol>
