@@ -35,7 +35,10 @@ img { max-width: 100%; height: auto; }
 .legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
 .legal-crumb a:hover { color: var(--accent-ink); }
 .legal-main h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
-.legal-updated { margin-top: 12px; font-size: 14px; color: var(--text-muted); }
+/* 본문 문단과 같은 값에 굵기만 한 단계 올린다(400 → 600).
+   14px·ink-500이던 것을 옮겼다 — 시행일은 곁들이는 말이 아니라 이 문서가
+   언제부터 효력을 갖는지 알리는 줄이라 본문과 같은 무게로 선다. */
+.legal-updated { margin-top: 12px; font-size: 16px; line-height: 1.82; font-weight: 600; color: #22303F; }
 
 .legal-draft { margin: 28px 0 8px; padding: 14px 18px; border-radius: 10px; background: rgba(183,121,31,0.1); border: 1px solid rgba(183,121,31,0.3); color: #8a5a12; font-size: 13.5px; line-height: 1.6; }
 
