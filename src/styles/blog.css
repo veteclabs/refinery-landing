@@ -196,7 +196,7 @@ img { max-width: 100%; height: auto; }
 .post-body { font-size: 16px; }
 /* 문단 사이 29px = 본문 한 줄 높이. 그보다 좁으면 문단이 바뀌어도 줄바꿈처럼 보인다. */
 .post-body > * + * { margin-top: 29px; }
-.post-body p { font-size: 16px; line-height: 1.82; color: #2b3644; }
+.post-body p { font-size: 16px; line-height: 1.82; color: #22303F; }
 /* 어절이 문장부호 자리에서 끊기는 것을 막는 표시.
    word-break: keep-all은 한글 글자 사이만 붙여 준다. 닫는 따옴표 뒤(…한가”|에는),
    가운뎃점 앞뒤(설비·라인·공정|·문서), 여는 괄호 앞(한두 대|(WISE-6610)은 관할 밖이라
@@ -232,7 +232,7 @@ img { max-width: 100%; height: auto; }
 /* 표식은 하늘색 점. 기본 disc를 끄고 백서와 같은 방식으로 직접 그린다. */
 .post-body ul { margin-top: 14px; padding-left: 0; list-style: none; }
 .post-body ol { margin-top: 14px; padding-left: 1.3em; }
-.post-body li { font-size: 16px; line-height: 1.7; color: #2b3644; margin-top: 7px; }
+.post-body li { font-size: 16px; line-height: 1.7; color: #22303F; margin-top: 7px; }
 .post-body ul > li { position: relative; padding-left: 12px; }
 .post-body ul > li::before {
   content: ''; position: absolute;

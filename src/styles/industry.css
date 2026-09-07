@@ -78,7 +78,7 @@ img { max-width: 100%; height: auto; }
 .ind-usecase dl { display: grid; gap: 10px; }
 .ind-usecase dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
 .ind-usecase dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
-.ind-usecase dd { font-size: 15px; color: #2b3644; line-height: 1.55; }
+.ind-usecase dd { font-size: 15px; color: #22303F; line-height: 1.55; }
 .ind-usecase dd.ind-outcome { color: var(--text); font-weight: 550; }
 
 /* ARCHITECTURE (dark) */
