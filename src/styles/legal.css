@@ -28,9 +28,14 @@ img { max-width: 100%; height: auto; }
 .legal-body section { margin-top: 40px; }
 .legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
-.legal-body p { color: #22303F; margin-bottom: 12px; }
+/* 글자값은 블로그 글(.post-body)·백서와 같게 맞춘다 — 문단 16px/1.82,
+   목록 16px/1.7. 크기를 적어 두는 이유: 안 적으면 브라우저 기본값에 기대게 되어
+   나중에 body에 크기를 주면 조용히 따라 바뀐다.
+   여백(margin)은 조문 문서의 값을 그대로 둔다 — 절이 22개라 문단 간격이 넓으면
+   페이지가 늘어진다. */
+.legal-body p { font-size: 16px; line-height: 1.82; color: #22303F; margin-bottom: 12px; }
 .legal-body ul { padding-left: 20px; margin-bottom: 12px; }
-.legal-body li { margin: 6px 0; color: #22303F; }
+.legal-body li { font-size: 16px; line-height: 1.7; margin: 6px 0; color: #22303F; }
 .legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
 .legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
 
