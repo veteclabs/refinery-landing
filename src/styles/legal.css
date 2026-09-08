@@ -232,22 +232,24 @@ img { max-width: 100%; height: auto; }
    목록 마커(3px 점)와 겹치지 않아 '열거 항목인가' 하는 혼동도 없다. */
 .legal-body p.legal-note {
   position: relative;
-  /* 16(기호) + 3.5(빈칸 하나) */
-  padding-left: 19.5px;
+  /* 13.4px = ※(1.25em = 9.9px) + 빈칸 하나(3.5px) */
+  padding-left: 13.4px;
 }
-/* ※를 글꼴에 맡기지 않고 직접 그린다 — 글꼴이 가진 ※는 획이 두꺼워 딸림글보다
-   무겁게 읽혔다. 선 굵기 0.9로 그리면 14px 글자의 획과 비슷해진다.
-   ⚠️ 색이 SVG 안에 박혀 있다(#5A6776). 딸림글 색을 바꾸면 여기도 함께 고칠 것. */
+/* 글꼴이 가진 ※를 쓴다 — 직접 그리면 작은 크기에서 힌팅이 없어 흐려지고
+   비율을 틀리면 다른 기호로 읽힌다. 크기만 1.25배 키워 글 옆에서 묻히지 않게 한다.
+   색은 글자에서 물려받는다. */
 .legal-body p.legal-note::before {
-  content: '';
+  content: '\203B';
   position: absolute;
   left: 0;
-  /* 첫 줄 글자의 잉크 가운데에 맞춘다. 0.5lh는 줄상자의 중심인데, 한글은
-     디센더가 거의 없어 잉크 중심이 그보다 0.7px 위에 있다(실측). */
-  top: calc(0.5lh - 8.7px);
-  width: 16px;
-  height: 16px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg stroke='%235A6776' stroke-width='.9' stroke-linecap='round' fill='none'%3E%3Cline x1='3.5' y1='3.5' x2='8' y2='8'/%3E%3Cline x1='16.5' y1='3.5' x2='12' y2='8'/%3E%3Cline x1='3.5' y1='16.5' x2='8' y2='12'/%3E%3Cline x1='16.5' y1='16.5' x2='12' y2='12'/%3E%3Cline x1='2.5' y1='10' x2='17.5' y2='10'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
+  /* 첫 줄 줄상자(14px × 1.82 = 25.48px)와 같은 높이를 주고 그 안에서 가운데에
+     놓는다. em으로 잡으면 ::before의 커진 글자 크기를 기준으로 계산돼 어긋난다.
+     -1.3px는 잉크 중심을 맞춘 값이다(확대 캡처에서 화소로 실측). */
+  top: -1.3px;
+  height: 25.48px;
+  display: flex;
+  align-items: center;
+  font-size: 1.25em;
 }
 /* 표 안에서는 한 단계 더 줄인다 — 본문셀이 이미 14px이라 같은 크기로 두면
    딸림글이 물러나 보이지 않고 색 하나로만 갈린다.
