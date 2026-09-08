@@ -104,27 +104,27 @@ const keepDots = (t: string) =>
               <tr>
                 <td>문의 · 데모 신청</td>
                 <td>문의 내용의 확인과 회신, 상담 · 기술 검토, 데모 및 제안 일정 조율</td>
-                <td>동의 필요<br /><span style="color:#5a6776;font-size:13px;">(문의 폼 제출 시 수집 · 이용 동의)</span></td>
+                <td>동의 필요<br /><span class="legal-note">(문의 폼 제출 시 수집 · 이용 동의)</span></td>
               </tr>
               <tr>
                 <td>계약의 체결 · 이행</td>
                 <td>견적 · 계약 협의, 계약 체결과 이행, 대금 청구 · 정산, 세금계산서 발행, 고객 지원</td>
-                <td>동의 불필요<br /><span style="color:#5a6776;font-size:13px;">(계약의 체결 · 이행에 필요, 법 제15조①4호)</span></td>
+                <td>동의 불필요<br /><span class="legal-note">(계약의 체결 · 이행에 필요, 법 제15조①4호)</span></td>
               </tr>
               <tr>
                 <td>서비스 운영</td>
                 <td>계정 생성 · 관리, 본인 확인, 권한 관리, 부정이용 방지, 장애 대응, 접속기록 보관</td>
-                <td>동의 불필요<br /><span style="color:#5a6776;font-size:13px;">(계약 이행 및 법령상 의무 이행)</span></td>
+                <td>동의 불필요<br /><span class="legal-note">(계약 이행 및 법령상 의무 이행)</span></td>
               </tr>
               <tr>
                 <td>이용 분석 · 개선</td>
                 <td>웹사이트 이용 통계 분석, 콘텐츠 · 사용성 개선</td>
-                <td><strong>동의 필요</strong><br /><span style="color:#5a6776;font-size:13px;">(쿠키 배너에서 동의한 경우에만)</span></td>
+                <td><strong>동의 필요</strong><br /><span class="legal-note">(쿠키 배너에서 동의한 경우에만)</span></td>
               </tr>
               <tr>
                 <td>마케팅 · 뉴스레터</td>
                 <td>자료 발송, 세미나 · 웨비나 안내 등 영리목적 광고성 정보 전송</td>
-                <td><strong>동의 필요</strong><br /><span style="color:#5a6776;font-size:13px;">(정보통신망법 제50조에 따른 사전 동의)</span></td>
+                <td><strong>동의 필요</strong><br /><span class="legal-note">(정보통신망법 제50조에 따른 사전 동의)</span></td>
               </tr>
               <tr>
                 <td>법령상 의무 이행</td>
@@ -144,7 +144,7 @@ const keepDots = (t: string) =>
           <li><strong>필수</strong> : 회사명, 성명, 이메일 주소, 연락처</li>
           <li><strong>선택</strong> : 직책, 산업 분야, 문의 내용</li>
         </ul>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           문의 내용란에 주민등록번호 · 건강정보 등 민감정보나 고유식별정보를 입력하지 마시기 바랍니다.
           회사는 해당 정보를 수집하지 않으며, 입력된 경우 확인 즉시 파기합니다.
         </p>
@@ -163,7 +163,7 @@ const keepDots = (t: string) =>
           <li>쿠키 및 유사 기술이 생성하는 임의 식별자</li>
           <li><strong>동의한 경우에 한하여</strong> : 페이지 이동 · 클릭 · 스크롤 등 상호작용 기록, 화면 조작 기록(세션 리플레이)</li>
         </ul>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           분석 쿠키(Google Analytics · Mixpanel)는 최초 방문 시 표시되는 동의 배너에서
           <strong>'모두 허용'을 선택한 경우에만</strong> 활성화됩니다. 자세한 내용은 <a href="/cookie-policy">쿠키 정책</a>을 참고하세요.
         </p>
@@ -191,12 +191,12 @@ const keepDots = (t: string) =>
           <table class="legal-table">
             <thead><tr><th>구분</th><th>보유 기간</th><th>근거</th></tr></thead>
             <tbody>
-              <tr><td>문의 · 데모 신청 기록</td><td>문의 처리 완료 후 <strong>3년</strong><br /><span style="color:#5a6776;font-size:13px;">(사업상 문의 이력 관리 및 분쟁 대응 목적)</span></td><td>동의</td></tr>
+              <tr><td>문의 · 데모 신청 기록</td><td>문의 처리 완료 후 <strong>3년</strong><br /><span class="legal-note">(사업상 문의 이력 관리 및 분쟁 대응 목적)</span></td><td>동의</td></tr>
               <tr><td>계약 · 거래 관련 기록</td><td>계약 종료 후 <strong>5년</strong></td><td>상법 제33조, 국세기본법 제85조의3</td></tr>
               <tr><td>대금 결제 · 재화 공급 기록</td><td><strong>5년</strong></td><td>전자상거래법 제6조</td></tr>
               <tr><td>소비자 불만 · 분쟁 처리 기록</td><td><strong>3년</strong></td><td>전자상거래법 제6조</td></tr>
               <tr><td>서비스 접속 기록(로그인 기록)</td><td><strong>1년 이상</strong>(고유식별정보 · 민감정보 처리 시 2년 이상)</td><td>「개인정보의 안전성 확보조치 기준」 제8조</td></tr>
-              <tr><td>계정 정보</td><td>계약 종료 후 <strong>30일</strong> 이내 파기<br /><span style="color:#5a6776;font-size:13px;">(데이터 반출을 위한 유예 기간)</span></td><td>계약</td></tr>
+              <tr><td>계정 정보</td><td>계약 종료 후 <strong>30일</strong> 이내 파기<br /><span class="legal-note">(데이터 반출을 위한 유예 기간)</span></td><td>계약</td></tr>
               <tr><td>마케팅 수신 동의 기록</td><td>수신 동의 철회 시까지</td><td>동의</td></tr>
               <tr><td>분석 도구 수집 정보</td><td>Google Analytics <Ph value={retention.ga} label="보관기간" /> · Mixpanel <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" /></td><td>동의</td></tr>
             </tbody>
@@ -222,7 +222,7 @@ const keepDots = (t: string) =>
           <strong>정보주체의 별도 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만</strong> 개인정보를 제3자에게 제공합니다.
         </p>
         <p>현재 회사가 정기적으로 개인정보를 제공하는 제3자는 <strong>없습니다</strong>.</p>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           아래 제8항의 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자로, 제3자 제공과는 구분됩니다.
         </p>
       </section>
@@ -287,28 +287,28 @@ const keepDots = (t: string) =>
             </thead>
             <tbody>
               <tr>
-                <td>Vercel Inc.<br /><span style="color:#5a6776;font-size:13px;">privacy@vercel.com</span></td>
+                <td>Vercel Inc.<br /><span class="legal-note">privacy@vercel.com</span></td>
                 <td>미국</td>
                 <td>이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)</td>
                 <td>접속 IP 주소, 접속 일시, 요청 URL, 브라우저 · 기기 정보</td>
                 <td>웹사이트 호스팅 · CDN 운영 및 트래픽 · 성능 측정 / 위탁계약 종료 시 또는 Vercel의 로그 보존기간 경과 시까지</td>
               </tr>
               <tr>
-                <td>Web3Forms<br /><span style="color:#5a6776;font-size:13px;">support@web3forms.com</span></td>
+                <td>Web3Forms<br /><span class="legal-note">support@web3forms.com</span></td>
                 <td>미국</td>
                 <td>이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)</td>
                 <td>회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용</td>
                 <td>문의 내용의 이메일 전달 / 전달 완료 후 지체 없이 파기</td>
               </tr>
               <tr>
-                <td>Google LLC<br /><span style="color:#5a6776;font-size:13px;">https://support.google.com/policies</span></td>
+                <td>Google LLC<br /><span class="legal-note">https://support.google.com/policies</span></td>
                 <td>미국 등 Google 데이터센터 소재국</td>
                 <td>이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송</td>
                 <td>쿠키 식별자, 접속 IP 주소(일부 삭제), 방문 페이지, 브라우저 · 기기 정보</td>
                 <td>웹사이트 이용 통계 분석 / <Ph value={retention.ga} label="보관기간" /></td>
               </tr>
               <tr>
-                <td>Mixpanel, Inc.<br /><span style="color:#5a6776;font-size:13px;">privacy@mixpanel.com</span></td>
+                <td>Mixpanel, Inc.<br /><span class="legal-note">privacy@mixpanel.com</span></td>
                 <td>미국</td>
                 <td>이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송</td>
                 <td>임의 식별자, 방문 페이지, 클릭 · 스크롤 등 상호작용 기록, 화면 조작 기록(입력값 마스킹), 브라우저 · 기기 정보</td>
@@ -329,7 +329,7 @@ const keepDots = (t: string) =>
             이 경우 폼을 통한 문의 접수가 제한될 수 있습니다.
           </li>
         </ul>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           회사는 국외 이전 시 「개인정보 보호법」 제28조의8 제4항에 따라 암호화 등 안전조치를 취하고 있으며,
           이전받는 자가 개인정보를 제3국으로 재이전하는 경우 이를 확인하여 본 방침에 반영합니다.
         </p>
@@ -399,7 +399,7 @@ const keepDots = (t: string) =>
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           세션 리플레이는 이용자의 화면 조작을 재현하는 기능으로, 회사는 <strong>모든 입력값이 마스킹되도록</strong> 설정하여
           문의 폼에 입력한 이름 · 이메일 · 연락처 등의 내용이 기록되지 않도록 하고 있습니다.
         </p>
@@ -527,7 +527,7 @@ const keepDots = (t: string) =>
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           아직 아카이브되지 않은 이전 버전은 <Ph value={company.privacyEmail} label="이메일" />로 요청하시면 확인하실 수 있습니다.
         </p>
       </section>

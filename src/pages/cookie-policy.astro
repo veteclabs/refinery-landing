@@ -88,7 +88,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           필수 항목을 차단하면 언어 선택과 쿠키 동의 여부가 저장되지 않아, 방문할 때마다 동의 배너가 다시 표시됩니다.
         </p>
 
@@ -102,14 +102,14 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
                 <td>Google LLC (제3자)</td>
                 <td>쿠키</td>
                 <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 · 유입 경로 · 페이지별 이용 현황을 집계</td>
-                <td>최대 2년<br /><span style="color:#5a6776;font-size:13px;">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
+                <td>최대 2년<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
               </tr>
               <tr>
                 <td><code>mp_*_mixpanel</code>, <code>__mp*</code></td>
                 <td>Mixpanel, Inc. (제3자)</td>
                 <td>쿠키 · 로컬 스토리지</td>
                 <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
-                <td>브라우저 저장소 삭제 시까지<br /><span style="color:#5a6776;font-size:13px;">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
+                <td>브라우저 저장소 삭제 시까지<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
               </tr>
             </tbody>
           </table>
@@ -135,7 +135,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상에서 제외됩니다.
           문의 폼 처리에 사용하는 Web3Forms는 폼을 제출하는 시점에만 호출되며 쿠키를 설정하지 않습니다.
         </p>
@@ -183,7 +183,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           Google Analytics의 수집만 별도로 차단하려면
           <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics 차단 브라우저 부가기능</a>을 설치하실 수 있습니다.
         </p>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           브라우저 설정에서 모든 쿠키를 차단하면 본 웹사이트를 포함한 여러 웹사이트에서 로그인 유지, 언어 설정 등 일부 기능이 정상 동작하지 않을 수 있습니다.
         </p>
       </section>
@@ -217,7 +217,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:#5a6776;">
+        <p class="legal-note">
           쿠키 관련 문의 : <Ph value={company.privacyEmail} label="이메일" />
         </p>
       </section>

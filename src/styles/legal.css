@@ -127,6 +127,12 @@ img { max-width: 100%; height: auto; }
 .legal-body li > ul > li { margin: 4px 0; }
 /* 약관규제법 제3조①의 '중요한 내용 명확 표시' — 굵기만으로 부족하지 않도록 색도 진하게 준다 */
 .legal-body strong { font-weight: 600; color: #16202c; }
+/* 딸림글 — 표 안 괄호 설명, 문단 아래 근거 조항처럼 본문에서 한 단 물러나는 글이다.
+   인라인 style로 24곳(privacy 17 · cookie-policy 6 · eula 1)에 흩어져 있던 것을 모았다.
+   색은 잉크 600 — 500(#7E8A98)은 흰 배경에서 3.98:1이라 작은 글씨에 모자랐다.
+   ⚠️ .legal-body를 앞에 붙여야 한다. <p class="legal-note">가 .legal-body p(0,1,1)에
+   선택자 무게로 지면 색이 #22303F로 되돌아간다. */
+.legal-body .legal-note { font-size: 14px; color: #5A6776; }
 .legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
 .legal-body h2.legal-chapter { margin-top: 56px; margin-bottom: 4px; padding-bottom: 0; border-bottom: none; font-size: 15px; font-weight: 600; color: var(--accent-ink); }
