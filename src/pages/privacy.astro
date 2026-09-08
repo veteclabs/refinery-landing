@@ -584,14 +584,16 @@ const keepDots = (t: string) =>
               세로로 맞아떨어지고, 반복되던 콜론도 사라진다. */}
           <div class="legal-cards legal-cards--single">
             <div class="legal-card">
+              {/* 전자상거래법 제10조①의 표시 순서를 따른다 —
+                  상호 · 대표자 → 주소 → 전화 · 이메일 → 사업자등록번호 → 호스팅 제공자. */}
               <dl class="legal-facts">
                 <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
                 <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
-                <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
-                {company.mailOrderNo && <><dt>통신판매업 신고번호</dt><dd>{company.mailOrderNo}</dd></>}
                 <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
                 <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
                 <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
+                <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
+                {company.mailOrderNo && <><dt>통신판매업 신고번호</dt><dd>{company.mailOrderNo}</dd></>}
                 <dt>호스팅 서비스 제공자</dt><dd>{company.hosting}</dd>
               </dl>
             </div>
