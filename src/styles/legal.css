@@ -189,9 +189,9 @@ img { max-width: 100%; height: auto; }
    열 머리 표의 머리행 아래선까지 지워진다. */
 .legal-table tbody tr:last-child td,
 .legal-table tbody tr:last-child th { border-bottom: none; }
-/* 행 머리(thead 없이 첫 칸이 th인 표 — 15항 · 18항)는 세로 가운데로 둔다.
-   오른쪽 칸이 여러 줄일 때 딱지만 위에 붙어 있으면 짝이 어긋나 보인다. */
-.legal-table tbody th { vertical-align: middle; }
+/* 행 머리(thead 없이 첫 칸이 th인 표 — 15항)는 세로 가운데로 두고 오른쪽에
+   세로선을 긋는다. 칸 사이 세로선은 td에만 걸려 있어 행 머리에는 선이 없었다. */
+.legal-table tbody th { vertical-align: middle; border-right: 1px solid var(--border); }
 /* 칸 사이 세로선 — 오른쪽에만 긋고 마지막 칸은 뺀다. 바깥 테두리와 겹치지 않는다.
    머리행에는 긋지 않는다 — 회색 면이 이미 한 덩어리로 읽히고, 세로선을 더하면
    칸마다 잘려 제목보다 격자가 먼저 보인다. */
