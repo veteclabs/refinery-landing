@@ -119,17 +119,23 @@ img { max-width: 100%; height: auto; }
 .legal-body .legal-facts dt,
 .legal-body .legal-facts dd {
   margin: 0;
-  padding: 7px 0;
+  padding: 7px 14px;
   border-bottom: 1px solid #EFF2F5;   /* 목차 밑줄과 같은 잉크 100 */
 }
-.legal-body .legal-facts dt { color: #5A6776; padding-right: 12px; }
-.legal-body .legal-facts dd { color: #22303F; padding-right: 40px; }
+.legal-body .legal-facts dt { color: #5A6776; padding-left: 0; border-right: 1px solid #EFF2F5; }
+.legal-body .legal-facts dd { color: #22303F; padding-right: 0; }
+/* 왼쪽 벌의 값 칸 — 오른쪽 벌과 갈라주는 세로선. 4칸 격자에서 2번째 칸이다. */
+.legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 14px; border-right: 1px solid #EFF2F5; }
+/* 오른쪽 벌의 딱지는 세로선 뒤에서 시작하므로 왼쪽 여백을 준다. */
+.legal-body .legal-facts > :nth-child(4n + 3) { padding-left: 14px; }
 /* 마지막 줄 아래에는 선을 두지 않는다. 항목이 홀수(7개)라 끝 줄은 한 쌍뿐이다.
    짝수가 되면(통신판매업 신고번호가 채워질 때) -n+4로 바꿀 것. */
 .legal-body .legal-facts > :nth-last-child(-n+2) { border-bottom: none; }
 @media (max-width: 760px) {
   .legal-body .legal-facts { grid-template-columns: 130px minmax(0, 1fr); }
-  .legal-body .legal-facts dd { padding-right: 0; }
+  /* 한 벌로 접히면 벌 사이 세로선은 자리가 없다. */
+  .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; border-right: none; }
+  .legal-body .legal-facts > :nth-child(4n + 3) { padding-left: 0; }
 }
 /* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
    .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
