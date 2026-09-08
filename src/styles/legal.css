@@ -170,7 +170,10 @@ img { max-width: 100%; height: auto; }
 /* 표 안에서는 한 단계 더 줄인다 — 본문셀이 이미 14px이라 같은 크기로 두면
    딸림글이 물러나 보이지 않고 색 하나로만 갈린다. */
 .legal-table .legal-note { font-size: 13px; }
-.legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
+/* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
+   문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
+   등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
+.legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
 .legal-body h2.legal-chapter { margin-top: 56px; margin-bottom: 4px; padding-bottom: 0; border-bottom: none; font-size: 15px; font-weight: 600; color: var(--accent-ink); }
 .legal-body h2.legal-chapter + section { margin-top: 16px; }
