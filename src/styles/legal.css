@@ -152,6 +152,8 @@ img { max-width: 100%; height: auto; }
    칸 수가 셋이든 넷이든 같은 규칙으로 덮인다. */
 .legal-table--prose2 td { text-align: center; vertical-align: middle; }
 .legal-table--prose2 td:nth-child(2) { text-align: left; }
+/* 칸이 전부 짧은 딱지·값인 표에 쓴다(18항 보호책임자). 문장 칸이 없으니 모두 가운데다. */
+.legal-table--center td { text-align: center; vertical-align: middle; }
 /* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
 .legal-table--label12 td { text-align: left; vertical-align: middle; }
 .legal-table--label12 td:nth-child(-n+2) { text-align: center; }
