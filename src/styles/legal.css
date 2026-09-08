@@ -127,8 +127,13 @@ img { max-width: 100%; height: auto; }
   /* 상자 폭은 딱지마다 같게 두고 글자만 가운데에 놓는다 — 길이가 제각각이면
      상자 오른쪽 끝이 들쭉날쭉해 줄마다 시작점이 달라 보인다. */
   justify-self: stretch;
-  text-align: center;
-  padding: 4px 12px;
+  /* 높이를 34px으로 못박고 글자를 상자 가운데에 놓는다. 패딩으로 맞추면
+     행간(22.4px) 때문에 값이 소수점으로 떨어져 다시 잴 일이 생긴다. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
   background: #FFFFFF;
   border-radius: 6px;
   font-size: 14px;
