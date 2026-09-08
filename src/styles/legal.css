@@ -118,10 +118,11 @@ img { max-width: 100%; height: auto; }
    선은 전부 1px · 잉크 200으로 통일한다. 굵기로 층을 나누려면 2px밖에 못 쓰는데
    (1.5px은 크롬이 정수로 내림해 1px으로 굳는다 — 실측 확인) 2px은 격자가 앞으로
    나와 무거웠다. 머리행은 면과 굵기 600으로 이미 구분된다. */
-.legal-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; margin: 10px 0; }
-/* 표 바로 앞 요소의 아래 여백도 10px으로 낮춘다. 마진 병합에서는 큰 쪽이
-   이기므로, 앞 문단이 12px을 들고 있으면 표의 10px은 화면에 나오지 않는다. */
-.legal-body *:has(+ .legal-table-wrap) { margin-bottom: 10px; }
+.legal-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; margin: 20px 0; }
+/* 표 바로 앞 요소의 아래 여백도 20px으로 맞춘다. 마진 병합에서는 큰 쪽이 이기므로
+   앞 문단이 더 큰 값을 들고 있으면 표의 값은 화면에 나오지 않는다(지금은 12px이라
+   표가 이기지만, 앞 요소가 바뀌어도 흔들리지 않도록 같이 적어 둔다). */
+.legal-body *:has(+ .legal-table-wrap) { margin-bottom: 20px; }
 .legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; color: #22303F; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
 /* 한 줄 머리행을 45px으로 맞춘 값이다.
