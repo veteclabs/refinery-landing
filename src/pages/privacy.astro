@@ -465,16 +465,25 @@ const keepDots = (t: string) =>
         <h2>18. 개인정보 보호책임자 및 고충처리 담당부서</h2>
         <p>회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
         <div class="legal-table-wrap">
+          {/* 항목별로 칸을 나눈다 — 한 칸에 네 줄로 적으면 무엇이 무엇인지 짚어가며 읽어야 한다.
+              고충처리 담당부서가 정해지면 tbody에 한 행만 더하면 된다. */}
           <table class="legal-table">
+            <thead>
+              <tr>
+                <th style="width:220px;">구분</th>
+                <th>성명</th>
+                <th>직책</th>
+                <th>전화</th>
+                <th>이메일</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
-                <th style="width:200px;">개인정보 보호책임자</th>
-                <td>
-                  성명 : <Ph value={company.cpoName} label="성명" /><br />
-                  직책 : <Ph value={company.cpoTitle} label="직책" /><br />
-                  전화 : <Ph value={company.privacyTel} label="전화번호" /><br />
-                  이메일 : <Ph value={company.privacyEmail} label="이메일" />
-                </td>
+                <td>개인정보 보호책임자</td>
+                <td><Ph value={company.cpoName} label="성명" /></td>
+                <td><Ph value={company.cpoTitle} label="직책" /></td>
+                <td><Ph value={company.privacyTel} label="전화번호" /></td>
+                <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
             </tbody>
           </table>
