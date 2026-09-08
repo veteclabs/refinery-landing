@@ -140,8 +140,12 @@ img { max-width: 100%; height: auto; }
 }
 /* 항목마다 아래 선. 조문 제목의 선(var(--border))보다 한 단계 옅은 ink-100을
    쓴다 — 23줄에 같은 굵기의 선이 깔리면 목차가 제목보다 무거워진다.
-   두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다. */
-.legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
+   두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다.
+
+   ⚠️ .legal-body를 앞에 붙여야 한다. 목차가 .legal-body 안에 있어서
+   조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
+   그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
+.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
 .legal-toc a {
   /* baseline이 아니라 flex-start로 둔다 — 번호 칸이 inline-flex라 baseline이
      칸 안 글자가 아니라 칸 아래쪽에 잡혀, 눈으로 맞춘 보정값을 계속 얹어야 했다.
@@ -168,7 +172,7 @@ img { max-width: 100%; height: auto; }
   flex: 0 0 18px; align-self: flex-start;
   display: inline-flex; align-items: center; justify-content: center;
   width: 18px; height: 18px; border-radius: 3px;
-  border: 1px solid var(--border);
+  border: 1px solid #22303F;   /* 본문·숫자와 같은 색 */
   font-size: 11px; font-weight: 600; line-height: 1;
   font-variant-numeric: tabular-nums; color: #22303F;   /* 본문과 같은 색 */
   /* 숫자는 디센더가 없어 잉크 중심이 인라인 상자 중심보다 0.4px 위에 있다.
