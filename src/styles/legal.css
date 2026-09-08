@@ -100,6 +100,8 @@ img { max-width: 100%; height: auto; }
   margin: 31.4px 0 12px;
 }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
+/* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
+.legal-cards--single { grid-template-columns: minmax(0, 1fr); }
 /* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
    .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
 .legal-body .legal-card h3 { margin: 0 0 12px; }

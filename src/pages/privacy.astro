@@ -577,18 +577,23 @@ const keepDots = (t: string) =>
         </p>
       </section>
 
-      <section id="sec-company">
-        <h2>사업자 정보</h2>
-        <ul>
-          <li>상호 : <Ph value={company.legalName} label="회사명" /></li>
-          <li>대표자 : <Ph value={company.ceo} label="대표자 성명" /></li>
-          <li>사업자등록번호 : <Ph value={company.bizNo} label="000-00-00000" /></li>
-          {company.mailOrderNo && <li>통신판매업 신고번호 : {company.mailOrderNo}</li>}
-          <li>주소 : <Ph value={company.address} label="본점 주소" /></li>
-          <li>전화 : <Ph value={company.tel} label="전화번호" /> · 이메일 : <Ph value={company.email} label="이메일" /></li>
-          <li>호스팅 서비스 제공자 : {company.hosting}</li>
-        </ul>
-      </section>
+        <section id="sec-company">
+          <h2>사업자 정보</h2>
+          {/* 2항 카드와 같은 규격이다. 카드가 하나뿐이라 한 단으로 편다. */}
+          <div class="legal-cards legal-cards--single">
+            <div class="legal-card">
+              <ul>
+                <li>상호 : <Ph value={company.legalName} label="회사명" /></li>
+                <li>대표자 : <Ph value={company.ceo} label="대표자 성명" /></li>
+                <li>사업자등록번호 : <Ph value={company.bizNo} label="000-00-00000" /></li>
+                {company.mailOrderNo && <li>통신판매업 신고번호 : {company.mailOrderNo}</li>}
+                <li>주소 : <Ph value={company.address} label="본점 주소" /></li>
+                <li>전화 : <Ph value={company.tel} label="전화번호" /> · 이메일 : <Ph value={company.email} label="이메일" /></li>
+                <li>호스팅 서비스 제공자 : {company.hosting}</li>
+              </ul>
+            </div>
+          </div>
+        </section>
     </div>
   </main>
   <Footer />
