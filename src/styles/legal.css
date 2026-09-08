@@ -91,9 +91,9 @@ img { max-width: 100%; height: auto; }
 /* 모서리는 각지게 둔다(반경 0). 나머지 값은 그대로다 — 테두리 1px,
    머리 줄 면 var(--bg-soft), 칸 안여백 11/14, 마지막 행 아래선 없음. */
 .legal-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 0; margin: 12px 0; }
-.legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; }
+.legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; color: #22303F; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.legal-table th { background: var(--bg-soft); font-weight: 600; color: var(--text); text-align: center; }
+.legal-table th { background: var(--bg-soft); font-weight: 600; text-align: center; }
 .legal-table tr:last-child td { border-bottom: none; }
 /* 칸 사이 세로선 — 오른쪽에만 긋고 마지막 칸은 뺀다. 바깥 테두리와 겹치지 않는다. */
 .legal-table th:not(:last-child), .legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
