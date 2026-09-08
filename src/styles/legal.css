@@ -144,6 +144,9 @@ img { max-width: 100%; height: auto; }
    칸 수가 셋이든 넷이든 같은 규칙으로 덮인다. */
 .legal-table--prose2 td { text-align: center; vertical-align: middle; }
 .legal-table--prose2 td:nth-child(2) { text-align: left; }
+/* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
+.legal-table--label12 td { text-align: left; vertical-align: middle; }
+.legal-table--label12 td:nth-child(-n+2) { text-align: center; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
