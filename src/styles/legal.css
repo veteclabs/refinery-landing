@@ -92,9 +92,10 @@ img { max-width: 100%; height: auto; }
    머리 줄 면 var(--bg-soft), 칸 안여백 11/14, 마지막 행 아래선 없음. */
 /* 좌우 세로선은 두지 않는다 — 위아래 가로선만으로 표의 범위가 드러나고,
    칸 사이 세로선은 안쪽에만 남는다.
-   표의 테두리(위·아래)와 머리행 아래는 2px으로 굵게 둔다. 행 사이 1px과 갈라져
+   표의 테두리(위·아래)와 머리행 아래는 2px · 잉크 300(#C8CED5)으로 둔다.
+   안쪽 선(1px · 잉크 200)과 굵기·농도가 함께 갈라져
    '표가 여기서 시작해 여기서 끝난다'가 먼저 읽힌다. */
-.legal-table-wrap { overflow-x: auto; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); border-radius: 0; margin: 10px 0; }
+.legal-table-wrap { overflow-x: auto; border-top: 2px solid #C8CED5; border-bottom: 2px solid #C8CED5; border-radius: 0; margin: 10px 0; }
 /* 표 바로 앞 요소의 아래 여백도 10px으로 낮춘다. 마진 병합에서는 큰 쪽이
    이기므로, 앞 문단이 12px을 들고 있으면 표의 10px은 화면에 나오지 않는다. */
 .legal-body *:has(+ .legal-table-wrap) { margin-bottom: 10px; }
@@ -105,7 +106,7 @@ img { max-width: 100%; height: auto; }
    글자 크기나 행간을 바꾸면 이 패딩도 다시 재야 한다.
    아래선이 2px이 되면서 머리행이 나눠 갖는 몫도 0.5 → 1px이 됐다. */
 .legal-table th { background: #FAFBFC; font-size: 16px; font-weight: 600; text-align: center; padding: 8.4px 14px;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid #C8CED5;
   /* 머리행은 한 줄로 둔다. word-break: keep-all은 한글 낱자만 붙잡고
      '이전받는 자(연락처)'처럼 괄호 앞에서 갈리는 것은 막지 못한다.
      칸이 좁아지면 표가 통째로 가로 스크롤되므로 글자가 잘리지는 않는다. */
