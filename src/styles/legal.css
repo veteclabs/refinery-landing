@@ -136,16 +136,15 @@ img { max-width: 100%; height: auto; }
   display: grid; grid-auto-flow: column;
   grid-template-rows: repeat(12, auto);   /* 23항목 → 12 · 11 */
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 40px;
+  column-gap: 72px;
 }
-/* 항목마다 아래 선. 조문 제목의 선(var(--border))보다 한 단계 옅은 ink-100을
-   쓴다 — 23줄에 같은 굵기의 선이 깔리면 목차가 제목보다 무거워진다.
+/* 항목마다 아래 선. 헤더 아래선·푸터 구분선·표와 같은 var(--border) #E3E7EC다.
    두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다.
 
    ⚠️ .legal-body를 앞에 붙여야 한다. 목차가 .legal-body 안에 있어서
    조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
    그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
-.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
+.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid var(--border); }
 /* 각 단의 마지막 항목은 밑줄을 뺀다 — 목록이 끝나는 자리라 받칠 것이 없다.
    두 단일 때 왼쪽 단의 끝은 12번째, 오른쪽 단의 끝은 마지막(사업자 정보)이다.
    한 단으로 펴지는 560px 아래에서는 12번째가 중간이므로 그 규칙을 끈다. */
@@ -154,52 +153,24 @@ img { max-width: 100%; height: auto; }
   .legal-body .legal-toc li:nth-child(12) { border-bottom: none; }
 }
 .legal-toc a {
-  /* baseline이 아니라 flex-start로 둔다 — 번호 칸이 inline-flex라 baseline이
-     칸 안 글자가 아니라 칸 아래쪽에 잡혀, 눈으로 맞춘 보정값을 계속 얹어야 했다.
-     위에서부터 쌓고 칸만 1px 내려 첫 줄 한가운데에 앉힌다((24-22)/2 = 1). */
-  display: flex; gap: 9px; align-items: flex-start;
-  /* 글자에서 밑줄까지 위아래 15px. 같은 값을 위아래에 주면 아래가 2.4px 넓어
+  display: block;
+  /* 글자에서 밑줄까지 위아래 18px. 같은 값을 위아래에 주면 아래가 더 넓어
      보인다 — 한글은 디센더가 거의 없어 줄상자 아래쪽이 남는다. 그만큼 덜어
-     실제 여백이 같아지는 값으로 적었다(위 11.84 · 아래 9.47). */
-  padding: 11.15px 0 10.85px;
+     실제 여백이 같아지는 값으로 적었다.
+     글자 크기를 바꾸면 줄상자가 함께 바뀌므로 이 두 값도 다시 재야 한다. */
+  padding: 14.24px 0 13.94px;
   font-size: 14px; font-weight: 600; line-height: 1.45; color: #22303F;
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
 }
-.legal-toc a:hover { color: var(--accent-ink); }
-/* 번호는 각진 칸에 담는다(모서리 4px). 원이던 것을 표(모서리 0)와 같은 방향으로
-   맞춘 값이다 — 다만 표만큼 완전히 각지지는 않다. 22px짜리 작은 칸이라 0으로
-   두면 네 귀가 뾰족해 글자보다 먼저 눈에 걸린다.
-   유니코드 원문자(①⑭㉒)를 쓰지 않는 이유는 셋이다 — ㉑㉒가 다른 블록이라
-   글꼴이 달라지고, 글꼴이 없는 환경에서 모양이 제각각이며, 조문을 복사하면
-   '⑭'가 그대로 따라간다. CSS로 그리면 22까지 한 모양이다.
-   두 자리(10~22)가 열셋이라 폭을 22px로 잡고 글자를 12px로 둔다.
-   align-self: flex-start — 항목이 두 줄이 되어도 칸은 첫 줄에 머문다. */
-.legal-toc-no {
-  flex: 0 0 17px; align-self: flex-start;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 17px; height: 17px; border-radius: 3px;
-  border: 1px solid #22303F;   /* 본문·숫자와 같은 색 */
-  font-size: 10px; font-weight: 600; line-height: 1;   /* 항목과 같은 굵기 */
-  /* 등폭 숫자(tabular-nums)를 쓰지 않는다. 칸 안에서 가운데로 두는 자리라
-     자릿수를 맞출 필요가 없고, 등폭에서는 '1'이 넓은 칸 안에서 왼쪽으로
-     치우쳐 보였다(실측 -1.4px, 11·21은 -2.3px). */
-  color: #22303F;   /* 본문과 같은 색 */
-  /* 보정 없이 두면 잉크 중심이 칸 중심보다 0.46px 아래에 놓인다. 아래쪽
-     안여백으로 그만큼 올린다(가운데 정렬이라 안여백의 절반만 움직인다). */
-  padding-bottom: 0.92px;
-  transition: border-color .15s ease, color .15s ease;
-  /* 칸 높이 17px은 14px 한글의 글자 상자와 같다. 줄상자(14 x 1.45 = 20.3px)
-     안에서 글자 상자가 가운데 있으므로 칸도 그만큼 내린다 — 실측값. */
-  margin-top: 2px;
-}
-.legal-toc a:hover .legal-toc-no { border-color: var(--accent); color: var(--accent-ink); }
-/* 번호 없는 항목(사업자 정보)은 칸을 그리지 않고 자리만 지킨다. */
-.legal-toc-no.is-empty { border-color: transparent; }
+/* 호버는 브랜드 하늘색이다. 본문 조문 링크(--accent-ink #3F76AE)와 다른 값을
+   쓰는 이유: 목차 항목은 평소에 본문색이라 링크처럼 보이지 않고, 짚었을 때만
+   색이 바뀌면 된다. 글자에 계속 얹히는 색이 아니라 대비 기준을 넘지 않아도 된다. */
+.legal-toc a:hover { color: #76A6D7; }
 .legal-toc .nb { white-space: nowrap; }
 /* 좁아지면 한 단으로 편다. 두 단을 유지하면 항목이 세 줄까지 접힌다. */
 @media (max-width: 900px) {
-  .legal-toc ol { column-gap: 28px; }
+  .legal-toc ol { column-gap: 40px; }
 }
 @media (max-width: 560px) {
   .legal-toc ol { grid-template-rows: none; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
