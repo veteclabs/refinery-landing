@@ -178,7 +178,7 @@ img { max-width: 100%; height: auto; }
    45 = 27.2(행간) + 8.65 + 8.65 + 0.5(합쳐진 아래선의 절반).
    글자 크기나 행간을 바꾸면 이 패딩도 다시 재야 한다.
    합쳐진 아래선 1px 중 머리행 몫은 0.5px이다. */
-.legal-table th { background: #FAFBFC; font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px;
+.legal-table th { background: var(--bg-soft); font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px;
   /* 머리행은 한 줄로 둔다. word-break: keep-all은 한글 낱자만 붙잡고
      '이전받는 자(연락처)'처럼 괄호 앞에서 갈리는 것은 막지 못한다.
      칸이 좁아지면 표가 통째로 가로 스크롤되므로 글자가 잘리지는 않는다. */
