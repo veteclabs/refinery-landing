@@ -97,7 +97,10 @@ img { max-width: 100%; height: auto; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
 /* 머리행 면은 --bg-soft(#F6F8FA)보다 한 단계 옅다. 세로선을 걷고 나니
    회색 띠가 표 위에 얹힌 것처럼 무거워 보여 종이에 가깝게 낮췄다. */
-.legal-table th { background: #FAFBFC; font-size: 16px; font-weight: 600; text-align: center; }
+/* 한 줄 머리행을 45px으로 맞춘 값이다.
+   45 = 27.2(행간) + 8.65 + 8.65 + 0.5(합쳐진 아래선의 절반).
+   글자 크기나 행간을 바꾸면 이 패딩도 다시 재야 한다. */
+.legal-table th { background: #FAFBFC; font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px; }
 .legal-table tr:last-child td { border-bottom: none; }
 /* 칸 사이 세로선 — 오른쪽에만 긋고 마지막 칸은 뺀다. 바깥 테두리와 겹치지 않는다.
    머리행에는 긋지 않는다 — 회색 면이 이미 한 덩어리로 읽히고, 세로선을 더하면
