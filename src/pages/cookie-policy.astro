@@ -102,14 +102,14 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
                 <td>Google LLC (제3자)</td>
                 <td>쿠키</td>
                 <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 · 유입 경로 · 페이지별 이용 현황을 집계</td>
-                <td>최대 2년<br /><span style="color:#7e8a98;font-size:13px;">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
+                <td>최대 2년<br /><span style="color:#7e8a98;font-size:13.5px;">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
               </tr>
               <tr>
                 <td><code>mp_*_mixpanel</code>, <code>__mp*</code></td>
                 <td>Mixpanel, Inc. (제3자)</td>
                 <td>쿠키 · 로컬 스토리지</td>
                 <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
-                <td>브라우저 저장소 삭제 시까지<br /><span style="color:#7e8a98;font-size:13px;">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
+                <td>브라우저 저장소 삭제 시까지<br /><span style="color:#7e8a98;font-size:13.5px;">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
               </tr>
             </tbody>
           </table>

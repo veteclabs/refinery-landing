@@ -114,9 +114,10 @@ img { max-width: 100%; height: auto; }
    칸마다 잘려 제목보다 격자가 먼저 보인다. */
 .legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
 /* 1·3번째 칸이 짧은 딱지(구분 · 동의 필요 여부)뿐인 표에서 쓴다.
-   가운데 칸만 문장이라 그쪽은 왼쪽 정렬로 둔다. */
+   가운데 칸은 문장이라 가로는 왼쪽 정렬로 두고 세로만 가운데로 맞춘다. */
+.legal-table--center13 td { vertical-align: middle; }
 .legal-table--center13 td:nth-child(1),
-.legal-table--center13 td:nth-child(3) { text-align: center; vertical-align: middle; }
+.legal-table--center13 td:nth-child(3) { text-align: center; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
