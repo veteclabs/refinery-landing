@@ -111,9 +111,6 @@ img { max-width: 100%; height: auto; }
    머리행에는 긋지 않는다 — 회색 면이 이미 한 덩어리로 읽히고, 세로선을 더하면
    칸마다 잘려 제목보다 격자가 먼저 보인다. */
 .legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
-/* 첫 칸은 행의 이름표라 아주 옅은 면을 깔아 나머지 칸과 갈라 둔다.
-   머리행(#F6F8FA)보다 한 단계 옅어 두 면이 겹쳐 보이지 않는다. */
-.legal-table td:first-child { background: #FAFBFC; }
 /* 1·3번째 칸이 짧은 딱지(구분 · 동의 필요 여부)뿐인 표에서 쓴다.
    가운데 칸은 문장이라 가로는 왼쪽 정렬로 두고 세로만 가운데로 맞춘다. */
 .legal-table--center13 td { vertical-align: middle; }
