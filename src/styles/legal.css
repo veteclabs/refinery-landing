@@ -60,7 +60,10 @@ img { max-width: 100%; height: auto; }
    좁다 — 조문이 22개라 같은 값을 쓰면 페이지가 그만큼 길어진다.
    40px일 때는 문단 사이(12px)와 층이 얕아 절이 바뀌는 자리가 덜 읽혔다. */
 .legal-body section { margin-top: 64px; }
-.legal-body h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+/* 아래 선은 두지 않는다. 절 사이가 64px으로 벌어져 있어 선이 없어도 절이
+   바뀌는 자리가 읽힌다 — 선까지 있으면 22개 조문에 가로선이 22줄 깔린다.
+   선을 걷으면서 제목→본문 간격을 24px으로 둔다(전에는 안여백 10 + 여백 14). */
+.legal-body h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 24px; }
 .legal-body h3 { font-size: 16px; font-weight: 700; margin: 22px 0 8px; }
 /* 글자값은 블로그 글(.post-body)·백서와 같게 맞춘다 — 문단 16px/1.82,
    목록 16px/1.7. 크기를 적어 두는 이유: 안 적으면 브라우저 기본값에 기대게 되어
