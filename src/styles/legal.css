@@ -146,8 +146,10 @@ img { max-width: 100%; height: auto; }
 .legal-body ol > li::marker { color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
-/* 약관규제법 제3조①의 '중요한 내용 명확 표시' — 굵기만으로 부족하지 않도록 색도 진하게 준다 */
-.legal-body strong { font-weight: 600; color: #16202c; }
+/* 강조는 굵기 600만 쓰고 색은 둘러싼 글에서 물려받는다.
+   색까지 올리면 물러난 층(딸림글 #5A6776) 안의 강조가 본문(#22303F)보다 진해져
+   위계가 뒤집힌다. 약관규제법 제3조①의 '중요한 내용 명확 표시'는 굵기로 충족한다. */
+.legal-body strong { font-weight: 600; color: inherit; }
 /* 딸림글 — 표 안 괄호 설명, 문단 아래 근거 조항처럼 본문에서 한 단 물러나는 글이다.
    인라인 style로 24곳(privacy 17 · cookie-policy 6 · eula 1)에 흩어져 있던 것을 모았다.
    색은 잉크 600 — 500(#7E8A98)은 흰 배경에서 3.98:1이라 작은 글씨에 모자랐다.
