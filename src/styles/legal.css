@@ -98,12 +98,10 @@ img { max-width: 100%; height: auto; }
 .legal-body *:has(+ .legal-table-wrap) { margin-bottom: 10px; }
 .legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; color: #22303F; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-/* 머리행 면은 --bg-soft(#F6F8FA)보다 한 단계 옅다. 세로선을 걷고 나니
-   회색 띠가 표 위에 얹힌 것처럼 무거워 보여 종이에 가깝게 낮췄다. */
 /* 한 줄 머리행을 45px으로 맞춘 값이다.
    45 = 27.2(행간) + 8.65 + 8.65 + 0.5(합쳐진 아래선의 절반).
    글자 크기나 행간을 바꾸면 이 패딩도 다시 재야 한다. */
-.legal-table th { background: #FAFBFC; font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px;
+.legal-table th { background: var(--bg-soft); font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px;
   /* 머리행은 한 줄로 둔다. word-break: keep-all은 한글 낱자만 붙잡고
      '이전받는 자(연락처)'처럼 괄호 앞에서 갈리는 것은 막지 못한다.
      칸이 좁아지면 표가 통째로 가로 스크롤되므로 글자가 잘리지는 않는다. */
@@ -113,6 +111,9 @@ img { max-width: 100%; height: auto; }
    머리행에는 긋지 않는다 — 회색 면이 이미 한 덩어리로 읽히고, 세로선을 더하면
    칸마다 잘려 제목보다 격자가 먼저 보인다. */
 .legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
+/* 첫 칸은 행의 이름표라 아주 옅은 면을 깔아 나머지 칸과 갈라 둔다.
+   머리행(#F6F8FA)보다 한 단계 옅어 두 면이 겹쳐 보이지 않는다. */
+.legal-table td:first-child { background: #FAFBFC; }
 /* 1·3번째 칸이 짧은 딱지(구분 · 동의 필요 여부)뿐인 표에서 쓴다.
    가운데 칸은 문장이라 가로는 왼쪽 정렬로 두고 세로만 가운데로 맞춘다. */
 .legal-table--center13 td { vertical-align: middle; }
