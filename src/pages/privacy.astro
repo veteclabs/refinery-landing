@@ -554,6 +554,10 @@ const keepDots = (t: string) =>
           <strong>7일 전(정보주체에게 불리한 변경의 경우 30일 전)</strong>부터 웹사이트 공지사항을 통하여 고지합니다.
         </p>
         <p>현행 방침의 공고일자는 <Ph value={revisedDate} label="YYYY-MM-DD" />, 시행일자는 <Ph value={effectiveDate} label="YYYY-MM-DD" />입니다. 개정 이력은 아래와 같습니다.</p>
+        {/* 개정 이력은 표로 둔다. 시행일 선택 창(드롭다운)은 개정이 실제로 생길 때 함께 만든다 —
+            지금은 이력이 한 건이고 아카이브 페이지가 없어 고를 것이 없다.
+            전환 기준: 이력 3건 이상 + revisions[].href가 가리킬 이전 버전 페이지 존재.
+            아래 딸림글의 "이전 버전 요청" 안내도 그때 함께 손볼 것 — 지금은 이전 버전이 없다. */}
         <div class="legal-table-wrap">
           <table class="legal-table">
             <thead><tr><th style="width:150px;">시행일</th><th>주요 변경</th><th style="width:110px;">전문</th></tr></thead>
