@@ -580,20 +580,20 @@ const keepDots = (t: string) =>
         <section id="sec-company">
           <h2>사업자 정보</h2>
           {/* 2항 카드와 같은 규격이다. 카드가 하나뿐이라 한 단으로 편다.
-              여기는 열거가 아니라 항목·값 쌍이라 앞의 점은 두지 않는다(.legal-facts).
-              줄의 시작은 점 대신 옅은 딱지(.k)가 잡아준다. */}
+              항목·값 쌍이라 앞의 점은 두지 않고 dl로 적는다 — 딱지 단과 값 단이
+              세로로 맞아떨어지고, 반복되던 콜론도 사라진다. */}
           <div class="legal-cards legal-cards--single">
             <div class="legal-card">
-              <ul class="legal-facts">
-                <li><span class="k">상호 :</span> <Ph value={company.legalName} label="회사명" /></li>
-                <li><span class="k">대표자 :</span> <Ph value={company.ceo} label="대표자 성명" /></li>
-                <li><span class="k">사업자등록번호 :</span> <Ph value={company.bizNo} label="000-00-00000" /></li>
-                {company.mailOrderNo && <li><span class="k">통신판매업 신고번호 :</span> {company.mailOrderNo}</li>}
-                <li><span class="k">주소 :</span> <Ph value={company.address} label="본점 주소" /></li>
-                <li><span class="k">전화 :</span> <Ph value={company.tel} label="전화번호" /></li>
-                <li><span class="k">이메일 :</span> <Ph value={company.email} label="이메일" /></li>
-                <li><span class="k">호스팅 서비스 제공자 :</span> {company.hosting}</li>
-              </ul>
+              <dl class="legal-facts">
+                <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
+                <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
+                <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
+                {company.mailOrderNo && <><dt>통신판매업 신고번호</dt><dd>{company.mailOrderNo}</dd></>}
+                <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
+                <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
+                <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
+                <dt>호스팅 서비스 제공자</dt><dd>{company.hosting}</dd>
+              </dl>
             </div>
           </div>
         </section>
