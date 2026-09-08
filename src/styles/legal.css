@@ -146,16 +146,23 @@ img { max-width: 100%; height: auto; }
    조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
    그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
 .legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
+/* 각 단의 마지막 항목은 밑줄을 뺀다 — 목록이 끝나는 자리라 받칠 것이 없다.
+   두 단일 때 왼쪽 단의 끝은 12번째, 오른쪽 단의 끝은 마지막(사업자 정보)이다.
+   한 단으로 펴지는 560px 아래에서는 12번째가 중간이므로 그 규칙을 끈다. */
+.legal-body .legal-toc li:last-child { border-bottom: none; }
+@media (min-width: 561px) {
+  .legal-body .legal-toc li:nth-child(12) { border-bottom: none; }
+}
 .legal-toc a {
   /* baseline이 아니라 flex-start로 둔다 — 번호 칸이 inline-flex라 baseline이
      칸 안 글자가 아니라 칸 아래쪽에 잡혀, 눈으로 맞춘 보정값을 계속 얹어야 했다.
      위에서부터 쌓고 칸만 1px 내려 첫 줄 한가운데에 앉힌다((24-22)/2 = 1). */
   display: flex; gap: 9px; align-items: flex-start;
-  /* 위아래를 눈으로 같게 맞춘 값이다. 4px씩 주면 글자 위 7.2px · 아래 9.5px으로
-     아래가 2.4px 넓다 — 한글은 디센더가 거의 없어 줄상자 아래쪽이 남는다.
-     그 차이의 절반을 위로 옮긴다(합은 8px 그대로라 행 높이는 같다). */
-  padding: 5.25px 0 2.75px;
-  font-size: 15px; line-height: 1.45; color: #22303F;
+  /* 글자에서 밑줄까지 위아래 15px. 같은 값을 위아래에 주면 아래가 2.4px 넓어
+     보인다 — 한글은 디센더가 거의 없어 줄상자 아래쪽이 남는다. 그만큼 덜어
+     실제 여백이 같아지는 값으로 적었다(위 11.84 · 아래 9.47). */
+  padding: 11.15px 0 10.85px;
+  font-size: 14px; line-height: 1.45; color: #22303F;
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
 }
@@ -173,15 +180,18 @@ img { max-width: 100%; height: auto; }
   display: inline-flex; align-items: center; justify-content: center;
   width: 18px; height: 18px; border-radius: 3px;
   border: 1px solid #22303F;   /* 본문·숫자와 같은 색 */
-  font-size: 11px; font-weight: 600; line-height: 1;
-  font-variant-numeric: tabular-nums; color: #22303F;   /* 본문과 같은 색 */
+  font-size: 11px; font-weight: 400; line-height: 1;   /* 본문·항목과 같은 굵기 */
+  /* 등폭 숫자(tabular-nums)를 쓰지 않는다. 칸 안에서 가운데로 두는 자리라
+     자릿수를 맞출 필요가 없고, 등폭에서는 '1'이 넓은 칸 안에서 왼쪽으로
+     치우쳐 보였다(실측 -1.4px, 11·21은 -2.3px). */
+  color: #22303F;   /* 본문과 같은 색 */
   /* 숫자는 디센더가 없어 잉크 중심이 인라인 상자 중심보다 0.4px 위에 있다.
      위쪽 안여백으로 그만큼 내린다(가운데 정렬이라 padding의 절반만 움직인다). */
   padding-top: 0.8px;
   transition: border-color .15s ease, color .15s ease;
-  /* 칸 높이 18px은 15px 한글의 글자 상자와 같다. 줄상자(15 x 1.45 = 21.75px)
-     안에서 글자 상자가 가운데 있으므로 칸도 (21.75 - 18) / 2 = 1.875px 내린다.
-     실측으로 1px 더 붙어야 중심이 맞아 1px으로 둔다. */
+  /* 칸 높이 18px은 14px 한글의 글자 상자(17px)에 가깝다. 줄상자(14 x 1.45 =
+     20.3px) 안에서 글자 상자가 가운데 있으므로 칸도 그만큼 내린다.
+     실측으로 맞춘 값이다. */
   margin-top: 1px;
 }
 .legal-toc a:hover .legal-toc-no { border-color: var(--accent); color: var(--accent-ink); }
