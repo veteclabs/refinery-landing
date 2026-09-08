@@ -92,7 +92,10 @@ img { max-width: 100%; height: auto; }
    머리 줄 면 var(--bg-soft), 칸 안여백 11/14, 마지막 행 아래선 없음. */
 /* 좌우 세로선은 두지 않는다 — 위아래 가로선만으로 표의 범위가 드러나고,
    칸 사이 세로선은 안쪽에만 남는다. */
-.legal-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; margin: 12px 0; }
+.legal-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; margin: 10px 0; }
+/* 표 바로 앞 요소의 아래 여백도 10px으로 낮춘다. 마진 병합에서는 큰 쪽이
+   이기므로, 앞 문단이 12px을 들고 있으면 표의 10px은 화면에 나오지 않는다. */
+.legal-body *:has(+ .legal-table-wrap) { margin-bottom: 10px; }
 .legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; color: #22303F; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
 /* 머리행 면은 --bg-soft(#F6F8FA)보다 한 단계 옅다. 세로선을 걷고 나니
