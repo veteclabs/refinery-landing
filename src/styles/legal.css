@@ -112,7 +112,7 @@ img { max-width: 100%; height: auto; }
      줄마다 어긋나 훑기 어렵다. 170px은 가장 긴 '호스팅 서비스 제공자' 상자 폭이다. */
   grid-template-columns: 170px minmax(0, 1fr) 170px minmax(0, 1fr);
   column-gap: 16px;
-  row-gap: 20px;
+  row-gap: 15px;
   align-items: center;
   margin: 0;
   font-size: 16px;
