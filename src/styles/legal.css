@@ -163,7 +163,7 @@ img { max-width: 100%; height: auto; }
      실제 여백이 같아지는 값으로 적었다.
      글자 크기를 바꾸면 줄상자가 함께 바뀌므로 이 두 값도 다시 재야 한다. */
   padding: 14.24px 0 13.94px;
-  font-size: 14px; font-weight: 600; line-height: 1.45; color: #22303F;
+  font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--text);   /* 제목류와 같은 잉크 #16202C */
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
 }
