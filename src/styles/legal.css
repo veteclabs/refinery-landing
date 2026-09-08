@@ -93,8 +93,10 @@ img { max-width: 100%; height: auto; }
 .legal-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 0; margin: 12px 0; }
 .legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.legal-table th { background: var(--bg-soft); font-weight: 700; color: var(--text); }
+.legal-table th { background: var(--bg-soft); font-weight: 600; color: var(--text); text-align: center; }
 .legal-table tr:last-child td { border-bottom: none; }
+/* 칸 사이 세로선 — 오른쪽에만 긋고 마지막 칸은 뺀다. 바깥 테두리와 겹치지 않는다. */
+.legal-table th:not(:last-child), .legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
