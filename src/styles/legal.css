@@ -120,9 +120,6 @@ img { max-width: 100%; height: auto; }
 .legal-table--center13 td { vertical-align: middle; }
 .legal-table--center13 td:nth-child(1),
 .legal-table--center13 td:nth-child(3) { text-align: center; }
-/* 3번째 칸은 '필요' 한 마디와 괄호 설명이 <br>로 붙은 두 줄짜리다. 문장이 아니라
-   한 덩어리로 읽혀야 해서 본문 행간(1.7)보다 좁게 묶는다. */
-.legal-table--center13 td:nth-child(3) { line-height: 1.45; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
