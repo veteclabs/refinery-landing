@@ -135,7 +135,7 @@ img { max-width: 100%; height: auto; }
   color: #5A6776;
   white-space: nowrap;
 }
-.legal-body .legal-facts dd { color: #22303F; }
+.legal-body .legal-facts dd { color: #5A6776; }
 /* 왼쪽 벌과 오른쪽 벌 사이. */
 .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
 @media (max-width: 760px) {
