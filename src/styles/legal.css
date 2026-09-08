@@ -127,7 +127,11 @@ img { max-width: 100%; height: auto; }
    같은 굵기의 가로선이 이어져 어디까지가 제목인지 흐려진다.
    조문 제목(.legal-body h2)의 선은 그대로 둔다. 그쪽은 아래에 선이 없다.
    글자 규격(16px / 700)은 조문 제목과 같다. */
-.legal-toc-title {
+/* ⚠️ .legal-body를 앞에 붙여야 한다. 목차 제목이 <p>라서 조문 본문 규칙
+   (.legal-body p, color: #22303F)이 선택자 무게로 이겼고, var(--text)로 적어 둔
+   #16202C가 화면에 나오지 않았다. 목차 항목 여백이 밀렸던 것과 같은 원인이다.
+   색은 대제목·조문 제목·소제목과 같은 잉크(#16202C)다. */
+.legal-body .legal-toc-title {
   font-size: 16px; font-weight: 700; color: var(--text);
   margin-bottom: 14px;
 }
