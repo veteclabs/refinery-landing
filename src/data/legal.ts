@@ -137,8 +137,8 @@ export const processors = [
 
 /** 정보주체 권익침해 구제 전문기관 — 표준 개인정보 처리방침 기준 4개 기관 */
 export const remedyAgencies = [
-  { name: '개인정보분쟁조정위원회', tel: '(국번없이) 1833-6972', url: 'https://www.kopico.go.kr' },
-  { name: '개인정보침해신고센터', tel: '(국번없이) 118', url: 'https://privacy.kisa.or.kr' },
-  { name: '대검찰청 사이버수사과', tel: '(국번없이) 1301', url: 'https://www.spo.go.kr' },
-  { name: '경찰청 사이버범죄 신고시스템(ECRM)', tel: '(국번없이) 182', url: 'https://ecrm.police.go.kr' },
+  { name: '개인정보분쟁조정위원회', tel: '(국번 없이) 1833-6972', url: 'https://www.kopico.go.kr' },
+  { name: '개인정보침해신고센터', tel: '(국번 없이) 118', url: 'https://privacy.kisa.or.kr' },
+  { name: '대검찰청 사이버수사과', tel: '(국번 없이) 1301', url: 'https://www.spo.go.kr' },
+  { name: '경찰청 사이버범죄 신고시스템(ECRM)', tel: '(국번 없이) 182', url: 'https://ecrm.police.go.kr' },
 ] as const;
