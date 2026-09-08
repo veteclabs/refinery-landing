@@ -102,43 +102,47 @@ img { max-width: 100%; height: auto; }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
 /* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
 .legal-cards--single { grid-template-columns: minmax(0, 1fr); }
-/* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적고
-   앞의 점은 두지 않는다. 딱지 단(150px)과 값 단을 두 벌 세워 가로를 채운다 —
-   한 줄에 하나씩 쌓으면 안쪽 폭 912px 중 74%가 빈칸으로 남는다.
-   딱지는 한 단 옅게 둬서 눈이 값을 먼저 훑는다. */
+/* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
+   딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
+   시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩
+   쌓으면 카드 안쪽 폭 912px 중 74%가 빈칸으로 남는다). */
 .legal-body .legal-facts {
   display: grid;
+  /* 딱지 단은 폭을 고정한다 — auto로 두면 딱지 길이가 제각각이라 값의 시작점이
+     줄마다 어긋나 훑기 어렵다. 170px은 가장 긴 '호스팅 서비스 제공자' 상자 폭이다. */
   grid-template-columns: 170px minmax(0, 1fr) 170px minmax(0, 1fr);
-  /* 칸 사이는 gap이 아니라 padding으로 벌린다 — gap을 주면 밑줄이 그 자리에서 끊긴다. */
-  column-gap: 0;
-  row-gap: 0;
+  column-gap: 16px;
+  row-gap: 10px;
+  align-items: center;
   margin: 0;
   font-size: 16px;
   line-height: 1.7;
 }
 .legal-body .legal-facts dt,
-.legal-body .legal-facts dd {
-  margin: 0;
-  padding: 7px 14px;
-  border-bottom: 1px solid var(--border);   /* 잉크 200 — 표 선과 같은 값 */
+.legal-body .legal-facts dd { margin: 0; }
+/* 딱지 상자 — 카드 면(#F6F8FA) 위에 얹히므로 흰 면만으로 갈린다. 테두리는 두지
+   않는다. 모서리는 카드(10px)보다 작게 둬야 안에 든 것으로 읽힌다. */
+.legal-body .legal-facts dt {
+  /* 상자 폭은 딱지마다 같게 두고 글자만 가운데에 놓는다 — 길이가 제각각이면
+     상자 오른쪽 끝이 들쭉날쭉해 줄마다 시작점이 달라 보인다. */
+  justify-self: stretch;
+  text-align: center;
+  padding: 4px 12px;
+  background: #FFFFFF;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5A6776;
+  white-space: nowrap;
 }
-/* 벌리는 자리는 전부 margin으로 준다 — 테두리는 padding까지만 그려지므로
-   margin이라야 그 자리에서 밑줄이 끊긴다. padding으로 주면 선이 이어져 붙는다.
-   딱지 칸이 170px인 것은 가장 긴 '호스팅 서비스 제공자'(130px)에 margin 24px을
-   더한 값이다. */
-.legal-body .legal-facts dt { color: #5A6776; padding-left: 0; padding-right: 0; margin-right: 24px; }
-.legal-body .legal-facts dd { color: #22303F; padding-right: 0; padding-left: 0; }
-/* 왼쪽 벌의 값 칸 — 오른쪽 벌과 벌리는 자리. */
-.legal-body .legal-facts > :nth-child(4n + 2) { margin-right: 72px; }
-/* 마지막 줄 아래에는 선을 두지 않는다. 항목이 홀수(7개)라 끝 줄은 한 쌍뿐이다.
-   짝수가 되면(통신판매업 신고번호가 채워질 때) -n+4로 바꿀 것. */
-.legal-body .legal-facts > :nth-last-child(-n+2) { border-bottom: none; }
+.legal-body .legal-facts dd { color: #22303F; }
+/* 왼쪽 벌과 오른쪽 벌 사이. */
+.legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
 @media (max-width: 760px) {
-  .legal-body .legal-facts { grid-template-columns: 146px minmax(0, 1fr); }
-  .legal-body .legal-facts dt { margin-right: 16px; }
-  /* 한 벌로 접히면 벌 사이를 벌릴 자리가 없다. */
-  .legal-body .legal-facts > :nth-child(4n + 2) { margin-right: 0; }
+  .legal-body .legal-facts { grid-template-columns: 170px minmax(0, 1fr); }
+  .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
+
 /* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
    .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
 .legal-body .legal-card h3 { margin: 0 0 12px; }
