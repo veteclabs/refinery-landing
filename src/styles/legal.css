@@ -93,7 +93,11 @@ img { max-width: 100%; height: auto; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  margin: 24px 0 12px;
+  /* 위 여백이 31.4px인 이유 — 조문 제목 아래 흰 공간을 다른 절과 같게 맞춘 값이다.
+     본문 문단은 줄상자 위에 7.4px의 여유가 있어 글자가 그만큼 내려와 시작하는데,
+     카드는 회색 면이 상자 맨 위부터라 그 여유가 없다. 24px으로 두면 상자 값은
+     같아도 눈에 보이는 공간은 32.2 대 39.6으로 카드 쪽이 좁다. */
+  margin: 31.4px 0 12px;
 }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
 /* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
