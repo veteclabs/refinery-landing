@@ -142,13 +142,14 @@ img { max-width: 100%; height: auto; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 72px;
 }
-/* 항목마다 아래 선. 헤더 아래선·푸터 구분선·표와 같은 var(--border) #E3E7EC다.
+/* 항목마다 아래 선. 헤더 아래선·푸터 구분선·표(var(--border) #E3E7EC)보다
+   한 단계 옅은 #EFF2F5다 — 23줄이 깔리는 자리라 같은 굵기면 목차가 무거워진다.
    두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다.
 
    ⚠️ .legal-body를 앞에 붙여야 한다. 목차가 .legal-body 안에 있어서
    조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
    그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
-.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid var(--border); }
+.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
 /* 각 단의 마지막 항목은 밑줄을 뺀다 — 목록이 끝나는 자리라 받칠 것이 없다.
    두 단일 때 왼쪽 단의 끝은 12번째, 오른쪽 단의 끝은 마지막(사업자 정보)이다.
    한 단으로 펴지는 560px 아래에서는 12번째가 중간이므로 그 규칙을 끈다. */
