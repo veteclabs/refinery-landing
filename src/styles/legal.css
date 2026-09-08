@@ -144,7 +144,10 @@ img { max-width: 100%; height: auto; }
      칸 안 글자가 아니라 칸 아래쪽에 잡혀, 눈으로 맞춘 보정값을 계속 얹어야 했다.
      위에서부터 쌓고 칸만 1px 내려 첫 줄 한가운데에 앉힌다((24-22)/2 = 1). */
   display: flex; gap: 9px; align-items: flex-start;
-  padding: 4px 0;
+  /* 위아래를 눈으로 같게 맞춘 값이다. 4px씩 주면 글자 위 7.2px · 아래 9.5px으로
+     아래가 2.4px 넓다 — 한글은 디센더가 거의 없어 줄상자 아래쪽이 남는다.
+     그 차이의 절반을 위로 옮긴다(합은 8px 그대로라 행 높이는 같다). */
+  padding: 5.25px 0 2.75px;
   font-size: 15px; line-height: 1.45; color: #22303F;
   text-decoration: none; word-break: keep-all;
   transition: color .15s ease;
@@ -159,16 +162,20 @@ img { max-width: 100%; height: auto; }
    두 자리(10~22)가 열셋이라 폭을 22px로 잡고 글자를 12px로 둔다.
    align-self: flex-start — 항목이 두 줄이 되어도 칸은 첫 줄에 머문다. */
 .legal-toc-no {
-  flex: 0 0 22px; align-self: flex-start;
+  flex: 0 0 18px; align-self: flex-start;
   display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; border-radius: 4px;
+  width: 18px; height: 18px; border-radius: 3px;
   border: 1px solid var(--border);
-  font-size: 12px; font-weight: 600; line-height: 1;
-  font-variant-numeric: tabular-nums; color: var(--text-muted);
+  font-size: 11px; font-weight: 600; line-height: 1;
+  font-variant-numeric: tabular-nums; color: #22303F;   /* 본문과 같은 색 */
+  /* 숫자는 디센더가 없어 잉크 중심이 인라인 상자 중심보다 0.4px 위에 있다.
+     위쪽 안여백으로 그만큼 내린다(가운데 정렬이라 padding의 절반만 움직인다). */
+  padding-top: 0.8px;
   transition: border-color .15s ease, color .15s ease;
-  /* 첫 줄의 줄상자(15 x 1.45 = 21.75px)보다 칸이 0.25px 크다. 실측으로 칸 중심이
-     글자 중심보다 1px 아래에 놓여 그만큼 올린다. */
-  margin-top: -1px;
+  /* 칸 높이 18px은 15px 한글의 글자 상자와 같다. 줄상자(15 x 1.45 = 21.75px)
+     안에서 글자 상자가 가운데 있으므로 칸도 (21.75 - 18) / 2 = 1.875px 내린다.
+     실측으로 1px 더 붙어야 중심이 맞아 1px으로 둔다. */
+  margin-top: 1px;
 }
 .legal-toc a:hover .legal-toc-no { border-color: var(--accent); color: var(--accent-ink); }
 /* 번호 없는 항목(사업자 정보)은 칸을 그리지 않고 자리만 지킨다. */
