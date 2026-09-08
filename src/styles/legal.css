@@ -127,7 +127,8 @@ img { max-width: 100%; height: auto; }
      상자 오른쪽 끝이 들쭉날쭉해 줄마다 시작점이 달라 보인다. */
   justify-self: stretch;
   text-align: center;
-  padding: 4px 12px;
+  /* 위아래 8px — 상자 높이 38.4px으로 옆 값의 줄상자(27.2px)보다 넉넉히 크게 둔다. */
+  padding: 8px 12px;
   background: #FFFFFF;
   border-radius: 6px;
   font-size: 14px;
