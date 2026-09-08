@@ -498,23 +498,19 @@ const keepDots = (t: string) =>
         <h2>19. 개인정보 열람청구의 접수 · 처리 부서</h2>
         <p>정보주체는 「개인정보 보호법」 제35조에 따른 개인정보 열람청구를 아래의 부서에 할 수 있습니다. 회사는 열람청구가 신속하게 처리되도록 노력하겠습니다.</p>
         <div class="legal-table-wrap">
-          {/* 18항 표와 같은 꼴이다 — 값이 같은 정보를 다른 모양으로 보여주면
-              읽는 쪽에서 무엇이 다른지 대조하게 된다. */}
+          {/* 18항 표와 같은 규격이다. 다만 여기는 행이 하나뿐이고 조문 제목이 이미 부서를
+              밝히므로 구분 칸은 두지 않고, 성명·직책은 담당자 한 칸으로 묶는다. */}
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th style="width:220px;">구분</th>
-                <th>성명</th>
-                <th>직책</th>
+                <th>담당자</th>
                 <th>전화</th>
                 <th>이메일</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>열람청구 접수 · 처리 부서</td>
-                <td><Ph value={company.cpoName} label="성명" /></td>
-                <td><Ph value={company.cpoTitle} label="직책" /></td>
+                <td><Ph value={company.cpoName} label="성명" /> <Ph value={company.cpoTitle} label="직책" /></td>
                 <td><Ph value={company.privacyTel} label="전화번호" /></td>
                 <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
