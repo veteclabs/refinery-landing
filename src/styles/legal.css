@@ -232,7 +232,9 @@ img { max-width: 100%; height: auto; }
    목록 마커(3px 점)와 겹치지 않아 '열거 항목인가' 하는 혼동도 없다. */
 .legal-body p.legal-note {
   position: relative;
-  padding-left: 22px;
+  /* 11.95px = ※(8.44) + 빈칸 하나(3.51). 기호 뒤가 딱 한 칸 띈 것으로 보이게
+     실측해서 맞춘 값이다. 글자 크기를 바꾸면 다시 재야 한다. */
+  padding-left: 11.95px;
 }
 .legal-body p.legal-note::before {
   content: '\203B';          /* ※ */
