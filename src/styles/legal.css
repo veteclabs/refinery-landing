@@ -226,9 +226,26 @@ img { max-width: 100%; height: auto; }
    ⚠️ .legal-body를 앞에 붙여야 한다. <p class="legal-note">가 .legal-body p(0,1,1)에
    선택자 무게로 지면 색이 #22303F로 되돌아간다. */
 .legal-body .legal-note { font-size: 14px; color: #5A6776; }
+/* 본문 딸림글은 앞에 ※를 단다. 글만 놓이면 앞뒤 문단과 구분되지 않는데,
+   ※는 한국 법률·행정 문서에서 본문에 딸린 주의·부연을 여는 관용 기호다.
+   크기·색은 글자와 같게 둔다 — 기호가 글보다 튀면 안 된다.
+   목록 마커(3px 점)와 겹치지 않아 '열거 항목인가' 하는 혼동도 없다. */
+.legal-body p.legal-note {
+  position: relative;
+  padding-left: 22px;
+}
+.legal-body p.legal-note::before {
+  content: '\203B';          /* ※ */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 /* 표 안에서는 한 단계 더 줄인다 — 본문셀이 이미 14px이라 같은 크기로 두면
-   딸림글이 물러나 보이지 않고 색 하나로만 갈린다. */
+   딸림글이 물러나 보이지 않고 색 하나로만 갈린다.
+   표 안 딸림글은 괄호가 이미 부연임을 알려주므로 ※를 달지 않는다. */
 .legal-table .legal-note { font-size: 13px; }
+.legal-body .legal-table p.legal-note { padding-left: 0; }
+.legal-body .legal-table p.legal-note::before { content: none; }
 /* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
    문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
    등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
