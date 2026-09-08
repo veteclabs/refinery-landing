@@ -135,9 +135,11 @@ img { max-width: 100%; height: auto; }
      칸이 좁아지면 표가 통째로 가로 스크롤되므로 글자가 잘리지는 않는다. */
   white-space: nowrap; }
 /* th도 함께 지운다 — td만 지우면 행 머리 표(15항 · 18항)에서 마지막 행 첫 칸
-   아래에만 선이 남아, 감싼 상자의 아래선과 겹쳐 그 구간만 두 겹으로 보인다. */
-.legal-table tr:last-child td,
-.legal-table tr:last-child th { border-bottom: none; }
+   아래에만 선이 남아, 감싼 상자의 아래선과 겹쳐 그 구간만 두 겹으로 보인다.
+   ⚠️ tbody를 반드시 붙일 것. thead에는 tr이 하나뿐이라 그 머리행도 :last-child라
+   열 머리 표의 머리행 아래선까지 지워진다. */
+.legal-table tbody tr:last-child td,
+.legal-table tbody tr:last-child th { border-bottom: none; }
 /* 행 머리(thead 없이 첫 칸이 th인 표 — 15항 · 18항)는 세로 가운데로 둔다.
    오른쪽 칸이 여러 줄일 때 딱지만 위에 붙어 있으면 짝이 어긋나 보인다. */
 .legal-table tbody th { vertical-align: middle; }
