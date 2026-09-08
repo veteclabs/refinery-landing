@@ -85,6 +85,25 @@ img { max-width: 100%; height: auto; }
   left: 1px; top: calc(0.5lh - 1.5px);
   width: 3px; height: 3px; border-radius: 50%; background: currentColor;
 }
+/* ───────── 갈래 카드 ─────────
+   한 항 안에서 성격이 다른 갈래(2항의 가·나·다·라 = 수집 경로)를 나눠 담는다.
+   면만으로 각각을 한 덩어리로 묶고 두 열로 벌린다. 테두리는 두지 않는다 —
+   선이 없으니 면은 표 머리행(#FAFBFC)보다 진한 잉크 50을 써야 덩어리로 읽힌다. */
+.legal-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0 12px;
+}
+.legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
+/* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
+   .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
+.legal-body .legal-card h3 { margin: 0 0 12px; }
+.legal-body .legal-card > :last-child { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .legal-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
 .legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
 .legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
 
