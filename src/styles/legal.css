@@ -120,7 +120,7 @@ img { max-width: 100%; height: auto; }
 .legal-body .legal-facts dd {
   margin: 0;
   padding: 7px 14px;
-  border-bottom: 1px solid #EFF2F5;   /* 목차 밑줄과 같은 잉크 100 */
+  border-bottom: 1px solid var(--border);   /* 잉크 200 — 표 선과 같은 값 */
 }
 /* 벌리는 자리는 전부 margin으로 준다 — 테두리는 padding까지만 그려지므로
    margin이라야 그 자리에서 밑줄이 끊긴다. padding으로 주면 선이 이어져 붙는다.
