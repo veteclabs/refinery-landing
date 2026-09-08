@@ -145,7 +145,7 @@ img { max-width: 100%; height: auto; }
   display: grid; grid-auto-flow: column;
   grid-template-rows: repeat(12, auto);   /* 23항목 → 12 · 11 */
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 72px;
+  column-gap: 48px;
 }
 /* 항목마다 아래 선. 헤더 아래선·푸터 구분선·표(var(--border) #E3E7EC)보다
    한 단계 옅은 #EFF2F5다 — 23줄이 깔리는 자리라 같은 굵기면 목차가 무거워진다.
@@ -180,7 +180,7 @@ img { max-width: 100%; height: auto; }
 .legal-toc .nb { white-space: nowrap; }
 /* 좁아지면 한 단으로 편다. 두 단을 유지하면 항목이 세 줄까지 접힌다. */
 @media (max-width: 900px) {
-  .legal-toc ol { column-gap: 40px; }
+  .legal-toc ol { column-gap: 32px; }
 }
 @media (max-width: 560px) {
   .legal-toc ol { grid-template-rows: none; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
