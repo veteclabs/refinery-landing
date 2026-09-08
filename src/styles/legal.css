@@ -147,6 +147,9 @@ img { max-width: 100%; height: auto; }
 /* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
 .legal-table--label12 td { text-align: left; vertical-align: middle; }
 .legal-table--label12 td:nth-child(-n+2) { text-align: center; }
+/* colgroup으로 칸 폭을 직접 정하는 표에 쓴다. table-layout이 auto면 브라우저가
+   내용의 최소 폭을 우선해서 colgroup 값이 무시된다 — fixed여야 지정한 대로 갈린다. */
+.legal-table--fixed { table-layout: fixed; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
