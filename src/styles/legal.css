@@ -137,7 +137,8 @@ img { max-width: 100%; height: auto; }
      행간을 적어 두는 이유: 목차 제목은 <p>라서 안 적으면 .legal-body p의
      1.82를 물려받아 조문 제목과 2.4px 어긋난다. */
   font-size: 20px; font-weight: 700; line-height: 1.7; color: var(--text);
-  margin-bottom: 14px;
+  /* 아래 간격도 조문 제목과 같은 24px이다. */
+  margin-bottom: 24px;
 }
 .legal-toc ol {
   list-style: none; padding: 0; margin: 0;
