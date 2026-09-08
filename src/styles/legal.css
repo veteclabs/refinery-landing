@@ -132,9 +132,11 @@ img { max-width: 100%; height: auto; }
    #16202C가 화면에 나오지 않았다. 목차 항목 여백이 밀렸던 것과 같은 원인이다.
    색은 대제목·조문 제목·소제목과 같은 잉크(#16202C)다. */
 .legal-body .legal-toc-title {
-  /* 크기·굵기·색을 조문 제목(.legal-body h2)과 같게 둔다 — 20px / 700 / #16202C.
-     목차도 본문의 한 절과 같은 급으로 선다. */
-  font-size: 20px; font-weight: 700; color: var(--text);
+  /* 크기·굵기·색·행간을 조문 제목(.legal-body h2)과 같게 둔다 —
+     20px / 700 / #16202C / 1.7. 목차도 본문의 한 절과 같은 급으로 선다.
+     행간을 적어 두는 이유: 목차 제목은 <p>라서 안 적으면 .legal-body p의
+     1.82를 물려받아 조문 제목과 2.4px 어긋난다. */
+  font-size: 20px; font-weight: 700; line-height: 1.7; color: var(--text);
   margin-bottom: 14px;
 }
 .legal-toc ol {
