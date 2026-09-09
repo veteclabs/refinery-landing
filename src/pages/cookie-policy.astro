@@ -12,7 +12,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 ---
 <BaseLayout
   title="쿠키 정책 | Refinery"
-  description="Refinery 웹사이트가 사용하는 쿠키와 유사 기술의 종류 · 목적 · 보관기간과 동의 · 철회 방법을 안내합니다."
+  description="Refinery 웹사이트가 사용하는 쿠키와 유사 기술의 종류 ⁠· 목적 ⁠· 보관기간과 동의 ⁠· 철회 방법을 안내합니다."
   canonical="/cookie-policy"
   robots="index, follow"
 >
@@ -32,7 +32,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
     <div class="legal-body">
       <p>
-        <Ph value={company.legalName} label="회사명" />(이하 "회사")는 {company.serviceName} 웹사이트({company.siteUrl})에서
+        <Ph value={company.legalName} label="회사명" />(이하 "회사")⁠는 {company.serviceName} 웹사이트({company.siteUrl})⁠에서
         쿠키와 이에 준하는 기술을 사용합니다. 본 정책은 그 종류와 목적, 보관 기간, 동의와 거부 방법을 안내합니다.
         개인정보의 처리 전반에 관하여는 <a href="/privacy">개인정보처리방침</a>을 참고하세요.
       </p>
@@ -40,7 +40,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>1. 쿠키와 유사 기술이란</h2>
         <p>
-          쿠키(cookie)는 웹사이트가 이용자의 브라우저에 저장하는 작은 텍스트 파일로, 방문 기록이나 설정을 기억하는 데 사용됩니다.
+          쿠키(cookie)⁠는 웹사이트가 이용자의 브라우저에 저장하는 작은 텍스트 파일로, 방문 기록이나 설정을 기억하는 데 사용됩니다.
           회사는 쿠키 외에도 아래와 같은 유사 기술을 사용합니다.
         </p>
         <ul>
@@ -52,7 +52,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>2. 회사의 쿠키 사용 원칙</h2>
         <p>
-          「개인정보 보호법」 제30조 제1항 제7호는 자동 수집 장치의 설치 · 운영 및 그 거부에 관한 사항을
+          「개인정보 보호법」 제30조 제1항 제7호는 자동 수집 장치의 설치 ⁠· 운영 및 그 거부에 관한 사항을
           개인정보 처리방침에 <strong>고지</strong>하도록 정하고 있으며, 국내법상 모든 쿠키에 사전 동의가 요구되는 것은 아닙니다.
         </p>
         <p>
@@ -60,7 +60,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           모든 분석 쿠키를 이용자가 동의한 경우에만 설치</strong>합니다. 동의하지 않아도 웹사이트의 모든 기능을 제한 없이 이용할 수 있습니다.
         </p>
         <p><strong>회사는 맞춤형 광고를 제공하지 않으며, 제3자 광고사업자가 본 웹사이트에서 행태정보를 수집하도록 허용하지 않습니다.</strong></p>
-        <p>다만 회사가 분석 도구(Mixpanel)로 수집하는 행태정보(클릭 · 스크롤 등 화면 조작 기록)는 오직 서비스 사용성 분석 목적으로만 이용하며, 광고 목적으로 이용하거나 제3자에게 제공하지 않습니다.</p>
+        <p>다만 회사가 분석 도구(Mixpanel)⁠로 수집하는 행태정보(클릭 ⁠· 스크롤 등 화면 조작 기록)⁠는 오직 서비스 사용성 분석 목적으로만 이용하며, 광고 목적으로 이용하거나 제3자에게 제공하지 않습니다.</p>
       </section>
 
       <section>
@@ -75,14 +75,14 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
                 <td><code>cookie_consent</code></td>
                 <td>{company.domain} (자사)</td>
                 <td>쿠키</td>
-                <td>분석 쿠키에 대한 동의 · 거부 선택을 저장하여 배너가 반복 노출되지 않도록 함</td>
+                <td>분석 쿠키에 대한 동의 ⁠· 거부 선택을 저장하여 배너가 반복 노출되지 않도록 함</td>
                 <td>1년</td>
               </tr>
               <tr>
                 <td><code>lang</code></td>
                 <td>{company.domain} (자사)</td>
                 <td>쿠키</td>
-                <td>이용자가 선택한 표시 언어(한국어/영어)를 기억</td>
+                <td>이용자가 선택한 표시 언어(한국어/영어)⁠를 기억</td>
                 <td>1년</td>
               </tr>
             </tbody>
@@ -101,15 +101,15 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
                 <td><code>_ga</code>, <code>_ga_*</code></td>
                 <td>Google LLC (제3자)</td>
                 <td>쿠키</td>
-                <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 · 유입 경로 · 페이지별 이용 현황을 집계</td>
+                <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 ⁠· 유입 경로 ⁠· 페이지별 이용 현황을 집계</td>
                 <td>최대 2년<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
               </tr>
               <tr>
                 <td><code>mp_*_mixpanel</code>, <code>__mp*</code></td>
                 <td>Mixpanel, Inc. (제3자)</td>
-                <td>쿠키 · 로컬 스토리지</td>
+                <td>쿠키 ⁠· 로컬 스토리지</td>
                 <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
-                <td>브라우저 저장소 삭제 시까지<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> · 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
+                <td>브라우저 저장소 삭제 시까지<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> ⁠· 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
               </tr>
             </tbody>
           </table>
@@ -123,7 +123,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
               <tr>
                 <td>Vercel Web Analytics</td>
                 <td>Vercel Inc.</td>
-                <td>페이지뷰 · 유입 경로 등 트래픽 집계</td>
+                <td>페이지뷰 ⁠· 유입 경로 등 트래픽 집계</td>
                 <td>사용하지 않음</td>
               </tr>
               <tr>
@@ -144,11 +144,11 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>4. 세션 리플레이와 히트맵에 관한 안내</h2>
         <p>
-          이용자가 분석 쿠키에 동의한 경우, Mixpanel의 세션 리플레이 기능이 페이지 이동 · 클릭 · 스크롤 등{' '}
+          이용자가 분석 쿠키에 동의한 경우, Mixpanel의 세션 리플레이 기능이 페이지 이동 ⁠· 클릭 ⁠· 스크롤 등{' '}
           <strong>화면 조작 기록</strong>을 수집합니다. 이는 이용자가 어디에서 막히는지를 파악하여 사용성을 개선하기 위한 것입니다.
         </p>
         <ul>
-          <li>회사는 <strong>모든 입력값이 마스킹되도록</strong> 설정하고 있어, 문의 폼에 입력한 성명 · 이메일 · 연락처 · 문의 내용은 기록되지 않습니다.</li>
+          <li>회사는 <strong>모든 입력값이 마스킹되도록</strong> 설정하고 있어, 문의 폼에 입력한 성명 ⁠· 이메일 ⁠· 연락처 ⁠· 문의 내용은 기록되지 않습니다.</li>
           <li>회사는 세션 리플레이 기록을 회원 식별자나 문의자 정보와 결합하지 않으며, 브라우저에 저장된 임의 식별자 단위로만 처리합니다.</li>
           <li>세션 리플레이가 원하지 않으신 경우 아래 제5항의 방법으로 분석 쿠키를 거부하시면 기록되지 않습니다.</li>
         </ul>
@@ -165,7 +165,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       </section>
 
       <section>
-        <h2>6. 브라우저에서 쿠키를 차단 · 삭제하는 방법</h2>
+        <h2>6. 브라우저에서 쿠키를 차단 ⁠· 삭제하는 방법</h2>
         <div class="legal-table-wrap">
           <table class="legal-table">
             <thead><tr><th>브라우저</th><th>설정 경로</th></tr></thead>
@@ -190,14 +190,14 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
       <section>
         <h2>7. 제3자 쿠키 및 각 사의 정책</h2>
-        <p>분석 도구는 각 제공자의 정책에 따라 쿠키 · 저장소를 설정하고 정보를 처리합니다. 자세한 내용은 아래를 참고하세요.</p>
+        <p>분석 도구는 각 제공자의 정책에 따라 쿠키 ⁠· 저장소를 설정하고 정보를 처리합니다. 자세한 내용은 아래를 참고하세요.</p>
         <ul>
-          <li>Google LLC — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a> · <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">쿠키 사용 방식</a></li>
+          <li>Google LLC — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a> ⁠· <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">쿠키 사용 방식</a></li>
           <li>Mixpanel, Inc. — <a href="https://mixpanel.com/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
           <li>Vercel Inc. — <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
         </ul>
         <p>
-          이들 도구를 통한 개인정보의 국외 이전 내역(이전받는 자, 이전 국가, 이전 항목, 이용 목적, 보유 기간, 거부 방법)은{' '}
+          이들 도구를 통한 개인정보의 국외 이전 내역(이전받는 자, 이전 국가, 이전 항목, 이용 목적, 보유 기간, 거부 방법)⁠은{' '}
           <a href="/privacy">개인정보처리방침 제9항</a>에 공개되어 있습니다.
         </p>
       </section>
