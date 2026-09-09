@@ -274,6 +274,23 @@ img { max-width: 100%; height: auto; }
   line-height: 1.32;
   color: #22303F;
 }
+/* 항 안의 '호'는 가. 나. 다.로 매긴다 — 조 → 항 → 호가 법령의 층위다.
+   항이 원문자(①②③)라 호까지 숫자를 쓰면 두 층이 같은 기호가 된다.
+   한글 자모를 쓰면 층이 바로 갈리고 법령 표기 관례와도 맞는다.
+   지금 중첩 목록은 세 곳이다 — 제10조(3) · 제18조(4) · 제22조(5). */
+.legal-body--terms li > ul { counter-reset: legal-ho; }
+.legal-body--terms li > ul > li { counter-increment: legal-ho; padding-left: 26px; }
+.legal-body--terms li > ul > li::before {
+  content: counter(legal-ho, korean-hangul-formal) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: #5A6776;
+}
 
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
