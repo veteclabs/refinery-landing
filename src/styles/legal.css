@@ -300,13 +300,16 @@ img { max-width: 100%; height: auto; }
    장이 있는 문서는 이용약관뿐이라, 조문 제목을 줄이는 대신 장을 키운다.
    줄이면 privacy·eula·cookie-policy의 조문 제목까지 함께 작아진다.
    장이 바뀌는 자리에 가로선을 긋고 제목은 그 아래에 둔다 — 선이 앞 장을 닫고
-   제목이 새 장을 연다. 위 여백 64px은 앞 본문에서 선까지의 거리이고,
+   제목이 새 장을 연다.
+   위 여백이 72.1px인 이유 — 눈에 보이는 공간을 개인정보처리방침의
+   '본문 → 목차 제목'(79.9px)과 같게 맞춘 값이다. 64px으로 두면 71.8px이 된다.
+   선은 줄상자가 없어 앞 문단의 아래 여유(8.1px)만큼 가까워 보이기 때문이다.
    선에서 제목까지는 padding-top 32px이다.
    아래 첫 조문도 절 사이와 같은 64px이다. */
 .legal-body h2.legal-chapter {
   font-size: 24px;
   line-height: 1.3;
-  margin-top: 64px;
+  margin-top: 72.1px;
   margin-bottom: 0;
   padding-top: 32px;
   border-top: 1px solid var(--border);
