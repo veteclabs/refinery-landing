@@ -299,10 +299,18 @@ img { max-width: 100%; height: auto; }
    26px은 대제목 쪽으로 붙어 문서 제목처럼 읽힌다.
    장이 있는 문서는 이용약관뿐이라, 조문 제목을 줄이는 대신 장을 키운다.
    줄이면 privacy·eula·cookie-policy의 조문 제목까지 함께 작아진다.
-   위 여백은 절 사이와 같은 64px이다 — 크기(24 대 20)가 이미 층을 갈라 주므로
-   여백까지 벌리면 장 제목만 따로 떠 보인다.
-   아래 첫 조문도 절 사이와 같은 64px이다 — 장 제목 위아래 간격이 같아진다. */
-.legal-body h2.legal-chapter { font-size: 24px; line-height: 1.3; margin-top: 64px; margin-bottom: 0; }
+   장이 바뀌는 자리에 가로선을 긋고 제목은 그 아래에 둔다 — 선이 앞 장을 닫고
+   제목이 새 장을 연다. 위 여백 64px은 앞 본문에서 선까지의 거리이고,
+   선에서 제목까지는 padding-top 32px이다.
+   아래 첫 조문도 절 사이와 같은 64px이다. */
+.legal-body h2.legal-chapter {
+  font-size: 24px;
+  line-height: 1.3;
+  margin-top: 64px;
+  margin-bottom: 0;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
 .legal-body h2.legal-chapter + section { margin-top: 64px; }
 .legal-table td code { white-space: nowrap; }
 
