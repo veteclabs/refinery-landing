@@ -370,10 +370,12 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
       <section>
         <h2>부칙</h2>
+        {/* 시행일과 이력 안내를 한 줄로 둔다 — 처리방침 22항의 표 앞 문단과 같은
+            역할이다. '개정 이력'만 적힌 홀로 선 줄을 없애고, 표가 무엇인지
+            바로 앞 문장이 알린다. */}
         <ul>
-          <li>본 약관은 <Ph value={effectiveDate} label="YYYY-MM-DD" />부터 시행합니다.</li>
+          <li>본 약관은 <Ph value={effectiveDate} label="YYYY-MM-DD" />부터 시행합니다. 개정 이력은 아래와 같습니다.</li>
         </ul>
-        <p>개정 이력</p>
         {/* 개정 이력 표는 개인정보처리방침 22항과 같은 규격이다 — 가운데 정렬,
             시행일 200px · 전문 180px. 두 문서의 이력 표가 나란히 읽히도록 맞춘다.
             시행일 선택 창(드롭다운)은 개정이 실제로 생길 때 함께 만든다.
