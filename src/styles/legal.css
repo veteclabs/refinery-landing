@@ -364,6 +364,20 @@ img { max-width: 100%; height: auto; }
   border-top: 1px solid var(--border);
 }
 .legal-body h2.legal-chapter + section { margin-top: 48px; }
+
+/* ───────── 부칙 (이용약관) ─────────
+   본칙이 끝나는 자리라 장 구분선과 같은 선을 긋는다. 선은 절(section)에 얹는다 —
+   장 구분선은 제목 자신이 절 밖에 서 있어 제목에 얹었지만, 부칙은 제목이 절 안에
+   있어 제목에 얹으면 선이 절 안쪽으로 들어온다.
+   제목 크기는 조문과 같은 20px 그대로다(장은 24px). 부칙은 장이 아니라 장과 대등한
+   별개의 덩어리이고, 24px으로 올리면 아래 문의처(20px)가 부칙에 딸린 조문처럼 읽힌다.
+   위아래 값은 장 구분선과 같은 흰 공간이 나오도록 실측해 적었다 — 제목 크기가
+   24px에서 20px으로 바뀌면 줄상자 위 여유도 달라지므로 값을 그대로 쓸 수 없다. */
+.legal-body--terms section.legal-appendix {
+  margin-top: 56.1px;
+  padding-top: 55.1px;
+  border-top: 1px solid var(--border);
+}
 .legal-table td code { white-space: nowrap; }
 
 /* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
