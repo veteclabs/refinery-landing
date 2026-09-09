@@ -405,6 +405,13 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           같은 카드를 이고도 제목만 한 단 아래여서 두 문서가 어긋나 보였다. */}
       <section>
         <h2>문의처</h2>
+        {/* 절 이름이 '문의처'인데 카드에는 사실만 있고 실제 문의 창구가 보이지 않아
+            첫 줄에서 짚어 준다. '아래 연락처'가 카드를 가리켜, 카드와 링크가
+            떨어져 있어도 한 덩어리로 읽힌다.
+            처리방침의 '사업자 정보'에는 이 줄이 없다 — 그 절은 법정 표시 사항을
+            나열하는 자리고 이곳은 연락 수단을 안내하는 자리라 목적이 다르다.
+            카드 규격은 그대로 같다. */}
+        <p>본 약관에 관한 문의는 아래 연락처 또는 <a href="/contact">문의하기</a>로 접수하실 수 있습니다.</p>
         {/* 개인정보처리방침의 '사업자 정보'와 같은 규격이다 — 카드 한 장에 dl로 적는다.
             항목·값 쌍이라 앞의 점을 두지 않고, 딱지 단과 값 단이 세로로 맞아떨어져
             반복되던 콜론도 사라진다. */}
@@ -416,8 +423,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
               <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
               <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
               <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
-              {/* 처리방침에는 없는 줄이다 — 이곳은 '문의처'라 값 뒤에 문의 창구를 함께 둔다. */}
-              <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /> ⁠· <a href="/contact">문의하기</a></dd>
+              <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
               <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
               <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
               {company.mailOrderNo && <><dt>통신판매업 신고번호</dt><dd>{company.mailOrderNo}</dd></>}
