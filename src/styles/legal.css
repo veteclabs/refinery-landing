@@ -148,6 +148,24 @@ img { max-width: 100%; height: auto; }
   .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr); }
   .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
+/* 좁아지면 딱지를 값 위로 쌓는다.
+   두 단을 유지하면 딱지가 160px을 그대로 차지해 값 단에 118px밖에 남지 않고
+   (390px 기준), info@vetec.co.kr이 'co.k / r'로 끊기고 주소도 두 줄로 접혔다.
+   쌓으면 값이 카드 안 너비를 온전히 써서 한 줄에 들어간다.
+   딱지는 글자만큼만 두르고 왼쪽에 붙인다 — 한 단에서 160px 흰 막대가
+   값 위에 통째로 깔리면 딱지가 값보다 무거워 보인다.
+   줄 사이는 딱지-값 6px, 쌍과 쌍 사이 14px으로 나눈다. 한 값(15px)으로 두면
+   딱지가 제 값에 붙지 않고 위아래 어디에도 속하지 않게 뜬다. */
+@media (max-width: 520px) {
+  .legal-body .legal-facts { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .legal-body .legal-facts dt {
+    justify-self: start;
+    height: 28px;
+    font-size: 13px;
+  }
+  .legal-body .legal-facts dt + dd { margin-bottom: 8px; }
+  .legal-body .legal-facts dd:last-child { margin-bottom: 0; }
+}
 
 /* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
    .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
