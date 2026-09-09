@@ -216,17 +216,11 @@ img { max-width: 100%; height: auto; }
 .legal-table--fixed { table-layout: fixed; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
-/* 조문의 '항'은 원문자(①②③)로 매긴다 — 법령 표기 관례다.
-   ⚠️ 크롬은 circled-decimal을 모른다(그냥 숫자로 떨어진다). symbols를 직접 적는다.
-   system: fixed라 정의한 개수까지만 원문자다. 지금 한 조문의 최대 항 수는
-   이용약관 10항이고, 여유를 두어 20까지 적는다. 21부터(㉑ U+3251)는 유니코드
-   블록이 달라 글꼴이 갈리므로 늘리지 말 것 — 그때는 CSS로 원을 그려야 한다. */
-@counter-style legal-hang {
-  system: fixed;
-  symbols: '\2460' '\2461' '\2462' '\2463' '\2464' '\2465' '\2466' '\2467' '\2468' '\2469'
-           '\246A' '\246B' '\246C' '\246D' '\246E' '\246F' '\2470' '\2471' '\2472' '\2473';
-  suffix: '';
-}
+/* 조문의 '항'은 번호를 원 안에 넣어 매긴다 — 법령 표기 관례다.
+   유니코드 원문자(①②③)를 쓰지 않고 CSS로 그린다. 글꼴에 기대지 않아 어느
+   기기에서도 같은 모양이고, 20개 제한(㉑부터는 유니코드 블록이 달라 글꼴이
+   갈린다)도 없다. 대신 원 안 숫자는 12px으로 작다 — 20px 원에 16px을 넣으면
+   꽉 차고, 원을 키우면 줄 간격을 밀어낸다. */
 .legal-body ol {
   list-style: none;
   padding-left: 0;
@@ -236,18 +230,28 @@ img { max-width: 100%; height: auto; }
 .legal-body ol > li {
   counter-increment: legal-hang;
   position: relative;
-  padding-left: 28px;
+  padding-left: 30px;
   margin: 10px 0;
   color: #22303F;
 }
-/* 원문자는 테두리 안에 숫자가 들어 있어 같은 크기에서도 속 글자가 작게 보인다.
-   1.15배로 키워야 본문과 무게가 맞는다. 행간은 그만큼 줄여 줄 높이를 지킨다. */
+/* 원은 20px 정사각이고 첫 줄의 세로 가운데에 놓는다(0.5lh에서 반지름만큼 뺀다).
+   테두리를 본문과 같은 잉크(#22303F)로 둬야 1px 선이 글자 무게와 맞는다 —
+   옅게 하면 원이 흐려져 숫자만 떠 보인다. */
 .legal-body ol > li::before {
-  content: counter(legal-hang, legal-hang);
+  content: counter(legal-hang);
   position: absolute;
   left: 0;
-  font-size: 1.15em;
-  line-height: 1.55;
+  top: calc(0.5lh - 10px);
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #22303F;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
   color: #22303F;
 }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
