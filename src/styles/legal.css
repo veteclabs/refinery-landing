@@ -239,8 +239,10 @@ img { max-width: 100%; height: auto; }
    두면 안쪽 숫자가 10px까지 내려가 답답하다.
    ⚠️ 세로 위치에 lh를 쓰면 안 된다. ::before 안의 lh는 li의 줄 높이(27.2px)가
    아니라 ::before 자신의 line-height(11.5px)로 계산돼 원이 8px쯤 위로 뜬다.
-   3.7px은 원의 중심을 첫 줄 글자의 잉크 중심에 맞춘 값이다(확대 캡처에서 화소로
-   실측, 오차 0.19px). 글자 크기·행간·원 지름을 바꾸면 다시 재야 한다.
+   3.5px은 원의 중심을 첫 줄 글자의 잉크 중심에 맞춘 값이다(확대 캡처에서 화소로
+   실측, 오차 0.19px). 0.5px 격자에 얹어야 2배 화면에서 테두리가 또렷하다 —
+   3.7px처럼 격자 밖에 두면 1px 선이 두 화소에 걸쳐 흐려진다.
+   글자 크기·행간·원 지름을 바꾸면 다시 재야 한다.
    테두리를 본문과 같은 잉크(#22303F)로 둬야 1px 선이 글자 무게와 맞는다 —
    옅게 하면 원이 흐려져 숫자만 떠 보인다.
    ⚠️ 본문 글자 크기나 행간을 바꾸면 지름·top·padding-left를 다시 재야 한다. */
@@ -248,7 +250,7 @@ img { max-width: 100%; height: auto; }
   content: counter(legal-hang);
   position: absolute;
   left: 0;
-  top: 3.7px;
+  top: 3.5px;
   box-sizing: border-box;
   width: 19px;
   height: 19px;
@@ -257,13 +259,13 @@ img { max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11.5px;
+  font-size: 12px;
   line-height: 1;
   color: #22303F;
   /* 숫자를 원 한가운데로 내린다. flex 가운데 정렬은 줄상자를 기준으로 잡는데
      숫자는 디센더가 없어 잉크가 그 위에 얹힌다 — 그대로 두면 1.6px 떠 보인다.
-     2.5px은 확대 캡처에서 화소로 재어 오차가 가장 작은 값이다(0.4px). */
-  padding-top: 2.5px;
+     2px은 확대 캡처에서 화소로 재어 오차가 가장 작은 값이다(0.22px). */
+  padding-top: 2px;
 }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
