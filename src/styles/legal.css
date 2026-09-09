@@ -230,27 +230,29 @@ img { max-width: 100%; height: auto; }
 .legal-body ol > li {
   counter-increment: legal-hang;
   position: relative;
-  padding-left: 30px;
+  padding-left: 38px;
   margin: 10px 0;
   color: #22303F;
 }
-/* 원은 20px 정사각이고 첫 줄의 세로 가운데에 놓는다(0.5lh에서 반지름만큼 뺀다).
+/* 원 지름은 본문 줄 높이와 같은 27.2px이다(16px × 1.7) — 원 하나가 한 줄을
+   그대로 차지한다. 첫 줄의 세로 가운데에 놓는다(0.5lh에서 반지름만큼 뺀다).
    테두리를 본문과 같은 잉크(#22303F)로 둬야 1px 선이 글자 무게와 맞는다 —
-   옅게 하면 원이 흐려져 숫자만 떠 보인다. */
+   옅게 하면 원이 흐려져 숫자만 떠 보인다.
+   ⚠️ 본문 글자 크기나 행간을 바꾸면 지름·top·padding-left를 다시 재야 한다. */
 .legal-body ol > li::before {
   content: counter(legal-hang);
   position: absolute;
   left: 0;
-  top: calc(0.5lh - 10px);
+  top: calc(0.5lh - 13.6px);
   box-sizing: border-box;
-  width: 20px;
-  height: 20px;
+  width: 27.2px;
+  height: 27.2px;
   border: 1px solid #22303F;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1;
   color: #22303F;
 }
