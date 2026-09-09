@@ -212,9 +212,40 @@ img { max-width: 100%; height: auto; }
 .legal-table--fixed { table-layout: fixed; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
-.legal-body ol { padding-left: 22px; margin-bottom: 12px; }
-.legal-body ol > li { margin: 10px 0; color: #22303F; }
-.legal-body ol > li::marker { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+/* 조문의 '항'은 원문자(①②③)로 매긴다 — 법령 표기 관례다.
+   ⚠️ 크롬은 circled-decimal을 모른다(그냥 숫자로 떨어진다). symbols를 직접 적는다.
+   system: fixed라 정의한 개수까지만 원문자다. 지금 한 조문의 최대 항 수는
+   이용약관 10항이고, 여유를 두어 20까지 적는다. 21부터(㉑ U+3251)는 유니코드
+   블록이 달라 글꼴이 갈리므로 늘리지 말 것 — 그때는 CSS로 원을 그려야 한다. */
+@counter-style legal-hang {
+  system: fixed;
+  symbols: '\2460' '\2461' '\2462' '\2463' '\2464' '\2465' '\2466' '\2467' '\2468' '\2469'
+           '\246A' '\246B' '\246C' '\246D' '\246E' '\246F' '\2470' '\2471' '\2472' '\2473';
+  suffix: '';
+}
+.legal-body ol {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 12px;
+  counter-reset: legal-hang;
+}
+.legal-body ol > li {
+  counter-increment: legal-hang;
+  position: relative;
+  padding-left: 28px;
+  margin: 10px 0;
+  color: #22303F;
+}
+/* 원문자는 테두리 안에 숫자가 들어 있어 같은 크기에서도 속 글자가 작게 보인다.
+   1.15배로 키워야 본문과 무게가 맞는다. 행간은 그만큼 줄여 줄 높이를 지킨다. */
+.legal-body ol > li::before {
+  content: counter(legal-hang, legal-hang);
+  position: absolute;
+  left: 0;
+  font-size: 1.15em;
+  line-height: 1.55;
+  color: #22303F;
+}
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
 /* 강조는 굵기 600만 쓰고 색은 둘러싼 글에서 물려받는다.
@@ -312,6 +343,10 @@ img { max-width: 100%; height: auto; }
    조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
    그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
 .legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
+/* 목차는 조문의 '항'이 아니다. .legal-body ol 규칙이 원문자와 들여쓰기를
+   함께 걸어 목차 항목마다 ①②③이 붙었다(21번부터는 맨숫자로 떨어졌다). */
+.legal-body .legal-toc ol > li { counter-increment: none; padding-left: 0; }
+.legal-body .legal-toc ol > li::before { content: none; }
 /* 각 단의 마지막 항목은 밑줄을 뺀다 — 목록이 끝나는 자리라 받칠 것이 없다.
    두 단일 때 왼쪽 단의 끝은 12번째, 오른쪽 단의 끝은 마지막(사업자 정보)이다.
    한 단으로 펴지는 560px 아래에서는 12번째가 중간이므로 그 규칙을 끈다. */
