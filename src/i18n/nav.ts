@@ -25,13 +25,13 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 '예정' 배지.
           title: '산업별',
           items: [
-            { label: '에너지 · 유틸리티', href: '/industries/energy' },
-            { label: '자동차 · 모빌리티', href: '/industries/automotive' },
-            { label: '전자 · 정밀', href: '/industries/electronics' },
-            { label: '철강 · 소재', href: '/industries/steel' },
-            { label: '화학 · 소재', href: '/industries/chemicals' },
-            { label: '기계 · 플랜트', href: '/industries/machinery' },
-            { label: '식품 · 음료', href: '/industries/food' },
+            { label: '에너지 ⁠· 유틸리티', href: '/industries/energy' },
+            { label: '자동차 ⁠· 모빌리티', href: '/industries/automotive' },
+            { label: '전자 ⁠· 정밀', href: '/industries/electronics' },
+            { label: '철강 ⁠· 소재', href: '/industries/steel' },
+            { label: '화학 ⁠· 소재', href: '/industries/chemicals' },
+            { label: '기계 ⁠· 플랜트', href: '/industries/machinery' },
+            { label: '식품 ⁠· 음료', href: '/industries/food' },
           ],
         },
         {
@@ -58,11 +58,11 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           items: [
             { label: '산업 AI', href: '/industrial-ai', icon: 'sparkle', desc: '업종을 가리지 않는 AI 활용법' },
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
-            { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 · 가스 · 스팀 · 용수 통합 관리' },
+            { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수 통합 관리' },
             { label: '블로그', href: '/blog', icon: 'article', desc: '현장 적용 사례와 기술 노트' },
             // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '예정', icon: 'file-text', desc: '설치 · 연동 · 운영 안내' },
-            { label: '자료실', href: '/resources', icon: 'folder-open', desc: '백서 · 리포트 · 제품 자료' },
+            { label: '문서', badge: '예정', icon: 'file-text', desc: '설치 ⁠· 연동 ⁠· 운영 안내' },
+            { label: '자료실', href: '/resources', icon: 'folder-open', desc: '백서 ⁠· 리포트 ⁠· 제품 자료' },
           ],
         },
       ],
@@ -76,7 +76,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           title: '회사',
           items: [
             { label: '회사 소개', href: '/company', icon: 'buildings', desc: '하는 일과 걸어온 길' },
-            { label: '연혁 · 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
+            { label: '연혁 ⁠· 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
             { label: '채용', badge: '예정', icon: 'user-plus', desc: '함께할 동료를 찾습니다' },
             { label: '뉴스룸', badge: '예정', icon: 'newspaper', desc: '보도자료와 새소식' },
           ],
@@ -179,13 +179,13 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       // 헤더 메가메뉴의 '산업별'과 같은 목록·순서다.
       title: '산업별',
       items: [
-        { label: '에너지 · 유틸리티', href: '/industries/energy' },
-        { label: '자동차 · 모빌리티', href: '/industries/automotive' },
-        { label: '전자 · 정밀', href: '/industries/electronics' },
-        { label: '철강 · 소재', href: '/industries/steel' },
-        { label: '화학 · 소재', href: '/industries/chemicals' },
-        { label: '기계 · 플랜트', href: '/industries/machinery' },
-        { label: '식품 · 음료', href: '/industries/food' },
+        { label: '에너지 ⁠· 유틸리티', href: '/industries/energy' },
+        { label: '자동차 ⁠· 모빌리티', href: '/industries/automotive' },
+        { label: '전자 ⁠· 정밀', href: '/industries/electronics' },
+        { label: '철강 ⁠· 소재', href: '/industries/steel' },
+        { label: '화학 ⁠· 소재', href: '/industries/chemicals' },
+        { label: '기계 ⁠· 플랜트', href: '/industries/machinery' },
+        { label: '식품 ⁠· 음료', href: '/industries/food' },
       ],
     },
     {
