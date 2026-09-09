@@ -274,21 +274,16 @@ img { max-width: 100%; height: auto; }
   line-height: 1.32;
   color: #22303F;
 }
-/* 항 안의 '호'는 가. 나. 다.로 매긴다 — 조 → 항 → 호가 법령의 층위다.
-   항이 원문자(①②③)라 호까지 숫자를 쓰면 두 층이 같은 기호가 된다.
-   한글 자모를 쓰면 층이 바로 갈리고 법령 표기 관례와도 맞는다.
+/* 항 안의 '호'는 1. 2. 3.으로 매긴다 — 법령의 번호 체계가
+   조 → 항(①②③) → 호(1. 2. 3.) → 목(가. 나. 다.)이다.
+   항이 원문자라 호가 맨숫자여도 층이 겹치지 않는다. 분쟁 때 '제18조 제2항
+   제3호'처럼 인용하므로 화면 표기가 숫자여야 옮길 일이 없다.
    지금 중첩 목록은 세 곳이다 — 제10조(3) · 제18조(4) · 제22조(5).
-   ⚠️ korean-hangul-formal은 '일 · 이 · 삼'(한글로 쓴 숫자)이다. 가나다 순서는
-   symbols를 직접 적어야 한다 — 크롬이 아는 hangul도 '가 나 다'가 아니다. */
-@counter-style legal-ho {
-  system: fixed;
-  symbols: '가' '나' '다' '라' '마' '바' '사' '아' '자' '차' '카' '타' '파' '하';
-  suffix: '';
-}
+   목(가. 나. 다.)이 필요해지면 그때 한 단 더 만든다. */
 .legal-body--terms li > ul { counter-reset: legal-ho; }
-.legal-body--terms li > ul > li { counter-increment: legal-ho; padding-left: 26px; }
+.legal-body--terms li > ul > li { counter-increment: legal-ho; padding-left: 22px; }
 .legal-body--terms li > ul > li::before {
-  content: counter(legal-ho, legal-ho) '.';
+  content: counter(legal-ho) '.';
   position: absolute;
   left: 0;
   top: 0;
@@ -298,6 +293,7 @@ img { max-width: 100%; height: auto; }
   background: none;
   color: #5A6776;
 }
+
 
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
