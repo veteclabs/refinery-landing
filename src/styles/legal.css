@@ -260,6 +260,10 @@ img { max-width: 100%; height: auto; }
   font-size: 11.5px;
   line-height: 1;
   color: #22303F;
+  /* 숫자를 원 한가운데로 내린다. flex 가운데 정렬은 줄상자를 기준으로 잡는데
+     숫자는 디센더가 없어 잉크가 그 위에 얹힌다 — 그대로 두면 1.6px 떠 보인다.
+     2.5px은 확대 캡처에서 화소로 재어 오차가 가장 작은 값이다(0.4px). */
+  padding-top: 2.5px;
 }
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
