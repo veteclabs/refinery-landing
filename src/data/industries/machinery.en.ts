@@ -18,7 +18,7 @@ export const machineryEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Machinery · Plant',
+    eyebrow: 'Machinery ⁠· Plant',
     title: 'Large equipment and process,\ncontrolled together in real time',
   },
   challenges: {
@@ -95,10 +95,10 @@ export const machineryEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Air compressors · HVAC · cooling equipment · large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'FEMS · SCADA · PLC · ERP · Modbus · BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Utility dashboard · intensity reports · emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: 'Use', detail: 'Utility dashboard ⁠· intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where FEMS or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },

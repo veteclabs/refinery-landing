@@ -107,14 +107,14 @@ export const retention = {
 export const processors = [
   {
     name: 'Vercel Inc.',
-    task: '웹사이트 호스팅 · CDN 운영, 트래픽 · 성능 측정(쿠키 미사용)',
+    task: '웹사이트 호스팅 ⁠· CDN 운영, 트래픽 ⁠· 성능 측정(쿠키 미사용)',
     country: '미국 및 Vercel 엣지 네트워크 소재국',
     policy: 'https://vercel.com/legal/privacy-policy',
     consent: false,
   },
   {
     name: 'Web3Forms (Rifat Erdem Sahin)',
-    task: '문의 · 데모 신청 폼 데이터의 전송 및 이메일 발송 처리',
+    task: '문의 ⁠· 데모 신청 폼 데이터의 전송 및 이메일 발송 처리',
     country: '미국',
     policy: 'https://web3forms.com/privacy',
     consent: false,
@@ -128,7 +128,7 @@ export const processors = [
   },
   {
     name: 'Mixpanel, Inc.',
-    task: '제품 · 콘텐츠 이용 행태 분석, 세션 리플레이 및 히트맵 기록',
+    task: '제품 ⁠· 콘텐츠 이용 행태 분석, 세션 리플레이 및 히트맵 기록',
     country: '미국',
     policy: 'https://mixpanel.com/legal/privacy-policy/',
     consent: true,

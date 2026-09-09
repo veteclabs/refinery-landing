@@ -17,7 +17,7 @@ export const steelEn: IndustryData = {
     imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Steel · Materials',
+    eyebrow: 'Steel ⁠· Materials',
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {
@@ -89,10 +89,10 @@ export const steelEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Heat-treatment furnaces · compressed air · cooling water · forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA · PLC · FEMS · Modbus TCP · CAN · LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Process dashboard · peak alerts · quality history', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Heat-treatment furnaces ⁠· compressed air ⁠· cooling water ⁠· forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: 'Use', detail: 'Process dashboard ⁠· peak alerts ⁠· quality history', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where PLC or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
