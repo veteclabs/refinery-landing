@@ -237,7 +237,10 @@ img { max-width: 100%; height: auto; }
 /* 원 지름은 본문 글꼴의 상자 높이와 같은 19px이다(ascent + descent) — 줄
    높이(27.2px)가 아니라 글자 자체가 차지하는 세로값이다. 글자 크기(16px)로
    두면 안쪽 숫자가 10px까지 내려가 답답하다.
-   첫 줄의 세로 가운데에 놓는다(0.5lh에서 반지름만큼 뺀다).
+   ⚠️ 세로 위치에 lh를 쓰면 안 된다. ::before 안의 lh는 li의 줄 높이(27.2px)가
+   아니라 ::before 자신의 line-height(11.5px)로 계산돼 원이 8px쯤 위로 뜬다.
+   3.7px은 원의 중심을 첫 줄 글자의 잉크 중심에 맞춘 값이다(확대 캡처에서 화소로
+   실측, 오차 0.19px). 글자 크기·행간·원 지름을 바꾸면 다시 재야 한다.
    테두리를 본문과 같은 잉크(#22303F)로 둬야 1px 선이 글자 무게와 맞는다 —
    옅게 하면 원이 흐려져 숫자만 떠 보인다.
    ⚠️ 본문 글자 크기나 행간을 바꾸면 지름·top·padding-left를 다시 재야 한다. */
@@ -245,7 +248,7 @@ img { max-width: 100%; height: auto; }
   content: counter(legal-hang);
   position: absolute;
   left: 0;
-  top: calc(0.5lh - 9.5px);
+  top: 3.7px;
   box-sizing: border-box;
   width: 19px;
   height: 19px;
