@@ -259,9 +259,10 @@ img { max-width: 100%; height: auto; }
    1.35배(21.6px)다. 줄 높이(27.2px) 안이라 행간을 그만큼 줄이면(1.32)
    행 높이는 27px 그대로다.
    1.6배부터는 원이 줄 높이에 육박해 두 줄짜리 항에서 위아래와 부딪힌다.
-   굵기 200은 원 테두리를 얇게 하려는 것이다 — 400은 본문 옆에서 원이 두껍게
+   굵기 300은 원 테두리를 얇게 하려는 것이다 — 400은 본문 옆에서 원이 두껍게
    읽힌다. Pretendard 서브셋에 200까지 들어 있어 그대로 적용된다
-   (잉크 화소 400에서 69, 300에서 57, 200에서 45). */
+   (잉크 화소 400에서 69, 300에서 57, 200에서 45).
+   200은 획이 너무 가늘어 색이 같은데도 본문보다 연해 보였다. */
 .legal-body--terms ol > li::before {
   content: counter(legal-hang, legal-hang);
   position: absolute;
@@ -270,7 +271,7 @@ img { max-width: 100%; height: auto; }
      (확대 캡처에서 화소로 실측, 오차 0.06px). 크기·행간을 바꾸면 다시 재야 한다. */
   top: -1px;
   font-size: 1.35em;
-  font-weight: 200;
+  font-weight: 300;
   line-height: 1.32;
   color: #22303F;
 }
