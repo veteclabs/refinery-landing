@@ -1,10 +1,17 @@
 ---
 title: "불량은 검사보다 먼저 드러난다"
 description: "완성품 검사만으로는 늦습니다. 공정 데이터에서 품질의 전조를 읽는 방법을 정리했습니다."
+cardBreakAfter: "늦습니다."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31
-author: "Refinery 팀"
+author: "Refinery팀"
 tags: ["품질", "데이터", "AI 에이전트"]
+category: "인사이트"
+coverColor: "#4DB2A1"
+coverTextColor: "#204640"
+coverTexture: "/img_cover-ribbon.webp"
+coverIcon: "/icon_insight-quality.svg"
+coverIconAt: "center"
 ---
 
 불량 하나가 검사에서 걸러졌다면 그건 다행입니다. 문제는 걸러진 그 시점에 이미
@@ -25,9 +32,9 @@ tags: ["품질", "데이터", "AI 에이전트"]
 
 ## 원인을 짚으려면 맥락이 필요하다
 
-"이 배치의 불량률이 높다"는 사실만으로는 조치를 할 수 없습니다. 어떤 설비에서, 어떤
+“이 배치의 불량률이 높다<span class="nb">”는</span> 사실만으로는 조치를 할 수 없습니다. 어떤 설비에서, 어떤
 원료 로트로, 어떤 조건에서 만들어졌는지가 연결돼 있어야 원인을 좁힐 수 있습니다.
-공정·설비·원료·검사 결과를 하나로 잇는 온톨로지가 있으면, 불량과 상관 있는 조건을
+<span class="nb">공정 ⁠· 설비 ⁠· 원료 ⁠· 검사</span> 결과를 하나로 잇는 온톨로지가 있으면, 불량과 상관 있는 조건을
 데이터로 짚어낼 수 있습니다.
 
 ## 경고에서 조치로
@@ -46,8 +53,6 @@ tags: ["품질", "데이터", "AI 에이전트"]
 
 ## 마치며
 
-품질 예측도 결국 잘 연결된 데이터 위에서 동작합니다. 흩어진 공정 데이터를 하나의
-지식으로 잇는 방법은 [산업 데이터 통합](/whitepapers/data-integration) 백서에서,
-데이터를 자산으로 만드는 기본은
-[5가지 원칙](/blog/industrial-data-best-practices)에서 다룹니다. 우리 공정에 어떻게
-적용할지 궁금하다면 [문의하기](/contact)로 연락 주세요.
+<span class="lead-dot"></span>흩어진 공정 데이터를 잇는 방법이 궁금하다면 → [데이터 통합 백서](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>데이터를 자산으로 만드는 기본이 궁금하다면 → [산업 데이터를 자산으로 만드는 5가지 원칙](/blog/industrial-data-best-practices)<br>
+<span class="lead-dot"></span>우리 공정에 어떻게 적용할지 궁금하다면 → [문의하기](/contact)

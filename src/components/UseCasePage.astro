@@ -14,12 +14,27 @@ import SignalIcon from './SignalIcon.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
 import { useCasesEn } from '../data/usecases/en';
+import { getCollection } from 'astro:content';
 
 interface Props {
   uc: UseCase;
   lang?: 'ko' | 'en';
 }
 const { uc, lang = 'ko' } = Astro.props;
+
+// 관련 글 이름은 글 원본(마크다운 title)에서 읽는다. 데이터 파일에 적어 두면
+// 제목을 고칠 때 두 곳이 어긋난다 — 실제로 부제를 뺄 때(2b1de98 · e507e68)
+// 과제별 데이터까지 함께 고쳐야 했다.
+// 컬렉션 id는 한국어가 '<slug>', 영어가 'en/<slug>'다(/en/blog/<slug>로 서빙).
+// 블로그가 아닌 링크이거나 글을 못 찾으면 데이터의 label로 물러난다.
+const relatedLabel = await (async () => {
+  if (!uc.related) return undefined;
+  const m = uc.related.href.match(/^\/(?:(en)\/)?blog\/([^/#?]+)/);
+  if (!m) return uc.related.label;
+  const id = (m[1] ? 'en/' : '') + m[2];
+  const post = (await getCollection('blog')).find((p) => p.id === id);
+  return post?.data.title ?? uc.related.label;
+})();
 
 // listHref가 없으면 브레드크럼의 목록 항목을 링크가 아닌 텍스트로 렌더한다.
 // ko·en 모두 목록 페이지가 없다 — 메가메뉴가 개별 과제로 바로 보내면서
@@ -203,7 +218,7 @@ const jsonLd = [
             <h2>{T.signals}</h2>
             {uc.relatedAsHeaderLink && uc.related && (
               <a class="uc-more-link" href={uc.related.href}>
-                {uc.related.label}
+                {relatedLabel}
                 <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
               </a>
             )}
@@ -231,7 +246,7 @@ const jsonLd = [
             </div>
           )}
           {uc.related && !uc.relatedAsHeaderLink && (
-            <p class="uc-related">{T.more} <a href={uc.related.href}>{uc.related.label}</a></p>
+            <p class="uc-related">{T.more} <a href={uc.related.href}>{relatedLabel}</a></p>
           )}
         </div>
       </section>
@@ -292,7 +307,7 @@ const jsonLd = [
             <h2>{T.signals}</h2>
             {uc.relatedAsHeaderLink && uc.related && (
               <a class="uc-more-link" href={uc.related.href}>
-                {uc.related.label}
+                {relatedLabel}
                 <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
               </a>
             )}
@@ -320,7 +335,7 @@ const jsonLd = [
             </div>
           )}
           {uc.related && !uc.relatedAsHeaderLink && (
-            <p class="uc-related">{T.more} <a href={uc.related.href}>{uc.related.label}</a></p>
+            <p class="uc-related">{T.more} <a href={uc.related.href}>{relatedLabel}</a></p>
           )}
         </div>
       </section>
@@ -483,7 +498,7 @@ const jsonLd = [
      overflow-wrap: break-word는 한 어절이 줄보다 길 때만 쓰이는 안전장치다. */
   .uc-page, .uc-page * { word-break: keep-all; overflow-wrap: break-word; }
 
-  .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; word-break: keep-all; }
+  .uc-problem { font-size: 18px; line-height: 1.8; color: #22303F; word-break: keep-all; }
   /* 데이터의 <br>는 넓은 폭에서 문단을 끊어 읽히게 하려고 넣은 것이다. 글 상자가
      좁아져 구간이 다시 감기기 시작하면 줄이 들쭉날쭉해지므로 그 아래에서는 푼다.
      실측 — 1200px(글 폭 829)까지는 구간이 [2+1]로 유지되고 1100px(729)부터 [3+2].

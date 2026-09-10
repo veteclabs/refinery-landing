@@ -1,47 +1,535 @@
 /* 법적 문서(개인정보처리방침·쿠키정책) 스타일 — 브랜드 토큰 */
 :root {
   --bg: #ffffff; --bg-soft: #f6f8fa; --border: #e3e7ec;
-  --text: #16202c; --text-muted: #7e8a98; --accent: #76a6d7; --accent-ink: #4b86bf;
+  /* --accent-ink는 글자에 쓰는 하늘색이다. #4B86BF였는데 흰 배경 대비 3.85:1로
+     16px 본문 기준(4.5:1)에 못 미쳤고, 쿠키 배너 링크(#3F76AE)와도 갈렸다.
+     #3F76AE는 4.76:1로 기준을 넘고 배너와 같은 값이다.
+     --accent(#76A6D7)는 2.56:1이라 글자에 쓰지 않는다 — 테두리·면에만 쓴다. */
+  --text: #16202c; --text-muted: #7e8a98; --accent: #76a6d7; --accent-ink: #3f76ae;
 }
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
-a { color: inherit; }
+/* text-decoration: none을 빠뜨리면 브라우저 기본 밑줄이 남아 헤더 로고·메가메뉴·
+   푸터 링크까지 전부 밑줄이 그어진다. global.css·blog.css·industry.css의
+   같은 자리와 값을 맞춘다. 본문 조문 안 링크는 아래 .legal-body a가 다시 밑줄을 준다. */
+a { color: inherit; text-decoration: none; }
 img { max-width: 100%; height: auto; }
 
-.legal-main { max-width: 800px; margin: 0 auto; padding: 110px 24px 96px; } /* 70px 고정 내비 + 여백 */
+/* 푸터 위 구분선. 블로그 글(.blog-main--post + footer)과 같은 처리다 —
+   글이 끝나는 자리를 선으로 받는다.
+   ⚠️ 법적 고지 페이지에서만 건다. 푸터는 62쪽이 함께 쓰는 컴포넌트다. */
+.legal-main + footer { border-top: 1px solid var(--border); }
+
+/* 글 기둥을 820px로 둔다 — 블로그 글(.post-shell .post)·백서와 같은 값이다.
+   세 곳 다 같은 성격의 읽을거리라 폭이 다르면 오갈 때 눈이 다시 맞춘다.
+   868 = 820 + 좌우 24. box-sizing이 border-box라 안여백을 더해 잡는다.
+   블로그는 바깥 1280 + 48, 안쪽 820 두 겹으로 만드는데, 여기는 마크업이
+   한 겹이라 값만 같게 맞췄다 — 어느 폭에서든 글의 좌우 끝이 서로 일치한다. */
+/* 위 여백 180 = 고정 내비 70 + 숨 110. 블로그 글의 표지 위 여백(110)과 같은 값이다.
+   블로그는 padding-top 70에 .post-thumb의 margin-top 110을 더해 만드는데,
+   여기는 표지가 없어 padding으로 한 번에 잡는다. 아래도 같은 110으로 둔다. */
+.legal-main { max-width: 868px; margin: 0 auto; padding: 180px 24px 110px; }
+/* 개인정보처리방침·이용약관의 글 기둥을 960px로 넓힌다(1008 = 960 + 좌우 24).
+   조문 22개에 표가 여덟이라 820px에서는 표 칸이 좁고 페이지가 길어진다.
+   넓히면 전체 높이가 10598에서 10170으로 약 400px 줄고, 표도 함께 넓어진다.
+   대신 줄당 글자가 57에서 62로 늘어난다 — 읽기 좋은 범위(40~50자)보다는
+   넓지만, 조문은 통독보다 필요한 항을 찾아 읽는 글이라 이쪽을 택했다.
+   이용약관도 조문이 29개라 같은 이유로 넓힌다.
+   EULA·쿠키 정책은 820px 그대로다. */
+.legal-main--wide { max-width: 1008px; }
 .legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
 .legal-crumb a:hover { color: var(--accent-ink); }
-.legal-main h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
-.legal-updated { margin-top: 12px; font-size: 14px; color: var(--text-muted); }
+/* 최대 45px은 블로그 글(.post-header h1)·백서(.wp-title)와 같은 값이다.
+   40px이었다 — 같은 성격의 긴 글인데 법적 고지만 한 단계 작았다.
+   행간은 1.2로 둔다(블로그는 1.3) — 제목이 대개 한 줄이라 더 붙여도 된다. */
+.legal-main h1 { font-size: clamp(28px, 4vw, 45px); font-weight: 700; line-height: 1.2; }
+/* 본문 문단과 같은 크기·행간에 굵기 600, 색은 제목류와 같은 잉크(#16202C)다.
+   14px·ink-500이던 것을 옮겼다 — 시행일은 곁들이는 말이 아니라 이 문서가
+   언제부터 효력을 갖는지 알리는 줄이라 본문보다 한 단계 앞에 선다. */
+/* 대제목→시행일, 시행일→본문 두 간격을 40px 한 값으로 둔다. 절 사이(64px)보다
+   한 단계 좁아, 머리 안에서 줄이 바뀌는 것과 본문에서 절이 바뀌는 것이
+   다른 층으로 읽힌다. 목차는 별개 덩어리라 64px이다(.legal-toc). */
+.legal-updated { margin-top: 40px; font-size: 16px; line-height: 1.82; font-weight: 600; color: var(--text); }
 
 .legal-draft { margin: 28px 0 8px; padding: 14px 18px; border-radius: 10px; background: rgba(183,121,31,0.1); border: 1px solid rgba(183,121,31,0.3); color: #8a5a12; font-size: 13.5px; line-height: 1.6; }
 
-.legal-body { margin-top: 32px; }
-.legal-body section { margin-top: 40px; }
-.legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
-.legal-body p { color: #2b3644; margin-bottom: 12px; }
-.legal-body ul { padding-left: 20px; margin-bottom: 12px; }
-.legal-body li { margin: 6px 0; color: #2b3644; }
+/* 한글이 낱자 사이에서 끊기지 않게 한다 — 블로그 본문(.blog-main--post)과
+   같은 처리다. keep-all만 두면 아주 긴 낱말(URL·영문 고유명사)이 상자 밖으로
+   나가므로 overflow-wrap으로 그것만 예외를 둔다. */
+.legal-body { margin-top: 40px; word-break: keep-all; overflow-wrap: break-word; }
+/* 절 사이 64px. 블로그 본문의 절 간격(위 48 + 제목 위 안여백 48 = 96px)보다는
+   좁다 — 조문이 22개라 같은 값을 쓰면 페이지가 그만큼 길어진다.
+   40px일 때는 문단 사이(12px)와 층이 얕아 절이 바뀌는 자리가 덜 읽혔다. */
+.legal-body section { margin-top: 64px; }
+/* 이용약관만 절 사이를 좁힌다 — 조문이 30개인 데다 장 구분선이 네 번 들어가
+   같은 64px으로는 페이지가 길어진다. 장 구분선 위아래(79.9px)는 그대로 두어
+   장 전환은 여전히 눈에 띈다. */
+.legal-body--terms section { margin-top: 48px; }
+/* 아래 선은 두지 않는다. 절 사이가 64px으로 벌어져 있어 선이 없어도 절이
+   바뀌는 자리가 읽힌다 — 선까지 있으면 22개 조문에 가로선이 22줄 깔린다.
+   선을 걷으면서 제목→본문 간격을 24px으로 둔다(전에는 안여백 10 + 여백 14). */
+.legal-body h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+/* 이용약관만 조문 제목 아래를 좁힌다 — 조문이 30개라 24px씩 쌓이면 페이지가
+   길어진다. 위(절 사이 48px)와의 차이는 유지되므로 제목이 아래 본문에 붙는
+   관계는 그대로다.
+   ⚠️ .legal-body h2 뒤에 와야 한다. 선택자 무게가 같아 순서로 이긴다. */
+.legal-body--terms h2 { margin-bottom: 16px; }
+.legal-body h3 { font-size: 16px; font-weight: 700; margin: 22px 0 8px; }
+/* 글자값은 블로그 글(.post-body)·백서와 같게 맞춘다 — 문단 16px/1.82,
+   목록 16px/1.7. 크기를 적어 두는 이유: 안 적으면 브라우저 기본값에 기대게 되어
+   나중에 body에 크기를 주면 조용히 따라 바뀐다.
+   여백(margin)은 조문 문서의 값을 그대로 둔다 — 절이 22개라 문단 간격이 넓으면
+   페이지가 늘어진다. */
+.legal-body p { font-size: 16px; line-height: 1.82; color: #22303F; margin-bottom: 12px; }
+/* 목록 표식은 블로그 본문(.post-body ul > li::before)과 같게 CSS로 그린다.
+   브라우저 기본 disc는 글꼴이 그리는 점이라 크기·높이가 글꼴에 좌우돼
+   블로그의 3px 점과 달라 보였다(실측 7px).
+   색은 글자를 따른다(currentColor) — 블로그 목록 표식은 하늘색이지만
+   여기서는 원래 색을 지킨다. 블로그 '마치며'의 글머리(.lead-dot)도 같은 방식이다.
+   왼쪽 안여백 12px = 점 3px + 글자까지 9px, 블로그와 같은 값이다. */
+.legal-body ul { margin-bottom: 12px; padding-left: 0; list-style: none; }
+.legal-body li { font-size: 16px; line-height: 1.7; margin: 6px 0; color: #22303F; }
+.legal-body ul > li { position: relative; padding-left: 12px; }
+.legal-body ul > li::before {
+  content: ''; position: absolute;
+  left: 1px; top: calc(0.5lh - 1.5px);
+  width: 3px; height: 3px; border-radius: 50%; background: currentColor;
+}
+/* ───────── 갈래 카드 ─────────
+   한 항 안에서 성격이 다른 갈래(2항의 가·나·다·라 = 수집 경로)를 나눠 담는다.
+   면만으로 각각을 한 덩어리로 묶고 두 열로 벌린다. 테두리는 두지 않는다.
+   면은 잉크 50(#F6F8FA) — 표 머리행과 같은 값이다. */
+.legal-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  /* 위 여백이 31.4px인 이유 — 조문 제목 아래 흰 공간을 다른 절과 같게 맞춘 값이다.
+     본문 문단은 줄상자 위에 7.4px의 여유가 있어 글자가 그만큼 내려와 시작하는데,
+     카드는 회색 면이 상자 맨 위부터라 그 여유가 없다. 24px으로 두면 상자 값은
+     같아도 눈에 보이는 공간은 32.2 대 39.6으로 카드 쪽이 좁다. */
+  margin: 31.4px 0 12px;
+}
+.legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
+/* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
+.legal-cards--single { grid-template-columns: minmax(0, 1fr); }
+/* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
+   딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
+   시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩
+   쌓으면 카드 안쪽 폭 912px 중 74%가 빈칸으로 남는다). */
+.legal-body .legal-facts {
+  display: grid;
+  /* 딱지 단은 폭을 고정한다 — auto로 두면 딱지 길이가 제각각이라 값의 시작점이
+     줄마다 어긋나 훑기 어렵다. 하한은 144px이다 — 가장 긴 '호스팅 서비스 제공자'
+     (116px)에 좌우 패딩 24px을 더한 값. 딱지가 길어지면 이 값도 다시 재야 한다. */
+  grid-template-columns: 160px minmax(0, 1fr) 160px minmax(0, 1fr);
+  column-gap: 16px;
+  row-gap: 15px;
+  align-items: center;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.legal-body .legal-facts dt,
+.legal-body .legal-facts dd { margin: 0; }
+/* 딱지 상자 — 카드 면(#F6F8FA) 위에 얹히므로 흰 면만으로 갈린다. 테두리는 두지
+   않는다. 모서리는 카드(10px)보다 작게 둬야 안에 든 것으로 읽힌다. */
+.legal-body .legal-facts dt {
+  /* 상자 폭은 딱지마다 같게 두고 글자만 가운데에 놓는다 — 길이가 제각각이면
+     상자 오른쪽 끝이 들쭉날쭉해 줄마다 시작점이 달라 보인다. */
+  justify-self: stretch;
+  /* 높이를 34px으로 못박고 글자를 상자 가운데에 놓는다. 패딩으로 맞추면
+     행간(22.4px) 때문에 값이 소수점으로 떨어져 다시 잴 일이 생긴다. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  background: #FFFFFF;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5A6776;
+  white-space: nowrap;
+}
+.legal-body .legal-facts dd { color: #22303F; }
+/* 왼쪽 벌과 오른쪽 벌 사이. */
+.legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
+@media (max-width: 760px) {
+  .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr); }
+  .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
+}
+/* 좁아지면 딱지를 값 위로 쌓는다.
+   두 단을 유지하면 딱지가 160px을 그대로 차지해 값 단에 118px밖에 남지 않고
+   (390px 기준), info@vetec.co.kr이 'co.k / r'로 끊기고 주소도 두 줄로 접혔다.
+   쌓으면 값이 카드 안 너비를 온전히 써서 한 줄에 들어간다.
+   딱지는 글자만큼만 두르고 왼쪽에 붙인다 — 한 단에서 160px 흰 막대가
+   값 위에 통째로 깔리면 딱지가 값보다 무거워 보인다.
+   줄 사이는 딱지-값 6px, 쌍과 쌍 사이 14px으로 나눈다. 한 값(15px)으로 두면
+   딱지가 제 값에 붙지 않고 위아래 어디에도 속하지 않게 뜬다. */
+@media (max-width: 520px) {
+  .legal-body .legal-facts { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .legal-body .legal-facts dt {
+    justify-self: start;
+    height: 28px;
+    font-size: 13px;
+  }
+  .legal-body .legal-facts dt + dd { margin-bottom: 8px; }
+  .legal-body .legal-facts dd:last-child { margin-bottom: 0; }
+}
+
+/* 카드 안에서는 소제목이 카드의 머리다 — 위 여백(22px)을 걷는다.
+   .legal-body를 앞에 붙여야 .legal-body h3(0,1,1)를 이긴다. */
+.legal-body .legal-card h3 { margin: 0 0 12px; }
+.legal-body .legal-card > :last-child { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .legal-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
 .legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
 .legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
 
-.legal-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; }
-.legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; }
+/* 모서리는 각지게 둔다(반경 0). 나머지 값은 그대로다 — 테두리 1px,
+   머리 줄 면 var(--bg-soft), 칸 안여백 11/14, 마지막 행 아래선 없음. */
+/* 좌우 세로선은 두지 않는다 — 위아래 가로선만으로 표의 범위가 드러나고,
+   칸 사이 세로선은 안쪽에만 남는다.
+   선은 전부 1px · 잉크 200으로 통일한다. 굵기로 층을 나누려면 2px밖에 못 쓰는데
+   (1.5px은 크롬이 정수로 내림해 1px으로 굳는다 — 실측 확인) 2px은 격자가 앞으로
+   나와 무거웠다. 머리행은 면과 굵기 600으로 이미 구분된다. */
+.legal-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  margin: 20px 0;
+  /* 좁은 화면에서 표가 가로로 밀린다는 것을 알린다. 표는 min-width 480px이라
+     390px에서 138px이 화면 밖에 남는데, 표시가 없으면 마지막 칸이 아예 없는
+     것처럼 보였다(이용약관 개정 이력 표의 '전문' 칸).
+
+     가장자리를 흐리는 대신 슬라이드 바를 세운다 — 흐림은 '여기서 잘렸다'만
+     말하지만, 바는 밀 수 있다는 것과 얼마나 남았는지, 지금 어디쯤인지를
+     한꺼번에 말한다. 손잡이 길이가 곧 보이는 비율이다(390px에서 342/480).
+
+     맥과 iOS는 스크롤바를 평소에 감추므로 색을 직접 지정해 늘 보이게 한다.
+     overflow-x가 auto라 표가 상자에 다 들어가면 바도 함께 사라진다 —
+     넓은 화면에서 저절로 꺼진다.
+     색은 본문 잉크 계열 그대로다(길 100, 손잡이 300, 짚으면 400).
+
+     두 벌을 함께 적는다. 표준 속성(scrollbar-*)은 파이어폭스와 최근 사파리가
+     읽고, ::-webkit-*는 그 이전 사파리가 읽는다. 크로뮴은 표준 속성이 있으면
+     ::-webkit-* 쪽을 무시하므로 실제 높이는 thin(11px)이다 — height 8px은
+     옛 사파리에만 걸린다. 실측: 모바일에서는 겹쳐 뜨는 바라 자리를 차지하지
+     않고(offsetH-clientH 2 = 테두리뿐), 데스크톱 좁은 폭에서는 11px을 쓴다.
+     3초를 기다려도 흐려지지 않는 것을 확인했다(손잡이 밝기 200 유지). */
+  scrollbar-width: thin;
+  scrollbar-color: #C8CED5 #EFF2F5;
+}
+.legal-table-wrap::-webkit-scrollbar { height: 8px; }
+.legal-table-wrap::-webkit-scrollbar-track { background: #EFF2F5; border-radius: 999px; }
+.legal-table-wrap::-webkit-scrollbar-thumb { background: #C8CED5; border-radius: 999px; }
+.legal-table-wrap::-webkit-scrollbar-thumb:hover { background: #A4ADB8; }
+/* 표 바로 앞 요소의 아래 여백도 20px으로 맞춘다. 마진 병합에서는 큰 쪽이 이기므로
+   앞 문단이 더 큰 값을 들고 있으면 표의 값은 화면에 나오지 않는다(지금은 12px이라
+   표가 이기지만, 앞 요소가 바뀌어도 흔들리지 않도록 같이 적어 둔다). */
+.legal-body *:has(+ .legal-table-wrap) { margin-bottom: 20px; }
+.legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; color: #22303F; }
 .legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.legal-table th { background: var(--bg-soft); font-weight: 650; color: var(--text); }
-.legal-table tr:last-child td { border-bottom: none; }
+/* 한 줄 머리행을 45px으로 맞춘 값이다.
+   45 = 27.2(행간) + 8.65 + 8.65 + 0.5(합쳐진 아래선의 절반).
+   글자 크기나 행간을 바꾸면 이 패딩도 다시 재야 한다.
+   합쳐진 아래선 1px 중 머리행 몫은 0.5px이다. */
+.legal-table th { background: var(--bg-soft); font-size: 16px; font-weight: 600; text-align: center; padding: 8.65px 14px;
+  /* 머리행은 한 줄로 둔다. word-break: keep-all은 한글 낱자만 붙잡고
+     '이전받는 자(연락처)'처럼 괄호 앞에서 갈리는 것은 막지 못한다.
+     칸이 좁아지면 표가 통째로 가로 스크롤되므로 글자가 잘리지는 않는다. */
+  white-space: nowrap; }
+/* th도 함께 지운다 — td만 지우면 행 머리 표(15항 · 18항)에서 마지막 행 첫 칸
+   아래에만 선이 남아, 감싼 상자의 아래선과 겹쳐 그 구간만 두 겹으로 보인다.
+   ⚠️ tbody를 반드시 붙일 것. thead에는 tr이 하나뿐이라 그 머리행도 :last-child라
+   열 머리 표의 머리행 아래선까지 지워진다. */
+.legal-table tbody tr:last-child td,
+.legal-table tbody tr:last-child th { border-bottom: none; }
+/* 행 머리(thead 없이 첫 칸이 th인 표 — 15항)는 세로 가운데로 두고 오른쪽에
+   세로선을 긋는다. 칸 사이 세로선은 td에만 걸려 있어 행 머리에는 선이 없었다. */
+.legal-table tbody th { vertical-align: middle; border-right: 1px solid var(--border); }
+/* 머리글은 세로 가운데에 둔다. 좁은 화면에서 칸마다 줄 수가 달라지는데
+   (실측 390px: [2,2,2,1,3]) 위 정렬이면 한 줄짜리 머리글만 위로 붙어
+   머리행이 들쭉날쭉해 보인다. 한 줄뿐일 때는 위 정렬과 결과가 같다. */
+.legal-table thead th { vertical-align: middle; }
+/* 칸 사이 세로선 — 오른쪽에만 긋고 마지막 칸은 뺀다. 바깥 테두리와 겹치지 않는다.
+   머리행에는 긋지 않는다 — 회색 면이 이미 한 덩어리로 읽히고, 세로선을 더하면
+   칸마다 잘려 제목보다 격자가 먼저 보인다. */
+.legal-table td:not(:last-child) { border-right: 1px solid var(--border); }
+/* 2번째 칸만 문장이고 나머지는 짧은 딱지인 표에 쓴다(1항 · 4항 · 8항).
+   딱지 칸은 가로·세로 모두 가운데, 문장 칸은 왼쪽 정렬에 세로만 가운데다.
+   칸 수가 셋이든 넷이든 같은 규칙으로 덮인다. */
+.legal-table--prose2 td { text-align: center; vertical-align: middle; }
+.legal-table--prose2 td:nth-child(2) { text-align: left; }
+/* 칸이 전부 짧은 딱지·값인 표에 쓴다(18항 보호책임자). 문장 칸이 없으니 모두 가운데다. */
+.legal-table--center td { text-align: center; vertical-align: middle; }
+/* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
+.legal-table--label12 td { text-align: left; vertical-align: middle; }
+.legal-table--label12 td:nth-child(-n+2) { text-align: center; }
+/* colgroup으로 칸 폭을 직접 정하는 표에 쓴다. table-layout이 auto면 브라우저가
+   내용의 최소 폭을 우선해서 colgroup 값이 무시된다 — fixed여야 지정한 대로 갈린다. */
+.legal-table--fixed { table-layout: fixed; }
+/* 칸 너비를 비율로 못박은 표는 머리글이 한 줄을 고집하면 안 된다.
+   비율은 넓은 화면(표 960px)에 맞춘 값인데, 좁아지면 표가 min-width 480px까지
+   줄면서 칸도 같은 비율로 좁아진다. 그때 th의 nowrap이 글자를 칸 밖으로 밀어내
+   옆 칸 머리글 위에 겹쳐 찍혔다 — 390px에서 다섯 칸 중 넷이 겹쳤다
+   (실측: 이전받는 자(연락처) 칸 97 대 글자 140, 이용 목적 및 보유 · 이용 기간 칸 124 대 글자 192).
+
+   겹치지 않게 머리글을 접는다. 낱자 사이에서 끊기지 않도록 keep-all을 함께 둔다.
+   넓은 화면에서는 칸이 넉넉해 접히지 않으므로 겉모습이 바뀌지 않는다.
+   nowrap을 그대로 두고 min-width를 853px로 올리는 길도 있었으나, 그러면
+   390px에서 표가 2.5배 폭이 되어 밀어야 할 거리가 그만큼 길어진다. */
+.legal-table--fixed th { white-space: normal; word-break: keep-all; }
+/* 칸 비율을 못박은 표는 480px에서 너무 좁다 — 390px 화면에서 '이전 국가' 칸이
+   59px이라 Google이 낱자로 끊겨 9줄이 되고, '이전 항목'은 11줄까지 갔다.
+   어차피 미는 표이니 넓힌다. 760px에서 표 높이가 1024에서 616px으로 줄고
+   국가 9→4줄, 항목 11→6줄이 된다(390px 실측). 머리글도 [2,2,2,1,3]에서
+   [2,1,1,1,2]로 펴진다.
+
+   한눈에 보이는 열은 3에서 2로 준다. 첫 열을 왼쪽에 고정(position: sticky)해
+   행의 주인을 남기는 길도 만들어 봤으나 두지 않기로 했다 — 고정 칸이 밑으로
+   흐르는 내용을 가려, 미는 동안 가운데 열이 잘린 채 지나간다. */
+.legal-table--fixed { min-width: 760px; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
-.legal-body ol > li { margin: 10px 0; color: #2b3644; }
+.legal-body ol > li { margin: 10px 0; color: #22303F; }
 .legal-body ol > li::marker { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* ───────── 이용약관 전용 ─────────
+   조문의 '항'을 원문자(①②③)로 매긴다 — 법령 표기 관례다.
+   이용약관에만 건다. EULA·쿠키 정책의 목록은 '항'이 아니라 열거라
+   1. 2. 3. 그대로 둔다.
+
+   글꼴 글리프를 쓴다. CSS로 원을 직접 그려도 되지만 힌팅이 없어 흐리다 —
+   같은 자리에서 재보니 안티에일리어싱된 회색 화소가 1배 화면에서 81%,
+   2배에서 29%였고 글리프는 각각 63% · 23%였다.
+   ⚠️ 크롬은 circled-decimal을 모른다(그냥 숫자로 떨어진다). symbols를 직접 적는다.
+   system: fixed라 정의한 개수까지만 원문자다. 이용약관의 한 조문 최대 항 수는
+   8이고, 여유를 두어 20까지 적는다. 21부터(㉑ U+3251)는 유니코드 블록이 달라
+   글꼴이 갈리므로 늘리지 말 것 — 그때는 CSS로 원을 그려야 한다. */
+@counter-style legal-hang {
+  system: fixed;
+  symbols: '\2460' '\2461' '\2462' '\2463' '\2464' '\2465' '\2466' '\2467' '\2468' '\2469'
+           '\246A' '\246B' '\246C' '\246D' '\246E' '\246F' '\2470' '\2471' '\2472' '\2473';
+  suffix: '';
+}
+.legal-body--terms ol {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: legal-hang;
+}
+/* 26.6px = 원문자 폭(18.6) + 본문 공백 두 칸(8.0) — 기호 뒤 간격을
+   실측해서 맞춘 값이다. */
+.legal-body--terms ol > li {
+  counter-increment: legal-hang;
+  position: relative;
+  padding-left: 26.6px;
+}
+/* 원문자는 테두리 안에 숫자가 들어 있어 같은 크기에서도 속 글자가 작게 보인다.
+   1.35배(21.6px)다. 줄 높이(27.2px) 안이라 행간을 그만큼 줄이면(1.32)
+   행 높이는 27px 그대로다.
+   1.6배부터는 원이 줄 높이에 육박해 두 줄짜리 항에서 위아래와 부딪힌다.
+   굵기 300은 원 테두리를 얇게 하려는 것이다 — 400은 본문 옆에서 원이 두껍게
+   읽힌다. Pretendard 서브셋에 200까지 들어 있어 그대로 적용된다
+   (잉크 화소 400에서 69, 300에서 57, 200에서 45).
+   200은 획이 너무 가늘어 색이 같은데도 본문보다 연해 보였다. */
+.legal-body--terms ol > li::before {
+  content: counter(legal-hang, legal-hang);
+  position: absolute;
+  left: 0;
+  /* -1px은 원문자의 잉크 중심을 본문 첫 줄의 잉크 중심에 맞춘 값이다
+     (확대 캡처에서 화소로 실측, 오차 0.06px). 크기·행간을 바꾸면 다시 재야 한다. */
+  top: -1px;
+  font-size: 1.35em;
+  font-weight: 300;
+  line-height: 1.32;
+  color: #22303F;
+}
+/* 항 안의 '호'는 1. 2. 3.으로 매긴다 — 법령의 번호 체계가
+   조 → 항(①②③) → 호(1. 2. 3.) → 목(가. 나. 다.)이다.
+   항이 원문자라 호가 맨숫자여도 층이 겹치지 않는다. 분쟁 때 '제18조 제2항
+   제3호'처럼 인용하므로 화면 표기가 숫자여야 옮길 일이 없다.
+   지금 중첩 목록은 세 곳이다 — 제10조(3) · 제18조(4) · 제22조(5).
+   목(가. 나. 다.)이 필요해지면 그때 한 단 더 만든다. */
+.legal-body--terms li > ul { counter-reset: legal-ho; }
+.legal-body--terms li > ul > li { counter-increment: legal-ho; padding-left: 22px; }
+.legal-body--terms li > ul > li::before {
+  content: counter(legal-ho) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: #22303F;
+}
+
+
 .legal-body li > ul, .legal-body li > ol { margin: 8px 0 4px; }
 .legal-body li > ul > li { margin: 4px 0; }
-/* 약관규제법 제3조①의 '중요한 내용 명확 표시' — 굵기만으로 부족하지 않도록 색도 진하게 준다 */
-.legal-body strong { font-weight: 700; color: #16202c; }
-.legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
+/* 강조는 굵기 600만 쓰고 색은 둘러싼 글에서 물려받는다.
+   색까지 올리면 물러난 층(딸림글 #5A6776) 안의 강조가 본문(#22303F)보다 진해져
+   위계가 뒤집힌다. 약관규제법 제3조①의 '중요한 내용 명확 표시'는 굵기로 충족한다. */
+.legal-body strong { font-weight: 600; color: inherit; }
+/* 딸림글 — 표 안 괄호 설명, 문단 아래 근거 조항처럼 본문에서 한 단 물러나는 글이다.
+   인라인 style로 24곳(privacy 17 · cookie-policy 6 · eula 1)에 흩어져 있던 것을 모았다.
+   색은 잉크 600 — 500(#7E8A98)은 흰 배경에서 3.98:1이라 작은 글씨에 모자랐다.
+   ⚠️ .legal-body를 앞에 붙여야 한다. <p class="legal-note">가 .legal-body p(0,1,1)에
+   선택자 무게로 지면 색이 #22303F로 되돌아간다. */
+.legal-body .legal-note { font-size: 14px; color: #5A6776; }
+/* 본문 딸림글은 앞에 ※를 단다. 글만 놓이면 앞뒤 문단과 구분되지 않는데,
+   ※는 한국 법률·행정 문서에서 본문에 딸린 주의·부연을 여는 관용 기호다.
+   크기·색은 글자와 같게 둔다 — 기호가 글보다 튀면 안 된다.
+   목록 마커(3px 점)와 겹치지 않아 '열거 항목인가' 하는 혼동도 없다. */
+.legal-body p.legal-note {
+  position: relative;
+  /* 11.95px = ※(8.44px) + 빈칸 하나(3.51px) */
+  padding-left: 11.95px;
+}
+/* 글꼴이 가진 ※를 쓴다 — 직접 그리면 작은 크기에서 힌팅이 없어 흐려지고
+   비율을 틀리면 다른 기호로 읽힌다. 크기만 1.25배 키워 글 옆에서 묻히지 않게 한다.
+   색은 글자에서 물려받는다. */
+.legal-body p.legal-note::before {
+  content: '\203B';
+  position: absolute;
+  left: 0;
+  /* 첫 줄 줄상자(14px × 1.82 = 25.48px)와 같은 높이를 주고 그 안에서 가운데에
+     놓는다. em으로 잡으면 ::before의 커진 글자 크기를 기준으로 계산돼 어긋난다.
+     -0.4px는 잉크 중심을 맞춘 값이다(확대 캡처에서 화소로 실측, 오차 0.44px).
+     기호 크기를 바꾸면 이 값도 다시 재야 한다. */
+  top: -0.4px;
+  height: 25.48px;
+  display: flex;
+  align-items: center;
+}
+/* 표 안에서는 한 단계 더 줄인다 — 본문셀이 이미 14px이라 같은 크기로 두면
+   딸림글이 물러나 보이지 않고 색 하나로만 갈린다.
+   표 안 딸림글은 괄호가 이미 부연임을 알려주므로 ※를 달지 않는다. */
+.legal-table .legal-note { font-size: 13px; }
+.legal-body .legal-table p.legal-note { padding-left: 0; }
+.legal-body .legal-table p.legal-note::before { content: none; background: none; }
+/* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
+   문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
+   등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
+.legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
-.legal-body h2.legal-chapter { margin-top: 56px; margin-bottom: 4px; padding-bottom: 0; border-bottom: none; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--accent-ink); }
-.legal-body h2.legal-chapter + section { margin-top: 16px; }
+/* 장(章) 제목은 조문 제목보다 한 단 크게 둔다. 굵기·색은 물려받는다.
+   24px인 것은 대제목(45)과 조문 제목(20) 사이에서 층이 고르게 벌어지는 값이라서다 —
+   26px은 대제목 쪽으로 붙어 문서 제목처럼 읽힌다.
+   장이 있는 문서는 이용약관뿐이라, 조문 제목을 줄이는 대신 장을 키운다.
+   줄이면 privacy·eula·cookie-policy의 조문 제목까지 함께 작아진다.
+   장이 바뀌는 자리에 가로선을 긋고 제목은 그 아래에 둔다 — 선이 앞 장을 닫고
+   제목이 새 장을 연다.
+   위아래 흰 공간은 이 페이지의 절 사이(48px 상자 = 63.9px 흰 공간)와 같게 둔다.
+   상자 값이 서로 다른 것은 선에 줄상자가 없기 때문이다 — 위는 앞 문단의 아래
+   여유(8.1px)가 이미 들어 있어 56.1px, 아래는 제목 위 여유(4.8px)만 있어 59.1px이다.
+   아래 첫 조문도 절 사이와 같은 48px이다. */
+.legal-body h2.legal-chapter {
+  font-size: 24px;
+  line-height: 1.3;
+  margin-top: 56.1px;
+  margin-bottom: 0;
+  padding-top: 59.1px;
+  border-top: 1px solid var(--border);
+}
+.legal-body h2.legal-chapter + section { margin-top: 48px; }
+
+/* ───────── 부칙 (이용약관) ─────────
+   본칙이 끝나는 자리라 장 구분선과 같은 선을 긋는다. 선은 절(section)에 얹는다 —
+   장 구분선은 제목 자신이 절 밖에 서 있어 제목에 얹었지만, 부칙은 제목이 절 안에
+   있어 제목에 얹으면 선이 절 안쪽으로 들어온다.
+   제목 크기는 조문과 같은 20px 그대로다(장은 24px). 부칙은 장이 아니라 장과 대등한
+   별개의 덩어리이고, 24px으로 올리면 아래 문의처(20px)가 부칙에 딸린 조문처럼 읽힌다.
+   위아래 값은 장 구분선과 같은 흰 공간이 나오도록 실측해 적었다 — 제목 크기가
+   24px에서 20px으로 바뀌면 줄상자 위 여유도 달라지므로 값을 그대로 쓸 수 없다. */
+.legal-body--terms section.legal-appendix {
+  margin-top: 56.1px;
+  padding-top: 55.1px;
+  border-top: 1px solid var(--border);
+}
 .legal-table td code { white-space: nowrap; }
+
+/* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
+   조문이 22개라 원하는 항을 스크롤로 찾아야 했다. 1항 바로 위에 두고
+   각 절 앵커로 보낸다. 상자(면·테두리)를 두르지 않고 본문 글자값 그대로
+   둔다 — 목차도 문서의 일부지 따로 얹은 카드가 아니다.
+
+   단은 grid로 나눈다. column-count는 높이를 스스로 맞추려 해서 항목 수가
+   단마다 달라지는데, 여기서는 12 · 11로 고정해야 한다.
+   grid-auto-flow: column + 행 수 고정이면 세로로 채우고 다음 단으로 넘어간다.
+   두 단이라 12 · 11로 갈린다. */
+/* 머리말 끝 → 목차 제목은 절 사이(64px)와 같게 둔다. 목차는 머리 영역의
+   한 줄이 아니라 본문 앞에 서는 별개 덩어리다. 위의 두 간격(대제목→시행일,
+   시행일→본문)만 40px으로 묶는다. */
+.legal-toc { margin: 64px 0 8px; }
+/* 아래 선은 두지 않는다 — 항목마다 선이 깔려 있어 제목 밑에도 선을 그으면
+   같은 굵기의 가로선이 이어져 어디까지가 제목인지 흐려진다.
+   조문 제목(.legal-body h2)의 선은 그대로 둔다. 그쪽은 아래에 선이 없다.
+   글자 규격(16px / 700)은 조문 제목과 같다. */
+/* ⚠️ .legal-body를 앞에 붙여야 한다. 목차 제목이 <p>라서 조문 본문 규칙
+   (.legal-body p, color: #22303F)이 선택자 무게로 이겼고, var(--text)로 적어 둔
+   #16202C가 화면에 나오지 않았다. 목차 항목 여백이 밀렸던 것과 같은 원인이다.
+   색은 대제목·조문 제목·소제목과 같은 잉크(#16202C)다. */
+.legal-body .legal-toc-title {
+  /* 크기·굵기·색·행간을 조문 제목(.legal-body h2)과 같게 둔다 —
+     20px / 700 / #16202C / 1.7. 목차도 본문의 한 절과 같은 급으로 선다.
+     행간을 적어 두는 이유: 목차 제목은 <p>라서 안 적으면 .legal-body p의
+     1.82를 물려받아 조문 제목과 2.4px 어긋난다. */
+  font-size: 20px; font-weight: 700; line-height: 1.7; color: var(--text);
+  /* 아래 간격도 조문 제목과 같은 24px이다. */
+  margin-bottom: 24px;
+}
+.legal-toc ol {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-auto-flow: column;
+  grid-template-rows: repeat(12, auto);   /* 23항목 → 12 · 11 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 48px;
+}
+/* 항목마다 아래 선. 헤더 아래선·푸터 구분선·표(var(--border) #E3E7EC)보다
+   한 단계 옅은 #EFF2F5다 — 23줄이 깔리는 자리라 같은 굵기면 목차가 무거워진다.
+   두 단의 항목 수가 12 · 11이라 오른쪽 단의 마지막 선이 한 줄 위에서 끝난다.
+
+   ⚠️ .legal-body를 앞에 붙여야 한다. 목차가 .legal-body 안에 있어서
+   조문 목록 규칙(.legal-body ol > li, margin: 10px 0)이 선택자 무게로 이겼고,
+   그 여백이 줄 아래에만 붙어 밑줄 위아래 간격이 8px 대 28px으로 갈렸다. */
+.legal-body .legal-toc li { margin: 0; border-bottom: 1px solid #EFF2F5; }
+/* 각 단의 마지막 항목은 밑줄을 뺀다 — 목록이 끝나는 자리라 받칠 것이 없다.
+   두 단일 때 왼쪽 단의 끝은 12번째, 오른쪽 단의 끝은 마지막(사업자 정보)이다.
+   한 단으로 펴지는 560px 아래에서는 12번째가 중간이므로 그 규칙을 끈다. */
+.legal-body .legal-toc li:last-child { border-bottom: none; }
+@media (min-width: 561px) {
+  .legal-body .legal-toc li:nth-child(12) { border-bottom: none; }
+}
+.legal-toc a {
+  display: block;
+  /* 글자에서 밑줄까지 위아래 16px. 같은 값을 위아래에 주면 아래가 더 넓어
+     보인다 — 한글은 디센더가 거의 없어 줄상자 아래쪽이 남는다. 그만큼 덜어
+     실제 여백이 같아지는 값으로 적었다.
+     글자 크기를 바꾸면 줄상자가 함께 바뀌므로 이 두 값도 다시 재야 한다. */
+  padding: 12.24px 0 11.94px;
+  font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--text);   /* 제목류와 같은 잉크 #16202C */
+  text-decoration: none; word-break: keep-all;
+  transition: color .15s ease;
+}
+/* 호버는 브랜드 하늘색이다. 본문 조문 링크(--accent-ink #3F76AE)와 다른 값을
+   쓰는 이유: 목차 항목은 평소에 본문색이라 링크처럼 보이지 않고, 짚었을 때만
+   색이 바뀌면 된다. 글자에 계속 얹히는 색이 아니라 대비 기준을 넘지 않아도 된다. */
+.legal-toc a:hover { color: #76A6D7; }
+.legal-toc .nb { white-space: nowrap; }
+/* 좁아지면 한 단으로 편다. 두 단을 유지하면 항목이 세 줄까지 접힌다. */
+@media (max-width: 900px) {
+  .legal-toc ol { column-gap: 32px; }
+}
+@media (max-width: 560px) {
+  .legal-toc ol { grid-template-rows: none; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
+}
+/* 목차에서 눌러 이동할 때 제목이 고정 내비 밑으로 들어가지 않게 한다. */
+.legal-body section { scroll-margin-top: 90px; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

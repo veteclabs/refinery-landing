@@ -39,7 +39,7 @@
    pointer-events: none — 막이 클릭을 가로채지 않는다. */
 .mm-scrim {
   position: fixed; inset: 70px 0 0; z-index: 90;
-  background: rgba(16, 32, 44, .42);
+  background: rgba(22, 32, 44, .42);  /* ink-900 #16202C */
   /* 흐림(blur)은 쓰지 않는다 — 톤만 한 단계 내린다. */
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity .2s ease, visibility .2s;
@@ -66,15 +66,14 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
    29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
    실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
 .nav-logo img { height: 29px; display: block; }
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
-.nav-links a:hover { color: #76A6D7; }
 /* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
    12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
 .nav-actions { display: flex; gap: 28px; align-items: center; }
 .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px;
+      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
+         테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
+      background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
       transition: all .2s;
     }
 .nav-hamburger {
@@ -82,7 +81,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       align-items: center; justify-content: center;
       width: 40px; height: 40px;
       background: transparent; border: none; cursor: pointer;
-      font-size: 22px; color: #111111; padding: 0;
+      font-size: 22px; color: #16202C; padding: 0;
       /* 아이콘(22px)이 40px 버튼 한가운데 있어 눈에 보이는 오른쪽 여백이 9px 더 넓다.
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
@@ -104,14 +103,23 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
 .mobile-nav-panel a {
       padding: 14px 0;
       font-size: 16px;
-      color: #333333;
+      /* ink-800. #333333이던 임의값에서 옮겼다.
+         주의: 이 색은 지금 화면에 나오지 않는다. 패널 안 링크는 전부
+         .mm-mobile-top(ink-900)이나 .mm-mobile-sub a(ink-700)에 잡혀
+         더 구체적인 선택자가 이긴다. 클래스 없는 링크가 생겼을 때를 위한
+         바탕값으로만 남긴다 — 그때 임의값이 튀어나오지 않도록. */
+      color: #22303F;
       border-bottom: 1px solid var(--border);
     }
 .mobile-nav-panel a:last-child:not(.mobile-nav-cta) { border-bottom: none; }
 .mobile-nav-panel .mobile-nav-cta {
       margin-top: 14px;
       text-align: center;
-      border: 1px solid rgba(17,17,17,0.6);
+      /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
+         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
+         같은 버튼인데 모바일만 글자색이 달라진다. */
+      color: #16202C;
+      border: 1px solid #5A6776;
       border-radius: 6px;
       padding: 12px;
       font-weight: 500;
@@ -141,6 +149,11 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    쓰여 전역으로 어둡게 할 수 없는데, 흰 배경 위에서는 3.51:1로 AA에 못 미친다.
    여기서만 ink-600(5.77:1)으로 직접 준다. */
 .footer-links a { font-size: 13px; color: var(--ink-600); }
+/* 칸이 좁아지면 링크 글자가 한글 낱자 사이에서 잘린다 — 1040px에서
+   '소프트웨어 사용권 계|약'이 그랬다. keep-all로 어절을 붙여 두고,
+   아주 긴 낱말만 예외로 넘겨 칸 밖으로 나가지 않게 한다(사이트 공통 값). */
+.footer-links a,
+.footer-links button { word-break: keep-all; overflow-wrap: break-word; }
 /* 푸터는 호버에서 아무것도 바뀌지 않는다(요청). 색·밑줄·면 모두 없다.
    바뀔 값이 없으니 transition도 두지 않는다. */
 /* '쿠키 설정'은 페이지 이동이 아니라 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
@@ -165,7 +178,6 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 @media (max-width: 900px) {
       .contact-layout { grid-template-columns: 1fr; gap: 48px; }
       .form-row { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
     }
 @media (max-width: 900px) {
       .container { padding: 0 24px; }

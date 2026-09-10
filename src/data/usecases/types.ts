@@ -98,7 +98,10 @@ export type UseCase = {
    *  tagline과 따로 두는 이유: tagline은 히어로(.ind-lede)와 유즈케이스 목록에도
    *  쓰이는데, 그쪽은 폭이 달라 여기 줄바꿈을 그대로 넣으면 엉뚱하게 끊긴다. */
   cardDesc?: string;
-  related?: { label: string; href: string }; // 관련 글/페이지
+  /** 관련 글/페이지. 블로그(/blog/<slug> · /en/blog/<slug>)를 가리키면 제목은
+   *  글 원본에서 읽어 오므로 label을 적지 않는다 — 적어 두면 제목을 고칠 때
+   *  두 곳이 어긋난다. label은 블로그가 아닌 곳을 가리킬 때만 쓴다. */
+  related?: { label?: string; href: string };
   /** 정의형 Q&A(선택). 넣으면 하단에 FAQ 섹션 + FAQPage 구조화 데이터를 출력한다(AEO). */
   faq?: { q: string; a: string }[];
   seo: { title: string; description: string };

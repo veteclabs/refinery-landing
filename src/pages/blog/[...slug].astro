@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import { readingMinutesForSlug } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'ko')).sort(
@@ -11,21 +10,13 @@ export async function getStaticPaths() {
     params: { slug: post.id },
     props: {
       post,
-      // 최신순 정렬: 앞쪽이 더 최신. 다음 글=더 최신, 이전 글=더 오래된 글.
-      newer: i > 0 ? posts[i - 1] : null,
-      older: i < posts.length - 1 ? posts[i + 1] : null,
     },
   }));
 }
 
-const { post, newer, older } = Astro.props;
-const { Content, headings } = await render(post);
-const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
-const nav = {
-  newer: newer ? { slug: newer.id, title: newer.data.title } : null,
-  older: older ? { slug: older.id, title: older.data.title } : null,
-};
+const { post } = Astro.props;
+const { Content } = await render(post);
 ---
-<BlogPost {...post.data} slug={post.id} headings={toc} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
+<BlogPost {...post.data} slug={post.id}>
   <Content />
 </BlogPost>
