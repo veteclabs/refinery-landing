@@ -25,7 +25,6 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
   {/* 글 기둥은 개인정보처리방침 · 이용약관과 같은 960px이다(1008 = 960 + 좌우 24).
       절이 22개에 표가 있어 820px에서는 페이지가 길어진다. */}
   <main class="legal-main legal-main--wide">
-    <nav class="legal-crumb" aria-label="위치"><a href="/">Home</a> › 소프트웨어 사용권 계약</nav>
     <h1>소프트웨어 사용권 계약 (EULA)</h1>
     <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
