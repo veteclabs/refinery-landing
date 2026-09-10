@@ -17,7 +17,9 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
   robots="index, follow"
 >
   <Nav />
-  <main class="legal-main">
+  {/* 글 기둥은 다른 세 법적 고지와 같은 960px이다(1008 = 960 + 좌우 24).
+      절은 8개로 짧지만 쿠키 표가 다섯 칸이라 좁은 기둥에서 칸이 눌렸다. */}
+  <main class="legal-main legal-main--wide">
     <h1>쿠키 정책</h1>
     <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
