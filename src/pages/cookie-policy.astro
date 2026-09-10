@@ -67,6 +67,8 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>3. 사용하는 쿠키 및 유사 기술</h2>
 
+        {/* 세 소제목을 한 격자에 담는다 — 처리방침 2항과 같이 카드 사이가
+            grid gap 16px으로 고른다. 래퍼를 따로 두면 여백 상쇄로 31.4px이 된다. */}
         <div class="legal-cards legal-cards--single">
           <div class="legal-card">
           <h3>가. 필수 항목 (동의 없이 사용)</h3>
@@ -96,8 +98,6 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           </p>
 
           </div>
-        </div>
-        <div class="legal-cards legal-cards--single">
           <div class="legal-card">
           <h3>나. 분석 항목 (동의한 경우에만 사용)</h3>
           <div class="legal-table-wrap">
@@ -123,8 +123,6 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
           </div>
 
           </div>
-        </div>
-        <div class="legal-cards legal-cards--single">
           <div class="legal-card">
           <h3>다. 쿠키를 사용하지 않는 측정 도구</h3>
           <div class="legal-table-wrap">
