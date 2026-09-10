@@ -25,7 +25,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
   <main class="legal-main">
     <nav class="legal-crumb" aria-label="위치"><a href="/">Home</a> › 소프트웨어 사용권 계약</nav>
     <h1>소프트웨어 사용권 계약 (EULA)</h1>
-    <p class="legal-updated">시행일: <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
+    <p class="legal-updated">시행일 : <Ph value={effectiveDate} label="YYYY-MM-DD" /></p>
 
     {isDraft && (
       <div class="legal-draft">
@@ -45,7 +45,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         <strong>고객이 소프트웨어를 설치 ⁠· 복제하거나 사용하는 경우 본 계약의 모든 내용에 동의한 것으로 봅니다.
         동의하지 않는 경우 소프트웨어를 설치 ⁠· 사용하지 마시고 지체 없이 회사에 반환하시기 바랍니다.</strong>
       </p>
-      <p style="font-size:13.5px;color:#7e8a98;">
+      <p class="legal-note">
         클라우드로 제공되는 {company.serviceName} 서비스의 이용에 관하여는 <a href="/terms">이용약관</a>이,
         개인정보의 처리에 관하여는 <a href="/privacy">개인정보처리방침</a>이 각각 적용됩니다.
       </p>
@@ -278,8 +278,10 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         </ul>
         <p>개정 이력</p>
         <div class="legal-table-wrap">
-          <table class="legal-table">
-            <thead><tr><th style="width:150px;">시행일</th><th>주요 변경</th><th style="width:110px;">전문</th></tr></thead>
+          {/* 개정 이력 표는 개인정보처리방침 22항 · 이용약관 부칙과 같은 규격이다 —
+              가운데 정렬, 시행일 200px · 전문 180px. 세 문서의 이력 표를 맞춘다. */}
+          <table class="legal-table legal-table--center">
+            <thead><tr><th style="width:200px;">시행일</th><th>주요 변경</th><th style="width:180px;">전문</th></tr></thead>
             <tbody>
               {revisions.eula.map((r) => (<tr><td>{r.date}</td><td>{r.summary}</td><td>{r.href ? <a href={r.href}>전문 보기</a> : '현행'}</td></tr>))}
             </tbody>
@@ -287,10 +289,10 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
         </div>
         <h3>문의처</h3>
         <ul>
-          <li>상호: <Ph value={company.legalName} label="회사명" /> ⁠· 대표자: <Ph value={company.ceo} label="대표자 성명" /></li>
-          <li>사업자등록번호: <Ph value={company.bizNo} label="000-00-00000" /></li>
-          <li>주소: <Ph value={company.address} label="본점 주소" /></li>
-          <li>전화: <Ph value={company.tel} label="전화번호" /> ⁠· 이메일: <Ph value={company.email} label="이메일" /> ⁠· <a href="/contact">문의하기</a></li>
+          <li>상호 : <Ph value={company.legalName} label="회사명" /> ⁠· 대표자 : <Ph value={company.ceo} label="대표자 성명" /></li>
+          <li>사업자등록번호 : <Ph value={company.bizNo} label="000-00-00000" /></li>
+          <li>주소 : <Ph value={company.address} label="본점 주소" /></li>
+          <li>전화 : <Ph value={company.tel} label="전화번호" /> ⁠· 이메일 : <Ph value={company.email} label="이메일" /> ⁠· <a href="/contact">문의하기</a></li>
         </ul>
       </section>
     </div>
