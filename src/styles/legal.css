@@ -296,6 +296,9 @@ img { max-width: 100%; height: auto; }
    --prose2와 같은 생각이다: 딱지 칸은 가운데, 문장 칸만 왼쪽. */
 .legal-table--prose4 td { text-align: center; vertical-align: middle; }
 .legal-table--prose4 td:nth-child(4) { text-align: left; }
+/* 문장 칸이 셋째인 표(쿠키 정책 3항 다 — 도구·제공자·목적·쿠키 사용). */
+.legal-table--prose3 td { text-align: center; vertical-align: middle; }
+.legal-table--prose3 td:nth-child(3) { text-align: left; }
 /* 칸이 전부 짧은 딱지·값인 표에 쓴다(18항 보호책임자). 문장 칸이 없으니 모두 가운데다. */
 .legal-table--center td { text-align: center; vertical-align: middle; }
 /* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
