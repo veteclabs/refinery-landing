@@ -466,6 +466,21 @@ img { max-width: 100%; height: auto; }
   border-top: 1px solid var(--border);
 }
 .legal-table td code { white-space: nowrap; }
+/* 쿠키 이름을 칩으로 두른다(쿠키 정책 3항 가 · 나).
+   한 칸에 이름이 둘씩 들어가는데 mp_*_mixpanel, __mp* 처럼 _ 와 * 가 섞이면
+   쉼표가 글자 사이에 묻혀 어디서 끊기는지 안 보였다. 면이 이름의 경계를 긋고,
+   줄바꿈이 둘이라는 것을 알린다(마크업에서 <br>로 나눈다).
+   표 전체가 아니라 이 표에만 건다 — 처리방침의 표 안 code는 한 칸에 하나씩이라
+   두를 이유가 없다. */
+.legal-table--chip td code {
+  /* 잉크 100(#EFF2F5)이다. 머리 줄 면(--bg-soft #F6F8FA)보다 한 단계 진해야
+     칩이 머리 줄과 다른 것으로 읽힌다 — 같은 값을 쓰면 흰 바탕에서 너무 옅다. */
+  background: #EFF2F5;
+  border-radius: 5px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin: 2px 0;
+}
 
 /* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
    조문이 22개라 원하는 항을 스크롤로 찾아야 했다. 1항 바로 위에 두고

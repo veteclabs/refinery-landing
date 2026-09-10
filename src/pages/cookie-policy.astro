@@ -69,7 +69,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
         <h3>가. 필수 항목 (동의 없이 사용)</h3>
         <div class="legal-table-wrap">
-          <table class="legal-table legal-table--prose4">
+          <table class="legal-table legal-table--prose4 legal-table--chip">
             <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
             <tbody>
               <tr>
@@ -95,18 +95,18 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
         <h3>나. 분석 항목 (동의한 경우에만 사용)</h3>
         <div class="legal-table-wrap">
-          <table class="legal-table legal-table--prose4">
+          <table class="legal-table legal-table--prose4 legal-table--chip">
             <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
             <tbody>
               <tr>
-                <td><code>_ga</code>, <code>_ga_*</code></td>
+                <td><code>_ga</code><br /><code>_ga_*</code></td>
                 <td>Google LLC (제3자)</td>
                 <td>쿠키</td>
                 <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 ⁠· 유입 경로 ⁠· 페이지별 이용 현황을 집계</td>
                 <td>최대 2년<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
               </tr>
               <tr>
-                <td><code>mp_*_mixpanel</code>, <code>__mp*</code></td>
+                <td><code>mp_*_mixpanel</code><br /><code>__mp*</code></td>
                 <td>Mixpanel, Inc. (제3자)</td>
                 <td>쿠키 ⁠· 로컬 스토리지</td>
                 <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
