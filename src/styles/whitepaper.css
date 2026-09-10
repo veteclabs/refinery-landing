@@ -241,7 +241,7 @@
 
 /* 목록의 뼈대(표식 끄기·간격)만 남긴다. 면·글자값은 위 .wp-body 규칙이 정한다. */
 .wp-summary ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 11px; }
-.wp-summary li { position: relative; padding-left: 18px; font-size: 17px; line-height: 1.72; color: #2b3644; }
+.wp-summary li { position: relative; padding-left: 18px; font-size: 17px; line-height: 1.72; color: #22303F; }
 .wp-summary li::before { content: ''; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: #b7c1cc; }
 
 /* 목차 — 왼쪽 열에 한 줄에 하나씩 세로로 나열한다.
@@ -340,13 +340,13 @@
 .wp-section h3 + p { margin-top: 10px; }
 /* 문단 사이 29px = 본문 한 줄 높이. 15px일 때는 줄 간격(29px)보다 좁아
    문단이 바뀌어도 줄바꿈처럼 보였다. 빈 줄 하나만큼 벌린다. */
-.wp-section p { margin-top: 29px; font-size: 16px; line-height: 1.82; color: #2b3644; }
-/* 표식만 요약 카드와 같은 하늘색 점으로 바꾼다 — 글자값(16px · 행간 1.7 · #2B3644)은
+.wp-section p { margin-top: 29px; font-size: 16px; line-height: 1.82; color: #22303F; }
+/* 표식만 요약 카드와 같은 하늘색 점으로 바꾼다 — 글자값(16px · 행간 1.7 · #22303F)은
    본문 그대로 둔다. 기본 disc를 끄고 같은 방식으로 직접 그린다. */
 .wp-section ul { margin-top: 14px; padding-left: 0; list-style: none; }
 .wp-section li {
   position: relative; padding-left: 12px;
-  font-size: 16px; line-height: 1.7; color: #2b3644; margin-top: 7px;
+  font-size: 16px; line-height: 1.7; color: #22303F; margin-top: 7px;
 }
 .wp-section li::before {
   content: ''; position: absolute;

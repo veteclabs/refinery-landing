@@ -1,0 +1,37 @@
+---
+/** Refinery 심볼(글자 없는 마크).
+ *
+ *  public/logo_Refinery_symbol.svg와 같은 도형이지만, 그 파일은 잉크색(#0b0e14)이
+ *  박혀 있어 어두운 면 위에서는 보이지 않는다. 여기서는 fill을 currentColor로 두어
+ *  쓰는 쪽에서 색을 정한다(푸터의 큰 로고도 같은 방식으로 흰색을 넣는다).
+ *
+ *  크기는 class로 넘긴 CSS가 정한다 — width만 주면 viewBox 비율(1:1)로 따라온다.
+ *
+ *  심볼은 두 개의 둥근 사각 테두리라 가운데가 뚫려 있다. 어두운 사진 위에 얹으면
+ *  그 구멍으로 빛줄기가 들여다보여 마크가 어수선해진다. 그래서 두 사각의
+ *  바깥 윤곽과 같은 판을 뒤에 깔 수 있게 해 뒀다 — 색은 --mark-plate로 정하고,
+ *  값을 주지 않으면 판이 없다(투명).
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<svg
+  class={className}
+  viewBox="0 0 620 620"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  <rect class="bm-plate" x="40" y="40" width="400" height="400" rx="60" />
+  <rect class="bm-plate" x="180" y="180" width="400" height="400" rx="60" />
+  <path d="M380,40H100c-33.14,0-60,26.86-60,60v280c0,33.14,26.86,60,60,60h50c-16.57,0-30-13.43-30-30V150c0-16.57,13.43-30,30-30h260c16.57,0,30,13.43,30,30v-50c0-33.14-26.86-60-60-60Z" />
+  <path d="M520,180h-50c16.57,0,30,13.43,30,30v260c0,16.57-13.43,30-30,30H210c-16.57,0-30-13.43-30-30v50c0,33.14,26.86,60,60,60h280c33.14,0,60-26.86,60-60V240c0-33.14-26.86-60-60-60Z" />
+</svg>
+
+<style is:global>
+  /* 판은 기본이 투명이다 — 쓰는 쪽에서 --mark-plate를 줄 때만 깔린다. */
+  .bm-plate { fill: var(--mark-plate, transparent); }
+</style>

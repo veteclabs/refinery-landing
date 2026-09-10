@@ -1,48 +1,126 @@
 ---
+// 블로그 목록. 자료실(/resources)과 같은 카드 목록 구조를 쓴다 —
+// 히어로(h1만) + 3열 그리드 + 표지 칸이 위에 붙은 카드.
+// 공통 스타일은 res-card.css에 있고 자료실과 함께 쓴다(<main class="ind res-page">).
+// 표지 이미지는 아직 없다. 칸(.res-thumb)만 자리를 잡아 두고, 파일이 준비되면
+// 그 안에 <img>를 넣으면 된다 — 자료실 카드와 같은 방식이다.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { readingMinutesForSlug } from '../../utils/readingTime';
-import '../../styles/blog.css';
+import { Image } from 'astro:assets';
+import BrandMark from '../../components/BrandMark.astro';
+import { formatDateKo } from '../../utils/date';
+import { coverTone } from '../../utils/cover-tone';
+import '../../styles/industry.css';
+import '../../styles/res-card.css';
+import '../../styles/blog-card.css';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'ko')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 
-const fmt = (d: Date) =>
-  new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+
+// 카드 소제목을 두 줄로 끊는다. 끊을 지점은 글 원본의 cardBreakAfter에 있고,
+// 그 말 바로 뒤에서 나눈다. description 자체에 <br>을 넣지 않는 이유는
+// 같은 값이 meta description과 RSS에도 쓰이기 때문이다.
+// 지점을 못 찾으면 끊지 않고 한 덩어리로 둔다.
+const splitDesc = (desc: string, at?: string): [string, string] => {
+  if (!at) return [desc, ''];
+  const i = desc.indexOf(at);
+  if (i < 0) return [desc, ''];
+  const cut = i + at.length;
+  return [desc.slice(0, cut), desc.slice(cut).trimStart()];
+};
 ---
 <BaseLayout
   title="블로그 | Refinery"
-  description="산업 데이터·AI 에이전트·현장 운영에 대한 Refinery의 인사이트와 제품 소식."
+  description="산업 데이터 ⁠· AI 에이전트 ⁠· 현장 운영에 대한 Refinery의 인사이트와 제품 소식."
   canonical="/blog"
 >
   <Nav />
-  <main class="blog-main">
-    <header class="blog-hero">
-      <p class="blog-eyebrow">BLOG</p>
-      <h1>인사이트 &amp; 소식</h1>
-      <p class="blog-lede">산업 데이터를 정제해 의사결정으로 잇는 방법, 그리고 Refinery의 제품 이야기.</p>
-    </header>
+  <main class="ind res-page blog-list">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <h1>블로그</h1>
+      </div>
+    </section>
 
-    <ul class="blog-grid">
-      {posts.map((post) => (
-        <li class="blog-card">
-          <a href={`/blog/${post.id}`}>
-            <div class="blog-card-meta">
-              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
-              <span class="blog-card-dot">·</span>
-              <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
-              {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
-            </div>
-            <h2>{post.data.title}</h2>
-            <p>{post.data.description}</p>
-            <span class="blog-card-more">읽기 →</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <!-- GRID -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="ind-grid ind-grid-3">
+          {posts.map((post) => {
+            const [head, tail] = splitDesc(post.data.description, post.data.cardBreakAfter);
+            return (
+            <a class="ind-card res-card is-link" href={`/blog/${post.id}`}>
+              {/* 표지. 이미지가 없는 글은 빈 면으로 남는다 — 자리를 늘 차지하므로
+                  나중에 넣어도 배치가 흔들리지 않는다. 자료실의 '준비중' 그림·배지는
+                  두지 않는다. 글은 이미 공개된 것이라 준비 중이 아니다.
+                  표지가 있으면 글의 종류(태그)는 그 위에 얹힌다 — 자료실과 같다. */}
+              <div
+                class={post.data.image ? 'res-thumb' : 'res-thumb is-empty'}
+                data-tone={coverTone(post.data.coverColor)}
+                style={[
+                  post.data.coverColor && `--cover-bg: ${post.data.coverColor}`,
+                  post.data.coverTextColor && `--cover-fg: ${post.data.coverTextColor}`,
+                ].filter(Boolean).join('; ') || undefined}
+              >
+                {post.data.image && (
+                  <Image
+                    src={post.data.image}
+                    alt=""
+                    widths={[383, 560, 766, 1104, 1440]}
+                    sizes="(max-width: 860px) calc(100vw - 48px), (max-width: 1279px) calc((100vw - 132px) / 3), 383px"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                {post.data.image && <BrandMark class="thumb-mark" />}
+                {/* 밑색 위에 깔리는 무늬. 표지 사진(image)과 달리 덮지 않고 섞인다. */}
+                {post.data.coverTexture && (
+                  <img class="thumb-texture" src={post.data.coverTexture} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                )}
+                {post.data.coverIcon && (
+                  <img class:list={['thumb-icon', post.data.coverIconAt === 'center' && 'is-center']} src={post.data.coverIcon} alt="" loading="lazy" decoding="async" />
+                )}
+                {post.data.tags[0] && !post.data.hideCoverKind && (
+                  <div class="res-cover">
+                    <span class="res-cover-kind">{(() => {
+                        // 태그가 길면 지정한 지점에서 두 줄로 끊는다(영어 글).
+                        const [a, b] = splitDesc(post.data.tags[0], post.data.coverKindBreakAfter);
+                        return <>#{a}{b && <><br />{b}</>}</>;
+                      })()}</span>
+                    {/* 표지 안 대제목. titleBreakAfter를 적은 글에만 나온다.
+                        글자 규격은 자료실 표지 한 줄(.res-cover-line)과 같은 것을 그대로 쓴다. */}
+                    {post.data.titleBreakAfter && (() => {
+                      const [a, b] = splitDesc(post.data.title, post.data.titleBreakAfter);
+                      return <strong class="res-cover-line">{a}{b && <><br />{b}</>}</strong>;
+                    })()}
+                    {/* 표지 왼쪽 아래 글. 태그라인과 같은 규격이고 자리만 아래다. */}
+                    {post.data.coverFoot && <span class="res-cover-foot">{post.data.coverFoot}</span>}
+                  </div>
+                )}
+              </div>
+              <h3>{post.data.title}</h3>
+              <p>{head}{tail && <><br />{' '}{tail}</>}</p>
+              <div class="blog-meta">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDateKo(post.data.pubDate)}</time>
+                {post.data.category && (
+                  <>
+                    <span class="blog-meta-bar" aria-hidden="true"></span>
+                    <span>{post.data.category}</span>
+                  </>
+                )}
+              </div>
+            </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </BaseLayout>
+

@@ -48,18 +48,18 @@ export const useCasesEn: UseCase[] = [
       { label: 'Runtime history', icon: 'runtime' },
     ],
     template: {
-      badge: 'Wireless vibration · LoRaWAN',
+      badge: 'Wireless vibration ⁠· LoRaWAN',
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start without wiring, using the WISE-2410 wireless sensor',
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts, and the hardware holds up in harsh industrial conditions.',
-      includes: ['No wiring · mount-on install', 'LoRaWAN wireless · up to 5 km', 'Up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 · −20 to 85°C'],
+      includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· −20 to 85°C'],
     },
-    related: { label: 'What predictive maintenance actually predicts', href: '/en/blog/predictive-maintenance' },
+    related: { href: '/en/blog/predictive-maintenance' },
     faq: [
       {
         q: 'What is predictive maintenance?',
         a:
-          'Predictive maintenance (PdM) analyses vibration · temperature · current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
+          'Predictive maintenance (PdM) analyses vibration ⁠· temperature ⁠· current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
       },
       {
         q: 'Can I start predictive maintenance with a wireless vibration sensor?',
@@ -69,16 +69,16 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How do you do predictive maintenance on a motor?',
         a:
-          'Motors show the first signs of failure in vibration · current · temperature.<br>A vibration spectrum reveals bearing wear · shaft misalignment · imbalance,<br>and reading the current alongside it catches load faults and insulation degradation early.',
+          'Motors show the first signs of failure in vibration ⁠· current ⁠· temperature.<br>A vibration spectrum reveals bearing wear ⁠· shaft misalignment ⁠· imbalance,<br>and reading the current alongside it catches load faults and insulation degradation early.',
       },
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
         a:
-          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA · PLC.<br>Refinery weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
+          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA ⁠· PLC.<br>Refinery weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
       },
     ],
     seo: {
-      title: 'Predictive maintenance · wireless vibration monitoring (WISE-2410) | Refinery',
+      title: 'Predictive maintenance ⁠· wireless vibration monitoring (WISE-2410) | Refinery',
       description: 'Measure 3-axis vibration without wiring using WISE-2410 wireless sensors (LoRaWAN), and assess motor condition against ISO 20816. Catch early signs sooner and reduce downtime.',
     },
   },
@@ -128,7 +128,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Pressure', icon: 'pressure' },
       { label: 'Flow', icon: 'flow' },
     ],
-    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
+    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Multi-sensor monitoring (IoT) | Refinery',
       description: 'Standardize and gather scattered sensors - from IoT devices to existing instrumentation - and connect them through an ontology for real-time monitoring.',
@@ -176,7 +176,7 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power management template',
       desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already contains how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
-      includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor · load factor dashboard', 'Abnormal-use alert rules'],
+      includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor ⁠· load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: [
       { label: 'Active/reactive power', icon: 'power-active-reactive' },
@@ -185,17 +185,17 @@ export const useCasesEn: UseCase[] = [
       { label: 'Hourly consumption', icon: 'hourly-usage' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     faq: [
       {
         q: 'What is a power management solution?',
         a:
-          'A power management solution collects and analyses voltage · current · power · power-factor data from the incoming and distribution system in real time to monitor and optimise electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
+          'A power management solution collects and analyses voltage ⁠· current ⁠· power ⁠· power-factor data from the incoming and distribution system in real time to monitor and optimise electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
       },
       {
         q: 'How does power management differ from an energy management system (EMS)?',
         a:
-          'Power management focuses on monitoring · quality of the electrical system, while an EMS covers use · efficiency · savings across energy as a whole.<br>Refinery joins power data with EMS · equipment data so the savings it proposes come with evidence.',
+          'Power management focuses on monitoring ⁠· quality of the electrical system, while an EMS covers use ⁠· efficiency ⁠· savings across energy as a whole.<br>Refinery joins power data with EMS ⁠· equipment data so the savings it proposes come with evidence.',
       },
       {
         q: 'How does AI help with power management?',
@@ -250,7 +250,7 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power quality monitoring template',
       desc: 'What to monitor and against which thresholds differs a little from site to site, but the outline is much the same. The power quality template used across several sites already sets out the key metrics, the judgment criteria, and the event types that commonly cause trouble. Connect your measurement points and assets, and you can skip the design stage and start monitoring.',
-      includes: ['Voltage · frequency · harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
+      includes: ['Voltage ⁠· frequency ⁠· harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
     },
     signals: [
       { label: 'Voltage', icon: 'voltage' },
@@ -259,7 +259,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Imbalance', icon: 'imbalance' },
       { label: 'Sag/swell', icon: 'sag-swell' },
     ],
-    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
+    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
       description: 'Monitor voltage, frequency, harmonics and imbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
@@ -307,16 +307,16 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start quickly from an energy management system template',
       desc: 'A new site does not have to design the structure from scratch. The energy management system (EnMS) template, refined across sites over thirty years, already includes the metering structure, intensity KPIs, ESG report formats, and anomaly and peak alert rules. Adjust it to your own assets and targets and you can begin operating on a proven structure right away.',
-      includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs · dashboard', 'ESG report formats', 'Abnormal consumption · peak alert rules'],
+      includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption ⁠· peak alert rules'],
     },
     signals: [
-      { label: 'Electricity · gas · steam · water', icon: 'energy-sources' },
+      { label: 'Electricity ⁠· gas ⁠· steam ⁠· water', icon: 'energy-sources' },
       { label: 'Output', icon: 'output' },
       { label: 'Emissions', icon: 'emissions' },
       { label: 'Energy intensity', icon: 'intensity' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
       description: 'Meter electricity, gas, steam and water across the plant, analyze energy intensity to find waste, and aggregate ESG reports automatically.',
@@ -365,7 +365,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Peak', icon: 'peak' },
       { label: 'Energy intensity', icon: 'intensity' },
     ],
-    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
+    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
       description: 'Find hidden waste and peaks in the data to reduce energy cost - overlaying consumption patterns on work context to uncover inefficiency.',
@@ -415,7 +415,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Process conditions', icon: 'process-condition' },
       { label: 'Inspection results', icon: 'inspection-result' },
     ],
-    related: { label: 'Before the defect appears: what quality prediction really looks like', href: '/en/blog/quality-prediction' },
+    related: { href: '/en/blog/quality-prediction' },
     seo: {
       title: 'Quality prediction | Refinery',
       description: 'Read the early signs of a defect in process data and catch it before the part is finished, connecting process conditions with inspection results.',

@@ -19,7 +19,7 @@ export const electronicsEn: IndustryData = {
     imagePosition: 'center 20%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Electronics · Precision',
+    eyebrow: 'Electronics ⁠· Precision',
     title: 'Uninterrupted power and\nmicroclimate, in one structure',
   },
   challenges: {
@@ -102,10 +102,10 @@ export const electronicsEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Switchgear · UPS · temperature and humidity · process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES · SCADA · UPS · demand controllers · Modbus · OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology · AI agent · rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Power quality dashboard · outage alerts · environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where MES or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },

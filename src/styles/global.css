@@ -55,22 +55,12 @@
     }
     .nav-left { display: flex; align-items: center; gap: 48px; }
     .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; transition: color .25s ease; }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { font-size: 14px; color: #555555; transition: color .25s ease; }
-    .nav-links a:hover { color: #76A6D7; }
-    .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .nav-dropdown > a { display: flex; align-items: center; cursor: pointer; }
-    .nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 140px; padding-top: 12px; opacity: 0; pointer-events: none; transition: opacity .18s; }
-    .nav-dropdown-menu-inner { background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 6px; }
-    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; pointer-events: auto; }
-    .nav-dropdown-menu a { display: block; padding: 8px 14px; font-size: 14px; color: #555; border-radius: 6px; transition: background .15s, color .15s; white-space: nowrap; }
-    .nav-dropdown-menu a:hover { background: #f4f4f5; color: #76A6D7; }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
-    .btn-ghost { padding: 6px 18px; font-size: 14px; font-weight: 400; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px; transition: all .25s ease; }
-    .btn-ghost:hover { color: #111111; background: #f4f4f5; }
     .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      background: transparent; color: #111111; border: 1px solid rgba(17,17,17,0.6); border-radius: 6px;
+      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
+         테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
+      background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
       transition: all .2s;
     }
 
@@ -91,7 +81,7 @@
       align-items: center; justify-content: center;
       width: 40px; height: 40px;
       background: transparent; border: none; cursor: pointer;
-      font-size: 22px; color: #111111; padding: 0;
+      font-size: 22px; color: #16202C; padding: 0;
       touch-action: manipulation;
     }
     .mobile-nav-panel {
@@ -111,14 +101,23 @@
     .mobile-nav-panel a {
       padding: 14px 2px;
       font-size: 16px;
-      color: #333333;
+      /* ink-800. #333333이던 임의값에서 옮겼다.
+         주의: 이 색은 지금 화면에 나오지 않는다. 패널 안 링크는 전부
+         .mm-mobile-top(ink-900)이나 .mm-mobile-sub a(ink-700)에 잡혀
+         더 구체적인 선택자가 이긴다. 클래스 없는 링크가 생겼을 때를 위한
+         바탕값으로만 남긴다 — 그때 임의값이 튀어나오지 않도록. */
+      color: #22303F;
       border-bottom: 1px solid var(--border);
     }
     .mobile-nav-panel a:last-child:not(.mobile-nav-cta) { border-bottom: none; }
     .mobile-nav-panel .mobile-nav-cta {
       margin-top: 14px;
       text-align: center;
-      border: 1px solid rgba(17,17,17,0.6);
+      /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
+         color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
+         같은 버튼인데 모바일만 글자색이 달라진다. */
+      color: #16202C;
+      border: 1px solid #5A6776;
       border-radius: 6px;
       padding: 12px;
       font-weight: 500;
@@ -736,7 +735,6 @@
 
     @media (max-width: 900px) {
       .nav-inner { padding: 0 24px; }
-      .nav-links { display: none; }
       .container { padding: 0 24px; }
       .problem-grid, .platform-grid, .ba-grid, .dna-grid, .teams-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: repeat(2, 1fr); }

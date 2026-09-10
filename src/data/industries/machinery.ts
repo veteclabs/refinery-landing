@@ -2,10 +2,10 @@ import type { IndustryData } from './types';
 
 export const machinery: IndustryData = {
   slug: 'machinery',
-  name: '기계 · 플랜트',
-  pageTitle: '기계 · 플랜트를 위한 Refinery: 공용 설비 최적화 · 에너지 원단위 관리 · 탄소 대응',
+  name: '기계 ⁠· 플랜트',
+  pageTitle: '기계 ⁠· 플랜트를 위한 Refinery: 공용 설비 최적화 ⁠· 에너지 원단위 관리 ⁠· 탄소 대응',
   description:
-    '공기압축기 · 공조 · 냉각 같은 공용 설비를 하나의 구조로 연결하고, AI 에이전트가 에너지 집중 구간을 찾아냅니다. 대형 설비 중심 기계 · 플랜트 현장을 위한 Refinery.',
+    '공기압축기 ⁠· 공조 ⁠· 냉각 같은 공용 설비를 하나의 구조로 연결하고, AI 에이전트가 에너지 집중 구간을 찾아냅니다. 대형 설비 중심 기계 ⁠· 플랜트 현장을 위한 Refinery.',
   hero: {
     dark: true,
     image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1243 },
@@ -16,7 +16,7 @@ export const machinery: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '기계 · 플랜트',
+    eyebrow: '기계 ⁠· 플랜트',
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
   },
   challenges: {
@@ -27,7 +27,7 @@ export const machinery: IndustryData = {
       {
         title: '여러 에너지원이 동시에 쓰인다',
         description:
-          '압축공기 · 전력 · 냉열 · 공조가 한 현장에서 함께 돌아 어디에 <br>얼마가 들어가는지 잡히지 않습니다.',
+          '압축공기 ⁠· 전력 ⁠· 냉열 ⁠· 공조가 한 현장에서 함께 돌아 어디에 <br>얼마가 들어가는지 잡히지 않습니다.',
       },
       {
         title: '설비 간 연계도가 높다',
@@ -40,7 +40,7 @@ export const machinery: IndustryData = {
           '멈출 수 없는 환경에서 공정 조건까지 유지해야 해 손볼 시점을 <br>잡기 어렵습니다.',
       },
       {
-        title: '노후화 · 비용 · 규제가 한꺼번에 온다',
+        title: '노후화 ⁠· 비용 ⁠· 규제가 한꺼번에 온다',
         description:
           '설비 노후화와 에너지 비용 증가, 탄소 규제 대응이 동시에 <br>진행돼 설비와 에너지를 한 체계로 봐야 합니다.',
       },
@@ -48,11 +48,11 @@ export const machinery: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '기계 · 플랜트 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
+    subtitle: '기계 ⁠· 플랜트 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
     layout: 'steps',
     items: [
       {
-        title: '공기압축기 수요 맞춤 제어 · 상태 감시',
+        title: '공기압축기 수요 맞춤 제어 ⁠· 상태 감시',
         problem: '수요가 줄어도 그대로 돌아가는 공용 설비',
         approach: '실제 수요를 읽어 토출 압력과 대수 운전을 필요한 만큼으로 맞춥니다.',
         outcome: '에너지 소비 감소와 설비 수명 연장',
@@ -66,7 +66,7 @@ export const machinery: IndustryData = {
       {
         title: '공조 설비 엔탈피 기반 인버터 제어',
         problem: '외기 조건과 무관하게 고정된 공조 운전',
-        approach: '라인별 온 · 습도를 엔탈피로 환산해 목표 엔탈피를 유지하도록 공조기 인버터를 제어합니다.',
+        approach: '라인별 온 ⁠· 습도를 엔탈피로 환산해 목표 엔탈피를 유지하도록 공조기 인버터를 제어합니다.',
         outcome: '공정 환경 안정화와 냉열 에너지 절감',
       },
       {
@@ -93,16 +93,16 @@ export const machinery: IndustryData = {
     title: '솔루션 구조',
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
-      { label: '현장', detail: '공기압축기 · 공조 · 냉각 설비 · 대형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'FEMS · SCADA · PLC · ERP · Modbus · BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: '활용', detail: '공용 설비 대시보드 · 원단위 리포트 · 배출량 관리', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: '현장', detail: '공기압축기 ⁠· 공조 ⁠· 냉각 설비 ⁠· 대형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: '연동', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
+      { label: '활용', detail: '공용 설비 대시보드 ⁠· 원단위 리포트 ⁠· 배출량 관리', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: '기존 FEMS⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },
   benefits: {
     title: '도입 효과',
-    subtitle: '운영 · 기술 · 경영 관점 모두에서 얻는 이점입니다.',
+    subtitle: '운영 ⁠· 기술 ⁠· 경영 관점 모두에서 얻는 이점입니다.',
     items: [
       {
         title: '공기압축기 수요 기반 제어',
@@ -138,9 +138,9 @@ export const machinery: IndustryData = {
   },
   integrations: {
     title: '연동 시스템',
-    subtitle: '기계 · 플랜트 현장에서 흔히 쓰는 시스템 · 프로토콜과 연결됩니다.',
+    subtitle: '기계 ⁠· 플랜트 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
     systems: ['FEMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', '에너지관리공단'],
-    note: '목록에 없는 시스템도 표준 프로토콜 · API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
+    note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
