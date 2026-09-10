@@ -195,7 +195,38 @@ img { max-width: 100%; height: auto; }
    선은 전부 1px · 잉크 200으로 통일한다. 굵기로 층을 나누려면 2px밖에 못 쓰는데
    (1.5px은 크롬이 정수로 내림해 1px으로 굳는다 — 실측 확인) 2px은 격자가 앞으로
    나와 무거웠다. 머리행은 면과 굵기 600으로 이미 구분된다. */
-.legal-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; margin: 20px 0; }
+.legal-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  margin: 20px 0;
+  /* 좁은 화면에서 표가 가로로 밀린다는 것을 알린다. 표는 min-width 480px이라
+     390px에서 138px이 화면 밖에 남는데, 표시가 없으면 마지막 칸이 아예 없는
+     것처럼 보였다(이용약관 개정 이력 표의 '전문' 칸).
+
+     가장자리를 흐리는 대신 슬라이드 바를 세운다 — 흐림은 '여기서 잘렸다'만
+     말하지만, 바는 밀 수 있다는 것과 얼마나 남았는지, 지금 어디쯤인지를
+     한꺼번에 말한다. 손잡이 길이가 곧 보이는 비율이다(390px에서 342/480).
+
+     맥과 iOS는 스크롤바를 평소에 감추므로 색을 직접 지정해 늘 보이게 한다.
+     overflow-x가 auto라 표가 상자에 다 들어가면 바도 함께 사라진다 —
+     넓은 화면에서 저절로 꺼진다.
+     색은 본문 잉크 계열 그대로다(길 100, 손잡이 300, 짚으면 400).
+
+     두 벌을 함께 적는다. 표준 속성(scrollbar-*)은 파이어폭스와 최근 사파리가
+     읽고, ::-webkit-*는 그 이전 사파리가 읽는다. 크로뮴은 표준 속성이 있으면
+     ::-webkit-* 쪽을 무시하므로 실제 높이는 thin(11px)이다 — height 8px은
+     옛 사파리에만 걸린다. 실측: 모바일에서는 겹쳐 뜨는 바라 자리를 차지하지
+     않고(offsetH-clientH 2 = 테두리뿐), 데스크톱 좁은 폭에서는 11px을 쓴다.
+     3초를 기다려도 흐려지지 않는 것을 확인했다(손잡이 밝기 200 유지). */
+  scrollbar-width: thin;
+  scrollbar-color: #C8CED5 #EFF2F5;
+}
+.legal-table-wrap::-webkit-scrollbar { height: 8px; }
+.legal-table-wrap::-webkit-scrollbar-track { background: #EFF2F5; border-radius: 999px; }
+.legal-table-wrap::-webkit-scrollbar-thumb { background: #C8CED5; border-radius: 999px; }
+.legal-table-wrap::-webkit-scrollbar-thumb:hover { background: #A4ADB8; }
 /* 표 바로 앞 요소의 아래 여백도 20px으로 맞춘다. 마진 병합에서는 큰 쪽이 이기므로
    앞 문단이 더 큰 값을 들고 있으면 표의 값은 화면에 나오지 않는다(지금은 12px이라
    표가 이기지만, 앞 요소가 바뀌어도 흔들리지 않도록 같이 적어 둔다). */
