@@ -22,7 +22,7 @@ const ui = navUi[lang];
             {col.items.map((it) => (
               it.href
                 ? <a href={it.href}>{it.label}</a>
-                : <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>
+                : <button type="button" data-cookie-settings onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>
             ))}
           </div>
         </div>

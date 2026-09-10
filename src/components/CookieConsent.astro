@@ -153,16 +153,28 @@ const t =
     function loadTrackers() { try { loadGA(); loadMixpanel(); } catch (e) {} }
 
     var el = document.getElementById('cookieConsent');
-    function hide() { if (el) el.hidden = true; }
+
+    // 배너와 '쿠키 설정' 버튼은 동시에 보이지 않는다.
+    // 배너가 떠 있는데 버튼도 함께 보이면, 눌러도 아무 변화가 없어 고장으로 읽힌다.
+    // 마크업에는 버튼을 늘 두고 여기서 감춘다 — 반대로 하면 자바스크립트가 꺼진
+    // 환경에서 동의 철회 경로가 아예 사라져 법적으로 더 나쁘다.
+    function syncButtons() {
+      var open = el && !el.hidden;
+      var bs = document.querySelectorAll('[data-cookie-settings]');
+      for (var i = 0; i < bs.length; i++) bs[i].hidden = open;
+    }
+    function show() { if (el) el.hidden = false; syncButtons(); }
+    function hide() { if (el) el.hidden = true; syncButtons(); }
     // 푸터 '쿠키 설정' 등에서 배너를 다시 열어 재선택할 수 있게 한다.
-    window.openCookieSettings = function () { if (el) el.hidden = false; };
+    window.openCookieSettings = show;
 
     var consent = getCookie('cookie_consent');
     if (consent === 'granted') {
       loadTrackers();
     } else if (consent !== 'denied') {
-      if (el) el.hidden = false; // 미결정 → 배너 노출
+      show(); // 미결정 → 배너 노출
     }
+    syncButtons();
 
     var a = document.getElementById('ccAccept');
     var d = document.getElementById('ccDecline');
