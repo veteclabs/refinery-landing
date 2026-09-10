@@ -35,7 +35,8 @@ img { max-width: 100%; height: auto; }
    대신 줄당 글자가 57에서 62로 늘어난다 — 읽기 좋은 범위(40~50자)보다는
    넓지만, 조문은 통독보다 필요한 항을 찾아 읽는 글이라 이쪽을 택했다.
    이용약관도 조문이 29개라 같은 이유로 넓힌다.
-   EULA·쿠키 정책은 820px 그대로다. */
+   소프트웨어 사용권 계약도 절이 22개라 같이 넓힌다.
+   쿠키 정책은 820px 그대로다 — 절이 8개로 짧다. */
 .legal-main--wide { max-width: 1008px; }
 .legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
 .legal-crumb a:hover { color: var(--accent-ink); }
