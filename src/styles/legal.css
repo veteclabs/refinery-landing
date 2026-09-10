@@ -154,7 +154,16 @@ img { max-width: 100%; height: auto; }
 .legal-body .legal-facts dd { color: #22303F; }
 /* 왼쪽 벌과 오른쪽 벌 사이. */
 .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
-@media (max-width: 760px) {
+/* 두 벌을 한 벌로 편다. 경계가 760px일 때는 761~1023px 구간에서 네 단이 그대로
+   유지되면서 값 단이 152~243px까지 좁아져, 가장 긴 값인 주소가 두세 줄로 접혔다
+   (실측 900px 2줄 · 800px 3줄 · 768px 주소 3줄 + 전화 2줄). 딱지 단 160px과
+   위의 오른쪽 안여백 56px이 고정이라 좁아지는 몫을 값이 다 떠안는다.
+
+   1000px으로 올린다 — 왼쪽 값 칸이 주소(196px)에 안여백 56px을 더한 252px을
+   담아야 하는데, 1024px에서 272px으로 겨우 맞고 950px에서 243px으로 깨진다.
+   카드는 세로로 길어지지만(768px 기준 293 → 372px) 값이 차지하는 줄은
+   11줄에서 7줄로 준다. */
+@media (max-width: 1000px) {
   .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr); }
   .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
