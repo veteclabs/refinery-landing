@@ -84,7 +84,7 @@ const home = lang === 'en' ? '/en' : '/';
                       <li>
                         {it.href
                           ? <a href={it.href}>{it.label}</a>
-                          : <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>}
+                          : <button type="button" data-cookie-settings onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>}
                       </li>
                     ))}
                   </ul>
