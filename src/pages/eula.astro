@@ -319,7 +319,7 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
               <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
               <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
               <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
-              <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /> ⁠· <a href="/contact">문의하기</a></dd>
+              <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
               <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
               <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
               {company.mailOrderNo && <><dt>통신판매업 신고번호</dt><dd>{company.mailOrderNo}</dd></>}
