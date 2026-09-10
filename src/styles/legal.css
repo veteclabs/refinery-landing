@@ -283,6 +283,16 @@ img { max-width: 100%; height: auto; }
    nowrap을 그대로 두고 min-width를 853px로 올리는 길도 있었으나, 그러면
    390px에서 표가 2.5배 폭이 되어 밀어야 할 거리가 그만큼 길어진다. */
 .legal-table--fixed th { white-space: normal; word-break: keep-all; }
+/* 칸 비율을 못박은 표는 480px에서 너무 좁다 — 390px 화면에서 '이전 국가' 칸이
+   59px이라 Google이 낱자로 끊겨 9줄이 되고, '이전 항목'은 11줄까지 갔다.
+   어차피 미는 표이니 넓힌다. 760px에서 표 높이가 1024에서 616px으로 줄고
+   국가 9→4줄, 항목 11→6줄이 된다(390px 실측). 머리글도 [2,2,2,1,3]에서
+   [2,1,1,1,2]로 펴진다.
+
+   한눈에 보이는 열은 3에서 2로 준다. 첫 열을 왼쪽에 고정(position: sticky)해
+   행의 주인을 남기는 길도 만들어 봤으나 두지 않기로 했다 — 고정 칸이 밑으로
+   흐르는 내용을 가려, 미는 동안 가운데 열이 잘린 채 지나간다. */
+.legal-table--fixed { min-width: 760px; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
