@@ -126,6 +126,11 @@ img { max-width: 100%; height: auto; }
   border: 1px solid var(--border);
 }
 .legal-card .legal-table th { background: var(--bg); }
+/* 머리 줄에도 세로선을 잇는다. 본문의 표는 머리 줄에 회색 면(--bg-soft)이 깔려
+   그 면이 머리 줄을 한 덩어리로 묶어 주므로 세로선을 두지 않는다. 카드 안에서는
+   머리 줄도 흰색이라 묶어 주던 것이 없어, 선까지 빠지면 격자가 첫 줄에서만
+   끊겨 보인다. */
+.legal-card .legal-table thead th:not(:last-child) { border-right: 1px solid var(--border); }
 /* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
    딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
    시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩
