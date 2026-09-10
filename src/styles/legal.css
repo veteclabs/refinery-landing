@@ -268,6 +268,17 @@ img { max-width: 100%; height: auto; }
 /* colgroup으로 칸 폭을 직접 정하는 표에 쓴다. table-layout이 auto면 브라우저가
    내용의 최소 폭을 우선해서 colgroup 값이 무시된다 — fixed여야 지정한 대로 갈린다. */
 .legal-table--fixed { table-layout: fixed; }
+/* 칸 너비를 비율로 못박은 표는 머리글이 한 줄을 고집하면 안 된다.
+   비율은 넓은 화면(표 960px)에 맞춘 값인데, 좁아지면 표가 min-width 480px까지
+   줄면서 칸도 같은 비율로 좁아진다. 그때 th의 nowrap이 글자를 칸 밖으로 밀어내
+   옆 칸 머리글 위에 겹쳐 찍혔다 — 390px에서 다섯 칸 중 넷이 겹쳤다
+   (실측: 이전받는 자(연락처) 칸 97 대 글자 140, 이용 목적 및 보유 · 이용 기간 칸 124 대 글자 192).
+
+   겹치지 않게 머리글을 접는다. 낱자 사이에서 끊기지 않도록 keep-all을 함께 둔다.
+   넓은 화면에서는 칸이 넉넉해 접히지 않으므로 겉모습이 바뀌지 않는다.
+   nowrap을 그대로 두고 min-width를 853px로 올리는 길도 있었으나, 그러면
+   390px에서 표가 2.5배 폭이 되어 밀어야 할 거리가 그만큼 길어진다. */
+.legal-table--fixed th { white-space: normal; word-break: keep-all; }
 
 /* 조문형 문서(이용약관·EULA)용 — 번호 목록·중첩 목록·인라인 코드 */
 .legal-body ol { padding-left: 22px; margin-bottom: 12px; }
