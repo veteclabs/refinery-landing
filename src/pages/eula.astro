@@ -36,7 +36,16 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       </div>
     )}
 
-    <div class="legal-body">
+    {/* 이용약관과 같은 규격을 쓴다 — 구조가 같기 때문이다(조문 제목 + 항).
+        legal-body--terms 하나로 항 번호가 ①②③ 글리프가 되고, 절 사이 48px ·
+        조문 제목 아래 16px이 함께 따라온다. 이름에 terms가 들어가지만 규칙 자체는
+        '조 → 항' 꼴 계약 문서의 규격이라 이 문서에도 그대로 맞는다.
+
+        브라우저 기본 1. 2. 3.은 마커가 옅어(--text-muted) 글이 길어지면 번호가
+        본문에 묻혔다. 원문자는 본문색으로 왼쪽에 서서 항이 몇 개인지,
+        지금 몇 번째인지가 한눈에 잡힌다 — 본문에서 '제1항'처럼 부르는 자리가
+        있어 더 그렇다. */}
+    <div class="legal-body legal-body--terms">
       <p>
         본 소프트웨어 사용권 계약(이하 "본 계약")⁠은 <Ph value={company.legalName} label="회사명" />(이하 "회사")⁠가
         온프레미스(고객 설치) 방식으로 제공하는 <strong>{company.serviceName} 설치형 소프트웨어</strong>(데이터 수집 장치인 Gateway ⁠· Silo,
