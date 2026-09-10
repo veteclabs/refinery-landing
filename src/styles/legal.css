@@ -112,6 +112,13 @@ img { max-width: 100%; height: auto; }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
 /* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
 .legal-cards--single { grid-template-columns: minmax(0, 1fr); }
+/* 카드 안에 표가 들어가는 경우(쿠키 정책 3항 가 · 나 · 다). 카드 면과 머리 줄 면이
+   둘 다 --bg-soft라 표를 그냥 얹으면 머리 줄이 카드에 묻힌다. 표를 통째로 흰 종이로
+   되돌린다 — 머리 줄도 흰색이다. 굵기 600과 아래 선만으로 머리 줄이 구분되고,
+   회색 면이 하나(카드) 뿐이라 층이 단순해진다.
+   모서리는 각지게 둔다 — 표의 다른 선이 전부 직각이라 여기만 둥글면 겉돈다. */
+.legal-card .legal-table-wrap { background: var(--bg); border-radius: 0; }
+.legal-card .legal-table th { background: var(--bg); }
 /* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
    딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
    시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩

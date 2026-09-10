@@ -67,79 +67,91 @@ const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
       <section>
         <h2>3. 사용하는 쿠키 및 유사 기술</h2>
 
-        <h3>가. 필수 항목 (동의 없이 사용)</h3>
-        <div class="legal-table-wrap">
-          <table class="legal-table legal-table--prose4 legal-table--chip">
-            <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><code>cookie_consent</code></td>
-                <td>{company.domain}<br />(자사)</td>
-                <td>쿠키</td>
-                <td>분석 쿠키에 대한 동의 ⁠· 거부 선택을 저장하여 배너가 반복 노출되지 않도록 함</td>
-                <td>1년</td>
-              </tr>
-              <tr>
-                <td><code>lang</code></td>
-                <td>{company.domain}<br />(자사)</td>
-                <td>쿠키</td>
-                <td>이용자가 선택한 표시 언어(한국어/영어)⁠를 기억</td>
-                <td>1년</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="legal-note">
-          필수 항목을 차단하면 언어 선택과 쿠키 동의 여부가 저장되지 않아, 방문할 때마다 동의 배너가 다시 표시됩니다.
-        </p>
+        <div class="legal-cards legal-cards--single">
+          <div class="legal-card">
+          <h3>가. 필수 항목 (동의 없이 사용)</h3>
+          <div class="legal-table-wrap">
+            <table class="legal-table legal-table--prose4 legal-table--chip">
+              <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>cookie_consent</code></td>
+                  <td>{company.domain}<br />(자사)</td>
+                  <td>쿠키</td>
+                  <td>분석 쿠키에 대한 동의 ⁠· 거부 선택을 저장하여 배너가 반복 노출되지 않도록 함</td>
+                  <td>1년</td>
+                </tr>
+                <tr>
+                  <td><code>lang</code></td>
+                  <td>{company.domain}<br />(자사)</td>
+                  <td>쿠키</td>
+                  <td>이용자가 선택한 표시 언어(한국어/영어)⁠를 기억</td>
+                  <td>1년</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="legal-note">
+            필수 항목을 차단하면 언어 선택과 쿠키 동의 여부가 저장되지 않아, 방문할 때마다 동의 배너가 다시 표시됩니다.
+          </p>
 
-        <h3>나. 분석 항목 (동의한 경우에만 사용)</h3>
-        <div class="legal-table-wrap">
-          <table class="legal-table legal-table--prose4 legal-table--chip">
-            <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><code>_ga</code><br /><code>_ga_*</code></td>
-                <td>Google LLC (제3자)</td>
-                <td>쿠키</td>
-                <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 ⁠· 유입 경로 ⁠· 페이지별 이용 현황을 집계</td>
-                <td>최대 2년<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
-              </tr>
-              <tr>
-                <td><code>mp_*_mixpanel</code><br /><code>__mp*</code></td>
-                <td>Mixpanel, Inc. (제3자)</td>
-                <td>쿠키 ⁠· 로컬 스토리지</td>
-                <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
-                <td>브라우저 저장소 삭제 시까지<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> ⁠· 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
-              </tr>
-            </tbody>
-          </table>
+          </div>
         </div>
+        <div class="legal-cards legal-cards--single">
+          <div class="legal-card">
+          <h3>나. 분석 항목 (동의한 경우에만 사용)</h3>
+          <div class="legal-table-wrap">
+            <table class="legal-table legal-table--prose4 legal-table--chip">
+              <thead><tr><th>이름</th><th>제공자</th><th>유형</th><th>목적</th><th>보관 기간</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>_ga</code><br /><code>_ga_*</code></td>
+                  <td>Google LLC (제3자)</td>
+                  <td>쿠키</td>
+                  <td>Google Analytics 4가 방문자를 구분하고 세션을 유지하여 방문 수 ⁠· 유입 경로 ⁠· 페이지별 이용 현황을 집계</td>
+                  <td>최대 2년<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.ga} label="보관기간" />)</span></td>
+                </tr>
+                <tr>
+                  <td><code>mp_*_mixpanel</code><br /><code>__mp*</code></td>
+                  <td>Mixpanel, Inc. (제3자)</td>
+                  <td>쿠키 ⁠· 로컬 스토리지</td>
+                  <td>이용 행태 분석, 세션 리플레이 및 히트맵 기록을 위한 임의 식별자와 이벤트 정보 저장</td>
+                  <td>브라우저 저장소 삭제 시까지<br /><span class="legal-note">(수집된 데이터 보관 : <Ph value={retention.mixpanel} label="보관기간" /> ⁠· 세션 리플레이 <Ph value={retention.mixpanelReplay} label="보관기간" />)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h3>다. 쿠키를 사용하지 않는 측정 도구</h3>
-        <div class="legal-table-wrap">
-          <table class="legal-table">
-            <thead><tr><th>도구</th><th>제공자</th><th>목적</th><th>쿠키 사용</th></tr></thead>
-            <tbody>
-              <tr>
-                <td>Vercel Web Analytics</td>
-                <td>Vercel Inc.</td>
-                <td>페이지뷰 ⁠· 유입 경로 등 트래픽 집계</td>
-                <td>사용하지 않음</td>
-              </tr>
-              <tr>
-                <td>Vercel Speed Insights</td>
-                <td>Vercel Inc.</td>
-                <td>페이지 로딩 성능(Core Web Vitals) 측정</td>
-                <td>사용하지 않음</td>
-              </tr>
-            </tbody>
-          </table>
+          </div>
         </div>
-        <p class="legal-note">
-          위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상에서 제외됩니다.
-          문의 폼 처리에 사용하는 Web3Forms는 폼을 제출하는 시점에만 호출되며 쿠키를 설정하지 않습니다.
-        </p>
+        <div class="legal-cards legal-cards--single">
+          <div class="legal-card">
+          <h3>다. 쿠키를 사용하지 않는 측정 도구</h3>
+          <div class="legal-table-wrap">
+            <table class="legal-table">
+              <thead><tr><th>도구</th><th>제공자</th><th>목적</th><th>쿠키 사용</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Vercel Web Analytics</td>
+                  <td>Vercel Inc.</td>
+                  <td>페이지뷰 ⁠· 유입 경로 등 트래픽 집계</td>
+                  <td>사용하지 않음</td>
+                </tr>
+                <tr>
+                  <td>Vercel Speed Insights</td>
+                  <td>Vercel Inc.</td>
+                  <td>페이지 로딩 성능(Core Web Vitals) 측정</td>
+                  <td>사용하지 않음</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="legal-note">
+            위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상에서 제외됩니다.
+            문의 폼 처리에 사용하는 Web3Forms는 폼을 제출하는 시점에만 호출되며 쿠키를 설정하지 않습니다.
+          </p>
+          </div>
+        </div>
       </section>
 
       <section>
