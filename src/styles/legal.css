@@ -36,10 +36,9 @@ img { max-width: 100%; height: auto; }
    넓지만, 조문은 통독보다 필요한 항을 찾아 읽는 글이라 이쪽을 택했다.
    이용약관도 조문이 29개라 같은 이유로 넓힌다.
    소프트웨어 사용권 계약도 절이 22개라 같이 넓힌다.
-   쿠키 정책은 820px 그대로다 — 절이 8개로 짧다. */
+   쿠키 정책은 절이 8개로 짧지만 쿠키 표가 다섯 칸이라 함께 넓힌다 —
+   법적 고지 네 페이지가 모두 이 폭을 쓴다. */
 .legal-main--wide { max-width: 1008px; }
-.legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
-.legal-crumb a:hover { color: var(--accent-ink); }
 /* 최대 45px은 블로그 글(.post-header h1)·백서(.wp-title)와 같은 값이다.
    40px이었다 — 같은 성격의 긴 글인데 법적 고지만 한 단계 작았다.
    행간은 1.2로 둔다(블로그는 1.3) — 제목이 대개 한 줄이라 더 붙여도 된다. */
@@ -113,6 +112,25 @@ img { max-width: 100%; height: auto; }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
 /* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
 .legal-cards--single { grid-template-columns: minmax(0, 1fr); }
+/* 카드 안에 표가 들어가는 경우(쿠키 정책 3항 가 · 나 · 다). 카드 면과 머리 줄 면이
+   둘 다 --bg-soft라 표를 그냥 얹으면 머리 줄이 카드에 묻힌다. 표를 통째로 흰 종이로
+   되돌린다 — 머리 줄도 흰색이다. 굵기 600과 아래 선만으로 머리 줄이 구분되고,
+   회색 면이 하나(카드) 뿐이라 층이 단순해진다.
+   모서리는 각지게 둔다 — 표의 다른 선이 전부 직각이라 여기만 둥글면 겉돈다. */
+.legal-card .legal-table-wrap {
+  background: var(--bg);
+  border-radius: 0;
+  /* 네 변을 모두 두른다. 본문의 표는 좌우 세로선을 두지 않는데(흰 종이에서는
+     페이지 여백이 표의 범위를 알려 준다) 회색 카드 위에서는 그 역할을 할 것이
+     없어 흰 면이 어디서 끝나는지 보이지 않았다. 맥락이 다르므로 여기만 닫는다. */
+  border: 1px solid var(--border);
+}
+.legal-card .legal-table th { background: var(--bg); }
+/* 머리 줄에도 세로선을 잇는다. 본문의 표는 머리 줄에 회색 면(--bg-soft)이 깔려
+   그 면이 머리 줄을 한 덩어리로 묶어 주므로 세로선을 두지 않는다. 카드 안에서는
+   머리 줄도 흰색이라 묶어 주던 것이 없어, 선까지 빠지면 격자가 첫 줄에서만
+   끊겨 보인다. */
+.legal-card .legal-table thead th:not(:last-child) { border-right: 1px solid var(--border); }
 /* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
    딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
    시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩
@@ -274,6 +292,13 @@ img { max-width: 100%; height: auto; }
    칸 수가 셋이든 넷이든 같은 규칙으로 덮인다. */
 .legal-table--prose2 td { text-align: center; vertical-align: middle; }
 .legal-table--prose2 td:nth-child(2) { text-align: left; }
+/* 문장 칸이 넷째인 표(쿠키 정책 3항 가·나 — 이름·제공자·유형·목적·보관 기간).
+   --prose2와 같은 생각이다: 딱지 칸은 가운데, 문장 칸만 왼쪽. */
+.legal-table--prose4 td { text-align: center; vertical-align: middle; }
+.legal-table--prose4 td:nth-child(4) { text-align: left; }
+/* 문장 칸이 셋째인 표(쿠키 정책 3항 다 — 도구·제공자·목적·쿠키 사용). */
+.legal-table--prose3 td { text-align: center; vertical-align: middle; }
+.legal-table--prose3 td:nth-child(3) { text-align: left; }
 /* 칸이 전부 짧은 딱지·값인 표에 쓴다(18항 보호책임자). 문장 칸이 없으니 모두 가운데다. */
 .legal-table--center td { text-align: center; vertical-align: middle; }
 /* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
@@ -321,20 +346,24 @@ img { max-width: 100%; height: auto; }
    system: fixed라 정의한 개수까지만 원문자다. 이용약관의 한 조문 최대 항 수는
    8이고, 여유를 두어 20까지 적는다. 21부터(㉑ U+3251)는 유니코드 블록이 달라
    글꼴이 갈리므로 늘리지 말 것 — 그때는 CSS로 원을 그려야 한다. */
+/* .legal-ol--hang은 이 번호 매김만 따로 빌려 쓰는 자리다(쿠키 정책 5항).
+   그 문서는 절 여백을 처리방침 쪽(64/24)으로 두므로 --terms를 통째로 걸 수 없다. */
 @counter-style legal-hang {
   system: fixed;
   symbols: '\2460' '\2461' '\2462' '\2463' '\2464' '\2465' '\2466' '\2467' '\2468' '\2469'
            '\246A' '\246B' '\246C' '\246D' '\246E' '\246F' '\2470' '\2471' '\2472' '\2473';
   suffix: '';
 }
-.legal-body--terms ol {
+.legal-body--terms ol,
+.legal-body .legal-ol--hang {
   list-style: none;
   padding-left: 0;
   counter-reset: legal-hang;
 }
 /* 26.6px = 원문자 폭(18.6) + 본문 공백 두 칸(8.0) — 기호 뒤 간격을
    실측해서 맞춘 값이다. */
-.legal-body--terms ol > li {
+.legal-body--terms ol > li,
+.legal-body .legal-ol--hang > li {
   counter-increment: legal-hang;
   position: relative;
   padding-left: 26.6px;
@@ -347,7 +376,8 @@ img { max-width: 100%; height: auto; }
    읽힌다. Pretendard 서브셋에 200까지 들어 있어 그대로 적용된다
    (잉크 화소 400에서 69, 300에서 57, 200에서 45).
    200은 획이 너무 가늘어 색이 같은데도 본문보다 연해 보였다. */
-.legal-body--terms ol > li::before {
+.legal-body--terms ol > li::before,
+.legal-body .legal-ol--hang > li::before {
   content: counter(legal-hang, legal-hang);
   position: absolute;
   left: 0;
@@ -426,6 +456,19 @@ img { max-width: 100%; height: auto; }
 /* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
    문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
    등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
+/* 설정 경로의 단계 구분자(쿠키 정책 6항). 기호는 그대로 두고 색만 잉크 400으로
+   낮춘다 — 본문색이면 '설정' · '개인 정보 보호' 같은 경로 이름과 같은 무게로 서서
+   여섯 줄에 열넷이 깔리는 것이 촘촘해 보였다. 좌우 4px으로 숨통을 준다. */
+.legal-body .path-sep {
+  color: #A4ADB8;
+  margin: 0 4px;
+  /* ›(U+203A)는 인용부호 계열이라 소문자 x-height 언저리에 그려진다. 한글은 글자
+     상자를 거의 채우므로 같은 줄에 두면 광학 중심이 1px 어긋난다(실측: 구분자
+     중심 108.94 대 한글 107.94, 8배 확대에서 화소로 잼). 그만큼 끌어올린다.
+     원문자(①②③)의 top: -1px과 같은 종류의 보정이다. */
+  position: relative;
+  top: -1px;
+}
 .legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
 /* 장(章) 제목은 조문 제목보다 한 단 크게 둔다. 굵기·색은 물려받는다.
@@ -463,6 +506,21 @@ img { max-width: 100%; height: auto; }
   border-top: 1px solid var(--border);
 }
 .legal-table td code { white-space: nowrap; }
+/* 쿠키 이름을 칩으로 두른다(쿠키 정책 3항 가 · 나).
+   한 칸에 이름이 둘씩 들어가는데 mp_*_mixpanel, __mp* 처럼 _ 와 * 가 섞이면
+   쉼표가 글자 사이에 묻혀 어디서 끊기는지 안 보였다. 면이 이름의 경계를 긋고,
+   줄바꿈이 둘이라는 것을 알린다(마크업에서 <br>로 나눈다).
+   표 전체가 아니라 이 표에만 건다 — 처리방침의 표 안 code는 한 칸에 하나씩이라
+   두를 이유가 없다. */
+.legal-table--chip td code {
+  /* 잉크 200(#E3E7EC)이다 — 표의 선과 같은 값이다. 잉크 100(#EFF2F5)으로
+     두었더니 흰 종이 위에서 면이 거의 보이지 않아 칩 노릇을 못 했다. */
+  background: var(--border);
+  border-radius: 5px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin: 2px 0;
+}
 
 /* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
    조문이 22개라 원하는 항을 스크롤로 찾아야 했다. 1항 바로 위에 두고
