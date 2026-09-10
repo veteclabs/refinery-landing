@@ -492,9 +492,9 @@ img { max-width: 100%; height: auto; }
    표 전체가 아니라 이 표에만 건다 — 처리방침의 표 안 code는 한 칸에 하나씩이라
    두를 이유가 없다. */
 .legal-table--chip td code {
-  /* 잉크 100(#EFF2F5)이다. 머리 줄 면(--bg-soft #F6F8FA)보다 한 단계 진해야
-     칩이 머리 줄과 다른 것으로 읽힌다 — 같은 값을 쓰면 흰 바탕에서 너무 옅다. */
-  background: #EFF2F5;
+  /* 잉크 200(#E3E7EC)이다 — 표의 선과 같은 값이다. 잉크 100(#EFF2F5)으로
+     두었더니 흰 종이 위에서 면이 거의 보이지 않아 칩 노릇을 못 했다. */
+  background: var(--border);
   border-radius: 5px;
   padding: 2px 7px;
   display: inline-block;
