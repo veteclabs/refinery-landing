@@ -89,7 +89,7 @@
 | 정보주체 | data subject | ✅ | PIPA 영문본. 본문 27회 등장 |
 | 개인정보 보호책임자 | privacy officer | ✅ | PIPA 제31조 영문본. **`DPO`는 쓰지 않는다** (§7) |
 | 개인정보취급자 | person in charge of handling personal information | ⚠️ | 길어서 첫 등장 후 축약할지 결정 필요 |
-| 수탁자 | entrusted party | ⚠️ | **갈림길 항목.** PIPA 영문본은 `trustee`, 일반 독자에게는 `processor`가 자연스럽지만 그건 GDPR 용어다. 첫 등장에 `entrusted party (수탁자)`로 쓰고 무엇을 맡기는지 문장으로 설명하는 안을 권한다 |
+| 수탁자 | entrusted party (수탁자) | ⚠️ | PIPA 영문본은 `trustee`(영어권에서 신탁 수탁자로 읽힘), 자연스러운 `processor`는 GDPR 용어라 못 쓴다. `entrusted party` + 한국어 병기 + 무엇을 맡기는지 문장 설명. **아래 두 방향을 구분한다** |
 | 처리위탁 | entrustment of processing | ⚠️ | 같음 |
 | 재위탁 | sub-entrustment | ⚠️ | 같음 |
 | 제3자 제공 | provision to third parties | ✅ | |
@@ -108,6 +108,19 @@
 | 동의 철회 | withdrawal of consent | ✅ | |
 | 보유 기간 | retention period | ✅ | |
 | 수집 항목 | items collected | ✅ | |
+
+### "수탁자"는 방향이 두 가지다
+
+같은 낱말이 문서 안에서 정반대로 쓰인다. 영어에서는 문장으로 갈라 준다.
+
+| 방향 | 어디 | 한국어 | 영어 |
+|---|---|---|---|
+| **회사가 수탁자** | 처리방침 10항 · 약관 제17조 · EULA 제13조 | 고객사가 개인정보처리자이고 회사는 수탁자입니다 | VETEC acts as an **entrusted party (수탁자)** processing on the Customer's behalf |
+| **제3자가 수탁자** | 처리방침 8항 (Vercel · Google · Mixpanel · Web3Forms) | 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자 | the following **entrusted parties (수탁자)** process personal information on our behalf |
+
+`processor`를 쓰면 두 문장이 GDPR의 controller/processor 쌍으로 읽힌다. ①의 근거는
+**PIPA 제26조(처리위탁)**이지 GDPR 제28조가 아니므로, DPA 체결 · 감사권 · 하위처리자 승인 같은
+**없는 계약 의무를 약속한 것처럼 읽힌다.**
 
 ---
 
@@ -129,12 +142,12 @@
 | 불가항력 | force majeure | ✅ | |
 | 준거법 | governing law | ✅ | |
 | 관할 | jurisdiction | ✅ | 약관 §26 · EULA §20의 "전속적 합의가 아니며"는 `non-exclusive`로 |
-| 해지 | termination | ✅ | |
-| 해제 | rescission | ⚠️ | 한국법상 해지(장래효)와 해제(소급효)가 다르다. 영어로 뭉개면 효과가 바뀐다 — 두 단어를 구분해 쓰고 첫 등장에 설명 |
+| 해지 | termination | ✅ | 약관 제19조 · EULA 제14조. 계약 해제(rescission)는 네 문서에 없다 |
+| (이용) 제한을 해제 | lift the restriction | ✅ | 약관 제20조. **법률용어 '해제'가 아니라 제한 해소다** — `rescission`으로 옮기지 않는다 |
 | 하자 | defect | ✅ | |
 | 보증 | warranty | ✅ | |
 | 보증 부인 | disclaimer of warranties | ✅ | |
-| 면책 | **문맥에 따라 다르다** | ⚠️ | **갈림길 항목.** 한국어 "면책"이 ① 책임을 지지 않음 → `disclaimer` / `exclusion of liability` ② 제3자 청구로부터 보전 → `indemnification` 두 가지로 쓰인다. **조항별로 어느 쪽인지 확인해 나눠 옮긴다.** 섞으면 의무의 방향이 뒤집힌다 |
+| 면책 | **조문마다 다르다 → 아래 표** | ⚠️ | 본문에 '면책'이라는 낱말이 쓰인 곳은 **약관 제23조 제3항 한 곳뿐**이고 그것은 `indemnification`이다. 나머지는 조문 제목이 이미 셋을 갈라 놓았다 |
 | 손해배상 | damages | ✅ | 위와 같이 `indemnification`과 구분 |
 | 손해 | damages / loss | ⚠️ | 금액은 `damages`, 사실로서의 손해는 `loss` |
 | 고의 또는 중대한 과실 | willful misconduct or gross negligence | ✅ | 본문 7회. 표현 고정 |
@@ -145,6 +158,22 @@
 | 서비스 수준 | service levels | ✅ | |
 | 완전합의 | entire agreement | ✅ | 법무 리뷰 B-3에서 신설 권장된 조항 |
 | 청약철회 | withdrawal of subscription | ⚠️ | 전자상거래법 용어. 해당 조항이 있을 때 확인 |
+
+### 보증 부인 · 책임 제한 · 제3자 청구 방어 — 셋을 합치지 않는다
+
+한국어 원문이 이미 조문 제목으로 갈라 놓았다. **영어에서 이 구분을 잃는 것이 가장 큰 위험이다.**
+
+| 조 | 한국어 제목 | 영어 표제 | 방향 |
+|---|---|---|---|
+| 약관 제21조 · EULA 제15조 | 보증 및 보증의 부인 | Disclaimer of warranties | 회사를 보호 |
+| 약관 제22조 · EULA 제17조 | 책임의 제한 | Limitation of liability | 회사를 보호 |
+| 약관 제23조 | 제3자 청구에 대한 방어 | Indemnification | 회사 → 고객 (제3항은 고객 → 회사) |
+
+영어 계약서 관행상 셋을 한 조로 묶어 `Indemnification`이라 부르는 경우가 있는데,
+그렇게 하면 **책임 상한 조항이 지급 의무 조항으로 읽힌다.** 조문 번호와 표제를 원문 그대로 유지한다.
+
+> 약관 제23조 제3항 "고객이 같은 방법으로 회사를 방어하고 면책합니다"는 **방향이 반대인
+> indemnification**(고객 → 회사)이다. `the Customer shall defend and indemnify the Company`.
 
 ---
 
@@ -225,15 +254,20 @@
 
 번역을 시작하기 전에 정해야 할 것들. 위 표에서 ⚠️로 표시한 것 중 **영향이 큰 순서**다.
 
-| # | 항목 | 무엇을 정해야 하나 |
-|---|---|---|
-| 1 | **"면책"** (§4) | 조항마다 `disclaimer`인지 `indemnification`인지. 의무의 방향이 뒤집히므로 가장 먼저 |
-| 2 | **"수탁자"** (§3) | PIPA 영문본 `trustee` · 설명형 `entrusted party` · GDPR 용어 `processor` 중 무엇을 쓸지 |
-| 3 | **"해지" vs "해제"** (§4) | 두 단어를 구분해 쓸지, 영어 관행대로 `termination`으로 합칠지 |
-| 4 | **법인명 · 대표자 · 주소 · 성명 로마자 표기** (§6) | 등기 · 여권 표기 확인 (사용자 몫) |
-| 5 | **날짜 형식** | `I18N-GLOSSARY.md` §0은 en-US(`September 1, 2026`)인데 법적 고지는 ISO(`2026-09-01`)를 쓴다. 이력 표에서 정렬되는 값이라 ISO 유지를 권한다 |
-| 6 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 |
-| 7 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 |
+| # | 항목 | 무엇을 정해야 하나 | 상태 |
+|---|---|---|---|
+| 1 | **법인명 · 대표자 · 주소 · 성명 로마자 표기** (§6) | 등기 · 여권 · 영문 주소 표기 확인 | **사용자 확인 대기** |
+| 2 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 | 번역 중 확인 |
+| 3 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 | 번역 중 확인 |
+| 4 | **날짜 형식** | `I18N-GLOSSARY.md` §0은 en-US(`September 1, 2026`)인데 법적 고지는 ISO(`2026-09-01`)를 쓴다. 이력 표에서 정렬되는 값이라 ISO 유지를 권한다 | 권고 확정 대기 |
+
+### 2026-09-10에 원문을 확인해 결론이 난 항목
+
+| 항목 | 결론 |
+|---|---|
+| **"면책"** | 원문이 조문 제목으로 이미 셋을 갈라 놓았다(제21 · 22 · 23조). 그 구분을 그대로 옮긴다 → §4 |
+| **"수탁자"** | 방향이 두 가지였다. `entrusted party` + 한국어 병기로 문장에서 갈라 준다 → §3 |
+| **"해제"** | 계약 해제가 아니라 "이용 제한을 해제한다"였다(약관 제20조). `rescission` 문제는 없다 → §4 |
 
 ---
 
