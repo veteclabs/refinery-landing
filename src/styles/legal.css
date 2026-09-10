@@ -456,6 +456,10 @@ img { max-width: 100%; height: auto; }
 /* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
    문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
    등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
+/* 설정 경로의 단계 구분자(쿠키 정책 6항). 기호는 그대로 두고 색만 잉크 400으로
+   낮춘다 — 본문색이면 '설정' · '개인 정보 보호' 같은 경로 이름과 같은 무게로 서서
+   여섯 줄에 열넷이 깔리는 것이 촘촘해 보였다. 좌우 4px으로 숨통을 준다. */
+.legal-body .path-sep { color: #A4ADB8; margin: 0 4px; }
 .legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
 /* 장(章) 제목은 조문 제목보다 한 단 크게 둔다. 굵기·색은 물려받는다.
