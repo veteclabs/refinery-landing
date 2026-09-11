@@ -702,7 +702,8 @@ html { scroll-behavior: smooth; }
    1.75em(24.5px) = 가장 넓은 번호 '22.'(약 19px) + 번호와 제목 사이 여백. */
 :lang(en) .legal-toc a { display: grid; grid-template-columns: 1.75em minmax(0, 1fr); }
 
-/* 영어판 처리방침 2항 카드 제목(A. B. C. D.) — 목차와 같이 번호 칸과 제목 칸을 나눠 둘째 줄을
-   제목 첫 글자에 맞춘다. 영어 제목은 1440px에서도 C · D가 두 줄, 390px에서 C가 세 줄로 넘어간다.
-   번호 칸은 auto — 글자 폭 그대로 두고, 사이는 띄어쓰기 한 칸(약 4.5px)과 같게 0.28em. */
-:lang(en) .legal-body h3.legal-hang { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.28em; }
+/* 처리방침 2항 카드 제목(가 · 나 · 다 · 라 / A. B. C. D.) — 번호 칸과 제목 칸을 나눠 둘째 줄을
+   제목 첫 글자에 맞춘다. 글머리 점 · ※ · 항 번호가 모두 내어쓰기라 제목도 같게 둔다.
+   영어 제목은 1440px에서도 C · D가 두 줄, 390px에서 C가 세 줄. 한국어는 390px 이하(768px의 다)에서 두 줄.
+   번호 칸은 auto — 글자 폭 그대로 두고, 사이는 띄어쓰기 한 칸과 같게 0.28em. */
+.legal-body h3.legal-hang { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.28em; }
