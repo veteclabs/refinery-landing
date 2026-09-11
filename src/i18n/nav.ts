@@ -169,7 +169,7 @@ export const legalLinks: Record<Lang, NavLink[]> = {
   en: [
     { label: 'Privacy Policy', href: '/en/privacy' },
     { label: 'Terms of Service', href: '/en/terms' },
-    { label: 'Software License (EULA)', href: '/eula' },
+    { label: 'Software License (EULA)', href: '/en/eula' },
     { label: 'Cookie Policy', href: '/en/cookie-policy' },
     { label: 'Cookie Settings' },
   ],

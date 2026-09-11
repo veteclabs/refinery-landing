@@ -20,9 +20,6 @@ const alternates = [
   { lang: 'ko', href: '/terms' },
   { lang: 'en', href: '/en/terms' },
 ];
-
-// 소프트웨어 사용권 계약 영어판이 생기기 전까지는 한국어 원문으로 연결한다.
-const eulaHref = '/eula';
 ---
 <BaseLayout
   title="Terms of Service | Refinery"
@@ -57,7 +54,7 @@ const eulaHref = '/eula';
         These Terms of Service (these “Terms”) apply to the {company.serviceName} website and the {company.serviceName} service
         provided by <Ph value={company.legalName} label="Company name" /> (the “Company”). The{' '}
         <strong>license for installable software</strong> that the Company provides separately is governed by the{' '}
-        <a href={eulaHref}>Software License Agreement (EULA)</a>, and the processing of personal information is governed by the{' '}
+        <a href="/en/eula">Software License Agreement (EULA)</a>, and the processing of personal information is governed by the{' '}
         <a href="/en/privacy">Privacy Policy</a>.
       </p>
 
