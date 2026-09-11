@@ -463,7 +463,7 @@ const toc = [
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th style="width:220px;">Category</th>
+                <th class="legal-col-lead">Category</th>
                 <th>Name</th>
                 <th>Title</th>
                 <th>Phone</th>
@@ -475,7 +475,7 @@ const toc = [
                 <td>Privacy officer</td>
                 <td><Ph value={company.cpoName} label="Name" /></td>
                 <td><Ph value={company.cpoTitle} label="Title" /></td>
-                <td><Ph value={company.privacyTel} label="Phone" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="Phone" /></span></td>
                 <td><Ph value={company.privacyEmail} label="Email" /></td>
               </tr>
             </tbody>
@@ -502,7 +502,7 @@ const toc = [
             <tbody>
               <tr>
                 <td><Ph value={company.cpoName} label="Name" />, <Ph value={company.cpoTitle} label="Title" /></td>
-                <td><Ph value={company.privacyTel} label="Phone" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="Phone" /></span></td>
                 <td><Ph value={company.privacyEmail} label="Email" /></td>
               </tr>
             </tbody>
