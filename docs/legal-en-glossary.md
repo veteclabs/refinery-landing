@@ -38,7 +38,7 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
+| 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조. 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
 | 「개인정보 보호법 시행령」 | Enforcement Decree of the Personal Information Protection Act | ✅ | |
 | 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | ⚠️ | PIPC 고시. 영문본 명칭 대조 필요 |
 | 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information | ⚠️ | 같음 |
@@ -50,17 +50,17 @@
 
 ### 조 · 항 · 호 인용 형식
 
-국가법령정보센터 영문본 방식을 따른다.
+KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · 항 · 호 사이를 **띄어 쓴다**(`Article 17 (1) 1`). 2026-09-11 확인.
 
 | 한국어 | 영어 |
 |---|---|
 | 제30조 | Article 30 |
-| 제30조 제1항 | Article 30(1) |
-| 제30조 제1항 제7호 | Article 30(1)7 |
+| 제30조 제1항 | Article 30 (1) |
+| 제30조 제1항 제7호 | Article 30 (1) 7 |
 | 제101조의5 | Article 101-5 |
-| 제28조의8 제1항 제3호 가목 | Article 28-8(1)3(a) |
+| 제28조의8 제1항 제3호 가목 | Article 28-8 (1) 3 (a) |
 
-본문 서술에서는 `Article 30(1)7 of PIPA` 형태로 법령 약어를 뒤에 붙인다.
+본문 서술에서는 `Article 30 (1) 7 of PIPA` 형태로 법령 약어를 뒤에 붙인다.
 
 ### 날짜 — 미국식 (2026-09-11 확정)
 
@@ -81,8 +81,8 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 개인정보보호위원회 | Personal Information Protection Commission (PIPC) | ✅ | |
-| 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | |
+| 개인정보보호위원회 | Personal Information Protection Commission (PIPC) | ✅ | 제7조 표제 |
+| 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | 제40조 |
 | 개인정보침해신고센터 | Personal Information Infringement Report Center | ⚠️ | KISA 운영. 영문 표기가 자료마다 갈림 — KISA 영문 사이트 대조 필요 |
 | 한국인터넷진흥원 | Korea Internet & Security Agency (KISA) | ✅ | 앰퍼샌드 포함이 공식 표기 |
 | 대검찰청 사이버수사과 | Cyber Investigation Division, Supreme Prosecutors' Office | ⚠️ | 부서명 영문 표기 대조 필요 |
@@ -97,30 +97,31 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 개인정보 | personal information | ✅ | **`personal data`는 쓰지 않는다** — GDPR 용어다 (§7) |
-| 개인정보처리자 | personal information controller | ✅ | PIPA 영문본 |
-| 정보주체 | data subject | ✅ | PIPA 영문본. 본문 27회 등장 |
-| 개인정보 보호책임자 | privacy officer | ✅ | PIPA 제31조 영문본. **`DPO`는 쓰지 않는다** (§7) |
+| 개인정보 | personal information | ✅ | 제2조 제1호. **`personal data`는 쓰지 않는다** — GDPR 용어다 (§7) |
+| 개인정보처리자 | personal information controller | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제2조 제5호 |
+| 정보주체 | data subject | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제2조 제3호. 본문 27회 등장 |
+| 개인정보 보호책임자 | privacy officer | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제31조 표제 Designation of Privacy Officers. **`DPO`는 쓰지 않는다** (§7) |
 | 개인정보취급자 | person in charge of handling personal information | ⚠️ | 길어서 첫 등장 후 축약할지 결정 필요 |
-| 수탁자 | entrusted party (수탁자) | ⚠️ | PIPA 영문본은 `trustee`(영어권에서 신탁 수탁자로 읽힘), 자연스러운 `processor`는 GDPR 용어라 못 쓴다. `entrusted party` + 한국어 병기 + 무엇을 맡기는지 문장 설명. **아래 두 방향을 구분한다** |
-| 처리위탁 | entrustment of processing | ⚠️ | 같음 |
-| 재위탁 | sub-entrustment | ⚠️ | 같음 |
-| 제3자 제공 | provision to third parties | ✅ | |
-| 국외 이전 | transfer of personal information abroad | ✅ | PIPA 제28조의8 표제 |
-| 가명처리 | pseudonymization | ✅ | |
+| 수탁자 | person entrusted (수탁자) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제26조 제2항의 정의어 “person entrusted”. **처음 적었던 `trustee`는 영문본에 없다(오류였음).** `processor`는 GDPR 용어라 쓰지 않는다. **아래 두 방향을 구분한다** |
+| 처리위탁 · 위탁자 | entrusting the processing of personal information · person entrusting | ✅ | 제26조 제1 · 2항 |
+| 재위탁 | re-entrustment | ✅ | 제26조 제2항 “re-entrusted from a person entrusted” |
+| 제3자 제공 | provision of personal information to a third party | ✅ | 제30조 제1항 제3호 |
+| 국외 이전 | cross-border transfer of personal information | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제28조의8 표제 Cross-Border Transfer of Personal Information. **처음 적었던 `transfer … abroad`는 표제와 달랐다** |
+| 가명처리 | pseudonymization | ✅ | 제2조 제1호의2 |
 | 익명처리 | anonymization | ✅ | 법무 리뷰에서 "비식별 → 익명처리"로 통일한 용어 |
-| 민감정보 | sensitive information | ✅ | |
-| 고유식별정보 | unique identifying information | ✅ | |
+| 민감정보 | sensitive information | ✅ | 제23조 표제 |
+| 고유식별정보 | personally identifiable information | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제24조 표제. **처음 적었던 `unique identifying information`은 영문본과 달랐다** |
 | 행태정보 | behavioral information | ⚠️ | 온라인 맞춤형 광고 가이드라인 용어. 첫 등장에 괄호 설명 권장 |
-| 자동 수집 장치 | devices that automatically collect personal information | ✅ | PIPA 제30조(1)7 원문("개인정보를 자동으로 수집하는 장치")을 풀어 쓴다. 쿠키 정책 2항에서 확정 |
+| 자동 수집 장치 · 그 거부 | automatic collection tool for personal information · the denial thereof | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제30조 제1항 제7호 “Installation and operation of an automatic collection tool for personal information, including Internet access data files, and the denial thereof” |
 | 접속기록 | access logs | ✅ | |
-| 파기 | destruction | ✅ | PIPA는 `destroy`를 쓴다. `deletion`과 구분 |
-| 열람 | access | ✅ | `right to access`가 아니라 `request access` 형태로 |
-| 정정 · 삭제 | correction and deletion | ✅ | |
-| 처리정지 | suspension of processing | ✅ | |
+| 파기 | destruction | ✅ | 제21조 표제 Destruction of Personal Information. 삭제(erasure)와 구분 |
+| 열람 | access | ✅ | 제35조 표제 Access to Personal Information. `request access` 형태로 |
+| 정정 · 삭제 | correction or erasure | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제36조 표제 Correction or Erasure of Personal Information |
+| 처리정지 | suspension of processing | ✅ | 제37조 표제 |
 | 동의 철회 | withdrawal of consent | ✅ | |
 | 보유 기간 | retention period | ✅ | |
 | 수집 항목 | items collected | ✅ | |
+| 개인정보 처리방침 (법의 정의어) | Privacy Policy | ✅ | 제30조 제1항 “(hereinafter referred to as "Privacy Policy")” — 대문자 |
 
 ### "수탁자"는 방향이 두 가지다
 
@@ -128,8 +129,8 @@
 
 | 방향 | 어디 | 한국어 | 영어 |
 |---|---|---|---|
-| **회사가 수탁자** | 처리방침 10항 · 약관 제17조 · EULA 제13조 | 고객사가 개인정보처리자이고 회사는 수탁자입니다 | VETEC acts as an **entrusted party (수탁자)** processing on the Customer's behalf |
-| **제3자가 수탁자** | 처리방침 8항 (Vercel · Google · Mixpanel · Web3Forms) | 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자 | the following **entrusted parties (수탁자)** process personal information on our behalf |
+| **회사가 수탁자** | 처리방침 10항 · 약관 제17조 · EULA 제13조 | 고객사가 개인정보처리자이고 회사는 수탁자입니다 | VETEC acts as a **person entrusted (수탁자)** with processing on the Customer's behalf |
+| **제3자가 수탁자** | 처리방침 8항 (Vercel · Google · Mixpanel · Web3Forms) | 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자 | the following **persons entrusted (수탁자)** process personal information on the Company's behalf |
 
 `processor`를 쓰면 두 문장이 GDPR의 controller/processor 쌍으로 읽힌다. ①의 근거는
 **PIPA 제26조(처리위탁)**이지 GDPR 제28조가 아니므로, DPA 체결 · 감사권 · 하위처리자 승인 같은
@@ -253,9 +254,9 @@
 | `personal data` | GDPR 용어 | `personal information` |
 | `lawful basis` · `legal basis for processing` | GDPR 제6조 체계 | PIPA 조항을 직접 인용 |
 | `legitimate interest` | GDPR 제6조(1)(f) | 해당 개념이 PIPA에 없다 |
-| `data controller` / `data processor` | GDPR 쌍 개념 | `personal information controller` / `entrusted party` |
+| `data controller` / `data processor` | GDPR 쌍 개념 | `personal information controller` / `person entrusted` |
 | `Data Protection Officer` · `DPO` | GDPR 제37조 | `privacy officer` |
-| `right to erasure` · `right to be forgotten` | GDPR 제17조 | `request deletion` (PIPA 제36조) |
+| `right to be forgotten` · 표제어로서의 `right to erasure` | GDPR 제17조 표제 | `request correction or erasure` (PIPA 제36조). **`erasure` 낱말 자체는 PIPA 영문본도 쓴다** — 막는 것은 GDPR 조문 이름을 끌어오는 것이다 |
 | `data portability` | GDPR 제20조 | PIPA 전송요구권은 별개 제도다 |
 | `Standard Contractual Clauses` · `SCCs` | EU 국외이전 수단 | PIPA 제28조의8 근거를 그대로 |
 | `supervisory authority` | GDPR 용어 | `Personal Information Protection Commission (PIPC)` |
@@ -282,7 +283,8 @@
 | 항목 | 결론 |
 |---|---|
 | **"면책"** | 원문이 조문 제목으로 이미 셋을 갈라 놓았다(제21 · 22 · 23조). 그 구분을 그대로 옮긴다 → §4 |
-| **"수탁자"** | 방향이 두 가지였다. `entrusted party` + 한국어 병기로 문장에서 갈라 준다 → §3 |
+| **"수탁자"** | 방향이 두 가지였다. KLRI 영문본의 정의어 `person entrusted` + 한국어 병기로 문장에서 갈라 준다 → §3 |
+| **KLRI 영문본 대조** (2026-09-11) | PIPA 용어 · 표제 · 인용 형식을 공식 영문본과 맞췄다. 처음 용어집이 틀렸던 곳 5 — 국외 이전 · 수탁자 · 고유식별정보 · 삭제 · 인용 띄어쓰기 → §1 · §3 |
 | **"해제"** | 계약 해제가 아니라 "이용 제한을 해제한다"였다(약관 제20조). `rescission` 문제는 없다 → §4 |
 | **회사 정보 로마자 표기** | 2026-09-11 사용자 확인 → §6 |
 | **날짜 형식** | 2026-09-11 **미국식 확정** → §1 아래 「날짜」 |
