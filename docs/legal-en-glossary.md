@@ -207,10 +207,11 @@
 
 | 키 | 한국어 | 영어 | 상태 |
 |---|---|---|---|
-| `company.legalName` | 주식회사 베텍 | VETEC Co., Ltd. | ⚠️ 법인 등기 영문명 확인 필요 |
-| `company.address` | 대전광역시 유성구 관평동 1311 | 1311 Gwanpyeong-dong, Yuseong-gu, Daejeon, Republic of Korea | ⚠️ 영문 주소 표기 확인 필요 |
-| `company.ceo` · `cpoName` | 최영준 · 윤현석 | 로마자 표기 | ⚠️ 본인 여권 표기 확인 필요 |
-| `company.cpoTitle` | 그룹장 | Group Leader | ⚠️ |
+| `company.legalName` | 주식회사 베텍 | VETEC Co., Ltd. | ✅ 2026-09-11 확인 |
+| `company.address` | 대전광역시 유성구 관평동 1311 | 24, Techno 3-ro, Yuseong-gu, Daejeon, Korea | ✅ 2026-09-11 확인 — 아래 주의 |
+| `company.ceo` | 최영준 | YJ Choi | ✅ 2026-09-11 확인 |
+| `company.cpoName` | 윤현석 | HS Yoon | ✅ 2026-09-11 확인 |
+| `company.cpoTitle` | 그룹장 | Head of Group | ✅ 2026-09-11 확인 |
 | `processors[].task` | 웹사이트 호스팅 · CDN 운영, 트래픽 · 성능 측정(쿠키 미사용) | Website hosting and CDN operation; traffic and performance measurement (no cookies) | |
 | `processors[].task` | 문의 · 데모 신청 폼 데이터의 전송 및 이메일 발송 처리 | Transmission of inquiry and demo request form data, and email delivery | |
 | `processors[].task` | Google Analytics를 통한 웹사이트 이용 통계 분석 | Website usage statistics analysis via Google Analytics | |
@@ -221,8 +222,12 @@
 | `revisions[].summary` | 최초 제정 | Initial version | ✅ |
 | `revisions[].href` 라벨 | 현행 | Current | ✅ |
 
-**이름 · 주소 · 법인명은 제가 임의로 로마자화하지 않습니다.** 등기 · 여권 표기를 확인해 주셔야
-합니다. 확인 전까지는 한국어 값을 그대로 두고 `Ph`(플레이스홀더)로 표시합니다.
+회사 정보 5개는 사용자가 확인한 값이다. **표기를 바꾸지 않는다** — 성명은 이니셜 + 성
+(`YJ Choi`), 국가는 `Korea`로 준 그대로 쓴다.
+
+> **주소 주의 — 국문과 영문이 잠시 어긋난다.** 영문 `24, Techno 3-ro`는 도로명 주소이고
+> 국문 `관평동 1311`은 지번 주소다. 영어판 작업을 마친 뒤 **별도 브랜치에서 국문을 도로명
+> (`테크노3로 24`)으로 바꿀 예정**이다. 그때까지 두 값은 같은 장소를 다른 체계로 가리킨다.
 
 ---
 
@@ -256,18 +261,18 @@
 
 | # | 항목 | 무엇을 정해야 하나 | 상태 |
 |---|---|---|---|
-| 1 | **법인명 · 대표자 · 주소 · 성명 로마자 표기** (§6) | 등기 · 여권 · 영문 주소 표기 확인 | **사용자 확인 대기** |
-| 2 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 | 번역 중 확인 |
-| 3 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 | 번역 중 확인 |
-| 4 | **날짜 형식** | `I18N-GLOSSARY.md` §0은 en-US(`September 1, 2026`)인데 법적 고지는 ISO(`2026-09-01`)를 쓴다. 이력 표에서 정렬되는 값이라 ISO 유지를 권한다 | 권고 확정 대기 |
+| 1 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 | 번역 중 확인 |
+| 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 | 번역 중 확인 |
+| 3 | **날짜 형식** | `I18N-GLOSSARY.md` §0은 en-US(`September 1, 2026`)인데 법적 고지는 ISO(`2026-09-01`)를 쓴다. 이력 표에서 정렬되는 값이라 ISO 유지를 권한다 | 권고 확정 대기 |
 
-### 2026-09-10에 원문을 확인해 결론이 난 항목
+### 결론이 난 항목
 
 | 항목 | 결론 |
 |---|---|
 | **"면책"** | 원문이 조문 제목으로 이미 셋을 갈라 놓았다(제21 · 22 · 23조). 그 구분을 그대로 옮긴다 → §4 |
 | **"수탁자"** | 방향이 두 가지였다. `entrusted party` + 한국어 병기로 문장에서 갈라 준다 → §3 |
 | **"해제"** | 계약 해제가 아니라 "이용 제한을 해제한다"였다(약관 제20조). `rescission` 문제는 없다 → §4 |
+| **회사 정보 로마자 표기** | 2026-09-11 사용자 확인 → §6 |
 
 ---
 
