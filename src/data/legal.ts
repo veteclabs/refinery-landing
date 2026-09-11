@@ -123,6 +123,8 @@ const retention = {
 /**
  * 국외 이전 한 줄 — 처리방침 9항 표.
  *  - contact · method는 HTML로 렌더된다(set:html). 굵게 · <wbr> 줄바꿈 자리를 담는다.
+ *    contact의 이메일은 @ · 점 뒤, URL은 // · 점 · / 뒤에 <wbr>를 둔다 — 없으면 좁은 칸에서
+ *    overflow-wrap이 아무 글자에서나 잘라 'web3forms.co / m'처럼 갈린다(2026-09-11).
  *  - 보유 기간은 period(문장) 또는 retentionKey(위 retention 값을 가리킴) 중 하나만 둔다.
  */
 type Transfer = {
@@ -158,11 +160,11 @@ const processors: Processor[] = [
     consent: false,
     transfer: {
       recipient: 'Vercel Inc.',
-      contact: 'privacy@vercel.com',
+      contact: 'privacy@<wbr>vercel.<wbr>com',
       country: { ko: '미국', en: 'United States' },
       method: {
         ko: '이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)',
-        en: 'When you access the website, via network transmission (TLS-encrypted)',
+        en: 'When you access the website, via network transmission <span class="legal-keep">(TLS-encrypted)</span>',
       },
       items: {
         ko: '접속 IP 주소, 접속 일시, 요청 URL, 브라우저 ⁠· 기기 정보',
@@ -188,11 +190,11 @@ const processors: Processor[] = [
     consent: false,
     transfer: {
       recipient: 'Web3Forms',
-      contact: 'support@web3forms.com',
+      contact: 'support@<wbr>web3forms.<wbr>com',
       country: { ko: '미국', en: 'United States' },
       method: {
         ko: '이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)',
-        en: 'When you submit the contact form, via network transmission (TLS-encrypted)',
+        en: 'When you submit the contact form, via network transmission <span class="legal-keep">(TLS-encrypted)</span>',
       },
       items: {
         ko: '회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용',
@@ -212,13 +214,13 @@ const processors: Processor[] = [
     name: 'Google LLC',
     task: {
       ko: 'Google Analytics를 통한 웹사이트 이용 통계 분석',
-      en: 'Website usage statistics analysis via Google Analytics',
+      en: 'Analysis of website usage statistics via Google Analytics',
     },
     policy: 'https://policies.google.com/privacy',
     consent: true,
     transfer: {
       recipient: 'Google LLC',
-      contact: 'https://support.google.com/<wbr>policies',
+      contact: 'https://<wbr>support.<wbr>google.<wbr>com/<wbr>policies',
       country: {
         ko: '미국 등 Google 데이터센터 소재국',
         en: 'United States and other countries where Google data centers are located',
@@ -233,7 +235,7 @@ const processors: Processor[] = [
       },
       purpose: {
         ko: '웹사이트 이용 통계 분석',
-        en: 'Website usage statistics analysis',
+        en: 'Analysis of website usage statistics',
       },
       retentionKey: 'ga',
     },
@@ -248,7 +250,7 @@ const processors: Processor[] = [
     consent: true,
     transfer: {
       recipient: 'Mixpanel, Inc.',
-      contact: 'privacy@mixpanel.com',
+      contact: 'privacy@<wbr>mixpanel.<wbr>com',
       country: { ko: '미국', en: 'United States' },
       method: {
         ko: '이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송',
@@ -260,7 +262,7 @@ const processors: Processor[] = [
       },
       purpose: {
         ko: '이용 행태 분석 및 사용성 개선',
-        en: 'Usage behavior analysis and usability improvement',
+        en: 'Analysis of usage behavior and improvement of usability',
       },
       retentionKey: 'mixpanel',
     },

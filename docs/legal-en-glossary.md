@@ -247,7 +247,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | `company.cpoTitle` | 그룹장 | Head of Group | ✅ 2026-09-11 확인 |
 | `processors[].task` | 웹사이트 호스팅 · CDN 운영, 트래픽 · 성능 측정(쿠키 미사용) | Website hosting and CDN operation; traffic and performance measurement (no cookies) | |
 | `processors[].task` | 문의 · 데모 신청 폼 데이터의 전송 및 이메일 발송 처리 | Transmission of inquiry and demo request form data, and email delivery | |
-| `processors[].task` | Google Analytics를 통한 웹사이트 이용 통계 분석 | Website usage statistics analysis via Google Analytics | |
+| `processors[].task` | Google Analytics를 통한 웹사이트 이용 통계 분석 | Analysis of website usage statistics via Google Analytics | |
 | `processors[].task` | 제품 · 콘텐츠 이용 행태 분석, 세션 리플레이 및 히트맵 기록 | Analysis of product and content usage behavior; session replay and heatmap recording | |
 | `processors[].country` | 미국 및 Vercel 엣지 네트워크 소재국 | United States and countries where Vercel edge networks are located | |
 | `processors[].country` | 미국 등 Google 데이터센터 소재국 | United States and other countries where Google data centers are located | |
@@ -336,8 +336,8 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 날짜 | `2026-09-01` | `September 1, 2026` | §1 「날짜」. `formatDate()` |
 | 따옴표 | '모두 허용' | “Accept all” | 곡선 큰따옴표. UI 문구는 실제 버튼 이름 그대로(`CookieConsent.astro` · `nav.ts`) |
 | 한국어판 우선 고지 | — | 시행일 바로 아래 `.legal-lang-notice` | §0-1. 문구의 "Korean original"이 한국어판으로 연결된다 |
-| 두 낱말 한 뜻 | — | `(first party)` · `local storage`를 `.legal-keep`으로 묶음 | 좁은 표 칸에서 가운데가 갈라지지 않게 |
-| 표 칸 폭 | 자동 배분 (15항 첫 칸 148px · 18항 첫 칸 220px · 9항 colgroup · 이력 표 200/180px만 고정) | **한국어판과 같은 구조 · 같은 너비 값** (2026-09-11 사용자 결정) | 한국어 비율을 영어에 따로 고정하는 방식을 먼저 해 봤으나, 한국어판처럼 화면이 좁아지면 스스로 바뀌는 자동 배분을 유지하기로 했다. 머리글도 한국어판처럼 한 줄. 그래서 영어는 내용 길이만큼 칸이 달라진다 — 예: 15항 첫 칸은 148px 지정이지만 가장 긴 영어 항목명(216px)+패딩으로 244px. 148px 자체가 '가장 긴 항목명 + 패딩'으로 정한 값이라 같은 원칙이다 |
+| 두 낱말 한 뜻 | — | `(first party)` · `local storage` · `(TLS-encrypted)`, 조문 번호의 `28-8` 같은 가지 번호를 `.legal-keep`으로 묶음 | 좁은 표 칸에서 가운데가 갈라지지 않게. 하이픈 합성어(on-screen · re-identified)가 하이픈에서 넘어가는 것은 영어 조판에서 정상이라 두지만, 조문 번호가 "28-/8"로 갈리면 다른 조문처럼 읽힌다 |
+| 표 칸 폭 | 자동 배분 (15항 첫 칸 148px · 18항 첫 칸 220px(768px 이하는 자동 — 2026-09-11) · 9항 colgroup · 이력 표 200/180px만 고정) | **한국어판과 같은 구조 · 같은 너비 값** (2026-09-11 사용자 결정) | 한국어 비율을 영어에 따로 고정하는 방식을 먼저 해 봤으나, 한국어판처럼 화면이 좁아지면 스스로 바뀌는 자동 배분을 유지하기로 했다. 머리글도 한국어판처럼 한 줄. 그래서 영어는 내용 길이만큼 칸이 달라진다 — 예: 15항 첫 칸은 148px 지정이지만 가장 긴 영어 항목명(216px)+패딩으로 244px. 148px 자체가 '가장 긴 항목명 + 패딩'으로 정한 값이라 같은 원칙이다 |
 | 사업자 정보 칸 폭 | 딱지 160px 고정 · 두 벌 사이 56px · 상자 높이 34px | **한국어판과 같은 구조**에 딱지만 두 줄 허용, 상자 높이는 모두 두 줄 높이 52px (2026-09-11 사용자 결정) | 'Business registration number' · 'Hosting service provider'가 160px에 한 줄로 들지 않는다. 두 줄짜리만 높으면 줄마다 상자가 달라 보여 전부 52px로 맞췄다. 1001px 이상에서 주소는 두 줄 |
 
 **영어판 링크는 문서마다 켠다** (2026-09-11 결정 — 네 문서를 다 만든 뒤 한 번에 켜려던 계획을 바꿨다).

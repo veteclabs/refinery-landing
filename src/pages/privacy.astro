@@ -461,7 +461,7 @@ const keepDots = (t: string) =>
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th style="width:220px;">구분</th>
+                <th class="legal-col-lead">구분</th>
                 <th>성명</th>
                 <th>직책</th>
                 <th>전화</th>
@@ -473,7 +473,7 @@ const keepDots = (t: string) =>
                 <td>개인정보 보호책임자</td>
                 <td><Ph value={company.cpoName} label="성명" /></td>
                 <td><Ph value={company.cpoTitle} label="직책" /></td>
-                <td><Ph value={company.privacyTel} label="전화번호" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="전화번호" /></span></td>
                 <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
             </tbody>
@@ -502,7 +502,7 @@ const keepDots = (t: string) =>
             <tbody>
               <tr>
                 <td><Ph value={company.cpoName} label="성명" /> <Ph value={company.cpoTitle} label="직책" /></td>
-                <td><Ph value={company.privacyTel} label="전화번호" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="전화번호" /></span></td>
                 <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
             </tbody>

@@ -652,6 +652,13 @@ html { scroll-behavior: smooth; }
    가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
 .legal-keep { white-space: nowrap; }
 
+/* 처리방침 18항 보호책임자 표의 첫 칸(구분). 넓은 화면에서는 220px로 두고, 768px 이하에서는
+   자동 배분으로 풀어 준다 — 220px을 그대로 두면 칸 5개 중 전화 칸만 눌려 '+82- / 42- / 935- / 3721'처럼
+   하이픈마다 갈렸다. 전화번호는 .legal-keep으로 한 덩어리로 묶고, 좁아진 만큼은 구분 칸이 두 줄로 받는다.
+   390px처럼 그래도 모자라면 표 상자가 옆으로 밀린다(다른 표와 같은 동작). */
+.legal-table th.legal-col-lead { width: 220px; }
+@media (max-width: 768px) { .legal-table th.legal-col-lead { width: auto; } }
+
 /* 사업자 정보 — 영어판도 한국어판과 같은 구조(딱지 단 160px · 두 벌 사이 56px)를 쓴다.
    영어 딱지 'Business registration number'(183px) · 'Hosting service provider'(153px)는
    160px 상자(안쪽 136px)에 한 줄로 들지 않아 두 줄로 접는다.
