@@ -47,7 +47,7 @@
 - 원문: 선택은 cookie_consent 쿠키에 저장되며, 언제든지 화면 하단 푸터의 '쿠키 설정'을 눌러 배너를 다시 열고 선택을 변경할 수 있습니다.
 - 영어: The choice is stored in the cookie_consent cookie, and users can change it at any time by clicking “Cookie Settings” in the footer at the bottom of the page to reopen the banner.
 - 역번역: 선택은 cookie_consent 쿠키에 저장되며, 이용자는 언제든지 페이지 하단 푸터의 “쿠키 설정”을 눌러 배너를 다시 열어 선택을 변경할 수 있습니다.
-- 원문 "화면 하단 푸터"를 "footer at the bottom of the page"로 옮겼다. 푸터는 화면이 아니라 페이지 맨 아래에 있어서다. 한국어판도 "페이지 하단"으로 고치면 두 판이 같아진다(사용자 결정 대기)
+- 원문 "화면 하단 푸터"를 "footer at the bottom of the page"로 옮겼다. 푸터는 화면이 아니라 페이지 맨 아래에 있어서다. 한국어판도 "페이지 하단"으로 고치기로 했다 — 국문 주소를 도로명으로 바꾸는 브랜치에서 함께 한다(2026-09-11 사용자 결정)
 
 ### [85] 확인 필요
 
