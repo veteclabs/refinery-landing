@@ -16,9 +16,9 @@
 
 | 판정 | 수 | 뜻 |
 |---|---|---|
-| 일치 | 97 | 역번역이 원문과 같은 뜻 |
+| 일치 | 98 | 역번역이 원문과 같은 뜻 |
 | **고침** | 3 | 역번역에서 뜻 차이가 드러나 영어판을 고쳤다 |
-| 의도한 차이 | 1 | 원문과 다르게 옮겼고 이유가 있다 |
+| 의도한 차이 | 0 | [68]은 한국어판을 "페이지 하단 푸터"로 고쳐 일치가 됐다(2026-09-11) |
 | 확인 필요 | 1 | 번역이 아니라 사실 확인이 남았다 |
 
 영어판에만 있는 것: 시행일 아래 한국어판 우선 고지(용어집 §0-1). 원문에 대응하는 문장이 없는 것이 정상이다.
@@ -46,12 +46,12 @@
 - 역번역: 필수 쿠키를 차단하면 귀하의 언어 선택과 쿠키 동의 상태가 저장되지 않아, 방문할 때마다 동의 배너가 다시 표시됩니다.
 - 14와 같은 이유로 "strictly necessary items" → "essential items" → 이어 "items"가 영어로 모호해 "cookies"로(이 칸의 두 항목은 모두 쿠키)
 
-### [68] 의도한 차이
+### [68] 의도한 차이 → 한국어판 수정으로 해소
 
-- 원문: 선택은 cookie_consent 쿠키에 저장되며, 언제든지 화면 하단 푸터의 '쿠키 설정'을 눌러 배너를 다시 열고 선택을 변경할 수 있습니다.
+- 원문(처음): 선택은 cookie_consent 쿠키에 저장되며, 언제든지 화면 하단 푸터의 '쿠키 설정'을 눌러 배너를 다시 열고 선택을 변경할 수 있습니다.
 - 영어: Your choice is stored in the cookie_consent cookie, and you can change it at any time by clicking “Cookie Settings” in the page footer to reopen the banner.
 - 역번역: 귀하의 선택은 cookie_consent 쿠키에 저장되며, 귀하는 언제든지 페이지 푸터의 “쿠키 설정”을 눌러 배너를 다시 열어 선택을 변경할 수 있습니다.
-- 원문 "화면 하단 푸터"를 "page footer"로 옮겼다(처음엔 "footer at the bottom of the page", 자연스러움 검토에서 중복을 덜었다). 푸터는 화면이 아니라 페이지 맨 아래에 있어서다. 한국어판도 "페이지 하단"으로 고치기로 했다 — 국문 주소를 도로명으로 바꾸는 브랜치에서 함께 한다(2026-09-11 사용자 결정)
+- 원문 "화면 하단 푸터"를 "page footer"로 옮겼다(처음엔 "footer at the bottom of the page", 자연스러움 검토에서 중복을 덜었다). 푸터는 화면이 아니라 페이지 맨 아래에 있어서다. 한국어판도 "페이지 하단 푸터"로 고쳐 두 판이 같아졌다(2026-09-11, 국문 주소 도로명 변경 브랜치에서)
 
 ### [85] 확인 필요
 
@@ -148,7 +148,7 @@
 | 65 | 세션 리플레이 기록을 원하지 않으시는 경우 아래 제5항의 방법으로 분석 쿠키를 거부하시면 기록되지 않습니다. | If you do not want your sessions recorded, you can refuse analytics cookies using the methods in Section 5 below, in which case no recording takes place. | 세션이 기록되기를 원하지 않으시면, 아래 제5항의 방법으로 분석 쿠키를 거부할 수 있으며, 그 경우 기록은 이루어지지 않습니다. | 일치 |
 | 66 | 5. 동의 및 철회 방법 | 5. How to give and withdraw consent | 5. 동의하고 철회하는 방법 | 일치 |
 | 67 | 최초 방문 시 화면 하단 배너에서 '모두 허용' 또는 '모두 거부'를 선택할 수 있습니다. | On your first visit, you can select “Accept all” or “Reject all” in the banner at the bottom of the screen. | 귀하는 첫 방문 시 화면 하단 배너에서 “모두 허용” 또는 “모두 거부”를 선택할 수 있습니다. | 일치 |
-| 68 | 선택은 cookie_consent 쿠키에 저장되며, 언제든지 화면 하단 푸터의 '쿠키 설정'을 눌러 배너를 다시 열고 선택을 변경할 수 있습니다. | Your choice is stored in the cookie_consent cookie, and you can change it at any time by clicking “Cookie Settings” in the page footer to reopen the banner. | 귀하의 선택은 cookie_consent 쿠키에 저장되며, 귀하는 언제든지 페이지 푸터의 “쿠키 설정”을 눌러 배너를 다시 열어 선택을 변경할 수 있습니다. | 의도한 차이 |
+| 68 | 선택은 cookie_consent 쿠키에 저장되며, 언제든지 페이지 하단 푸터의 '쿠키 설정'을 눌러 배너를 다시 열고 선택을 변경할 수 있습니다. | Your choice is stored in the cookie_consent cookie, and you can change it at any time by clicking “Cookie Settings” in the page footer to reopen the banner. | 귀하의 선택은 cookie_consent 쿠키에 저장되며, 귀하는 언제든지 페이지 푸터의 “쿠키 설정”을 눌러 배너를 다시 열어 선택을 변경할 수 있습니다. | 일치 (한국어판 수정 뒤) |
 | 69 | 브라우저에서 쿠키와 사이트 데이터를 삭제하면 선택이 초기화되어 배너가 다시 표시됩니다. | Deleting cookies and site data in your browser resets your choice, and the banner is shown again. | 귀하의 브라우저에서 쿠키와 사이트 데이터를 삭제하면 귀하의 선택이 초기화되고 배너가 다시 표시됩니다. | 일치 |
 | 70 | 거부를 선택하면 Google Analytics와 Mixpanel 스크립트가 로드되지 않으므로, 해당 도구는 어떠한 정보도 수집하지 않습니다. | If you choose to reject analytics cookies, the Google Analytics and Mixpanel scripts are not loaded, so those tools do not collect any information. | 귀하가 분석 쿠키 거부를 선택하면 Google Analytics와 Mixpanel 스크립트가 로드되지 않으므로, 해당 도구는 어떠한 정보도 수집하지 않습니다. | 일치 |
 | 71 | 6. 브라우저에서 쿠키를 차단 · 삭제하는 방법 | 6. How to block or delete cookies in your browser | 6. 귀하의 브라우저에서 쿠키를 차단하거나 삭제하는 방법 | 일치 |
