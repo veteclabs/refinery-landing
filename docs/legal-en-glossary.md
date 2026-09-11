@@ -38,7 +38,7 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
+| 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조. 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
 | 「개인정보 보호법 시행령」 | Enforcement Decree of the Personal Information Protection Act | ✅ | |
 | 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | ⚠️ | PIPC 고시. 영문본 명칭 대조 필요 |
 | 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information | ⚠️ | 같음 |
@@ -50,30 +50,32 @@
 
 ### 조 · 항 · 호 인용 형식
 
-국가법령정보센터 영문본 방식을 따른다.
+KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · 항 · 호 사이를 **띄어 쓴다**(`Article 17 (1) 1`). 2026-09-11 확인.
 
 | 한국어 | 영어 |
 |---|---|
 | 제30조 | Article 30 |
-| 제30조 제1항 | Article 30(1) |
-| 제30조 제1항 제7호 | Article 30(1)7 |
+| 제30조 제1항 | Article 30 (1) |
+| 제30조 제1항 제7호 | Article 30 (1) 7 |
 | 제101조의5 | Article 101-5 |
-| 제28조의8 제1항 제3호 가목 | Article 28-8(1)3(a) |
+| 제28조의8 제1항 제3호 가목 | Article 28-8 (1) 3 (a) |
 
-본문 서술에서는 `Article 30(1)7 of PIPA` 형태로 법령 약어를 뒤에 붙인다.
+본문 서술에서는 `Article 30 (1) 7 of PIPA` 형태로 법령 약어를 뒤에 붙인다.
 
 ### 날짜 — 미국식 (2026-09-11 확정)
 
 | 한국어판 | 영어판 |
 |---|---|
 | `2026-09-01` | `September 1, 2026` |
-| 2026-09-01부터 시행합니다 | take effect on September 1, 2026 |
+| 2026-09-01부터 시행합니다 | is effective as of September 1, 2026 |
 
 - [I18N-GLOSSARY.md](../I18N-GLOSSARY.md) §0과 같은 규칙이다. 영어 블로그(`July 30, 2026`)와 맞춘다.
 - **숫자 + 빗금(`09/01/2026`)은 쓰지 않는다** — 미국은 9월 1일, 유럽은 1월 9일로 읽는다.
 - **데이터는 ISO 그대로 둔다.** `legal.ts`의 `effectiveDate` · `revisions[].date`는 `2026-09-01`로
   유지하고, 영어 페이지가 표시할 때만 변환한다. 한국어판과 영어판이 다른 날짜를 갖는 일이 없다.
 - 네 문서의 날짜 14곳(머리 시행일 · 본문 시행 문장 · 이력 표, 처리방침 +2)이 대상이다.
+- 시행 문장은 `takes effect on`이 아니라 **`is effective as of`**로 쓴다. 시행일은 게시 시점에 이미 지난 날짜인
+  경우가 많은데 `takes effect`는 앞으로 일어날 일처럼 읽힌다. `effective as of`는 지난 날짜 · 앞 날짜 모두에 맞다.
 
 ---
 
@@ -81,8 +83,8 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 개인정보보호위원회 | Personal Information Protection Commission (PIPC) | ✅ | |
-| 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | |
+| 개인정보보호위원회 | Personal Information Protection Commission (PIPC) | ✅ | 제7조 표제 |
+| 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | 제40조 |
 | 개인정보침해신고센터 | Personal Information Infringement Report Center | ⚠️ | KISA 운영. 영문 표기가 자료마다 갈림 — KISA 영문 사이트 대조 필요 |
 | 한국인터넷진흥원 | Korea Internet & Security Agency (KISA) | ✅ | 앰퍼샌드 포함이 공식 표기 |
 | 대검찰청 사이버수사과 | Cyber Investigation Division, Supreme Prosecutors' Office | ⚠️ | 부서명 영문 표기 대조 필요 |
@@ -97,30 +99,31 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
-| 개인정보 | personal information | ✅ | **`personal data`는 쓰지 않는다** — GDPR 용어다 (§7) |
-| 개인정보처리자 | personal information controller | ✅ | PIPA 영문본 |
-| 정보주체 | data subject | ✅ | PIPA 영문본. 본문 27회 등장 |
-| 개인정보 보호책임자 | privacy officer | ✅ | PIPA 제31조 영문본. **`DPO`는 쓰지 않는다** (§7) |
+| 개인정보 | personal information | ✅ | 제2조 제1호. **`personal data`는 쓰지 않는다** — GDPR 용어다 (§7) |
+| 개인정보처리자 | personal information controller | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제2조 제5호 |
+| 정보주체 | data subject | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제2조 제3호. 본문 27회 등장 |
+| 개인정보 보호책임자 | privacy officer | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제31조 표제 Designation of Privacy Officers. **`DPO`는 쓰지 않는다** (§7) |
 | 개인정보취급자 | person in charge of handling personal information | ⚠️ | 길어서 첫 등장 후 축약할지 결정 필요 |
-| 수탁자 | entrusted party (수탁자) | ⚠️ | PIPA 영문본은 `trustee`(영어권에서 신탁 수탁자로 읽힘), 자연스러운 `processor`는 GDPR 용어라 못 쓴다. `entrusted party` + 한국어 병기 + 무엇을 맡기는지 문장 설명. **아래 두 방향을 구분한다** |
-| 처리위탁 | entrustment of processing | ⚠️ | 같음 |
-| 재위탁 | sub-entrustment | ⚠️ | 같음 |
-| 제3자 제공 | provision to third parties | ✅ | |
-| 국외 이전 | transfer of personal information abroad | ✅ | PIPA 제28조의8 표제 |
-| 가명처리 | pseudonymization | ✅ | |
+| 수탁자 | person entrusted (수탁자) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제26조 제2항의 정의어 “person entrusted”. **처음 적었던 `trustee`는 영문본에 없다(오류였음).** `processor`는 GDPR 용어라 쓰지 않는다. **아래 두 방향을 구분한다** |
+| 처리위탁 · 위탁자 | entrusting the processing of personal information · person entrusting | ✅ | 제26조 제1 · 2항 |
+| 재위탁 | re-entrustment | ✅ | 제26조 제2항 “re-entrusted from a person entrusted” |
+| 제3자 제공 | provision of personal information to a third party | ✅ | 제30조 제1항 제3호 |
+| 국외 이전 | cross-border transfer of personal information | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제28조의8 표제 Cross-Border Transfer of Personal Information. **처음 적었던 `transfer … abroad`는 표제와 달랐다** |
+| 가명처리 | pseudonymization | ✅ | 제2조 제1호의2 |
 | 익명처리 | anonymization | ✅ | 법무 리뷰에서 "비식별 → 익명처리"로 통일한 용어 |
-| 민감정보 | sensitive information | ✅ | |
-| 고유식별정보 | unique identifying information | ✅ | |
+| 민감정보 | sensitive information | ✅ | 제23조 표제 |
+| 고유식별정보 | personally identifiable information | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제24조 표제. **처음 적었던 `unique identifying information`은 영문본과 달랐다** |
 | 행태정보 | behavioral information | ⚠️ | 온라인 맞춤형 광고 가이드라인 용어. 첫 등장에 괄호 설명 권장 |
-| 자동 수집 장치 | automatic collection device | ⚠️ | PIPA 제30조(1)7의 "인터넷 접속정보파일 등 개인정보를 자동으로 수집하는 장치" |
+| 자동 수집 장치 · 그 거부 | automatic collection tool for personal information · the denial thereof | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제30조 제1항 제7호 “Installation and operation of an automatic collection tool for personal information, including Internet access data files, and the denial thereof” |
 | 접속기록 | access logs | ✅ | |
-| 파기 | destruction | ✅ | PIPA는 `destroy`를 쓴다. `deletion`과 구분 |
-| 열람 | access | ✅ | `right to access`가 아니라 `request access` 형태로 |
-| 정정 · 삭제 | correction and deletion | ✅ | |
-| 처리정지 | suspension of processing | ✅ | |
+| 파기 | destruction | ✅ | 제21조 표제 Destruction of Personal Information. 삭제(erasure)와 구분 |
+| 열람 | access | ✅ | 제35조 표제 Access to Personal Information. `request access` 형태로 |
+| 정정 · 삭제 | correction or erasure | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 제36조 표제 Correction or Erasure of Personal Information |
+| 처리정지 | suspension of processing | ✅ | 제37조 표제 |
 | 동의 철회 | withdrawal of consent | ✅ | |
 | 보유 기간 | retention period | ✅ | |
 | 수집 항목 | items collected | ✅ | |
+| 개인정보 처리방침 (법의 정의어) | Privacy Policy | ✅ | 제30조 제1항 “(hereinafter referred to as "Privacy Policy")” — 대문자 |
 
 ### "수탁자"는 방향이 두 가지다
 
@@ -128,8 +131,8 @@
 
 | 방향 | 어디 | 한국어 | 영어 |
 |---|---|---|---|
-| **회사가 수탁자** | 처리방침 10항 · 약관 제17조 · EULA 제13조 | 고객사가 개인정보처리자이고 회사는 수탁자입니다 | VETEC acts as an **entrusted party (수탁자)** processing on the Customer's behalf |
-| **제3자가 수탁자** | 처리방침 8항 (Vercel · Google · Mixpanel · Web3Forms) | 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자 | the following **entrusted parties (수탁자)** process personal information on our behalf |
+| **회사가 수탁자** | 처리방침 10항 · 약관 제17조 · EULA 제13조 | 고객사가 개인정보처리자이고 회사는 수탁자입니다 | VETEC acts as a **person entrusted (수탁자)** with processing on the Customer's behalf |
+| **제3자가 수탁자** | 처리방침 8항 (Vercel · Google · Mixpanel · Web3Forms) | 수탁자는 회사의 업무를 처리하기 위해 개인정보를 위탁받는 자 | the following **persons entrusted (수탁자)** process personal information on the Company's behalf |
 
 `processor`를 쓰면 두 문장이 GDPR의 controller/processor 쌍으로 읽힌다. ①의 근거는
 **PIPA 제26조(처리위탁)**이지 GDPR 제28조가 아니므로, DPA 체결 · 감사권 · 하위처리자 승인 같은
@@ -197,7 +200,7 @@
 | 쿠키 | cookies | ✅ | |
 | 유사 기술 | similar technologies | ✅ | |
 | 로컬 스토리지 | local storage | ✅ | 코드 표기는 `localStorage` 그대로 |
-| 필수 항목 | strictly necessary | ✅ | |
+| 필수 항목 | essential | ✅ | 역번역 검사(2026-09-11)에서 `strictly necessary`가 "엄격히 필요한"으로 돌아와 원문보다 셌다. EU ePrivacy 지침 제5조 제3항의 용어이기도 하다. 문장 속 "사이트 동작에 반드시 필요한"은 그대로 `strictly necessary for the site to function` |
 | 분석 항목 | analytics | ✅ | |
 | 세션 리플레이 | session replay | ✅ | |
 | 히트맵 | heatmaps | ✅ | |
@@ -253,9 +256,9 @@
 | `personal data` | GDPR 용어 | `personal information` |
 | `lawful basis` · `legal basis for processing` | GDPR 제6조 체계 | PIPA 조항을 직접 인용 |
 | `legitimate interest` | GDPR 제6조(1)(f) | 해당 개념이 PIPA에 없다 |
-| `data controller` / `data processor` | GDPR 쌍 개념 | `personal information controller` / `entrusted party` |
+| `data controller` / `data processor` | GDPR 쌍 개념 | `personal information controller` / `person entrusted` |
 | `Data Protection Officer` · `DPO` | GDPR 제37조 | `privacy officer` |
-| `right to erasure` · `right to be forgotten` | GDPR 제17조 | `request deletion` (PIPA 제36조) |
+| `right to be forgotten` · 표제어로서의 `right to erasure` | GDPR 제17조 표제 | `request correction or erasure` (PIPA 제36조). **`erasure` 낱말 자체는 PIPA 영문본도 쓴다** — 막는 것은 GDPR 조문 이름을 끌어오는 것이다 |
 | `data portability` | GDPR 제20조 | PIPA 전송요구권은 별개 제도다 |
 | `Standard Contractual Clauses` · `SCCs` | EU 국외이전 수단 | PIPA 제28조의8 근거를 그대로 |
 | `supervisory authority` | GDPR 용어 | `Personal Information Protection Commission (PIPC)` |
@@ -274,18 +277,92 @@
 
 | # | 항목 | 무엇을 정해야 하나 | 상태 |
 |---|---|---|---|
-| 1 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 | 번역 중 확인 |
-| 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 | 번역 중 확인 |
+| 1 | **기관 · 고시 영문 명칭** (§1 · §2) | PIPC · 분쟁조정위원회 · PIPA 법령명은 KLRI 영문본으로 확인했다(2026-09-11). 남은 것 — PIPC 고시 3건(안전성 확보조치 기준 · 처리 방법 고시 · 작성지침)과 기관 3곳(침해신고센터 · 대검 · 경찰청)은 PIPA 본문에 없어 따로 대조해야 한다. 처리방침 영어판(4단계)에서 쓰인다 | 4단계에서 확인 |
+| 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 쿠키 정책 6항에 현행 영어 UI 이름으로 적었다. **Whale은 영어 UI를 확인하지 못해** Chromium 메뉴 이름을 따랐다. iOS 18부터 Safari 설정이 `Settings › Apps › Safari`로 한 단계 내려갔는데 한국어판도 같은 경로를 쓰고 있어 **두 언어를 함께** 고칠 일이다 | 실물 확인 대기 |
 
 ### 결론이 난 항목
 
 | 항목 | 결론 |
 |---|---|
 | **"면책"** | 원문이 조문 제목으로 이미 셋을 갈라 놓았다(제21 · 22 · 23조). 그 구분을 그대로 옮긴다 → §4 |
-| **"수탁자"** | 방향이 두 가지였다. `entrusted party` + 한국어 병기로 문장에서 갈라 준다 → §3 |
+| **"수탁자"** | 방향이 두 가지였다. KLRI 영문본의 정의어 `person entrusted` + 한국어 병기로 문장에서 갈라 준다 → §3 |
+| **KLRI 영문본 대조** (2026-09-11) | PIPA 용어 · 표제 · 인용 형식을 공식 영문본과 맞췄다. 처음 용어집이 틀렸던 곳 5 — 국외 이전 · 수탁자 · 고유식별정보 · 삭제 · 인용 띄어쓰기 → §1 · §3 |
 | **"해제"** | 계약 해제가 아니라 "이용 제한을 해제한다"였다(약관 제20조). `rescission` 문제는 없다 → §4 |
 | **회사 정보 로마자 표기** | 2026-09-11 사용자 확인 → §6 |
 | **날짜 형식** | 2026-09-11 **미국식 확정** → §1 아래 「날짜」 |
+
+---
+
+## 10. 영어판 페이지 규격 — 쿠키 정책에서 확정 (2026-09-11)
+
+나머지 세 문서(처리방침 · 이용약관 · EULA)는 이 규격을 그대로 따른다.
+
+| 항목 | 한국어판 | 영어판 | 근거 |
+|---|---|---|---|
+| URL | `/cookie-policy` | `/en/cookie-policy` | 기존 `/en/*` 관례 |
+| 문서 제목 | 쿠키 정책 | Cookie Policy | 문서 이름은 고유명사라 Title Case. `nav.ts`와 같다 |
+| 절 제목 | 1. 쿠키와 유사 기술이란 | 1. What cookies and similar technologies are | 문장형(I18N-GLOSSARY §0) |
+| 소제목 | 가. 나. 다. | A. B. C. | 조항 인용의 목(가목)은 `(a)`, 문서 자체의 소제목은 `A.` |
+| 항 번호 | ① ② ③ | (1) (2) (3) | 국가법령정보센터 영문법령이 항을 `(1)`로 옮긴다. `legal.css`의 `:lang(en)` 규칙 |
+| 딸림글 | ※ 표시 | **Note:** 머리말 (※와 같은 값 — 크기 · 굵기 · 색을 물려받고 왼쪽에 매단다, 들여쓰기 37.48px) | ※의 뜻(참고)을 영어 낱말로 옮긴 것. ※는 한 · 중 · 일 관용 기호라 영어 독자가 모른다. 한국어판이 ※를 단 이유(글만으로는 앞뒤 문단과 안 갈린다)는 영어에도 있어 빼지 않는다. `legal.css`의 `:lang(en)` 규칙 · 2026-09-11 사용자 확정 |
+| 콜론 | `이름 : 값` (앞뒤 띄움) | `Label: value` (뒤만 띄움) | 영어 표기 관행 |
+| 딸림글이 `라벨 : 값` 꼴일 때 | ※ 쿠키 관련 문의 : 이메일 | Note: For inquiries about cookies, please contact 이메일. | `Note:` 뒤에 콜론이 또 오지 않게 문장으로 푼다 |
+| 가운뎃점 병렬 | 동의 ⁠· 거부 | accept or reject / A, B, and C | 영어에는 가운뎃점 병렬이 없다 |
+| 회사 — **안내문** (쿠키 정책 · 처리방침) | 회사 (이하 "회사") | VETEC Co., Ltd. (“VETEC,” “we,” or “us”) → 이후 `we` · `our` | 방문자 개인에게 설명하는 글이라 영어 관행대로. 2026-09-11 사용자 결정 |
+| 이용자 — **안내문** | 이용자 · 정보주체 | `you` · `your`. 법 조문을 옮길 때는 `data subject` 그대로 | 이용자 전체를 가리키는 일반 서술(“where users encounter difficulties”)은 `users`로 둔다 |
+| 회사 · 고객사 — **계약서** (이용약관 · EULA) | 회사 · 고객사 · 최종이용자 | the “Company” · the “Customer” · End User (정의어) | 당사자가 여럿이라 `you`로 뭉치면 누구인지 흐려진다. `we` · `you`를 쓰지 않는다 |
+| 절 참조 | 제5항 | Section 5 | |
+| 날짜 | `2026-09-01` | `September 1, 2026` | §1 「날짜」. `formatDate()` |
+| 따옴표 | '모두 허용' | “Accept all” | 곡선 큰따옴표. UI 문구는 실제 버튼 이름 그대로(`CookieConsent.astro` · `nav.ts`) |
+| 한국어판 우선 고지 | — | 시행일 바로 아래 `.legal-lang-notice` | §0-1. 문구의 "Korean original"이 한국어판으로 연결된다 |
+| 두 낱말 한 뜻 | — | `(first party)` · `local storage`를 `.legal-keep`으로 묶음 | 좁은 표 칸에서 가운데가 갈라지지 않게 |
+
+**아직 한국어로 연결되는 링크** — `/en/privacy`가 생기기 전까지 쿠키 정책 영어판의 처리방침 링크 2곳은
+`/privacy`(한국어)로 간다. 파일 맨 위 `privacyHref` 한 줄로 모아 두었다. 4단계에서 `/en/privacy`로 바꾼다.
+
+---
+
+## 11. 번역을 마친 뒤 검증 절차 — 문서마다 반드시 거친다
+
+쿠키 정책 영어판에서 처음 돌렸다(2026-09-11). 처리방침 · 이용약관 · EULA도 같은 순서로 한다.
+
+| # | 단계 | 방법 | 통과 기준 |
+|---|---|---|---|
+| 1 | **구조 대조** | 원문과 영어판의 절 · 소제목 · 표 · 표 행 · 목록 · 굵게 · 링크 · 딸림글 수를 자동으로 센다 | 전부 같다 |
+| 2 | **공식 영문본 대조** | 법 조문 인용 · 법률 용어 · 기관명을 KLRI 영문법령과 글자 그대로 맞춘다. 「개인정보 보호법」은 `elaw.klri.re.kr/eng_service/lawViewContent.do?hseq=62389` | 용어집에 출처 조문이 적힌 말만 쓴다 |
+| 3 | **역번역** | 영어판을 한국어로 직역해 되돌리고 원문과 단위(제목 · 문단 · 목록 · 표 칸)별로 맞댄다. 판정은 일치 · 고침 · 의도한 차이 · 확인 필요 넷 | 고침은 모두 고치고, 기록을 `docs/legal-en-backtranslation-<문서>.md`로 남긴다 |
+| 4 | **자동 검사** | §7 금지 표현 · 곧은 따옴표 · 콜론/쉼표 앞 공백 · 괄호 짝 | 0곳 |
+| 5 | **반응형** | 1440~320px 14폭에서 가로 스크롤 · 넘침 · 낱말 중간 끊김 | 0곳 |
+
+### 역번역에서 가장 먼저 찾는 것 — 뜻이 넓어진 곳
+
+영어판 머리의 "한국어판이 우선한다" 고지는 **번역이 틀렸을 때 회사를 지키는 장치**다. 그런데 한국 법에는
+문서를 쓴 쪽이 아니라 이용자 편을 드는 원칙이 있다.
+
+- 「개인정보 보호법」 제30조 제3항 — 처리방침과 계약이 다르면 정보주체에게 유리한 쪽을 적용한다
+- 「약관의 규제에 관한 법률」 제5조 제2항 — 약관의 뜻이 명백하지 않으면 고객에게 유리하게 해석한다
+
+그래서 **영어판이 원문보다 이용자에게 유리하게(= 회사 의무가 늘게) 옮겨진 곳은 고지로도 막히지 않을 수 있다.**
+역번역 결과는 이 순서로 본다.
+
+1. **넓어진 곳** — 회사가 약속 · 의무를 원문보다 더 진다. 반드시 고친다
+2. **좁아진 곳** — 원문의 약속이 영어에서 빠졌다. 고친다
+3. **세기가 달라진 곳** — "필수 → strictly necessary"처럼 말의 강도가 바뀌었다. 고친다
+4. 어투 · 표현 — 뜻이 같으면 둔다
+5. **원어민 자연스러움** — 번역투 · 모호한 낱말 · 병렬 깨짐 · 개발 용어(`is called`)를 다듬는다. 다듬은 문장은 **역번역을 다시** 해 1~3이 생기지 않았는지 본다.
+   법 조문 인용 · `the Company` · `users`는 원문 · 영문법령을 따르는 것이라 딱딱해도 둔다
+
+**범위를 정하는 말을 한 줄씩 대조한다** — `all` · `any` · `every` · `always` · `never` · `only` · `solely` ·
+`that is` · `including` · `such as` · `at any time` · `will` · `shall`. 쿠키 정책 2항의 "all analytics cookies — **that is**,
+all cookies other than …"이 이 경우였다(분석 쿠키 → 필수가 아닌 모든 쿠키로 넓어짐).
+
+### 변호사 검토 때 물을 것 — 모아 두는 곳
+
+네 문서 영어판을 다 만든 뒤 한 번에 넘긴다. 번역하다 생긴 질문은 여기에 더한다.
+
+| # | 질문 | 생긴 곳 |
+|---|---|---|
+| Q1 | 영어판에 '한국어판 우선' 고지를 두었는데, 영어판이 이용자에게 더 유리하게 쓰인 부분이 있으면 「개인정보 보호법」 제30조 제3항이나 약관규제법 제5조 제2항 때문에 영어판이 적용될 수 있는가? 고지 문구를 보강해야 하는가? | 쿠키 정책 역번역 (2026-09-11) |
 
 ---
 

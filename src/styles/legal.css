@@ -601,3 +601,53 @@ img { max-width: 100%; height: auto; }
 .legal-body section { scroll-margin-top: 90px; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── 영어판(/en/*) ─────────────────────────────────────────────────────────
+   <html lang="en">에서만 걸린다. 한국어 페이지 렌더에는 닿지 않는다.
+   용어 · 표기 기준은 docs/legal-en-glossary.md. */
+
+/* 한국어판 우선 고지 — 용어집 §0-1. 본문 맨 앞, 시행일 바로 아래에 둔다.
+   초안 경고(.legal-draft, 호박색)와 헷갈리지 않게 색을 쓰지 않고 카드 바탕만 깐다.
+   법적 효력에 관한 문장이라 본문보다 작게 두되 딸림글(14px)보다 작지 않게 한다. */
+.legal-lang-notice {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: var(--bg-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3A4654;
+}
+/* 본문 링크(.legal-body a)와 같은 모양 — 고지 상자가 .legal-body 밖이라 따로 준다. */
+.legal-lang-notice a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+
+/* 딸림글 머리말 — 한국어판의 ※를 영어로 옮긴 것이다. ※를 단 이유(글만 놓이면
+   앞뒤 문단과 구분되지 않는다)는 영어판에도 그대로 있다. 다만 ※는 한 · 중 · 일 문서의
+   관용 기호라 영어 독자가 뜻을 모른다 → 같은 뜻의 낱말 "Note:"로 바꾼다.
+   모양은 ※와 같은 값이다 — 크기 · 굵기 · 색을 따로 주지 않고 글자에서 물려받으며,
+   왼쪽에 매달고 글 전체를 그 폭만큼 들인다(위 .legal-body p.legal-note::before 규칙을 그대로 쓴다).
+   37.48px = "Note:"(33.97px) + 빈칸 하나(3.52px) — Pretendard 14px에서 실측.
+   ※의 top -0.4px는 기호의 잉크 중심 보정이라 가져오지 않는다. 같은 글꼴의 낱말은
+   0이어야 뒤 글자와 기준선이 맞는다. */
+:lang(en) .legal-body p.legal-note { padding-left: 37.48px; }
+:lang(en) .legal-body p.legal-note::before { content: 'Note:'; top: 0; }
+
+/* 항 번호 — 원문자(①) 대신 (1). 국가법령정보센터 영문법령이 항을 (1)로 옮기고,
+   용어집 §1의 조항 인용(Article 30(1))과도 맞는다. 원문자용 크기 보정
+   (1.35em · 굵기 300 · top -1px)을 걷고 본문 글자 그대로 쓴다.
+   28px = "(1)" 폭(약 19px) + 본문 공백 두 칸(약 8px). */
+:lang(en) .legal-body--terms ol > li,
+:lang(en) .legal-body .legal-ol--hang > li { padding-left: 28px; }
+:lang(en) .legal-body--terms ol > li::before,
+:lang(en) .legal-body .legal-ol--hang > li::before {
+  content: '(' counter(legal-hang) ')';
+  top: 0;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 표 좁은 칸에서 "(first party)" · "local storage"처럼 두 낱말이 한 뜻인 말이
+   가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
+.legal-keep { white-space: nowrap; }
