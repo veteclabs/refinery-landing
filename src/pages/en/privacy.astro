@@ -263,14 +263,19 @@ const toc = [
           <table class="legal-table legal-table--prose2">
             <thead><tr><th>Person entrusted</th><th>Entrusted work</th><th>Consent required</th><th>Privacy policy</th></tr></thead>
             <tbody>
-              {processors.map((p) => (
+              {/* 이름 뒤 괄호(운영자명 등)는 한 줄 내린다 — 좁은 칸에서 괄호 중간이 아무 데서나 갈렸다.
+                  데이터(legal.ts)는 한국어판과 같은 값이라 그리는 곳에서만 나눈다. */}
+              {processors.map((p) => {
+                const i = p.name.indexOf(' (');
+                return (
                 <tr>
-                  <td>{p.name}</td>
+                  <td>{i > 0 ? <>{p.name.slice(0, i)}<br />{p.name.slice(i + 1)}</> : p.name}</td>
                   <td>{p.task}</td>
                   <td>{p.consent ? 'Only with consent' : 'Not required'}</td>
                   <td><a href={p.policy} target="_blank" rel="noopener noreferrer">View</a></td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
