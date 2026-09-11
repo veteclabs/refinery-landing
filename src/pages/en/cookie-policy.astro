@@ -45,17 +45,17 @@ const privacyHref = '/privacy';
 
     <div class="legal-body">
       <p>
-        <Ph value={company.legalName} label="Company name" /> (the “Company”) uses cookies and similar technologies on the{' '}
+        <Ph value={company.legalName} label="Company name" /> (“{company.shortName},” “we,” or “us”) uses cookies and similar technologies on the{' '}
         {company.serviceName} website ({company.siteUrl}). This policy describes their types, purposes,
         and retention periods, as well as how to give or refuse consent. For information on how personal information is processed more generally,
-        please refer to the <a href={privacyHref}>Privacy Policy</a>.
+        please refer to our <a href={privacyHref}>Privacy Policy</a>.
       </p>
 
       <section>
         <h2>1. What are cookies and similar technologies?</h2>
         <p>
-          A cookie is a small text file that a website stores in a user’s browser to remember past visits or settings.
-          In addition to cookies, the Company uses the following similar technologies.
+          A cookie is a small text file that a website stores in your browser to remember your past visits or settings.
+          In addition to cookies, we use the following similar technologies.
         </p>
         <ul>
           <li><strong>Local storage (localStorage)</strong>: A technology that stores data in the browser. Unlike cookies, it is not automatically sent to the server.</li>
@@ -64,19 +64,19 @@ const privacyHref = '/privacy';
       </section>
 
       <section>
-        <h2>2. The Company’s principles for using cookies</h2>
+        <h2>2. Our principles for using cookies</h2>
         <p>
           Article 30 (1) 7 of the Personal Information Protection Act (“PIPA”) requires matters concerning the installation
           and operation of automatic collection tools for personal information, and the denial thereof, to be{' '}
           <strong>disclosed</strong> in the Privacy Policy. Under Korean law, not all cookies require prior consent.
         </p>
         <p>
-          However, to give users more choice, the Company <strong>installs all analytics cookies only
-          when users consent</strong>. Users can access all features of
-          the website without restriction even if they do not consent.
+          However, to give you more choice, we <strong>install all analytics cookies only
+          when you consent</strong>. You can access all features of
+          the website without restriction even if you do not consent.
         </p>
-        <p><strong>The Company does not provide personalized advertising and does not allow third-party advertising companies to collect behavioral information on this website.</strong></p>
-        <p>That said, the behavioral information (records of on-screen interactions such as clicks and scrolls) that the Company collects through its analytics tool, Mixpanel, is used solely to analyze the usability of the service, and is neither used for advertising purposes nor provided to third parties.</p>
+        <p><strong>We do not provide personalized advertising and do not allow third-party advertising companies to collect behavioral information on this website.</strong></p>
+        <p>That said, the behavioral information (records of on-screen interactions such as clicks and scrolls) that we collect through our analytics tool, Mixpanel, is used solely to analyze the usability of the service, and is neither used for advertising purposes nor provided to third parties.</p>
       </section>
 
       <section>
@@ -93,21 +93,21 @@ const privacyHref = '/privacy';
                   <td><code>cookie_consent</code></td>
                   <td>{company.domain}<br /><span class="legal-keep">(first party)</span></td>
                   <td>Cookie</td>
-                  <td>Stores the user’s choice to accept or reject analytics cookies so that the banner is not shown repeatedly</td>
+                  <td>Stores your choice to accept or reject analytics cookies so that the banner is not shown repeatedly</td>
                   <td>1 year</td>
                 </tr>
                 <tr>
                   <td><code>lang</code></td>
                   <td>{company.domain}<br /><span class="legal-keep">(first party)</span></td>
                   <td>Cookie</td>
-                  <td>Remembers the display language selected by the user (Korean or English)</td>
+                  <td>Remembers the display language you selected (Korean or English)</td>
                   <td>1 year</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p class="legal-note">
-            If essential cookies are blocked, the language selection and cookie consent status are not saved, and the consent banner is shown again on every visit.
+            If essential cookies are blocked, your language selection and cookie consent status are not saved, and the consent banner is shown again on every visit.
           </p>
 
           </div>
@@ -168,28 +168,28 @@ const privacyHref = '/privacy';
       <section>
         <h2>4. About session replay and heatmaps</h2>
         <p>
-          If a user consents to analytics cookies, Mixpanel’s session replay feature collects{' '}
+          If you consent to analytics cookies, Mixpanel’s session replay feature collects{' '}
           <strong>records of on-screen interactions</strong> such as page navigation, clicks, and scrolls. The purpose is to identify where users encounter difficulties and to improve usability.
         </p>
         <ul>
-          <li>The Company has configured session replay to <strong>mask all input values</strong>, so the name, email address, phone number, and inquiry details entered in the contact form are not recorded.</li>
-          <li>The Company does not combine session replay records with account identifiers or information about inquirers, and processes them only on the basis of the random identifier stored in the browser.</li>
-          <li>Users who do not want their sessions recorded can refuse analytics cookies using the methods in Section 5 below, in which case no recording takes place.</li>
+          <li>We have configured session replay to <strong>mask all input values</strong>, so the name, email address, phone number, and inquiry details you enter in the contact form are not recorded.</li>
+          <li>We do not combine session replay records with account identifiers or information about inquirers, and process them only on the basis of the random identifier stored in your browser.</li>
+          <li>If you do not want your sessions recorded, you can refuse analytics cookies using the methods in Section 5 below, in which case no recording takes place.</li>
         </ul>
       </section>
 
       <section>
         <h2>5. How to give and withdraw consent</h2>
         <ol class="legal-ol--hang">
-          <li><strong>On their first visit</strong>, users can select <strong>“Accept all”</strong> or <strong>“Reject all”</strong> in the banner at the bottom of the screen.</li>
-          <li>The choice is stored in the <code>cookie_consent</code> cookie, and users can change it at any time by clicking <strong>“Cookie Settings” in the page footer</strong> to reopen the banner.</li>
-          <li>Deleting cookies and site data in the browser resets the choice, and the banner is shown again.</li>
-          <li>If users choose to reject analytics cookies, the Google Analytics and Mixpanel scripts <strong>are not loaded</strong>, so those tools do not collect any information.</li>
+          <li><strong>On your first visit</strong>, you can select <strong>“Accept all”</strong> or <strong>“Reject all”</strong> in the banner at the bottom of the screen.</li>
+          <li>Your choice is stored in the <code>cookie_consent</code> cookie, and you can change it at any time by clicking <strong>“Cookie Settings” in the page footer</strong> to reopen the banner.</li>
+          <li>Deleting cookies and site data in your browser resets your choice, and the banner is shown again.</li>
+          <li>If you choose to reject analytics cookies, the Google Analytics and Mixpanel scripts <strong>are not loaded</strong>, so those tools do not collect any information.</li>
         </ol>
       </section>
 
       <section>
-        <h2>6. How to block or delete cookies in the browser</h2>
+        <h2>6. How to block or delete cookies in your browser</h2>
         {/* 설정 경로는 각 브라우저 영어 UI의 실제 메뉴 이름이다(용어집 §5). 한국어 메뉴를 직역하지 않는다. */}
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--prose2">
@@ -205,11 +205,11 @@ const privacyHref = '/privacy';
           </table>
         </div>
         <p>
-          To block only data collection by Google Analytics, users can install the{' '}
+          To block only data collection by Google Analytics, you can install the{' '}
           <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
         </p>
         <p class="legal-note">
-          Blocking all cookies in the browser settings may prevent some features, such as staying signed in or remembering language settings, from working properly on many websites, including this one.
+          Blocking all cookies in your browser settings may prevent some features, such as staying signed in or remembering language settings, from working properly on many websites, including this one.
         </p>
       </section>
 
@@ -224,7 +224,7 @@ const privacyHref = '/privacy';
         <p>
           Details of the cross-border transfer of personal information through these tools (recipient, destination country, items transferred,
           purpose of use, retention period, and how to refuse) are disclosed in{' '}
-          <a href={privacyHref}>Section 9 of the Privacy Policy</a>.
+          <a href={privacyHref}>Section 9 of our Privacy Policy</a>.
         </p>
       </section>
 
@@ -232,7 +232,7 @@ const privacyHref = '/privacy';
         <h2>8. Changes to this policy</h2>
         <p>
           This Cookie Policy is effective as of <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" />.
-          If the tools or cookies in use change, the Company will revise this policy and provide notice on the website.
+          If the tools or cookies we use change, we will revise this policy and provide notice on the website.
           The revision history is as follows.
         </p>
         <div class="legal-table-wrap">

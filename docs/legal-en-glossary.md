@@ -308,8 +308,9 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 콜론 | `이름 : 값` (앞뒤 띄움) | `Label: value` (뒤만 띄움) | 영어 표기 관행 |
 | 딸림글이 `라벨 : 값` 꼴일 때 | ※ 쿠키 관련 문의 : 이메일 | Note: For inquiries about cookies, please contact 이메일. | `Note:` 뒤에 콜론이 또 오지 않게 문장으로 푼다 |
 | 가운뎃점 병렬 | 동의 ⁠· 거부 | accept or reject / A, B, and C | 영어에는 가운뎃점 병렬이 없다 |
-| 회사 | 회사 (이하 "회사") | the “Company” | 원문의 정의어를 그대로. `we` · `us`로 바꾸지 않는다 |
-| 이용자 | 이용자 | users | 원문이 3인칭이라 `you`로 바꾸지 않는다 |
+| 회사 — **안내문** (쿠키 정책 · 처리방침) | 회사 (이하 "회사") | VETEC Co., Ltd. (“VETEC,” “we,” or “us”) → 이후 `we` · `our` | 방문자 개인에게 설명하는 글이라 영어 관행대로. 2026-09-11 사용자 결정 |
+| 이용자 — **안내문** | 이용자 · 정보주체 | `you` · `your`. 법 조문을 옮길 때는 `data subject` 그대로 | 이용자 전체를 가리키는 일반 서술(“where users encounter difficulties”)은 `users`로 둔다 |
+| 회사 · 고객사 — **계약서** (이용약관 · EULA) | 회사 · 고객사 · 최종이용자 | the “Company” · the “Customer” · End User (정의어) | 당사자가 여럿이라 `you`로 뭉치면 누구인지 흐려진다. `we` · `you`를 쓰지 않는다 |
 | 절 참조 | 제5항 | Section 5 | |
 | 날짜 | `2026-09-01` | `September 1, 2026` | §1 「날짜」. `formatDate()` |
 | 따옴표 | '모두 허용' | “Accept all” | 곡선 큰따옴표. UI 문구는 실제 버튼 이름 그대로(`CookieConsent.astro` · `nav.ts`) |
