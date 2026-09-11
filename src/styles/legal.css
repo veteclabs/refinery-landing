@@ -651,3 +651,19 @@ html { scroll-behavior: smooth; }
 /* 표 좁은 칸에서 "(first party)" · "local storage"처럼 두 낱말이 한 뜻인 말이
    가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
 .legal-keep { white-space: nowrap; }
+
+/* 사업자 정보 딱지 단 — 영어 항목명이 길다. 한국어 딱지 단(160px)과 같은 계산으로
+   가장 긴 'Business registration number'(182px) + 좌우 패딩 24px = 206 → 208px.
+   160px에서는 이 딱지가 흰 상자 양옆으로 11px씩 삐져나와 값에 붙었다.
+   520px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다. */
+@media (min-width: 1001px) {
+  :lang(en) .legal-body .legal-facts { grid-template-columns: 208px minmax(0, 1fr) 208px minmax(0, 1fr); }
+}
+@media (min-width: 521px) and (max-width: 1000px) {
+  :lang(en) .legal-body .legal-facts { grid-template-columns: 208px minmax(0, 1fr); }
+}
+
+/* 영어판 표 머리글은 두 줄로 접힐 수 있게 한다. 영어판 표 칸 폭을 한국어판과 같은 비율로
+   고정했는데(th width), 한 줄 고정(nowrap)이면 'Consent required' · 'Whether you are identified'
+   같은 긴 머리글이 칸을 밀어 넓혀 비율이 5~13%p 어긋났다. 한국어 머리글은 그대로 한 줄이다. */
+:lang(en) .legal-table th { white-space: normal; }

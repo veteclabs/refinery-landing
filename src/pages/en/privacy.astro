@@ -106,7 +106,7 @@ const toc = [
         <p>We process personal information for the following purposes. If a purpose changes, we will take necessary measures, such as obtaining separate consent in accordance with Article 18 of PIPA.</p>
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--prose2">
-            <thead><tr><th>Category</th><th>Purpose of processing</th><th>Consent required</th></tr></thead>
+            <thead><tr><th style="width:15%;">Category</th><th style="width:54.8%;">Purpose of processing</th><th style="width:30.2%;">Consent required</th></tr></thead>
             <tbody>
               <tr>
                 <td>Inquiries and demo requests</td>
@@ -204,7 +204,7 @@ const toc = [
         <p>We process and retain personal information within the retention and use period prescribed by law or the retention and use period to which you have consented.</p>
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--prose2">
-            <thead><tr><th>Category</th><th>Retention period</th><th>Legal basis</th></tr></thead>
+            <thead><tr><th style="width:22.8%;">Category</th><th style="width:47.2%;">Retention period</th><th style="width:30%;">Legal basis</th></tr></thead>
             <tbody>
               <tr><td>Records of inquiries and demo requests</td><td><strong>3 years</strong> after the inquiry is resolved<br /><span class="legal-note">(to manage business inquiry history and respond to disputes)</span></td><td>Consent</td></tr>
               <tr><td>Records related to contracts and transactions</td><td><strong>5 years</strong> after the contract ends</td><td>Article 33 of the Commercial Act; Article 85-3 of the Framework Act on National Taxes</td></tr>
@@ -261,7 +261,7 @@ const toc = [
         <p>To provide our services smoothly, we entrust the processing of personal information as follows.</p>
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--prose2">
-            <thead><tr><th>Person entrusted</th><th>Entrusted work</th><th>Consent required</th><th>Privacy policy</th></tr></thead>
+            <thead><tr><th style="width:27.6%;">Person entrusted</th><th style="width:43.9%;">Entrusted work</th><th style="width:11.3%;">Consent required</th><th style="width:17.3%;">Privacy policy</th></tr></thead>
             <tbody>
               {processors.map((p) => (
                 <tr>
@@ -396,7 +396,7 @@ const toc = [
         <div class="legal-table-wrap">
           <table class="legal-table">
             <tbody>
-              <tr><th style="width:200px;">Whether you are identified</th><td>We do not combine behavioral information with account identifiers or login information, and we process it <strong>only on the basis of random identifiers</strong> stored in your browser.</td></tr>
+              <tr><th style="width:148px;">Whether you are identified</th><td>We do not combine behavioral information with account identifiers or login information, and we process it <strong>only on the basis of random identifiers</strong> stored in your browser.</td></tr>
               <tr><th>Items collected</th><td>Pages visited and the order of visits, time spent, interaction records such as clicks and scrolls, on-screen interaction records (session replay), traffic sources, and browser, device, and operating system information</td></tr>
               <tr><th>Collection method</th><td>Automatically collected through cookies, local storage, and JavaScript SDKs when you visit the website after consenting to analytics cookies</td></tr>
               <tr><th>Purpose of collection</th><td>Used only to analyze service usage and improve content and usability, and <strong>not used for personalized advertising.</strong></td></tr>
@@ -457,11 +457,11 @@ const toc = [
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th style="width:220px;">Category</th>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Phone</th>
-                <th>Email</th>
+                <th style="width:22.9%;">Category</th>
+                <th style="width:13%;">Name</th>
+                <th style="width:13%;">Title</th>
+                <th style="width:24.4%;">Phone</th>
+                <th style="width:26.6%;">Email</th>
               </tr>
             </thead>
             <tbody>
@@ -488,9 +488,9 @@ const toc = [
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th>Contact person</th>
-                <th>Phone</th>
-                <th>Email</th>
+                <th style="width:29%;">Contact person</th>
+                <th style="width:34%;">Phone</th>
+                <th style="width:37%;">Email</th>
               </tr>
             </thead>
             <tbody>
@@ -512,7 +512,10 @@ const toc = [
         </p>
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--center">
-            <thead><tr><th>Agency</th><th>Phone</th><th>Website</th></tr></thead>
+            {/* 칸 폭을 한국어판과 같은 비율(44.1 · 30.2 · 25.7%)로 고정한다. 자동 배분에 맡기면
+                긴 영문 기관명이 폭을 먼저 가져가 홈페이지 칸이 140px(한국어 247px)까지 눌렸다.
+                전화 · 기관명이 두 줄로 접히는 것은 괜찮다. */}
+            <thead><tr><th style="width:44.1%;">Agency</th><th style="width:30.2%;">Phone</th><th style="width:25.7%;">Website</th></tr></thead>
             <tbody>
               {remedyAgencies.map((a) => (
                 <tr>
