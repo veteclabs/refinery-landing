@@ -652,14 +652,23 @@ html { scroll-behavior: smooth; }
    가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
 .legal-keep { white-space: nowrap; }
 
-/* 사업자 정보 딱지 단 — 영어 항목명이 길다. 한국어 딱지 단(160px)과 같은 계산으로
-   가장 긴 'Business registration number'(182px) + 좌우 패딩 24px = 206 → 208px.
-   160px에서는 이 딱지가 흰 상자 양옆으로 11px씩 삐져나와 값에 붙었다.
+/* 사업자 정보 — 영어판은 칸 폭을 글자 길이에 맞춘다.
+   한국어판은 딱지 단을 160px로 고정해도 값이 모두 한 줄에 들지만, 영어는 딱지(최대
+   'Business registration number' 183px)와 값(최대 주소 327px)이 길다. 딱지 단을 208px로
+   고정하면 왼쪽 값 칸이 168px로 줄어 주소가 세 줄로 접히고 행 간격이 73 · 73 · 49px로
+   들쭉날쭉했다.
+   - 딱지 단은 단마다 제 가장 긴 딱지에 맞춘다(max-content). 한 단 안에서는 상자 폭이 같아
+     값의 시작점이 줄마다 맞는다 — 한국어판이 폭을 고정한 이유와 같다
+   - 왼쪽 값 단은 가장 긴 값(주소)만큼은 꼭 차지하고(max-content) 남는 폭을 가져가
+     두 벌 사이 간격이 된다. 그래서 한국어판의 오른쪽 안여백 56px은 쓰지 않는다
+   - 1440px 실측: 177 · 327 · 207 · 120 + 칸 사이 16 × 3 = 881px / 카드 안쪽 912px →
+     값이 모두 한 줄, 두 벌 사이 47px
    520px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다. */
 @media (min-width: 1001px) {
-  :lang(en) .legal-body .legal-facts { grid-template-columns: 208px minmax(0, 1fr) 208px minmax(0, 1fr); }
+  :lang(en) .legal-body .legal-facts { grid-template-columns: max-content minmax(max-content, 1fr) max-content max-content; }
+  :lang(en) .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
 @media (min-width: 521px) and (max-width: 1000px) {
-  :lang(en) .legal-body .legal-facts { grid-template-columns: 208px minmax(0, 1fr); }
+  :lang(en) .legal-body .legal-facts { grid-template-columns: max-content minmax(0, 1fr); }
 }
 
