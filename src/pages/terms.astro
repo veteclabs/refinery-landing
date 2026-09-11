@@ -17,12 +17,19 @@ const { company, revisions } = legal('ko');
 // - 제14조1호: 고객에게 부당하게 불리한 전속관할 합의는 무효 → '전속'으로 못 박지 않고
 //   회사 본점 소재지 관할법원을 제1심 관할법원으로 둔다(전속 아님, 부가적 합의관할).
 const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
+
+// 영어판(/en/terms)이 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/terms' },
+  { lang: 'en', href: '/en/terms' },
+];
 ---
 <BaseLayout
   title="이용약관 | Refinery"
   description="Refinery 웹사이트 및 Refinery 서비스 이용에 관한 약관입니다."
   canonical="/terms"
   robots="index, follow"
+  alternates={alternates}
 >
   <Nav />
   <main class="legal-main legal-main--wide">

@@ -1,0 +1,441 @@
+---
+// 이용약관 영어판. 한국어 원문(src/pages/terms.astro)을 조 · 항 · 호 단위로 그대로 옮긴다.
+// 용어 · 표기 기준은 docs/legal-en-glossary.md — 거기 없는 용어는 임의로 옮기지 않는다.
+// 법령명 · 조문은 KLRI 영문법령의 표현을 따른다. 법적 효력은 한국어판에 있다(맨 앞 고지).
+// 호칭 — 계약서라 정의어를 쓴다: the “Company” · “Customer” · “User” · “End User”(용어집 §10). we · you를 쓰지 않는다.
+// 굵게 표시는 한국어판의 「약관의 규제에 관한 법률」 제3조 중요 내용 표시와 같은 자리에 둔다 — 지우지 않는다.
+// 제21 · 22 · 23조는 보증 부인 · 책임 제한 · 제3자 청구 방어로 서로 다른 조다 — 한 조로 묶어 옮기지 않는다(용어집 §4).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import Ph from '../../components/Ph.astro';
+import { legal, effectiveDate, legalReviewed, formatDate } from '../../data/legal';
+import '../../styles/legal.css';
+const { company, revisions } = legal('en');
+
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
+
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/terms' },
+  { lang: 'en', href: '/en/terms' },
+];
+
+// 소프트웨어 사용권 계약 영어판이 생기기 전까지는 한국어 원문으로 연결한다.
+const eulaHref = '/eula';
+---
+<BaseLayout
+  title="Terms of Service | Refinery"
+  description="Terms governing the use of the Refinery website and the Refinery service."
+  canonical="/en/terms"
+  robots="index, follow"
+  alternates={alternates}
+>
+  <Nav />
+  <main class="legal-main legal-main--wide">
+    <h1>Terms of Service</h1>
+    <p class="legal-updated">Effective date: <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" /></p>
+
+    {/* 한국어판 우선 고지 — 용어집 §0-1. 문구를 바꾸지 않는다. */}
+    <p class="legal-lang-notice">
+      This English version is provided for reference only. In the event of any discrepancy
+      between this translation and the <a href="/terms" hreflang="ko" lang="ko">Korean original</a>,
+      the Korean version shall prevail.
+    </p>
+
+    {isDraft && (
+      <div class="legal-draft">
+        ⚠️ This document is a <strong>draft</strong>. Fill in the yellow <span class="legal-ph">[fields]</span> in{' '}
+        <code>src/data/legal.ts</code> and obtain a <strong>legal review</strong> before publishing.
+        Sentences in bold are the <strong>indication of important details</strong> required by Article 3 of the Act on the Regulation
+        of Terms and Conditions; do not remove the bold formatting.
+      </div>
+    )}
+
+    <div class="legal-body legal-body--terms">
+      <p>
+        These Terms of Service (these “Terms”) apply to the {company.serviceName} website and the {company.serviceName} service
+        provided by <Ph value={company.legalName} label="Company name" /> (the “Company”). The{' '}
+        <strong>license to installable software</strong> separately provided by the Company is governed by the{' '}
+        <a href={eulaHref}>Software License Agreement (EULA)</a>, and the processing of personal information is governed by the{' '}
+        <a href="/en/privacy">Privacy Policy</a>.
+      </p>
+
+      <h2 class="legal-chapter">Chapter 1. General Provisions</h2>
+
+      <section>
+        <h2>Article 1 (Purpose)</h2>
+        <p>
+          The purpose of these Terms is to set forth the rights, obligations, and responsibilities of the Company and Users, and other
+          necessary matters, in connection with the use of the {company.serviceName} website ({company.siteUrl}) operated by the Company
+          and the {company.serviceName} service provided by the Company.
+        </p>
+      </section>
+
+      <section>
+        <h2>Article 2 (Definitions)</h2>
+        <ol>
+          <li>“Website” means the information website operated by the Company at {company.siteUrl} and its subdomains.</li>
+          <li>“Service” means the industrial data collection, storage, analysis, and visualization services, and all services incidental thereto, provided by the Company under the name {company.serviceName}.</li>
+          <li>“User” means a person who accesses the Website to view information or submit inquiries.</li>
+          <li>“Customer” means a corporation or sole proprietor that has entered into an Individual Agreement with the Company and uses the Service.</li>
+          <li>“End User” means an officer or employee of the Customer, or a third party approved by the Customer, who actually uses the Service through an account granted by the Customer.</li>
+          <li>“Individual Agreement” means the contract, order form, quotation, purchase order, and any documents attached thereto that the Company and the Customer enter into to determine the scope, term, fees, and other terms of the Service.</li>
+          <li>“Customer Data” means all data that the Customer or End Users enter or upload into the Service, or that is brought into the Service from the Customer’s systems or equipment through integration or collection.</li>
+          <li>“Fees” means the amounts the Customer pays to the Company in consideration for the use of the Service.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 3 (Posting, Effect, and Amendment of the Terms)</h2>
+        <ol>
+          <li>The Company posts these Terms at the bottom of the Website’s front page so that Users can easily see their contents.</li>
+          <li>These Terms take effect upon being posted on the Website.</li>
+          <li>The Company may amend these Terms to the extent that doing so does not violate relevant laws, such as the Act on the Regulation of Terms and Conditions.</li>
+          <li>
+            <strong>If the Company amends these Terms, it will announce the amendment, stating the effective date and the reasons for the amendment,
+            starting 7 days before the effective date. However, for amendments unfavorable to Users, the Company will announce them starting
+            30 days before the effective date and will also notify Customers individually at their registered email addresses.</strong>
+          </li>
+          <li>
+            <strong>If a Customer does not agree to the amended Terms, the Customer may raise an objection with the Company by the day before the
+            effective date and terminate the Individual Agreement, in which case the Company will refund, on a pro rata daily basis, the Fees
+            corresponding to the remaining contract term. If the Customer does not raise an objection by the effective date, the Customer is
+            deemed to have agreed to the amended Terms.</strong>
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 4 (Rules Not Covered by These Terms and Precedence of the Individual Agreement)</h2>
+        <ol>
+          <li>Matters not provided for in these Terms are governed by the Individual Agreement, relevant laws, and commercial practice.</li>
+          <li><strong>If the contents of these Terms and the Individual Agreement differ, the Individual Agreement prevails.</strong></li>
+          <li>Matters concerning the processing of personal information are governed by the <a href="/en/privacy">Privacy Policy</a>, and if the Privacy Policy is more favorable to data subjects than these Terms, the Privacy Policy prevails.</li>
+        </ol>
+      </section>
+
+      <h2 class="legal-chapter">Chapter 2. Use of the Website</h2>
+
+      <section>
+        <h2>Article 5 (Provision of the Website)</h2>
+        <ol>
+          <li>Through the Website, the Company provides information on its products and solutions, content such as blog posts, whitepapers, and resource libraries, and a service for receiving inquiries and demo requests.</li>
+          <li>No membership registration or fee is required to use the Website.</li>
+          <li>The Company may change the structure and content of the Website in accordance with its policies.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 6 (Inquiries and Demo Requests)</h2>
+        <ol>
+          <li>Users may submit product inquiries, demo requests, partnership proposals, and the like through the inquiry form on the Website.</li>
+          <li>Users must provide accurate information when submitting inquiries and must not misappropriate another person’s information or provide false information.</li>
+          <li>The Company may respond to inquiries received, but a response does not in itself constitute the conclusion of a contract or acceptance to provide the Service.</li>
+          <li>The processing of personal information collected in the course of an inquiry is governed by the <a href="/en/privacy">Privacy Policy</a>.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 7 (Use of Content)</h2>
+        <ol>
+          <li>Users may use content posted on the Website (blog posts, whitepapers, reports, images, charts, etc.) <strong>only for non-commercial viewing and internal reference purposes</strong>.</li>
+          <li>Without the Company’s prior written consent, Users may not reproduce, distribute, transmit, publish, or display the content, create derivative works from it, or use it for commercial purposes.</li>
+          <li>When quoting content, Users must cite the source and must not distort the intent of the original.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 8 (Prohibited Acts)</h2>
+        <p>Users must not engage in any of the following acts:</p>
+        <ol>
+          <li>Infringing the intellectual property rights, reputation, credit, or other rights of the Company or any third party</li>
+          <li>Collecting Website content in bulk using automated means (crawlers, scrapers, bots, etc.), except for indexing by search engines as permitted by <code>robots.txt</code></li>
+          {/* ⚠️ 한국어 원문이 인용한 정보통신망법 제50조의2는 2014. 5. 28. 삭제된 조문이다(KLRI 영문본 "Article 50-2 Deleted").
+              번역은 원문을 그대로 따르고, 인용을 고칠지는 한국어판과 함께 정한다. */}
+          <li>Collecting, selling, or distributing email addresses posted on the Website using technical devices such as automatic collection programs (Article 50-2 of the Act on Promotion of Information and Communications Network Utilization and Information Protection)</li>
+          <li>Generating abnormally excessive requests that interfere with the normal operation of the Service</li>
+          <li>Probing the Website or the Service for vulnerabilities, or attempting to access systems without authorization, except for security testing notified to the Company in advance and approved by the Company</li>
+          <li>Impersonating the Company or falsely representing a relationship with the Company</li>
+          <li>Any act that violates relevant laws</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 9 (Feedback)</h2>
+        <p>
+          If a User or Customer provides the Company with ideas, suggestions for improvement, or opinions regarding its products or services (“Feedback”),
+          the Company may freely use such Feedback to improve its products and services <strong>without any obligation of confidentiality or separate compensation</strong>.
+          However, this does not apply where the Customer has specified in writing that the Feedback contains the Customer’s trade secrets.
+        </p>
+      </section>
+
+      <h2 class="legal-chapter">Chapter 3. Use of the {company.serviceName} Service</h2>
+
+      <section>
+        <h2>Article 10 (Formation of the Agreement)</h2>
+        <ol>
+          <li>A service agreement is formed when the Customer applies to the Company for use of the Service and the Company and the Customer enter into an Individual Agreement.</li>
+          <li>The Company may decline an application, or subsequently terminate the agreement, in any of the following cases:
+            <ul>
+              <li>Where the application contains false information</li>
+              <li>Where the Customer is a person with whom the Company may not transact under relevant laws (e.g., a person subject to strategic item export or import restrictions, or to sanctions)</li>
+              <li>Where it is difficult to provide the Service due to the Company’s facility capacity or technical constraints</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 11 (Content of the Service)</h2>
+        <ol>
+          <li>Within the scope set out in the Individual Agreement, the Company provides functions for collecting, storing, processing, analyzing, and visualizing industrial data, and technical support incidental thereto.</li>
+          <li>The specific functions of the Service, usage limits (number of connected equipment items, tags, and users; storage capacity; retention period; etc.), and delivery method (cloud or customer-installed) are set out in the Individual Agreement.</li>
+          <li>The Company may add or improve functions to enhance the quality of the Service.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 12 (Management of Accounts and End Users)</h2>
+        <ol>
+          <li>The Customer may grant accounts to End Users within the number set out in the Individual Agreement.</li>
+          <li><strong>The Customer is responsible for managing account information (IDs, passwords, and authentication means) and is liable for any consequences arising from the leakage, transfer, or lending of account information.</strong> However, this does not apply where such consequences are caused by the Company’s willful misconduct or negligence.</li>
+          <li>The Customer must ensure that End Users comply with these Terms and the Individual Agreement, and <strong>the acts of End Users are deemed to be the acts of the Customer.</strong></li>
+          <li>If the Customer becomes aware of any theft or unauthorized use of account information, the Customer must immediately notify the Company and follow the Company’s instructions.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 13 (Fees and Payment)</h2>
+        <ol>
+          <li>The amount, calculation basis, billing cycle, and payment due date of the Fees are set out in the Individual Agreement.</li>
+          <li><strong>If the Customer uses the Service in excess of the usage limits set out in the Individual Agreement, the Company may charge additional fees for the excess usage at the unit price set out in the Individual Agreement (or, if none is set, at the Company’s list price). In this case, the Company will notify the Customer of the excess usage and the basis of calculation before charging.</strong></li>
+          <li>The Fees do not include value-added tax, and the Customer bears any taxes and public charges under relevant laws.</li>
+          <li><strong>If the Customer fails to pay the Fees by the payment due date, the Company may charge late-payment interest on the overdue amount at 6% per annum (the statutory interest rate in commercial activities under the Commercial Act).</strong></li>
+          <li><strong>If the Customer’s payment is overdue by more than 30 days, the Company may, after demanding performance and setting a period of at least 14 days to do so, suspend the provision of the Service or terminate the Individual Agreement.</strong></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 14 (Term and Termination)</h2>
+        <ol>
+          <li>The contract term is as set out in the Individual Agreement, or <strong>one year</strong> if not specified.</li>
+          <li>
+            <strong>Unless either the Company or the Customer notifies the other, in writing or by email, of its intention not to renew at least 30 days before the expiration date of the contract term, the Individual Agreement is automatically renewed for one year on the same terms. The Company will notify the Customer of the scheduled automatic renewal and the Fees after renewal between 60 and 30 days before the expiration date of the contract term.</strong>
+          </li>
+          <li>The Customer may terminate the Individual Agreement at any time by notifying the Company in writing or by email. In this case, <strong>any portion of the Fees already paid that corresponds to the remaining contract term will be settled as set out in the Individual Agreement.</strong></li>
+          <li>The Company or the Customer may terminate the Individual Agreement if the other party materially breaches these Terms or the Individual Agreement and <strong>fails to cure the breach after receiving a request to cure that sets a period of at least 30 days</strong>.</li>
+          <li>If bankruptcy or rehabilitation proceedings are commenced against a party, its bills or checks are dishonored, its business is suspended, or any other event materially affecting its creditworthiness occurs, the other party may terminate the Individual Agreement immediately without prior demand.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 15 (Service Hours and Maintenance)</h2>
+        <ol>
+          <li>As a rule, the Service is provided 24 hours a day, every day of the year.</li>
+          <li>The Company may temporarily suspend all or part of the Service when necessary for operations, such as system inspection, expansion, or replacement, and <strong>will give notice of scheduled maintenance at least 7 days in advance, and of unavoidable emergency maintenance in advance (or, if prior notice is impossible, without delay afterward), through the Website or by email.</strong></li>
+          <li>Service availability (SLA), incident response times, and Fee credits for failing to meet them may be set out in the Individual Agreement.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 16 (Change and Discontinuation of the Service)</h2>
+        <ol>
+          <li>The Company may change the content of the Service or discontinue certain functions where there are reasonable grounds, such as changes in technical specifications, amendments to laws, or changes in service policy.</li>
+          <li><strong>If the Company changes major functions of the Service to the Customer’s disadvantage or discontinues the Service entirely, it will notify the Customer at least 90 days before the change or discontinuation takes effect. In this case, the Customer may terminate the Individual Agreement, and the Company will refund, on a pro rata daily basis, the Fees corresponding to the remaining contract term.</strong></li>
+          <li>The notice period in paragraph (2) does not apply in the event of force majeure, such as natural disasters, national emergencies, or service interruptions by telecommunications carriers.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 17 (Ownership and Use of Customer Data)</h2>
+        <ol>
+          <li><strong>All rights to Customer Data belong to the Customer.</strong> The Company does not claim any ownership of Customer Data.</li>
+          <li>The Company processes Customer Data only to the extent necessary to provide the Service, respond to incidents, provide customer support, and perform the agreement, and <strong>does not provide Customer Data to third parties or use it for other purposes without the Customer’s prior written consent.</strong></li>
+          <li><strong>The Company does not use Customer Data for training the Company’s artificial intelligence models in any form that can identify a customer or an individual.</strong> However, the Company may use information that has been anonymized and aggregated so that individual customers or equipment cannot be re-identified (information that does not constitute personal information, such as equipment specifications, power and efficiency indicators, and operation and improvement history) for service improvement and research. If Customer Data contains personal information, its processing is subject to paragraph (5) and the scope set out in the personal information entrustment contract.</li>
+          <li>
+            <strong>When the Individual Agreement ends, the Customer may export Customer Data within 30 days of the end date, and the Company will delete Customer Data without delay after that period expires.</strong>{' '}
+            However, information that must be retained under laws is stored separately for the required period.
+          </li>
+          <li>If Customer Data contains personal information, the Customer is the personal information controller and the Company is the person entrusted (수탁자), and its processing is governed by the personal information entrustment contract entered into between the Company and the Customer and by the <a href="/en/privacy">Privacy Policy</a>.</li>
+          <li>The Customer is responsible for backing up Customer Data. However, this does not apply where the Individual Agreement provides that the Company will provide a backup service.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 18 (Confidentiality)</h2>
+        <ol>
+          <li>The Company and the Customer must not disclose to any third party, or use for any purpose other than the purpose of the agreement, the other party’s business or technical secrets learned in the course of performing the agreement.</li>
+          <li>
+            However, the following information is excluded from confidential information:
+            <ul>
+              <li>Information that is publicly known</li>
+              <li>Information already in the receiving party’s possession at the time of receipt</li>
+              <li>Information lawfully obtained from a third party</li>
+              <li>Information independently developed without using confidential information</li>
+            </ul>
+          </li>
+          <li>If confidential information is disclosed pursuant to laws or a lawful request of a government agency or court, the disclosing party will notify the other party in advance to the extent possible.</li>
+          <li>The obligations under this Article survive for <strong>three years</strong> after the termination of the agreement.</li>
+        </ol>
+      </section>
+
+      <h2 class="legal-chapter">Chapter 4. Miscellaneous Provisions</h2>
+
+      <section>
+        <h2>Article 19 (Intellectual Property Rights)</h2>
+        <ol>
+          <li>All intellectual property rights in the Website, the Service, software, documentation, trademarks, and everything contained therein belong to the Company or the legitimate rights holders.</li>
+          <li>The Customer only has the right to use the Service within the scope set out in the Individual Agreement, and no other rights are transferred to the Customer.</li>
+          <li>Rights to analytical models, algorithms, and outputs generated by the Company in the course of providing the Service belong to the Company, unless otherwise provided in the Individual Agreement.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 20 (Restriction of Use)</h2>
+        <ol>
+          <li>If a User or Customer engages in any prohibited act under Article 8 or violates these Terms, the Company may restrict use of the Service after first requesting correction.</li>
+          <li>However, if an <strong>imminent and serious risk</strong> arises to the stability of the Service or the interests of other customers, the Company may restrict use immediately and give notice of the reason without delay.</li>
+          <li>The Company will lift the restriction without delay once the grounds for the restriction are resolved.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 21 (Warranties and Disclaimer of Warranties)</h2>
+        <ol>
+          <li>The Company warrants that the Service will be provided <strong>in substantial conformity with</strong> the Individual Agreement and the product specifications provided by the Company.</li>
+          <li>The Company <strong>does not warrant that the Service will operate without interruption or error</strong>, and does not warrant that the Service will be fit for the Customer’s particular purpose.</li>
+          <li>The analysis and prediction results provided by the Service are reference materials to support decision-making, and <strong>the Company does not warrant the consequences of any judgments made or actions taken by the Customer based on such results.</strong> The Customer must independently verify the validity of the results.</li>
+          <li><strong>The Service must not be used for control purposes directly related to human life or safety (such as safety instrumented systems, emergency shutdowns, automatic shutoffs based on fire or gas detection, or medical devices), nor as the sole means of judgment for such purposes.</strong> The Customer must maintain a separate, independent safety system.</li>
+          <li>This Article does not exclude the Company’s liability arising from its willful misconduct or gross negligence.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 22 (Limitation of Liability)</h2>
+        <ol>
+          <li>
+            <strong>The Company’s total liability for damages to the Customer is limited to the total amount of Fees actually paid by the Customer to the Company during the 12 months preceding the date on which the cause of the damage arose.</strong>
+          </li>
+          <li>
+            <strong>The Company is liable for damages arising from special circumstances beyond the scope of ordinary damages, lost profits, and indirect damages resulting from data loss only if the Company knew or could have known of such circumstances.</strong>
+          </li>
+          <li>
+            <strong>Paragraphs (1) and (2) do not apply to damages arising from the Company’s willful misconduct or gross negligence, damages arising from a breach of matters warranted by the Company in writing, or personal injury (injury to life or body).</strong>
+          </li>
+          <li>The Company is not liable for damages arising from any of the following causes. However, this does not apply where the Company has acted with willful misconduct or negligence.
+            <ul>
+              <li>Force majeure, such as natural disasters, war, riots, or government actions</li>
+              <li>Causes beyond the Company’s control, such as line failures of telecommunications carriers or power outages</li>
+              <li>Defects in data, equipment, or networks provided by the Customer, or processing performed according to the Customer’s instructions</li>
+              <li>Negligent account management by the Customer or End Users</li>
+              <li>Incidents arising from the Customer’s failure to implement security measures or updates recommended by the Company</li>
+            </ul>
+          </li>
+          <li>For trial versions, beta features, and evaluation versions provided free of charge, the Company is liable <strong>only in cases of willful misconduct or gross negligence</strong>.</li>
+        </ol>
+      </section>
+
+      <section>
+        {/* 표제는 원문 '제3자 청구에 대한 방어'를 그대로 옮긴다. 'Indemnification'으로 부르면 제3자 지식재산권
+            청구로 한정된 이 조가 일반적인 손해 보전 약속처럼 넓게 읽힐 수 있다(용어집 §4 · §11 넓어진 곳). */}
+        <h2>Article 23 (Defense Against Third-Party Claims)</h2>
+        <ol>
+          <li>If the Customer receives a claim from a third party alleging that the Service infringes the third party’s intellectual property rights in the Republic of Korea, the Company will defend the claim at its own expense and bear the damages the Customer is ordered to pay under a final and binding judgment. However, this applies only if the Customer notifies the Company without delay and cooperates in the defense.</li>
+          <li>
+            In the case of paragraph (1), the Company may, at its option, take any of the following measures:
+            <ul>
+              <li>Securing the right to continue using the Service</li>
+              <li>Modifying the Service so that it no longer infringes</li>
+              <li>Terminating the Individual Agreement and refunding the Fees for the remaining term</li>
+            </ul>
+          </li>
+          <li>If a third party’s rights are infringed due to Customer Data or the Customer’s instructions, the Customer will defend and indemnify the Company in the same manner.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 24 (Assignment of Rights and Obligations)</h2>
+        <p>Neither the Company nor the Customer may assign to a third party, or provide as collateral, its rights or obligations under these Terms and the Individual Agreement without the other party’s prior written consent. However, this does not apply to universal succession resulting from a merger, division, or business transfer, in which case the relevant party will notify the other party without delay.</p>
+      </section>
+
+      <section>
+        <h2>Article 25 (Notices)</h2>
+        <ol>
+          <li>Notices from the Company to the Customer take effect when sent to the email address stated in the Individual Agreement.</li>
+          <li>Notices to Users in general may be given by posting on the Website instead. However, matters that materially affect the Customer’s rights or obligations will be notified individually.</li>
+          <li>If the Customer’s contact information changes, the Customer must notify the Company without delay, and the Company is not responsible for any disadvantage arising from the Customer’s failure to do so.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 26 (Force Majeure)</h2>
+        <ol>
+          <li>A party is not liable to the extent that it fails to perform, or delays performance of, its obligations due to causes beyond its reasonable control, such as natural disasters, war or civil unrest, the spread of infectious diseases, actions by government authorities, or widespread failures of infrastructure such as telecommunications, power, or cloud services.</li>
+          <li>If a force majeure event continues for 30 days or more, the other party may terminate the Individual Agreement by written notice.</li>
+          <li>However, payment obligations that have already arisen are not excused on the grounds of force majeure.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 27 (Entire Agreement)</h2>
+        <p>These Terms and the Individual Agreement constitute the entire agreement between the Company and the Customer with respect to their subject matter and take precedence over all prior oral or written agreements, proposals, and representations. However, this does not apply to warranties made by the Company in writing.</p>
+      </section>
+
+      <section>
+        <h2>Article 28 (Governing Law and Jurisdiction)</h2>
+        <ol>
+          <li>These Terms and the Individual Agreement are governed by and construed in accordance with <strong>the laws of the Republic of Korea</strong>.</li>
+          <li>If a dispute arises between the Company and a User or Customer, the parties will consult in good faith to resolve it amicably.</li>
+          <li>If the parties fail to reach an agreement and a lawsuit is filed, <strong>the court having jurisdiction over the location of the Company’s head office will be the court of first instance</strong>. However, this is not an exclusive jurisdiction agreement and does not exclude any other jurisdiction recognized by law.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 29 (Severability)</h2>
+        <p>Even if any provision of these Terms is held invalid or unenforceable for violating relevant laws, the validity of the remaining provisions is not affected.</p>
+      </section>
+
+      <section class="legal-appendix">
+        <h2>Addenda</h2>
+        <ul>
+          <li>These Terms are effective as of <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" />. The revision history is as follows.</li>
+        </ul>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead><tr><th style="width:200px;">Effective date</th><th>Summary of changes</th><th style="width:180px;">Full text</th></tr></thead>
+            <tbody>
+              {revisions.terms.map((r) => (
+                <tr>
+                  <td>{formatDate(r.date, 'en')}</td>
+                  <td>{r.summary}</td>
+                  <td>{r.href ? <a href={r.href}>View full text</a> : 'Current'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>For inquiries about these Terms, please use the contact details below or the <a href="/en/contact">Contact</a> page.</p>
+        <div class="legal-cards legal-cards--single">
+          <div class="legal-card">
+            <dl class="legal-facts">
+              <dt>Company name</dt><dd><Ph value={company.legalName} label="Company name" /></dd>
+              <dt>Representative</dt><dd><Ph value={company.ceo} label="Representative" /></dd>
+              <dt>Address</dt><dd><Ph value={company.address} label="Address" /></dd>
+              <dt>Email</dt><dd><Ph value={company.email} label="Email" /></dd>
+              <dt>Phone</dt><dd><Ph value={company.tel} label="Phone" /></dd>
+              <dt>Business registration number</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
+              {company.mailOrderNo && <><dt>Mail-order business registration number</dt><dd>{company.mailOrderNo}</dd></>}
+              <dt>Hosting service provider</dt><dd>{company.hosting}</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
