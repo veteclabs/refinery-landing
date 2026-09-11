@@ -651,3 +651,28 @@ html { scroll-behavior: smooth; }
 /* 표 좁은 칸에서 "(first party)" · "local storage"처럼 두 낱말이 한 뜻인 말이
    가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
 .legal-keep { white-space: nowrap; }
+
+/* 사업자 정보 — 영어판도 한국어판과 같은 구조(딱지 단 160px · 두 벌 사이 56px)를 쓴다.
+   영어 딱지 'Business registration number'(183px) · 'Hosting service provider'(153px)는
+   160px 상자(안쪽 136px)에 한 줄로 들지 않아 두 줄로 접는다.
+   상자 높이는 딱지 길이와 상관없이 모두 두 줄 높이로 맞춘다 — 두 줄짜리만 높으면 줄마다
+   상자 크기가 달라 보였다. 52px = 줄 높이 20px × 2 + 위아래 안여백 6px × 2.
+   (글자 길이에 맞춰 칸 폭을 바꾸는 안 · 한 줄에 한 쌍 · 딱지를 값 위에 얹는 안을 비교한 뒤
+   한국어판과 구조가 같은 이 안을 택했다 — 2026-09-11 사용자 결정)
+   520px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다. */
+@media (min-width: 521px) {
+  :lang(en) .legal-body .legal-facts dt {
+    height: 52px;
+    padding: 6px 12px;
+    line-height: 20px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+
+/* 영어판 목차 — 번호 칸과 제목 칸을 나눠 두 줄째를 제목 첫 글자에 맞춘다.
+   영어 제목은 길어 두 줄로 넘어가는 항목이 많다(1440px 4개 · 390px 12개). 한국어 목차는
+   두 줄로 넘어가는 항목이 없어 한 덩어리 그대로 둔다.
+   1.75em(24.5px) = 가장 넓은 번호 '22.'(약 19px) + 번호와 제목 사이 여백. */
+:lang(en) .legal-toc a { display: grid; grid-template-columns: 1.75em minmax(0, 1fr); }

@@ -1,0 +1,593 @@
+---
+// 개인정보처리방침 영어판. 한국어 원문(src/pages/privacy.astro)을 조 · 표 단위로 그대로 옮긴다.
+// 용어 · 표기 기준은 docs/legal-en-glossary.md — 거기 없는 용어는 임의로 옮기지 않는다.
+// 법 조문 · 법령명은 KLRI 영문법령(elaw.klri.re.kr)의 표현을 따른다. 법적 효력은 한국어판에 있다(맨 앞 고지).
+// 호칭 — 안내문이라 we · you. 법 조문을 옮기는 곳과 조 제목에서만 data subject.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import Ph from '../../components/Ph.astro';
+import { legal, effectiveDate, revisedDate, legalReviewed, formatDate } from '../../data/legal';
+import '../../styles/legal.css';
+const { company, retention, processors, remedyAgencies, revisions } = legal('en');
+
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.bizNo;
+
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/privacy' },
+  { lang: 'en', href: '/en/privacy' },
+];
+
+// 이용약관 영어판이 생기기 전까지는 한국어 원문으로 연결한다.
+const termsHref = '/terms';
+
+// 문서 맨 앞 목차. 라벨은 본문 <h2>와 같아야 한다 — 조문을 고치면 여기도 고친다.
+const toc = [
+  { id: 'sec-1', no: '1', label: 'Purposes of processing personal information' },
+  { id: 'sec-2', no: '2', label: 'Items of personal information processed' },
+  { id: 'sec-3', no: '3', label: 'Processing of personal information of children under 14' },
+  { id: 'sec-4', no: '4', label: 'Processing and retention periods' },
+  { id: 'sec-5', no: '5', label: 'Procedures and methods for destroying personal information' },
+  { id: 'sec-6', no: '6', label: 'Provision of personal information to third parties' },
+  { id: 'sec-7', no: '7', label: 'Criteria for additional use and provision' },
+  { id: 'sec-8', no: '8', label: 'Entrustment of personal information processing' },
+  { id: 'sec-9', no: '9', label: 'Cross-border transfer of personal information' },
+  { id: 'sec-customer-data', no: '10', label: 'Personal information in Customer Data (our status as a person entrusted)' },
+  { id: 'sec-11', no: '11', label: 'Measures to ensure the safety of personal information' },
+  { id: 'sec-12', no: '12', label: 'Possibility of disclosure of sensitive information and how to choose non-disclosure' },
+  { id: 'sec-13', no: '13', label: 'Processing of pseudonymized information' },
+  { id: 'sec-14', no: '14', label: 'Installation and operation of automatic collection tools for personal information, and the denial thereof' },
+  { id: 'sec-15', no: '15', label: 'Collection, use, and refusal of behavioral information' },
+  { id: 'sec-16', no: '16', label: 'Rights and obligations of data subjects and legal representatives, and how to exercise them' },
+  { id: 'sec-17', no: '17', label: 'Automated decisions' },
+  { id: 'sec-18', no: '18', label: 'Privacy officer and grievance-handling department' },
+  { id: 'sec-19', no: '19', label: 'Department receiving and processing access requests' },
+  { id: 'sec-20', no: '20', label: 'Remedies for infringement of data subjects’ rights and interests' },
+  { id: 'sec-21', no: '21', label: 'Operation and management of visual data processing devices' },
+  { id: 'sec-22', no: '22', label: 'Changes to this Privacy Policy' },
+  { id: 'sec-company', no: '', label: 'Business information' },
+];
+---
+<BaseLayout
+  title="Privacy Policy | Refinery"
+  description="How the Refinery website and service collect, use, provide, entrust, and transfer personal information across borders."
+  canonical="/en/privacy"
+  robots="index, follow"
+  alternates={alternates}
+>
+  <Nav />
+  <main class="legal-main legal-main--wide">
+    <h1>Privacy Policy</h1>
+    <p class="legal-updated">Effective date: <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" /></p>
+
+    {/* 한국어판 우선 고지 — 용어집 §0-1. 문구를 바꾸지 않는다. */}
+    <p class="legal-lang-notice">
+      This English version is provided for reference only. In the event of any discrepancy
+      between this translation and the <a href="/privacy" hreflang="ko" lang="ko">Korean original</a>,
+      the Korean version shall prevail.
+    </p>
+
+    {isDraft && (
+      <div class="legal-draft">
+        ⚠️ This document is a <strong>draft</strong>. Fill in the yellow <span class="legal-ph">[fields]</span> in{' '}
+        <code>src/data/legal.ts</code> and obtain a <strong>legal review</strong> before publishing.
+        The items collected, persons entrusted, and cookies listed reflect the current site implementation.
+      </div>
+    )}
+
+    <div class="legal-body">
+      <p>
+        In accordance with Article 30 of the Personal Information Protection Act (“PIPA”), <Ph value={company.legalName} label="Company name" />{' '}
+        (“{company.shortName},” “we,” or “us”) establishes and discloses this Privacy Policy as follows to protect your
+        personal information and to handle related grievances promptly and smoothly.
+      </p>
+      <p>
+        This Policy applies to the <strong>{company.serviceName} website ({company.siteUrl})</strong> that we operate and
+        the <strong>{company.serviceName} service</strong> that we provide. However, where data that a customer has entered into
+        or connected to the {company.serviceName} service contains personal information, <strong>the customer is the personal
+        information controller</strong> for that personal information and we act as a person entrusted with its processing,
+        so <a href="#sec-customer-data">Section 10</a> below applies.
+      </p>
+
+      <nav class="legal-toc" aria-labelledby="toc-title">
+        <p class="legal-toc-title" id="toc-title">Contents</p>
+        <ol>
+          {toc.map((t) => (
+            <li>
+              {/* 번호와 제목을 두 칸으로 나눈다 — 영어 제목은 길어 두 줄로 넘어가는 항목이 많은데
+                  (390px 23개 중 12개), 한 덩어리로 두면 둘째 줄이 번호 아래로 파고들어 번호가 묻혔다.
+                  제목 칸에 맞춰 둘째 줄이 들여 쓰이고, 1. · 10.의 제목 시작점도 같아진다. */}
+              <a href={`#${t.id}`}><span class="legal-toc-no">{t.no ? t.no + '.' : ''}</span><span>{t.label}</span></a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <section id="sec-1">
+        <h2>1. Purposes of processing personal information</h2>
+        <p>We process personal information for the following purposes. If a purpose changes, we will take necessary measures, such as obtaining separate consent in accordance with Article 18 of PIPA.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--prose2">
+            <thead><tr><th>Category</th><th>Purpose of processing</th><th>Consent required</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Inquiries and demo requests</td>
+                <td>Reviewing and responding to inquiries; consultations and technical reviews; and scheduling demos and proposals</td>
+                <td><strong>Required</strong><br /><span class="legal-note">(consent to collection and use when you submit the contact form)</span></td>
+              </tr>
+              <tr>
+                <td>Conclusion and performance of contracts</td>
+                <td>Quotation and contract negotiations, conclusion and performance of contracts, billing and settlement, issuance of tax invoices, and customer support</td>
+                <td>Not required<br /><span class="legal-note">(necessary to conclude or perform a contract, Article 15 (1) 4 of PIPA)</span></td>
+              </tr>
+              <tr>
+                <td>Service operation</td>
+                <td>Account creation and management, identity verification, permission management, fraud prevention, incident response, and retention of access logs</td>
+                <td>Not required<br /><span class="legal-note">(performance of contracts and compliance with legal obligations)</span></td>
+              </tr>
+              <tr>
+                <td>Usage analysis and improvement</td>
+                <td>Website usage statistics analysis, and content and usability improvement</td>
+                <td><strong>Required</strong><br /><span class="legal-note">(only if you consent in the cookie banner)</span></td>
+              </tr>
+              <tr>
+                <td>Marketing and newsletters</td>
+                <td>Transmitting advertising information for profit, such as sending materials and announcing seminars and webinars</td>
+                <td><strong>Required</strong><br /><span class="legal-note">(prior consent under Article 50 of the Act on Promotion of Information and Communications Network Utilization and Information Protection)</span></td>
+              </tr>
+              <tr>
+                <td>Compliance with legal obligations</td>
+                <td>Complying with retention obligations under relevant laws, such as tax laws and the Electronic Financial Transactions Act, and responding to disputes</td>
+                <td>Not required</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="sec-2">
+        <h2>2. Items of personal information processed</h2>
+
+        <div class="legal-cards">
+          <div class="legal-card">
+            <h3>A. Inquiries and demo requests (entered directly by you)</h3>
+            <ul>
+              <li><strong>Required</strong>: Company name, name, email address, phone number</li>
+              <li><strong>Optional</strong>: Job title, industry, inquiry details</li>
+            </ul>
+            <p class="legal-note">
+              Please do not enter sensitive information or personally identifiable information, such as resident registration numbers or health information, in the inquiry field.
+              We do not collect such information; if it is entered, we will destroy it immediately upon discovery.
+            </p>
+          </div>
+          <div class="legal-card">
+            <h3>B. Conclusion of contracts and use of the service</h3>
+            <ul>
+              <li>Customer’s contact person: Affiliation and department, name, position, email address, phone number</li>
+              <li>Account information: Account ID (email), password (stored encrypted), permission level</li>
+              <li>Contract and settlement information: Details stated in contracts and purchase orders, and tax invoice information (business registration number and the contact person’s phone number)</li>
+            </ul>
+          </div>
+          <div class="legal-card">
+            <h3>C. Information automatically generated and collected while you use the service</h3>
+            <ul>
+              <li>Access IP address, access date and time, service usage records, requested URL, and referrer (traffic source)</li>
+              <li>Browser type and version, operating system, device type, screen resolution, and language settings</li>
+              <li>Random identifiers generated by cookies and similar technologies</li>
+              <li><strong>Only if you consent</strong>: Interaction records such as page navigation, clicks, and scrolls, and on-screen interaction records (session replay)</li>
+            </ul>
+            <p class="legal-note">
+              Analytics cookies (Google Analytics and Mixpanel) are activated{' '}
+              <strong>only if you select “Accept all”</strong> in the consent banner shown on your first visit.<br />
+              For details, please see our <a href="/en/cookie-policy">Cookie Policy</a>.
+            </p>
+          </div>
+          <div class="legal-card">
+            <h3>D. Personal information collected from sources other than you</h3>
+            <p>
+              We may collect participants’ affiliations, names, positions, phone numbers, and email addresses through the business cards and
+              registration forms they submit directly at offline events such as exhibitions and seminars.
+              In this case, in accordance with Article 20 of PIPA, we will notify you of the source of collection and the purpose of processing without delay upon your request.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-3">
+        <h2>3. Processing of personal information of children under 14</h2>
+        <p>
+          Our website and service are intended for <strong>business-to-business (B2B) transactions</strong> and are not directed at children under the age of 14.
+          We do not collect personal information of children under 14, and if we become aware that such information has been collected, we will destroy it without delay.
+        </p>
+      </section>
+
+      <section id="sec-4">
+        <h2>4. Processing and retention periods</h2>
+        <p>We process and retain personal information within the retention and use period prescribed by law or the retention and use period to which you have consented.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--prose2">
+            <thead><tr><th>Category</th><th>Retention period</th><th>Legal basis</th></tr></thead>
+            <tbody>
+              <tr><td>Records of inquiries and demo requests</td><td><strong>3 years</strong> after the inquiry is resolved<br /><span class="legal-note">(to manage business inquiry history and respond to disputes)</span></td><td>Consent</td></tr>
+              <tr><td>Records related to contracts and transactions</td><td><strong>5 years</strong> after the contract ends</td><td>Article 33 of the Commercial Act; Article 85-3 of the Framework Act on National Taxes</td></tr>
+              <tr><td>Records of payments and supply of goods</td><td><strong>5 years</strong></td><td>Article 6 of the Act on the Consumer Protection in Electronic Commerce</td></tr>
+              <tr><td>Records of consumer complaints and dispute resolution</td><td><strong>3 years</strong></td><td>Article 6 of the Act on the Consumer Protection in Electronic Commerce</td></tr>
+              <tr><td>Service access records<br />(login records)</td><td><strong>At least 1 year</strong> (at least 2 years if personally identifiable information or sensitive information is processed)</td><td>Article 8 of the Standards for Measures to Secure the Safety of Personal Information (「개인정보의 안전성 확보조치 기준」)</td></tr>
+              <tr><td>Account information</td><td>Destroyed within <strong>30 days</strong> after the contract ends<br /><span class="legal-note">(grace period for data export)</span></td><td>Contract</td></tr>
+              <tr><td>Records of consent to receive marketing</td><td>Until consent to receive marketing is withdrawn</td><td>Consent</td></tr>
+              <tr><td>Information collected by analytics tools</td><td>Google Analytics: <Ph value={retention.ga} label="Retention period" />; Mixpanel: <Ph value={retention.mixpanel} label="Retention period" />; session replay: <Ph value={retention.mixpanelReplay} label="Retention period" /></td><td>Consent</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>We do not operate a separate dormant account policy (separate storage of inactive users’ data), and we destroy personal information without delay once the above retention periods expire.</p>
+      </section>
+
+      <section id="sec-5">
+        <h2>5. Procedures and methods for destroying personal information</h2>
+        <p>When personal information is no longer needed, such as when its retention period expires or the purpose of processing has been achieved, we destroy it without delay (<strong>within 5 days</strong> unless there is a justifiable reason).</p>
+        <ul>
+          <li><strong>Destruction procedure</strong>: We select personal information for which a reason for destruction has arisen and destroy it with the approval of the privacy officer.</li>
+          <li><strong>Destruction method</strong>: Electronic files are permanently deleted using methods that make restoration impossible, and paper documents are shredded or incinerated.</li>
+          <li><strong>Where preservation is required</strong>: Personal information that must be preserved under other laws is kept in a separate database or a different storage location and is not used for any purpose other than preservation.</li>
+        </ul>
+      </section>
+
+      <section id="sec-6">
+        <h2>6. Provision of personal information to third parties</h2>
+        <p>
+          We process your personal information only within the scope specified in Section 1, and we provide personal information to third parties{' '}
+          <strong>only in cases falling under Articles 17 and 18 of PIPA, such as with your separate consent or where specially provided by law</strong>.
+        </p>
+        <p>We currently do not regularly provide personal information to any third party.</p>
+        <p class="legal-note">
+          The persons entrusted listed in Section 8 below receive personal information in order to perform work on our behalf; this entrustment is distinct from provision to third parties.
+        </p>
+      </section>
+
+      <section id="sec-7">
+        <h2>7. Criteria for additional use and provision</h2>
+        <p>
+          In accordance with Article 15 (3) and Article 17 (4) of PIPA and Article 14-2 of the Enforcement Decree of the same Act,
+          we may additionally use or provide personal information without your consent after considering all of the following:
+        </p>
+        <ul>
+          <li>Whether it is related to the original purpose of collection</li>
+          <li>Whether the additional use or provision is foreseeable in light of the circumstances of collection or processing practices</li>
+          <li>Whether it unfairly infringes on your interests</li>
+          <li>Whether measures necessary to ensure safety, such as pseudonymization or encryption, have been taken</li>
+        </ul>
+      </section>
+
+      <section id="sec-8">
+        <h2>8. Entrustment of personal information processing</h2>
+        <p>To provide our services smoothly, we entrust the processing of personal information as follows.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--prose2">
+            <thead><tr><th>Person entrusted</th><th>Entrusted work</th><th>Consent required</th><th>Privacy policy</th></tr></thead>
+            <tbody>
+              {/* 이름 뒤 괄호(운영자명 등)는 한 줄 내린다 — 좁은 칸에서 괄호 중간이 아무 데서나 갈렸다.
+                  데이터(legal.ts)는 한국어판과 같은 값이라 그리는 곳에서만 나눈다. */}
+              {processors.map((p) => {
+                const i = p.name.indexOf(' (');
+                return (
+                <tr>
+                  <td>{i > 0 ? <>{p.name.slice(0, i)}<br />{p.name.slice(i + 1)}</> : p.name}</td>
+                  <td>{p.task}</td>
+                  <td>{p.consent ? 'Only with consent' : 'Not required'}</td>
+                  <td><a href={p.policy} target="_blank" rel="noopener noreferrer">View</a></td>
+                </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          When concluding entrustment contracts, we specify in writing, in accordance with Article 26 of PIPA, matters concerning the prohibition of processing
+          personal information for purposes other than performing the entrusted work, technical and managerial safeguards, restrictions on re-entrustment,
+          management and supervision of persons entrusted, and liability such as compensation for damages. We also supervise whether persons entrusted
+          process personal information safely. If the details of the entrusted work or the persons entrusted change, we will disclose the change through this Policy without delay.
+        </p>
+      </section>
+
+      <section id="sec-9">
+        <h2>9. Cross-border transfer of personal information</h2>
+        <p>To provide our services smoothly, we transfer personal information across borders as follows. The legal basis differs by recipient:</p>
+        <ul>
+          <li><strong>Vercel Inc. and Web3Forms</strong>: <strong>Article 28-8 (1) 3 (a)</strong> of PIPA (entrustment and retention necessary to conclude and perform a contract, with the matters in the subparagraphs of paragraph (2) of the same Article disclosed in this Privacy Policy)</li>
+          <li><strong>Google LLC and Mixpanel, Inc.</strong>: <strong>Paragraph (1) 1</strong> of the same Article (separate consent of the data subject). These transfers take place <strong>only if you consent to analytics cookies</strong>, and, when obtaining consent, we inform you of the matters in the subparagraphs of paragraph (2) of the same Article set out in the table below (items transferred; destination country, date, and method of transfer; recipient; purpose of use and retention period; and how to refuse).</li>
+        </ul>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--label12 legal-table--fixed">
+            <colgroup>
+              <col style="width:20.2%" />
+              <col style="width:12.2%" />
+              <col style="width:21.5%" />
+              <col style="width:20.3%" />
+              <col style="width:25.8%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Recipient (contact)</th>
+                {/* 한국어 '이전 국가'는 짧아 12.2% 칸에 들어가지만 'Destination'은 900px 이하에서 낱말 중간이 갈렸다.
+                    국외 이전 표 안이라 'Country'만으로 뜻이 선다. */}
+                <th>Country</th>
+                <th>Date and method of transfer</th>
+                <th>Items transferred</th>
+                <th>Purpose of use and retention period</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* 행은 src/data/legal.ts의 processors[].transfer에서 온다 — 한국어판과 같은 배열이다. */}
+              {processors.map((p) => (
+                <tr>
+                  <td>{p.transfer.recipient}<br /><span class="legal-note" set:html={p.transfer.contact}></span></td>
+                  <td>{p.transfer.country}</td>
+                  <td set:html={p.transfer.method}></td>
+                  <td>{p.transfer.items}</td>
+                  <td>{p.transfer.purpose} / {p.transfer.period ?? <Ph value={retention[p.transfer.retentionKey!]} label="Retention period" />}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h3>Method and procedure for refusing the transfer, and the effect of refusal</h3>
+        <ul>
+          <li>
+            <strong>Analytics tools (Google Analytics and Mixpanel)</strong>: You can select <strong>“Reject all”</strong> in the cookie consent banner shown on your first visit,
+            or withdraw consent at any time via <strong>“Cookie Settings”</strong> in the footer. Refusing does not restrict your use of the website in any way.
+          </li>
+          <li>
+            <strong>Hosting (Vercel) and contact form (Web3Forms)</strong>: As these are entrustments essential to providing the service, it is difficult to refuse them individually.
+            If you wish to refuse, please stop using the website or submitting the contact form, or contact us by phone or email using the contact details in Section 18 below.
+            In that case, submitting inquiries through the form may be restricted.
+          </li>
+        </ul>
+        <p>
+          When transferring personal information across borders, we take safety measures such as encryption in accordance with Article 28-8 (4) of PIPA,
+          and if a recipient re-transfers personal information to a third country, we will verify this and reflect it in this Policy.
+        </p>
+      </section>
+
+      <section id="sec-customer-data">
+        <h2>10. Personal information in Customer Data (our status as a person entrusted)</h2>
+        <p>
+          Equipment, process, and operational data that customers connect to or enter into the {company.serviceName} service (“Customer Data”) may contain
+          personal information of customers’ employees. In this case, because the customer determines the purposes and methods of processing,{' '}
+          <strong>the customer is the personal information controller and we are the person entrusted</strong>.
+        </p>
+        <ul>
+          <li>We process Customer Data only within the scope of the purposes set out in the contract with the customer and the personal information entrustment contract.</li>
+          <li>We do not use Customer Data in a form that can identify a customer or an individual for our marketing, and <strong>we do not use it to train artificial intelligence models</strong>. However, we may use information that has been anonymized and aggregated so that individual customers or individuals cannot be re-identified (information that does not constitute personal information, such as equipment specifications, power and efficiency indicators, and operation and improvement history) for service improvement and research.</li>
+          <li>Requests from data subjects for access to, correction or erasure of, or suspension of processing of personal information contained in Customer Data <strong>are handled by the customer as the personal information controller</strong>. If we receive such a request directly, we will forward it to the customer without delay.</li>
+          <li>We do not provide Customer Data to third parties without the customer’s instructions.</li>
+        </ul>
+      </section>
+
+      <section id="sec-11">
+        <h2>11. Measures to ensure the safety of personal information</h2>
+        <p>In accordance with Article 29 of PIPA and Article 30 of the Enforcement Decree of the same Act, we take the following measures to ensure safety.</p>
+        <ul>
+          <li><strong>Managerial measures</strong>: Establishing and implementing an internal management plan, minimizing the number of persons who handle personal information and training them regularly, and maintaining an access permission management log</li>
+          <li><strong>Technical measures</strong>: Differentiated granting and regular review of access permissions to personal information processing systems, operation of intrusion prevention and detection systems, encrypted storage of personally identifiable information and passwords, TLS encryption in transit, retention of access logs and prevention of their forgery or alteration, and installation and updating of security programs</li>
+          <li><strong>Physical measures</strong>: Access control for places where personal information is stored, such as computer rooms and data storage rooms</li>
+        </ul>
+      </section>
+
+      <section id="sec-12">
+        <h2>12. Possibility of disclosure of sensitive information and how to choose non-disclosure</h2>
+        <p>We do not process sensitive information and do not provide any service in which your sensitive information could be disclosed.</p>
+      </section>
+
+      <section id="sec-13">
+        <h2>13. Processing of pseudonymized information</h2>
+        <p>We currently do not pseudonymize personal information for purposes such as compiling statistics, scientific research, or archiving in the public interest. If we do so in the future, we will revise this Policy to disclose the purposes and items of processing, the retention period, and matters regarding provision to third parties.</p>
+        <p>Separately, Section 10 and the <a href={termsHref}>Terms of Service</a> govern cases in which we anonymize and aggregate <strong>Customer Data that does not constitute personal information</strong>, such as equipment specifications and power and efficiency data, so that individual customers or equipment cannot be re-identified, and use it for service improvement and research.</p>
+      </section>
+
+      <section id="sec-14">
+        <h2>14. Installation and operation of automatic collection tools for personal information, and the denial thereof</h2>
+        <p>
+          We use automatic collection tools such as cookies and local storage (localStorage) to provide you with individually tailored services
+          and to analyze usage.
+        </p>
+        <ul>
+          <li><strong>Essential</strong>: Storing cookie consent status (<code>cookie_consent</code>) and language selection (<code>lang</code>)<br />These are used without consent because they are required for the site’s basic functions. If you block them in your browser settings, your choices will not be saved and the banner may be shown repeatedly.</li>
+          <li><strong>Analytics</strong>: Cookies and local storage set by Google Analytics and Mixpanel<br />These are installed and operated <strong>only if you consent</strong>.</li>
+          <li><strong>How to refuse</strong>: (1) Select “Reject all” in the cookie banner; (2) change your choice at any time via “Cookie Settings” in the footer; (3) refuse or delete cookies in your browser settings<br />Detailed paths for each browser are provided in our <a href="/en/cookie-policy">Cookie Policy</a>.</li>
+        </ul>
+      </section>
+
+      <section id="sec-15">
+        <h2>15. Collection, use, and refusal of behavioral information</h2>
+        <p>We <strong>do not provide personalized advertising</strong> to you, and we do not allow third-party advertising companies to collect behavioral information on this website. However, we process behavioral information as follows to improve our service.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <tbody>
+              <tr><th style="width:148px;">Whether you are identified</th><td>We do not combine behavioral information with account identifiers or login information, and we process it <strong>only on the basis of random identifiers</strong> stored in your browser.</td></tr>
+              <tr><th>Items collected</th><td>Pages visited and the order of visits, time spent, interaction records such as clicks and scrolls, on-screen interaction records (session replay), traffic sources, and browser, device, and operating system information</td></tr>
+              <tr><th>Collection method</th><td>Automatically collected through cookies, local storage, and JavaScript SDKs when you visit the website after consenting to analytics cookies</td></tr>
+              <tr><th>Purpose of collection</th><td>Used only to analyze service usage and improve content and usability, and <strong>not used for personalized advertising.</strong></td></tr>
+              <tr><th>Retention and use period</th><td>Google Analytics: <Ph value={retention.ga} label="Retention period" />; Mixpanel: <Ph value={retention.mixpanel} label="Retention period" />; session replay: <Ph value={retention.mixpanelReplay} label="Retention period" />. The information is destroyed once these periods expire.</td></tr>
+              <tr><th>Method and procedure for refusal</th><td>Select “Reject all” in the cookie banner, withdraw consent via “Cookie Settings” in the footer, block or delete cookies in your browser, or install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="legal-note">
+          Session replay is a feature that reproduces your on-screen interactions. We have configured it <strong>to mask all input values</strong>{' '}
+          so that what you enter in the contact form, such as your name, email address, and phone number, is not recorded.
+        </p>
+      </section>
+
+      <section id="sec-16">
+        <h2>16. Rights and obligations of data subjects and legal representatives, and how to exercise them</h2>
+        <p>You may exercise the following rights against us at any time:</p>
+        <ul>
+          <li>Request <strong>access</strong> to your personal information (Article 35 of PIPA)</li>
+          <li>Request <strong>correction or erasure</strong> of your personal information if it contains errors, etc. (Article 36)</li>
+          <li>Request <strong>suspension of processing</strong> of your personal information (Article 37)</li>
+          <li>Request <strong>transmission</strong> of your personal information (Article 35-2, once it takes effect)</li>
+          <li>The right to <strong>withdraw</strong> consent</li>
+          <li>The right to <strong>refuse, or request an explanation of,</strong> automated decisions (Article 37-2; see Section 17 below)</li>
+        </ul>
+        <p>
+          You may exercise these rights in writing, by phone, or by email using the contact details in Section 18 below, and we will take action <strong>without delay (within 10 days)</strong>.
+          If you request correction or erasure because your personal information contains errors, etc., we will not use or provide that personal information until the correction or erasure is complete.
+        </p>
+        <p>
+          You may exercise your rights through an agent, such as a legal representative or a person you have authorized.
+          In this case, a power of attorney in the form of Annex Form No. 11 of the Notice on Methods of Processing Personal Information (「개인정보 처리 방법에 관한 고시」) must be submitted.
+        </p>
+        <p>
+          However, the exercise of rights may be restricted in cases falling under Article 35 (4), the proviso to Article 36 (1), or Article 37 (2) of PIPA,
+          such as where other laws specify the personal information as subject to collection, and we will inform you of the reason.
+        </p>
+      </section>
+
+      <section id="sec-17">
+        <h2>17. Automated decisions</h2>
+        <p>
+          <strong>We do not make completely automated decisions (including decisions made by a system to which artificial intelligence technologies are applied)</strong>{' '}
+          that have a significant effect on your rights or obligations.
+        </p>
+        <p>
+          The {company.serviceName} service performs anomaly detection, forecasting, and optimization analysis on equipment and process data, but the subject of this analysis is{' '}
+          <strong>data on equipment and processes</strong>, and the service does not evaluate or make decisions about individuals.
+          In addition, we do not use inquiry details, contract information, or Customer Data in a form that can identify a customer or an individual to train artificial intelligence models (the use of anonymized and aggregated information for service improvement and research is governed by Section 10).
+        </p>
+        <p>If we introduce automated decisions about individuals in the future, we will disclose in advance through this Policy that fact, its purpose and scope, the main types of personal information used and their relationship to the decision, the processing procedure, and the method and procedure for refusing or requesting an explanation.</p>
+      </section>
+
+      <section id="sec-18">
+        <h2>18. Privacy officer and grievance-handling department</h2>
+        <p>We have designated a privacy officer as follows to take overall responsibility for the processing of personal information and to handle your complaints and remedy damages related to the processing of personal information.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead>
+              <tr>
+                <th style="width:220px;">Category</th>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Phone</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Privacy officer</td>
+                <td><Ph value={company.cpoName} label="Name" /></td>
+                <td><Ph value={company.cpoTitle} label="Title" /></td>
+                <td><Ph value={company.privacyTel} label="Phone" /></td>
+                <td><Ph value={company.privacyEmail} label="Email" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          You may contact the privacy officer about any personal information protection inquiries, complaints, or remedies for damages
+          arising from your use of our services. We will respond to and handle your inquiries without delay.
+        </p>
+      </section>
+
+      <section id="sec-19">
+        <h2>19. Department receiving and processing access requests</h2>
+        <p>You may submit a request for access to personal information under Article 35 of PIPA to the department below. We will make every effort to process your request promptly.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead>
+              <tr>
+                <th>Contact person</th>
+                <th>Phone</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><Ph value={company.cpoName} label="Name" />, <Ph value={company.cpoTitle} label="Title" /></td>
+                <td><Ph value={company.privacyTel} label="Phone" /></td>
+                <td><Ph value={company.privacyEmail} label="Email" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="sec-20">
+        <h2>20. Remedies for infringement of data subjects’ rights and interests</h2>
+        <p>
+          To obtain remedies for infringement of your personal information, you may apply to the agencies below for dispute resolution, consultation, and other assistance.
+          Please use them if a personal information dispute with us is not resolved amicably.
+        </p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead><tr><th>Agency</th><th>Phone</th><th>Website</th></tr></thead>
+            <tbody>
+              {/* 전화 뒤 괄호 '(no area code needed)'는 한 줄 내린다 — 8항 수탁자 이름과 같은 처리. */}
+              {remedyAgencies.map((a) => {
+                const i = a.tel.indexOf(' (');
+                return (
+                <tr>
+                  <td>{a.name}</td>
+                  <td>{i > 0 ? <>{a.tel.slice(0, i)}<br />{a.tel.slice(i + 1)}</> : a.tel}</td>
+                  <td><a href={a.url} target="_blank" rel="noopener noreferrer">{a.url.replace('https://', '')}</a></td>
+                </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="sec-21">
+        <h2>21. Operation and management of visual data processing devices</h2>
+        <p>We do not operate fixed or mobile visual data processing devices in connection with the website and service to which this Policy applies.</p>
+      </section>
+
+      <section id="sec-22">
+        <h2>22. Changes to this Privacy Policy</h2>
+        <p>
+          This Privacy Policy is effective as of <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" />.
+          If content is added, deleted, or modified due to changes in laws, policies, or security technologies, we will give notice through website announcements
+          starting <strong>7 days before the changes take effect (30 days before, for changes unfavorable to you)</strong>.
+        </p>
+        <p>The current Policy was announced on <Ph value={formatDate(revisedDate, 'en')} label="Month D, YYYY" /> and is effective as of <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" />. The revision history is as follows.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead><tr><th style="width:200px;">Effective date</th><th>Summary of changes</th><th style="width:180px;">Full text</th></tr></thead>
+            <tbody>
+              {revisions.privacy.map((r) => (
+                <tr>
+                  <td>{formatDate(r.date, 'en')}</td>
+                  <td>{r.summary}</td>
+                  <td>{r.href ? <a href={r.href}>View full text</a> : 'Current'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="legal-note">
+          Previous versions that have not yet been archived are available upon request at <Ph value={company.privacyEmail} label="Email" />.
+        </p>
+      </section>
+
+        <section id="sec-company">
+          <h2>Business information</h2>
+          <div class="legal-cards legal-cards--single">
+            <div class="legal-card">
+              <dl class="legal-facts">
+                <dt>Company name</dt><dd><Ph value={company.legalName} label="Company name" /></dd>
+                <dt>Representative</dt><dd><Ph value={company.ceo} label="Representative" /></dd>
+                <dt>Address</dt><dd><Ph value={company.address} label="Address" /></dd>
+                <dt>Email</dt><dd><Ph value={company.email} label="Email" /></dd>
+                <dt>Phone</dt><dd><Ph value={company.tel} label="Phone" /></dd>
+                <dt>Business registration number</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
+                {company.mailOrderNo && <><dt>Mail-order business registration number</dt><dd>{company.mailOrderNo}</dd></>}
+                <dt>Hosting service provider</dt><dd>{company.hosting}</dd>
+              </dl>
+            </div>
+          </div>
+        </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

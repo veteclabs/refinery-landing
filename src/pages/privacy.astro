@@ -11,6 +11,12 @@ const { company, retention, processors, remedyAgencies, revisions } = legal('ko'
 // 해당 사항이 없는 항목도 "해당 없음"을 명시한다(지침: 항목 자체를 빼면 누락으로 평가된다).
 const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.bizNo;
 
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/privacy' },
+  { lang: 'en', href: '/en/privacy' },
+];
+
 // 문서 맨 앞 목차. 라벨은 본문 <h2>와 같아야 한다 — 조문을 고치면 여기도 고친다.
 // (본문이 손으로 쓴 마크업이라 빌드 때 자동 대조가 되지 않는다.)
 const toc = [
@@ -49,6 +55,7 @@ const keepDots = (t: string) =>
   description="Refinery 웹사이트 및 서비스의 개인정보 수집 ⁠· 이용 ⁠· 제공 ⁠· 위탁 ⁠· 국외이전에 관한 처리방침입니다."
   canonical="/privacy"
   robots="index, follow"
+  alternates={alternates}
 >
   <Nav />
   {/* 이 문서만 글 기둥이 넓다 — 아래 .legal-main--wide 주석 참고. */}

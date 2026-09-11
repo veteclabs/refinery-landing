@@ -167,7 +167,7 @@ export const legalLinks: Record<Lang, NavLink[]> = {
   // 영어판이 아직 없는 문서는 한국어 원문으로 간다(없는 /en/* 경로는 404).
   // 영어판을 켤 때는 CookieConsent.astro의 영어 링크와 두 페이지의 hreflang(alternates)도 함께 바꾼다.
   en: [
-    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Privacy Policy', href: '/en/privacy' },
     { label: 'Terms of Service', href: '/terms' },
     { label: 'Software License (EULA)', href: '/eula' },
     { label: 'Cookie Policy', href: '/en/cookie-policy' },

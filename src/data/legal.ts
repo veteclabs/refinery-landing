@@ -52,8 +52,8 @@ const company = {
    * ⚠️ 영문은 도로명, 국문은 아직 지번이다. 영어판을 마친 뒤 국문을 도로명(테크노3로 24)으로 바꿀 예정.
    */
   address: { ko: '대전광역시 유성구 관평동 1311', en: '24, Techno 3-ro, Yuseong-gu, Daejeon, Korea' },
-  /** 대표 전화 */
-  tel: '042-935-3721',
+  /** 대표 전화 — 영어판은 국제 표기(국가번호 +82, 지역번호 앞 0 생략) */
+  tel: { ko: '042-935-3721', en: '+82-42-935-3721' },
   /** 팩스 (없으면 공란) */
   fax: '',
   /** 대표 이메일 */
@@ -66,7 +66,7 @@ const company = {
 
   /** 개인정보 고충처리·열람청구 담당부서 (작성지침 2025.4. 권고) */
   privacyDept: { ko: '', en: '' },
-  privacyTel: '042-935-3721',
+  privacyTel: { ko: '042-935-3721', en: '+82-42-935-3721' },
   privacyEmail: 'info@vetec.co.kr',
 
   /** 호스팅 서비스 제공자 — 전자상거래법 제10조① 표시 항목(2022년 의무화) */
@@ -160,10 +160,22 @@ const processors: Processor[] = [
       recipient: 'Vercel Inc.',
       contact: 'privacy@vercel.com',
       country: { ko: '미국', en: 'United States' },
-      method: { ko: '이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)', en: '' },
-      items: { ko: '접속 IP 주소, 접속 일시, 요청 URL, 브라우저 ⁠· 기기 정보', en: '' },
-      purpose: { ko: '웹사이트 호스팅 ⁠· CDN 운영 및 트래픽 ⁠· 성능 측정', en: '' },
-      period: { ko: '위탁계약 종료 시 또는 Vercel의 로그 보존기간 경과 시까지', en: '' },
+      method: {
+        ko: '이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)',
+        en: 'When you access the website, via network transmission (TLS-encrypted)',
+      },
+      items: {
+        ko: '접속 IP 주소, 접속 일시, 요청 URL, 브라우저 ⁠· 기기 정보',
+        en: 'Access IP address, access date and time, requested URL, and browser and device information',
+      },
+      purpose: {
+        ko: '웹사이트 호스팅 ⁠· CDN 운영 및 트래픽 ⁠· 성능 측정',
+        en: 'Website hosting, CDN operation, and traffic and performance measurement',
+      },
+      period: {
+        ko: '위탁계약 종료 시 또는 Vercel의 로그 보존기간 경과 시까지',
+        en: 'Until the entrustment contract ends or Vercel’s log retention period expires',
+      },
     },
   },
   {
@@ -178,10 +190,22 @@ const processors: Processor[] = [
       recipient: 'Web3Forms',
       contact: 'support@web3forms.com',
       country: { ko: '미국', en: 'United States' },
-      method: { ko: '이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)', en: '' },
-      items: { ko: '회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용', en: '' },
-      purpose: { ko: '문의 내용의 이메일 전달', en: '' },
-      period: { ko: '전달 완료 후 지체 없이 파기', en: '' },
+      method: {
+        ko: '이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)',
+        en: 'When you submit the contact form, via network transmission (TLS-encrypted)',
+      },
+      items: {
+        ko: '회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용',
+        en: 'Company name, name, email address, phone number, job title, industry, and inquiry details',
+      },
+      purpose: {
+        ko: '문의 내용의 이메일 전달',
+        en: 'Forwarding inquiry details by email',
+      },
+      period: {
+        ko: '전달 완료 후 지체 없이 파기',
+        en: 'Destroyed without delay after forwarding is complete',
+      },
     },
   },
   {
@@ -199,9 +223,18 @@ const processors: Processor[] = [
         ko: '미국 등 Google 데이터센터 소재국',
         en: 'United States and other countries where Google data centers are located',
       },
-      method: { ko: '이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송', en: '' },
-      items: { ko: '쿠키 식별자, 접속 IP 주소(일부 삭제), 방문 페이지, 브라우저 ⁠· 기기 정보', en: '' },
-      purpose: { ko: '웹사이트 이용 통계 분석', en: '' },
+      method: {
+        ko: '이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송',
+        en: 'When you use the website <strong>after consenting to analytics cookies</strong>, via network transmission',
+      },
+      items: {
+        ko: '쿠키 식별자, 접속 IP 주소(일부 삭제), 방문 페이지, 브라우저 ⁠· 기기 정보',
+        en: 'Cookie identifiers, access IP address (partially truncated), pages visited, and browser and device information',
+      },
+      purpose: {
+        ko: '웹사이트 이용 통계 분석',
+        en: 'Website usage statistics analysis',
+      },
       retentionKey: 'ga',
     },
   },
@@ -217,12 +250,18 @@ const processors: Processor[] = [
       recipient: 'Mixpanel, Inc.',
       contact: 'privacy@mixpanel.com',
       country: { ko: '미국', en: 'United States' },
-      method: { ko: '이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송', en: '' },
+      method: {
+        ko: '이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송',
+        en: 'When you use the website <strong>after consenting to analytics cookies</strong>, via network transmission',
+      },
       items: {
         ko: '임의 식별자, 방문 페이지, 클릭 ⁠· 스크롤 등 상호작용 기록, 화면 조작 기록(입력값 마스킹), 브라우저 ⁠· 기기 정보',
-        en: '',
+        en: 'Random identifiers, pages visited, interaction records such as clicks and scrolls, on-screen interaction records (with input values masked), and browser and device information',
       },
-      purpose: { ko: '이용 행태 분석 및 사용성 개선', en: '' },
+      purpose: {
+        ko: '이용 행태 분석 및 사용성 개선',
+        en: 'Usage behavior analysis and usability improvement',
+      },
       retentionKey: 'mixpanel',
     },
   },
@@ -230,19 +269,31 @@ const processors: Processor[] = [
 
 /**
  * 정보주체 권익침해 구제 전문기관 — 표준 개인정보 처리방침 기준 4개 기관
- * 영문 명칭은 공식 표기를 대조한 뒤 채운다(용어집 §2). 확인 전에는 en: ''.
+ * 영문 명칭은 공식 표기를 대조했다(용어집 §2, 2026-09-11).
+ *  - 분쟁조정위원회: KLRI 영문법령 PIPA 제40조 / 침해신고센터: PIPC 영문 사이트의 표기
+ *  - 대검 사이버수사과: 대검찰청 영문 사이트 조직도(과학수사부 Forensic Science Investigation
+ *    Department 아래 'Cyber and Technology Crime Investigation Division' — 한국어 조직도의 4개 과와 순서 · 업무가 1:1)
+ *  - 경찰청 ECRM: ecrm.police.go.kr 머리글의 영문명(사이트는 'system'을 소문자로 적는다 — 고유명사라 대문자로 둔다)
  */
 const remedyAgencies = [
   {
     name: { ko: '개인정보분쟁조정위원회', en: 'Personal Information Dispute Mediation Committee' },
-    tel: { ko: '(국번 없이) 1833-6972', en: '' },
+    tel: { ko: '(국번 없이) 1833-6972', en: '1833-6972 (no area code needed)' },
     url: 'https://www.kopico.go.kr',
   },
-  { name: { ko: '개인정보침해신고센터', en: '' }, tel: { ko: '(국번 없이) 118', en: '' }, url: 'https://privacy.kisa.or.kr' },
-  { name: { ko: '대검찰청 사이버수사과', en: '' }, tel: { ko: '(국번 없이) 1301', en: '' }, url: 'https://www.spo.go.kr' },
   {
-    name: { ko: '경찰청 사이버범죄 신고시스템(ECRM)', en: '' },
-    tel: { ko: '(국번 없이) 182', en: '' },
+    name: { ko: '개인정보침해신고센터', en: 'Personal Information Infringement Report Call Center (KISA)' },
+    tel: { ko: '(국번 없이) 118', en: '118 (no area code needed)' },
+    url: 'https://privacy.kisa.or.kr',
+  },
+  {
+    name: { ko: '대검찰청 사이버수사과', en: 'Cyber and Technology Crime Investigation Division, Supreme Prosecutors’ Office' },
+    tel: { ko: '(국번 없이) 1301', en: '1301 (no area code needed)' },
+    url: 'https://www.spo.go.kr',
+  },
+  {
+    name: { ko: '경찰청 사이버범죄 신고시스템(ECRM)', en: 'Electronic Cybercrime Report & Management System (ECRM), Korean National Police Agency' },
+    tel: { ko: '(국번 없이) 182', en: '182 (no area code needed)' },
     url: 'https://ecrm.police.go.kr',
   },
 ];
