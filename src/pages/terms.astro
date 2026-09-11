@@ -3,8 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, legalReviewed, revisions } from '../data/legal';
+import { legal, effectiveDate, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
+const { company, revisions } = legal('ko');
 
 // 「약관의 규제에 관한 법률」 대응 메모
 // - 제3조①: 한글로, 중요한 내용은 굵은 글씨 등으로 명확히 표시할 것 → 요금·자동갱신·해지·

@@ -3,8 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, legalReviewed, revisions } from '../data/legal';
+import { legal, effectiveDate, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
+const { company, revisions } = legal('ko');
 
 // 설치형(온프레미스) 소프트웨어 라이선스. 구성은 TeamViewer EULA(A.Master / B.Software /
 // D.Professional Services / E.Jurisdiction)를 참고하되, 한국법에 맞춰 다시 썼다.
