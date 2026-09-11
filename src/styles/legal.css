@@ -140,7 +140,11 @@ img { max-width: 100%; height: auto; }
   /* 딱지 단은 폭을 고정한다 — auto로 두면 딱지 길이가 제각각이라 값의 시작점이
      줄마다 어긋나 훑기 어렵다. 하한은 144px이다 — 가장 긴 '호스팅 서비스 제공자'
      (116px)에 좌우 패딩 24px을 더한 값. 딱지가 길어지면 이 값도 다시 재야 한다. */
-  grid-template-columns: 160px minmax(0, 1fr) 160px minmax(0, 1fr);
+  /* 왼쪽 값 단은 가장 긴 값(주소)이 한 줄로 들어갈 만큼은 늘 넓힌다 — minmax(max-content, 1fr).
+     두 값 단을 1fr씩 나누면 왼쪽 값 칸이 216px(안여백 56px 뺀 값)이라 주소(국문 259px ·
+     영문 326px)가 두 줄로 접혔다. 오른쪽 벌의 값(대표자 · 이메일 · 사업자등록번호)은
+     130px 안팎이라 남는 폭(국문 229px · 영문 162px)으로 충분하다(2026-09-11). */
+  grid-template-columns: 160px minmax(max-content, 1fr) 160px minmax(0, 1fr);
   column-gap: 16px;
   row-gap: 15px;
   align-items: center;
@@ -187,6 +191,8 @@ img { max-width: 100%; height: auto; }
   .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
 /* 좁아지면 딱지를 값 위로 쌓는다.
+   경계는 640px이다(처음 520px) — 521~640px에서는 딱지 160px이 옆에 남아 값 칸이 249~368px이
+   되고, 영문 주소(326px)가 두 줄로 접혔다. 쌓으면 값이 카드 안 너비를 다 쓴다(2026-09-11).
    두 단을 유지하면 딱지가 160px을 그대로 차지해 값 단에 118px밖에 남지 않고
    (390px 기준), info@vetec.co.kr이 'co.k / r'로 끊기고 주소도 두 줄로 접혔다.
    쌓으면 값이 카드 안 너비를 온전히 써서 한 줄에 들어간다.
@@ -194,7 +200,7 @@ img { max-width: 100%; height: auto; }
    값 위에 통째로 깔리면 딱지가 값보다 무거워 보인다.
    줄 사이는 딱지-값 6px, 쌍과 쌍 사이 14px으로 나눈다. 한 값(15px)으로 두면
    딱지가 제 값에 붙지 않고 위아래 어디에도 속하지 않게 뜬다. */
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .legal-body .legal-facts { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
   .legal-body .legal-facts dt {
     justify-self: start;
@@ -666,8 +672,8 @@ html { scroll-behavior: smooth; }
    상자 크기가 달라 보였다. 52px = 줄 높이 20px × 2 + 위아래 안여백 6px × 2.
    (글자 길이에 맞춰 칸 폭을 바꾸는 안 · 한 줄에 한 쌍 · 딱지를 값 위에 얹는 안을 비교한 뒤
    한국어판과 구조가 같은 이 안을 택했다 — 2026-09-11 사용자 결정)
-   520px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다. */
-@media (min-width: 521px) {
+   640px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다. */
+@media (min-width: 641px) {
   :lang(en) .legal-body .legal-facts dt {
     height: 52px;
     padding: 6px 12px;
