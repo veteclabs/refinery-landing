@@ -163,12 +163,14 @@ export const legalLinks: Record<Lang, NavLink[]> = {
     { label: '쿠키 정책', href: '/cookie-policy' },
     { label: '쿠키 설정' },
   ],
-  // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
+  // 약관은 법적 효력이 있어 전문 번역을 마친 문서부터 하나씩 영어판으로 연결한다.
+  // 영어판이 아직 없는 문서는 한국어 원문으로 간다(없는 /en/* 경로는 404).
+  // 영어판을 켤 때는 CookieConsent.astro의 영어 링크와 두 페이지의 hreflang(alternates)도 함께 바꾼다.
   en: [
     { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Terms of Service', href: '/terms' },
     { label: 'Software License (EULA)', href: '/eula' },
-    { label: 'Cookie Policy', href: '/cookie-policy' },
+    { label: 'Cookie Policy', href: '/en/cookie-policy' },
     { label: 'Cookie Settings' },
   ],
 };
@@ -265,7 +267,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       ],
     },
     {
-      // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
+      // 링크는 legalLinks.en — 영어판이 있는 문서만 /en/*로 간다.
       title: 'Legal',
       items: legalLinks.en,
     },

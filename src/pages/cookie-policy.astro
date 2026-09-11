@@ -10,12 +10,19 @@ const { company, retention, revisions } = legal('ko');
 // 아래 쿠키·저장소 목록은 실제 구현(CookieConsent.astro · LanguageSwitcher.astro · Analytics.astro)
 // 기준의 사실이다. 추적 도구를 추가·제거하면 이 표도 반드시 함께 고칠 것.
 const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
+
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/cookie-policy' },
+  { lang: 'en', href: '/en/cookie-policy' },
+];
 ---
 <BaseLayout
   title="쿠키 정책 | Refinery"
   description="Refinery 웹사이트가 사용하는 쿠키와 유사 기술의 종류 ⁠· 목적 ⁠· 보관기간과 동의 ⁠· 철회 방법을 안내합니다."
   canonical="/cookie-policy"
   robots="index, follow"
+  alternates={alternates}
 >
   <Nav />
   {/* 글 기둥은 다른 세 법적 고지와 같은 960px이다(1008 = 960 + 좌우 24).
