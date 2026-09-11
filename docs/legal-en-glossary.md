@@ -159,14 +159,14 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 이용약관 | Terms of Service | ✅ | |
 | 소프트웨어 사용권 계약 | Software License Agreement | ✅ | 제목에 `(EULA)` 병기 |
 | 사용권 | license | ✅ | 본문 25회 |
-| 고객 데이터 | Customer Data | ✅ | **정의어라 대문자.** 정의된 뒤에는 항상 대문자로 |
+| 고객 데이터 | Customer Data | ✅ | **정의어라 대문자.** 정의된 뒤에는 항상 대문자로. **EULA는 이 말을 정의하지 않아 `the Customer’s data`로 쓴다**(제13조 표제만 Title Case) |
 | 고객사 | Customer | ✅ | 같음 |
 | 지식재산권 | intellectual property rights | ✅ | |
 | 저작권 | copyright | ✅ | |
 | 2차적저작물 | derivative works | ✅ | |
 | 영업비밀 | trade secrets | ✅ | |
 | 비밀유지 | confidentiality | ✅ | |
-| 역분석 | reverse engineering | ✅ | |
+| 역분석 | reverse engineering | ✅ | 계약 본문의 낱말. **저작권법 제101조의4 표제를 인용할 때는 KLRI 표기 `Decompilation of Program Codes`** |
 | 불가항력 | force majeure | ✅ | |
 | 준거법 | governing law | ✅ | |
 | 관할 | jurisdiction | ✅ | 약관 제28조 · EULA §20의 "전속적 합의가 아니며"는 `non-exclusive`로 |
@@ -350,7 +350,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | hreflang | 한국어 · 영어 두 페이지의 `alternates` |
 | 다른 영어판 안의 교차 링크 | 예: 쿠키 정책 영어판 맨 위 `privacyHref` (지금 `/privacy`, 처리방침 영어판이 생기면 `/en/privacy`) |
 
-현재 — Cookie Policy · Privacy Policy · Terms of Service 켜짐. EULA는 한국어 원문으로 간다.
+현재 — 네 문서 모두 켜짐(Cookie Policy · Privacy Policy · Terms of Service · Software License Agreement (EULA), 2026-09-11).
 
 ---
 
