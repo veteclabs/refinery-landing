@@ -519,13 +519,17 @@ const toc = [
           <table class="legal-table legal-table--center">
             <thead><tr><th>Agency</th><th>Phone</th><th>Website</th></tr></thead>
             <tbody>
-              {remedyAgencies.map((a) => (
+              {/* 전화 뒤 괄호 '(no area code needed)'는 한 줄 내린다 — 8항 수탁자 이름과 같은 처리. */}
+              {remedyAgencies.map((a) => {
+                const i = a.tel.indexOf(' (');
+                return (
                 <tr>
                   <td>{a.name}</td>
-                  <td>{a.tel}</td>
+                  <td>{i > 0 ? <>{a.tel.slice(0, i)}<br />{a.tel.slice(i + 1)}</> : a.tel}</td>
                   <td><a href={a.url} target="_blank" rel="noopener noreferrer">{a.url.replace('https://', '')}</a></td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
