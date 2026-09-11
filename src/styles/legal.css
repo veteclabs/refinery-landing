@@ -670,3 +670,9 @@ html { scroll-behavior: smooth; }
   }
 }
 
+
+/* 영어판 목차 — 번호 칸과 제목 칸을 나눠 두 줄째를 제목 첫 글자에 맞춘다.
+   영어 제목은 길어 두 줄로 넘어가는 항목이 많다(1440px 4개 · 390px 12개). 한국어 목차는
+   두 줄로 넘어가는 항목이 없어 한 덩어리 그대로 둔다.
+   1.75em(24.5px) = 가장 넓은 번호 '22.'(약 19px) + 번호와 제목 사이 여백. */
+:lang(en) .legal-toc a { display: grid; grid-template-columns: 1.75em minmax(0, 1fr); }
