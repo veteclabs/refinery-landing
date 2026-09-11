@@ -112,7 +112,7 @@
 | 민감정보 | sensitive information | ✅ | |
 | 고유식별정보 | unique identifying information | ✅ | |
 | 행태정보 | behavioral information | ⚠️ | 온라인 맞춤형 광고 가이드라인 용어. 첫 등장에 괄호 설명 권장 |
-| 자동 수집 장치 | automatic collection device | ⚠️ | PIPA 제30조(1)7의 "인터넷 접속정보파일 등 개인정보를 자동으로 수집하는 장치" |
+| 자동 수집 장치 | devices that automatically collect personal information | ✅ | PIPA 제30조(1)7 원문("개인정보를 자동으로 수집하는 장치")을 풀어 쓴다. 쿠키 정책 2항에서 확정 |
 | 접속기록 | access logs | ✅ | |
 | 파기 | destruction | ✅ | PIPA는 `destroy`를 쓴다. `deletion`과 구분 |
 | 열람 | access | ✅ | `right to access`가 아니라 `request access` 형태로 |
@@ -275,7 +275,7 @@
 | # | 항목 | 무엇을 정해야 하나 | 상태 |
 |---|---|---|---|
 | 1 | **기관 · 고시 영문 명칭 5건** (§1 · §2) | 공식 영문본 대조 | 번역 중 확인 |
-| 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 영어 UI에서 직접 확인 | 번역 중 확인 |
+| 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 쿠키 정책 6항에 현행 영어 UI 이름으로 적었다. **Whale은 영어 UI를 확인하지 못해** Chromium 메뉴 이름을 따랐다. iOS 18부터 Safari 설정이 `Settings › Apps › Safari`로 한 단계 내려갔는데 한국어판도 같은 경로를 쓰고 있어 **두 언어를 함께** 고칠 일이다 | 실물 확인 대기 |
 
 ### 결론이 난 항목
 
@@ -286,6 +286,33 @@
 | **"해제"** | 계약 해제가 아니라 "이용 제한을 해제한다"였다(약관 제20조). `rescission` 문제는 없다 → §4 |
 | **회사 정보 로마자 표기** | 2026-09-11 사용자 확인 → §6 |
 | **날짜 형식** | 2026-09-11 **미국식 확정** → §1 아래 「날짜」 |
+
+---
+
+## 10. 영어판 페이지 규격 — 쿠키 정책에서 확정 (2026-09-11)
+
+나머지 세 문서(처리방침 · 이용약관 · EULA)는 이 규격을 그대로 따른다.
+
+| 항목 | 한국어판 | 영어판 | 근거 |
+|---|---|---|---|
+| URL | `/cookie-policy` | `/en/cookie-policy` | 기존 `/en/*` 관례 |
+| 문서 제목 | 쿠키 정책 | Cookie Policy | 문서 이름은 고유명사라 Title Case. `nav.ts`와 같다 |
+| 절 제목 | 1. 쿠키와 유사 기술이란 | 1. What cookies and similar technologies are | 문장형(I18N-GLOSSARY §0) |
+| 소제목 | 가. 나. 다. | A. B. C. | 조항 인용의 목(가목)은 `(a)`, 문서 자체의 소제목은 `A.` |
+| 항 번호 | ① ② ③ | (1) (2) (3) | 국가법령정보센터 영문법령이 항을 `(1)`로 옮긴다. `legal.css`의 `:lang(en)` 규칙 |
+| 딸림글 | ※ 표시 | 표시 없음 | ※는 한국 문서 관용 기호. 크기 · 색으로 이미 갈린다 |
+| 콜론 | `이름 : 값` (앞뒤 띄움) | `Label: value` (뒤만 띄움) | 영어 표기 관행 |
+| 가운뎃점 병렬 | 동의 ⁠· 거부 | accept or reject / A, B, and C | 영어에는 가운뎃점 병렬이 없다 |
+| 회사 | 회사 (이하 "회사") | the “Company” | 원문의 정의어를 그대로. `we` · `us`로 바꾸지 않는다 |
+| 이용자 | 이용자 | users | 원문이 3인칭이라 `you`로 바꾸지 않는다 |
+| 절 참조 | 제5항 | Section 5 | |
+| 날짜 | `2026-09-01` | `September 1, 2026` | §1 「날짜」. `formatDate()` |
+| 따옴표 | '모두 허용' | “Accept all” | 곡선 큰따옴표. UI 문구는 실제 버튼 이름 그대로(`CookieConsent.astro` · `nav.ts`) |
+| 한국어판 우선 고지 | — | 시행일 바로 아래 `.legal-lang-notice` | §0-1. 문구의 "Korean original"이 한국어판으로 연결된다 |
+| 두 낱말 한 뜻 | — | `(first party)` · `local storage`를 `.legal-keep`으로 묶음 | 좁은 표 칸에서 가운데가 갈라지지 않게 |
+
+**아직 한국어로 연결되는 링크** — `/en/privacy`가 생기기 전까지 쿠키 정책 영어판의 처리방침 링크 2곳은
+`/privacy`(한국어)로 간다. 파일 맨 위 `privacyHref` 한 줄로 모아 두었다. 4단계에서 `/en/privacy`로 바꾼다.
 
 ---
 

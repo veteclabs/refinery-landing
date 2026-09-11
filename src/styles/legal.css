@@ -601,3 +601,47 @@ img { max-width: 100%; height: auto; }
 .legal-body section { scroll-margin-top: 90px; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── 영어판(/en/*) ─────────────────────────────────────────────────────────
+   <html lang="en">에서만 걸린다. 한국어 페이지 렌더에는 닿지 않는다.
+   용어 · 표기 기준은 docs/legal-en-glossary.md. */
+
+/* 한국어판 우선 고지 — 용어집 §0-1. 본문 맨 앞, 시행일 바로 아래에 둔다.
+   초안 경고(.legal-draft, 호박색)와 헷갈리지 않게 색을 쓰지 않고 카드 바탕만 깐다.
+   법적 효력에 관한 문장이라 본문보다 작게 두되 딸림글(14px)보다 작지 않게 한다. */
+.legal-lang-notice {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: var(--bg-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3A4654;
+}
+/* 본문 링크(.legal-body a)와 같은 모양 — 고지 상자가 .legal-body 밖이라 따로 준다. */
+.legal-lang-notice a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+
+/* 딸림글의 ※는 한국 법률 · 행정 문서의 관용 기호라 영어판에서는 달지 않는다.
+   크기 · 색(14px · #5A6776)으로 이미 본문과 갈린다. */
+:lang(en) .legal-body p.legal-note { padding-left: 0; }
+:lang(en) .legal-body p.legal-note::before { content: none; }
+
+/* 항 번호 — 원문자(①) 대신 (1). 국가법령정보센터 영문법령이 항을 (1)로 옮기고,
+   용어집 §1의 조항 인용(Article 30(1))과도 맞는다. 원문자용 크기 보정
+   (1.35em · 굵기 300 · top -1px)을 걷고 본문 글자 그대로 쓴다.
+   28px = "(1)" 폭(약 19px) + 본문 공백 두 칸(약 8px). */
+:lang(en) .legal-body--terms ol > li,
+:lang(en) .legal-body .legal-ol--hang > li { padding-left: 28px; }
+:lang(en) .legal-body--terms ol > li::before,
+:lang(en) .legal-body .legal-ol--hang > li::before {
+  content: '(' counter(legal-hang) ')';
+  top: 0;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 표 좁은 칸에서 "(first party)" · "local storage"처럼 두 낱말이 한 뜻인 말이
+   가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
+.legal-keep { white-space: nowrap; }
