@@ -83,7 +83,7 @@
 
 - 원문: 웹사이트에 게시된 이메일 주소를 자동 수집 프로그램 등 기술적 장치를 이용하여 수집 · 판매 · 유통하는 행위(정보통신망법 제50조의2)
 - 영어: … (Article 50-2 of the Act on Promotion of Information and Communications Network Utilization and Information Protection)
-- KLRI 영문본(Act No. 17358)에 **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”**. 번역은 원문을 그대로 따랐다. 한국어판 인용을 고칠지(조문 번호를 빼거나 현행 조문으로 바꿀지)는 한국어판과 함께 정한다 → 변호사 질문 목록
+- KLRI 영문본(Act No. 17358)에 **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”**. 국가법령정보센터 현행 국문도 "제50조의2 삭제 &lt;2014. 5. 28.&gt;"(사용자 확인, 2026-09-11). 번역은 원문을 그대로 따랐다. 본문 작성 담당자가 따로 확인한다 — 그때까지 한국어판 · 영어판 모두 원문 유지(2026-09-11 사용자 결정) → 변호사 질문 Q2
 
 ## 조 제목 — 용어집 §4를 원문 쪽으로 고쳤다
 
