@@ -169,8 +169,8 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 역분석 | reverse engineering | ✅ | |
 | 불가항력 | force majeure | ✅ | |
 | 준거법 | governing law | ✅ | |
-| 관할 | jurisdiction | ✅ | 약관 §26 · EULA §20의 "전속적 합의가 아니며"는 `non-exclusive`로 |
-| 해지 | termination | ✅ | 약관 제19조 · EULA 제14조. 계약 해제(rescission)는 네 문서에 없다 |
+| 관할 | jurisdiction | ✅ | 약관 제28조 · EULA §20의 "전속적 합의가 아니며"는 `non-exclusive`로 |
+| 해지 | termination | ✅ | 약관 제14조 · EULA 제14조. 계약 해제(rescission)는 네 문서에 없다 |
 | (이용) 제한을 해제 | lift the restriction | ✅ | 약관 제20조. **법률용어 '해제'가 아니라 제한 해소다** — `rescission`으로 옮기지 않는다 |
 | 하자 | defect | ✅ | |
 | 보증 | warranty | ✅ | |
@@ -193,15 +193,20 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 
 | 조 | 한국어 제목 | 영어 표제 | 방향 |
 |---|---|---|---|
-| 약관 제21조 · EULA 제15조 | 보증 및 보증의 부인 | Disclaimer of warranties | 회사를 보호 |
-| 약관 제22조 · EULA 제17조 | 책임의 제한 | Limitation of liability | 회사를 보호 |
-| 약관 제23조 | 제3자 청구에 대한 방어 | Indemnification | 회사 → 고객 (제3항은 고객 → 회사) |
+| 약관 제21조 · EULA 제15조 | 보증 및 보증의 부인 | Warranties and Disclaimer of Warranties | 회사를 보호 (제1항은 회사의 보증) |
+| 약관 제22조 · EULA 제17조 | 책임의 제한 | Limitation of Liability | 회사를 보호 |
+| 약관 제23조 | 제3자 청구에 대한 방어 | Defense Against Third-Party Claims | 회사 → 고객 (제3항은 고객 → 회사) |
+
+표제는 원문 제목을 글자 그대로 옮긴다(2026-09-11 이용약관 영어판에서 고침). 처음 적었던
+`Disclaimer of warranties`는 제1항의 **보증**(회사가 지는 약속)을 표제에서 빠뜨려 좁아지고,
+`Indemnification`은 제3자 **지식재산권** 청구로 한정된 제23조를 일반적인 손해 보전 약속처럼 넓힌다.
+본문에서 `indemnify`는 제3항 한 곳에만 쓴다. EULA도 같은 방식으로 원문 제목을 따른다.
 
 영어 계약서 관행상 셋을 한 조로 묶어 `Indemnification`이라 부르는 경우가 있는데,
 그렇게 하면 **책임 상한 조항이 지급 의무 조항으로 읽힌다.** 조문 번호와 표제를 원문 그대로 유지한다.
 
 > 약관 제23조 제3항 "고객이 같은 방법으로 회사를 방어하고 면책합니다"는 **방향이 반대인
-> indemnification**(고객 → 회사)이다. `the Customer shall defend and indemnify the Company`.
+> indemnification**(고객 → 회사)이다. `the Customer will defend and indemnify the Company in the same manner`.
 
 ---
 
@@ -325,7 +330,9 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 회사 — **안내문** (쿠키 정책 · 처리방침) | 회사 (이하 "회사") | VETEC Co., Ltd. (“VETEC,” “we,” or “us”) → 이후 `we` · `our` | 방문자 개인에게 설명하는 글이라 영어 관행대로. 2026-09-11 사용자 결정 |
 | 이용자 — **안내문** | 이용자 · 정보주체 | `you` · `your`. 법 조문을 옮길 때는 `data subject` 그대로 | 이용자 전체를 가리키는 일반 서술(“where users encounter difficulties”)은 `users`로 둔다 |
 | 회사 · 고객사 — **계약서** (이용약관 · EULA) | 회사 · 고객사 · 최종이용자 | the “Company” · the “Customer” · End User (정의어) | 당사자가 여럿이라 `you`로 뭉치면 누구인지 흐려진다. `we` · `you`를 쓰지 않는다 |
-| 절 참조 | 제5항 | Section 5 | |
+| 절 참조 | 제5항 | Section 5 | 안내문(쿠키 정책 · 처리방침)의 절 번호 |
+| 조 · 항 — **계약서** | 제1조 (목적) · 제2항 · 제1장 총칙 · 부칙 · 문의처 | Article 1 (Purpose) · paragraph (2) · Chapter 1. General Provisions · Addenda · Contact | KLRI 영문법령의 표기. 조 제목은 Title Case, 부칙은 한 건이어도 `Addenda` |
+| 조동사 — **계약서** | ~하여야 합니다 · ~합니다(약속) · ~할 수 있습니다 | `must` · `will` · `may` | 한 문서 안에서 섞지 않는다. `shall`은 쓰지 않는다 — 옛 문체이고, `will`과 섞이면 둘의 강도가 다른지 다툼이 생긴다 |
 | 날짜 | `2026-09-01` | `September 1, 2026` | §1 「날짜」. `formatDate()` |
 | 따옴표 | '모두 허용' | “Accept all” | 곡선 큰따옴표. UI 문구는 실제 버튼 이름 그대로(`CookieConsent.astro` · `nav.ts`) |
 | 한국어판 우선 고지 | — | 시행일 바로 아래 `.legal-lang-notice` | §0-1. 문구의 "Korean original"이 한국어판으로 연결된다 |
@@ -343,7 +350,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | hreflang | 한국어 · 영어 두 페이지의 `alternates` |
 | 다른 영어판 안의 교차 링크 | 예: 쿠키 정책 영어판 맨 위 `privacyHref` (지금 `/privacy`, 처리방침 영어판이 생기면 `/en/privacy`) |
 
-현재 — Cookie Policy · Privacy Policy 켜짐. Terms of Service · EULA는 한국어 원문으로 간다.
+현재 — Cookie Policy · Privacy Policy · Terms of Service 켜짐. EULA는 한국어 원문으로 간다.
 
 ---
 
@@ -388,6 +395,8 @@ all cookies other than …"이 이 경우였다(분석 쿠키 → 필수가 아�
 | # | 질문 | 생긴 곳 |
 |---|---|---|
 | Q1 | 영어판에 '한국어판 우선' 고지를 두었는데, 영어판이 이용자에게 더 유리하게 쓰인 부분이 있으면 「개인정보 보호법」 제30조 제3항이나 약관규제법 제5조 제2항 때문에 영어판이 적용될 수 있는가? 고지 문구를 보강해야 하는가? | 쿠키 정책 역번역 (2026-09-11) |
+| ~~Q2~~ | **해결 (2026-09-11)** — 약관 제8조 제3호의 "(정보통신망법 제50조의2)" 인용을 한국어판 · 영어판 모두 지웠다. 이 조문은 2014. 5. 28. 삭제됐고(KLRI · 국가법령정보센터), 이 행위를 통째로 막는 현행 조문이 없다. 가까운 정보통신망법 제50조 제5항(광고 전송자만) · 개인정보 보호법 제59조(개인정보일 때만)는 인용하면 금지 범위가 좁아 보여 쓰지 않았다(사용자 결정) | 이용약관 KLRI 대조 |
+| Q3 | 약관규제법 제3조 제1항은 약관을 "한국어로" 작성하고 중요 내용을 굵은 글씨 등으로 표시하라고 한다. 영어판에도 한국어판과 같은 자리에 굵게 표시를 두었는데, 참고용 영어판의 굵게 표시가 외국 고객에 대한 명시 · 설명 의무(제3조 제3항)를 채우는 것으로 보는가, 아니면 별도 설명이 필요한가? | 이용약관 KLRI 대조 (2026-09-11) |
 
 ---
 
