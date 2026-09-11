@@ -1,0 +1,344 @@
+---
+// 소프트웨어 사용권 계약(EULA) 영어판. 한국어 원문(src/pages/eula.astro)을 조 · 항 · 호 단위로 그대로 옮긴다.
+// 용어 · 표기 기준은 docs/legal-en-glossary.md — 거기 없는 용어는 임의로 옮기지 않는다.
+// 법령명 · 조문은 KLRI 영문법령의 표현을 따른다(저작권법 Act No. 19597). 법적 효력은 한국어판에 있다(맨 앞 고지).
+// 호칭 — 계약서라 정의어를 쓴다: the “Company” · the “Customer”(용어집 §10). we · you를 쓰지 않는다.
+//   한국어 원문은 '고객'을 따로 정의하지 않지만, 영어에서 대문자 Customer를 정의 없이 쓰면 정의되지 않은 용어가 되어
+//   서문에서 (the “Customer”)로 이름만 붙인다. '고객 데이터'도 이 문서에서는 정의어가 아니라 the Customer’s data로 쓴다.
+// 굵게 표시는 한국어판의 「약관의 규제에 관한 법률」 제3조 중요 내용 표시와 같은 자리에 둔다 — 지우지 않는다.
+// 제15조(보증) · 제17조(책임 제한)는 서로 다른 조다 — 한 조로 묶어 옮기지 않는다(용어집 §4).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import Ph from '../../components/Ph.astro';
+import { legal, effectiveDate, legalReviewed, formatDate } from '../../data/legal';
+import '../../styles/legal.css';
+const { company, revisions } = legal('en');
+
+const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
+
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/eula' },
+  { lang: 'en', href: '/en/eula' },
+];
+---
+<BaseLayout
+  title="Software License Agreement (EULA) | Refinery"
+  description="End user license agreement on the scope of the license, prohibited acts, warranties, and liability for the Refinery installable software."
+  canonical="/en/eula"
+  robots="index, follow"
+  alternates={alternates}
+>
+  <Nav />
+  <main class="legal-main legal-main--wide">
+    <h1>Software License Agreement (EULA)</h1>
+    <p class="legal-updated">Effective date: <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" /></p>
+
+    {/* 한국어판 우선 고지 — 용어집 §0-1. 문구를 바꾸지 않는다. */}
+    <p class="legal-lang-notice">
+      This English version is provided for reference only. In the event of any discrepancy
+      between this translation and the <a href="/eula" hreflang="ko" lang="ko">Korean original</a>,
+      the Korean version shall prevail.
+    </p>
+
+    {isDraft && (
+      <div class="legal-draft">
+        ⚠️ This document is a <strong>draft</strong>. Fill in the yellow <span class="legal-ph">[fields]</span> in{' '}
+        <code>src/data/legal.ts</code> and obtain a <strong>legal review</strong> before publishing.
+        Sentences in bold serve as the <strong>indication of important details</strong> required by Article 3 of the Act on the Regulation
+        of Terms and Conditions.
+      </div>
+    )}
+
+    <div class="legal-body legal-body--terms">
+      <p>
+        This Software License Agreement (this “Agreement”) sets forth the rights and obligations between{' '}
+        <Ph value={company.legalName} label="Company name" /> (the “Company”) and the customer (the “Customer”) regarding the license
+        for the <strong>{company.serviceName} installable software</strong> (including the Gateway and Silo data collection devices,
+        server components, and accessory tools; the “Software”) that the Company provides on an on-premises (customer-installed) basis.
+      </p>
+      <p>
+        <strong>By installing, copying, or using the Software, the Customer is deemed to have agreed to all terms of this Agreement.
+        If the Customer does not agree, please do not install or use the Software, and return it to the Company without delay.</strong>
+      </p>
+      <p class="legal-note">
+        Use of the {company.serviceName} service provided via the cloud is governed by the <a href="/en/terms">Terms of Service</a>,
+        and the processing of personal information is governed by the <a href="/en/privacy">Privacy Policy</a>.
+      </p>
+
+      <section>
+        <h2>Article 1 (Purpose)</h2>
+        <p>The purpose of this Agreement is to set forth the conditions and scope under which the Company permits the Customer to use the Software, and the rights, obligations, and responsibilities of the parties.</p>
+      </section>
+
+      <section>
+        <h2>Article 2 (Definitions)</h2>
+        <ol>
+          <li>“Software” means the executable files, libraries, container images, configuration files, and accompanying documents provided by the Company, and any modified versions of and updates to them.</li>
+          <li>“License” means the right to install and run the Software within the scope set out in this Agreement and the Individual Agreement.</li>
+          <li>“Individual Agreement” means the contracts, order forms, and quotations, and any documents attached to them, that the Company and the Customer enter into to determine the type, scope, term, and fees of the License.</li>
+          <li>“Scope of Use” means the quantitative limits of the License set out in the Individual Agreement, such as the number of installation sites, servers and nodes, connected equipment items and tags, and named users.</li>
+          <li>“Documentation” means the installation guides, operation manuals, and product specifications provided by the Company.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 3 (Grant of License)</h2>
+        <ol>
+          <li>Subject to the Customer’s payment of the fees under the Individual Agreement, the Company grants the Customer a <strong>non-exclusive, non-transferable, and non-sublicensable</strong> License.</li>
+          <li>The Customer may exercise the License only for its <strong>internal business purposes</strong>.</li>
+          <li>The License is effective only within the <strong>Scope of Use and the contract term</strong> set out in the Individual Agreement.</li>
+          <li>This Agreement <strong>permits the use of the Software and does not sell the Software or transfer any rights in it.</strong></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 4 (Types of Licenses)</h2>
+        <ol>
+          <li><strong>Subscription license</strong>: The Customer may use the Software for the period set out in the Individual Agreement, and the License expires when that period ends.</li>
+          <li><strong>Perpetual license</strong>: The Customer may use the relevant version of the Software without any time limit. However, updates and technical support are provided only while a separate maintenance agreement is in effect.</li>
+          <li><strong>Evaluation and trial versions</strong>: The Customer may use them <strong>for evaluation purposes only</strong>, within the period and scope set by the Company, and may not use them for commercial operations. The License expires immediately when the evaluation period ends.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 5 (Exceeding the Scope of Use)</h2>
+        <ol>
+          <li>The Customer may not install or use the Software beyond the Scope of Use set out in the Individual Agreement.</li>
+          <li><strong>If the Customer exceeds the Scope of Use, the Company may charge additional fees for the excess at the unit price set out in the Individual Agreement (or, if none is set, at the Company’s list price). The Company will notify the Customer of the excess and the basis of calculation before charging.</strong></li>
+          <li>If the Customer becomes aware that it has exceeded the Scope of Use, it must notify the Company without delay and either purchase additional licenses or discontinue such use.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 6 (Prohibited Acts)</h2>
+        <p>The Customer must not engage in any of the following acts:</p>
+        <ol>
+          <li>Selling, renting, or sublicensing the Software to a third party, or allowing a third party to use it through hosting, outsourced operation, or similar means, except where expressly permitted in the Individual Agreement</li>
+          <li>Reproducing, modifying, or adapting the Software, or creating derivative works from it, except that <strong>reproduction for backup purposes</strong> is permitted</li>
+          <li>Reverse engineering, decompiling, or disassembling the Software</li>
+          <li>Circumventing or disabling technological protection measures such as license authentication, usage metering, and access control</li>
+          <li>Removing or altering copyright notices, trademarks, or license notices displayed on the Software</li>
+          <li>Measuring the performance of the Software and publishing the results without the Company’s prior written consent</li>
+        </ol>
+        {/* 조문 제목은 KLRI 영문본(저작권법 Act No. 19597)의 표제를 그대로 쓴다 — 한국어판의 '보존을 위한 복제 등'은
+            제101조의5 표제를 줄여 적은 것이다. KLRI는 '역분석'을 decompilation으로 옮긴다. */}
+        <p>
+          <strong>However, the prohibitions above do not apply to the extent that reproduction for backup purposes under subparagraph (2)
+          is permitted by Article 101-5 (Reproduction for Storage by Legitimate Users) of the Copyright Act, that reverse engineering under
+          subparagraph (3) is permitted by Article 101-4 (Decompilation of Program Codes) and Article 101-3 (Limitations on Author’s Economic
+          Right of Program) of the same Act, or to the extent otherwise permitted by mandatory laws.</strong>{' '}
+          Even in such cases, the Customer must perform the relevant acts only to the minimum extent necessary for their purpose, and must not
+          use the information obtained for any other purpose or provide it to any third party.
+        </p>
+      </section>
+
+      <section>
+        <h2>Article 7 (License Authentication and Usage Information)</h2>
+        <ol>
+          <li>To verify the validity of the License and determine the extent of use, the Software may transmit the following information to the Company:
+            <ul>
+              <li>License key, installation identifier, and Software version and build number</li>
+              <li>Installation environment information (operating system, host name, and CPU and memory specifications)</li>
+              <li>Usage metrics (number of connected equipment items and tags, number of nodes, number of accounts, and data throughput)</li>
+              <li>Error and failure diagnostic logs</li>
+            </ul>
+          </li>
+          <li><strong>The Company uses the above information only for license management, technical support, and product improvement, and does not collect the content of the Customer’s data or any personal information.</strong></li>
+          <li>If, for reasons such as operating in a closed-network environment, the Customer does not wish the above information to be transmitted, the Company may provide an offline authentication method, in which case the Customer will submit a written confirmation of its usage upon the Company’s request.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 8 (Verification of License Compliance)</h2>
+        <ol>
+          <li>To verify the Customer’s compliance with the License, the Company may request, <strong>no more than once a year</strong>, that the Customer submit a report of its usage, and the Customer will comply within 30 days from the date of the request.</li>
+          <li>
+            <strong>If verification is difficult based solely on the submitted materials and there are reasonable grounds to suspect a violation, the Company may,
+            after giving 30 days’ prior written notice, conduct an on-site verification during the Customer’s normal business hours in the presence of a
+            representative designated by the Customer.</strong>{' '}
+            In this case, the Company must comply with the Customer’s security regulations and is bound by a duty of confidentiality regarding information learned during the verification.
+          </li>
+          <li>The Company bears the cost of verification. However, <strong>if it is confirmed that the Customer has exceeded the Scope of Use by 5% or more, the Customer bears the cost</strong>, and the Customer will pay the fees for the excess.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 9 (Third-Party Components and Open Source)</h2>
+        <ol>
+          <li>The Software may include components provided by third parties and open source software.</li>
+          <li><strong>For such components, their respective license terms apply in preference to this Agreement.</strong></li>
+          <li>The Company provides a list of the open source components included in the Software and the full texts of their licenses through notice files within the Software or through the Documentation.</li>
+          <li>The Company does not provide any warranty with respect to defects in third-party components themselves beyond the scope provided by the relevant third party’s license. However, this does not apply where there is a defect in the way the Company integrated the component into the Software.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 10 (Updates and Technical Support)</h2>
+        <ol>
+          <li>The Company provides updates and technical support for the Software during the term of a valid subscription or maintenance agreement.</li>
+          <li>Updates may include bug fixes, security patches, and feature improvements, and the method and schedule for applying them are set out in the Documentation or the Individual Agreement.</li>
+          <li><strong>The Company may recommend updates to address security vulnerabilities, and is not liable for damages arising from the Customer’s failure to apply them within a reasonable period.</strong> However, this does not apply where the Company has not informed the Customer of the need for the update or the associated risks.</li>
+          <li>The Company may end support for specific versions of the Software, in which case it will notify the Customer <strong>at least 12 months before the scheduled end date</strong>.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 11 (Customer’s Installation Environment and Responsibilities)</h2>
+        <ol>
+          <li>The Customer is responsible for preparing and maintaining an environment that meets the system requirements set out in the Documentation.</li>
+          <li>The Customer is responsible for the operation, security, access control, and backup of the on-premises installation environment. However, this does not apply where the Individual Agreement provides that the Company will operate the environment on the Customer’s behalf.</li>
+          <li><strong>The Customer must regularly back up the data stored and processed by the Software, and the Company is not liable for any increase in damages resulting from the absence of backups.</strong></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 12 (Remote Support)</h2>
+        <ol>
+          <li>The Company provides technical support through remote access only upon the Customer’s request and with the Customer’s prior consent.</li>
+          <li>Remote access is attended by a representative designated by the Customer, and the Company records and keeps the date and time of access, the persons who accessed the system, and the work performed.</li>
+          <li>The Company is bound by a duty of confidentiality regarding the Customer’s information learned in the course of remote support.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 13 (Customer Data)</h2>
+        <ol>
+          <li>All rights to the Customer’s equipment, process, and operational data processed by the Software belong to the Customer.</li>
+          <li>Data processed by the Software installed on premises <strong>is stored within the Customer’s systems, and the Company does not transmit it to the Company’s systems, except for the license and usage information under Article 7.</strong></li>
+          <li>The Customer is the personal information controller and the Company is the person entrusted (수탁자) only where the Customer’s data contains personal information and the Company comes to process that personal information through remote support or otherwise; in that case, the processing is governed by a separate personal information entrustment contract. This does not apply where the Company does not access the Customer’s personal information.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 14 (Intellectual Property Rights)</h2>
+        <ol>
+          <li>All intellectual property rights, including copyrights, in the Software and its modified versions and updates are reserved to the Company or the legitimate rights holders.</li>
+          <li>This Agreement does not grant any rights to the source code of the Software.</li>
+          <li>The Company may use feedback provided by the Customer, such as suggestions for improvement, to improve its products without any obligation to pay separate compensation.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 15 (Warranties and Disclaimer of Warranties)</h2>
+        <ol>
+          <li>The Company warrants that, for <strong>six months</strong> from the date of delivery, the Software will operate <strong>in substantial conformity with</strong> the Documentation.</li>
+          <li>If a defect is discovered during the warranty period, the Company will <strong>provide a fix patch or guidance on a workaround within a reasonable period</strong>. If the defect cannot be remedied, the Customer may terminate the agreement and claim a refund of the fees corresponding to the affected part.</li>
+          <li>The Company <strong>does not warrant that the Software will operate without interruption or error</strong>, and does not warrant that it will be fit for the Customer’s particular purpose.</li>
+          {/* 한국어판은 한 항 안에 ①②③④를 인라인으로 적었다. 영어판의 항 번호가 (1)(2)라 같은 꼴을 쓰면
+              항과 호가 섞여 읽혀, 인라인 열거는 (a)(b)(c)(d)로 옮긴다(용어집 §10 — 목은 (a)). */}
+          <li>The warranty does not apply in the following cases: (a) where the Customer has installed, configured, or operated the Software contrary to the Documentation; (b) where the Software has been modified by means not provided by the Company; (c) where the Software has been used in an environment that does not meet the system requirements; and (d) for evaluation versions, trial versions, and beta features.</li>
+          <li>This Article does not exclude the Company’s liability for its willful misconduct or gross negligence, or for cases where the Company knew of a defect and failed to disclose it.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 16 (Restrictions on Safety-Related Use)</h2>
+        <p>
+          <strong>The Software is intended for collecting and analyzing industrial data and supporting decision-making, and must not be used as the
+          sole means of decision-making or control for purposes directly related to protecting human life and physical safety or preventing serious
+          property damage.</strong>{' '}
+          Such purposes include safety instrumented systems (SIS), emergency shutdown systems, automatic shutoffs based on fire or gas detection,
+          control of nuclear facilities, flight and railway operation control, medical devices, and life support equipment.
+        </p>
+        <p>
+          The Customer must have a safety system independent of the Software in place. The Customer must also recognize that the anomaly detection and
+          prediction results provided by the Software are <strong>reference materials to support the Customer’s judgment</strong>, and must independently verify their validity.
+        </p>
+      </section>
+
+      <section>
+        <h2>Article 17 (Limitation of Liability)</h2>
+        <ol>
+          <li><strong>The Company’s total liability for damages to the Customer is limited to the total amount of Software license and maintenance fees actually paid by the Customer to the Company during the 12 months preceding the date on which the cause of the damage arose.</strong></li>
+          <li><strong>With respect to damages arising from special circumstances beyond the scope of ordinary damages, lost profits, and damages resulting from production stoppages, the Company is liable only if it knew or could have known of such circumstances.</strong></li>
+          <li><strong>Paragraphs (1) and (2) do not apply to damages arising from the Company’s willful misconduct or gross negligence, damages arising from a breach of any written warranty given by the Company, or personal injury (death or bodily injury).</strong></li>
+          <li>For evaluation versions, trial versions, and features provided free of charge, the Company is liable only in cases of willful misconduct or gross negligence.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 18 (Export Control)</h2>
+        <ol>
+          {/* 전략물자 수출입고시의 영문명은 산업통상자원부 영문 보도자료의 표기(Public Notice on Trade of Strategic Items)다.
+              KLRI에는 고시가 실리지 않는다. */}
+          <li>In connection with the use and transfer of the Software, the Customer must comply with applicable export control laws and regulations, such as the Foreign Trade Act, the Public Notice on Trade of Strategic Items, and the U.S. Export Administration Regulations (EAR).</li>
+          <li>The Customer <strong>must not use the Software for the development or production of weapons of mass destruction, or transfer it to countries or regions to which export is prohibited or to sanctioned persons.</strong></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 19 (Term and Termination)</h2>
+        <ol>
+          <li>This Agreement takes effect on the date on which the Customer first installs the Software or enters into the Individual Agreement, and remains in effect until the License expires.</li>
+          <li>The Company may terminate this Agreement if <strong>the Customer materially breaches this Agreement, such as by engaging in a prohibited act under Article 6 or failing to pay the fees, and fails to cure the breach after receiving a request to cure that sets a period of at least 30 days</strong>.</li>
+          <li>
+            <strong>When this Agreement ends, the Customer must stop using the Software without delay and delete or destroy all installed copies (including backup copies),
+            and, upon the Company’s request, will submit a certificate of destruction within 30 days.</strong>{' '}
+            However, <strong>data accumulated by the Customer through the Software belongs to the Customer</strong>, and the Customer may export and retain it.
+          </li>
+          <li>Article 14 (Intellectual Property Rights), Article 17 (Limitation of Liability), Article 20 (Governing Law and Jurisdiction), and the provisions concerning confidentiality survive the termination of this Agreement.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 20 (Governing Law and Jurisdiction)</h2>
+        <ol>
+          <li>This Agreement is governed by and construed in accordance with <strong>the laws of the Republic of Korea</strong>, and the United Nations Convention on Contracts for the International Sale of Goods (CISG) does not apply.</li>
+          <li>If a dispute arises in connection with this Agreement, the parties will consult in good faith, and if they fail to reach an agreement and a lawsuit is filed, <strong>the court having jurisdiction over the location of the Company’s head office will be the court of first instance</strong>. However, this is not an exclusive jurisdiction agreement and does not exclude any other jurisdiction recognized by law.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Article 21 (Miscellaneous)</h2>
+        <ol>
+          <li>Even if any provision of this Agreement is invalid or unenforceable, the validity of the remaining provisions is not affected.</li>
+          <li>If the contents of this Agreement and the Individual Agreement differ, <strong>the Individual Agreement prevails</strong>.</li>
+          <li>The Company may amend this Agreement, and <strong>will notify the Customer of any amendment at least 30 days before its effective date. If the Customer does not agree to the amendment, the Customer may raise an objection by the day before the effective date and terminate the agreement, in which case the Company will refund, on a pro rata daily basis, the fees corresponding to the remaining term.</strong> However, the scope of any perpetual license already granted will not be reduced by an amendment.</li>
+        </ol>
+      </section>
+
+      <section class="legal-appendix">
+        <h2>Addenda</h2>
+        <ul>
+          <li>This Agreement is effective as of <Ph value={formatDate(effectiveDate, 'en')} label="Month D, YYYY" />. The revision history is as follows.</li>
+        </ul>
+        <div class="legal-table-wrap">
+          <table class="legal-table legal-table--center">
+            <thead><tr><th style="width:200px;">Effective date</th><th>Summary of changes</th><th style="width:180px;">Full text</th></tr></thead>
+            <tbody>
+              {revisions.eula.map((r) => (
+                <tr>
+                  <td>{formatDate(r.date, 'en')}</td>
+                  <td>{r.summary}</td>
+                  <td>{r.href ? <a href={r.href}>View full text</a> : 'Current'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>For inquiries about this Agreement, please use the contact details below or the <a href="/en/contact">Contact</a> page.</p>
+        <div class="legal-cards legal-cards--single">
+          <div class="legal-card">
+            <dl class="legal-facts">
+              <dt>Company name</dt><dd><Ph value={company.legalName} label="Company name" /></dd>
+              <dt>Representative</dt><dd><Ph value={company.ceo} label="Representative" /></dd>
+              <dt>Address</dt><dd><Ph value={company.address} label="Address" /></dd>
+              <dt>Email</dt><dd><Ph value={company.email} label="Email" /></dd>
+              <dt>Phone</dt><dd><Ph value={company.tel} label="Phone" /></dd>
+              <dt>Business registration number</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
+              {company.mailOrderNo && <><dt>Mail-order business registration number</dt><dd>{company.mailOrderNo}</dd></>}
+              <dt>Hosting service provider</dt><dd>{company.hosting}</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
