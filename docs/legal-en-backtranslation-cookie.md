@@ -163,7 +163,7 @@
 | 92 | Vercel Inc. : Privacy Policy | Vercel Inc.: Privacy Policy | Vercel Inc.: Privacy Policy | 일치 |
 | 93 | 이들 도구를 통한 개인정보의 국외 이전 내역(이전받는 자, 이전 국가, 이전 항목, 이용 목적, 보유 기간, 거부 방법)은 개인정보처리방침 제9항에 공개되어 있습니다. | Details of the cross-border transfer of personal information through these tools (recipient, destination country, items transferred, purpose of use, retention period, and how to refuse) are disclosed in Section 9 of the Privacy Policy. | 이들 도구를 통한 개인정보의 국외 이전 내역(이전받는 자, 이전 국가, 이전 항목, 이용 목적, 보유 기간, 거부 방법)은 개인정보처리방침 제9항에 공개되어 있습니다. | 일치 |
 | 94 | 8. 정책의 변경 | 8. Changes to this policy | 8. 본 정책의 변경 | 일치 |
-| 95 | 본 쿠키 정책은 2026-09-01부터 적용됩니다. 사용하는 도구나 쿠키 내역이 변경되는 경우 본 정책을 개정하고 웹사이트를 통하여 고지합니다. 개정 이력은 아래와 같습니다. | This Cookie Policy takes effect on September 1, 2026. If the tools or cookies in use change, the Company will revise this policy and provide notice on the website. The revision history is as follows. | 본 쿠키 정책은 2026년 9월 1일부터 시행됩니다. 사용 중인 도구나 쿠키가 바뀌면 회사는 본 정책을 개정하고 웹사이트에 고지합니다. 개정 이력은 다음과 같습니다. | 일치 |
+| 95 | 본 쿠키 정책은 2026-09-01부터 적용됩니다. 사용하는 도구나 쿠키 내역이 변경되는 경우 본 정책을 개정하고 웹사이트를 통하여 고지합니다. 개정 이력은 아래와 같습니다. | This Cookie Policy is effective as of September 1, 2026. If the tools or cookies in use change, the Company will revise this policy and provide notice on the website. The revision history is as follows. | 본 쿠키 정책은 2026년 9월 1일부터 시행됩니다. 사용 중인 도구나 쿠키가 바뀌면 회사는 본 정책을 개정하고 웹사이트에 고지합니다. 개정 이력은 다음과 같습니다. | 일치 |
 | 96 | 시행일 | Effective date | 시행일 | 일치 |
 | 97 | 주요 변경 | Summary of changes | 주요 변경 | 일치 |
 | 98 | 전문 | Full text | 전문 | 일치 |
