@@ -271,8 +271,9 @@ const processors: Processor[] = [
  * 정보주체 권익침해 구제 전문기관 — 표준 개인정보 처리방침 기준 4개 기관
  * 영문 명칭은 공식 표기를 대조했다(용어집 §2, 2026-09-11).
  *  - 분쟁조정위원회: KLRI 영문법령 PIPA 제40조 / 침해신고센터: PIPC 영문 사이트의 표기
- *  - 대검 사이버수사과 · 경찰청 ECRM: 부서 · 시스템 단위의 공식 영문명이 없어
- *    기관의 공식 영문명 뒤에 한국어 부서명을 병기한다(임의로 옮기지 않는다).
+ *  - 대검 사이버수사과: 대검찰청 영문 사이트 조직도(과학수사부 Forensic Science Investigation
+ *    Department 아래 'Cyber and Technology Crime Investigation Division' — 한국어 조직도의 4개 과와 순서 · 업무가 1:1)
+ *  - 경찰청 ECRM: ecrm.police.go.kr 머리글의 영문명(사이트는 'system'을 소문자로 적는다 — 고유명사라 대문자로 둔다)
  */
 const remedyAgencies = [
   {
@@ -286,12 +287,12 @@ const remedyAgencies = [
     url: 'https://privacy.kisa.or.kr',
   },
   {
-    name: { ko: '대검찰청 사이버수사과', en: 'Supreme Prosecutors’ Office (대검찰청 사이버수사과)' },
+    name: { ko: '대검찰청 사이버수사과', en: 'Cyber and Technology Crime Investigation Division, Supreme Prosecutors’ Office' },
     tel: { ko: '(국번 없이) 1301', en: '1301 (no area code needed)' },
     url: 'https://www.spo.go.kr',
   },
   {
-    name: { ko: '경찰청 사이버범죄 신고시스템(ECRM)', en: 'Korean National Police Agency (경찰청 사이버범죄 신고시스템, ECRM)' },
+    name: { ko: '경찰청 사이버범죄 신고시스템(ECRM)', en: 'Electronic Cybercrime Report & Management System (ECRM), Korean National Police Agency' },
     tel: { ko: '(국번 없이) 182', en: '182 (no area code needed)' },
     url: 'https://ecrm.police.go.kr',
   },

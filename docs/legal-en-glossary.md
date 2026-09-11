@@ -40,8 +40,8 @@
 |---|---|---|---|
 | 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조. 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
 | 「개인정보 보호법 시행령」 | Enforcement Decree of the Personal Information Protection Act | ✅ | |
-| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | ⚠️ | PIPC 고시. 법률 자료에서 쓰는 명칭 — PIPC 공식 영문본은 확인하지 못했다. 처리방침 4항 |
-| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information (「개인정보 처리 방법에 관한 고시」) | ⚠️ | 공식 영문본을 찾지 못해 **한국어를 병기**한다. 처리방침 16항 |
+| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information (「개인정보의 안전성 확보조치 기준」) | ⚠️ | **공식 영문본 없음** — PIPC 영문 사이트는 법 · 시행령만 영문으로 싣는다(2026-09-11 확인). 법률 자료에 두 가지 명칭이 돈다(…to Secure the Safety… / …to Ensure the Security…). 더 흔한 앞의 것을 쓰고 **한국어를 병기**한다. 처리방침 4항 |
+| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information (「개인정보 처리 방법에 관한 고시」) | ⚠️ | **공식 영문본 없음**, 법률 자료에서 쓰는 영문 명칭도 찾지 못했다(2026-09-11). 뜻을 옮긴 이름에 **한국어를 병기**한다. 처리방침 16항 |
 | 「개인정보 처리방침 작성지침(2025.4.)」 | Guidelines on Drafting Privacy Policies (April 2025) | ⚠️ | 공식 영문본 없음. 괄호에 한국어 원 제목 병기 검토 |
 | 「개인정보 보호법 시행령」 제14조의2 · 제30조 | Standards on additional use and provision of personal information · Measures to ensure safety of personal information | ✅ | KLRI (Presidential Decree No. 35343, 2025. 2. 25.) |
 | 상법 제33조 | Commercial Act, Article 33 (Preservation of Trade Books, etc.) | ✅ | KLRI |
@@ -93,8 +93,8 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | 제40조 |
 | 개인정보침해신고센터 | Personal Information Infringement Report Call Center (KISA) | ✅ | PIPC 영문 사이트 “Reporting on Infringement of Personal Information”의 표기(2026-09-11) |
 | 한국인터넷진흥원 | Korea Internet & Security Agency (KISA) | ✅ | 앰퍼샌드 포함이 공식 표기 |
-| 대검찰청 사이버수사과 | Supreme Prosecutors’ Office (대검찰청 사이버수사과) | ✅ | 기관 영문명은 공식. **부서 단위 공식 영문명이 없어** 한국어 부서명을 병기한다 — 임의로 옮기지 않는다 |
-| 경찰청 사이버범죄 신고시스템(ECRM) | Korean National Police Agency (경찰청 사이버범죄 신고시스템, ECRM) | ✅ | 같은 이유로 기관 영문명 + 한국어 병기 |
+| 대검찰청 사이버수사과 | Cyber and Technology Crime Investigation Division, Supreme Prosecutors’ Office | ✅ | 대검찰청 영문 사이트 조직도. 과학수사부(Forensic Science Investigation Department)의 4개 과가 한국어 조직도와 순서 · 업무로 1:1 — 사이버수사과 = “supports cybercrime case investigation”. 2026-09-11 확인 |
+| 경찰청 사이버범죄 신고시스템(ECRM) | Electronic Cybercrime Report & Management System (ECRM), Korean National Police Agency | ✅ | ecrm.police.go.kr 머리글의 영문명. 사이트는 `system`을 소문자로 적지만 고유명사라 대문자로 둔다. 2026-09-11 확인 |
 
 > 기관명은 **영문 뒤 괄호에 한국어를 병기**한다. 한국 기관에 실제로 연락해야 하는 독자가
 > 검색할 수 있어야 한다. 예: `Personal Information Dispute Mediation Committee (개인정보 분쟁조정위원회)`
@@ -289,7 +289,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 
 | # | 항목 | 무엇을 정해야 하나 | 상태 |
 |---|---|---|---|
-| 1 | **고시 영문 명칭 2건** (§1) | 기관 4곳은 처리방침 영어판에서 확정했다(2026-09-11). 남은 것 — PIPC 고시 「안전성 확보조치 기준」 · 「처리 방법에 관한 고시」의 공식 영문본. 찾기 전까지 한국어를 병기하거나 법률 자료의 명칭을 쓴다 | 공식 영문본 찾으면 교체 |
+| 1 | **PIPC 고시 2건의 영문 명칭** (§1) | PIPC 영문 사이트에 공식 영문본이 없다(법 · 시행령만 있음). 두 건 모두 한국어를 병기해 원문을 찾을 수 있게 했다. PIPC가 영문본을 내면 교체 | 공식 영문본 없음 — 병기로 해결 |
 | 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 쿠키 정책 6항에 현행 영어 UI 이름으로 적었다. **Whale은 영어 UI를 확인하지 못해** Chromium 메뉴 이름을 따랐다. iOS 18부터 Safari 설정이 `Settings › Apps › Safari`로 한 단계 내려갔는데 한국어판도 같은 경로를 쓰고 있어 **두 언어를 함께** 고칠 일이다 | 실물 확인 대기 |
 
 ### 결론이 난 항목

@@ -25,16 +25,18 @@
 | 정보통신망법 제50조 | Act on Promotion of Information and Communications Network Utilization and Information Protection — Restrictions on Transmission of Advertising Information for Profit | KLRI |
 | 영상정보처리기기 | fixed / mobile visual data processing devices (PIPA 제25 · 25조의2) | KLRI |
 | 개인정보침해신고센터 | Personal Information Infringement Report Call Center | PIPC 영문 사이트 |
-| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | PIPC 고시 영문 명칭(법률 자료 대조) — ⚠️ PIPC 공식 영문본 미확인 |
-| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information (+ 한국어 병기) | ⚠️ 공식 영문본 미확인 — 한국어를 함께 적었다 |
+| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information (+ 한국어 병기) | ⚠️ 공식 영문본 없음 — PIPC 영문 사이트는 법 · 시행령만 싣는다 |
+| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information (+ 한국어 병기) | ⚠️ 공식 영문본 없음 · 법률 자료의 영문 명칭도 없음 |
+| 대검찰청 사이버수사과 | Cyber and Technology Crime Investigation Division, Supreme Prosecutors’ Office | 대검찰청 영문 사이트 조직도 |
+| 경찰청 ECRM | Electronic Cybercrime Report & Management System (ECRM), Korean National Police Agency | ecrm.police.go.kr |
 
 ## 결과
 
 | 판정 | 수 | 뜻 |
 |---|---|---|
-| 일치 | 265 | 역번역이 원문과 같은 뜻 |
+| 일치 | 267 | 역번역이 원문과 같은 뜻 |
 | **고침** | 5 | 역번역에서 뜻 · 표기 차이가 드러나 영어판을 고쳤다 |
-| 의도한 차이 | 3 | 원문과 다르게 옮겼고 이유가 있다 |
+| 의도한 차이 | 1 | 원문과 다르게 옮겼고 이유가 있다 |
 | 확인 필요 | 0 | 번역이 아니라 사실 확인이 남았다 |
 
 영어판에만 있는 것: 시행일 아래 한국어판 우선 고지(용어집 §0-1).
@@ -83,22 +85,11 @@
 - 역번역: 세션 리플레이는 귀하의 화면 조작을 재현하는 기능입니다. 저희는 모든 입력값을 마스킹하도록 설정하여 귀하가 문의 폼에 입력하는 이름, 이메일 주소, 전화번호 등의 내용이 기록되지 않도록 하고 있습니다.
 - 뜻이 아니라 표기 — 빌드가 </strong> 뒤 줄바꿈의 띄어쓰기를 지워 "valuesso"로 붙었다. {' '}로 되살렸다
 
-### [255] 의도한 차이
-
-- 원문: 대검찰청 사이버수사과
-- 영어: Supreme Prosecutors’ Office (대검찰청 사이버수사과)
-- 역번역: 대검찰청(대검찰청 사이버수사과)
-- 대검찰청 사이버수사과는 부서 단위의 공식 영문명이 없어 기관 영문명(Supreme Prosecutors’ Office) 뒤에 한국어 부서명을 병기했다(용어집 §2)
-
-### [258] 의도한 차이
-
-- 원문: 경찰청 사이버범죄 신고시스템(ECRM)
-- 영어: Korean National Police Agency (경찰청 사이버범죄 신고시스템, ECRM)
-- 역번역: 경찰청(경찰청 사이버범죄 신고시스템, ECRM)
-- 경찰청 ECRM도 시스템 단위의 공식 영문명이 없어 기관 영문명(Korean National Police Agency) 뒤에 한국어를 병기했다
-
 ## 참고 메모가 붙은 "일치"
 
+- **[90]** PIPC 고시에는 공식 영문본이 없다(PIPC 영문 사이트는 법 · 시행령만 싣는다). 법률 자료에서 더 흔한 명칭을 쓰고 한국어를 병기해 원문을 찾을 수 있게 했다
+- **[255]** 대검찰청 영문 사이트 조직도의 공식 명칭. 과학수사부 4개 과가 한국어 조직도와 순서 · 업무로 1:1이다(처음엔 "공식 영문명이 없다"고 보고 한국어를 병기했으나 확인해 보니 있었다)
+- **[258]** ecrm.police.go.kr 머리글의 공식 영문명(처음엔 한국어를 병기했으나 확인해 보니 공식 영문명이 있었다)
 - **[4]** "수탁자의 지위에 있으므로"를 "we act as a person entrusted with its processing"으로 — KLRI 제26조 정의어 "person entrusted"
 - **[141]** 제28조의8 제1항 제3호 가목을 KLRI 표현(entrust … and retain …, disclosed in the Privacy Policy)으로
 - **[161]** "일부 삭제"를 "partially truncated"로 — "anonymized"는 법률 용어(익명처리)라 쓰지 않았다
@@ -199,7 +190,7 @@
 | 87 | 전자상거래법 제6조 | Article 6 of the Act on the Consumer Protection in Electronic Commerce | 전자상거래법 제6조 | 일치 |
 | 88 | 서비스 접속 기록(로그인 기록) | Service access records (login records) | 서비스 접속 기록(로그인 기록) | 일치 |
 | 89 | 1년 이상(고유식별정보 · 민감정보 처리 시 2년 이상) | At least 1 year (at least 2 years if personally identifiable information or sensitive information is processed) | 최소 1년(고유식별정보나 민감정보를 처리하는 경우 최소 2년) | 일치 |
-| 90 | 「개인정보의 안전성 확보조치 기준」 제8조 | Article 8 of the Standards for Measures to Secure the Safety of Personal Information | 「개인정보의 안전성 확보조치 기준」 제8조 | 일치 |
+| 90 | 「개인정보의 안전성 확보조치 기준」 제8조 | Article 8 of the Standards for Measures to Secure the Safety of Personal Information (「개인정보의 안전성 확보조치 기준」) | 「개인정보의 안전성 확보조치 기준」(「개인정보의 안전성 확보조치 기준」) 제8조 | 일치 |
 | 91 | 계정 정보 | Account information | 계정 정보 | 일치 |
 | 92 | 계약 종료 후 30일 이내 파기 / (데이터 반출을 위한 유예 기간) | Destroyed within 30 days after the contract ends / (grace period for data export) | 계약 종료 후 30일 이내 파기 / (데이터 반출을 위한 유예 기간) | 일치 |
 | 93 | 계약 | Contract | 계약 | 일치 |
@@ -364,10 +355,10 @@
 | 252 | 개인정보침해신고센터 | Personal Information Infringement Report Call Center (KISA) | 개인정보침해신고센터(KISA) | 일치 |
 | 253 | (국번 없이) 118 | 118 (no area code needed) | 118(국번 없이) | 일치 |
 | 254 | privacy.kisa.or.kr | privacy.kisa.or.kr | (동일) | 일치 |
-| 255 | 대검찰청 사이버수사과 | Supreme Prosecutors’ Office (대검찰청 사이버수사과) | 대검찰청(대검찰청 사이버수사과) | 의도한 차이 |
+| 255 | 대검찰청 사이버수사과 | Cyber and Technology Crime Investigation Division, Supreme Prosecutors’ Office | 대검찰청 사이버·첨단범죄수사과(Cyber and Technology Crime Investigation Division) | 일치 |
 | 256 | (국번 없이) 1301 | 1301 (no area code needed) | 1301(국번 없이) | 일치 |
 | 257 | www.spo.go.kr | www.spo.go.kr | (동일) | 일치 |
-| 258 | 경찰청 사이버범죄 신고시스템(ECRM) | Korean National Police Agency (경찰청 사이버범죄 신고시스템, ECRM) | 경찰청(경찰청 사이버범죄 신고시스템, ECRM) | 의도한 차이 |
+| 258 | 경찰청 사이버범죄 신고시스템(ECRM) | Electronic Cybercrime Report & Management System (ECRM), Korean National Police Agency | 경찰청 전자 사이버범죄 신고·관리 시스템(ECRM) | 일치 |
 | 259 | (국번 없이) 182 | 182 (no area code needed) | 182(국번 없이) | 일치 |
 | 260 | ecrm.police.go.kr | ecrm.police.go.kr | (동일) | 일치 |
 | 261 | 21. 영상정보처리기기의 운영 · 관리 | 21. Operation and management of visual data processing devices | 21. 영상정보처리기기의 운영·관리 | 일치 |
