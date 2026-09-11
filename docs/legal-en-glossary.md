@@ -246,6 +246,8 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | `processors[].task` | 제품 · 콘텐츠 이용 행태 분석, 세션 리플레이 및 히트맵 기록 | Analysis of product and content usage behavior; session replay and heatmap recording | |
 | `processors[].country` | 미국 및 Vercel 엣지 네트워크 소재국 | United States and countries where Vercel edge networks are located | |
 | `processors[].country` | 미국 등 Google 데이터센터 소재국 | United States and other countries where Google data centers are located | |
+| `company.tel` · `privacyTel` | 042-935-3721 | +82-42-935-3721 | ✅ 국제 표기(국가번호 +82, 지역번호 앞 0 생략) — 2026-09-11 사용자 요청 |
+| 구제기관 전화 | (국번 없이) 1833-6972 · 118 · 1301 · 182 | 1833-6972 (no area code needed) … | ✅ 국내 전용 특수번호라 +82를 붙이지 않는다 |
 | `retention.*` | 14개월 · 12개월 · 30일 | 14 months · 12 months · 30 days | ✅ |
 | `revisions[].summary` | 최초 제정 | Initial version | ✅ |
 | `revisions[].href` 라벨 | 현행 | Current | ✅ |
