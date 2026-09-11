@@ -20,7 +20,7 @@
 |---|---|---|
 | 「약관의 규제에 관한 법률」 | Act on the Regulation of Terms and Conditions | KLRI hseq=64981 (Act No. 20240, 2024. 2. 6.) — 제3조 제1항 “explicitly indicate important details thereof with signs, color, bold and large letters”를 초안 안내의 “indication of important details”에 옮겼다 |
 | 상법 제54조 | Statutory Interest Rate in Commercial Activities — six percent per annum | KLRI hseq=54525 — 제13조 제4항 |
-| 정보통신망법 제50조의2 | **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”** | KLRI hseq=55570 (Act No. 17358, 2020. 6. 9.) — 아래 [43] |
+| 정보통신망법 제50조의2 | **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”** | KLRI hseq=55570 · 64717(2024. 1. 23. 개정 반영) — 아래 [43]. 인용을 지웠다 |
 | 개인정보처리자 · 수탁자 · 익명처리 | personal information controller · person entrusted (수탁자) · anonymization | 용어집 §3 (PIPA Act No. 19234) |
 
 ## 결과
@@ -30,7 +30,7 @@
 | 일치 | 143 | 역번역이 원문과 같은 뜻 |
 | **고침** | 11 | 역번역에서 뜻 · 표기 차이가 드러나 영어판을 고쳤다 |
 | 의도한 차이 | 0 | |
-| 확인 필요 | 1 | 번역이 아니라 원문의 사실 확인이 남았다 |
+| 원문 수정 | 1 | 원문의 사실 오류(삭제된 조문 인용)를 한국어판과 함께 고쳤다 |
 
 영어판에만 있는 것: 시행일 아래 한국어판 우선 고지(용어집 §0-1).
 
@@ -79,11 +79,14 @@
 
 - "or our Contact page" → "or the Contact page". 계약서에는 `we` · `our`를 쓰지 않는다(용어집 §10)
 
-### [43] 확인 필요 — 원문이 삭제된 조문을 인용한다
+### [43] 원문 수정 — 삭제된 조문 인용을 지웠다
 
-- 원문: 웹사이트에 게시된 이메일 주소를 자동 수집 프로그램 등 기술적 장치를 이용하여 수집 · 판매 · 유통하는 행위(정보통신망법 제50조의2)
-- 영어: … (Article 50-2 of the Act on Promotion of Information and Communications Network Utilization and Information Protection)
-- KLRI 영문본(Act No. 17358)에 **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”**. 국가법령정보센터 현행 국문도 "제50조의2 삭제 &lt;2014. 5. 28.&gt;"(사용자 확인, 2026-09-11). 번역은 원문을 그대로 따랐다. 본문 작성 담당자가 따로 확인한다 — 그때까지 한국어판 · 영어판 모두 원문 유지(2026-09-11 사용자 결정) → 변호사 질문 Q2
+- 처음 원문: 웹사이트에 게시된 이메일 주소를 … 수집 · 판매 · 유통하는 행위(정보통신망법 제50조의2)
+- KLRI 영문본에 **“Article 50-2 Deleted. &lt;May 28, 2014&gt;”**, 국가법령정보센터 현행 국문도 "제50조의2 삭제 &lt;2014. 5. 28.&gt;"(사용자 확인).
+  삭제 전 조문(2012년판 Act No. 11322)은 ① 홈페이지 운영자 동의 없는 이메일 주소 자동 수집 금지 ② 그렇게 모은 주소의 판매 · 유통 금지
+  ③ 알면서 정보 전송에 이용 금지 — 약관 문장은 ①②를 합친 것이었다
+- 이 행위를 통째로 막는 현행 조문이 없다. 정보통신망법 제50조 제5항 제2 · 3호는 광고 전송자에게만, 개인정보 보호법 제59조 제1호는 개인정보일 때만 적용된다
+- **2026-09-11 사용자 결정: 괄호 인용만 지운다.** 한국어판 · 영어판을 함께 고쳤다. 금지 내용은 그대로이고, 법 위반 일반은 같은 조 제7호가 덮는다
 
 ## 조 제목 — 용어집 §4를 원문 쪽으로 고쳤다
 
@@ -193,7 +196,7 @@
 | 40 | 이용자는 다음 각 호의 행위를 하여서는 안 됩니다. | Users must not engage in any of the following acts: | 이용자는 다음 각 호의 행위를 하여서는 안 됩니다. | 일치 |
 | 41 | 회사 또는 제3자의 지식재산권, 명예, 신용 기타 권리를 침해하는 행위 | Infringing the intellectual property rights, reputation, credit, or other rights of the Company or any third party | 회사 또는 제3자의 지식재산권, 명예, 신용 또는 그 밖의 권리를 침해하는 행위 | 일치 |
 | 42 | 자동화된 수단(크롤러, 스크래퍼, 봇 등)을 이용하여 웹사이트의 콘텐츠를 대량으로 수집하는 행위. 다만 robots.txt가 허용하는 검색엔진의 색인 수집은 예외로 합니다. | Collecting Website content in bulk using automated means (crawlers, scrapers, bots, etc.), except for indexing by search engines as permitted by robots.txt | 자동화된 수단(크롤러, 스크래퍼, 봇 등)을 이용하여 웹사이트 콘텐츠를 대량으로 수집하는 행위. 다만 robots.txt가 허용하는 검색엔진의 색인은 제외합니다 | 고침 |
-| 43 | 웹사이트에 게시된 이메일 주소를 자동 수집 프로그램 등 기술적 장치를 이용하여 수집 · 판매 · 유통하는 행위(정보통신망법 제50조의2) | Using technical devices, such as automatic collection programs, to collect, sell, or distribute email addresses posted on the Website (Article 50-2 of the Act on Promotion of Information and Communications Network Utilization and Information Protection) | 자동 수집 프로그램 등 기술적 장치를 이용하여 웹사이트에 게시된 이메일 주소를 수집·판매·유통하는 행위(정보통신망 이용촉진 및 정보보호 등에 관한 법률 제50조의2) | 확인 필요 |
+| 43 | 웹사이트에 게시된 이메일 주소를 자동 수집 프로그램 등 기술적 장치를 이용하여 수집 · 판매 · 유통하는 행위 | Using technical devices, such as automatic collection programs, to collect, sell, or distribute email addresses posted on the Website | 자동 수집 프로그램 등 기술적 장치를 이용하여 웹사이트에 게시된 이메일 주소를 수집·판매·유통하는 행위 | 일치 (원문 수정 뒤) |
 | 44 | 비정상적으로 과도한 요청을 발생시켜 서비스의 정상적인 운영을 방해하는 행위 | Generating abnormally excessive requests that interfere with the normal operation of the Service | 서비스의 정상적인 운영을 방해하는 비정상적으로 과도한 요청을 발생시키는 행위 | 일치 |
 | 45 | 웹사이트나 서비스의 취약점을 탐색하거나, 접근 권한 없이 시스템에 접근을 시도하는 행위. 다만 회사에 사전 통보하고 회사가 승인한 보안 점검은 예외로 합니다. | Probing the Website or the Service for vulnerabilities, or attempting to access systems without authorization, except for security testing notified to the Company in advance and approved by the Company | 웹사이트나 서비스의 취약점을 탐색하거나 권한 없이 시스템 접근을 시도하는 행위. 다만 회사에 사전 통보하고 회사가 승인한 보안 점검은 제외합니다 | 고침 |
 | 46 | 회사를 사칭하거나 회사와의 관계를 허위로 표시하는 행위 | Impersonating the Company or falsely representing a relationship with the Company | 회사를 사칭하거나 회사와의 관계를 허위로 표시하는 행위 | 일치 |
