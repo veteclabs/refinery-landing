@@ -187,7 +187,7 @@ const processors: Processor[] = [
   {
     name: 'Google LLC',
     task: {
-      ko: 'Google Analytics 4를 통한 웹사이트 이용 통계 분석',
+      ko: 'Google Analytics를 통한 웹사이트 이용 통계 분석',
       en: 'Website usage statistics analysis via Google Analytics',
     },
     policy: 'https://policies.google.com/privacy',
