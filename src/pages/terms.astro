@@ -81,7 +81,7 @@ const alternates = [
       <section>
         <h2>제3조 (약관의 명시 ⁠· 효력 및 변경)</h2>
         <ol>
-          <li>회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 웹사이트 첫 화면 하단에 게시합니다.</li>
+          <li>회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 웹사이트 메인 페이지 하단에 게시합니다.</li>
           <li>본 약관은 웹사이트에 게시함으로써 효력이 발생합니다.</li>
           <li>회사는 「약관의 규제에 관한 법률」 등 관계 법령을 위배하지 않는 범위에서 본 약관을 변경할 수 있습니다.</li>
           <li>
@@ -446,7 +446,7 @@ const alternates = [
             <dl class="legal-facts">
               <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
               <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
-              <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
+              <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" html /></dd>
               <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
               <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
               <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>
