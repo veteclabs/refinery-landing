@@ -47,14 +47,14 @@ const privacyHref = '/privacy';
       <p>
         <Ph value={company.legalName} label="Company name" /> (the “Company”) uses cookies and similar technologies on the{' '}
         {company.serviceName} website ({company.siteUrl}). This policy describes their types, purposes,
-        and retention periods, as well as how to give or refuse consent. For matters concerning the processing of personal information in general,
+        and retention periods, as well as how to give or refuse consent. For information on how personal information is processed more generally,
         please refer to the <a href={privacyHref}>Privacy Policy</a>.
       </p>
 
       <section>
-        <h2>1. What cookies and similar technologies are</h2>
+        <h2>1. What are cookies and similar technologies?</h2>
         <p>
-          A cookie is a small text file that a website stores in a user’s browser to remember visit history or settings.
+          A cookie is a small text file that a website stores in a user’s browser to remember past visits or settings.
           In addition to cookies, the Company uses the following similar technologies.
         </p>
         <ul>
@@ -71,12 +71,12 @@ const privacyHref = '/privacy';
           <strong>disclosed</strong> in the Privacy Policy. Under Korean law, not all cookies require prior consent.
         </p>
         <p>
-          However, to give users more choice, the Company <strong>installs all analytics cookies, excluding
-          cookies strictly necessary for the site to function, only when users consent</strong>. Users can access all features of
+          However, to give users more choice, the Company <strong>installs all analytics cookies only
+          when users consent</strong>. Users can access all features of
           the website without restriction even if they do not consent.
         </p>
-        <p><strong>The Company does not provide personalized advertising and does not allow third-party advertising businesses to collect behavioral information on this website.</strong></p>
-        <p>However, the behavioral information (records of on-screen interactions such as clicks and scrolls) that the Company collects through its analytics tool, Mixpanel, is used solely to analyze the usability of the service, and is neither used for advertising purposes nor provided to third parties.</p>
+        <p><strong>The Company does not provide personalized advertising and does not allow third-party advertising companies to collect behavioral information on this website.</strong></p>
+        <p>That said, the behavioral information (records of on-screen interactions such as clicks and scrolls) that the Company collects through its analytics tool, Mixpanel, is used solely to analyze the usability of the service, and is neither used for advertising purposes nor provided to third parties.</p>
       </section>
 
       <section>
@@ -107,7 +107,7 @@ const privacyHref = '/privacy';
             </table>
           </div>
           <p class="legal-note">
-            If essential items are blocked, the language selection and cookie consent status are not saved, and the consent banner is shown again on every visit.
+            If essential cookies are blocked, the language selection and cookie consent status are not saved, and the consent banner is shown again on every visit.
           </p>
 
           </div>
@@ -122,14 +122,14 @@ const privacyHref = '/privacy';
                   <td>Google LLC <span class="legal-keep">(third party)</span></td>
                   <td>Cookie</td>
                   <td>Used by Google Analytics to distinguish visitors and maintain sessions in order to aggregate the number of visits, traffic sources, and usage by page</td>
-                  <td>Up to 2 years<br /><span class="legal-note">(Collected data retention: <Ph value={retention.ga} label="Retention period" />)</span></td>
+                  <td>Up to 2 years<br /><span class="legal-note">(Collected data is kept for <Ph value={retention.ga} label="Retention period" />)</span></td>
                 </tr>
                 <tr>
                   <td><code>mp_*_mixpanel</code><br /><code>__mp*</code></td>
                   <td>Mixpanel, Inc. <span class="legal-keep">(third party)</span></td>
                   <td>Cookie, <span class="legal-keep">local storage</span></td>
                   <td>Stores random identifiers and event information for usage behavior analysis, session replay, and heatmap recording</td>
-                  <td>Until browser storage is cleared<br /><span class="legal-note">(Collected data retention: <Ph value={retention.mixpanel} label="Retention period" />; session replay: <Ph value={retention.mixpanelReplay} label="Retention period" />)</span></td>
+                  <td>Until browser storage is cleared<br /><span class="legal-note">(Collected data is kept for <Ph value={retention.mixpanel} label="Retention period" />, and session replays for <Ph value={retention.mixpanelReplay} label="Retention period" />)</span></td>
                 </tr>
               </tbody>
             </table>
@@ -159,7 +159,7 @@ const privacyHref = '/privacy';
           </div>
           <p class="legal-note">
             The two tools above collect only aggregate values without using cookies or storage that identify individual visitors, and are therefore not subject to consent.
-            Web3Forms, which is used to process the contact form, is called only when a form is submitted and does not set cookies.
+            Web3Forms, which is used to process the contact form, is used only when a form is submitted and does not set cookies.
           </p>
           </div>
         </div>
@@ -172,9 +172,9 @@ const privacyHref = '/privacy';
           <strong>records of on-screen interactions</strong> such as page navigation, clicks, and scrolls. The purpose is to identify where users encounter difficulties and to improve usability.
         </p>
         <ul>
-          <li>The Company has configured <strong>all input values to be masked</strong>, so the name, email address, phone number, and inquiry details entered in the contact form are not recorded.</li>
+          <li>The Company has configured session replay to <strong>mask all input values</strong>, so the name, email address, phone number, and inquiry details entered in the contact form are not recorded.</li>
           <li>The Company does not combine session replay records with account identifiers or information about inquirers, and processes them only on the basis of the random identifier stored in the browser.</li>
-          <li>Users who do not wish to have session replays recorded can refuse analytics cookies using the methods in Section 5 below, in which case no recording takes place.</li>
+          <li>Users who do not want their sessions recorded can refuse analytics cookies using the methods in Section 5 below, in which case no recording takes place.</li>
         </ul>
       </section>
 
@@ -182,7 +182,7 @@ const privacyHref = '/privacy';
         <h2>5. How to give and withdraw consent</h2>
         <ol class="legal-ol--hang">
           <li><strong>On their first visit</strong>, users can select <strong>“Accept all”</strong> or <strong>“Reject all”</strong> in the banner at the bottom of the screen.</li>
-          <li>The choice is stored in the <code>cookie_consent</code> cookie, and users can change it at any time by clicking <strong>“Cookie Settings” in the footer at the bottom of the page</strong> to reopen the banner.</li>
+          <li>The choice is stored in the <code>cookie_consent</code> cookie, and users can change it at any time by clicking <strong>“Cookie Settings” in the page footer</strong> to reopen the banner.</li>
           <li>Deleting cookies and site data in the browser resets the choice, and the banner is shown again.</li>
           <li>If users choose to reject analytics cookies, the Google Analytics and Mixpanel scripts <strong>are not loaded</strong>, so those tools do not collect any information.</li>
         </ol>
@@ -197,7 +197,7 @@ const privacyHref = '/privacy';
             <tbody>
               <tr><td>Chrome</td><td>Settings <span class="path-sep">›</span> Privacy and security <span class="path-sep">›</span> Third-party cookies (or “Delete browsing data”)</td></tr>
               <tr><td>Edge</td><td>Settings <span class="path-sep">›</span> Cookies and site permissions <span class="path-sep">›</span> Manage and delete cookies and site data</td></tr>
-              <tr><td>Safari (macOS)</td><td>Settings <span class="path-sep">›</span> Privacy <span class="path-sep">›</span> Prevent cross-site tracking / delete under “Manage Website Data”</td></tr>
+              <tr><td>Safari (macOS)</td><td>Settings <span class="path-sep">›</span> Privacy <span class="path-sep">›</span> Prevent cross-site tracking; to delete, use “Manage Website Data”</td></tr>
               <tr><td>Safari (iOS)</td><td>Settings app <span class="path-sep">›</span> Safari <span class="path-sep">›</span> Advanced <span class="path-sep">›</span> Website Data</td></tr>
               <tr><td>Firefox</td><td>Settings <span class="path-sep">›</span> Privacy &amp; Security <span class="path-sep">›</span> Cookies and Site Data</td></tr>
               <tr><td>Whale</td><td>Settings <span class="path-sep">›</span> Privacy <span class="path-sep">›</span> Clear browsing data / Cookies and other site data</td></tr>
@@ -209,7 +209,7 @@ const privacyHref = '/privacy';
           <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
         </p>
         <p class="legal-note">
-          Blocking all cookies in the browser settings may prevent some features, such as staying signed in and language settings, from working properly on many websites, including this one.
+          Blocking all cookies in the browser settings may prevent some features, such as staying signed in or remembering language settings, from working properly on many websites, including this one.
         </p>
       </section>
 

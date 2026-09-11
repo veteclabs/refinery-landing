@@ -348,6 +348,8 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 2. **좁아진 곳** — 원문의 약속이 영어에서 빠졌다. 고친다
 3. **세기가 달라진 곳** — "필수 → strictly necessary"처럼 말의 강도가 바뀌었다. 고친다
 4. 어투 · 표현 — 뜻이 같으면 둔다
+5. **원어민 자연스러움** — 번역투 · 모호한 낱말 · 병렬 깨짐 · 개발 용어(`is called`)를 다듬는다. 다듬은 문장은 **역번역을 다시** 해 1~3이 생기지 않았는지 본다.
+   법 조문 인용 · `the Company` · `users`는 원문 · 영문법령을 따르는 것이라 딱딱해도 둔다
 
 **범위를 정하는 말을 한 줄씩 대조한다** — `all` · `any` · `every` · `always` · `never` · `only` · `solely` ·
 `that is` · `including` · `such as` · `at any time` · `will` · `shall`. 쿠키 정책 2항의 "all analytics cookies — **that is**,
