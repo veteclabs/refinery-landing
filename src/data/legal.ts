@@ -162,7 +162,7 @@ const processors: Processor[] = [
       country: { ko: '미국', en: 'United States' },
       method: {
         ko: '이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)',
-        en: 'When you access the website, via network transmission (TLS-encrypted)',
+        en: 'When you access the website, via network transmission <span class="legal-keep">(TLS-encrypted)</span>',
       },
       items: {
         ko: '접속 IP 주소, 접속 일시, 요청 URL, 브라우저 ⁠· 기기 정보',
@@ -192,7 +192,7 @@ const processors: Processor[] = [
       country: { ko: '미국', en: 'United States' },
       method: {
         ko: '이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)',
-        en: 'When you submit the contact form, via network transmission (TLS-encrypted)',
+        en: 'When you submit the contact form, via network transmission <span class="legal-keep">(TLS-encrypted)</span>',
       },
       items: {
         ko: '회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용',
@@ -212,7 +212,7 @@ const processors: Processor[] = [
     name: 'Google LLC',
     task: {
       ko: 'Google Analytics를 통한 웹사이트 이용 통계 분석',
-      en: 'Website usage statistics analysis via Google Analytics',
+      en: 'Analysis of website usage statistics via Google Analytics',
     },
     policy: 'https://policies.google.com/privacy',
     consent: true,
@@ -233,7 +233,7 @@ const processors: Processor[] = [
       },
       purpose: {
         ko: '웹사이트 이용 통계 분석',
-        en: 'Website usage statistics analysis',
+        en: 'Analysis of website usage statistics',
       },
       retentionKey: 'ga',
     },
@@ -260,7 +260,7 @@ const processors: Processor[] = [
       },
       purpose: {
         ko: '이용 행태 분석 및 사용성 개선',
-        en: 'Usage behavior analysis and usability improvement',
+        en: 'Analysis of usage behavior and improvement of usability',
       },
       retentionKey: 'mixpanel',
     },

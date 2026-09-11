@@ -69,6 +69,14 @@
 - **[99]** 날짜 형식만 다름
 - **[102]** "라벨 : 값"을 문장으로 풀었다 — 앞에 붙는 "Note:" 뒤에 콜론이 또 오지 않게(용어집 §10)
 
+## 네 문서 통합 문법 검토 — 2026-09-11
+
+| # | 무엇이 문제였나 | 처음 | 고친 뒤 |
+|---|---|---|---|
+| 60 | `used`가 한 문장에 두 번 | Web3Forms, which is used to process the contact form, is used only when a form is submitted | Web3Forms, which processes the contact form, runs only when a form is submitted |
+
+역번역을 다시 해 원문("문의 폼 처리에 쓰는 Web3Forms는 폼을 제출할 때만 동작하며 쿠키를 설정하지 않습니다")과 같은 뜻임을 확인했다.
+
 ## 전체 대조표
 
 | # | 원문 | 영어 | 역번역 | 판정 |
@@ -132,7 +140,7 @@
 | 57 | Vercel Inc. | Vercel Inc. | (동일) | 일치 |
 | 58 | 페이지 로딩 성능(Core Web Vitals) 측정 | Measures page loading performance (Core Web Vitals) | 페이지 로딩 성능(Core Web Vitals)을 측정 | 일치 |
 | 59 | 사용하지 않음 | Not used | 사용하지 않음 | 일치 |
-| 60 | 위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상에서 제외됩니다. 문의 폼 처리에 사용하는 Web3Forms는 폼을 제출하는 시점에만 호출되며 쿠키를 설정하지 않습니다. | The two tools above collect only aggregate values without using cookies or storage that identify individual visitors, and are therefore not subject to consent. Web3Forms, which is used to process the contact form, is used only when a form is submitted and does not set cookies. | 위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상이 아닙니다. 문의 폼 처리에 사용하는 Web3Forms는 폼을 제출할 때에만 사용되며 쿠키를 설정하지 않습니다. | 일치 |
+| 60 | 위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상에서 제외됩니다. 문의 폼 처리에 사용하는 Web3Forms는 폼을 제출하는 시점에만 호출되며 쿠키를 설정하지 않습니다. | The two tools above collect only aggregate values without using cookies or storage that identify individual visitors, and are therefore not subject to consent. Web3Forms, which processes the contact form, runs only when a form is submitted and does not set cookies. | 위 두 도구는 개별 방문자를 식별하는 쿠키나 저장소를 사용하지 않고 집계값만 수집하므로 동의 대상이 아닙니다. 문의 폼 처리에 사용하는 Web3Forms는 폼을 제출할 때에만 사용되며 쿠키를 설정하지 않습니다. | 일치 |
 | 61 | 4. 세션 리플레이와 히트맵에 관한 안내 | 4. About session replay and heatmaps | 4. 세션 리플레이와 히트맵에 관하여 | 일치 |
 | 62 | 이용자가 분석 쿠키에 동의한 경우, Mixpanel의 세션 리플레이 기능이 페이지 이동 · 클릭 · 스크롤 등 화면 조작 기록을 수집합니다. 이는 이용자가 어디에서 막히는지를 파악하여 사용성을 개선하기 위한 것입니다. | If you consent to analytics cookies, Mixpanel’s session replay feature collects records of on-screen interactions such as page navigation, clicks, and scrolls. The purpose is to identify where users encounter difficulties and to improve usability. | 귀하가 분석 쿠키에 동의한 경우, Mixpanel의 세션 리플레이 기능이 페이지 이동, 클릭, 스크롤 등 화면 조작 기록을 수집합니다. 그 목적은 이용자가 어려움을 겪는 지점을 파악하고 사용성을 개선하는 것입니다. | 일치 |
 | 63 | 회사는 모든 입력값이 마스킹되도록 설정하고 있어, 문의 폼에 입력한 성명 · 이메일 · 연락처 · 문의 내용은 기록되지 않습니다. | We have configured session replay to mask all input values, so the name, email address, phone number, and inquiry details you enter in the contact form are not recorded. | 저희는 세션 리플레이가 모든 입력값을 마스킹하도록 설정해 두었으므로, 귀하가 문의 폼에 입력하는 이름, 이메일 주소, 전화번호, 문의 내용은 기록되지 않습니다. | 일치 |
