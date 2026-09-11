@@ -14,6 +14,12 @@ const { company, retention, revisions } = legal('en');
 // 기준의 사실이다. 추적 도구를 추가 · 제거하면 한국어판과 이 표를 함께 고칠 것.
 const isDraft = !legalReviewed || !effectiveDate || !company.ceo;
 
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/cookie-policy' },
+  { lang: 'en', href: '/en/cookie-policy' },
+];
+
 // 처리방침 영어판(/en/privacy)이 생기기 전까지는 한국어 원문으로 연결한다.
 const privacyHref = '/privacy';
 ---
@@ -22,6 +28,7 @@ const privacyHref = '/privacy';
   description="The cookies and similar technologies used on the Refinery website — their types, purposes, and retention periods, as well as how to give or withdraw consent."
   canonical="/en/cookie-policy"
   robots="index, follow"
+  alternates={alternates}
 >
   <Nav />
   <main class="legal-main legal-main--wide">

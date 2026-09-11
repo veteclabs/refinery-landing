@@ -317,8 +317,17 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 한국어판 우선 고지 | — | 시행일 바로 아래 `.legal-lang-notice` | §0-1. 문구의 "Korean original"이 한국어판으로 연결된다 |
 | 두 낱말 한 뜻 | — | `(first party)` · `local storage`를 `.legal-keep`으로 묶음 | 좁은 표 칸에서 가운데가 갈라지지 않게 |
 
-**아직 한국어로 연결되는 링크** — `/en/privacy`가 생기기 전까지 쿠키 정책 영어판의 처리방침 링크 2곳은
-`/privacy`(한국어)로 간다. 파일 맨 위 `privacyHref` 한 줄로 모아 두었다. 4단계에서 `/en/privacy`로 바꾼다.
+**영어판 링크는 문서마다 켠다** (2026-09-11 결정 — 네 문서를 다 만든 뒤 한 번에 켜려던 계획을 바꿨다).
+번역 · 검증을 마친 문서는 바로 연결하고, 아직 없는 문서는 한국어 원문으로 둔다. 한 문서를 켤 때 바꾸는 곳 4:
+
+| 곳 | 파일 |
+|---|---|
+| 헤더 메가메뉴 · 푸터 약관 칸 | `src/i18n/nav.ts`의 `legalLinks.en` |
+| 쿠키 배너 링크 | `src/components/CookieConsent.astro`의 영어 `cookieHref` · `privacyHref` |
+| hreflang | 한국어 · 영어 두 페이지의 `alternates` |
+| 다른 영어판 안의 교차 링크 | 예: 쿠키 정책 영어판 맨 위 `privacyHref` (지금 `/privacy`, 처리방침 영어판이 생기면 `/en/privacy`) |
+
+현재 — Cookie Policy만 켜짐. Privacy Policy · Terms of Service · EULA는 한국어 원문으로 간다.
 
 ---
 

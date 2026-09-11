@@ -11,9 +11,9 @@ const t =
         decline: 'Reject all',
         cookie: 'Cookie Policy',
         privacy: 'Privacy Policy',
-        // 약관류는 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다.
-        // 영어 로케일에서도 한국어 원문으로 연결한다(없는 /en/* 경로는 404가 된다).
-        cookieHref: '/cookie-policy',
+        // 영어판이 있는 문서만 /en/*로 연결한다 — nav.ts legalLinks.en과 맞춘다.
+        // 처리방침은 영어판이 생길 때까지 한국어 원문(없는 /en/* 경로는 404가 된다).
+        cookieHref: '/en/cookie-policy',
         privacyHref: '/privacy',
         aria: 'Cookie consent',
       }
