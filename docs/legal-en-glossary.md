@@ -40,9 +40,15 @@
 |---|---|---|---|
 | 「개인정보 보호법」 | Personal Information Protection Act (PIPA) | ✅ | KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조. 첫 등장에 전체 명칭 + 약어, 이후 `PIPA` |
 | 「개인정보 보호법 시행령」 | Enforcement Decree of the Personal Information Protection Act | ✅ | |
-| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | ⚠️ | PIPC 고시. 영문본 명칭 대조 필요 |
-| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information | ⚠️ | 같음 |
+| 「개인정보의 안전성 확보조치 기준」 | Standards for Measures to Secure the Safety of Personal Information | ⚠️ | PIPC 고시. 법률 자료에서 쓰는 명칭 — PIPC 공식 영문본은 확인하지 못했다. 처리방침 4항 |
+| 「개인정보 처리 방법에 관한 고시」 | Notice on Methods of Processing Personal Information (「개인정보 처리 방법에 관한 고시」) | ⚠️ | 공식 영문본을 찾지 못해 **한국어를 병기**한다. 처리방침 16항 |
 | 「개인정보 처리방침 작성지침(2025.4.)」 | Guidelines on Drafting Privacy Policies (April 2025) | ⚠️ | 공식 영문본 없음. 괄호에 한국어 원 제목 병기 검토 |
+| 「개인정보 보호법 시행령」 제14조의2 · 제30조 | Standards on additional use and provision of personal information · Measures to ensure safety of personal information | ✅ | KLRI (Presidential Decree No. 35343, 2025. 2. 25.) |
+| 상법 제33조 | Commercial Act, Article 33 (Preservation of Trade Books, etc.) | ✅ | KLRI |
+| 국세기본법 제85조의3 | Framework Act on National Taxes, Article 85-3 (Keeping and Preservation of Books, etc.) | ✅ | KLRI |
+| 전자상거래법 제6조 | Act on the Consumer Protection in Electronic Commerce, Article 6 (Preservation, etc. of Transaction Records) | ✅ | KLRI |
+| 정보통신망법 제50조 | Act on Promotion of Information and Communications Network Utilization and Information Protection, Article 50 | ✅ | KLRI |
+| 전자금융거래법 | Electronic Financial Transactions Act | ✅ | |
 | 「약관의 규제에 관한 법률」 | Act on the Regulation of Terms and Conditions | ✅ | |
 | 「저작권법」 | Copyright Act | ✅ | |
 | 「대외무역법」 | Foreign Trade Act | ✅ | |
@@ -85,10 +91,10 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 |---|---|---|---|
 | 개인정보보호위원회 | Personal Information Protection Commission (PIPC) | ✅ | 제7조 표제 |
 | 개인정보 분쟁조정위원회 | Personal Information Dispute Mediation Committee | ✅ | 제40조 |
-| 개인정보침해신고센터 | Personal Information Infringement Report Center | ⚠️ | KISA 운영. 영문 표기가 자료마다 갈림 — KISA 영문 사이트 대조 필요 |
+| 개인정보침해신고센터 | Personal Information Infringement Report Call Center (KISA) | ✅ | PIPC 영문 사이트 “Reporting on Infringement of Personal Information”의 표기(2026-09-11) |
 | 한국인터넷진흥원 | Korea Internet & Security Agency (KISA) | ✅ | 앰퍼샌드 포함이 공식 표기 |
-| 대검찰청 사이버수사과 | Cyber Investigation Division, Supreme Prosecutors' Office | ⚠️ | 부서명 영문 표기 대조 필요 |
-| 경찰청 사이버범죄 신고시스템(ECRM) | Cybercrime Reporting System (ECRM), Korean National Police Agency | ⚠️ | 같음 |
+| 대검찰청 사이버수사과 | Supreme Prosecutors’ Office (대검찰청 사이버수사과) | ✅ | 기관 영문명은 공식. **부서 단위 공식 영문명이 없어** 한국어 부서명을 병기한다 — 임의로 옮기지 않는다 |
+| 경찰청 사이버범죄 신고시스템(ECRM) | Korean National Police Agency (경찰청 사이버범죄 신고시스템, ECRM) | ✅ | 같은 이유로 기관 영문명 + 한국어 병기 |
 
 > 기관명은 **영문 뒤 괄호에 한국어를 병기**한다. 한국 기관에 실제로 연락해야 하는 독자가
 > 검색할 수 있어야 한다. 예: `Personal Information Dispute Mediation Committee (개인정보 분쟁조정위원회)`
@@ -123,6 +129,12 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | 동의 철회 | withdrawal of consent | ✅ | |
 | 보유 기간 | retention period | ✅ | |
 | 수집 항목 | items collected | ✅ | |
+| 별도 동의 | separate consent | ✅ | 제28조의8 제1항 제1호 |
+| 추가적인 이용 · 제공 | additional use and provision | ✅ | 시행령 제14조의2 |
+| 전송 요구 | request for transmission | ✅ | 제35조의2 표제 |
+| 자동화된 결정 · 거부 · 설명 요구 | automated decision · refuse · request an explanation | ✅ | 제37조의2 “completely automated system (including a system to which artificial intelligence technologies are applied)” |
+| 영상정보처리기기 (고정형 · 이동형) | fixed / mobile visual data processing devices | ✅ | 제25조 · 제25조의2 |
+| 처리 목적과 방법 (결정하는 자) | purposes and methods of processing | ✅ | **GDPR의 `purposes and means`를 쓰지 않는다** |
 | 개인정보 처리방침 (법의 정의어) | Privacy Policy | ✅ | 제30조 제1항 “(hereinafter referred to as "Privacy Policy")” — 대문자 |
 
 ### "수탁자"는 방향이 두 가지다
@@ -277,7 +289,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 
 | # | 항목 | 무엇을 정해야 하나 | 상태 |
 |---|---|---|---|
-| 1 | **기관 · 고시 영문 명칭** (§1 · §2) | PIPC · 분쟁조정위원회 · PIPA 법령명은 KLRI 영문본으로 확인했다(2026-09-11). 남은 것 — PIPC 고시 3건(안전성 확보조치 기준 · 처리 방법 고시 · 작성지침)과 기관 3곳(침해신고센터 · 대검 · 경찰청)은 PIPA 본문에 없어 따로 대조해야 한다. 처리방침 영어판(4단계)에서 쓰인다 | 4단계에서 확인 |
+| 1 | **고시 영문 명칭 2건** (§1) | 기관 4곳은 처리방침 영어판에서 확정했다(2026-09-11). 남은 것 — PIPC 고시 「안전성 확보조치 기준」 · 「처리 방법에 관한 고시」의 공식 영문본. 찾기 전까지 한국어를 병기하거나 법률 자료의 명칭을 쓴다 | 공식 영문본 찾으면 교체 |
 | 2 | **브라우저 영어 UI 메뉴 이름** (§5) | 쿠키 정책 6항에 현행 영어 UI 이름으로 적었다. **Whale은 영어 UI를 확인하지 못해** Chromium 메뉴 이름을 따랐다. iOS 18부터 Safari 설정이 `Settings › Apps › Safari`로 한 단계 내려갔는데 한국어판도 같은 경로를 쓰고 있어 **두 언어를 함께** 고칠 일이다 | 실물 확인 대기 |
 
 ### 결론이 난 항목
@@ -327,7 +339,7 @@ KLRI 영문법령(Act No. 19234, 2023. 3. 14.) 대조 — 영문본은 조 · �
 | hreflang | 한국어 · 영어 두 페이지의 `alternates` |
 | 다른 영어판 안의 교차 링크 | 예: 쿠키 정책 영어판 맨 위 `privacyHref` (지금 `/privacy`, 처리방침 영어판이 생기면 `/en/privacy`) |
 
-현재 — Cookie Policy만 켜짐. Privacy Policy · Terms of Service · EULA는 한국어 원문으로 간다.
+현재 — Cookie Policy · Privacy Policy 켜짐. Terms of Service · EULA는 한국어 원문으로 간다.
 
 ---
 
