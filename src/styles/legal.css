@@ -35,10 +35,10 @@ img { max-width: 100%; height: auto; }
    대신 줄당 글자가 57에서 62로 늘어난다 — 읽기 좋은 범위(40~50자)보다는
    넓지만, 조문은 통독보다 필요한 항을 찾아 읽는 글이라 이쪽을 택했다.
    이용약관도 조문이 29개라 같은 이유로 넓힌다.
-   EULA·쿠키 정책은 820px 그대로다. */
+   소프트웨어 사용권 계약도 절이 22개라 같이 넓힌다.
+   쿠키 정책은 절이 8개로 짧지만 쿠키 표가 다섯 칸이라 함께 넓힌다 —
+   법적 고지 네 페이지가 모두 이 폭을 쓴다. */
 .legal-main--wide { max-width: 1008px; }
-.legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
-.legal-crumb a:hover { color: var(--accent-ink); }
 /* 최대 45px은 블로그 글(.post-header h1)·백서(.wp-title)와 같은 값이다.
    40px이었다 — 같은 성격의 긴 글인데 법적 고지만 한 단계 작았다.
    행간은 1.2로 둔다(블로그는 1.3) — 제목이 대개 한 줄이라 더 붙여도 된다. */
@@ -112,6 +112,25 @@ img { max-width: 100%; height: auto; }
 .legal-card { background: var(--bg-soft); border-radius: 10px; padding: 22px 24px; }
 /* 카드가 하나뿐인 절(사업자 정보)에서는 한 단으로 편다 — 두 단이면 절반만 차지한다. */
 .legal-cards--single { grid-template-columns: minmax(0, 1fr); }
+/* 카드 안에 표가 들어가는 경우(쿠키 정책 3항 가 · 나 · 다). 카드 면과 머리 줄 면이
+   둘 다 --bg-soft라 표를 그냥 얹으면 머리 줄이 카드에 묻힌다. 표를 통째로 흰 종이로
+   되돌린다 — 머리 줄도 흰색이다. 굵기 600과 아래 선만으로 머리 줄이 구분되고,
+   회색 면이 하나(카드) 뿐이라 층이 단순해진다.
+   모서리는 각지게 둔다 — 표의 다른 선이 전부 직각이라 여기만 둥글면 겉돈다. */
+.legal-card .legal-table-wrap {
+  background: var(--bg);
+  border-radius: 0;
+  /* 네 변을 모두 두른다. 본문의 표는 좌우 세로선을 두지 않는데(흰 종이에서는
+     페이지 여백이 표의 범위를 알려 준다) 회색 카드 위에서는 그 역할을 할 것이
+     없어 흰 면이 어디서 끝나는지 보이지 않았다. 맥락이 다르므로 여기만 닫는다. */
+  border: 1px solid var(--border);
+}
+.legal-card .legal-table th { background: var(--bg); }
+/* 머리 줄에도 세로선을 잇는다. 본문의 표는 머리 줄에 회색 면(--bg-soft)이 깔려
+   그 면이 머리 줄을 한 덩어리로 묶어 주므로 세로선을 두지 않는다. 카드 안에서는
+   머리 줄도 흰색이라 묶어 주던 것이 없어, 선까지 빠지면 격자가 첫 줄에서만
+   끊겨 보인다. */
+.legal-card .legal-table thead th:not(:last-child) { border-right: 1px solid var(--border); }
 /* 항목·값 쌍을 적는 목록(사업자 정보). 열거가 아니라 정의 목록이라 dl로 적는다.
    딱지는 작은 상자로 세우고 값은 그 옆에 둔다 — 선을 긋지 않아도 상자가 줄의
    시작을 잡아준다. 딱지 단과 값 단을 두 벌 세워 가로를 채운다(한 줄에 하나씩
@@ -119,9 +138,15 @@ img { max-width: 100%; height: auto; }
 .legal-body .legal-facts {
   display: grid;
   /* 딱지 단은 폭을 고정한다 — auto로 두면 딱지 길이가 제각각이라 값의 시작점이
-     줄마다 어긋나 훑기 어렵다. 하한은 144px이다 — 가장 긴 '호스팅 서비스 제공자'
-     (116px)에 좌우 패딩 24px을 더한 값. 딱지가 길어지면 이 값도 다시 재야 한다. */
-  grid-template-columns: 160px minmax(0, 1fr) 160px minmax(0, 1fr);
+     줄마다 어긋나 훑기 어렵다. 하한은 128px이다 — 가장 긴 '호스팅 서비스 제공자'
+     (116px)에 좌우 안여백 12px을 더한 값. 딱지가 길어지면 이 값도 다시 재야 한다. */
+  /* 두 벌은 같은 비율(1fr · 1fr)로 둔다. 국문 주소(259px)가 한 줄로 들도록 딱지 단을 160 → 130px,
+     두 벌 사이를 56 → 28px로 줄였다 — 왼쪽 값 칸 216 → 274px(2026-09-11 사용자 결정, A안).
+     28px은 두 벌 배치가 시작되는 1001px(값 칸 263px)에서도 주소가 한 줄로 드는 값이다
+     (40px · 36px에서는 1001~1016px 구간이 몇 px씩 모자랐다). 눈에 보이는 두 벌 사이는 칸 사이 16px을 더한 44px.
+     '호스팅 서비스 제공자'(116px)가 130px에 들도록 딱지 좌우 안여백을 6px로 줄인다.
+     영어판은 아래 :lang(en) 규칙으로 160px · 56px을 유지한다. */
+  grid-template-columns: 130px minmax(0, 1fr) 130px minmax(0, 1fr);
   column-gap: 16px;
   row-gap: 15px;
   align-items: center;
@@ -143,7 +168,7 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   justify-content: center;
   height: 34px;
-  padding: 0 12px;
+  padding: 0 6px;
   background: #FFFFFF;
   border-radius: 6px;
   font-size: 14px;
@@ -153,12 +178,23 @@ img { max-width: 100%; height: auto; }
 }
 .legal-body .legal-facts dd { color: #22303F; }
 /* 왼쪽 벌과 오른쪽 벌 사이. */
-.legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
-@media (max-width: 760px) {
-  .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr); }
+.legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 28px; }
+/* 두 벌을 한 벌로 편다. 경계가 760px일 때는 761~1023px 구간에서 네 단이 그대로
+   유지되면서 값 단이 152~243px까지 좁아져, 가장 긴 값인 주소가 두세 줄로 접혔다
+   (실측 900px 2줄 · 800px 3줄 · 768px 주소 3줄 + 전화 2줄). 딱지 단 160px과
+   위의 오른쪽 안여백 56px이 고정이라 좁아지는 몫을 값이 다 떠안는다.
+
+   1000px으로 올린다 — 왼쪽 값 칸이 주소(196px)에 안여백 56px을 더한 252px을
+   담아야 하는데, 1024px에서 272px으로 겨우 맞고 950px에서 243px으로 깨진다.
+   카드는 세로로 길어지지만(768px 기준 293 → 372px) 값이 차지하는 줄은
+   11줄에서 7줄로 준다. */
+@media (max-width: 1000px) {
+  .legal-body .legal-facts { grid-template-columns: 130px minmax(0, 1fr); }
   .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 0; }
 }
 /* 좁아지면 딱지를 값 위로 쌓는다.
+   경계는 640px이다(처음 520px) — 521~640px에서는 딱지 160px이 옆에 남아 값 칸이 249~368px이
+   되고, 영문 주소(326px)가 두 줄로 접혔다. 쌓으면 값이 카드 안 너비를 다 쓴다(2026-09-11).
    두 단을 유지하면 딱지가 160px을 그대로 차지해 값 단에 118px밖에 남지 않고
    (390px 기준), info@vetec.co.kr이 'co.k / r'로 끊기고 주소도 두 줄로 접혔다.
    쌓으면 값이 카드 안 너비를 온전히 써서 한 줄에 들어간다.
@@ -166,7 +202,7 @@ img { max-width: 100%; height: auto; }
    값 위에 통째로 깔리면 딱지가 값보다 무거워 보인다.
    줄 사이는 딱지-값 6px, 쌍과 쌍 사이 14px으로 나눈다. 한 값(15px)으로 두면
    딱지가 제 값에 붙지 않고 위아래 어디에도 속하지 않게 뜬다. */
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .legal-body .legal-facts { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
   .legal-body .legal-facts dt {
     justify-self: start;
@@ -264,6 +300,13 @@ img { max-width: 100%; height: auto; }
    칸 수가 셋이든 넷이든 같은 규칙으로 덮인다. */
 .legal-table--prose2 td { text-align: center; vertical-align: middle; }
 .legal-table--prose2 td:nth-child(2) { text-align: left; }
+/* 문장 칸이 넷째인 표(쿠키 정책 3항 가·나 — 이름·제공자·유형·목적·보관 기간).
+   --prose2와 같은 생각이다: 딱지 칸은 가운데, 문장 칸만 왼쪽. */
+.legal-table--prose4 td { text-align: center; vertical-align: middle; }
+.legal-table--prose4 td:nth-child(4) { text-align: left; }
+/* 문장 칸이 셋째인 표(쿠키 정책 3항 다 — 도구·제공자·목적·쿠키 사용). */
+.legal-table--prose3 td { text-align: center; vertical-align: middle; }
+.legal-table--prose3 td:nth-child(3) { text-align: left; }
 /* 칸이 전부 짧은 딱지·값인 표에 쓴다(18항 보호책임자). 문장 칸이 없으니 모두 가운데다. */
 .legal-table--center td { text-align: center; vertical-align: middle; }
 /* 앞 두 칸만 딱지고 3번째 칸부터 문장인 표에 쓴다(9항 국외 이전). */
@@ -311,20 +354,24 @@ img { max-width: 100%; height: auto; }
    system: fixed라 정의한 개수까지만 원문자다. 이용약관의 한 조문 최대 항 수는
    8이고, 여유를 두어 20까지 적는다. 21부터(㉑ U+3251)는 유니코드 블록이 달라
    글꼴이 갈리므로 늘리지 말 것 — 그때는 CSS로 원을 그려야 한다. */
+/* .legal-ol--hang은 이 번호 매김만 따로 빌려 쓰는 자리다(쿠키 정책 5항).
+   그 문서는 절 여백을 처리방침 쪽(64/24)으로 두므로 --terms를 통째로 걸 수 없다. */
 @counter-style legal-hang {
   system: fixed;
   symbols: '\2460' '\2461' '\2462' '\2463' '\2464' '\2465' '\2466' '\2467' '\2468' '\2469'
            '\246A' '\246B' '\246C' '\246D' '\246E' '\246F' '\2470' '\2471' '\2472' '\2473';
   suffix: '';
 }
-.legal-body--terms ol {
+.legal-body--terms ol,
+.legal-body .legal-ol--hang {
   list-style: none;
   padding-left: 0;
   counter-reset: legal-hang;
 }
 /* 26.6px = 원문자 폭(18.6) + 본문 공백 두 칸(8.0) — 기호 뒤 간격을
    실측해서 맞춘 값이다. */
-.legal-body--terms ol > li {
+.legal-body--terms ol > li,
+.legal-body .legal-ol--hang > li {
   counter-increment: legal-hang;
   position: relative;
   padding-left: 26.6px;
@@ -337,7 +384,8 @@ img { max-width: 100%; height: auto; }
    읽힌다. Pretendard 서브셋에 200까지 들어 있어 그대로 적용된다
    (잉크 화소 400에서 69, 300에서 57, 200에서 45).
    200은 획이 너무 가늘어 색이 같은데도 본문보다 연해 보였다. */
-.legal-body--terms ol > li::before {
+.legal-body--terms ol > li::before,
+.legal-body .legal-ol--hang > li::before {
   content: counter(legal-hang, legal-hang);
   position: absolute;
   left: 0;
@@ -416,6 +464,19 @@ img { max-width: 100%; height: auto; }
 /* 저장 키(cookie_consent · lang · _ga …)를 등폭으로만 구분한다. 면·테두리는 두지 않는다 —
    문서 안에서 상자를 두르는 건 카드와 표뿐이고, 문장 한가운데 세 번째 상자가 끼면 눈이 걸린다.
    등폭 글꼴은 남긴다. 'lang'처럼 짧은 키는 평문이면 그냥 영어 낱말로 읽힌다. */
+/* 설정 경로의 단계 구분자(쿠키 정책 6항). 기호는 그대로 두고 색만 잉크 400으로
+   낮춘다 — 본문색이면 '설정' · '개인 정보 보호' 같은 경로 이름과 같은 무게로 서서
+   여섯 줄에 열넷이 깔리는 것이 촘촘해 보였다. 좌우 4px으로 숨통을 준다. */
+.legal-body .path-sep {
+  color: #A4ADB8;
+  margin: 0 4px;
+  /* ›(U+203A)는 인용부호 계열이라 소문자 x-height 언저리에 그려진다. 한글은 글자
+     상자를 거의 채우므로 같은 줄에 두면 광학 중심이 1px 어긋난다(실측: 구분자
+     중심 108.94 대 한글 107.94, 8배 확대에서 화소로 잼). 그만큼 끌어올린다.
+     원문자(①②③)의 top: -1px과 같은 종류의 보정이다. */
+  position: relative;
+  top: -1px;
+}
 .legal-body code { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 /* 장(章) 제목 — 조문 h2와 구분되도록 위 여백을 크게 주고 밑줄을 없앤다 */
 /* 장(章) 제목은 조문 제목보다 한 단 크게 둔다. 굵기·색은 물려받는다.
@@ -453,6 +514,21 @@ img { max-width: 100%; height: auto; }
   border-top: 1px solid var(--border);
 }
 .legal-table td code { white-space: nowrap; }
+/* 쿠키 이름을 칩으로 두른다(쿠키 정책 3항 가 · 나).
+   한 칸에 이름이 둘씩 들어가는데 mp_*_mixpanel, __mp* 처럼 _ 와 * 가 섞이면
+   쉼표가 글자 사이에 묻혀 어디서 끊기는지 안 보였다. 면이 이름의 경계를 긋고,
+   줄바꿈이 둘이라는 것을 알린다(마크업에서 <br>로 나눈다).
+   표 전체가 아니라 이 표에만 건다 — 처리방침의 표 안 code는 한 칸에 하나씩이라
+   두를 이유가 없다. */
+.legal-table--chip td code {
+  /* 잉크 200(#E3E7EC)이다 — 표의 선과 같은 값이다. 잉크 100(#EFF2F5)으로
+     두었더니 흰 종이 위에서 면이 거의 보이지 않아 칩 노릇을 못 했다. */
+  background: var(--border);
+  border-radius: 5px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin: 2px 0;
+}
 
 /* ───────── 문서 맨 앞 목차 (개인정보처리방침) ─────────
    조문이 22개라 원하는 항을 스크롤로 찾아야 했다. 1항 바로 위에 두고
@@ -533,3 +609,101 @@ img { max-width: 100%; height: auto; }
 .legal-body section { scroll-margin-top: 90px; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── 영어판(/en/*) ─────────────────────────────────────────────────────────
+   <html lang="en">에서만 걸린다. 한국어 페이지 렌더에는 닿지 않는다.
+   용어 · 표기 기준은 docs/legal-en-glossary.md. */
+
+/* 한국어판 우선 고지 — 용어집 §0-1. 본문 맨 앞, 시행일 바로 아래에 둔다.
+   초안 경고(.legal-draft, 호박색)와 헷갈리지 않게 색을 쓰지 않고 카드 바탕만 깐다.
+   법적 효력에 관한 문장이라 본문보다 작게 두되 딸림글(14px)보다 작지 않게 한다. */
+.legal-lang-notice {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: var(--bg-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3A4654;
+}
+/* 본문 링크(.legal-body a)와 같은 모양 — 고지 상자가 .legal-body 밖이라 따로 준다. */
+.legal-lang-notice a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+
+/* 딸림글 머리말 — 한국어판의 ※를 영어로 옮긴 것이다. ※를 단 이유(글만 놓이면
+   앞뒤 문단과 구분되지 않는다)는 영어판에도 그대로 있다. 다만 ※는 한 · 중 · 일 문서의
+   관용 기호라 영어 독자가 뜻을 모른다 → 같은 뜻의 낱말 "Note:"로 바꾼다.
+   모양은 ※와 같은 값이다 — 크기 · 굵기 · 색을 따로 주지 않고 글자에서 물려받으며,
+   왼쪽에 매달고 글 전체를 그 폭만큼 들인다(위 .legal-body p.legal-note::before 규칙을 그대로 쓴다).
+   37.48px = "Note:"(33.97px) + 빈칸 하나(3.52px) — Pretendard 14px에서 실측.
+   ※의 top -0.4px는 기호의 잉크 중심 보정이라 가져오지 않는다. 같은 글꼴의 낱말은
+   0이어야 뒤 글자와 기준선이 맞는다. */
+:lang(en) .legal-body p.legal-note { padding-left: 37.48px; }
+:lang(en) .legal-body p.legal-note::before { content: 'Note:'; top: 0; }
+
+/* 항 번호 — 원문자(①) 대신 (1). 국가법령정보센터 영문법령이 항을 (1)로 옮기고,
+   용어집 §1의 조항 인용(Article 30(1))과도 맞는다. 원문자용 크기 보정
+   (1.35em · 굵기 300 · top -1px)을 걷고 본문 글자 그대로 쓴다.
+   28px = "(1)" 폭(약 19px) + 본문 공백 두 칸(약 8px). */
+:lang(en) .legal-body--terms ol > li,
+:lang(en) .legal-body .legal-ol--hang > li { padding-left: 28px; }
+:lang(en) .legal-body--terms ol > li::before,
+:lang(en) .legal-body .legal-ol--hang > li::before {
+  content: '(' counter(legal-hang) ')';
+  top: 0;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 표 좁은 칸에서 "(first party)" · "local storage"처럼 두 낱말이 한 뜻인 말이
+   가운데서 갈라지지 않게 한다. 한국어의 (자사) · (제3자)는 한 낱말이라 필요 없다. */
+.legal-keep { white-space: nowrap; }
+
+/* 처리방침 18항 보호책임자 표의 첫 칸(구분). 넓은 화면에서는 220px로 두고, 768px 이하에서는
+   자동 배분으로 풀어 준다 — 220px을 그대로 두면 칸 5개 중 전화 칸만 눌려 '+82- / 42- / 935- / 3721'처럼
+   하이픈마다 갈렸다. 전화번호는 .legal-keep으로 한 덩어리로 묶고, 좁아진 만큼은 구분 칸이 두 줄로 받는다.
+   390px처럼 그래도 모자라면 표 상자가 옆으로 밀린다(다른 표와 같은 동작). */
+.legal-table th.legal-col-lead { width: 220px; }
+@media (max-width: 768px) { .legal-table th.legal-col-lead { width: auto; } }
+
+/* 사업자 정보 — 영어판도 한국어판과 같은 구조(딱지 단 160px · 두 벌 사이 56px)를 쓴다.
+   영어 딱지 'Business registration number'(183px) · 'Hosting service provider'(153px)는
+   160px 상자(안쪽 136px)에 한 줄로 들지 않아 두 줄로 접는다.
+   상자 높이는 딱지 길이와 상관없이 모두 두 줄 높이로 맞춘다 — 두 줄짜리만 높으면 줄마다
+   상자 크기가 달라 보였다. 52px = 줄 높이 20px × 2 + 위아래 안여백 6px × 2.
+   (글자 길이에 맞춰 칸 폭을 바꾸는 안 · 한 줄에 한 쌍 · 딱지를 값 위에 얹는 안을 비교한 뒤
+   한국어판과 구조가 같은 이 안을 택했다 — 2026-09-11 사용자 결정)
+   640px 이하는 딱지를 값 위로 쌓으므로(위 규칙) 건드리지 않는다.
+   딱지 단은 영어만 160px · 두 벌 사이 56px을 유지한다 — 국문처럼 130px로 줄이면
+   'Business registration number'가 세 줄로 접혀 52px 상자 밖으로 넘친다. 두 벌이 같은
+   비율(1fr · 1fr)인 것은 국문과 같고, 영문 주소(326px)는 두 줄이다(2026-09-11 사용자 결정). */
+@media (min-width: 1001px) {
+  :lang(en) .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr) 160px minmax(0, 1fr); }
+  :lang(en) .legal-body .legal-facts > :nth-child(4n + 2) { padding-right: 56px; }
+}
+@media (min-width: 641px) and (max-width: 1000px) {
+  :lang(en) .legal-body .legal-facts { grid-template-columns: 160px minmax(0, 1fr); }
+}
+@media (min-width: 641px) {
+  :lang(en) .legal-body .legal-facts dt {
+    height: 52px;
+    padding: 6px 12px;
+    line-height: 20px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+
+/* 영어판 목차 — 번호 칸과 제목 칸을 나눠 두 줄째를 제목 첫 글자에 맞춘다.
+   영어 제목은 길어 두 줄로 넘어가는 항목이 많다(1440px 4개 · 390px 12개). 한국어 목차는
+   두 줄로 넘어가는 항목이 없어 한 덩어리 그대로 둔다.
+   1.75em(24.5px) = 가장 넓은 번호 '22.'(약 19px) + 번호와 제목 사이 여백. */
+:lang(en) .legal-toc a { display: grid; grid-template-columns: 1.75em minmax(0, 1fr); }
+
+/* 처리방침 2항 카드 제목(가 · 나 · 다 · 라 / A. B. C. D.) — 번호 칸과 제목 칸을 나눠 둘째 줄을
+   제목 첫 글자에 맞춘다. 글머리 점 · ※ · 항 번호가 모두 내어쓰기라 제목도 같게 둔다.
+   영어 제목은 1440px에서도 C · D가 두 줄, 390px에서 C가 세 줄. 한국어는 390px 이하(768px의 다)에서 두 줄.
+   번호 칸은 auto — 글자 폭 그대로 두고, 사이는 띄어쓰기 한 칸과 같게 0.28em. */
+.legal-body h3.legal-hang { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.28em; }

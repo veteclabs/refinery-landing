@@ -3,12 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Ph from '../components/Ph.astro';
-import { company, effectiveDate, revisedDate, retention, processors, remedyAgencies, legalReviewed, revisions } from '../data/legal';
+import { legal, effectiveDate, revisedDate, legalReviewed } from '../data/legal';
 import '../styles/legal.css';
+const { company, retention, processors, remedyAgencies, revisions } = legal('ko');
 
 // 목차·항목 구성은 개인정보보호위원회 「개인정보 처리방침 작성지침(2025.4.)」을 따른다.
 // 해당 사항이 없는 항목도 "해당 없음"을 명시한다(지침: 항목 자체를 빼면 누락으로 평가된다).
 const isDraft = !legalReviewed || !effectiveDate || !company.ceo || !company.bizNo;
+
+// 한국어판 · 영어판이 모두 있어 hreflang을 낸다.
+const alternates = [
+  { lang: 'ko', href: '/privacy' },
+  { lang: 'en', href: '/en/privacy' },
+];
 
 // 문서 맨 앞 목차. 라벨은 본문 <h2>와 같아야 한다 — 조문을 고치면 여기도 고친다.
 // (본문이 손으로 쓴 마크업이라 빌드 때 자동 대조가 되지 않는다.)
@@ -48,6 +55,7 @@ const keepDots = (t: string) =>
   description="Refinery 웹사이트 및 서비스의 개인정보 수집 ⁠· 이용 ⁠· 제공 ⁠· 위탁 ⁠· 국외이전에 관한 처리방침입니다."
   canonical="/privacy"
   robots="index, follow"
+  alternates={alternates}
 >
   <Nav />
   {/* 이 문서만 글 기둥이 넓다 — 아래 .legal-main--wide 주석 참고. */}
@@ -141,7 +149,7 @@ const keepDots = (t: string) =>
 
         <div class="legal-cards">
           <div class="legal-card">
-            <h3>가. 문의 ⁠· 데모 신청 시 (이용자가 직접 입력)</h3>
+            <h3 class="legal-hang"><span>가.{" "}</span><span>문의 ⁠· 데모 신청 시 (이용자가 직접 입력)</span></h3>
             <ul>
               <li><strong>필수</strong> : 회사명, 성명, 이메일 주소, 연락처</li>
               <li><strong>선택</strong> : 직책, 산업 분야, 문의 내용</li>
@@ -152,7 +160,7 @@ const keepDots = (t: string) =>
             </p>
           </div>
           <div class="legal-card">
-            <h3>나. 계약 체결 및 서비스 이용 시</h3>
+            <h3 class="legal-hang"><span>나.{" "}</span><span>계약 체결 및 서비스 이용 시</span></h3>
             <ul>
               <li>고객사 담당자 정보 : 소속 ⁠· 부서, 성명, 직위, 이메일 주소, 연락처</li>
               <li>계정 정보 : 계정 ID(이메일), 비밀번호(암호화 저장), 권한 등급</li>
@@ -160,7 +168,7 @@ const keepDots = (t: string) =>
             </ul>
           </div>
           <div class="legal-card">
-            <h3>다. 서비스 이용 과정에서 자동으로 생성 ⁠· 수집되는 정보</h3>
+            <h3 class="legal-hang"><span>다.{" "}</span><span>서비스 이용 과정에서 자동으로 생성 ⁠· 수집되는 정보</span></h3>
             <ul>
               <li>접속 IP 주소, 접속 일시, 서비스 이용 기록, 요청 URL, 리퍼러(유입 경로)</li>
               <li>브라우저 종류 ⁠· 버전, 운영체제, 기기 유형, 화면 해상도, 언어 설정</li>
@@ -174,7 +182,7 @@ const keepDots = (t: string) =>
             </p>
           </div>
           <div class="legal-card">
-            <h3>라. 정보주체 이외로부터 수집하는 개인정보</h3>
+            <h3 class="legal-hang"><span>라.{" "}</span><span>정보주체 이외로부터 수집하는 개인정보</span></h3>
             <p>
               회사는 전시회 ⁠· 세미나 등 오프라인 행사에서 참가자가 직접 제출한 명함 ⁠· 참가신청서를 통해
               소속 ⁠· 성명 ⁠· 직위 ⁠· 연락처 ⁠· 이메일 주소를 수집할 수 있습니다.
@@ -280,7 +288,7 @@ const keepDots = (t: string) =>
         <p>회사는 원활한 서비스 제공을 위하여 아래와 같이 개인정보를 국외로 이전하며, 그 근거는 이전받는 자에 따라 다음과 같습니다.</p>
         <ul>
           <li><strong>Vercel Inc. ⁠· Web3Forms</strong> : 「개인정보 보호법」 <strong>제28조의8 제1항 제3호 가목</strong>(계약의 체결 및 이행에 필요한 처리위탁 ⁠· 보관으로서 같은 조 제2항 각 호의 사항을 본 처리방침에 공개)</li>
-          <li><strong>Google LLC ⁠· Mixpanel, Inc.</strong> : 같은 조 <strong>제1항 제1호</strong>(정보주체의 별도 동의). 해당 이전은 이용자가 <strong>분석 쿠키에 동의한 경우에만</strong> 이루어지며, 회사는 동의를 받을 때 아래 표의 같은 조 제2항 각 호(이전 항목 ⁠· 국가 ⁠· 시기 ⁠· 방법, 이전받는 자, 이용 목적 ⁠· 보유 기간, 거부 방법)⁠를 고지합니다.</li>
+          <li><strong>Google LLC ⁠· Mixpanel, Inc.</strong> : 같은 조 <strong>제1항 제1호</strong>(정보주체의 별도 동의). 해당 이전은 이용자가 <strong>분석 쿠키에 동의한 경우에만</strong> 이루어지며, 회사는 동의 배너에서 연결되는 본 처리방침의 아래 표를 통하여 같은 조 제2항 각 호(이전 항목 ⁠· 국가 ⁠· 시기 ⁠· 방법, 이전받는 자, 이용 목적 ⁠· 보유 기간, 거부 방법)⁠를 고지합니다.</li>
         </ul>
         <div class="legal-table-wrap">
           <table class="legal-table legal-table--label12 legal-table--fixed">
@@ -303,34 +311,17 @@ const keepDots = (t: string) =>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Vercel Inc.<br /><span class="legal-note">privacy@vercel.com</span></td>
-                <td>미국</td>
-                <td>이용자가 웹사이트에 접속하는 시점에 네트워크를 통한 전송(TLS 암호화)</td>
-                <td>접속 IP 주소, 접속 일시, 요청 URL, 브라우저 ⁠· 기기 정보</td>
-                <td>웹사이트 호스팅 ⁠· CDN 운영 및 트래픽 ⁠· 성능 측정 / 위탁계약 종료 시 또는 Vercel의 로그 보존기간 경과 시까지</td>
-              </tr>
-              <tr>
-                <td>Web3Forms<br /><span class="legal-note">support@web3forms.com</span></td>
-                <td>미국</td>
-                <td>이용자가 문의 폼을 제출하는 시점에 네트워크를 통한 전송(TLS 암호화)</td>
-                <td>회사명, 성명, 이메일 주소, 연락처, 직책, 산업 분야, 문의 내용</td>
-                <td>문의 내용의 이메일 전달 / 전달 완료 후 지체 없이 파기</td>
-              </tr>
-              <tr>
-                <td>Google LLC<br /><span class="legal-note">https://support.google.com/<wbr />policies</span></td>
-                <td>미국 등 Google 데이터센터 소재국</td>
-                <td>이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송</td>
-                <td>쿠키 식별자, 접속 IP 주소(일부 삭제), 방문 페이지, 브라우저 ⁠· 기기 정보</td>
-                <td>웹사이트 이용 통계 분석 / <Ph value={retention.ga} label="보관기간" /></td>
-              </tr>
-              <tr>
-                <td>Mixpanel, Inc.<br /><span class="legal-note">privacy@mixpanel.com</span></td>
-                <td>미국</td>
-                <td>이용자가 <strong>분석 쿠키에 동의한 후</strong> 웹사이트를 이용하는 시점에 네트워크를 통한 전송</td>
-                <td>임의 식별자, 방문 페이지, 클릭 ⁠· 스크롤 등 상호작용 기록, 화면 조작 기록(입력값 마스킹), 브라우저 ⁠· 기기 정보</td>
-                <td>이용 행태 분석 및 사용성 개선 / <Ph value={retention.mixpanel} label="보관기간" /></td>
-              </tr>
+              {/* 행은 src/data/legal.ts의 processors[].transfer에서 온다 — 8항 위탁 표와 같은 배열이라
+                  수탁자가 바뀌면 두 표가 함께 바뀐다. 연락처 · 방법 칸은 굵게 · <wbr />를 담아 HTML로 렌더한다. */}
+              {processors.map((p) => (
+                <tr>
+                  <td>{p.transfer.recipient}<br /><span class="legal-note" set:html={p.transfer.contact}></span></td>
+                  <td>{p.transfer.country}</td>
+                  <td set:html={p.transfer.method}></td>
+                  <td>{p.transfer.items}</td>
+                  <td>{p.transfer.purpose} / {p.transfer.period ?? <Ph value={retention[p.transfer.retentionKey!]} label="보관기간" />}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -470,7 +461,7 @@ const keepDots = (t: string) =>
           <table class="legal-table legal-table--center">
             <thead>
               <tr>
-                <th style="width:220px;">구분</th>
+                <th class="legal-col-lead">구분</th>
                 <th>성명</th>
                 <th>직책</th>
                 <th>전화</th>
@@ -482,7 +473,7 @@ const keepDots = (t: string) =>
                 <td>개인정보 보호책임자</td>
                 <td><Ph value={company.cpoName} label="성명" /></td>
                 <td><Ph value={company.cpoTitle} label="직책" /></td>
-                <td><Ph value={company.privacyTel} label="전화번호" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="전화번호" /></span></td>
                 <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
             </tbody>
@@ -511,7 +502,7 @@ const keepDots = (t: string) =>
             <tbody>
               <tr>
                 <td><Ph value={company.cpoName} label="성명" /> <Ph value={company.cpoTitle} label="직책" /></td>
-                <td><Ph value={company.privacyTel} label="전화번호" /></td>
+                <td><span class="legal-keep"><Ph value={company.privacyTel} label="전화번호" /></span></td>
                 <td><Ph value={company.privacyEmail} label="이메일" /></td>
               </tr>
             </tbody>
@@ -589,7 +580,7 @@ const keepDots = (t: string) =>
               <dl class="legal-facts">
                 <dt>상호</dt><dd><Ph value={company.legalName} label="회사명" /></dd>
                 <dt>대표자</dt><dd><Ph value={company.ceo} label="대표자 성명" /></dd>
-                <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" /></dd>
+                <dt>주소</dt><dd><Ph value={company.address} label="본점 주소" html /></dd>
                 <dt>이메일</dt><dd><Ph value={company.email} label="이메일" /></dd>
                 <dt>전화</dt><dd><Ph value={company.tel} label="전화번호" /></dd>
                 <dt>사업자등록번호</dt><dd><Ph value={company.bizNo} label="000-00-00000" /></dd>

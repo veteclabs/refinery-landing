@@ -5,20 +5,19 @@ const lang = (Astro.currentLocale ?? 'ko') as 'ko' | 'en';
 const t =
   lang === 'en'
     ? {
-        text: 'We use cookies to enhance site navigation and analyze site usage. If you accept, analytics data may be transferred to the United States.',
+        text: 'We use cookies to enhance site navigation and analyze site usage.',
         more: 'For details, see our',
         accept: 'Accept all',
         decline: 'Reject all',
         cookie: 'Cookie Policy',
         privacy: 'Privacy Policy',
-        // 약관류는 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다.
-        // 영어 로케일에서도 한국어 원문으로 연결한다(없는 /en/* 경로는 404가 된다).
-        cookieHref: '/cookie-policy',
-        privacyHref: '/privacy',
+        // 영어판이 있는 문서만 /en/*로 연결한다 — nav.ts legalLinks.en과 맞춘다.
+        cookieHref: '/en/cookie-policy',
+        privacyHref: '/en/privacy',
         aria: 'Cookie consent',
       }
     : {
-        text: '저희는 쿠키를 사용하여 사이트 탐색을 개선하고 사이트 사용량을 분석합니다. \'모두 허용\' 시 분석 데이터가 미국으로 이전될 수 있습니다.',
+        text: '저희는 쿠키를 사용하여 사이트 탐색을 개선하고 사이트 사용량을 분석합니다.',
         more: '자세한 내용 :',
         accept: '모두 허용',
         decline: '모두 거부',
@@ -153,16 +152,28 @@ const t =
     function loadTrackers() { try { loadGA(); loadMixpanel(); } catch (e) {} }
 
     var el = document.getElementById('cookieConsent');
-    function hide() { if (el) el.hidden = true; }
+
+    // 배너와 '쿠키 설정' 버튼은 동시에 보이지 않는다.
+    // 배너가 떠 있는데 버튼도 함께 보이면, 눌러도 아무 변화가 없어 고장으로 읽힌다.
+    // 마크업에는 버튼을 늘 두고 여기서 감춘다 — 반대로 하면 자바스크립트가 꺼진
+    // 환경에서 동의 철회 경로가 아예 사라져 법적으로 더 나쁘다.
+    function syncButtons() {
+      var open = el && !el.hidden;
+      var bs = document.querySelectorAll('[data-cookie-settings]');
+      for (var i = 0; i < bs.length; i++) bs[i].hidden = open;
+    }
+    function show() { if (el) el.hidden = false; syncButtons(); }
+    function hide() { if (el) el.hidden = true; syncButtons(); }
     // 푸터 '쿠키 설정' 등에서 배너를 다시 열어 재선택할 수 있게 한다.
-    window.openCookieSettings = function () { if (el) el.hidden = false; };
+    window.openCookieSettings = show;
 
     var consent = getCookie('cookie_consent');
     if (consent === 'granted') {
       loadTrackers();
     } else if (consent !== 'denied') {
-      if (el) el.hidden = false; // 미결정 → 배너 노출
+      show(); // 미결정 → 배너 노출
     }
+    syncButtons();
 
     var a = document.getElementById('ccAccept');
     var d = document.getElementById('ccDecline');
