@@ -80,7 +80,7 @@ const jsonLd = [orgSchema, faqSchema];
           <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
         </span>
       </button>
-      <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+      <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AIOS 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
   </div>
@@ -612,8 +612,8 @@ const jsonLd = [orgSchema, faqSchema];
         <p class="series-desc">시간에 따라 쌓인 데이터를 살펴보고<br>평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
       </div>
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
-        <div class="series-tagline">AI Agent</div>
+        <div class="series-icon" role="img" aria-label="AIOS"><i class="ph ph-sparkle"></i></div>
+        <div class="series-tagline">AIOS</div>
         <h3>질문 하나로 움직이는 현장</h3>
         <p class="series-desc">궁금한 점을 물어보면 데이터를 근거로 답하고<br>다음 조치까지 제안합니다.</p>
       </div>
@@ -633,7 +633,7 @@ const jsonLd = [orgSchema, faqSchema];
     <div class="section-header">
       <div class="section-header-row">
         <h2>산업도 과제도 가리지 않는<br>모든 현장에 최적화된 솔루션</h2>
-        <p>Refinery AI Agent가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
+        <p>Refinery AIOS가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
       </div>
     </div>
     <div class="sol-switch-row">
@@ -681,7 +681,7 @@ const jsonLd = [orgSchema, faqSchema];
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AIOS</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
@@ -694,7 +694,7 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="teams-preview-decor" style="position:absolute;top:0;left:28.5%;bottom:0;width:15%;z-index:1;background:linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
-        <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
+        <div class="teams-preview-tagline" id="teamsPreviewTagline">AIOS</div>
         {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">질문하면<br>
 온톨로지가 답을 찾습니다.</h3>
@@ -1217,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['질문하면\n온톨로지가 답을 찾습니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를\n근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AI Agent'],
+  llm: ['질문하면\n온톨로지가 답을 찾습니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를\n근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AIOS'],
   plate: ['현장의 지금 이 순간을\n숫자로 확인하세요.', '현장의 핵심 지표를 실시간으로 모니터링\n합니다. 부서 ⁠· 구간별 처리 현황과\n이상 신호까지 한 화면에서 확인할 수 있습니다.', 'Plate'],
   tile: ['데이터를 보여주는\n20가지 방법', '숫자 카드, 게이지, 시계열 차트, 히트맵, 공간 맵 등\n다양한 위젯을 제공해 데이터 성격에 맞는\n표현 방식을 그대로 가져다 쓸 수 있습니다.', 'Tile'],
   pipeline: ['데이터 구조가 바뀌어도\n흔적은 남습니다.', 'Git처럼 브랜치를 나누어 스키마를 실험하고,\n두 시점 간 스냅샷을 비교해\n변경 사항을 ERD로 시각화합니다.', 'Pipeline'],
