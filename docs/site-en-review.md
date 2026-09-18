@@ -343,8 +343,24 @@ FAQ 2문장 복원 · 영어 지원 문구.
 거기서도 '개념'이 빠져 있었다: `Industrial, manufacturing and energy AI at a glance`
 → `The concepts of industrial, manufacturing and energy AI at a glance`.
 
-> 남은 불일치: 한국어는 [1]과 [8]이 같은 '현장 데이터'인데 영어는 [1] `field data` · [8] `site data`로 갈린다.
-> [8]은 이번에 건드리지 않았다.
+#### '현장 데이터'를 `field data`로 통일했다 — 2026-09-18 사용자 결정
+
+처음에는 이 페이지 [1]·[8]만 갈린 줄 알았으나, 영어 본문 전체를 세어 보니
+**사이트 전반이 `site data`(12곳)이고 랜딩만 `field data`(4곳)**였다. 한국어는 모두 '현장 데이터'다.
+
+`field`(현장 = 일이 벌어지는 맥락)를 살리기로 한 앞선 판단에 맞춰 **12곳을 모두 `field data`로 바꿨다.**
+
+| 바꾼 곳 | 한국어 |
+|---|---|
+| 산업 7페이지 `How site data gains meaning…` | 현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름 |
+| 화학 · 에너지 `aggregated automatically from site data` | 현장 데이터에서 배출 지표를 자동 집계 |
+| 산업 AI [4] `on real site data and domain context` | 실제 현장 데이터와 도메인 맥락에 근거해 |
+| 블로그 `turning scattered site data` | 흩어진 현장 데이터를 |
+
+**쿠키 정책의 `site data` 3곳은 건드리지 않는다** — `Deleting cookies and site data`처럼
+브라우저 저장 데이터를 가리키는 다른 뜻이다.
+
+결과: 영어 본문 `field data` 16곳 · `site data` 3곳(쿠키 정책뿐).
 
 측정: 03 · 04 모두 1440px에서 h1 2줄 · 카드 4개 높이 동일, 가로 넘침 0.
 390px에서 h1 4줄이고 03의 EMS 카드가 다른 카드보다 높다(221 vs 166px). 모바일 일괄 점검 때 함께 본다.

@@ -80,7 +80,7 @@ export const automotiveEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

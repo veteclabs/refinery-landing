@@ -87,7 +87,7 @@ export const steelEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Heat-treatment furnaces ⁠· compressed air ⁠· cooling water ⁠· forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

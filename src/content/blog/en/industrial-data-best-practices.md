@@ -1,6 +1,6 @@
 ---
 title: "Five principles for turning industrial data into an asset"
-description: "Practical principles for turning scattered site data into something you can actually decide on."
+description: "Practical principles for turning scattered field data into something you can actually decide on."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -11,7 +11,7 @@ coverTextColor: "#173B6B"
 coverIcon: "/icon_blog.svg"
 coverFoot: "Guide"
 titleBreakAfter: ["for turning", "industrial data"]
-cardBreakAfter: "Practical principles for turning scattered site data"
+cardBreakAfter: "Practical principles for turning scattered field data"
 lang: "en"
 ---
 

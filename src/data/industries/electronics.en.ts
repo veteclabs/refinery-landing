@@ -100,7 +100,7 @@ export const electronicsEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

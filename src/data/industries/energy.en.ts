@@ -75,7 +75,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Automated ESG and carbon reporting',
         problem: 'Manual aggregation of emissions and consumption for regulatory reports',
-        approach: 'Emissions and consumption metrics are aggregated automatically from site data and turned into reports.',
+        approach: 'Emissions and consumption metrics are aggregated automatically from field data and turned into reports.',
         outcome: 'Regulatory reports produced automatically, traceable to their source',
       },
       {
@@ -88,7 +88,7 @@ export const energyEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Generation ⁠· substation assets ⁠· smart meters ⁠· sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC-⁠UA ⁠· DNP3 ⁠· IEC 61850', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

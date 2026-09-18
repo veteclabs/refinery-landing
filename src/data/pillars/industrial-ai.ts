@@ -122,7 +122,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     faq: [
       {
         q: 'What is industrial AI?',
-        a: 'Industrial AI collects, integrates and analyzes equipment, process and sensor data from industrial sites in manufacturing, energy and process plants to support decisions and actions. Unlike a general chatbot, it bases its answers on real site data and domain context.',
+        a: 'Industrial AI collects, integrates and analyzes equipment, process and sensor data from industrial sites in manufacturing, energy and process plants to support decisions and actions. Unlike a general chatbot, it bases its answers on real field data and domain context.',
       },
       {
         q: 'What is manufacturing AI?',
@@ -130,7 +130,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is AI in the manufacturing industry?',
-        a: 'AI in the manufacturing industry means applying artificial intelligence to production, quality, equipment and energy operations to support prediction and automation; it is another term for manufacturing AI. The core is integrating scattered site data so that decisions have evidence behind them.',
+        a: 'AI in the manufacturing industry means applying artificial intelligence to production, quality, equipment and energy operations to support prediction and automation; it is another term for manufacturing AI. The core is integrating scattered field data so that decisions have evidence behind them.',
       },
       {
         q: 'What is smart factory AI?',

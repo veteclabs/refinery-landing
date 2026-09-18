@@ -93,7 +93,7 @@ export const machineryEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

@@ -87,14 +87,14 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Unified greenhouse gas accounting',
         problem: 'Manual aggregation of emissions and regulatory reports',
-        approach: 'Emission metrics are aggregated automatically from site data into reports traceable to their source.',
+        approach: 'Emission metrics are aggregated automatically from field data into reports traceable to their source.',
         outcome: 'Carbon compliance and energy performance management',
       },
     ],
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Reactors ⁠· thermal boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },

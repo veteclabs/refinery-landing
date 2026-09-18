@@ -92,7 +92,7 @@ export const foodEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Chillers ⁠· air compressors ⁠· boilers ⁠· temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
