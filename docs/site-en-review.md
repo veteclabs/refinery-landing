@@ -233,3 +233,53 @@
 - **ko/en 단위 수 대조 차이 0** — 자동차·에너지의 칩 불일치까지 해소됐다
 - 반응형 390 · 768 · 1280px — 가로 넘침 0, 잘림 0
 - 영어 본문에 남은 표기 문제 0(스페이스하이픈·en dash·직선 아포스트로피·영국식 철자 모두 0)
+
+## 6. 번역기 역번역 대조 (B안) — 진행 중
+
+블라인드 역번역(§4)과 별개로, 영어판을 1500자 조각으로 나눠 사용자가 번역기에 돌린 결과를
+조항 번호로 대조한다. 조각 파일은 `번역검증-mt/site/pages/`(git 제외)에 페이지별로 둔다.
+
+### 6.1 랜딩 `/en` — 50단위 (본문 38 + FAQ 12)
+
+> ⚠️ 단위 추출이 `<main>` 안의 p·li·h1~h4 등 **블록 태그만** 잡는다. 랜딩 FAQ는 `<div class="faq-q/faq-a">`
+> 라서 처음 만든 조각에서 빠졌다. `01b_랜딩-FAQ.txt`로 보충했다. 나머지 25개 페이지에는 같은 누락이 없다.
+
+§5에서 고친 곳은 번역기에서 모두 의도대로 읽혔다 — Lens 예측 · 두 도입 경로 · `never`/`any` 제거 ·
+FAQ 2문장 복원 · 영어 지원 문구.
+
+새로 나온 것:
+
+| 단위 | 영어 | 번역기가 읽은 뜻 | 조치 |
+|---|---|---|---|
+| [1] | **Refinery** Industrial AI OS | **정유 산업용** AI OS | `<span translate="no">` |
+| [27] | No matter **the field** | **분야**에 상관없이 | `No matter where you operate` |
+| [40] | the scale of your **field** | 해당 **분야**의 규모 | `the scale of your operation` |
+| [30] | TLS 1.3 in transit, AES-256 at rest | 전송 중 TLS 1.3, 저장 시 AES-256 **적용** | 보류 — '암호화'라는 동사가 없다 |
+
+#### field는 그대로 둔다 — 2026-09-18 사용자 판단
+
+`field`(현장 = 일이 벌어지는 맥락)와 `site`(사업장 = 물리적 장소)는 뜻이 다르다.
+`AI understands the field`처럼 **맥락**을 이해한다는 자리에서는 `field`가 맞고 `site`로 바꾸면 뜻이 좁아진다.
+번역기도 이런 자리는 모두 "현장"으로 정확히 읽었다.
+
+| 유지 | 이유 |
+|---|---|
+| AI understands **the field** | 장소가 아니라 현장 사정을 안다는 뜻 |
+| **The field** on one dashboard · **A field** run by one question | 대시보드에 담기는 것은 현장 상황 |
+| **field data** · **field operations** · **field edge** | 산업계 관용어 · OT 기술 용어 |
+
+고친 세 곳도 `field`가 나빠서가 아니라 **붙는 자리**가 문제였다.
+`No matter the ~`는 뒤 낱말을 범주로 읽게 하고, `scale of ~`는 뒤에 잴 수 있는 대상을 요구한다.
+
+#### 섹션 제목을 문장으로
+
+한국어 「산업도 과제도 가리지 않는 / 모든 현장에 최적화된 솔루션」은 양보절이 앞에 서고
+명사구로 닫히는 한 문장이다. 영어는 `Optimized for every field, any industry, any challenge`로
+세 조각을 나열해 주종이 사라져 있었다.
+
+`Whatever the industry or challenge, / a solution optimized for every field`로 바꿨다.
+바로 아래 보안 제목 `No matter where you operate, / an uncompromising security framework`와 대구를 이루는데,
+한국어도 「산업도 과제도 가리지 않는」 / 「어떤 현장에서도」로 같은 리듬이다.
+
+측정: 1440px·768px 2줄(제목 716·480px), 가로 넘침 0.
+**모바일 390px에서 3줄 → 4줄**이 된다(한국어는 2줄). 모바일 일괄 점검 때 함께 본다.
