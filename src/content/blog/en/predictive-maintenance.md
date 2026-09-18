@@ -17,7 +17,7 @@ lang: "en"
 ---
 
 The moment equipment stops, losses start accumulating. So plants work hard to prevent
-failures in advance – but setting the standard for "in advance" is not easy. Predictive
+failures in advance — but setting the standard for "in advance" is not easy. Predictive
 maintenance is an attempt to set that standard from data rather than instinct.
 
 ## The limits of preventive maintenance
@@ -38,9 +38,9 @@ reading.
 ## What has to be in place for prediction to work
 
 The quality of a prediction depends more on the data beneath it than on the model. First
-you need history of how that machine normally behaves – without a baseline to compare
+you need history of how that machine normally behaves — without a baseline to compare
 against, you cannot even tell whether the current value is unusual. And you need context
-for which machine a signal belongs to and what it connects to – an ontology – before a
+for which machine a signal belongs to and what it connects to — an ontology — before a
 cause can be narrowed down. If data is scattered and its provenance unclear, even a good
 model will chase the wrong thing.
 
@@ -52,7 +52,7 @@ and the records vary from person to person. Wiring a sensor to every machine, me
 is no small amount of construction.
 
 So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
-on the motor – with no wiring work it can go onto equipment that is already running. A
+on the motor — with no wiring work it can go onto equipment that is already running. A
 <span class="nb">built-in</span> 3-axis accelerometer measures vibration along with temperature, and the data goes
 out over LoRaWAN. Because LoRaWAN is <span class="nb">low-power</span>, the battery lasts and the signal carries
 far, so sensors spread across a large plant can be collected by one or two gateways such

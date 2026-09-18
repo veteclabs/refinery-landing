@@ -17,14 +17,14 @@ const jsonLd = {
   "name": "Refinery",
   "url": "https://refinery.kr/",
   "logo": "https://refinery.kr/logo_Refinery_symbol.svg",
-  "description": "Refine the complexity of industrial data into clear insight - from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data.",
+  "description": "Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data.",
   "sameAs": []
 };
 ---
 <BaseLayout
-  title="Refinery - Refining complexity into pure insight"
+  title="Refinery — Refining complexity into pure insight"
   ogTitle="Refinery"
-  description="Refine the complexity of industrial data into clear insight - from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data."
+  description="Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data."
   ogDescription="Refining complexity into pure insight"
   canonical="/en"
   alternates={alternates}
@@ -40,10 +40,10 @@ const jsonLd = {
     <div class="hero-row">
       <div class="hero-text">
         <h1>Refinery <span class="hero-title-accent">Industrial AI OS</span></h1>
-        <p>Connect the data and documents scattered across your operations <br class="mobile-br">into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision - <br class="mobile-br">from predictive maintenance to quality, energy, and autonomous operation.</p>
+        <p>Connect the data and documents scattered across your operations <br class="mobile-br">into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision — <br class="mobile-br">from predictive maintenance to quality, energy, and autonomous operation.</p>
       </div>
       <div class="hero-actions">
-        <a href="/contact" class="hero-demo-link" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">
+        <a href="/en/contact" class="hero-demo-link" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">
           Request a demo
           <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
         </a>
@@ -232,7 +232,7 @@ const jsonLd = {
       border-color: #272B32;
     }
     /* 쉐브론 화살표는 기하학적으로는 중앙이지만, 뾰족한 끝과 벌어진 두 선의 무게중심이
-       달라 눈으로 보면 한쪽으로 치우쳐 보인다 — 시각적으로 가운데처럼 보이도록 미세 보정 */
+       달라 눈으로 보면 한쪽으로 치우쳐 보인다 - 시각적으로 가운데처럼 보이도록 미세 보정 */
     #platform .series-prev svg {
       transform: translateX(-1px);
     }
@@ -443,13 +443,13 @@ const jsonLd = {
       }
     })();
   </script>
-  <!-- 솔루션 섹션 — 산업별 ⁠· 과제별 두 판을 옆으로 넘긴다.
+  <!-- 솔루션 섹션 - 산업별 ⁠· 과제별 두 판을 옆으로 넘긴다.
        위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
        현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭 ⁠· 버튼이 따라온다. -->
   <script is:inline>
     (function () {
       // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
-      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 - 문서가 다 그려진 뒤에 건다.
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
       } else {
@@ -471,7 +471,7 @@ const jsonLd = {
         }
       }
 
-      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 판 전환 - 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
       // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
       // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
       function go(i) {
@@ -518,7 +518,7 @@ const jsonLd = {
         })(t);
       }
 
-      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 모바일 스와이프 - 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
       // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
       var sx = 0, sy = 0, tracking = false;
       vp.addEventListener('touchstart', function (e) {
@@ -565,7 +565,7 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
         <h3>Industrial data integration</h3>
-        <p class="series-desc">Data scattered across your systems<br>is gathered in one place - the first step.</p>
+        <p class="series-desc">Data scattered across your systems<br>is gathered in one place — the first step.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
@@ -588,7 +588,7 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
         <div class="series-tagline">Lens</div>
-        <h3>Analysis that finds causes</h3>
+        <h3>Analysis that finds causes and looks ahead</h3>
         <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
       </div>
       <div class="series-card">
@@ -600,7 +600,7 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
         <h3>Automation with no hands</h3>
-        <p class="series-desc">Analysis flows into reports, alarms<br>and workflow execution - no manual steps.</p>
+        <p class="series-desc">Analysis flows into reports, alarms<br>and workflow execution — no manual steps.</p>
       </div>
       </div>
     </div>
@@ -666,7 +666,7 @@ const jsonLd = {
     <div class="section-header">
       <div class="section-header-row">
         <h2>Everything your operations need,<br>in one platform</h2>
-        <p style="max-width:640px;">From collecting and visualizing data to making decisions -<br>every capability your operations need lives in one platform. <br class="mobile-br"></p>
+        <p style="max-width:640px;">From collecting and visualizing data to making decisions —<br>every capability your operations need lives in one platform. <br class="mobile-br"></p>
       </div>
     </div>
     <div class="teams-menu-horizontal">
@@ -684,7 +684,7 @@ const jsonLd = {
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">Industrial AI OS</div>
-        {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
+        {/* 본문과 같은 이유로 <br> 명시 - 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">Ask a question,<br>
 the ontology answers.</h3>
       </div>
@@ -704,11 +704,11 @@ and answers with its sources cited.</p>
     </div>
     <script is:inline>
     (function() {
-      var DASH_W = 1440; // 기본값(폴백) — 이미지 로드 전이거나 크기 정보를 못 가져올 때만 사용
+      var DASH_W = 1440; // 기본값(폴백) - 이미지 로드 전이거나 크기 정보를 못 가져올 때만 사용
       var DASH_H = 900;
       var RIGHT_CROP = 20; // 브라우저 기본 스크롤바가 우측 끝에 보이지 않도록 살짝 잘라냄 (스크롤 있는 화면만)
 
-      var MOBILE_RAIL_CROP = 244; // 좌측 세션 레일 폭(px, 원본 1440 기준) — 모바일에서는 실제로 잘라내 보여준다
+      var MOBILE_RAIL_CROP = 244; // 좌측 세션 레일 폭(px, 원본 1440 기준) - 모바일에서는 실제로 잘라내 보여준다
       var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: 40, ontology: 40, calendar: 40 }; // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
 
       function resizeDash() {
@@ -759,7 +759,7 @@ and answers with its sources cited.</p>
       if (dashImageEl) dashImageEl.addEventListener('load', resizeDash);
 
       // Solutions 탭 전환 시 큰 이미지(장당 400~650KB)를 그제서야 받아오느라
-      // 탭을 눌러도 바로 안 보이고 잠깐 버벅이는 문제가 있었다 — 섹션이 화면에
+      // 탭을 눌러도 바로 안 보이고 잠깐 버벅이는 문제가 있었다 - 섹션이 화면에
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
@@ -803,7 +803,7 @@ and answers with its sources cited.</p>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Adopt it anew, <br class="mobile-br">seamlessly - <br class="desktop-br">natural integration with <br class="mobile-br">your existing systems</h2>
+        <h2>Layer onto what you have, <br class="mobile-br">or start from scratch — <br class="desktop-br">either way, <br class="mobile-br">without a break</h2>
         <p>Integrates both ways with your legacy, cloud and AI tools,<br>and builds from data collection up where no system exists.</p>
       </div>
     </div>
@@ -1013,7 +1013,7 @@ and answers with its sources cited.</p>
     <div class="section-header">
       <div class="section-header-row">
         <h2>No matter the field,<br>an uncompromising security framework</h2>
-        <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is never used <br class="mobile-br">to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, <br class="mobile-br">data never leaves your premises.</p>
+        <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is not used <br class="mobile-br">to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, <br class="mobile-br">data does not leave your premises.</p>
       </div>
     </div>
     <div class="security-grid">
@@ -1025,7 +1025,7 @@ and answers with its sources cited.</p>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
+        <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization’s data is fully isolated.<br>PostgreSQL RLS and network-level separation block cross-access.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
@@ -1048,10 +1048,10 @@ and answers with its sources cited.</p>
       <h2>Before you adopt,<br>frequently asked questions</h2>
       <div class="faq-list" style="max-width:none;margin:0;">
       <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">It depends on the scale of your field and the complexity <br class="mobile-br">of existing systems, from PoC to company-wide rollout.<br>We'll share an exact timeline through consultation.</div></div>
-      <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is encrypted with AES-256,<br>with per-organization isolation (PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="mobile-br">in which case data never leaves your premises.</div></div>
-      <div class="faq-item"><div class="faq-q">Do you use our field data to train AI?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">No. Customer data is never used to train AI models.<br>Each customer's data is kept fully isolated.</div></div>
-      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Refinery runs as a unified intelligence layer <br class="mobile-br">on top of your existing systems.<br>It integrates bidirectionally with them.</div></div>
-      <div class="faq-item"><div class="faq-q">Which languages do you support?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">The interface and Industrial AI OS responses <br class="mobile-br">are currently provided in Korean.<br>English support is planned to expand soon.</div></div>
+      <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is encrypted with AES-256,<br>with per-organization isolation (PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="mobile-br">in which case data does not leave your premises.</div></div>
+      <div class="faq-item"><div class="faq-q">Do you use our field data to train AI?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">No. Customer data is not used to train AI models.<br>Each customer’s data is kept fully isolated.</div></div>
+      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Refinery runs as a unified intelligence layer <br class="mobile-br">on top of your existing systems and integrates bidirectionally with them.<br>Where no system exists, we build from a template shaped by thirty years on site (an energy management system, for example).<br>Both paths are supported.</div></div>
+      <div class="faq-item"><div class="faq-q">Which languages do you support?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">The interface and Industrial AI OS responses <br class="mobile-br">are currently provided in Korean.<br>We plan to expand English support.</div></div>
       <div class="faq-item"><div class="faq-q">Can we choose between cloud and on-premises?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">We support cloud, on-premises, and hybrid.<br>Choose flexibly according to your security policy.</div></div>
       </div>
     </div>
@@ -1064,7 +1064,7 @@ and answers with its sources cited.</p>
   <div class="container" style="position:relative;z-index:1;">
     <h2>Experience a new standard for<br>field operations <br class="mobile-br">with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
-      <a href="/contact" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">Request a demo</a>
+      <a href="/en/contact" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">Request a demo</a>
     </div>
   </div>
 </section>
@@ -1208,15 +1208,15 @@ document.addEventListener('DOMContentLoaded', () => {
 var teamsTextMap = {
   llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes\nand answers with its sources cited.', 'Industrial AI OS'],
   plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more - pick the\nwidget that fits your data.', 'Tile'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more — pick the\nwidget that fits your data.', 'Tile'],
   pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],
-  ontology: ['From field language\nto data language', 'Define field concepts - assets, tasks,\ndocuments - as objects and relations.\nThis structure powers Plate and Industrial AI OS.', 'Ontology'],
+  ontology: ['From field language\nto data language', 'Define field concepts — assets, tasks,\ndocuments — as objects and relations.\nThis structure powers Plate and Industrial AI OS.', 'Ontology'],
   calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar']
 };
 
-var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 — 우측 크롭 적용 안 함
-var DASH_PAN_MAP = { llm: 70, plate: 180 }; // 화면별 좌측 크롭(px, 원본 1440 기준) — 데스크탑/모바일 공통, 콘텐츠를 우측으로 밀어 보여줌
-var MOBILE_EXTRA_PAN_MAP = { tile: 160, ontology: 160, calendar: 160 }; // 모바일 전용 추가 크롭(좌측 메뉴 잔상 가림) — 데스크탑에는 영향 없음
+var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 - 우측 크롭 적용 안 함
+var DASH_PAN_MAP = { llm: 70, plate: 180 }; // 화면별 좌측 크롭(px, 원본 1440 기준) - 데스크탑/모바일 공통, 콘텐츠를 우측으로 밀어 보여줌
+var MOBILE_EXTRA_PAN_MAP = { tile: 160, ontology: 160, calendar: 160 }; // 모바일 전용 추가 크롭(좌측 메뉴 잔상 가림) - 데스크탑에는 영향 없음
 
 // 페이지 로드 시 기본으로 활성화된 탭(대시보드)도 위 설정이 바로 적용되도록 초기화
 window.needsRightCrop = NO_SCROLL_KEYS.indexOf('llm') === -1;
@@ -1298,7 +1298,7 @@ function switchDash(btn, src, key) {
 </script>
 
 <!-- ============================================================
-     CONTACT DRAWER — 로그인 페이지 우측 폼 패널과 동일한 비율(50% 폭, 전체 높이)의
+     CONTACT DRAWER - 로그인 페이지 우측 폼 패널과 동일한 비율(50% 폭, 전체 높이)의
      흰 배경 슬라이드오버 패널. "Contact" 클릭 시 랜딩페이지 위에 오버레이로 뜬다.
      ============================================================ -->
 <style is:global>
@@ -1384,7 +1384,7 @@ function switchDash(btn, src, key) {
   .cd-select-trigger{display:none;}
   .cd-select-options{display:none;}
 
-  /* 커스텀 드롭다운(트리거+목록) UI — 데스크탑/모바일 공통 적용 */
+  /* 커스텀 드롭다운(트리거+목록) UI - 데스크탑/모바일 공통 적용 */
   .cd-select-wrap select{
     position:absolute; inset:0; width:100%; height:100%;
     opacity:0; pointer-events:none;

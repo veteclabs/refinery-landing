@@ -10,7 +10,7 @@ export const useCasesEn: UseCase[] = [
     redesigned: true,
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
-      alt: 'A plant machine room lined with pumps and piping - the equipment predictive maintenance watches.',
+      alt: 'A plant machine room lined with pumps and piping — the equipment predictive maintenance watches.',
       width: 2560,
       height: 1607,
     },
@@ -36,7 +36,7 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
-      { icon: 'ph-broadcast', title: 'Attach a wireless sensor', desc: 'Mount the sensor on the motor - no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time. Installation is simple enough to fit equipment that is already running.' },
+      { icon: 'ph-broadcast', title: 'Attach a wireless sensor', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time. Installation is simple enough to fit equipment that is already running.' },
       { icon: 'ph-gauge', title: 'Judge against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
       { icon: 'ph-trend-up', title: 'Catch the trend, not the spike', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
       { icon: 'ph-lightbulb', title: 'Act on evidence', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
@@ -59,7 +59,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is predictive maintenance?',
         a:
-          'Predictive maintenance (PdM) analyses vibration ⁠· temperature ⁠· current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
+          'Predictive maintenance (PdM) analyzes vibration ⁠· temperature ⁠· current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
       },
       {
         q: 'Can I start predictive maintenance with a wireless vibration sensor?',
@@ -85,7 +85,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'sensor-monitoring',
     name: 'Multi-sensor monitoring',
-    tagline: 'Vibration, temperature, power, environment - bring scattered sensors into one structure and watch them together.',
+    tagline: 'Vibration, temperature, power, environment — bring scattered sensors into one structure and watch them together.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/heroes/sensor-monitoring.webp',
@@ -117,7 +117,7 @@ export const useCasesEn: UseCase[] = [
       'Every machine comes with its own sensors and protocols, so the data is never readable from one place. When signals stay scattered, it is hard to put them together and judge what is actually happening.',
     how: [
       { icon: 'ph-arrows-in', title: 'Collect from many sources', desc: 'From IoT sensors to existing instrumentation, diverse sources are standardized and gathered in one place.' },
-      { icon: 'ph-tree-structure', title: 'Connect through the ontology', desc: 'Each signal is given meaning - which asset it belongs to and what it measures - so it can be interpreted alongside the others.' },
+      { icon: 'ph-tree-structure', title: 'Connect through the ontology', desc: 'Each signal is given meaning — which asset it belongs to and what it measures — so it can be interpreted alongside the others.' },
       { icon: 'ph-pulse', title: 'Watch in real time', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
     ],
     signals: [
@@ -131,13 +131,13 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Multi-sensor monitoring (IoT) | Refinery',
-      description: 'Standardize and gather scattered sensors - from IoT devices to existing instrumentation - and connect them through an ontology for real-time monitoring.',
+      description: 'Standardize and gather scattered sensors — from IoT devices to existing instrumentation — and connect them through an ontology for real-time monitoring.',
     },
   },
   {
     slug: 'power-management',
     name: 'Power management',
-    tagline: 'See when, where and how much you use - and bring down both cost and risk.',
+    tagline: 'See when, where and how much you use — and bring down both cost and risk.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/heroes/power-management.webp',
@@ -169,7 +169,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-chart-bar', title: 'Make usage visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
       { icon: 'ph-chart-line', title: 'Manage peaks', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
-      { icon: 'ph-warning-circle', title: 'Detect abnormal use', desc: 'Catch consumption that departs from the usual pattern - equipment running when it should be off, or standby draw that crept up unnoticed.' },
+      { icon: 'ph-warning-circle', title: 'Detect abnormal use', desc: 'Catch consumption that departs from the usual pattern — equipment running when it should be off, or standby draw that crept up unnoticed.' },
       { icon: 'ph-gauge', title: 'Check power factor and load', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged with room to improve.' },
     ],
     template: {
@@ -190,7 +190,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is a power management solution?',
         a:
-          'A power management solution collects and analyses voltage ⁠· current ⁠· power ⁠· power-factor data from the incoming and distribution system in real time to monitor and optimise electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
+          'A power management solution collects and analyzes voltage ⁠· current ⁠· power ⁠· power-factor data from the incoming and distribution system in real time to monitor and optimize electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
       },
       {
         q: 'How does power management differ from an energy management system (EMS)?',
@@ -200,7 +200,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How does AI help with power management?',
         a:
-          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action.<br>Nobody has to watch every metric - it flags the moment with the reasoning attached.',
+          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action.<br>Nobody has to watch every metric — it flags the moment with the reasoning attached.',
       },
     ],
     seo: {
@@ -242,7 +242,7 @@ export const useCasesEn: UseCase[] = [
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [
       { icon: 'ph-pulse', title: 'Monitor quality metrics', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
-      { icon: 'ph-clipboard-text', title: 'Record events automatically', desc: 'Fleeting events - sags, swells, brief interruptions - are recorded automatically, leaving evidence you can go back to.' },
+      { icon: 'ph-clipboard-text', title: 'Record events automatically', desc: 'Fleeting events — sags, swells, brief interruptions — are recorded automatically, leaving evidence you can go back to.' },
       { icon: 'ph-link', title: 'Connect to causes', desc: 'Overlay when and where a quality event occurred with operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
       { icon: 'ph-funnel', title: 'Separate what mattered', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
     ],
@@ -294,9 +294,9 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Bring the whole plant’s energy into one view<br>and cut waste and emissions together.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how factory energy management fits your site,<br>together with Refinery.',
-    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department,<br>per machine and per hour, scattered enough that where it goes and why is never visible at a glance.<br>Without the whole flow you cannot say where to cut, and savings stay a guess.',
+    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department,<br>per machine and per hour, scattered enough that where it goes and why is never visible at a glance.<br>Without the whole flow you cannot say where to cut, and savings stay a guess.<br>Aggregating figures for ESG reporting turns into manual work, every time.',
     problem:
-      'A plant runs on several forms of energy at once - electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
+      'A plant runs on several forms of energy at once — electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
     how: [
       { icon: 'ph-factory', title: 'Meter everything together', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
       { icon: 'ph-chart-donut', title: 'Analyze energy intensity', desc: 'Compare energy used against output to find the periods and areas that spend more for the same work.' },
@@ -351,14 +351,14 @@ export const useCasesEn: UseCase[] = [
     },
     cardDesc: 'Find the hidden waste and the peaks,<br>and do the same work for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
-    ctaTitle: 'See how energy optimisation fits your site,<br>together with Refinery.',
-    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed - <br>each looks small on its own. Totals alone never show where to act, so saving falls back on instinct.',
+    ctaTitle: 'See how energy optimization fits your site,<br>together with Refinery.',
+    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed — <br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
-      { icon: 'ph-magnifying-glass', title: 'Uncover waste', desc: 'Overlay consumption patterns on the work context to find inefficiency.' },
-      { icon: 'ph-trend-down', title: 'Reduce peaks', desc: 'Identify when peaks form and spread the load.' },
-      { icon: 'ph-arrows-clockwise', title: 'Keep it from returning', desc: 'Track the effect of each improvement so savings do not leak back.' },
+      { icon: 'ph-magnifying-glass', title: 'Uncover waste', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
+      { icon: 'ph-trend-down', title: 'Reduce peaks', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
+      { icon: 'ph-arrows-clockwise', title: 'Keep it from returning', desc: 'Track the effect of each improvement so savings do not leak back.<br>Any stretch sliding back to the old pattern is caught at once.' },
     ],
     signals: [
       { label: 'Hourly consumption', icon: 'hourly-usage' },
@@ -368,7 +368,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
-      description: 'Find hidden waste and peaks in the data to reduce energy cost - overlaying consumption patterns on work context to uncover inefficiency.',
+      description: 'Find hidden waste and peaks in the data to reduce energy cost — overlaying consumption patterns on work context to uncover inefficiency.',
     },
   },
   {
@@ -383,7 +383,7 @@ export const useCasesEn: UseCase[] = [
       height: 1607,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Read what the process data is signalling<br>and catch defects before they finish',
+    heroTitle: 'Read what the process data is signaling<br>and catch defects before they finish',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -397,7 +397,7 @@ export const useCasesEn: UseCase[] = [
       width: 1280,
       height: 720,
     },
-    cardDesc: 'Read what the process data is signalling<br>and catch defects before they finish.',
+    cardDesc: 'Read what the process data is signaling<br>and catch defects before they finish.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how quality prediction fits your site,<br>together with Refinery.',
     problemHtml: 'By the time final inspection finds a defect, the material and the hours are already spent. Scrap it or rework it,<br>the loss stays. And the finished part rarely tells you which step went wrong, so the same defect returns.',

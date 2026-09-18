@@ -67,7 +67,7 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Over-consumption prevented and immediate response in place',
       },
       {
-        title: 'Air-fuel ratio based blower inverter control',
+        title: 'Air-fuel-ratio-based blower inverter control for thermal boilers',
         problem: 'Thermal boiler air-fuel ratio set by feel',
         approach: 'The blower inverter is controlled against the thermal boiler air-fuel ratio so the optimum is held.',
         outcome: 'Better combustion efficiency and lower energy cost',

@@ -150,14 +150,14 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What makes Refinery\u2019s industrial AI different?',
-        a: 'Refinery weaves scattered SCADA, MES, ERP, sensor and document data into an ontology to produce grounded decisions. It sits on top of existing systems or builds new ones, and supports on-premises deployment so data never leaves your network. It is proven over 30 years across more than 100 industrial sites.',
+        a: 'Refinery weaves scattered SCADA, MES, ERP, sensor and document data into an ontology to produce grounded decisions. It sits on top of existing systems or builds new ones, and supports on-premises deployment so data does not leave your network. It is proven over 30 years across more than 100 industrial sites.',
       },
     ],
     uses: [
-      { label: 'Predictive maintenance', desc: 'Predict equipment failure early \nwith wireless vibration sensors', href: '/en/use-cases/predictive-maintenance' },
-      { label: 'Power management', desc: 'Find peaks, anomalies and \nsavings in power data', href: '/en/use-cases/power-management' },
-      { label: 'Quality prediction', desc: 'Spot defects in process data \nbefore they happen', href: '/en/use-cases/quality-prediction' },
-      { label: 'Energy optimization', desc: 'Cut plant energy use with \ndata-driven control', href: '/en/use-cases/energy-optimization' },
+      { label: 'Predictive maintenance', desc: 'Predict equipment failure early with wireless \nvibration sensors, down to motor predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
+      { label: 'Power management', desc: 'Energy AI that finds peaks, anomalies \nand savings in power data', href: '/en/use-cases/power-management' },
+      { label: 'Quality prediction', desc: 'Manufacturing AI that catches defects \nin process data before they happen', href: '/en/use-cases/quality-prediction' },
+      { label: 'Energy management system (EMS)', desc: 'EMS, power management, power \nmonitoring and outage detection at a glance', href: '/en/energy-management' },
     ],
   },
 };

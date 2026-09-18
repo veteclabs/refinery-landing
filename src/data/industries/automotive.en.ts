@@ -55,7 +55,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Power usage patterns by line',
         problem: 'Different power draw line to line, with no way to explain it',
-        approach: 'Lines, processes and assets are connected through an ontology, giving every signal a meaning, so power use can be compared on equal terms.',
+        approach: 'Lines, processes and assets are connected through an ontology, so each signal carries which asset it belongs to and what it measures, and power use can be compared on equal terms.',
         outcome: 'Lower energy cost and inefficient processes identified',
       },
       {
@@ -82,7 +82,7 @@ export const automotiveEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Press, paint and assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Line dashboard ⁠· maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
@@ -96,7 +96,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Less equipment downtime',
         icon: 'ph-pulse',
-        description: 'Faults are caught early in vibration data, keeping production steady.',
+        description: 'Anomalies are caught early in rotating-equipment vibration, keeping production steady.',
       },
       {
         title: 'Lower energy cost',

@@ -22,7 +22,7 @@ that "where" visible in the data.
 ## Looking only at the big machines misses it
 
 Energy saving tends to bring the largest equipment to mind first. In practice the larger
-waste is often scattered where nobody is looking – machines idling in standby, a
+waste is often scattered where nobody is looking — machines idling in standby, a
 temperature held higher than it needs to be, consumption in hours no one pays attention to.
 
 ## Waste shows up in patterns

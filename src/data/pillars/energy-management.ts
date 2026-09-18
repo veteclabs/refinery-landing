@@ -111,14 +111,14 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What makes energy and power management on Refinery different?',
-        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings can be read in context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data never leaves your company.',
+        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings can be read in context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data does not leave your company.',
       },
     ],
     uses: [
-      { label: 'Power management', desc: 'Find peaks, anomalies and savings\nin your power data', href: '/en/use-cases/power-management' },
+      { label: 'Power management', desc: 'A power management solution that finds peaks,\nanomalies and savings in your power data', href: '/en/use-cases/power-management' },
       /* 카드 제목은 한 줄로 둔다. 'Factory energy management'는 카드 안쪽
          폭(235px)을 넘겨 두 줄이 되고, 그 카드만 높아져 넉 장이 어긋난다. */
-      { label: 'Factory energy', desc: 'Manage energy use across the\nwhole plant in one EMS', href: '/en/use-cases/factory-energy' },
+      { label: 'Factory energy management', desc: 'Managing energy use across the whole\nplant with one EMS', href: '/en/use-cases/factory-energy' },
       { label: 'Energy optimization', desc: 'AI that finds waste and cuts\nenergy use', href: '/en/use-cases/energy-optimization' },
       { label: 'Industrial AI', desc: 'Industrial, manufacturing and\nenergy AI at a glance', href: '/en/industrial-ai' },
     ],

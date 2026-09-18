@@ -76,7 +76,7 @@ export const energyEn: IndustryData = {
         title: 'Automated ESG and carbon reporting',
         problem: 'Manual aggregation of emissions and consumption for regulatory reports',
         approach: 'Emissions and consumption metrics are aggregated automatically from site data and turned into reports.',
-        outcome: 'Regulatory reports produced automatically, every figure traceable to its source',
+        outcome: 'Regulatory reports produced automatically, traceable to their source',
       },
       {
         title: 'Real-time anomaly detection and alerts',
@@ -90,7 +90,7 @@ export const energyEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How site data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Generation and substation assets ⁠· smart meters ⁠· sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Site', detail: 'Generation ⁠· substation assets ⁠· smart meters ⁠· sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC-⁠UA ⁠· DNP3 ⁠· IEC 61850', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Unified dashboard ⁠· alerts ⁠· ESG reports', icon: 'ph-monitor', image: '/flow/use.webp' },
@@ -124,7 +124,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Site security',
         icon: 'ph-shield-check',
-        description: 'With on-premises deployment, data never leaves your network and the OT⁠/⁠IT boundary stays protected.',
+        description: 'With on-premises deployment, data does not leave your network and the OT⁠/⁠IT boundary stays protected.',
       },
       {
         title: 'Integrate or build new',

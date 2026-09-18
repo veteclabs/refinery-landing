@@ -63,17 +63,17 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Power usage patterns by asset',
         problem: 'No way to tell which equipment draws the most power',
-        approach: 'Assets and processes are connected through an ontology, giving every signal a meaning, so power can be compared on equal terms.',
+        approach: 'Assets and processes are connected through an ontology, so each signal carries which asset it belongs to and what it measures, and power can be compared on equal terms.',
         outcome: 'Energy-intensive processes identified',
       },
       {
         title: 'UPS-linked outage detection and alerts',
         problem: 'Outage and UPS transfer events logged apart from equipment history',
-        approach: 'An AI agent reads power quality and UPS events on the same timeline as equipment state, and proposes both the blast radius and the next action.',
+        approach: 'An AI agent reads power quality and UPS events on the same timeline as equipment state, and proposes both the scope of impact and the next action.',
         outcome: 'Uninterrupted operation and minimal line stops',
       },
       {
-        title: 'Live temperature and humidity monitoring',
+        title: 'Live temperature, humidity and heating equipment monitoring',
         problem: 'Invisible drift between lines',
         approach: 'Process environment is collected segment by segment and any point outside the band is flagged immediately.',
         outcome: 'Steadier process quality',
@@ -121,7 +121,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Immediate alerts on equipment faults',
         icon: 'ph-bell-ringing',
-        description: 'When a fault appears, the responsible engineer is paged at once.',
+        description: 'When a fault appears, the responsible engineer is alerted at once.',
       },
       {
         title: 'Live process environment monitoring',

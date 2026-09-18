@@ -15,8 +15,8 @@ cardBreakAfter: "Practical principles for turning scattered site data"
 lang: "en"
 ---
 
-Industrial sites do not lack data. If anything it is **too scattered** – across SCADA,
-MES, ERP, sensors and documents – to be of use at the moment a decision has to be made.
+Industrial sites do not lack data. If anything it is **too scattered** — across SCADA,
+MES, ERP, sensors and documents — to be of use at the moment a decision has to be made.
 The problem is not volume. It is connection and trust.
 
 What we have seen repeat across many sites is that turning data into an asset does not
@@ -32,8 +32,8 @@ provenance cannot be used for a decision, however convincing it looks.
 When an anomaly appears on site, the first question anyone asks is "is this real?" The
 same value of 90 means something entirely different when it comes right after a sensor
 recalibration than when it arrives at the end of an unusual trend. Unless it is recorded
-alongside the value – which system, which tag, collected when, and what transformations it
-passed through – there is no way to tell whether that number is fact or error.
+alongside the value — which system, which tag, collected when, and what transformations it
+passed through — there is no way to tell whether that number is fact or error.
 
 Data lineage is therefore not a <span class="nb">nice-to-have</span> but the minimum condition for trust. Make the
 source system, tag, collection time, and any unit conversions or corrections travel with
@@ -47,10 +47,10 @@ When provenance is visible, that error can be traced back and corrected.
 ## 2. Give it meaning (the ontology)
 
 If only one person in the organization knows what `TAG_0421` means, that data is not an
-organizational asset – it is that person’s memory. The moment they are away or leave the
+organizational asset — it is that person’s memory. The moment they are away or leave the
 company, years of accumulated data revert to an uninterpretable pile of numbers.
 
-Giving data meaning means defining things – equipment, lines, processes, documents – as
+Giving data meaning means defining things — equipment, lines, processes, documents — as
 entities, and describing the relationships between them. The structure that results is
 called an ontology. With one in place, a single signal can be read together with the
 context it connects to. When a vibration value spikes, the system can follow on its own
@@ -78,7 +78,7 @@ current value sits alongside the last few days, the pattern from the same period
 season, and the curve leading into a past failure, you can tell whether what is happening
 now is a signal you have never seen or one you recognize.
 
-Put a threshold on instantaneous values alone and the alarms never stop – until nobody
+Put a threshold on instantaneous values alone and the alarms never stop — until nobody
 looks at alarms at all. Alert fatigue mostly comes from thresholds without context. Seen
 together with the trend and a basis for comparison, the signals worth acting on separate
 from ordinary noise.
@@ -121,7 +121,7 @@ whether the result comes together as one body of knowledge.
 
 The five principles connect to one another. Provenance creates trust; meaning creates
 context; seeing the trend makes judgment possible; returning to human language makes it
-action. And all of it is complete only when – layered on or newly built – it gathers into
+action. And all of it is complete only when — layered on or newly built — it gathers into
 one body of knowledge.
 
 <span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>

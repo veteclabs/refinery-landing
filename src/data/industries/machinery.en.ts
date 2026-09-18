@@ -78,7 +78,7 @@ export const machineryEn: IndustryData = {
         outcome: 'Process efficiency made visible and cost structure improved',
       },
       {
-        title: 'DC microgrid based equipment control',
+        title: 'DC-microgrid-based equipment control',
         problem: 'Operations tied to a single grid feed',
         approach: 'On-site generation and the grid are read together to distribute power across equipment.',
         outcome: 'Lower fuel cost and steadier energy operations',
