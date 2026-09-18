@@ -319,3 +319,32 @@ FAQ 2문장 복원 · 영어 지원 문구.
 원문 「일하는 세 가지 기준」에 이미 맞는다. 고치지 않는다.
 
 측정: 1440 · 768 · 390px 모두 세 원칙 카드 높이 동일, CTA 2줄, 가로 넘침 0.
+
+### 6.3 산업 AI `/en/industrial-ai` — 29단위
+
+§5에서 고친 네 곳(모터 예지보전 · 카드 주어 복원 2 · EMS 카드)은 모두 의도대로 읽혔다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [1] h1 | 흩어진 **현장**의 데이터 | scattered **plant** data | scattered **field** data |
+| [6] | **에너지 사용을 줄이는** 에너지 최적화 | and energy optimization. | and energy optimization **that cuts energy use**. |
+| [8] | …**예측과 자동화를 돕는** 기술 / **근거 있는 판단** | (누락) / so that **every** decision has | …operations **to support prediction and automation** / so that **decisions have** |
+| [14] | …제안하는 **대화형 AI입니다** | An industrial AI agent **answers**… | An industrial AI agent **is a conversational AI that** answers… |
+| [16] | **시스템이 없는 현장은 새로 구축해** | or **builds one where none exists** | or **builds from scratch where no system exists** |
+| [28] | …정전감시 **개념**을 한눈에 | …outage detection at a glance | **The concepts of** …outage detection **at a glance** |
+
+`plant`는 업종(플랜트)으로 읽힌다 — 바로 아래 [4]가 `process plants`를 별도 업종으로 들고 있어 h1의 범위가 좁아졌다.
+[14]는 질문이 `What is an industrial AI agent?`인데 답에 '무엇이다'가 없이 동작만 나열돼 있었다.
+[16]의 `one`은 앞의 `intelligence layer`를 받아 '지능 레이어를 구축한다'로 읽혔다 — 원문은 시스템 자체를 새로 구축한다는 뜻이고,
+랜딩 FAQ에서 같은 대목을 `Where no system exists, we build…`로 이미 고쳤다.
+[28]은 `/en/energy-management`가 용어를 설명하는 페이지인데 '현황을 한눈에'로 읽혀 실시간 대시보드처럼 보였다.
+
+**짝 카드도 함께 고쳤다** — `/en/energy-management`의 마지막 카드가 이 페이지를 거울처럼 가리키는데
+거기서도 '개념'이 빠져 있었다: `Industrial, manufacturing and energy AI at a glance`
+→ `The concepts of industrial, manufacturing and energy AI at a glance`.
+
+> 남은 불일치: 한국어는 [1]과 [8]이 같은 '현장 데이터'인데 영어는 [1] `field data` · [8] `site data`로 갈린다.
+> [8]은 이번에 건드리지 않았다.
+
+측정: 03 · 04 모두 1440px에서 h1 2줄 · 카드 4개 높이 동일, 가로 넘침 0.
+390px에서 h1 4줄이고 03의 EMS 카드가 다른 카드보다 높다(221 vs 166px). 모바일 일괄 점검 때 함께 본다.

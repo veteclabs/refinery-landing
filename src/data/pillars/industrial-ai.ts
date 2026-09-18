@@ -103,9 +103,9 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
   },
   en: {
     title: 'What Is Industrial AI? AI Agents for Manufacturing and Energy | Refinery',
-    description: 'A plain explanation of industrial AI, manufacturing AI, energy AI and industrial AI agents, and of how scattered plant data becomes grounded decisions. Refinery grounds every answer in an ontology.',
+    description: 'A plain explanation of industrial AI, manufacturing AI, energy AI and industrial AI agents, and of how scattered field data becomes grounded decisions. Refinery grounds every answer in an ontology.',
     canonical: '/en/industrial-ai',
-    heroTitle: 'Industrial AI that turns scattered<br>plant data into grounded decisions',
+    heroTitle: 'Industrial AI that turns scattered<br>field data into grounded decisions',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
     ctaGhost: 'Platform overview',
@@ -126,11 +126,11 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is manufacturing AI?',
-        a: 'Manufacturing AI is industrial AI applied to production, quality and equipment operations. Common uses include predictive maintenance that anticipates failures, quality prediction that catches defects early, and energy optimization.',
+        a: 'Manufacturing AI is industrial AI applied to production, quality and equipment operations. Common uses include predictive maintenance that anticipates failures, quality prediction that catches defects early, and energy optimization that cuts energy use.',
       },
       {
         q: 'What is AI in the manufacturing industry?',
-        a: 'AI in the manufacturing industry means applying artificial intelligence to production, quality, equipment and energy operations; it is another term for manufacturing AI. The core is integrating scattered site data so that every decision has evidence behind it.',
+        a: 'AI in the manufacturing industry means applying artificial intelligence to production, quality, equipment and energy operations to support prediction and automation; it is another term for manufacturing AI. The core is integrating scattered site data so that decisions have evidence behind them.',
       },
       {
         q: 'What is smart factory AI?',
@@ -142,11 +142,11 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is an industrial AI agent?',
-        a: 'An industrial AI agent answers questions with sources, reasons about causes, and proposes the next action. Refinery does this by weaving scattered data into an ontology that gives it meaning.',
+        a: 'An industrial AI agent is a conversational AI that answers questions with sources, reasons about causes, and proposes the next action. Refinery does this by weaving scattered data into an ontology that gives it meaning.',
       },
       {
         q: 'What do you need to adopt an AI system?',
-        a: 'First, data scattered across SCADA, MES, ERP, sensors and documents has to be brought together. Refinery sits on top of existing systems as an integrated intelligence layer, or builds one where none exists, giving data meaning so AI can reason with evidence.',
+        a: 'First, data scattered across SCADA, MES, ERP, sensors and documents has to be brought together. Refinery sits on top of existing systems as an integrated intelligence layer, or builds from scratch where no system exists, giving data meaning so AI can reason with evidence.',
       },
       {
         q: 'What makes Refinery\u2019s industrial AI different?',
@@ -157,7 +157,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       { label: 'Predictive maintenance', desc: 'Predict equipment failure early with wireless \nvibration sensors, down to motor predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
       { label: 'Power management', desc: 'Energy AI that finds peaks, anomalies \nand savings in power data', href: '/en/use-cases/power-management' },
       { label: 'Quality prediction', desc: 'Manufacturing AI that catches defects \nin process data before they happen', href: '/en/use-cases/quality-prediction' },
-      { label: 'Energy management system (EMS)', desc: 'EMS, power management, power \nmonitoring and outage detection at a glance', href: '/en/energy-management' },
+      { label: 'Energy management system (EMS)', desc: 'The concepts of EMS, power management, \npower monitoring and outage detection at a glance', href: '/en/energy-management' },
     ],
   },
 };
