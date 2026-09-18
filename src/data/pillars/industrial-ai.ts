@@ -115,7 +115,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     demoTitle: 'Refinery AI agent demo',
     openTitle: 'AI that starts\nwith a question',
     faqHead: 'FAQ',
-    usesHead: 'Where industrial AI is used on site',
+    usesHead: 'Ready-to-run uses on site',
     usesLede: 'See how industrial AI works in real plants.',
     more: 'Learn more',
     ctaTitle: 'See what Refinery<br>can do for your site.',

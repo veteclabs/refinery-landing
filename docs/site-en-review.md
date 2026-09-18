@@ -364,3 +364,34 @@ FAQ 2문장 복원 · 영어 지원 문구.
 
 측정: 03 · 04 모두 1440px에서 h1 2줄 · 카드 4개 높이 동일, 가로 넘침 0.
 390px에서 h1 4줄이고 03의 EMS 카드가 다른 카드보다 높다(221 vs 166px). 모바일 일괄 점검 때 함께 본다.
+
+### 6.4 에너지관리 `/en/energy-management` — 25단위
+
+§5·§6.3에서 고친 세 곳(`does not leave` · 카드 주어 복원 · 산업 AI 카드의 '개념')은 의도대로 읽혔다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [1] h1 | **전력 · 에너지 데이터**를 근거로 | in your **power data** | in your **power and energy data** |
+| [8] | **수전 · 분전 계통**의 | incoming and distribution **circuits** | the incoming and distribution **system** |
+| [12] | **담당자**에게 통보합니다 | the **person on duty** is notified | the **responsible engineer** is notified |
+| [15] | 현장에서 **바로 쓰는** 활용 | Where energy management is used on site | **Ready-to-run uses on site** |
+| [20] | …통합 관리하는 EMS **활용** | **Managing** energy use across the whole plant… | **An EMS that manages** energy use… |
+| [22] | …줄이는 **AI 최적화** | **AI that** finds waste and cuts energy use | **AI optimization that** finds waste… |
+
+EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전기 · 가스 · 열)와 어긋나 있었다.
+`the person on duty`는 당직 근무자라 24시간 당직 체계를 전제한다 — 전자 산업 페이지가 이미
+`the responsible engineer`를 쓴다. [20]은 카드 넷 중 혼자 동명사구였다.
+
+#### '현장에서 바로 쓰는 활용' — 03 · 04를 같은 문장으로
+
+한국어는 두 페이지가 같은 문장인데 영어는 주어를 넣어 서로 달랐다(`Where industrial AI…` / `Where energy management…`).
+게다가 `is used on site`(활용되는)에는 **'바로'라는 즉시성이 없다.**
+
+사용자가 번역기로 후보를 확인하며 세 번 다듬었다.
+`put to work`(실제로 적용되는) → `Use cases`(활용 **사례** — 원문에 없는 '사례'가 붙음) →
+`Uses`(문두에서 동사로도 읽힘) → **`Ready-to-run uses on site`**.
+하이픈으로 `Ready-to-run`을 형용사로 묶으면 `uses`가 명사 자리에 확정된다. 03 · 04 모두 이 문장을 쓴다.
+
+측정: 04는 1440px h1 2줄 · 섹션 제목 2줄 · 카드 4개 높이 동일, 가로 넘침 0.
+**768px에서 h1이 2 → 3줄, 390px에서 4 → 5줄**이 된다(한국어는 390px에서 4줄).
+`<br>` 위치를 옮겨도 같아 글자 수 자체의 문제다. 모바일 일괄 점검 때 함께 본다.
