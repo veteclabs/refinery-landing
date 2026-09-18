@@ -50,7 +50,7 @@ export const electronicsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
+    title: 'How the problems are solved',
     subtitle: 'What <mark>Refinery\nactually does</mark>\non an electronics site.',
     layout: 'steps',
     items: [

@@ -50,7 +50,7 @@ export const chemicalsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
+    title: 'How the problems are solved',
     subtitle: 'What <mark>Refinery\nactually does</mark>\non a chemical site.',
     layout: 'steps',
     items: [

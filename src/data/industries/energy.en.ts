@@ -48,7 +48,7 @@ export const energyEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
+    title: 'How the problems are solved',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾸고,
     // <mark>는 형광펜이다(한국어판과 같은 자리 — 브랜드와 '하는 일').
     subtitle: 'What <mark>Refinery\nactually does</mark>\non an energy site.',

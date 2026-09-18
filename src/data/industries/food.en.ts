@@ -48,7 +48,7 @@ export const foodEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
+    title: 'How the problems are solved',
     subtitle: 'What <mark>Refinery\nactually does</mark>\non a food manufacturing site.',
     layout: 'steps',
     items: [

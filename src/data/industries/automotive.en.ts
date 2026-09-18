@@ -17,7 +17,7 @@ export const automotiveEn: IndustryData = {
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Automotive ⁠· Mobility',
-    title: 'Holding equipment flow and\nquality steady, with data',
+    title: 'Process flow and quality consistency,\ncontrolled with data',
   },
   challenges: {
     dark: true,
@@ -32,7 +32,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'High power and fine control at once',
         description:
-          'Heavy-draw equipment and precision control share the same line, so tuning one side unsettles the other.',
+          'High-power equipment runs on a line that also needs fine control, so tuning one side makes the other unstable.',
       },
       {
         title: 'Equipment, energy and output stay apart',
@@ -42,12 +42,12 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
+    title: 'How the problems are solved',
     subtitle: 'What <mark>Refinery\nactually does</mark>\non an automotive site.',
     layout: 'steps',
     items: [
       {
-        title: 'Vibration-based predictive maintenance',
+        title: 'Vibration-based predictive maintenance for motors and rotating equipment',
         problem: 'Rotating-equipment faults confirmed only after a stoppage',
         approach: 'An AI agent reads anomalies in vibration and current trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Less equipment downtime and steadier production',
@@ -67,7 +67,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Energy intensity tied to output',
         problem: 'No structure for seeing efficiency against production',
-        approach: 'Production records and energy use are linked to derive intensity by line and model automatically.',
+        approach: 'Production records and energy use are linked to derive intensity by line and vehicle model automatically.',
         outcome: 'Efficiency made visible against output, cost structure improved',
       },
       {
@@ -85,7 +85,7 @@ export const automotiveEn: IndustryData = {
       { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Line dashboard ⁠· maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where MES or PLC already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },

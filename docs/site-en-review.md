@@ -447,3 +447,53 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 **한국어에도 그대로 있다**(자료실 '파이프 연결' / 문서 목차 '파이프라인'). 한국어에서 문제 삼지 않은 것을 영어만 손대지 않는다.
 
 측정: 06 카드 6개 · 07 카드 5개 모두 1440 · 768 · 390px에서 높이 동일, 가로 넘침 0.
+
+### 6.7 산업 · 자동차 `/en/industries/automotive` — 81단위
+
+§5·§6에서 고친 네 곳([24] 온톨로지 설명 · [49] `field data` · [50]~[54] 칩 5개 · [74] 회전체 · 이상)은
+모두 의도대로 읽혔다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 | **설비 흐름**과 품질 일관성을 데이터로 **제어합니다** | **Holding** equipment **flow** and quality **steady**, with data | **Process flow** and quality consistency, **controlled with data** |
+| [8] | **큰 전력을 쓰는 설비**와 **미세한 제어**가 … 다른 쪽이 **흔들립니다** | **Heavy-draw** equipment and **precision control share the same line** … **unsettles** the other | High-power equipment **runs on a line that also needs fine control** … **makes the other unstable** |
+| [11] | **문제를 푸는 방법** | Representative use cases | **How the problems are solved** (산업 7페이지 공통) |
+| [13] | **모터 · 회전체** 진동 기반 예지보전 | Vibration-based predictive maintenance | …predictive maintenance **for motors and rotating equipment** |
+| [38] | 라인 · **차종**별 원단위 | by line and **model** | by line and **vehicle model** |
+| [65] | **예지보전** 알람 | maintenance alerts | **predictive** maintenance alerts |
+
+#### 자동차 페이지라 더 잘 붙은 오독 둘
+
+`Heavy-draw`의 `draw`는 전력 소비와 **성형(drawing)** 둘 다 뜻한다. 하필 이 페이지가 프레스 · 차체 공정을
+다뤄 번역기가 **'중압 성형 장비'**로 읽었다. `High-power`로 바꿔 해결했다.
+
+`equipment flow`는 흐름 · 유량 · **가동률**로 다 읽힌다. 블라인드 역번역도 이 대목을 모호하다고 표시했으니
+두 번 걸린 곳이다. 원문 '설비 흐름'은 [6]이 설명하듯 프레스 → 차체 → 도장 → 조립으로 이어지는 공정 간 흐름이라
+`process flow`로 못 박았다. **'설비'가 '공정'으로 바뀌는 것은 사용자가 확인하고 받아들였다.**
+
+#### 번역기로 세 번 다듬은 [8]
+
+`A and B share the same line`이라는 틀 자체가 B를 라인 위의 물체로 만든다.
+`precision control` → '정밀 제어 장비', `fine control` → '정밀 제어 장비',
+`fine process control` → '정밀 공정 제어 시스템'으로 계속 물체화됐다.
+`a line that also needs fine control`로 **제어를 `needs`의 목적어로 넣자** 비로소 '정밀한 제어'로 읽혔다.
+
+#### [11]은 유즈케이스 페이지와 원문이 다르다
+
+처음에 유즈케이스 7페이지의 `How Refinery solves it`에 맞추려 했으나, **두 페이지의 한국어가 다르다.**
+
+| 페이지 | 한국어 | 영어 |
+|---|---|---|
+| 유즈케이스 | **Refinery로** 푸는 방식 | How **Refinery** solves it ✓ |
+| 산업 | 문제를 푸는 방법 (주어 없음) | How the problems are solved |
+
+산업 페이지에 Refinery를 넣으면 원문에 없는 주어가 생긴다. 번역기가 'Refinery는 이를 어떻게 해결하는가'로
+읽어 이를 확인했다.
+
+측정: 산업 7페이지 모두 1440 · 768px h1 2줄 · 섹션 제목 1줄, 가로 넘침 0.
+
+> ⚠️ **[13] 제목만 길다.** 한국어는 이 페이지 h3 다섯 개가 1440px 1줄 · 390px 2줄로 고른데,
+> 영어 [13]만 1440px 2줄 · **390px 5줄**이다(68자). 원문의 세 요소(모터 · 회전체 / 진동 기반 / 예지보전) 중
+> 하나를 덜거나 어순을 바꾸는 안을 냈으나 **사용자가 지금 형태를 유지하기로 했다.**
+> 자동차만 대상을 특정하고 '예지보전'까지 못 박는 유일한 페이지라(식품 · 철강은 '설비 상태 모니터링')
+> 덜어낼 것이 마땅치 않다. 모바일 일괄 점검 때 함께 본다.
