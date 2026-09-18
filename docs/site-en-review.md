@@ -254,7 +254,7 @@ FAQ 2문장 복원 · 영어 지원 문구.
 | [1] | **Refinery** Industrial AI OS | **정유 산업용** AI OS | `<span translate="no">` |
 | [27] | No matter **the field** | **분야**에 상관없이 | `No matter where you operate` |
 | [40] | the scale of your **field** | 해당 **분야**의 규모 | `the scale of your operation` |
-| [30] | TLS 1.3 in transit, AES-256 at rest | 전송 중 TLS 1.3, 저장 시 AES-256 **적용** | 보류 — '암호화'라는 동사가 없다 |
+| [30] | TLS 1.3 in transit, AES-256 at rest | 전송 중 TLS 1.3, 저장 시 AES-256 **적용** | `Encrypted with TLS 1.3 in transit and AES-256 at rest.` |
 
 #### field는 그대로 둔다 — 2026-09-18 사용자 판단
 
@@ -283,3 +283,15 @@ FAQ 2문장 복원 · 영어 지원 문구.
 
 측정: 1440px·768px 2줄(제목 716·480px), 가로 넘침 0.
 **모바일 390px에서 3줄 → 4줄**이 된다(한국어는 2줄). 모바일 일괄 점검 때 함께 본다.
+
+#### 보안 카드에 동사를 되살렸다
+
+한국어 「…AES-256으로 **암호화합니다**」인데 영어는 `TLS 1.3 in transit, AES-256 at rest.`로
+동사 없는 명사구였다. 번역기는 "적용"으로 메웠고 블라인드 역번역은 아예 빼고 읽었다.
+
+네 보안 카드 중 **이 카드만** 동사가 없었다(나머지는 `is fully isolated` · `block` · `is blocked` ·
+`is stored securely` · `applies`). 같은 내용을 말하는 FAQ에는 `is encrypted with AES-256`이 있어
+카드와 FAQ가 서로 달랐다.
+
+`Encrypted with TLS 1.3 in transit and AES-256 at rest.`로 고쳤다.
+줄 수는 1440px 2줄(다른 카드와 같음) · 768 · 390px 3줄(멀티테넌시 카드와 같음), 가로 넘침 0.
