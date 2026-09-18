@@ -568,3 +568,33 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 
 측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
 390px에서 h1 3줄 · 부제 3줄(한국어는 2줄)이고 h3 열한 개가 2~4줄로 벌어진다 — 이 페이지는 수정 전에도 그랬다.
+
+### 6.10 산업 · 에너지 `/en/industries/energy` — 86단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 | 하나의 **지능**으로 잇습니다 | into a single **intelligence** | into a single **intelligence layer** |
+| [4] | 발전 · **송배전** · 유틸리티 현장 | generation, **transmission** and utilities | generation, **transmission and distribution**, and utilities |
+| [19] | **현장 데이터**를 온톨로지로 연결해 | **Site** data is connected… | **Field** data is connected… |
+| [21] | 발전 · **송배전** · 소비 현황 | Generation, **transmission** and consumption | Generation, **transmission and distribution**, and consumption |
+
+#### `field data` 통일에서 빠진 한 곳
+
+§6.2에서 `site data` 12곳을 바꿀 때 **문장 첫머리라 대문자였던 `Site data` 한 곳이 걸러지지 않았다.**
+같은 페이지 [51]은 `field data`로 바뀌어 있어 한 페이지 안에서 갈렸다.
+일괄 치환 뒤에는 대소문자를 함께 확인해야 한다. 지금은 영어 본문에 `site data`가 0곳이다(쿠키 정책 제외).
+
+#### '송배전'에서 배전이 빠져 있었다
+
+송배전은 영어로 transmission **and distribution**(업계 약어 T&D)인데 두 곳 모두 transmission만 있었다.
+`T&D` 약어도 후보였으나 이 사이트는 본문에서 약어를 잘 쓰지 않아 풀어 썼다.
+쉼표 구조가 바뀌면서 뒤의 `utilities`도 '공공시설'이 아니라 '유틸리티'로 읽히게 된 것은 덤이다.
+
+#### h1의 '지능'
+
+`a single intelligence`가 **'하나의 통합 시스템'**으로 읽혀 원문의 '지능'이 통째로 사라졌다.
+영어에서 `a single intelligence`를 홀로 쓰면 추상적이라 기계가 '시스템'으로 메운다.
+`intelligence layer`는 사이트 전반이 이미 쓰는 말이라(`as an integrated intelligence layer`) 새 개념이 생기지 않는다.
+**원문에 '레이어'는 없지만, 지능이 사라지는 것보다 낫다고 보고 사용자가 제시안을 골랐다.**
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다. 390px에서 h1 4줄(한국어 2줄).

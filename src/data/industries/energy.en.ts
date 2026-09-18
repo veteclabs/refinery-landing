@@ -18,12 +18,12 @@ export const energyEn: IndustryData = {
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy ⁠· Utilities',
-    title: 'Connecting distributed energy sites\ninto a single intelligence',
+    title: 'Connecting distributed energy sites\ninto a single intelligence layer',
   },
   challenges: {
     dark: true,
     title: 'Challenges on energy sites',
-    subtitle: 'Recurring problems in generation, transmission and utilities.',
+    subtitle: 'Recurring problems in generation, transmission and distribution, and utilities.',
     items: [
       {
         title: 'The data sits apart',
@@ -57,8 +57,8 @@ export const energyEn: IndustryData = {
       {
         title: 'Unified control of distributed assets',
         problem: 'SCADA, EMS and meter data kept apart, with no integrated view',
-        approach: 'Site data is connected through an ontology, defining assets, grids and locations in one structure.',
-        outcome: 'Generation, transmission and consumption status and alarms live on one screen',
+        approach: 'Field data is connected through an ontology, defining assets, grids and locations in one structure.',
+        outcome: 'Generation, transmission and distribution, and consumption status and alarms live on one screen',
       },
       {
         title: 'Predictive maintenance',
