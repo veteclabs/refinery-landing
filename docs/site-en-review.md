@@ -295,3 +295,27 @@ FAQ 2문장 복원 · 영어 지원 문구.
 
 `Encrypted with TLS 1.3 in transit and AES-256 at rest.`로 고쳤다.
 줄 수는 1440px 2줄(다른 카드와 같음) · 768 · 390px 3줄(멀티테넌시 카드와 같음), 가로 넘침 0.
+
+### 6.2 회사소개 `/en/company` — 20단위
+
+§5에서 고친 `flashy tech demos`와 em dash는 의도대로 읽혔다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] | 문제를 정의하고 **풉니다** | we **define** problems | we **define and solve** problems |
+| [9] | 설비가 어떻게 **멈추고** / 무엇을 보고 **판단하는지** | how equipment **fails** / what an operator **watches** | how equipment **stops** / what an operator **watches to decide** |
+| [11] | **그 위에서** AI 에이전트가 | **On top of that** | **On that foundation** |
+| [18] | 숫자에 붙는 **맥락** | **Meaning** in the numbers | **Context** in the numbers |
+| [20] | **현장**의 문제를 함께 풀어보세요 | on your **site** | in your **operation** |
+
+`fails`는 고장이다. 설비는 고장 없이도 멈추며, 예지보전을 파는 회사에서 둘은 구분해야 할 말이다.
+`On top of that`은 영어에서 '게다가'로 읽혀 온톨로지가 토대라는 구조가 사라진다.
+[20]은 영어 자체는 정확했지만 산업 7페이지 CTA가 모두 `your ... operation`이라 통일했다.
+
+#### 철회한 지적 — `Three standards we work by`
+
+번역기가 "세 가지 **표준**"으로 옮겨 ISO 규격으로 읽힐까 지적했으나, **사용자 확인 결과 '기준'으로도 번역된다.**
+`the standards we work by`는 "우리가 일하는 기준"으로 읽히는 자연스러운 영어이고
+원문 「일하는 세 가지 기준」에 이미 맞는다. 고치지 않는다.
+
+측정: 1440 · 768 · 390px 모두 세 원칙 카드 높이 동일, CTA 2줄, 가로 넘침 0.
