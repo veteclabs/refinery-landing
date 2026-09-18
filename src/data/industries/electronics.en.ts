@@ -5,7 +5,7 @@ import type { IndustryData } from './types';
 export const electronicsEn: IndustryData = {
   slug: 'electronics',
   name: 'Electronics & Precision',
-  pageTitle: 'Refinery for electronics & precision: power quality, uninterrupted operation, microclimate control',
+  pageTitle: 'Refinery for electronics & precision: power quality, uninterrupted operation, microenvironment control',
   description:
     'Connect power quality, UPS events, temperature, humidity and equipment alarms into one structure, and let an AI agent flag the risk of a line stop before it happens. Refinery for semiconductor, component and precision equipment manufacturing.',
   hero: {
@@ -20,12 +20,12 @@ export const electronicsEn: IndustryData = {
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Electronics ⁠· Precision',
-    title: 'Uninterrupted power and\nmicroclimate, in one structure',
+    title: 'Uninterrupted power and microenvironment,\nprotected by one system',
   },
   challenges: {
     dark: true,
     title: 'Challenges on electronics sites',
-    subtitle: 'Recurring problems in semiconductor and precision plants.',
+    subtitle: 'Recurring problems in semiconductor, electronic component and precision equipment manufacturing.',
     items: [
       {
         title: 'Equipment reacts to the smallest change',
@@ -33,7 +33,7 @@ export const electronicsEn: IndustryData = {
           'Production equipment is sensitive to temperature shifts and power quality, so a slight wobble carries straight into the process.',
       },
       {
-        title: 'An outage becomes scrap',
+        title: 'A power outage or equipment fault becomes a defect',
         description:
           'A momentary outage or equipment fault turns directly into defective product and a line stop.',
       },
@@ -43,7 +43,7 @@ export const electronicsEn: IndustryData = {
           'Peak demand, UPS-backed outage response, temperature, humidity, equipment alarms and now safety and fire systems are all expected to sit in one structure.',
       },
       {
-        title: 'High-mix production splits the lines',
+        title: 'High-mix, low-volume production splits the lines',
         description:
           'The finer the lines are divided, the harder process-level energy management and equipment visibility become.',
       },
@@ -55,7 +55,7 @@ export const electronicsEn: IndustryData = {
     layout: 'steps',
     items: [
       {
-        title: 'Peak demand monitoring and load control',
+        title: 'Live peak demand monitoring and load control',
         problem: 'Peak demand confirmed only once the peak has passed',
         approach: 'Working with a demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
@@ -73,8 +73,8 @@ export const electronicsEn: IndustryData = {
         outcome: 'Uninterrupted operation and minimal line stops',
       },
       {
-        title: 'Live temperature, humidity and heating equipment monitoring',
-        problem: 'Invisible drift between lines',
+        title: 'Live temperature, humidity and process heater monitoring',
+        problem: 'Invisible temperature and humidity drift between lines',
         approach: 'Process environment is collected segment by segment and any point outside the band is flagged immediately.',
         outcome: 'Steadier process quality',
       },
@@ -91,7 +91,7 @@ export const electronicsEn: IndustryData = {
         outcome: 'Safety incidents prevented',
       },
       {
-        title: 'Wireless power and environment sensing',
+        title: 'Wireless sensor deployment for power and environment',
         problem: 'Measurement points that need cabling work to add',
         approach: 'Wireless sensors extend power and environment coverage without new cable runs.',
         outcome: 'Lower build cost and room to scale',
@@ -153,7 +153,7 @@ export const electronicsEn: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour precision operation, together.',
+    title: 'Let’s find the answer that fits\nyour electronics operation, together.',
     buttonLabel: 'Request a demo',
   },
 };

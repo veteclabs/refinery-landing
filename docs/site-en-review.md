@@ -530,3 +530,41 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 
 > ⚠️ 1440px에서 한국어는 h3 아홉 개가 **모두 1줄**인데 영어는 **둘이 2줄**이다.
 > [7]은 이번에 '생산'을 넣으며, [29]는 `fluid`를 넣으며 길어졌다. 모바일 일괄 점검 때 함께 본다.
+
+### 6.9 산업 · 전자 `/en/industries/electronics` — 100단위
+
+§5에서 고친 다섯 곳(`scope of impact` · 히팅 설비 · `alerted` · 온톨로지 설명 · `field data`)은 반영됐다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 | 무정전과 **미세환경**을 하나의 구조로 **지킵니다** | **microclimate**, **in one structure** | **microenvironment**, **protected by one system** |
+| [4] | 반도체 · **전자부품** · 정밀 **장비 제조** 현장 | semiconductor and precision plants | semiconductor, **electronic component** and precision **equipment manufacturing** |
+| [7] | **정전** · **설비 이상**이 곧 **불량**이 된다 | An **outage** becomes **scrap** | A **power outage or equipment fault** becomes a **defect** |
+| [11] | 다품종 **소량** 생산으로 | High-mix production | High-mix, **low-volume** production |
+| [15] | 최대 수요 전력 **실시간** 감시 | Peak demand monitoring… | **Live** peak demand monitoring… |
+| [36] | 온습도 · **히팅 설비** 실시간 감시 | **heating equipment** monitoring | **process heater** monitoring |
+| [38] | 보이지 않는 라인별 **온습도** 편차 | Invisible drift between lines | Invisible **temperature and humidity** drift between lines |
+| [57] | 무선 기반 전력 · 환경 센서 **구축** | **Wireless power** and environment **sensing** | **Wireless sensor deployment for** power and environment |
+| [100] | **전자 제조** 현장에 맞는 답 | your **precision** operation | your **electronics** operation |
+
+#### 이 페이지에서만 생기는 오독 셋
+
+- `wireless power`는 **무선 전력 전송**(Qi 충전 등)을 가리키는 굳은 말이라 '무선 전력'으로 읽혔다.
+  원문은 무선 **센서**로 전력을 계측한다는 뜻이다.
+- `heating equipment`가 **'난방 장비'**로 읽혔다. 반도체 · 정밀 공장의 '히팅 설비'는 난방기가 아니라 공정 가열 설비다.
+  **§5에서 누락을 메우며 넣은 표현이 오해를 낳았다** — 고칠 때 넣은 말도 다시 검증해야 한다.
+- `microclimate`는 기상 · 건축 용어(미기후)다. 반도체에서 '미세환경'은 `microenvironment`(FOUP · SMIF 내부 환경)가 표준어다.
+  `<title>`의 `microclimate control`도 함께 바꿨다.
+
+#### h1은 번역기로 세 번 다듬었다
+
+`in one structure` → **'구조물'**(물리적 건물), `held in one system` → **'구현'**(만들어 낸다)으로 계속 어긋났다.
+`protected by one system`에서 비로소 「단 한 개의 시스템으로 … 보장합니다」가 나와 원문 '지킵니다'와 맞았다.
+
+#### `outage`와 `scrap`
+
+번역기가 `An outage becomes scrap`을 **'가동 중단은 손실로 이어집니다'**로 읽었다.
+`outage`는 정전과 가동 중단 둘 다, `scrap`은 폐기물로도 읽힌다. 원문은 '정전'과 '불량'이다.
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
+390px에서 h1 3줄 · 부제 3줄(한국어는 2줄)이고 h3 열한 개가 2~4줄로 벌어진다 — 이 페이지는 수정 전에도 그랬다.
