@@ -25,7 +25,7 @@ export const chemicalsEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on chemical sites',
-    subtitle: 'Recurring problems in continuous reaction operations.',
+    subtitle: 'Recurring problems where continuous reaction and heat-based equipment run.',
     items: [
       {
         title: 'Several utilities run at once',
@@ -33,7 +33,7 @@ export const chemicalsEn: IndustryData = {
           'Electricity, LNG, steam and water all feed the process, yet each is tallied on its own and the whole picture never forms.',
       },
       {
-        title: 'Small changes move quality and stability',
+        title: 'Small changes shake quality and production stability',
         description:
           'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight into the result.',
       },
@@ -67,9 +67,9 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Over-consumption prevented and immediate response in place',
       },
       {
-        title: 'Air-fuel-ratio-based blower inverter control for thermal boilers',
-        problem: 'Thermal boiler air-fuel ratio set by feel',
-        approach: 'The blower inverter is controlled against the thermal boiler air-fuel ratio so the optimum is held.',
+        title: 'Air-fuel-ratio-based blower inverter control for thermal fluid boilers',
+        problem: 'Thermal fluid boiler air-fuel ratio set by feel',
+        approach: 'The blower inverter is controlled against the thermal fluid boiler air-fuel ratio so the optimum is held.',
         outcome: 'Better combustion efficiency and lower energy cost',
       },
       {
@@ -79,13 +79,13 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Energy-intensive assets identified',
       },
       {
-        title: 'Air compressor state and operating factors',
+        title: 'Air compressor state and operating factor monitoring',
         problem: 'Compressor faults that surface only after a stop',
-        approach: 'An AI agent reads compressor state and operating factors together to catch flows that differ from the norm, and proposes both the cause and the next action.',
+        approach: 'An AI agent reads compressor state and operating factors together to catch early signs in flows that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {
-        title: 'Unified greenhouse gas accounting',
+        title: 'Unified greenhouse gas emissions management',
         problem: 'Manual aggregation of emissions and regulatory reports',
         approach: 'Emission metrics are aggregated automatically from field data into reports traceable to their source.',
         outcome: 'Carbon compliance and energy performance management',
@@ -96,7 +96,7 @@ export const chemicalsEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Reactors ⁠· thermal boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Site', detail: 'Reactors ⁠· thermal fluid boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Energy dashboard ⁠· target alerts ⁠· emission reports', icon: 'ph-monitor', image: '/flow/use.webp' },

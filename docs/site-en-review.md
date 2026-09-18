@@ -497,3 +497,36 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 > 하나를 덜거나 어순을 바꾸는 안을 냈으나 **사용자가 지금 형태를 유지하기로 했다.**
 > 자동차만 대상을 특정하고 '예지보전'까지 못 박는 유일한 페이지라(식품 · 철강은 '설비 상태 모니터링')
 > 덜어낼 것이 마땅치 않다. 모바일 일괄 점검 때 함께 본다.
+
+### 6.8 산업 · 화학 `/en/industries/chemicals` — 91단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [4] | 연속 반응 · **열 기반 설비**를 운영하는 현장 | in continuous reaction operations | where continuous reaction **and heat-based equipment** run |
+| [7] | 품질과 **생산** 안정성을 **흔든다** | **move** quality and stability | **shake** quality and **production** stability |
+| [29][31][33][60] | **열매체** 보일러 | **thermal** boiler | **thermal fluid** boiler |
+| [43] | 공기압축기 상태 · 운전 인자 **모니터링** | Air compressor state and operating factors | …operating factor **monitoring** |
+| [47] | 평소와 다른 흐름에서 **전조를 잡아** | to catch flows that differ from the norm | to catch **early signs in** flows that differ from the norm |
+| [50] | 온실가스 **배출량** 통합 **관리** | Unified greenhouse gas **accounting** | Unified greenhouse gas **emissions management** |
+
+#### 열매체 보일러 — `thermal fluid boiler`로 확정
+
+`thermal boiler`는 업계에서 쓰지 않는 형태라 번역기가 '열보일러'라는 없는 말로 옮겼다.
+이 설비의 영어는 `thermal oil boiler` · `thermal fluid boiler` · `thermal fluid heater` · `hot oil heater` 등인데
+**모두 열매체가 무엇인지 밝힌다**(oil 또는 fluid).
+
+처음에 `thermal oil boiler`를 제안했으나 **사용자가 `thermal fluid boiler`를 골랐고, 그쪽이 맞다.**
+원문이 「열매체 보일러」이지 「열매체**유** 보일러」가 아니므로 오일로 한정하지 않는 `fluid`가 직역이다
+(열매체 = thermal fluid / 열매체유 = thermal oil).
+
+#### `flows`는 그대로 둔다 — 2026-09-18 사용자 결정
+
+[88] `Flows that differ from the norm are noticed first`가 번역기에서 **'유량'**으로 읽혔다.
+화학 공정 페이지에서 `flow`는 유량(flow rate)으로 먼저 읽히고, 블라인드 역번역도 이 대목을 모호하다고 표시했다.
+`patterns`를 제안했으나 **사용자가 지금 표현을 유지하기로 했다.**
+[47]에도 같은 `flows`가 있어 **한쪽만 바꾸면 갈리므로 함께 두었다** — [47]은 '전조'만 넣었다.
+
+측정: 칩 높이 동일, 가로 넘침 0.
+
+> ⚠️ 1440px에서 한국어는 h3 아홉 개가 **모두 1줄**인데 영어는 **둘이 2줄**이다.
+> [7]은 이번에 '생산'을 넣으며, [29]는 `fluid`를 넣으며 길어졌다. 모바일 일괄 점검 때 함께 본다.
