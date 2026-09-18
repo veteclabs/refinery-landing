@@ -416,3 +416,34 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 [24] `The blog covers…`(원문 '먼저 만나보실 수 있습니다'의 초대 어감이 서술로 바뀌었으나 내용은 같다).
 
 측정: 1440 · 768 · 390px 모두 카드 높이 동일, 가로 넘침 0.
+
+### 6.6 자료실 `/en/resources` · 블로그 목록 `/en/blog` — 13 + 11단위
+
+§5에서 고친 자료실 카드 제목 셋과 '도입 흐름'은 의도대로 읽혔다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| 07 [10] | Refinery 블로그를 **시작합니다** | **Starting the Refinery blog** | **The Refinery blog starts here** |
+| 06 [12] | 산업별 활용 **자료** | Industry application **kits** | Industry application **materials** |
+| 06 [11] | 제품 **시연**과 현장 적용 **사례** 영상 | Product **walkthroughs** and field application videos | Product **demos** and field application **case** videos |
+
+07 [10]은 번역기가 `Starting the Refinery`를 **블로그 이름으로 묶어** 읽어
+「'Starting the Refinery' 블로그」가 됐다 — 시작한다는 동작이 사라졌다.
+랜딩 히어로의 `Refinery Industrial`과 같은 유형, 제품명 옆 낱말이 붙어 읽히는 문제다.
+
+06 [12]는 딱지(`kind`)가 이미 `Kit`이라 제목의 `kits`가 중복이기도 했다.
+`materials`가 '재료'로 읽힐 수 있다고 `guides`·`notes`를 제안했으나 **사용자가 `materials`를 선택했다.**
+
+06 [11]의 `walkthrough`는 둘러보기다. 원문 '시연'은 demo이고, 바로 위 항목이 이미 `demo videos`를 쓴다.
+
+#### 철회한 지적 — `Pipes versus ontology`
+
+번역기가 '파이프라인'으로 읽어 제품 기능 `Pipeline`과 헷갈릴 수 있다고 보고 `Point-to-point pipes`를 제안했으나,
+**백서 본문을 확인하니 뜻이 달랐다.** 원문의 '파이프'는 「ETL로 값을 옮겨 한 저장소에 모으는 것」이고
+(백서 02장 · 「데이터를 한곳에 모으는 것(파이프)과 의미를 부여하는 것(온톨로지)은 다릅니다」),
+`point-to-point`는 시스템끼리 1:1로 직접 잇는 별개 개념이다. 중앙에 모으는 것과 서로 직접 잇는 것은 오히려 반대 구도다.
+
+지금의 `Pipes versus ontology`가 원문 은유에 맞다. 제품 기능 `Pipeline`과의 중첩은
+**한국어에도 그대로 있다**(자료실 '파이프 연결' / 문서 목차 '파이프라인'). 한국어에서 문제 삼지 않은 것을 영어만 손대지 않는다.
+
+측정: 06 카드 6개 · 07 카드 5개 모두 1440 · 768 · 390px에서 높이 동일, 가로 넘침 0.

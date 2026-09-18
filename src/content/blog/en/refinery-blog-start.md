@@ -1,5 +1,5 @@
 ---
-title: "Starting the Refinery blog"
+title: "The Refinery blog starts here"
 description: "Insight and product news on industrial data, AI agents and field operations — starting here."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
