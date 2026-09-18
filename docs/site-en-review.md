@@ -395,3 +395,24 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 측정: 04는 1440px h1 2줄 · 섹션 제목 2줄 · 카드 4개 높이 동일, 가로 넘침 0.
 **768px에서 h1이 2 → 3줄, 390px에서 4 → 5줄**이 된다(한국어는 390px에서 4줄).
 `<br>` 위치를 옮겨도 같아 글자 수 자체의 문제다. 모바일 일괄 점검 때 함께 본다.
+
+### 6.5 제품 문서 `/en/docs` — 25단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [17] | 승인/자동 처리 규칙을 **대화로 설계** | **Design** approval and auto-handling rules in conversation | **Set** approval and auto-handling rules **through** conversation |
+| [7] | 핵심 개념 **한눈에** | Core concepts | Core concepts **at a glance** |
+| [11] | …OPC-UA · Modbus 등 **프로토콜** | …Modbus **and more** | …Modbus **and other protocols** |
+| [3] | **설치** · 연동부터 | From **setup** and integration | From **install** and integration |
+
+[17]이 가장 무겁다. `Design`이 동사인데 번역기가 `Design approval`을 **'설계 승인'이라는 하나의 명사구**로 읽어
+"무엇을 설계한다"가 사라지고 목록처럼 변했다. 제조업에서 design approval은 실제 쓰는 말이라 더 잘 붙는다.
+`Set`은 명사로 읽혀도 뜻이 붙지 않아 동사로만 읽힌다.
+
+[11]은 '등'이 무엇의 등인지 사라져 프로토콜 목록임을 알 수 없었다.
+[3]은 같은 페이지 [6]이 이미 `From install and first setup`으로 '설치'를 install로 옮기고 있어 한 페이지 안에서 갈렸다.
+
+그대로 둔 것: [18] `Operations & scale`(번역기가 '확장성'으로 읽었고 뜻이 통한다),
+[24] `The blog covers…`(원문 '먼저 만나보실 수 있습니다'의 초대 어감이 서술로 바뀌었으나 내용은 같다).
+
+측정: 1440 · 768 · 390px 모두 카드 높이 동일, 가로 넘침 0.
