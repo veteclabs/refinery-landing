@@ -107,7 +107,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           title: 'By challenge',
           items: [
             { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
-            { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
+            { label: 'Sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
             { label: 'Power management', href: '/en/use-cases/power-management' },
             { label: 'Power quality', href: '/en/use-cases/power-quality' },
             { label: 'Factory energy management', href: '/en/use-cases/factory-energy' },
@@ -241,7 +241,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       title: 'By challenge',
       items: [
         { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
-        { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
+        { label: 'Sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
         { label: 'Power management', href: '/en/use-cases/power-management' },
         { label: 'Power quality', href: '/en/use-cases/power-quality' },
         { label: 'Factory energy management', href: '/en/use-cases/factory-energy' },

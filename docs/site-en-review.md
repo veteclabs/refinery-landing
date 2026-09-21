@@ -751,3 +751,34 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 
 측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
 390px에서 h1 4줄(한국어 3줄). 다른 페이지에 실리는 관련 카드 높이는 320px로 한국어와 같다.
+
+### 6.16 유즈케이스 · 센서 모니터링 `/en/use-cases/sensor-monitoring` — 26단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [1] 이름 | **센서 모니터링** | **Multi-sensor** monitoring | **Sensor** monitoring (5곳) |
+| [2] h1 | 이상을 **놓치지 않고** 함께 읽습니다 | read anomalies **together** | read anomalies together, **without missing any** |
+| [11] | 실시간 **이상** 감시 | Watch in real time | Watch **for anomalies** in real time |
+| [16] | 실시간으로 **잡아 기록합니다** | in real time, **on the record** | in real time, **and put them on the record** |
+
+#### 이름에 없던 `Multi-`
+
+한국어는 nav · 카드 · h1 · `<title>`이 모두 「센서 모니터링」인데 영어에만 `Multi-`가 붙어 있었다.
+다중 개념은 카드 [7]「다중 센서 수집」(`Collect from many sources`)에 이미 있다.
+nav 2곳 · 랜딩 카드 · 유즈케이스 name · `<title>` 다섯 곳을 함께 바꿨다.
+
+#### `on the record`는 동작이 아니다
+
+원문 「잡아 **기록합니다**」는 잡고 → 기록하는 순차인데, `on the record`는 '기록에 남는'이라는 부사구라
+기록한다는 동작이 사라졌다. 번역기가 '기록상에서도'로 어색하게 읽었다.
+**이 문장은 유즈케이스 일곱 페이지에 복제**돼 있어 한 번에 바뀐다.
+
+#### 「놓치지 않고」와 `every`
+
+「놓치지 않고」를 `read every anomaly … missing none`으로 옮기려다,
+**랜딩에서 `every` · `never` 같은 단정을 걷어낸 것과 어긋나** `without missing any`로 눌러 썼다.
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다. 390px에서 h1 5줄(한국어 3줄).
+일곱 페이지에 실리는 전력품질 카드 높이는 320px로 한국어와 같다.
+
+> dev 서버가 HMR 중 500을 냈다(`astro dev stop` 후 재시작으로 해결). 빌드는 계속 정상이었다.

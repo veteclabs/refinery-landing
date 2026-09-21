@@ -84,7 +84,7 @@ export const useCasesEn: UseCase[] = [
   },
   {
     slug: 'sensor-monitoring',
-    name: 'Multi-sensor monitoring',
+    name: 'Sensor monitoring',
     tagline: 'Vibration, temperature, power, environment — bring scattered sensors into one structure and watch them together.',
     redesigned: true,
     heroImage: {
@@ -94,7 +94,7 @@ export const useCasesEn: UseCase[] = [
       height: 1435,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Bring scattered sensors into one structure<br>and read anomalies together',
+    heroTitle: 'Bring scattered sensors into one structure and read<br>anomalies together, without missing any',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -118,7 +118,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-arrows-in', title: 'Collect from many sources', desc: 'From IoT sensors to existing instrumentation, diverse sources are standardized and gathered in one place.' },
       { icon: 'ph-tree-structure', title: 'Connect through the ontology', desc: 'Each signal is given meaning — which asset it belongs to and what it measures — so it can be interpreted alongside the others.' },
-      { icon: 'ph-pulse', title: 'Watch in real time', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
+      { icon: 'ph-pulse', title: 'Watch for anomalies in real time', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
     ],
     signals: [
       { label: 'Vibration', icon: 'oscillation' },
@@ -130,7 +130,7 @@ export const useCasesEn: UseCase[] = [
     ],
     related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
-      title: 'Multi-sensor monitoring (IoT) | Refinery',
+      title: 'Sensor monitoring (IoT) | Refinery',
       description: 'Standardize and gather scattered sensors — from IoT devices to existing instrumentation — and connect them through an ontology for real-time monitoring.',
     },
   },
@@ -220,7 +220,7 @@ export const useCasesEn: UseCase[] = [
       height: 1435,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Catch power quality anomalies you cannot see,<br>in real time, on the record',
+    heroTitle: 'Catch power quality anomalies you cannot see in real time,<br>and put them on the record',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -234,7 +234,7 @@ export const useCasesEn: UseCase[] = [
       width: 1280,
       height: 720,
     },
-    cardDesc: 'Catch power quality anomalies you cannot see,<br>in real time, on the record.',
+    cardDesc: 'Catch power quality anomalies you cannot see in real time,<br>and put them on the record.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power quality monitoring fits your site,<br>together with Refinery.',
     problemHtml: 'Equipment stops for no apparent reason, or a healthy line starts producing defects. Trace it and power quality is<br>often the culprit. A momentary voltage dip or a harmonic is neither visible nor long-lived,<br>so without continuous monitoring the evidence is gone. The fault gets written off as unexplained,<br>and it happens again.',
