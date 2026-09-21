@@ -851,3 +851,31 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 - [13] `Separate what mattered` — '중요한 요소 구분'으로 읽혔으나 뜻이 통한다
 
 측정: 가로 넘침 0. 1440px h1 2줄로 한국어와 같다. 768px h1 3줄 · 390px 5줄(한국어 2줄 · 3줄).
+
+### 6.19 유즈케이스 · 공장에너지 `/en/use-cases/factory-energy` — 33단위
+
+§6.1에서 넣은 ESG 문장은 의도대로 읽혔다. 이 페이지는 큰 어긋남이 없고 **경미한 셋**만 고쳤다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 | 에너지 **흐름**을 한곳에 모아 | the whole plant’s **energy** into one view | …**energy flow** into one view |
+| [4] | 어디서 **얼마나** 왜 쓰는지 | where it goes **and why** | where it goes, **how much**, and why |
+| [10] | **원단위, 곧** 생산량 대비 에너지 사용 | Compare **energy used against output** | Compare **energy intensity, meaning** energy used against output |
+
+[2]는 h1인데 '흐름'이 빠져 있었다 — 바로 아래 카드 [8]에는 `energy flow`가 있었다.
+카드 설명이라 **일곱 페이지의 관련 카드에도 함께 실린다**(2곳 × 7페이지).
+
+[10]은 원문이 「원단위, **곧** ~」으로 용어를 풀어주는데 영어에는 설명만 있고 용어가 없었다.
+`—` 대시 버전과 `meaning` 버전을 함께 돌려 **`meaning` 쪽이 원문 「곧」과 구조가 같아** 그쪽을 택했다.
+
+#### 그대로 둔 것
+
+| 영어 | 번역기 | 판단 |
+|---|---|---|
+| Meter **everything** together | **모든 항목**을 통합 측정 | 원문 「통합 계량」에 '모든'은 없으나 `together`만으로는 약하다 |
+| **over** thirty years | 30년 **이상** | 원문 「30년간」이라 엄밀히는 `across`지만 뜻이 통한다 |
+| **Abnormal** consumption | 비정상 소비 | 원문 「이상 소비」이고 17번 `Abnormal-use`와 일관된다 |
+| water | 물 | 원문 「용수」지만 영어 `water`가 맞다 |
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
+해결 카드 4개 높이는 서로 같으나(327px) 한국어(250px)보다 높다 — [10]이 길어진 탓이다.
