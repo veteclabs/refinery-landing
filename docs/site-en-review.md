@@ -809,3 +809,36 @@ nav 2곳 · 랜딩 카드 · 유즈케이스 name · `<title>` 다섯 곳을 함
 
 측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
 문제 문단이 한국어 3줄 · 영어 4줄(390px에서 7줄 · 9줄), 템플릿 항목은 390px에서 영어만 2줄이 된다.
+
+### 6.18 유즈케이스 · 전력품질 `/en/use-cases/power-quality` — 33단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [4] | 왜 하필 그때 **멈췄는지**는 **끝내 알지 못한 채 넘어갑니다** | The **fault** gets written off as unexplained, **and it happens again** | **So nobody ever finds out why it stopped just then, and it is left at that** |
+
+#### 원문에 없는 문장과 잘못된 낱말이 한 문장에 겹쳐 있었다
+
+- `fault`(고장) — 원문은 **'멈춤'**이다. 이 문단 첫 문장이 「설비가 이유 없이 **멈추거나**」로 시작한다
+- `and it happens again`(그리고 또 일어난다) — **원문에 없다.** 앞 문단 어디에도 재발 이야기가 없다
+
+#### 번역기로 세 번 다듬었다
+
+처음 낸 `Why it stopped just then goes unexplained.`는 **'설명되지 않은 채 남게 됩니다'**로 읽혔다.
+원문 「**끝내 알지 못한 채** **넘어갑니다**」는 사람이 모르고 + 그대로 지나친다는 **두 동작**인데,
+`goes unexplained`는 상태 서술이라 둘 다 빠진다.
+
+`So nobody ever finds out … and it is left at that`으로 바꾸자
+「그래서 그 순간 왜 장비가 멈췄는지 아무도 알아내지 못한 채, 그저 그렇게 넘어가곤 합니다」가 나왔다.
+`So`로 시작해 앞 문장을 받는 원문 구조도 살았다.
+
+`nobody ever`는 랜딩에서 걷어낸 `never`와 다르다 — **거기는 회사의 약속이었고 여기는 고객 현장에서 벌어지는 일**이다.
+화학 페이지의 `the whole picture never forms`를 남겨 둔 것과 같은 기준이다.
+
+#### 그대로 둔 것
+
+- [12] `the timing lines up with` — 철강 [38]과 달리 주어+동사라 '일치하는지'로 정확히 읽혔다
+- [18] `Sag/swell and interruption thresholds` — 전압 몇 % 이하 같은 실제 임계값이라 `thresholds`가 맞다.
+  17번의 「관리 기준」을 `management criteria`로 바꾼 것과 성격이 다르다
+- [13] `Separate what mattered` — '중요한 요소 구분'으로 읽혔으나 뜻이 통한다
+
+측정: 가로 넘침 0. 1440px h1 2줄로 한국어와 같다. 768px h1 3줄 · 390px 5줄(한국어 2줄 · 3줄).
