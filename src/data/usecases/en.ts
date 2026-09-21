@@ -182,7 +182,7 @@ export const useCasesEn: UseCase[] = [
       { label: 'Active/reactive power', icon: 'power-active-reactive' },
       { label: 'Power factor', icon: 'power-factor' },
       { label: 'Load factor', icon: 'load-rate' },
-      { label: 'Hourly consumption', icon: 'hourly-usage' },
+      { label: 'Consumption by time of day', icon: 'hourly-usage' },
       { label: 'Peak', icon: 'peak' },
     ],
     related: { href: '/en/blog/energy-optimization' },
@@ -352,16 +352,16 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Find the hidden waste and the peaks,<br>and do the same work for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how energy optimization fits your site,<br>together with Refinery.',
-    problemHtml: 'Waste hides away from the large machines. A unit left idling, a run scheduled at an hour nobody needed — <br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
+    problemHtml: 'Waste is scattered in the places that draw less attention than the large machines. A unit left idling, a run scheduled at an hour nobody needed — <br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
       { icon: 'ph-magnifying-glass', title: 'Uncover waste', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
       { icon: 'ph-trend-down', title: 'Reduce peaks', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
-      { icon: 'ph-arrows-clockwise', title: 'Keep it from returning', desc: 'Track the effect of each improvement so savings do not leak back.<br>Any stretch sliding back to the old pattern is caught at once.' },
+      { icon: 'ph-arrows-clockwise', title: 'Keep the gains', desc: 'Track the effect of each improvement so savings do not leak back.<br>Any stretch sliding back to the old pattern is caught at once.' },
     ],
     signals: [
-      { label: 'Hourly consumption', icon: 'hourly-usage' },
+      { label: 'Consumption by time of day', icon: 'hourly-usage' },
       { label: 'Peak', icon: 'peak' },
       { label: 'Energy intensity', icon: 'intensity' },
     ],
