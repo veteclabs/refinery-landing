@@ -237,7 +237,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Catch power quality anomalies you cannot see in real time,<br>and put them on the record.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power quality monitoring fits your site,<br>together with Refinery.',
-    problemHtml: 'Equipment stops for no apparent reason, or a healthy line starts producing defects. Trace it and power quality is<br>often the culprit. A momentary voltage dip or a harmonic is neither visible nor long-lived,<br>so without continuous monitoring the evidence is gone. So nobody ever finds out why it stopped just then,<br>and it is left at that.',
+    problemHtml: 'Equipment stops for no apparent reason, or a healthy line starts producing defects. Trace it and power quality is<br>often the culprit. A momentary voltage dip or a harmonic is neither visible nor long-lived,<br>so without continuous monitoring the evidence is gone. So nobody ever learns why it stopped just then,<br>and the matter passes.',
     problem:
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [

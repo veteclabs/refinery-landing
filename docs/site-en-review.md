@@ -827,9 +827,18 @@ nav 2곳 · 랜딩 카드 · 유즈케이스 name · `<title>` 다섯 곳을 함
 원문 「**끝내 알지 못한 채** **넘어갑니다**」는 사람이 모르고 + 그대로 지나친다는 **두 동작**인데,
 `goes unexplained`는 상태 서술이라 둘 다 빠진다.
 
-`So nobody ever finds out … and it is left at that`으로 바꾸자
-「그래서 그 순간 왜 장비가 멈췄는지 아무도 알아내지 못한 채, 그저 그렇게 넘어가곤 합니다」가 나왔다.
+두 안을 돌려 **사용자가 B안을 골랐다.**
+
+| 안 | 영어 | 되읽으면 |
+|---|---|---|
+| A | …and **it is left at that** | 그저 그렇게 **방치되곤 합니다** |
+| **B** | …and **the matter passes** | 문제는 **그냥 넘어가게 됩니다** |
+
+A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘앙스**가 섞인다.
+원문 「넘어갑니다」에는 B안이 맞고, 앞부분도 「아무도 **알지 못한 채**」로 어순까지 같다.
 `So`로 시작해 앞 문장을 받는 원문 구조도 살았다.
+
+최종: `So nobody ever learns why it stopped just then, and the matter passes.`
 
 `nobody ever`는 랜딩에서 걷어낸 `never`와 다르다 — **거기는 회사의 약속이었고 여기는 고객 현장에서 벌어지는 일**이다.
 화학 페이지의 `the whole picture never forms`를 남겨 둔 것과 같은 기준이다.
