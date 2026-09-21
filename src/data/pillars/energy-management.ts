@@ -107,7 +107,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'How is outage detection done?',
-        a: 'Outage detection senses a power fault or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable, the responsible engineer is notified.',
+        a: 'Outage detection senses a power anomaly or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable, the responsible engineer is notified.',
       },
       {
         q: 'What makes energy and power management on Refinery different?',

@@ -28,7 +28,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Small process shifts decide quality',
         description:
-          'Furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
+          'Heat-treatment furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
       },
       {
         title: 'Heat treatment needs stability and energy control together',
@@ -62,13 +62,13 @@ export const steelEn: IndustryData = {
       {
         title: 'Heat-treatment temperature and time analysis',
         problem: 'Process deviations confirmed only once the piece is out',
-        approach: 'Furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
+        approach: 'Heat-treatment furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
         outcome: 'Steadier material quality',
       },
       {
         title: 'Energy flow visualized by process',
         problem: 'No visibility into which process consumes the energy',
-        approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure and lines up on equal terms.',
+        approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure, and use by process can be compared on equal terms.',
         outcome: 'Over-consuming segments identified and process efficiency improved',
       },
       {
@@ -79,7 +79,7 @@ export const steelEn: IndustryData = {
       },
       {
         title: 'Vibration-based equipment monitoring',
-        problem: 'Rotating-equipment faults that surface only after a stop',
+        problem: 'Rotating-equipment anomalies that surface only after a stop',
         approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and maintenance made more efficient',
       },
@@ -123,7 +123,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Failures prevented',
         icon: 'ph-pulse',
-        description: 'Vibration catches faults early, making maintenance more efficient.',
+        description: 'Vibration catches anomalies early, making maintenance more efficient.',
       },
     ],
   },

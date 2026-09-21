@@ -669,3 +669,53 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 
 측정: 칩 높이 동일, 가로 넘침 0. 1440px h1 2줄로 한국어와 같다.
 390px에서 h1 4줄(한국어 2줄), [45] 문제 문장 6줄(한국어 3줄)이다. 모바일 일괄 점검 때 함께 본다.
+
+### 6.13 산업 · 철강 `/en/industries/steel` — 89단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [6] | **열처리로** · 압축공기 · 냉각수 | **Furnaces**, compressed air… | **Heat-treatment furnaces**, compressed air… |
+| [31] | **열처리로의** 온도 · 유지 시간 | **Furnace** temperature… | **Heat-treatment furnace** temperature… |
+| [38] | **공정별 사용을** 같은 기준으로 나란히 세웁니다 | …and **lines up** on equal terms | …and **use by process can be compared** on equal terms |
+| [50] | 회전체 **이상** | Rotating-equipment **faults** | Rotating-equipment **anomalies** |
+| [88] | 진동에서 **이상**을 미리 잡아 | Vibration catches **faults** early | Vibration catches **anomalies** early |
+
+#### 열처리로가 용광로가 됐다
+
+`Furnace`만 남은 본문 두 곳이 제철소 문맥에서 **'용광로'**로 읽혔다.
+열처리로(heat-treatment furnace)는 소재를 가열 · 냉각해 성질을 바꾸는 로이고,
+용광로(blast furnace)는 철광석을 녹여 선철을 뽑는 제선 설비다. 이 페이지는 열처리 · 성형 · 코팅을 다루니 용광로는 나오지 않는다.
+**구조 칩만 `Heat-treatment furnaces`로 정확했다** — 같은 낱말이 곳에 따라 정확도가 달랐다.
+
+#### `lines up`이 '공정 라인'을 만들었다
+
+`use by process lines up on equal terms`에서 `lines`가 명사 '라인'으로, `use`가 '활용'으로 읽혀
+**'공정 라인에서 동등한 조건으로 활용됩니다'**가 됐다. 이 페이지에 실제 생산 라인 이야기가 있어 더 잘 붙었다.
+자동차 페이지에서 이미 통과한 `can be compared on equal terms`로 바꿔 해결했다.
+
+### 6.14 되풀이 유형 전수 점검 — `faults` · `cooling energy`
+
+한 페이지씩 고치다 보니 **같은 유형이 여러 페이지에 흩어져 남아 있었다.**
+영어 데이터 전체를 정규식으로 훑고 한국어 원문과 대조해 한꺼번에 처리했다.
+
+| 유형 | 고친 곳 |
+|---|---|
+| 원문 '이상' → `faults`(고장 · 결함) | 자동차 [15] · 화학 [45] · 전자 [8][90][91] + 제목 · 식품 [52] · 기계 [8] · 에너지관리 [12] · **유즈케이스 7페이지 공통 카드** |
+| 원문 '냉열' → `cooling energy` | 기계 [84] |
+
+유즈케이스 쪽은 전력품질 카드 설명이 **일곱 페이지에 복제**돼 있어 한 문장을 고치자 일곱 곳이 함께 바뀌었다.
+
+**원문이 '고장'인 곳은 `fault`가 맞아 그대로 둔다** — 자동차 [31] '고장 진단'(`fault diagnosis`),
+식품 [91] '고장을 예방'(`preventing failures`).
+
+> 아직 남은 둘(3/4 유즈케이스 차례에 다룬다):
+> 예지보전 FAQ의 `load faults`(원문 '부하 **이상**'),
+> 전력품질 [4]의 `The fault gets written off`(원문 '왜 하필 그때 **멈췄는지**').
+> 후자에는 원문에 없는 `and it happens again`(그리고 또 일어난다)도 붙어 있다.
+
+#### 배운 것
+
+- **일괄 치환 뒤에는 대소문자를 확인한다** — `site data` → `field data`에서 문장 첫머리 `Site data` 한 곳이 남았다.
+- **한 곳을 고칠 때 같은 유형을 전수로 훑는다** — `faults`는 자동차 · 식품 · 철강에서 한 번씩 고친 뒤에도
+  8개 페이지에 12곳이 남아 있었다.
+- **고칠 때 넣은 말도 다시 검증한다** — 누락을 메우며 넣은 `heating equipment`가 '난방 장비'로 읽혔다.

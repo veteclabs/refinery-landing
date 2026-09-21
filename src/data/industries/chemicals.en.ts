@@ -80,7 +80,7 @@ export const chemicalsEn: IndustryData = {
       },
       {
         title: 'Air compressor state and operating factor monitoring',
-        problem: 'Compressor faults that surface only after a stop',
+        problem: 'Compressor anomalies that surface only after a stop',
         approach: 'An AI agent reads compressor state and operating factors together to catch early signs in flows that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },

@@ -34,7 +34,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Equipment is tightly coupled',
         description:
-          'A fault in one machine carries straight through to the efficiency of the whole process.',
+          'An anomaly in one machine carries straight through to the efficiency of the whole process.',
       },
       {
         title: 'Non-stop running with precise conditions',
@@ -114,7 +114,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Savings from HVAC inverter control',
         icon: 'ph-thermometer',
-        description: 'Load follows enthalpy, cutting cooling energy.',
+        description: 'Load follows enthalpy, cutting thermal and refrigeration energy.',
       },
       {
         title: 'Condition-based maintenance',

@@ -84,7 +84,7 @@ export const foodEn: IndustryData = {
       },
       {
         title: 'Vibration-based equipment monitoring',
-        problem: 'Rotating-equipment faults that surface only after a stop',
+        problem: 'Rotating-equipment anomalies that surface only after a stop',
         approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and downtime reduced',
       },

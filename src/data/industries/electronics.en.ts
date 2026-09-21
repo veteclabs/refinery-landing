@@ -33,9 +33,9 @@ export const electronicsEn: IndustryData = {
           'Production equipment is sensitive to temperature shifts and power quality, so a slight wobble carries straight into the process.',
       },
       {
-        title: 'A power outage or equipment fault becomes a defect',
+        title: 'A power outage or equipment anomaly becomes a defect',
         description:
-          'A momentary outage or equipment fault turns directly into defective product and a line stop.',
+          'A momentary outage or equipment anomaly turns directly into defective product and a line stop.',
       },
       {
         title: 'Operating factors are tangled together',
@@ -119,9 +119,9 @@ export const electronicsEn: IndustryData = {
         description: 'Load is lowered ahead of the peak rather than after it.',
       },
       {
-        title: 'Immediate alerts on equipment faults',
+        title: 'Immediate alerts on equipment anomalies',
         icon: 'ph-bell-ringing',
-        description: 'When a fault appears, the responsible engineer is alerted at once.',
+        description: 'When an anomaly appears, the responsible engineer is alerted at once.',
       },
       {
         title: 'Live process environment monitoring',

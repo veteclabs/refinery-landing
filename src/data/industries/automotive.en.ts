@@ -48,7 +48,7 @@ export const automotiveEn: IndustryData = {
     items: [
       {
         title: 'Vibration-based predictive maintenance for motors and rotating equipment',
-        problem: 'Rotating-equipment faults confirmed only after a stoppage',
+        problem: 'Rotating-equipment anomalies confirmed only after a stoppage',
         approach: 'An AI agent reads anomalies in vibration and current trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Less equipment downtime and steadier production',
       },
