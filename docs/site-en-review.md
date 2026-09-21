@@ -719,3 +719,35 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 - **한 곳을 고칠 때 같은 유형을 전수로 훑는다** — `faults`는 자동차 · 식품 · 철강에서 한 번씩 고친 뒤에도
   8개 페이지에 12곳이 남아 있었다.
 - **고칠 때 넣은 말도 다시 검증한다** — 누락을 메우며 넣은 `heating equipment`가 '난방 장비'로 읽혔다.
+
+### 6.15 유즈케이스 · 예지보전 `/en/use-cases/predictive-maintenance` — 47단위
+
+> ⚠️ 유즈케이스 7페이지에서 **신호 카드(33개)와 FAQ 답변(7문답)이 조각 파일에서 빠졌다.**
+> 신호 카드는 `uc-signal`, FAQ 답변은 `uc-faq-a`로 `<div>`라 블록 태그 추출에 걸리지 않았다.
+> 랜딩 FAQ와 같은 원인이다 — `15-21b_유즈케이스-보충.txt`로 보충했다(47단위).
+> 산업 7페이지와 블로그에는 같은 구조가 없다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 · tagline · cardDesc | **무선 진동센서로** … **멈춤과 손실**을 줄입니다 | (센서는 tagline에만) cut **unplanned downtime** | **with wireless vibration sensors**, and cut **stoppages and loss** |
+| [5] | **읽는** 데이터와 신호 | Data and signals | **The data and signals we read** (7페이지 공통) |
+| [8] | 배선 공사 없이 … 실시간으로 보냅니다. | …+ **Installation is simple enough to fit equipment that is already running.** | 덧붙은 문장 삭제 |
+| [11] | 추세 기반 **조기 감지** | Catch the trend, not the **spike** | **Catch it early**, from the trend |
+| [19] | 배터리 최장 2년 **저전력** | Up to 2-year battery life | **Low power** ⁠· up to 2-year battery life |
+| [22] | IP66 · **동작온도** -20~85℃ | IP66 ⁠· −20 to 85°C | IP66 ⁠· **operating range** −20 to 85°C |
+| [45] FAQ | 부하 **이상**과 절연 열화 | load **faults** | load **anomalies** |
+
+#### h1에서 수단과 결과가 반씩 빠져 있었다
+
+한국어는 tagline · heroTitle · cardDesc 셋이 모두 「무선 진동센서로 … 멈춤과 손실」인데,
+영어는 **센서가 tagline에만 있고 '손실'은 세 곳 어디에도 없었다.**
+이 페이지 전체가 무선 센서를 파는 내용인데 h1에 수단이 없었다.
+
+#### 원문에 없는 문장
+
+[8]의 `Installation is simple enough to fit equipment that is already running.`은 원문에 없다.
+**블라인드 역번역에서도 잡혔으나 그때 넘어간 것**이다. 바로 아래 [16]에
+`With no wiring work, installation stays simple`이 또 있어 같은 말을 두 번 했다.
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
+390px에서 h1 4줄(한국어 3줄). 다른 페이지에 실리는 관련 카드 높이는 320px로 한국어와 같다.

@@ -6,7 +6,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'predictive-maintenance',
     name: 'Predictive maintenance',
-    tagline: 'Read the early signs of motor failure with wireless vibration sensors, and cut unplanned downtime.',
+    tagline: 'Read the early signs of motor failure with wireless vibration sensors, and cut stoppages and loss.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
@@ -15,7 +15,7 @@ export const useCasesEn: UseCase[] = [
       height: 1607,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Read the early signs of motor failure<br>and cut unplanned downtime',
+    heroTitle: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and loss',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -29,16 +29,16 @@ export const useCasesEn: UseCase[] = [
       width: 1280,
       height: 720,
     },
-    cardDesc: 'Read the early signs of motor failure<br>and cut unplanned downtime.',
+    cardDesc: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and loss.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how predictive maintenance fits your site,<br>together with Refinery.',
     problemHtml: 'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure between service intervals. Time is a poor proxy for the actual condition of a machine.<br>But walking the floor to take readings by hand, or wiring a sensor to every machine, is its own cost.',
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
-      { icon: 'ph-broadcast', title: 'Attach a wireless sensor', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time. Installation is simple enough to fit equipment that is already running.' },
+      { icon: 'ph-broadcast', title: 'Attach a wireless sensor', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
       { icon: 'ph-gauge', title: 'Judge against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
-      { icon: 'ph-trend-up', title: 'Catch the trend, not the spike', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
+      { icon: 'ph-trend-up', title: 'Catch it early, from the trend', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
       { icon: 'ph-lightbulb', title: 'Act on evidence', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
     ],
     signals: [
@@ -52,7 +52,7 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start without wiring, using the WISE-2410 wireless sensor',
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts, and the hardware holds up in harsh industrial conditions.',
-      includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· −20 to 85°C'],
+      includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Low power ⁠· up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· operating range −20 to 85°C'],
     },
     related: { href: '/en/blog/predictive-maintenance' },
     faq: [
@@ -69,7 +69,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How do you do predictive maintenance on a motor?',
         a:
-          'Motors show the first signs of failure in vibration ⁠· current ⁠· temperature.<br>A vibration spectrum reveals bearing wear ⁠· shaft misalignment ⁠· imbalance,<br>and reading the current alongside it catches load faults and insulation degradation early.',
+          'Motors show the first signs of failure in vibration ⁠· current ⁠· temperature.<br>A vibration spectrum reveals bearing wear ⁠· shaft misalignment ⁠· imbalance,<br>and reading the current alongside it catches load anomalies and insulation degradation early.',
       },
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
