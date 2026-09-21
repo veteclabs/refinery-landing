@@ -50,7 +50,7 @@ export const machineryEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a plant site.',
+    subtitle: 'What <mark><span translate="no">Refinery</span>\nactually does</mark>\non a plant site.',
     layout: 'steps',
     items: [
       {

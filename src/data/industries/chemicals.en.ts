@@ -51,7 +51,7 @@ export const chemicalsEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a chemical site.',
+    subtitle: 'What <mark><span translate="no">Refinery</span>\nactually does</mark>\non a chemical site.',
     layout: 'steps',
     items: [
       {

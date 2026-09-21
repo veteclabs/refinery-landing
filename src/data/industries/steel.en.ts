@@ -44,7 +44,7 @@ export const steelEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a steel site.',
+    subtitle: 'What <mark><span translate="no">Refinery</span>\nactually does</mark>\non a steel site.',
     layout: 'steps',
     items: [
       {
