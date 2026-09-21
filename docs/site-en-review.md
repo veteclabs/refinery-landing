@@ -1011,3 +1011,31 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 명사구가 동사구보다 길어 **예지보전 카드 제목 넷이 1440px에서 2줄이 됐다**(한국어는 1줄).
 카드 높이도 250 → 327px로 늘었다. 다른 페이지는 대부분 1줄을 유지한다.
 가로 넘침은 일곱 페이지 모두 0이다.
+
+### 6.22 유즈케이스 · 품질예측 `/en/use-cases/quality-prediction` — 25단위
+
+카드 제목 3개(`Process-to-quality linking` · `Early-sign detection` · `Advance warning`)와
+공통 카드 수정은 모두 의도대로 읽혔다. **이 페이지 자체는 고칠 것이 없었고**, 관련 카드에서
+**앞서 고친 17번의 누락**이 드러났다.
+
+#### 세 곳을 함께 보지 않아 생긴 누락
+
+17번 「전력 비용」을 고칠 때 **heroTitle만 바꾸고 tagline · cardDesc를 놓쳤다.**
+`cardDesc`는 다른 여섯 페이지의 관련 카드에 실리므로, 21번 [21]에서 '비용과 위험'으로 나타났다.
+
+| | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| tagline | **전력 비용**과 리스크 | both **cost** and risk | both **power cost** and risk |
+| heroTitle | 〃 | (§6.17에서 고침) | cut **power cost** and risk |
+| cardDesc | 〃 | cut **cost** and risk | cut **power cost** and risk |
+
+**예지보전 h1에서도 같은 일이 있었다**(§6.15 — 센서가 tagline에만 있었다).
+유즈케이스는 `tagline` · `heroTitle` · `cardDesc` 세 곳이 같은 문장을 담으므로 **항상 함께 확인한다.**
+
+#### 그대로 둔 것
+
+- [13] `which conditions **correlate with** defects` → '상관관계가 있는지'.
+  원문 「불량이 늘었는지」보다 신중한 표현이라 오히려 정확하다.
+- [4] `which step went wrong` — 원문은 「어느 공정의 **무엇이**」 둘인데 영어는 하나다.
+  `or what in it`을 붙여 돌렸더니 **'부품의 어느 부분에서'**로 읽혀 원문(공정 안의 요인)과 더 멀어졌다.
+  지금 표현을 유지한다.

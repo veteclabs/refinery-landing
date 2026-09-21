@@ -137,7 +137,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'power-management',
     name: 'Power management',
-    tagline: 'See when, where and how much you use — and bring down both cost and risk.',
+    tagline: 'See when, where and how much you use — and bring down both power cost and risk.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/heroes/power-management.webp',
@@ -160,7 +160,7 @@ export const useCasesEn: UseCase[] = [
       width: 1280,
       height: 720,
     },
-    cardDesc: 'Know when, where and how much you use,<br>and cut cost and risk.',
+    cardDesc: 'Know when, where and how much you use,<br>and cut power cost and risk.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power management fits your site,<br>together with Refinery.',
     problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. And you only find out you exceeded the contracted demand, and owe the peak charge, after the fact.',
