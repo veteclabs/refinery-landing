@@ -782,3 +782,30 @@ nav 2곳 · 랜딩 카드 · 유즈케이스 name · `<title>` 다섯 곳을 함
 일곱 페이지에 실리는 전력품질 카드 높이는 320px로 한국어와 같다.
 
 > dev 서버가 HMR 중 500을 냈다(`astro dev stop` 후 재시작으로 해결). 빌드는 계속 정상이었다.
+
+### 6.17 유즈케이스 · 전력관리 `/en/use-cases/power-management` — 43단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [2] h1 | **전력** 비용과 리스크를 줄입니다 | cut **cost** and risk | cut **power cost** and risk |
+| [4] | 피크 요금을 무는 일도 **지나고 나서야 압니다** | …the peak charge follows **for a year** | …you only find out …, **after the fact** |
+| [17] | 설비 · 구역별 **전력** 계량 구조 | Metering structure by asset and area | **Power** metering structure by asset and area |
+| [18] | 피크 · 계약전력 **관리 기준** | …**thresholds** | …**management criteria** |
+
+#### 원문에 없는 제도 설명
+
+[4]의 마지막 문장이 **원문과 다른 말을 하고 있었다.**
+원문은 「지나고 나서야 압니다」로, 앞 문장들(고지서에 안 나온다 · 원인을 못 찾는다)을 받는 **인지 시점** 이야기다.
+영어 `the peak charge follows for a year`는 **1년간 부과된다는 제도 설명**이고 `for a year`는 원문에 없다.
+한국 전력 제도상 틀린 말은 아니지만 문단이 하려는 말이 아니다.
+
+#### 그대로 둔 것
+
+- [39] `the incoming and distribution system` — 번역기가 '유입'으로 읽지만 영어는 정확하다.
+  **04번 에너지관리와 같은 문장**이라 바꾸려면 함께 봐야 한다.
+- [43] `a falling power factor` → '전력 요인 하락' — 같은 페이지 [34] 칩에서는 '역률'로 맞게 읽었다. 번역기 변덕이다.
+- [14] `flagged with room to improve` — 원문 「여지를 알려줍니다」와 미묘하게 다르나 뜻은 통한다.
+  블라인드 역번역에서도 모호하다고 표시했던 곳이다.
+
+측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다.
+문제 문단이 한국어 3줄 · 영어 4줄(390px에서 7줄 · 9줄), 템플릿 항목은 390px에서 영어만 2줄이 된다.

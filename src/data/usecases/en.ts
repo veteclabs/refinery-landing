@@ -146,7 +146,7 @@ export const useCasesEn: UseCase[] = [
       height: 1709,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Know when, where and how much you use,<br>and cut cost and risk',
+    heroTitle: 'Know when, where and how much you use,<br>and cut power cost and risk',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -163,7 +163,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Know when, where and how much you use,<br>and cut cost and risk.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power management fits your site,<br>together with Refinery.',
-    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. Exceed the contracted demand and the peak charge follows for a year.',
+    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. And you only find out you exceeded the contracted demand, and owe the peak charge, after the fact.',
     problem:
       'An electricity bill shows a total and a few peak figures. What it does not show is which equipment used that power, at what hour, and why. Metering is fragmented across machines and records are scattered, so when the bill goes up the response is usually an instruction to use less rather than a search for the cause. Exceeding contracted demand and paying peak charges is often discovered only afterwards, from the bill.',
     how: [
@@ -176,7 +176,7 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power management template',
       desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already contains how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
-      includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor ⁠· load factor dashboard', 'Abnormal-use alert rules'],
+      includes: ['Power metering structure by asset and area', 'Peak and contracted-demand management criteria', 'Power factor ⁠· load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: [
       { label: 'Active/reactive power', icon: 'power-active-reactive' },
