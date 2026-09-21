@@ -358,7 +358,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-magnifying-glass', title: 'Uncover waste', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
       { icon: 'ph-trend-down', title: 'Reduce peaks', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
-      { icon: 'ph-arrows-clockwise', title: 'Keep the gains', desc: 'Track the effect of each improvement so savings do not leak back.<br>Any stretch sliding back to the old pattern is caught at once.' },
+      { icon: 'ph-arrows-clockwise', title: 'Keep the gains', desc: 'Track the effect of each improvement so savings do not leak back.<br>Any stretch sliding back to the old pattern stands out at once.' },
     ],
     signals: [
       { label: 'Consumption by time of day', icon: 'hourly-usage' },
