@@ -23,10 +23,10 @@ export const foodEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on food sites',
-    subtitle: 'Recurring problems from intake to packaging and storage.',
+    subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     items: [
       {
-        title: 'Refrigeration losses become cost',
+        title: 'Thermal and refrigeration efficiency losses become cost',
         description:
           'Air compressors, chillers, boilers and steam equipment carry most of the load, so any efficiency loss turns straight into cost and quality risk.',
       },
@@ -59,7 +59,7 @@ export const foodEn: IndustryData = {
         outcome: 'Better equipment efficiency and lower energy cost',
       },
       {
-        title: 'Before and after simulation for equipment replacement',
+        title: 'Energy simulation before and after replacing ageing equipment',
         problem: 'Replacement benefit that cannot be shown in numbers',
         approach: 'Post-replacement energy use is estimated from current operating data and placed side by side.',
         outcome: 'Investment case verified and replacement benefit quantified',
@@ -80,7 +80,7 @@ export const foodEn: IndustryData = {
         title: 'Chiller efficiency analysis and operating optimization',
         problem: 'Chillers running on without a reference point',
         approach: 'Chiller COP is computed continuously so the most efficient units are run first.',
-        outcome: 'Lower cooling energy and steadier quality',
+        outcome: 'Lower thermal and refrigeration energy, and steadier quality',
       },
       {
         title: 'Vibration-based equipment monitoring',
@@ -97,7 +97,7 @@ export const foodEn: IndustryData = {
       { label: 'Site', detail: 'Chillers ⁠· air compressors ⁠· boilers ⁠· temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Equipment dashboard ⁠· excursion alerts ⁠· batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Equipment dashboard ⁠· temperature excursion alerts ⁠· batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where PLC or MES already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
@@ -106,19 +106,19 @@ export const foodEn: IndustryData = {
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Verified case for replacement',
+        title: 'Replacement justified with evidence',
         icon: 'ph-calculator',
         description: 'Before and after are set out in numbers to justify the spend.',
       },
       {
         title: 'Chiller and compressor tuning',
         icon: 'ph-snowflake',
-        description: 'Operating patterns are refined to save cooling energy.',
+        description: 'Operating patterns are refined to save thermal and refrigeration energy.',
       },
       {
         title: 'Efficiency compared against output',
         icon: 'ph-chart-line',
-        description: 'Batches are weighed against each other to improve the cost structure.',
+        description: 'Energy is weighed batch against batch to improve the cost structure.',
       },
       {
         title: 'Retracing equipment on a quality issue',
@@ -128,7 +128,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Less downtime',
         icon: 'ph-pulse',
-        description: 'Vibration catches faults early, preventing failures.',
+        description: 'Vibration catches anomalies early, preventing failures.',
       },
     ],
   },

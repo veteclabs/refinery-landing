@@ -598,3 +598,40 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 **원문에 '레이어'는 없지만, 지능이 사라지는 것보다 낫다고 보고 사용자가 제시안을 골랐다.**
 
 측정: 가로 넘침 0. 1440 · 768px h1 2줄로 한국어와 같다. 390px에서 h1 4줄(한국어 2줄).
+
+### 6.11 산업 · 식품 `/en/industries/food` — 92단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [4] | 원료 투입 · **가공** · 포장 · 보관 | from intake **to packaging** and storage | from intake **through processing to packaging** and storage |
+| [5] | **열 · 냉** 설비 효율 저하 | **Refrigeration losses** | **Thermal and refrigeration efficiency losses** |
+| [22] | **노후** 설비 교체 전 · 후 **에너지** 시뮬레이션 | Before and after simulation for equipment replacement | **Energy simulation before and after replacing ageing equipment** |
+| [49] | **냉열** 에너지 절감 | Lower **cooling** energy | Lower **thermal and refrigeration** energy |
+| [74] | **온도 이탈** 알람 | excursion alerts | **temperature** excursion alerts |
+| [82] | 노후 설비 교체 **타당성 검증** | Verified **case** for replacement | **Replacement justified with evidence** |
+| [85] | **냉열** 에너지를 아낍니다 | save **cooling** energy | save **thermal and refrigeration** energy |
+| [87] | 배치마다 **에너지**를 견줘 | **Batches** are weighed against each other | **Energy is weighed batch against batch** |
+| [91] | 진동에서 **이상**을 미리 잡아 | Vibration catches **faults** early | Vibration catches **anomalies** early |
+
+#### '열'이 세 곳에서 사라져 있었다
+
+원문 「열 · 냉」 · 「냉열」이 영어에서는 `refrigeration` · `cooling`만 남아 **가열 쪽이 빠져 있었다.**
+[5]는 제목이 냉각만 말하는데 바로 아래 [6]은 `boilers and steam equipment`까지 든다.
+
+처음 제안한 `heating and cooling`은 번역기에서 **'난방 및 냉방'**으로 읽혔다 —
+식품 공장의 열 설비는 난방기가 아니라 보일러 · 스팀이다.
+**전자 페이지에서 `heating equipment`가 '난방 장비'로 읽혔던 것과 같은 함정**이라,
+공조가 아닌 공정 설비를 가리키는 `thermal and refrigeration`으로 바꿔 통과했다.
+
+#### `case`와 `faults`
+
+`Verified case for replacement`의 `case`가 **'사례'**로 읽혀 투자 타당성이라는 뜻이 사라졌다.
+`Replacement justified with evidence`로 `case`를 아예 뺐다.
+
+[91]의 `faults`는 **자동차 페이지에서 이미 고친 것과 같은 문제**다(원문 '이상' → anomalies).
+페이지마다 흩어져 있어 한 번에 잡히지 않았다.
+
+측정: 칩 높이 동일, 가로 넘침 0.
+
+> ⚠️ 1440px에서 한국어 h3 열한 개가 모두 1줄인데 영어는 **둘이 2줄**([5] · [22] — 이번에 길어진 곳).
+> 390px에서는 한국어 2줄, 영어 2~4줄이다. 모바일 일괄 점검 때 함께 본다.
