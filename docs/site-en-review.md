@@ -950,3 +950,64 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 한국어 1자당 영어 2~2.8자가 보통이므로, 영어가 원문의 2.5배쯤이면 정상 범위로 본다.
 
 측정: 카드 3개 높이가 서로 같고(272px) 가로 넘침 0.
+
+### 6.21 유즈케이스 카드 제목 25개를 명사구로 — 2026-09-18 사용자 결정
+
+#### 발단
+
+에너지최적화 [11]의 「지속 관리」를 `Keep the gains`로 고친 뒤,
+사용자가 **「`Ongoing management`이 맞지 않느냐」**고 물었다.
+
+처음에는 「이 사이트는 카드 제목을 한국어 명사구 ↔ 영어 동사구로 **설계했다**」고 답했으나,
+**확인해 보니 그런 규칙은 없었다.**
+
+- `I18N-GLOSSARY.md`의 제목 관련 항목은 「대소문자는 문장형」 하나뿐이다
+- 유즈케이스 영어 데이터는 2026-08-04 `c9327f4`로 들어왔고 커밋에 **「⚠️ 원어민 검수 전 초안이다」**라고 적혀 있다
+- 그 뒤 손본 것은 `load ratio → load factor`와 철자 통일뿐, 제목 형식을 논한 적이 없다
+
+즉 **정해진 규칙이 아니라 초안의 습관**이 일곱 페이지에 일관되게 남은 것이었다.
+「설계했다」는 표현은 부정확했다.
+
+#### 결정
+
+한국어는 25개가 모두 명사구인데 영어만 동사구였다. 사용자가 **원문을 따라 명사구로** 가기로 했다.
+
+| 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|
+| 무선 진동센서 부착 | Attach a wireless sensor | Wireless vibration sensor mounting |
+| ISO-20816 기준 판정 | Judge against ISO 20816 | Assessment against ISO 20816 |
+| 추세 기반 조기 감지 | Catch it early, from the trend | Trend-based early detection |
+| 근거 있는 조치 제안 | Act on evidence | Evidence-backed action proposals |
+| 다중 센서 수집 | Collect from many sources | Multi-sensor collection |
+| 온톨로지로 연결 | Connect through the ontology | Connection through the ontology |
+| 실시간 이상 감시 | Watch for anomalies in real time | Real-time anomaly monitoring |
+| 사용 가시화 | Make usage visible | Usage made visible |
+| 피크 관리 | Manage peaks | Peak management |
+| 이상 사용 감지 | Detect abnormal use | Abnormal-use detection |
+| 역률 · 부하 점검 | Check power factor and load | Power factor ⁠· load checks |
+| 품질 지표 감시 | Monitor quality metrics | Quality metric monitoring |
+| 이벤트 자동 기록 | Record events automatically | Automatic event recording |
+| 원인 연결 | Connect to causes | Connection to causes |
+| 영향 구분 | Separate what mattered | Impact separation |
+| 통합 계량 | Meter everything together | Unified metering |
+| 원단위 분석 | Analyze energy intensity | Energy intensity analysis |
+| 피크 · 부하 관리 | Manage peak and load | Peak ⁠· load management |
+| ESG 자동 집계 | Aggregate ESG automatically | Automatic ESG aggregation |
+| 낭비 발굴 | Uncover waste | Waste discovery |
+| 피크 저감 | Reduce peaks | Peak reduction |
+| **지속 관리** | Keep the gains | **Ongoing management** |
+| 공정과 품질 연결 | Link process to quality | Process-to-quality linking |
+| 전조 감지 | Detect early signs | Early-sign detection |
+| 사전 경고 | Warn in advance | Advance warning |
+
+번역기로 25개를 한 번에 확인해 **24개가 통과**했다. 어긋난 하나는 「다중 **센서** 수집」을
+`Multi-source`로 쓴 것(본문의 `diverse sources`에 이끌렸다) — `Multi-sensor`로 고쳤다.
+
+`Usage made visible`만 분사구다. 「가시화」를 명사 `visualization`으로 옮기면
+'데이터 시각화'라는 다른 뜻이 되어 분사형이 원문에 가깝다.
+
+#### 대가
+
+명사구가 동사구보다 길어 **예지보전 카드 제목 넷이 1440px에서 2줄이 됐다**(한국어는 1줄).
+카드 높이도 250 → 327px로 늘었다. 다른 페이지는 대부분 1줄을 유지한다.
+가로 넘침은 일곱 페이지 모두 0이다.

@@ -36,10 +36,10 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
-      { icon: 'ph-broadcast', title: 'Attach a wireless sensor', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
-      { icon: 'ph-gauge', title: 'Judge against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
-      { icon: 'ph-trend-up', title: 'Catch it early, from the trend', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
-      { icon: 'ph-lightbulb', title: 'Act on evidence', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
+      { icon: 'ph-broadcast', title: 'Wireless vibration sensor mounting', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
+      { icon: 'ph-gauge', title: 'Assessment against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
+      { icon: 'ph-trend-up', title: 'Trend-based early detection', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
+      { icon: 'ph-lightbulb', title: 'Evidence-backed action proposals', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
     ],
     signals: [
       { label: '3-axis vibration', icon: 'vibration' },
@@ -116,9 +116,9 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Every machine comes with its own sensors and protocols, so the data is never readable from one place. When signals stay scattered, it is hard to put them together and judge what is actually happening.',
     how: [
-      { icon: 'ph-arrows-in', title: 'Collect from many sources', desc: 'From IoT sensors to existing instrumentation, diverse sources are standardized and gathered in one place.' },
-      { icon: 'ph-tree-structure', title: 'Connect through the ontology', desc: 'Each signal is given meaning — which asset it belongs to and what it measures — so it can be interpreted alongside the others.' },
-      { icon: 'ph-pulse', title: 'Watch for anomalies in real time', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
+      { icon: 'ph-arrows-in', title: 'Multi-sensor collection', desc: 'From IoT sensors to existing instrumentation, diverse sources are standardized and gathered in one place.' },
+      { icon: 'ph-tree-structure', title: 'Connection through the ontology', desc: 'Each signal is given meaning — which asset it belongs to and what it measures — so it can be interpreted alongside the others.' },
+      { icon: 'ph-pulse', title: 'Real-time anomaly monitoring', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
     ],
     signals: [
       { label: 'Vibration', icon: 'oscillation' },
@@ -167,10 +167,10 @@ export const useCasesEn: UseCase[] = [
     problem:
       'An electricity bill shows a total and a few peak figures. What it does not show is which equipment used that power, at what hour, and why. Metering is fragmented across machines and records are scattered, so when the bill goes up the response is usually an instruction to use less rather than a search for the cause. Exceeding contracted demand and paying peak charges is often discovered only afterwards, from the bill.',
     how: [
-      { icon: 'ph-chart-bar', title: 'Make usage visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
-      { icon: 'ph-chart-line', title: 'Manage peaks', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
-      { icon: 'ph-warning-circle', title: 'Detect abnormal use', desc: 'Catch consumption that departs from the usual pattern — equipment running when it should be off, or standby draw that crept up unnoticed.' },
-      { icon: 'ph-gauge', title: 'Check power factor and load', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged with room to improve.' },
+      { icon: 'ph-chart-bar', title: 'Usage made visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
+      { icon: 'ph-chart-line', title: 'Peak management', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
+      { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Catch consumption that departs from the usual pattern — equipment running when it should be off, or standby draw that crept up unnoticed.' },
+      { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged with room to improve.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
@@ -241,10 +241,10 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [
-      { icon: 'ph-pulse', title: 'Monitor quality metrics', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
-      { icon: 'ph-clipboard-text', title: 'Record events automatically', desc: 'Fleeting events — sags, swells, brief interruptions — are recorded automatically, leaving evidence you can go back to.' },
-      { icon: 'ph-link', title: 'Connect to causes', desc: 'Overlay when and where a quality event occurred with operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
-      { icon: 'ph-funnel', title: 'Separate what mattered', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
+      { icon: 'ph-pulse', title: 'Quality metric monitoring', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
+      { icon: 'ph-clipboard-text', title: 'Automatic event recording', desc: 'Fleeting events — sags, swells, brief interruptions — are recorded automatically, leaving evidence you can go back to.' },
+      { icon: 'ph-link', title: 'Connection to causes', desc: 'Overlay when and where a quality event occurred with operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
+      { icon: 'ph-funnel', title: 'Impact separation', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
@@ -298,10 +298,10 @@ export const useCasesEn: UseCase[] = [
     problem:
       'A plant runs on several forms of energy at once — electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
     how: [
-      { icon: 'ph-factory', title: 'Meter everything together', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
-      { icon: 'ph-chart-donut', title: 'Analyze energy intensity', desc: 'Compare energy intensity, meaning energy used against output, to find the periods and areas that spend more for the same work.' },
-      { icon: 'ph-chart-line', title: 'Manage peak and load', desc: 'Identify when machines cluster and create a peak, spread the load, and bring down contracted demand and peak charges.' },
-      { icon: 'ph-leaf', title: 'Aggregate ESG automatically', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
+      { icon: 'ph-factory', title: 'Unified metering', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
+      { icon: 'ph-chart-donut', title: 'Energy intensity analysis', desc: 'Compare energy intensity, meaning energy used against output, to find the periods and areas that spend more for the same work.' },
+      { icon: 'ph-chart-line', title: 'Peak ⁠· load management', desc: 'Identify when machines cluster and create a peak, spread the load, and bring down contracted demand and peak charges.' },
+      { icon: 'ph-leaf', title: 'Automatic ESG aggregation', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
@@ -356,9 +356,9 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
-      { icon: 'ph-magnifying-glass', title: 'Uncover waste', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
-      { icon: 'ph-trend-down', title: 'Reduce peaks', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
-      { icon: 'ph-arrows-clockwise', title: 'Keep the gains', desc: 'Track the effect of improvement and hold the savings.<br>Any stretch sliding back to the old pattern stands out at once.' },
+      { icon: 'ph-magnifying-glass', title: 'Waste discovery', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
+      { icon: 'ph-trend-down', title: 'Peak reduction', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
+      { icon: 'ph-arrows-clockwise', title: 'Ongoing management', desc: 'Track the effect of improvement and hold the savings.<br>Any stretch sliding back to the old pattern stands out at once.' },
     ],
     signals: [
       { label: 'Consumption by time of day', icon: 'hourly-usage' },
@@ -404,9 +404,9 @@ export const useCasesEn: UseCase[] = [
     problem:
       'By the time a defect is found at final inspection, the material and the time have already gone into it. And looking at the finished part alone rarely tells you why.',
     how: [
-      { icon: 'ph-flow-arrow', title: 'Link process to quality', desc: 'Connect process conditions with inspection results to see which conditions correlate with defects.' },
-      { icon: 'ph-waveform', title: 'Detect early signs', desc: 'Read the early signs of a defect in small shifts of temperature, pressure and material properties.' },
-      { icon: 'ph-bell-ringing', title: 'Warn in advance', desc: 'When a run enters a risky range, the alert comes with the evidence and a recommended action.' },
+      { icon: 'ph-flow-arrow', title: 'Process-to-quality linking', desc: 'Connect process conditions with inspection results to see which conditions correlate with defects.' },
+      { icon: 'ph-waveform', title: 'Early-sign detection', desc: 'Read the early signs of a defect in small shifts of temperature, pressure and material properties.' },
+      { icon: 'ph-bell-ringing', title: 'Advance warning', desc: 'When a run enters a risky range, the alert comes with the evidence and a recommended action.' },
     ],
     signals: [
       { label: 'Temperature', icon: 'temperature' },
