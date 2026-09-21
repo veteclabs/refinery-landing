@@ -635,3 +635,37 @@ EMS 페이지인데 h1이 전력만 말해, 바로 아래 [4]의 EMS 정의(전�
 
 > ⚠️ 1440px에서 한국어 h3 열한 개가 모두 1줄인데 영어는 **둘이 2줄**([5] · [22] — 이번에 길어진 곳).
 > 390px에서는 한국어 2줄, 영어 2~4줄이다. 모바일 일괄 점검 때 함께 본다.
+
+### 6.12 산업 · 기계 `/en/industries/machinery` — 93단위
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [6] | 압축공기 · 전력 · **냉열** · 공조 | …electricity, **cooling** and HVAC | …electricity, **thermal and refrigeration loads** and HVAC |
+| [14] | **Refinery**가 실제로 하는 일 | What **Refinery** actually does on a **plant** site | `<span translate="no">` (산업 7페이지 공통) |
+| [35] | **냉열** 에너지 절감 | lower **cooling** energy | lower **thermal and refrigeration** energy |
+| [45] | 전력 계통 하나에 묶여 **흔들리는 설비** 운영 | **Operations** tied to a single grid feed | **Equipment operation left unsteady**, tied to a single grid feed |
+| [73] | **원단위** 리포트 | **intensity** reports | **energy intensity** reports |
+
+#### 제품명이 정유 공장이 된 곳
+
+`What Refinery actually does on a **plant** site.`가 번역기에서 **'정유 공장에서 실제로 수행하는 작업'**으로 읽혔다.
+제품명이 통째로 사라지고 업종이 됐다 — 바로 뒤의 `plant`가 `Refinery`를 정유소로 굳혔다.
+
+일곱 페이지가 뒤의 업종명만 다른 같은 문장이라 `translate="no"`를 함께 넣었다.
+나머지 여섯은 지금까지 제품명으로 읽혔지만, 한 곳만 표시하면 왜 거기만 다른지 나중에 알 수 없다.
+
+`Refinery` 뒤에 **동사**가 오는 곳(`sits` 8 · `solves` 7 · `weaves` 2 · `runs` 1)은 문법상 주어라 건드리지 않았다.
+`/en/company`의 `the Refinery team`도 '팀'이 정유소로 읽힐 여지가 없어 그대로 둔다.
+
+#### '열'이 또 빠져 있었다 — 식품에 이어 세 번째 페이지
+
+원문 '냉열'이 `cooling`만 남은 곳이 이 페이지에도 둘 있었다.
+식품에서 통과한 `thermal and refrigeration`을 그대로 썼다.
+
+#### `intensity` 홀로 쓰면 '배출 강도'가 된다
+
+구조 칩 `intensity reports`에 앞말이 없어 번역기가 **'배출 강도 보고서'**로 읽었다.
+바로 옆 칩이 `emission management`라 배출 쪽으로 끌린 것이다. 원문은 **에너지 원단위**다.
+
+측정: 칩 높이 동일, 가로 넘침 0. 1440px h1 2줄로 한국어와 같다.
+390px에서 h1 4줄(한국어 2줄), [45] 문제 문장 6줄(한국어 3줄)이다. 모바일 일괄 점검 때 함께 본다.

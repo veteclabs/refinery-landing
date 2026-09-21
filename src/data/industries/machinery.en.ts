@@ -29,7 +29,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Several energy sources run at once',
         description:
-          'Compressed air, electricity, cooling and HVAC all run on one site, and where the consumption lands never becomes clear.',
+          'Compressed air, electricity, thermal and refrigeration loads and HVAC all run on one site, and where the consumption lands never becomes clear.',
       },
       {
         title: 'Equipment is tightly coupled',
@@ -69,7 +69,7 @@ export const machineryEn: IndustryData = {
         title: 'Enthalpy-based HVAC inverter control',
         problem: 'HVAC running fixed, regardless of outdoor conditions',
         approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC inverter is controlled to hold the target.',
-        outcome: 'Steadier process environment and lower cooling energy',
+        outcome: 'Steadier process environment and lower thermal and refrigeration energy',
       },
       {
         title: 'Energy intensity tied to output',
@@ -79,7 +79,7 @@ export const machineryEn: IndustryData = {
       },
       {
         title: 'DC-microgrid-based equipment control',
-        problem: 'Operations tied to a single grid feed',
+        problem: 'Equipment operation left unsteady, tied to a single grid feed',
         approach: 'On-site generation and the grid are read together to distribute power across equipment.',
         outcome: 'Lower fuel cost and steadier energy operations',
       },
@@ -98,7 +98,7 @@ export const machineryEn: IndustryData = {
       { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
       { label: 'Connect', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Utility dashboard ⁠· intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Utility dashboard ⁠· energy intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
     note: 'Where FEMS or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
