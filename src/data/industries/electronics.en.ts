@@ -75,7 +75,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Live temperature, humidity and process heater monitoring',
         problem: 'Invisible temperature and humidity drift between lines',
-        approach: 'Process environment is collected segment by segment and any point outside the band is flagged immediately.',
+        approach: 'Process environment data is collected zone by zone and each point outside the band is flagged immediately.',
         outcome: 'Steadier process quality',
       },
       {
@@ -92,7 +92,7 @@ export const electronicsEn: IndustryData = {
       },
       {
         title: 'Wireless sensor deployment for power and environment',
-        problem: 'Measurement points that need cabling work to add',
+        problem: 'Measurement points that are hard to add because they need cabling',
         approach: 'Wireless sensors extend power and environment coverage without new cable runs.',
         outcome: 'Lower build cost and room to scale',
       },
@@ -126,7 +126,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Live process environment monitoring',
         icon: 'ph-thermometer',
-        description: 'Temperature and humidity are tracked segment by segment in real time.',
+        description: 'Temperature and humidity are tracked zone by zone in real time.',
       },
       {
         title: 'Operation tracked against the plan',

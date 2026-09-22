@@ -7,7 +7,7 @@ export const energyEn: IndustryData = {
   name: 'Energy & Utilities',
   pageTitle: 'Refinery for energy & utilities: unified control, predictive maintenance, automated ESG',
   description:
-    'Connect energy data scattered across SCADA, EMS and meters into one structure, let an AI agent catch anomalies first, and automate ESG reporting. Refinery for generation, transmission and utility operations.',
+    'Connect energy data scattered across SCADA, EMS and meters into one structure, let an AI agent catch anomalies first, and automate ESG reporting. Refinery for generation, T&D and utility operations.',
   hero: {
     dark: true,
     image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1280 },
