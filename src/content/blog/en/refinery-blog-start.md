@@ -12,7 +12,7 @@ cardBreakAfter: "Insight and product news on industrial data,"
 lang: "en"
 ---
 
-We are starting the Refinery blog. This is where we will talk, in practical terms, about
+This is where we will talk, in practical terms, about
 how data on industrial sites gets connected, refined, and put to work in decisions through
 AI agents.
 
@@ -23,7 +23,7 @@ rather than what sounds good in theory.
 
 ## What we will write about
 
-- **Field data practices**: from collecting and refining data to connecting it through an
+- **Field data best practices**: from collecting and refining data to connecting it through an
   ontology — the methods that hold up in a real plant.
 - **AI agents in use**: the actual moments where AI helps decide — predictive maintenance,
   quality, energy, autonomous operation.
