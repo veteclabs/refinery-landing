@@ -1,6 +1,6 @@
 ---
 title: "Five principles for turning industrial data into an asset"
-description: "Practical principles for turning scattered field data into something you can actually decide on."
+description: "Practical principles for turning scattered field data into something you can trust and decide on."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -126,4 +126,4 @@ one body of knowledge.
 
 <span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>
 <span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/whitepapers/ai-agent)<br>
-<span class="lead-dot"></span>To talk through your own site → [Contact](/en/contact)
+<span class="lead-dot"></span>To talk through your own operation → [Contact](/en/contact)
