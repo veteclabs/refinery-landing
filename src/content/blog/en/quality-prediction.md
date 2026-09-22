@@ -30,23 +30,23 @@ upstream in the process.
 ## Quality is already written into the process
 
 Defects rarely appear out of nowhere. Temperature wavers slightly, pressure drifts
-outside its usual range, a material property shifts a little — the early signs are left
+outside its usual range, a material property shifts a little: the early signs are left
 in process data first. Quality prediction is the work of reading those signs and warning
 before the part is finished.
 
 ## Pinning down a cause takes context
 
 Knowing that "this batch has a high defect rate" is not enough to act on. To
-narrow the cause you need to know which machine, which material lot, and under what
-conditions it was made — connected together. With an ontology tying process, equipment,
+narrow the cause, all of it has to be connected: which machine, which material lot, and
+under what conditions it was made. With an ontology tying process, equipment,
 material and inspection results into one structure, the conditions correlated with
 defects can be identified in the data.
 
 ## From warning to action
 
 The point of quality prediction is not a <span class="nb">defect-rate</span> chart but action that reduces
-defects. When guidance arrives with its evidence — "current conditions resemble a period
-that produced defects; check the temperature" — the floor can intervene before the part
+defects. When guidance as specific as "current conditions resemble a period
+that produced defects; check the temperature" arrives with its evidence, the floor can intervene before the part
 is finished. Here too, when an answer carries its evidence, the shop floor trusts the warning and moves.
 
 ## Where to start

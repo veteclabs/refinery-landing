@@ -1,6 +1,6 @@
 ---
 title: "The Refinery blog starts here"
-description: "Insight and product news on industrial data, AI agents and field operations — starting here."
+description: "Insights and product news on industrial data, AI agents and field operations, starting here."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -8,7 +8,7 @@ tags: ["news", "product"]
 category: "News"
 hideCoverKind: true
 image: "../../../assets/blog/refinery-blog-start.webp"
-cardBreakAfter: "Insight and product news on industrial data,"
+cardBreakAfter: "Insights and product news on industrial data,"
 lang: "en"
 ---
 
@@ -24,9 +24,9 @@ rather than what sounds good in theory.
 ## What we will write about
 
 - **Field data best practices**: from collecting and refining data to connecting it through an
-  ontology — the methods that hold up in a real plant.
-- **AI agents in use**: the actual moments where AI helps decide — predictive maintenance,
-  quality, energy, autonomous operation.
+  ontology, the methods that hold up in a real plant.
+- **AI agents in use**: the actual moments where AI helps decide in predictive maintenance,
+  quality, energy and autonomous operation.
 - **Product news**: new capabilities and updates in Refinery, and the thinking behind them.
 
 Each topic focuses on the context a product brochure struggles to carry: why it was built

@@ -36,7 +36,7 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
-      { icon: 'ph-broadcast', title: 'Wireless vibration sensor mounting', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
+      { icon: 'ph-broadcast', title: 'Wireless vibration sensor mounting', desc: 'Mount the sensor on the motor, with no conduit and no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
       { icon: 'ph-gauge', title: 'Assessment against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
       { icon: 'ph-trend-up', title: 'Trend-based early detection', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alarm fatigue while catching early signs sooner.' },
       { icon: 'ph-lightbulb', title: 'Evidence-backed action proposals', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
@@ -169,7 +169,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-chart-bar', title: 'Usage made visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
       { icon: 'ph-chart-line', title: 'Peak management', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
-      { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Catch consumption that departs from the usual pattern — equipment running when it should be off, or standby draw that crept up unnoticed.' },
+      { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Catch consumption that departs from the usual pattern. Equipment running when it should be off, or standby draw that crept up unnoticed, comes to light.' },
       { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
     ],
     template: {
@@ -200,7 +200,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How does AI help with power management?',
         a:
-          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action.<br>Nobody has to watch every metric — it flags the moment with the reasoning attached.',
+          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action.<br>Without anyone watching every metric, it flags the moment with the reasoning attached.',
       },
     ],
     seo: {
@@ -242,7 +242,7 @@ export const useCasesEn: UseCase[] = [
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [
       { icon: 'ph-pulse', title: 'Quality metric monitoring', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
-      { icon: 'ph-clipboard-text', title: 'Automatic event recording', desc: 'Fleeting events — sags, swells, brief interruptions — are recorded automatically, leaving evidence you can go back to.' },
+      { icon: 'ph-clipboard-text', title: 'Automatic event recording', desc: 'Fleeting events such as sags, swells and brief interruptions are recorded automatically, leaving evidence you can go back to.' },
       { icon: 'ph-link', title: 'Connection to causes', desc: 'See when and near which machine a quality event occurred, laid over your operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
       { icon: 'ph-funnel', title: 'Impact separation', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
     ],
@@ -352,7 +352,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Find the hidden waste and the peaks,<br>and do the same work for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how energy optimization fits your site,<br>together with Refinery.',
-    problemHtml: 'Waste is scattered in the places that draw less attention than the large machines. A unit left idling, a run scheduled at an hour nobody needed — <br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
+    problemHtml: 'Waste is scattered in the places that draw less attention than the large machines. A unit left idling, a run scheduled at an hour nobody needed:<br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [

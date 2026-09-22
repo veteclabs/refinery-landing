@@ -17,7 +17,7 @@ lang: "en"
 ---
 
 The moment equipment stops, losses start accumulating. So plants work hard to prevent
-failures in advance — but setting the standard for "in advance" is not easy. Predictive
+failures in advance, but setting the standard for "in advance" is not easy. Predictive
 maintenance is an attempt to set that standard from data rather than instinct.
 
 ## The limits of preventive maintenance
