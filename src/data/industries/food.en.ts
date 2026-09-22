@@ -55,7 +55,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Chiller and compressor power and operating pattern analysis',
         problem: 'Equipment efficiency slipping without ever surfacing',
-        approach: 'Power consumption and operating patterns are overlaid to pinpoint where efficiency falls off.',
+        approach: 'Power consumption and operating patterns are overlaid to locate where efficiency falls off.',
         outcome: 'Better equipment efficiency and lower energy cost',
       },
       {
