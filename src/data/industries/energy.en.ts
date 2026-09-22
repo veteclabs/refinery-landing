@@ -23,7 +23,7 @@ export const energyEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on energy sites',
-    subtitle: 'Recurring problems in generation, transmission and distribution, and utilities.',
+    subtitle: 'Recurring problems on generation, T&D and utility sites.',
     items: [
       {
         title: 'The data sits apart',
@@ -43,7 +43,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Real-time response lags',
         description:
-          'Adjusting consumption to demand, tariffs and weather requires several screens and several judgments, so the response arrives late.',
+          'Adjusting consumption to demand, tariffs and weather means checking several screens and making several judgments, so the response arrives late.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const energyEn: IndustryData = {
         title: 'Unified control of distributed assets',
         problem: 'SCADA, EMS and meter data kept apart, with no integrated view',
         approach: 'Field data is connected through an ontology, defining assets, grids and locations in one structure.',
-        outcome: 'Generation, transmission and distribution, and consumption status and alarms live on one screen',
+        outcome: 'Status and alarms for generation, T&D and consumption, live on one screen',
       },
       {
         title: 'Predictive maintenance',
@@ -114,7 +114,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Energy efficiency',
         icon: 'ph-lightning',
-        description: 'Waste and peaks are found on the evidence of consumption patterns, cutting operating cost.',
+        description: 'Consumption patterns reveal waste and peaks, cutting operating cost.',
       },
       {
         title: 'ESG automation',
