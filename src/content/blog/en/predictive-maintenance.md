@@ -1,6 +1,6 @@
 ---
 title: "What predictive maintenance actually predicts"
-description: "Not magic that guesses failures in advance, but the work of reading early signs in data. How predictive maintenance really operates."
+description: "Not magic that guesses failures in advance, but the work of reading early signs in data. How predictive maintenance actually works."
 pubDate: 2026-07-30
 updatedDate: 2026-07-31
 author: "Refinery Team"

@@ -95,7 +95,7 @@ export const energyEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Unified dashboard ⁠· alerts ⁠· ESG reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where SCADA or EMS already exists, a layer sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where SCADA or EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -129,7 +129,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Integrate or build new',
         icon: 'ph-stack',
-        description: 'Where legacy SCADA, EMS or ERP exists, Refinery layers on top and integrates both ways. Where none exists, it is built from scratch.',
+        description: 'Where legacy SCADA, EMS or ERP exists, Refinery layers on top and integrates bidirectionally. Where none exists, it is built from scratch.',
       },
     ],
   },

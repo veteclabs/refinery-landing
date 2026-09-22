@@ -87,7 +87,7 @@ export const automotiveEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or PLC already exists, a layer sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where MES or PLC already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
