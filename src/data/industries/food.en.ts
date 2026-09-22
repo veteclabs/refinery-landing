@@ -61,7 +61,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Energy simulation before and after replacing ageing equipment',
         problem: 'Replacement benefit that cannot be shown in numbers',
-        approach: 'Post-replacement energy use is estimated from current operating data and placed side by side.',
+        approach: 'Post-replacement energy use is estimated from current operating data and placed side by side with current use.',
         outcome: 'Investment case verified and replacement benefit quantified',
       },
       {
@@ -72,7 +72,7 @@ export const foodEn: IndustryData = {
       },
       {
         title: 'Energy intensity tied to output',
-        problem: 'Batch-to-batch variance with no baseline to compare',
+        problem: 'Batch-to-batch variance with no baseline to compare it against',
         approach: 'Production records and energy use are linked to derive energy intensity by batch and product automatically.',
         outcome: 'Better cost structure and comparable process efficiency',
       },
@@ -99,7 +99,7 @@ export const foodEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Equipment dashboard ⁠· temperature excursion alerts ⁠· batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where PLC or MES already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where PLC or MES already exists, a layer sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',

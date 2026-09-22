@@ -17,8 +17,8 @@ lang: "en"
 
 If a defect is caught at inspection, that is the good outcome. The problem is that by the
 time it is caught, the material, the time and the energy have already gone into it.
-Quality prediction is an attempt to change that order — instead of checking after the
-part is finished, catching it while it is still being made.
+Quality prediction is an attempt to change that order. Instead of checking after the
+part is finished, it catches the defect while the part is still being made.
 
 ## From inspection to prediction
 

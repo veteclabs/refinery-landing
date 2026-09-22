@@ -38,7 +38,7 @@ reading.
 ## What has to be in place for prediction to work
 
 The quality of a prediction depends more on the data beneath it than on the model. First
-you need history of how that machine normally behaves — without a baseline to compare
+you need a history of how that machine normally behaves. Without a baseline to compare
 against, you cannot even tell whether the current value is unusual. And you need context
 for which machine a signal belongs to and what it connects to — an ontology — before a
 cause can be narrowed down. If data is scattered and its provenance unclear, even a good
@@ -52,10 +52,10 @@ and the records vary from person to person. Wiring a sensor to every machine, me
 is no small amount of construction.
 
 So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
-on the motor — with no wiring work it can go onto equipment that is already running. A
+on the motor, and with no wiring work it can go onto equipment that is already running. A
 <span class="nb">built-in</span> 3-axis accelerometer measures vibration along with temperature, and the data goes
 out over LoRaWAN. Because LoRaWAN is <span class="nb">low-power</span>, the battery lasts and the signal carries
-far, so sensors spread across a large plant can be collected by one or two gateways such
+far, so data from sensors spread across a large plant can be collected by one or two gateways such
 as the <span class="nb">WISE-6610</span>.
 
 The measured 3-axis values are assessed against an international standard such as ISO

@@ -101,7 +101,7 @@ export const chemicalsEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Energy dashboard ⁠· target alerts ⁠· emission reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where SCADA or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where SCADA or FEMS already exists, a layer sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',

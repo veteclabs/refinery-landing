@@ -50,10 +50,10 @@ If only one person in the organization knows what `TAG_0421` means, that data is
 organizational asset — it is that person’s memory. The moment they are away or leave the
 company, years of accumulated data revert to an uninterpretable pile of numbers.
 
-Giving data meaning means defining things — equipment, lines, processes, documents — as
-entities, and describing the relationships between them. The structure that results is
+Giving data meaning means defining things such as equipment, lines, processes and
+documents as entities, and describing the relationships between them. The structure that results is
 called an ontology. With one in place, a single signal can be read together with the
-context it connects to. When a vibration value spikes, the system can follow on its own
+context it connects to. When a vibration value spikes, the system can work out on its own
 that the sensor belongs to pump 3 on line B, that the pump had its bearing replaced two
 weeks ago, and that it feeds reactor 2 downstream.
 
@@ -104,7 +104,7 @@ without evidence is convenient, and dangerous for an industrial decision.
 The starting point for integration differs by site. Some have run SCADA, MES and ERP for
 years. Others are only beginning to collect data at all.
 
-Where systems already exist, ripping them out mostly fails. The cost is high, and so is the
+Where systems already exist, most attempts to rip them out fail. The cost is high, and so is the
 risk of replacing tools the site has long grown accustomed to in one move. Here it is more
 realistic to leave the existing systems in place and add an intelligence layer on top that
 integrates in both directions. The existing systems keep running, and a layer that adds

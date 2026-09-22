@@ -16,9 +16,9 @@ This is where we will talk, in practical terms, about
 how data on industrial sites gets connected, refined, and put to work in decisions through
 AI agents.
 
-We are a team that has spent a long time in power, manufacturing and energy. It is not
-only developers here — field engineers who have handled the equipment and the process
-themselves build the product alongside them. So this blog leans toward what actually works on site
+We are a team that has spent a long time in power, manufacturing and energy. Here the
+product is built not only by developers but by field engineers who have handled the
+equipment and the process themselves. So this blog leans toward what actually works on site
 rather than what sounds good in theory.
 
 ## What we will write about
@@ -39,8 +39,8 @@ do, but not why that capability was needed or which problem it solved on the flo
 
 Problems on industrial sites are mostly quiet. Cost accumulates less from major incidents
 than from the small inefficiencies that repeat daily, and from the effort people spend by
-hand bridging data that sits apart. We want to record those problems and how they get
-solved, steadily, so it is of use to anyone working through the same thing.
+hand bridging data that sits apart. We want to keep a steady record of those problems and how
+they get solved, so they are of use to anyone working through the same thing.
 
 ## How we write
 

@@ -6,7 +6,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'predictive-maintenance',
     name: 'Predictive maintenance',
-    tagline: 'Read the early signs of motor failure with wireless vibration sensors, and cut stoppages and loss.',
+    tagline: 'Read the early signs of motor failure with wireless vibration sensors, and cut stoppages and losses.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
@@ -15,7 +15,7 @@ export const useCasesEn: UseCase[] = [
       height: 1607,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and loss',
+    heroTitle: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and losses',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -29,10 +29,10 @@ export const useCasesEn: UseCase[] = [
       width: 1280,
       height: 720,
     },
-    cardDesc: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and loss.',
+    cardDesc: 'Read the early signs of motor failure with wireless<br>vibration sensors, and cut stoppages and losses.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how predictive maintenance fits your site,<br>together with Refinery.',
-    problemHtml: 'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure between service intervals. Time is a poor proxy for the actual condition of a machine.<br>But walking the floor to take readings by hand, or wiring a sensor to every machine, is its own cost.',
+    problemHtml: 'Calendar-based maintenance either discards parts that still have life left, or misses sudden failures between service intervals. Time is a poor proxy for the actual condition of a machine.<br>But walking the floor to take readings by hand, or wiring a sensor to every machine, is its own cost.',
     problem:
       'Calendar-based maintenance either discards parts that still have life left, or misses the sudden failure that happens between service intervals. Time simply has nothing to do with the actual condition of the equipment. Yet sending someone around the plant to take readings by hand, or wiring a sensor to every machine, carries a real cost of its own.',
     how: [
@@ -112,7 +112,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Bring scattered sensors into one structure<br>and read anomalies together.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how sensor monitoring fits your site,<br>together with Refinery.',
-    problemHtml: 'Every machine brings its own sensors and protocols, so the data never reads from one place.<br>Each was added when it was needed, which left the formats and collection methods all different.<br>Scattered signals make it hard to judge an anomaly as a whole.',
+    problemHtml: 'Every machine brings its own sensors and protocols, so the data cannot be read in one place.<br>Each was added when it was needed, which left the formats and collection methods all different.<br>Scattered signals make it hard to judge an anomaly as a whole.',
     problem:
       'Every machine comes with its own sensors and protocols, so the data is never readable from one place. When signals stay scattered, it is hard to put them together and judge what is actually happening.',
     how: [
@@ -170,12 +170,12 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-chart-bar', title: 'Usage made visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
       { icon: 'ph-chart-line', title: 'Peak management', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
       { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Catch consumption that departs from the usual pattern — equipment running when it should be off, or standby draw that crept up unnoticed.' },
-      { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged with room to improve.' },
+      { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power management template',
-      desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already contains how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
+      desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already sets out how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
       includes: ['Power metering structure by asset and area', 'Peak and contracted-demand management criteria', 'Power factor ⁠· load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: [
@@ -294,9 +294,9 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Bring the whole plant’s energy flow into one view<br>and cut waste and emissions together.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how factory energy management fits your site,<br>together with Refinery.',
-    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department,<br>per machine and per hour, scattered enough that where it goes, how much, and why is never visible at a glance.<br>Without the whole flow you cannot say where to cut, and savings stay a guess.<br>Aggregating figures for ESG reporting turns into manual work, every time.',
+    problemHtml: 'A plant runs on electricity, gas, steam and water at once. That consumption is recorded per department,<br>per machine and per hour, scattered enough that where it goes, how much, and why are never visible at a glance.<br>Without the whole flow you cannot say where to cut, and savings stay a guess.<br>Aggregating figures for ESG reporting turns into manual work, every time.',
     problem:
-      'A plant runs on several forms of energy at once — electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
+      'A plant runs on several forms of energy at once — electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why are never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
     how: [
       { icon: 'ph-factory', title: 'Unified metering', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
       { icon: 'ph-chart-donut', title: 'Energy intensity analysis', desc: 'Compare energy intensity, meaning energy used against output, to find the periods and areas that spend more for the same work.' },
@@ -400,7 +400,7 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Read what the process data is signaling<br>and catch defects before they finish.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how quality prediction fits your site,<br>together with Refinery.',
-    problemHtml: 'By the time final inspection finds a defect, the material and the hours are already spent. Scrap it or rework it,<br>the loss stays. And the finished part rarely tells you which step went wrong, so the same defect returns.',
+    problemHtml: 'By the time final inspection finds a defect, the material and the hours are already spent. Whether you scrap it or rework it,<br>the loss stays. And the finished part rarely tells you which step went wrong, so the same defect returns.',
     problem:
       'By the time a defect is found at final inspection, the material and the time have already gone into it. And looking at the finished part alone rarely tells you why.',
     how: [

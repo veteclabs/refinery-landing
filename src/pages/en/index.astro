@@ -571,7 +571,7 @@ const jsonLd = {
         <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
         <div class="series-tagline">Ontology</div>
         <h3>Data with meaning attached</h3>
-        <p class="series-desc">Every scattered number and record gets<br>a meaning: what the data is about.</p>
+        <p class="series-desc">Every scattered number and record is given<br>meaning: what the data is about.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
@@ -685,8 +685,8 @@ const jsonLd = {
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">Industrial AI OS</div>
         {/* 본문과 같은 이유로 <br> 명시 - 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
-        <h3 id="teamsPreviewTitle">Ask a question,<br>
-the ontology answers.</h3>
+        <h3 id="teamsPreviewTitle">Ask a question, and<br>
+the ontology finds the answer.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
@@ -1206,7 +1206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history data\nin the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'Industrial AI OS'],
+  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history data\nin the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'Industrial AI OS'],
   plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
   tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more — pick the\nwidget that fits your data.', 'Tile'],
   pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],

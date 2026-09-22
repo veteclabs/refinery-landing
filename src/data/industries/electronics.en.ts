@@ -57,7 +57,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Live peak demand monitoring and load control',
         problem: 'Peak demand confirmed only once the peak has passed',
-        approach: 'Working with a demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
+        approach: 'Linked to a demand controller, the system holds load inside the target and raises an alert before the peak is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
@@ -107,7 +107,7 @@ export const electronicsEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where MES or SCADA already exists, a layer sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
