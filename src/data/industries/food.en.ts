@@ -33,12 +33,12 @@ export const foodEn: IndustryData = {
       {
         title: 'A stoppage costs a great deal',
         description:
-          'Hygiene standards and quality regulation are strict, so a single interruption leaves a large loss.',
+          'Hygiene standards and quality regulation are strict, so a single interruption results in a large loss.',
       },
       {
         title: 'Energy patterns shift batch to batch',
         description:
-          'With batch production, a change in output changes the energy profile with it.',
+          'With batch production, a shift in output moves the energy profile with it.',
       },
       {
         title: 'Cost, carbon and aging arrive together',
@@ -55,7 +55,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Chiller and compressor power and operating pattern analysis',
         problem: 'Equipment efficiency slipping without ever surfacing',
-        approach: 'Power consumption and operating patterns are stacked to locate where efficiency bends.',
+        approach: 'Power consumption and operating patterns are overlaid to pinpoint where efficiency falls off.',
         outcome: 'Better equipment efficiency and lower energy cost',
       },
       {
@@ -78,7 +78,7 @@ export const foodEn: IndustryData = {
       },
       {
         title: 'Chiller efficiency analysis and operating optimization',
-        problem: 'Chillers running on without a reference point',
+        problem: 'Chillers that keep running with no reference point',
         approach: 'Chiller COP is computed continuously so the most efficient units are run first.',
         outcome: 'Lower thermal and refrigeration energy, and steadier quality',
       },
@@ -118,7 +118,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Efficiency compared against output',
         icon: 'ph-chart-line',
-        description: 'Energy is weighed batch against batch to improve the cost structure.',
+        description: 'Energy is compared batch to batch to improve the cost structure.',
       },
       {
         title: 'Retracing equipment on a quality issue',
