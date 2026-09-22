@@ -49,7 +49,7 @@ model will chase the wrong thing.
 If vibration is the signal that reveals early signs first, the next question is how to
 measure it consistently. Sending someone around with a handheld meter is hard to do often,
 and the records vary from person to person. Wiring a sensor to every machine, meanwhile,
-is no small amount of construction.
+is no small construction job.
 
 So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
 on the motor, and with no wiring work it can go onto equipment that is already running. A
@@ -59,7 +59,7 @@ far, so data from sensors spread across a large plant can be collected by one or
 as the <span class="nb">WISE-6610</span>.
 
 The measured 3-axis values are assessed against an international standard such as ISO
-20816. That lets you say whether "this much vibration is normal" against a benchmark
+20816. That lets you answer "is this much vibration normal?" against a standard
 rather than a hunch. The sensor itself is built to an IP66 rating across a wide
 temperature range, so it holds up in humid, hot and dusty conditions.
 
@@ -69,7 +69,7 @@ sensor to the machine you want to watch.
 
 ## In a form a person can act on
 
-A risk score alone does not move the shop floor. More than "this pump is at 0.87 risk," it is a
+A risk score alone does not move the shop floor. More than "this pump’s risk is 0.87," it is a
 sentence like "vibration is rising in a pattern similar to the <span class="nb">run-up</span> to the last failure;
 bearing wear is suspected; inspection recommended" that produces action. An AI agent turns
 the analysis back into human language like this, and presents the data and history the
