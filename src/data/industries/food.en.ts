@@ -66,7 +66,7 @@ export const foodEn: IndustryData = {
       },
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
-        problem: 'Multiple energy sources, each metered separately',
+        problem: 'Multiple energy sources, each aggregated separately',
         approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole plant energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },

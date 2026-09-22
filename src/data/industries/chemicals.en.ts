@@ -28,19 +28,19 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'Recurring problems where continuous reaction and heat-based equipment run.',
     items: [
       {
-        title: 'Several utilities run at once',
+        title: 'Several energy sources run at once',
         description:
-          'Electricity, LNG, steam and water all feed the process, yet each is tallied on its own and the whole picture never forms.',
+          'Electricity, LNG, steam and water all feed the process, yet each is aggregated separately and the whole picture never forms.',
       },
       {
-        title: 'Small changes shake quality and production stability',
+        title: 'Small changes upset quality and production stability',
         description:
           'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight through to the result.',
       },
       {
         title: 'Process variables need precise control',
         description:
-          'Air-fuel ratio, temperature, pressure and flow must be held together, and judgment by feel cannot keep them at the optimum.',
+          'Air-fuel ratio, temperature, pressure and flow must all be held in range at once, and going by feel cannot keep them at the optimum.',
       },
       {
         title: 'Energy cost and carbon rules tighten together',
@@ -56,7 +56,7 @@ export const chemicalsEn: IndustryData = {
     items: [
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
-        problem: 'Multiple energy sources, each metered separately',
+        problem: 'Multiple energy sources, each aggregated separately',
         approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
