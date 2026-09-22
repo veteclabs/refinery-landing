@@ -35,7 +35,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Small changes shake quality and production stability',
         description:
-          'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight into the result.',
+          'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight through to the result.',
       },
       {
         title: 'Process variables need precise control',
@@ -56,7 +56,7 @@ export const chemicalsEn: IndustryData = {
     items: [
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
-        problem: 'Utilities tallied separately, each on its own',
+        problem: 'Multiple energy sources, each metered separately',
         approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
@@ -74,14 +74,14 @@ export const chemicalsEn: IndustryData = {
       },
       {
         title: 'Energy use analysis by asset',
-        problem: 'No way to tell which asset consumes the energy',
+        problem: 'No way to tell which assets are eating up the energy',
         approach: 'Energy is metered separately by asset and compared on equal terms.',
         outcome: 'Energy-intensive assets identified',
       },
       {
         title: 'Air compressor state and operating parameter monitoring',
         problem: 'Compressor anomalies that surface only after a stop',
-        approach: 'An AI agent reads compressor state and operating parameters together to catch early signs in flows that differ from the norm, and proposes both the cause and the next action.',
+        approach: 'An AI agent reads compressor state and operating parameters together to catch early signs in patterns that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {
@@ -125,7 +125,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Early detection of energy anomalies',
         icon: 'ph-pulse',
-        description: 'Flows that differ from the norm are noticed first.',
+        description: 'Patterns that differ from the norm are noticed first.',
       },
       {
         title: 'Carbon compliance',

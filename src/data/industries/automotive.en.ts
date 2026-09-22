@@ -55,7 +55,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Power usage patterns by line',
         problem: 'Different power draw line to line, with no way to explain it',
-        approach: 'Lines, processes and assets are connected through an ontology, so each signal carries which asset it belongs to and what it measures, and power use can be compared on equal terms.',
+        approach: 'Lines, processes and assets are connected through an ontology, so each signal is given meaning — which asset it belongs to and what it measures — and power use can be compared on equal terms.',
         outcome: 'Lower energy cost and inefficient processes identified',
       },
       {

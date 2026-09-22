@@ -67,7 +67,7 @@ export const steelEn: IndustryData = {
       },
       {
         title: 'Energy flow visualized by process',
-        problem: 'No visibility into which process consumes the energy',
+        problem: 'No visibility into which processes are eating up the energy',
         approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure, and use by process can be compared on equal terms.',
         outcome: 'Over-consuming segments identified and process efficiency improved',
       },

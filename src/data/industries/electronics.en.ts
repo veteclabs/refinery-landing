@@ -30,7 +30,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Equipment reacts to the smallest change',
         description:
-          'Production equipment is sensitive to temperature shifts and power quality, so a slight wobble carries straight into the process.',
+          'Production equipment is sensitive to temperature shifts and power quality, so a slight fluctuation leaves its mark on the process.',
       },
       {
         title: 'A power outage or equipment anomaly becomes a defect',
@@ -63,7 +63,7 @@ export const electronicsEn: IndustryData = {
       {
         title: 'Power usage patterns by asset',
         problem: 'No way to tell which equipment draws the most power',
-        approach: 'Assets and processes are connected through an ontology, so each signal carries which asset it belongs to and what it measures, and power can be compared on equal terms.',
+        approach: 'Assets and processes are connected through an ontology, so each signal is given meaning — which asset it belongs to and what it measures — and power can be compared on equal terms.',
         outcome: 'Energy-intensive processes identified',
       },
       {
