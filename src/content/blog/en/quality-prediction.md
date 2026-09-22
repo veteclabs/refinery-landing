@@ -47,7 +47,7 @@ defects can be identified in the data.
 The point of quality prediction is not a <span class="nb">defect-rate</span> chart but action that reduces
 defects. When guidance arrives with its evidence — "current conditions resemble a period
 that produced defects; check the temperature" — the floor can intervene before the part
-is finished. Here too, an answer needs its evidence attached before anyone will act on it.
+is finished. Here too, when an answer carries its evidence, the shop floor trusts the warning and moves.
 
 ## Where to start
 

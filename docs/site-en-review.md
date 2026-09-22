@@ -1068,3 +1068,42 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 - [2] `peaks` → '급증 현상' — 20번과 같다. 다른 곳에서는 '피크'로 읽힌다
 - [1] `Where the waste hides` — 원문은 의문형(「숨어 있나」)이지만 제목으로 통한다
 - [15] `For the groundwork →` — 원문 「궁금하다면」이 빠졌으나 링크 안내라 무방하다
+
+### 6.24 블로그 · 「불량은 검사보다 먼저 드러난다」 — 15단위
+
+문장 누락도 뜻이 바뀐 곳도 없었다. **한 곳만** 고쳤다.
+
+| 단위 | 한국어 | 바꾸기 전 | 바꾼 뒤 |
+|---|---|---|---|
+| [11] | 현장이 그 경고를 **믿고** 움직입니다 | before anyone **will act on it** | when an answer carries its evidence, **the shop floor trusts the warning and moves** |
+
+#### `the floor`가 '의회'로 읽혔다
+
+'믿고'를 넣으려 `the floor will trust it and act`로 바꿨더니 번역기가 **'의회가 그 답변을 신뢰하고'**로 읽었다.
+영어 `the floor`는 의회 본회의장을 뜻하기도 하는데 `trust` · `act`가 붙자 표결 장면으로 끌린 것이다.
+같은 문단 앞 문장 `the floor can intervene`은 '현장'으로 맞게 읽혔다 — **동사에 따라 갈린다.**
+`shop floor`로 바꿔 해결했다.
+
+> 회사소개(§6.2)에도 `from the floor` · `on the floor`가 있고 블라인드 역번역에서
+> '현장/바닥'으로 모호하다고 표시됐던 곳이다. 이번 결과를 보면 그쪽도 확인할 값이 있다.
+
+#### `before`절은 한국어에서 어순이 뒤집힌다
+
+낱말을 고쳐도 원문 어순이 살지 않았다.
+
+```
+영어    A needs B  before  X will Y
+한국어   X가 Y하려면  A에 B가 필요하다     ← 순서가 뒤바뀜
+원문    A에 B가 따라야  X가 Y한다          ← 조건 → 결과
+```
+
+`before`절이 한국어에서 목적절('~하기 위해서는')로 앞으로 끌려 나온다. **낱말로는 막을 수 없다.**
+`when` 조건절로 바꾸자 조건 → 결과 순서가 원문대로 돌아왔다.
+
+남은 '현장의 **직원들**'은 `shop floor`가 한국어에서 사람을 가리키게 되는 낱말의 성질이라 여기까지가 최선이다.
+
+#### 그대로 둔 것
+
+- [5] `further upstream` → '공정 상류의 더 앞 단계' — 제조에서 upstream은 전공정을 뜻하는 정확한 용어다
+- [7] `a material property` → '재료 특성' — 원문 「원료」지만 사이트 전반이 `material`을 쓴다
+- [9] `conditions correlated with defects` — **원문이 「상관 있는」이라 정확하다**(21번에서 지적했던 것과 달리 여기는 맞다)
