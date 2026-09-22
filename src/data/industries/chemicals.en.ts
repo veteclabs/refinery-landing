@@ -79,9 +79,9 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Energy-intensive assets identified',
       },
       {
-        title: 'Air compressor state and operating factor monitoring',
+        title: 'Air compressor state and operating parameter monitoring',
         problem: 'Compressor anomalies that surface only after a stop',
-        approach: 'An AI agent reads compressor state and operating factors together to catch early signs in flows that differ from the norm, and proposes both the cause and the next action.',
+        approach: 'An AI agent reads compressor state and operating parameters together to catch early signs in flows that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {

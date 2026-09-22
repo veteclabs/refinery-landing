@@ -68,7 +68,7 @@ export const energyEn: IndustryData = {
       },
       {
         title: 'Energy efficiency and peak optimization',
-        problem: 'Waste and peak charges built up by invisible consumption patterns',
+        problem: 'Waste and demand charges built up by invisible consumption patterns',
         approach: 'Consumption is analyzed by asset and segment, with adjustments proposed against tariff and demand signals.',
         outcome: 'Lower operating cost from reduced peaks and better efficiency',
       },

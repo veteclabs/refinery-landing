@@ -56,7 +56,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Demand-based compressed air control and monitoring',
         problem: 'Compressed air equipment overrunning against real demand',
-        approach: 'Power draw, pipeline flow, temperature and humidity are measured together so supply is controlled to match demand.',
+        approach: 'Power draw, header flow, temperature and humidity are measured together so supply is controlled to match demand.',
         outcome: 'Lower energy use and longer equipment life',
       },
       {

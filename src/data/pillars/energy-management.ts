@@ -99,7 +99,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is a power management system?',
-        a: 'A power management system collects and analyzes the voltage, current, power and power factor of the incoming and distribution system in real time to monitor and optimize electricity use. By managing peak demand and abnormal loads, it lowers both electricity bills and the risk of an outage.',
+        a: 'A power management system collects and analyzes the voltage, current, power and power factor of the incoming and distribution circuits in real time to monitor and optimize electricity use. By managing peak demand and abnormal loads, it lowers both electricity bills and the risk of an outage.',
       },
       {
         q: 'What is power monitoring?',

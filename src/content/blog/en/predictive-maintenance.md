@@ -22,7 +22,7 @@ maintenance is an attempt to set that standard from data rather than instinct.
 
 ## The limits of preventive maintenance
 
-Many sites still maintain to a calendar: replace and inspect parts every few months. It is
+Many sites still run maintenance on a calendar: replace and inspect parts every few months. It is
 safe, but wasteful. Parts with life left get thrown away, and equipment still fails
 suddenly between service intervals. Time, as a criterion, has nothing to do with the actual
 condition of the machine.

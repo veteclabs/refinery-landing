@@ -1268,8 +1268,7 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 ### 8.4 남은 묶음 (미반영)
 
 - ~~**B 문법**~~ — 24건 반영 완료(8.6 참고)
-- **C 전문 용어 14건** — `inverter`→VFD(5곳), `peak charge`→demand charge(9곳),
-  `OPC-UA`→`OPC UA`(4곳), `Imbalance`→`Unbalance`(3곳), `운전 인자`→operating parameters
+- ~~**C 전문 용어**~~ — 12건 반영, 3건 보류(8.9 참고)
 - **D 직역투 36건** — `efficiency bends`, `consumption lands`, `the matter passes`,
   `integrates both ways`→bidirectionally(9곳) 등
 - **E 표기 통일 5건** — `ageing`→`aging`(5곳), `30 years`↔`thirty years`, 곧은 아포스트로피 1곳
@@ -1340,3 +1339,35 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
     번역기가 주절을 앞세워 원문 어순(조건 → 결론)이 뒤집힌다. 삽입 자체를 없애야 한다.
 14. **부분 부정에 주의한다** — `never`가 '결코'로 부풀려져 '모두 ~할 수는 없다'가 됐다.
     단순 부정은 `cannot`으로 간다.
+
+### 8.9 C군(전문 용어) — 12건 반영, 6건 유지·보류
+
+번역기 대조가 **용어 오역 둘을 확실히 잡아냈다.**
+- `operating factor` → 역번역 '**가동률**'. 원문은 '운전 인자'다. 업계에서 operating factor는
+  가동시간/총시간이라는 특정 수치를 뜻한다 → `operating parameter`
+- `maintain to a calendar` → 역번역 '일정표에 따라 **운영**'. 원문은 '달력에 맞춰 **정비**'다
+  → `run maintenance on a calendar`
+
+**역번역이 원문에서 멀어져도 영어가 맞는 경우가 있다.** 요금 용어가 그렇다.
+`peak charge`는 역번역이 '피크 요금'이라 원문과 같아 보이지만, **미국 요금 명세서에
+그런 항목이 없다.** 피크 전력에 매기는 요금은 `demand charge` 하나다. 역번역은
+영어를 검증하는 도구지 산출물이 아니다 — 화면에 뜨는 건 영어다.
+
+반영: 요금 용어 5단위(demand charge · contract demand) · `header flow`(배관 유량,
+pipeline은 장거리 송유관) · `unbalance` 4곳(IEEE·ISO 표기) · `operating parameter` 2곳 ·
+`incoming and distribution circuits` 2곳 · `cross-tenant access` · `enforces least privilege` ·
+`total consumption` · `run maintenance on a calendar`
+
+**유지한 것과 이유**
+- `Reverse intrusion` — 대안 셋이 모두 원문 요소를 하나씩 잃었다(`return path`는 '침투',
+  `intrusion back into`는 '역방향'). **한국어 '역방향 침투'도 보안 업계 표준어가 아니라
+  설명적 표현**이다. 원문이 설명적이면 영어도 설명적으로 간다
+- `Multitenancy isolation` — `multitenancy`도 실제 쓰이는 낱말이라 개선 폭이 작다
+- `vibration and current trends` — '요즘 추세'로 읽힌다는 지적이 **번역기에서 재현되지
+  않았다**('전류 추세'로 정확히 나왔다). 사람의 순간적 오독은 역번역으로 검증할 수 없어
+  근거를 확인하지 못한 채로 두었다
+
+**보류(국문도 함께 고칠지 판단 필요)**
+- `inverter` → VFD (5곳). 미국 영어에서 inverter는 DC→AC 변환기다. **낱말이 바뀌는 유일한 항목**
+- `OPC-UA` → `OPC UA` (11곳). OPC Foundation 공식 표기. 국문도 같은 표기다
+- `4-20mA` → `4–20 mA` (2곳). 국문도 같다

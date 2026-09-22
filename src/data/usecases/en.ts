@@ -69,7 +69,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How do you do predictive maintenance on a motor?',
         a:
-          'Motors show the first signs of failure in vibration ⁠· current ⁠· temperature.<br>A vibration spectrum reveals bearing wear ⁠· shaft misalignment ⁠· imbalance,<br>and reading the current alongside it catches load anomalies and insulation degradation early.',
+          'Motors show the first signs of failure in vibration ⁠· current ⁠· temperature.<br>A vibration spectrum reveals bearing wear ⁠· shaft misalignment ⁠· unbalance,<br>and reading the current alongside it catches load anomalies and insulation degradation early.',
       },
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
@@ -163,12 +163,12 @@ export const useCasesEn: UseCase[] = [
     cardDesc: 'Know when, where and how much you use,<br>and cut power cost and risk.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how power management fits your site,<br>together with Refinery.',
-    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. And you only find out you exceeded the contracted demand, and owe the peak charge, after the fact.',
+    problemHtml: 'An electricity bill shows a total and a few peaks. It does not show which machine drew that power, at what hour,<br>or why. Metering sits apart from the records, so when the bill rises the answer is usually an order<br>to use less rather than a cause. And you only find out you exceeded your contract demand, and owe the demand charge, after the fact.',
     problem:
-      'An electricity bill shows a total and a few peak figures. What it does not show is which equipment used that power, at what hour, and why. Metering is fragmented across machines and records are scattered, so when the bill goes up the response is usually an instruction to use less rather than a search for the cause. Exceeding contracted demand and paying peak charges is often discovered only afterwards, from the bill.',
+      'An electricity bill shows a total and a few peak figures. What it does not show is which equipment used that power, at what hour, and why. Metering is fragmented across machines and records are scattered, so when the bill goes up the response is usually an instruction to use less rather than a search for the cause. Exceeding contract demand and paying demand charges is often discovered only afterwards, from the bill.',
     how: [
       { icon: 'ph-chart-bar', title: 'Usage made visible', desc: 'Look at power with equipment, area and time of day side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
-      { icon: 'ph-chart-line', title: 'Peak management', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contracted demand and peak charges.' },
+      { icon: 'ph-chart-line', title: 'Peak management', desc: 'Find the moments when several machines run at once and create a peak. Staggering start times or splitting the load brings down both contract demand and demand charges.' },
       { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Catch consumption that departs from the usual pattern. Equipment running when it should be off, or standby draw that crept up unnoticed, comes to light.' },
       { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
     ],
@@ -190,7 +190,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is a power management solution?',
         a:
-          'A power management solution collects and analyzes voltage ⁠· current ⁠· power ⁠· power-factor data from the incoming and distribution system in real time to monitor and optimize electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
+          'A power management solution collects and analyzes voltage ⁠· current ⁠· power ⁠· power-factor data from the incoming and distribution circuits in real time to monitor and optimize electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
       },
       {
         q: 'How does power management differ from an energy management system (EMS)?',
@@ -241,7 +241,7 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Sometimes equipment stops for no apparent reason, or defects rise on a line that was running fine. Search long enough and power quality often turns out to be the culprit. A momentary voltage dip or harmonic distortion is neither visible nor long-lived, so unless it is monitored continuously there is little trace left afterwards. That is why "why did it stop right then" so often stays unanswered.',
     how: [
-      { icon: 'ph-pulse', title: 'Quality metric monitoring', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
+      { icon: 'ph-pulse', title: 'Quality metric monitoring', desc: 'Voltage, frequency, harmonics and unbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
       { icon: 'ph-clipboard-text', title: 'Automatic event recording', desc: 'Fleeting events such as sags, swells and brief interruptions are recorded automatically, leaving evidence you can go back to.' },
       { icon: 'ph-link', title: 'Connection to causes', desc: 'See when and near which machine a quality event occurred, laid over your operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
       { icon: 'ph-funnel', title: 'Impact separation', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
@@ -256,13 +256,13 @@ export const useCasesEn: UseCase[] = [
       { label: 'Voltage', icon: 'voltage' },
       { label: 'Frequency', icon: 'frequency' },
       { label: 'Harmonics (THD)', icon: 'harmonics' },
-      { label: 'Imbalance', icon: 'imbalance' },
+      { label: 'Unbalance', icon: 'imbalance' },
       { label: 'Sag/swell', icon: 'sag-swell' },
     ],
     related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
-      description: 'Monitor voltage, frequency, harmonics and imbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
+      description: 'Monitor voltage, frequency, harmonics and unbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
     },
   },
   {
@@ -300,7 +300,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-factory', title: 'Unified metering', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
       { icon: 'ph-chart-donut', title: 'Energy intensity analysis', desc: 'Compare energy intensity, meaning energy used against output, to find the periods and areas that spend more for the same work.' },
-      { icon: 'ph-chart-line', title: 'Peak ⁠· load management', desc: 'Identify when machines cluster and create a peak, spread the load, and bring down contracted demand and peak charges.' },
+      { icon: 'ph-chart-line', title: 'Peak ⁠· load management', desc: 'Identify when machines cluster and create a peak, spread the load, and bring down contract demand and demand charges.' },
       { icon: 'ph-leaf', title: 'Automatic ESG aggregation', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
     ],
     template: {
@@ -357,7 +357,7 @@ export const useCasesEn: UseCase[] = [
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
       { icon: 'ph-magnifying-glass', title: 'Waste discovery', desc: 'Overlay consumption patterns on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
-      { icon: 'ph-trend-down', title: 'Peak reduction', desc: 'Identify when peaks form and spread the load.<br>Contracted demand and peak charges come down together.' },
+      { icon: 'ph-trend-down', title: 'Peak reduction', desc: 'Identify when peaks form and spread the load.<br>Contract demand and demand charges come down together.' },
       { icon: 'ph-arrows-clockwise', title: 'Ongoing management', desc: 'Track the effect of improvement and hold the savings.<br>Any stretch sliding back to the old pattern stands out at once.' },
     ],
     signals: [

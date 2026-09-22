@@ -34,7 +34,7 @@ overlaid on time and work context.
 
 ## Managing peaks brings cost down
 
-Electricity charges depend not just on total volume but on momentary peaks. When several
+Electricity charges depend not just on total consumption but on momentary peaks. When several
 machines run at once and create a peak, cost rises out of proportion to what was actually
 used. Once you can see in the data when peaks form, load can be spread and the same work
 gets done for less.
