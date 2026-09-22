@@ -31,7 +31,7 @@ export const steelEn: IndustryData = {
           'Heat-treatment furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
       },
       {
-        title: 'Heat treatment needs stability and energy control together',
+        title: 'Heat treatment needs equipment stability and energy control together',
         description:
           'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not reproduce the result.',
       },
