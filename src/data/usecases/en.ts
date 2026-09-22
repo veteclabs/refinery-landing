@@ -38,7 +38,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-broadcast', title: 'Wireless vibration sensor mounting', desc: 'Mount the sensor on the motor — no conduit, no wiring work. It sends 3-axis vibration and temperature over LoRaWAN in real time.' },
       { icon: 'ph-gauge', title: 'Assessment against ISO 20816', desc: '3-axis vibration is evaluated against the international standard (ISO 20816), so you can see at a glance whether a machine is normal or needs attention.' },
-      { icon: 'ph-trend-up', title: 'Trend-based early detection', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alert fatigue while catching early signs sooner.' },
+      { icon: 'ph-trend-up', title: 'Trend-based early detection', desc: 'Anomalies are read from the trend rather than a single reading, which cuts false alarms and alarm fatigue while catching early signs sooner.' },
       { icon: 'ph-lightbulb', title: 'Evidence-backed action proposals', desc: 'AI proposes a likely cause and the next action, together with the data and history behind it.' },
     ],
     signals: [
@@ -51,7 +51,7 @@ export const useCasesEn: UseCase[] = [
       badge: 'Wireless vibration ⁠· LoRaWAN',
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start without wiring, using the WISE-2410 wireless sensor',
-      desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts, and the hardware holds up in harsh industrial conditions.',
+      desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts a long time, and the hardware holds up in harsh industrial conditions.',
       includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Low power ⁠· up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· operating range −20 to 85°C'],
     },
     related: { href: '/en/blog/predictive-maintenance' },
@@ -243,7 +243,7 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-pulse', title: 'Quality metric monitoring', desc: 'Voltage, frequency, harmonics and imbalance are watched in real time, so the moment a threshold is crossed is not missed.' },
       { icon: 'ph-clipboard-text', title: 'Automatic event recording', desc: 'Fleeting events — sags, swells, brief interruptions — are recorded automatically, leaving evidence you can go back to.' },
-      { icon: 'ph-link', title: 'Connection to causes', desc: 'Overlay when and where a quality event occurred with operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
+      { icon: 'ph-link', title: 'Connection to causes', desc: 'See when and near which machine a quality event occurred, laid over your operating and failure history. Checking whether the timing lines up with a stoppage or a defect turns a vague suspicion into evidence.' },
       { icon: 'ph-funnel', title: 'Impact separation', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
     ],
     template: {

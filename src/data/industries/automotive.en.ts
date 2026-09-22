@@ -67,7 +67,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Energy intensity tied to output',
         problem: 'No structure for seeing efficiency against production',
-        approach: 'Production records and energy use are linked to derive intensity by line and vehicle model automatically.',
+        approach: 'Production records and energy use are linked to derive energy intensity by line and vehicle model automatically.',
         outcome: 'Efficiency made visible against output, cost structure improved',
       },
       {
@@ -123,7 +123,7 @@ export const automotiveEn: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour automotive operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your automotive operation.',
     buttonLabel: 'Request a demo',
   },
 };

@@ -576,7 +576,7 @@ const jsonLd = {
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
         <div class="series-tagline">Workflow</div>
-        <h3>Procedures set by dialogue</h3>
+        <h3>Operating procedures designed through conversation</h3>
         <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
       </div>
       <div class="series-card">
@@ -599,7 +599,7 @@ const jsonLd = {
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
-        <h3>Automation with no hands</h3>
+        <h3>Automation that runs the site without people</h3>
         <p class="series-desc">Analysis flows into reports, alarms<br>and workflow execution — no manual steps.</p>
       </div>
       </div>
@@ -692,9 +692,9 @@ the ontology answers.</h3>
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task and history<br>
-data in the ontology to infer causes<br>
-and answers with its sources cited.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history data<br>
+in the ontology to infer causes and answer conversationally.<br>
+The data sources behind the answer are given too.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
         <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
@@ -803,7 +803,7 @@ and answers with its sources cited.</p>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Layer onto what you have, <br class="mobile-br">or start from scratch — <br class="desktop-br">either way, <br class="mobile-br">without a break</h2>
+        <h2>Layer onto what you have, <br class="mobile-br">or start from scratch — <br class="desktop-br">either way, <br class="mobile-br">with no disruption</h2>
         <p>Integrates both ways with your legacy, cloud and AI tools,<br>and builds from data collection up where no system exists.</p>
       </div>
     </div>
@@ -1206,7 +1206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes\nand answers with its sources cited.', 'Industrial AI OS'],
+  llm: ['Ask a question,\nthe ontology answers.', 'The AI reasons over asset, task and history data\nin the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'Industrial AI OS'],
   plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
   tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more — pick the\nwidget that fits your data.', 'Tile'],
   pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],

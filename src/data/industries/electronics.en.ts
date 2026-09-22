@@ -153,7 +153,7 @@ export const electronicsEn: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour electronics operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your electronics operation.',
     buttonLabel: 'Request a demo',
   },
 };

@@ -73,7 +73,7 @@ export const foodEn: IndustryData = {
       {
         title: 'Energy intensity tied to output',
         problem: 'Batch-to-batch variance with no baseline to compare',
-        approach: 'Production records and energy use are linked to derive intensity by batch and product automatically.',
+        approach: 'Production records and energy use are linked to derive energy intensity by batch and product automatically.',
         outcome: 'Better cost structure and comparable process efficiency',
       },
       {
@@ -140,7 +140,7 @@ export const foodEn: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour food operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your food operation.',
     buttonLabel: 'Request a demo',
   },
 };

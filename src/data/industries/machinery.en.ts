@@ -146,7 +146,7 @@ export const machineryEn: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour plant operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your plant operation.',
     buttonLabel: 'Request a demo',
   },
 };

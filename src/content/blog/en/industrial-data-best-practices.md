@@ -78,8 +78,8 @@ current value sits alongside the last few days, the pattern from the same period
 season, and the curve leading into a past failure, you can tell whether what is happening
 now is a signal you have never seen or one you recognize.
 
-Put a threshold on instantaneous values alone and the alarms never stop — until nobody
-looks at alarms at all. Alert fatigue mostly comes from thresholds without context. Seen
+Put a threshold on instantaneous values alone and the alarms never stop, and eventually
+nobody looks at them at all. Alarm fatigue mostly comes from thresholds without context. Seen
 together with the trend and a basis for comparison, the signals worth acting on separate
 from ordinary noise.
 
