@@ -29,7 +29,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Several energy sources run at once',
         description:
-          'Compressed air, electricity, thermal and refrigeration loads and HVAC all run on one site, and where the consumption lands never becomes clear.',
+          'Compressed air, electricity, process heating and cooling and HVAC all run at one site, and it never becomes clear where the energy goes or how much.',
       },
       {
         title: 'Equipment is tightly coupled',
@@ -39,7 +39,7 @@ export const machineryEn: IndustryData = {
       {
         title: 'Non-stop running with precise conditions',
         description:
-          'The plant cannot pause while process conditions must still hold, leaving no obvious moment to intervene.',
+          'The plant cannot pause, and process conditions must still hold, leaving no obvious moment to intervene.',
       },
       {
         title: 'Aging, cost and rules arrive at once',
@@ -55,7 +55,7 @@ export const machineryEn: IndustryData = {
     items: [
       {
         title: 'Demand-based compressed air control and monitoring',
-        problem: 'Shared utilities running on when demand drops',
+        problem: 'Shared utilities that keep running when demand drops',
         approach: 'Real demand is read and discharge pressure and unit staging are matched to what is needed.',
         outcome: 'Lower energy use and longer equipment life',
       },
@@ -69,7 +69,7 @@ export const machineryEn: IndustryData = {
         title: 'Enthalpy-based HVAC inverter control',
         problem: 'HVAC running fixed, regardless of outdoor conditions',
         approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC inverter is controlled to hold the target.',
-        outcome: 'Steadier process environment and lower thermal and refrigeration energy',
+        outcome: 'Steadier process environment and lower heating and cooling energy',
       },
       {
         title: 'Energy intensity tied to output',
@@ -109,12 +109,12 @@ export const machineryEn: IndustryData = {
       {
         title: 'Demand-based compressed air control',
         icon: 'ph-wind',
-        description: 'Shared utilities run only as far as real demand asks.',
+        description: 'Shared utilities run only as much as actual demand requires.',
       },
       {
         title: 'Savings from HVAC inverter control',
         icon: 'ph-thermometer',
-        description: 'Load follows enthalpy, cutting thermal and refrigeration energy.',
+        description: 'Load follows enthalpy, cutting heating and cooling energy.',
       },
       {
         title: 'Condition-based maintenance',
