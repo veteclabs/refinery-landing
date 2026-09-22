@@ -95,7 +95,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is a building energy management system (BEMS)?',
-        a: 'A building energy management system (BEMS) is an EMS that manages the energy used by a building\'s HVAC, lighting and electrical equipment in one place. It works on the same principle as a factory EMS; what differs is that the equipment it manages belongs to a building.',
+        a: 'A building energy management system (BEMS) is an EMS that manages the energy used by a building’s HVAC, lighting and electrical equipment in one place. It works on the same principle as a factory EMS; what differs is that the equipment it manages belongs to a building.',
       },
       {
         q: 'What is a power management system?',

@@ -42,9 +42,9 @@ export const machineryEn: IndustryData = {
           'The plant cannot pause while process conditions must still hold, leaving no obvious moment to intervene.',
       },
       {
-        title: 'Ageing, cost and rules arrive at once',
+        title: 'Aging, cost and rules arrive at once',
         description:
-          'Ageing equipment, rising energy cost and carbon compliance run in parallel, so equipment and energy have to be seen as one system.',
+          'Aging equipment, rising energy cost and carbon compliance run in parallel, so equipment and energy have to be seen as one system.',
       },
     ],
   },

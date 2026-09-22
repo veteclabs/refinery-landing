@@ -41,9 +41,9 @@ export const foodEn: IndustryData = {
           'With batch production, a change in output changes the energy profile with it.',
       },
       {
-        title: 'Cost, carbon and ageing arrive together',
+        title: 'Cost, carbon and aging arrive together',
         description:
-          'Cost pressure, carbon compliance and ageing equipment are all happening in the same period.',
+          'Cost pressure, carbon compliance and aging equipment are all happening in the same period.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const foodEn: IndustryData = {
         outcome: 'Better equipment efficiency and lower energy cost',
       },
       {
-        title: 'Energy simulation before and after replacing ageing equipment',
+        title: 'Energy simulation before and after replacing aging equipment',
         problem: 'Replacement benefit that cannot be shown in numbers',
         approach: 'Post-replacement energy use is estimated from current operating data and placed side by side with current use.',
         outcome: 'Investment case verified and replacement benefit quantified',

@@ -306,7 +306,7 @@ export const useCasesEn: UseCase[] = [
     template: {
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start quickly from an energy management system template',
-      desc: 'A new site does not have to design the structure from scratch. The energy management system (EnMS) template, refined across sites over thirty years, already includes the metering structure, intensity KPIs, ESG report formats, and anomaly and peak alert rules. Adjust it to your own assets and targets and you can begin operating on a proven structure right away.',
+      desc: 'A new site does not have to design the structure from scratch. The energy management system (EnMS) template, refined across sites over 30 years, already includes the metering structure, intensity KPIs, ESG report formats, and anomaly and peak alert rules. Adjust it to your own assets and targets and you can begin operating on a proven structure right away.',
       includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption ⁠· peak alert rules'],
     },
     signals: [

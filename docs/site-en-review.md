@@ -1271,7 +1271,7 @@ A안의 `left at that`은 '방치'로 읽혀 **알고도 내버려 둔다는 뉘
 - ~~**C 전문 용어**~~ — 12건 반영, 3건 보류(8.9 참고)
 - **D 직역투 36건** — `efficiency bends`, `consumption lands`, `the matter passes`,
   `integrates both ways`→bidirectionally(9곳) 등
-- **E 표기 통일 5건** — `ageing`→`aging`(5곳), `30 years`↔`thirty years`, 곧은 아포스트로피 1곳
+- ~~**E 표기 통일**~~ — 반영 완료(8.10 참고)
 - **F 사용자 판단 7건** — `thermal fluid boiler`(업계 표준은 heater), 가운뎃점 `·`,
   `OT/IT`→`IT/OT`, `FEMS` 약어, 카드 제목 7개, `read anomalies`, `the field`
 
@@ -1371,3 +1371,18 @@ pipeline은 장거리 송유관) · `unbalance` 4곳(IEEE·ISO 표기) · `opera
 - `inverter` → VFD (5곳). 미국 영어에서 inverter는 DC→AC 변환기다. **낱말이 바뀌는 유일한 항목**
 - `OPC-UA` → `OPC UA` (11곳). OPC Foundation 공식 표기. 국문도 같은 표기다
 - `4-20mA` → `4–20 mA` (2곳). 국문도 같다
+
+### 8.10 E군(표기 통일) — 14곳
+
+용어집 §0이 정한 규칙을 어긴 곳을 전수로 훑었다.
+
+- **`ageing` → `aging`** 5곳 (미국식 철자. 식품·기계플랜트 페이지에만 몰려 있었다)
+- **`thirty years` → `30 years`** 6곳. 국문은 전부 `30년`인데 영어만 두 갈래였다.
+  숫자로 통일한 이유: ① 국문이 숫자다 ② AP 스타일은 10 이상을 숫자로 쓴다
+  ③ 같은 문장의 `over 30 years and more than 100 industrial sites`를 풀어쓰면 읽기 나빠진다.
+  **§0에 숫자 표기 규칙을 새로 넣었다**(없던 항목이다).
+- **곧은 아포스트로피 → 곡선 `’`** 2곳. 하나(`building\'s`)는 TS 문자열 안에 이스케이프되어
+  있어 일반 검색에 안 걸렸다. **정규식으로 훑어야 찾힌다.**
+
+**국문 쪽이 틀린 표기**도 같이 드러나 §0에 적어 두었다 — `ISO-20816`(영어는 이미 맞음)·
+`OPC-UA`·`4-20mA`. 뒤 둘은 영어도 함께 틀려 C군 보류로 남아 있다.
