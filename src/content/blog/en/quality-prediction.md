@@ -51,9 +51,9 @@ is finished. Here too, when an answer carries its evidence, the shop floor trust
 
 ## Where to start
 
-Pick the single defect type that occurs most often, or costs the most. Gather the process
-data likely to relate to it, connect that to final inspection results, and look at which
-conditions came first. Getting one right is faster than trying to predict every defect
+Pick the single defect type that occurs most often, or costs the most. It starts with gathering the
+process data likely to relate to it, connecting that to final inspection results, and
+looking at which conditions came first. Getting one right is faster than trying to predict every defect
 from the start.
 
 ## In closing
