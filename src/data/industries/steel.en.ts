@@ -33,7 +33,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Heat treatment needs stability and energy control together',
         description:
-          'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not repeat the result.',
+          'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not reproduce the result.',
       },
       {
         title: 'Complex energy flow, frequent peaks',
@@ -55,14 +55,14 @@ export const steelEn: IndustryData = {
       },
       {
         title: 'Demand-based compressed air control and monitoring',
-        problem: 'Compressed air equipment overrunning against real demand',
+        problem: 'Compressed air equipment running hard regardless of actual demand',
         approach: 'Power draw, header flow, temperature and humidity are measured together so supply is controlled to match demand.',
         outcome: 'Lower energy use and longer equipment life',
       },
       {
         title: 'Heat-treatment temperature and time analysis',
-        problem: 'Process deviations confirmed only once the piece is out',
-        approach: 'Heat-treatment furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
+        problem: 'Process deviations confirmed only after the piece comes out of the furnace',
+        approach: 'Heat-treatment furnace temperature, hold time and cooling curves are overlaid batch by batch and compared with the normal pattern.',
         outcome: 'Steadier material quality',
       },
       {
@@ -73,7 +73,7 @@ export const steelEn: IndustryData = {
       },
       {
         title: 'Remote cooling water control and monitoring',
-        problem: 'Cooling water equipment that has to be checked on foot',
+        problem: 'Cooling water equipment that has to be checked in person on site',
         approach: 'Cooling water temperature, flow and pump state are monitored remotely, and any departure from the band is raised at once.',
         outcome: 'Steadier equipment operation',
       },
@@ -103,7 +103,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Steadier heat-treatment quality',
         icon: 'ph-thermometer',
-        description: 'Temperature patterns are kept batch by batch so the same result repeats.',
+        description: 'Temperature patterns are recorded batch by batch so the same result is reproduced.',
       },
       {
         title: 'Compressed air matched to demand',
