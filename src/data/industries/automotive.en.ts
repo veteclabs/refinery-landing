@@ -27,7 +27,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'One process shakes the whole line',
         description:
-          'Press, body, paint and assembly are coupled end to end, so a single piece of equipment going wrong spreads into a full line stoppage.',
+          'Press, body, paint and assembly are coupled end to end, so a single piece of equipment going wrong escalates into a full line stoppage.',
       },
       {
         title: 'High power and fine control at once',
@@ -72,7 +72,7 @@ export const automotiveEn: IndustryData = {
       },
       {
         title: 'Ambient conditions and quality impact',
-        problem: 'Causes of quality issues recorded apart and hard to retrace',
+        problem: 'Causes of quality issues recorded in separate systems and hard to retrace',
         approach: 'Temperature, humidity, equipment state and quality results are joined on one timeline to trace the cause.',
         outcome: 'Less quality variance and better process conditions',
       },
