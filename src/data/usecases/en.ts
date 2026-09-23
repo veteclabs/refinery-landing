@@ -79,7 +79,7 @@ export const useCasesEn: UseCase[] = [
     ],
     seo: {
       title: 'Predictive maintenance ⁠· wireless vibration monitoring (WISE-2410) | Refinery',
-      description: 'Measure 3-axis vibration without wiring using WISE-2410 wireless sensors (LoRaWAN), and assess motor condition against ISO 20816. Catch early signs sooner and reduce downtime.',
+      description: '3-axis vibration is measured without wiring using WISE-2410 wireless sensors (LoRaWAN), and motor condition is assessed against ISO 20816. Early signs are caught sooner, and downtime is reduced.',
     },
   },
   {
@@ -131,7 +131,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Sensor monitoring (IoT) | Refinery',
-      description: 'Standardize and gather scattered sensors — from IoT devices to existing instrumentation — and connect them through an ontology for real-time monitoring.',
+      description: 'Scattered sensors — from IoT devices to existing instrumentation — are standardized, gathered and connected through an ontology for real-time monitoring.',
     },
   },
   {
@@ -205,7 +205,7 @@ export const useCasesEn: UseCase[] = [
     ],
     seo: {
       title: 'Power management | Refinery',
-      description: 'Make power use visible by asset, area and time of day, manage peaks, and detect abnormal consumption early to reduce electricity cost and risk.',
+      description: 'Power use is made visible by asset, area and time of day, peaks are managed, and abnormal consumption is detected early to reduce electricity cost and risk.',
     },
   },
   {
@@ -262,7 +262,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
-      description: 'Monitor voltage, frequency, harmonics and unbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
+      description: 'Voltage, frequency, harmonics and unbalance are monitored in real time, and momentary events are recorded automatically to uncover the hidden cause of failures and defects.',
     },
   },
   {
@@ -319,7 +319,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
-      description: 'Meter electricity, gas, steam and water across the plant, analyze energy intensity to find waste, and aggregate ESG reports automatically.',
+      description: 'Electricity, gas, steam and water across the plant are metered together and analyzed by energy intensity to find waste, and ESG reports are aggregated automatically.',
     },
   },
   {
@@ -418,7 +418,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/quality-prediction' },
     seo: {
       title: 'Quality prediction | Refinery',
-      description: 'Read the early signs of a defect in process data and catch it before the part is finished, connecting process conditions with inspection results.',
+      description: 'Early signs of a defect are read in process data and caught before the part is finished, connecting process conditions with inspection results.',
     },
   },
 ];
