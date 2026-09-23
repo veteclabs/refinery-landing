@@ -74,7 +74,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
         a:
-          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA or PLC.<br>Refinery weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
+          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA or PLC.<br><span translate="no">Refinery</span> weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
       },
     ],
     seo: {
@@ -195,7 +195,7 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'How does power management differ from an energy management system (EMS)?',
         a:
-          'Power management focuses on monitoring and quality in the electrical system, while an EMS covers use, efficiency and savings across energy as a whole.<br>Refinery joins power data with EMS and equipment data so the savings it proposes come with evidence.',
+          'Power management focuses on monitoring and quality in the electrical system, while an EMS covers use, efficiency and savings across energy as a whole.<br><span translate="no">Refinery</span> joins power data with EMS and equipment data so the savings it proposes come with evidence.',
       },
       {
         q: 'How does AI help with power management?',
