@@ -67,9 +67,9 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Over-consumption prevented and immediate response in place',
       },
       {
-        title: 'Air-fuel-ratio-based blower inverter control for thermal fluid boilers',
+        title: 'Air-fuel-ratio-based blower VFD control for thermal fluid boilers',
         problem: 'Thermal fluid boiler air-fuel ratio set by feel',
-        approach: 'The blower inverter is controlled against the thermal fluid boiler air-fuel ratio so the optimum is held.',
+        approach: 'The blower VFD is controlled against the thermal fluid boiler air-fuel ratio so the optimum is held.',
         outcome: 'Better combustion efficiency and lower energy cost',
       },
       {
@@ -97,7 +97,7 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Reactors ⁠· thermal fluid boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· Plant EMS ⁠· Modbus ⁠· Serial ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· Plant EMS ⁠· Modbus ⁠· Serial ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Energy dashboard ⁠· target alerts ⁠· emission reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -137,7 +137,7 @@ export const chemicalsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on chemical sites.',
-    systems: ['SCADA', 'PLC', 'Plant EMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4-20mA', 'OPC-⁠UA'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4–20 mA', 'OPC UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

@@ -130,7 +130,7 @@ export const steelEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on steel sites.',
-    systems: ['SCADA', 'PLC', 'Plant EMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC UA', 'LTE-M'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

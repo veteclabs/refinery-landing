@@ -66,9 +66,9 @@ export const machineryEn: IndustryData = {
         outcome: 'Energy-intensive assets identified and operations improved',
       },
       {
-        title: 'Enthalpy-based HVAC inverter control',
+        title: 'Enthalpy-based HVAC VFD control',
         problem: 'HVAC running fixed, regardless of outdoor conditions',
-        approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC inverter is controlled to hold the target.',
+        approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC VFD is controlled to hold the target.',
         outcome: 'Steadier process environment and lower heating and cooling energy',
       },
       {
@@ -112,7 +112,7 @@ export const machineryEn: IndustryData = {
         description: 'Shared utilities run only as much as actual demand requires.',
       },
       {
-        title: 'Savings from HVAC inverter control',
+        title: 'Savings from HVAC VFD control',
         icon: 'ph-thermometer',
         description: 'Load follows enthalpy, cutting heating and cooling energy.',
       },
@@ -141,7 +141,7 @@ export const machineryEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on machinery and plant sites.',
-    systems: ['Plant EMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', 'OPC-⁠UA'],
+    systems: ['Plant EMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', 'OPC UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

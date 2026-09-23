@@ -83,7 +83,7 @@ export const automotiveEn: IndustryData = {
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -118,7 +118,7 @@ export const automotiveEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on automotive sites.',
-    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC-⁠UA', 'LTE'],
+    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC UA', 'LTE'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

@@ -103,7 +103,7 @@ export const electronicsEn: IndustryData = {
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -148,7 +148,7 @@ export const electronicsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on electronics sites.',
-    systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC-⁠UA', 'ERP'],
+    systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC UA', 'ERP'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
