@@ -6,7 +6,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'predictive-maintenance',
     name: 'Predictive maintenance',
-    tagline: 'Read the early signs of motor failure with wireless vibration sensors, and cut stoppages and losses.',
+    tagline: 'Early signs of motor failure are read with wireless vibration sensors, cutting stoppages and losses.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
@@ -325,7 +325,7 @@ export const useCasesEn: UseCase[] = [
   {
     slug: 'energy-optimization',
     name: 'Energy optimization',
-    tagline: 'Find hidden waste and peaks in the data, and do the same work for less.',
+    tagline: 'Hidden waste and power peaks are found in the data, and the same work is done for less.',
     redesigned: true,
     heroImage: {
       src: '/use-cases/heroes/energy-optimization.webp',
@@ -334,7 +334,7 @@ export const useCasesEn: UseCase[] = [
       height: 1600,
     },
     heroImageAsBackground: true,
-    heroTitle: 'Hidden waste and peaks are found,<br>and the same work is done for less',
+    heroTitle: 'Hidden waste and power peaks are found,<br>and the same work is done for less',
     heroTaglineAsTitle: true,
     heroAlignsWithNav: true,
     showBreadcrumb: false,
@@ -349,7 +349,7 @@ export const useCasesEn: UseCase[] = [
       height: 720,
         position: '30% center',
     },
-    cardDesc: 'Hidden waste and peaks are found,<br>and the same work is done for less.',
+    cardDesc: 'Hidden waste and power peaks are found,<br>and the same work is done for less.',
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     ctaTitle: 'See how energy optimization fits your site,<br>together with <span translate="no">Refinery</span>.',
     problemHtml: 'Waste is scattered in the places that draw less attention than the large machines. A unit left idling, a run scheduled at an hour nobody needed:<br>each looks small on its own. Totals alone do not show where to act, so saving falls back on instinct.',
@@ -368,7 +368,7 @@ export const useCasesEn: UseCase[] = [
     related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
-      description: 'Find hidden waste and peaks in the data to reduce energy cost — overlaying consumption patterns on work context to uncover inefficiency.',
+      description: 'Hidden waste and power peaks are found in the data to reduce energy cost — consumption patterns are overlaid on work context to uncover inefficiency.',
     },
   },
   {
