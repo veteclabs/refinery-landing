@@ -101,7 +101,7 @@ export const electronics: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '수배전 설비 ⁠· UPS ⁠· 온습도 ⁠· 공정 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· 최대수요관리장치 ⁠· Modbus ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· 최대수요관리장치 ⁠· Modbus ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '전력품질 대시보드 ⁠· 정전 알람 ⁠· 환경 감시', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -146,7 +146,7 @@ export const electronics: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '전자 ⁠· 정밀 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
-    systems: ['MES', 'SCADA', 'UPS', '최대수요관리장치', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC-⁠UA', 'ERP'],
+    systems: ['MES', 'SCADA', 'UPS', '최대수요관리장치', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC UA', 'ERP'],
     note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {
