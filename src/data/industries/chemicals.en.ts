@@ -19,7 +19,7 @@ export const chemicalsEn: IndustryData = {
     imagePosition: 'center 75%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Chemicals ⁠· Materials',
+    eyebrow: 'Chemicals & Materials',
     title: 'Continuous reactions and heat,\nunder precise control',
   },
   challenges: {

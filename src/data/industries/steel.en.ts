@@ -17,7 +17,7 @@ export const steelEn: IndustryData = {
     imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Steel ⁠· Materials',
+    eyebrow: 'Steel & Materials',
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {

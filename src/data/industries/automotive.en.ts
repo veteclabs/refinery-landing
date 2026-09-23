@@ -16,7 +16,7 @@ export const automotiveEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Automotive ⁠· Mobility',
+    eyebrow: 'Automotive & Mobility',
     title: 'Process flow and quality consistency,\ncontrolled with data',
   },
   challenges: {

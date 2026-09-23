@@ -17,7 +17,7 @@ export const energyEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Energy ⁠· Utilities',
+    eyebrow: 'Energy & Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence layer',
   },
   challenges: {

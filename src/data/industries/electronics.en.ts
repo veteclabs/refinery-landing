@@ -19,7 +19,7 @@ export const electronicsEn: IndustryData = {
     imagePosition: 'center 20%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Electronics ⁠· Precision',
+    eyebrow: 'Electronics & Precision',
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
   },
   challenges: {

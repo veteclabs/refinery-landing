@@ -17,7 +17,7 @@ export const foodEn: IndustryData = {
     imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Food ⁠· Beverage',
+    eyebrow: 'Food & Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
   },
   challenges: {

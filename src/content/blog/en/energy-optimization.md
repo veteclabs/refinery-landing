@@ -55,4 +55,4 @@ was actually happening is where the waste starts to show.
 ## In closing
 
 <span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
-<span class="lead-dot"></span>For how it lands on site → [Energy ⁠· Utilities](/en/industries/energy)
+<span class="lead-dot"></span>For how it lands on site → [Energy & Utilities](/en/industries/energy)

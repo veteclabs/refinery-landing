@@ -18,7 +18,7 @@ export const machineryEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Machinery ⁠· Plant',
+    eyebrow: 'Machinery & Plant',
     title: 'Large equipment and process,\ncontrolled together in real time',
   },
   challenges: {
