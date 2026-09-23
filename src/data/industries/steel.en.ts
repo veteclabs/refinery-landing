@@ -90,11 +90,11 @@ export const steelEn: IndustryData = {
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Heat-treatment furnaces ⁠· compressed air ⁠· cooling water ⁠· forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· Plant EMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Process dashboard ⁠· peak alerts ⁠· quality history', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where PLC or FEMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where PLC or a plant EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -130,7 +130,7 @@ export const steelEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on steel sites.',
-    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
