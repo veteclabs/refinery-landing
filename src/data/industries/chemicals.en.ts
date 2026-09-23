@@ -137,7 +137,7 @@ export const chemicalsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on chemical sites.',
-    systems: ['SCADA', 'PLC', 'Plant EMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4–20 mA', 'OPC UA'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'ERP', 'Modbus', 'Serial (RS-485)', '4–20 mA', 'OPC UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

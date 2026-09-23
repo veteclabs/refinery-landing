@@ -136,7 +136,7 @@ export const energyEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on energy sites.',
-    systems: ['SCADA', 'EMS', 'Smart meters ⁠· AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
+    systems: ['SCADA', 'EMS', 'Smart meters / AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

@@ -135,7 +135,7 @@ export const foodEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on food manufacturing sites.',
-    systems: ['MES', 'SCADA', 'ERP ⁠· SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4–20 mA', 'Serial', 'BMS'],
+    systems: ['MES', 'SCADA', 'ERP (SAP)', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4–20 mA', 'Serial', 'BMS'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {

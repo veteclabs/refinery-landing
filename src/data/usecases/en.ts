@@ -170,13 +170,13 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-chart-bar', title: 'Usage made visible', desc: 'Equipment, area and time of day are viewed side by side. Once you can see which machine draws how much and when, consumption that felt vague starts to take shape.' },
       { icon: 'ph-chart-line', title: 'Peak management', desc: 'The moments when several machines run at once and create a peak are found. Staggering start times or splitting the load brings down both contract demand and demand charges.' },
       { icon: 'ph-warning-circle', title: 'Abnormal-use detection', desc: 'Consumption that departs from the usual pattern is caught. Equipment running when it should be off, or standby draw that crept up unnoticed, comes to light.' },
-      { icon: 'ph-gauge', title: 'Power factor ⁠· load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
+      { icon: 'ph-gauge', title: 'Power factor and load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power management template',
       desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already sets out how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
-      includes: ['Power metering structure by asset and area', 'Peak and contracted-demand management criteria', 'Power factor ⁠· load factor dashboard', 'Abnormal-use alert rules'],
+      includes: ['Power metering structure by asset and area', 'Peak and contract-demand management criteria', 'Power factor and load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: [
       { label: 'Active/reactive power', icon: 'power-active-reactive' },
@@ -250,7 +250,7 @@ export const useCasesEn: UseCase[] = [
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start from a power quality monitoring template',
       desc: 'What to monitor and against which thresholds differs a little from site to site, but the outline is much the same. The power quality template used across several sites already sets out the key metrics, the judgment criteria, and the event types that commonly cause trouble. Connect your measurement points and assets, and you can skip the design stage and start monitoring.',
-      includes: ['Voltage ⁠· frequency ⁠· harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
+      includes: ['Voltage, frequency and harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
     },
     signals: [
       { label: 'Voltage', icon: 'voltage' },
@@ -300,14 +300,14 @@ export const useCasesEn: UseCase[] = [
     how: [
       { icon: 'ph-factory', title: 'Unified metering', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
       { icon: 'ph-chart-donut', title: 'Energy intensity analysis', desc: 'Energy intensity, meaning energy used against output, is compared to find the periods and areas that spend more for the same work.' },
-      { icon: 'ph-chart-line', title: 'Peak ⁠· load management', desc: 'The moments when machines cluster and create a peak are identified, the load is spread, and contract demand and demand charges come down.' },
+      { icon: 'ph-chart-line', title: 'Peak and load management', desc: 'The moments when machines cluster and create a peak are identified, the load is spread, and contract demand and demand charges come down.' },
       { icon: 'ph-leaf', title: 'Automatic ESG aggregation', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
     ],
     template: {
       decoImage: '/use-cases/template-deco.webp',
       title: 'Start quickly from an energy management system template',
       desc: 'A new site does not have to design the structure from scratch. The energy management system (EnMS) template, refined across sites over 30 years, already includes the metering structure, intensity KPIs, ESG report formats, and anomaly and peak alert rules. Adjust it to your own assets and targets and you can begin operating on a proven structure right away.',
-      includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption ⁠· peak alert rules'],
+      includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption and peak alert rules'],
     },
     signals: [
       { label: 'Electricity ⁠· gas ⁠· steam ⁠· water', icon: 'energy-sources' },
