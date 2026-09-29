@@ -12,7 +12,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'Industrial data integration: scattered data into one body of knowledge',
-  description: 'Industrial sites do not lack data; it is scattered. This paper sets out a way to integrate that goes beyond piping data together — giving it meaning through an ontology.',
+  description: 'Industrial sites do not lack data. The problem is that it is scattered. This paper sets out a way to integrate that goes beyond piping data together, giving it meaning through an ontology.',
   author: { '@type': 'Organization', name: 'Refinery' },
   publisher: { '@type': 'Organization', name: 'Refinery', logo: { '@type': 'ImageObject', url: `${SITE}/logo_Refinery_symbol.svg` } },
   mainEntityOfPage: `${SITE}/en/whitepapers/data-integration`,
@@ -21,7 +21,7 @@ const toc = [
   { id: 's1', t: 'Plenty of data, little of it used' },
   { id: 's2', t: 'Piping data together is not integration' },
   { id: 's3', t: 'The ontology that gives data meaning' },
-  { id: 's4', t: 'Layering on or building new — two paths' },
+  { id: 's4', t: 'Layering on or building new, two paths' },
   { id: 's5', t: 'Data beyond the time series' },
   { id: 's6', t: 'Data you can decide with' },
   { id: 's7', t: 'Where to start' },
@@ -29,7 +29,7 @@ const toc = [
 ---
 <BaseLayout
   title="Whitepaper ⁠· Industrial data integration: scattered data into one body of knowledge | Refinery"
-  description="Industrial data is not scarce; it is scattered. A whitepaper on integrating beyond pipes — giving data meaning through an ontology — and on the two paths of layering onto what you have or building new."
+  description="Industrial data is not scarce. It is scattered. A whitepaper on integrating beyond pipes, giving data meaning through an ontology, and on the two paths of layering onto what you have or building new."
   canonical="/en/whitepapers/data-integration"
   robots="index, follow"
   jsonLd={jsonLd}
@@ -82,7 +82,7 @@ const toc = [
         <ul>
           <li>The real problem with industrial data is not scarcity but <strong>scatter and missing context</strong>.</li>
           <li>Gathering data in one place (pipes) and <strong>giving it meaning</strong> (an ontology) are different things.</li>
-          <li>Where a system already exists, <strong>layer onto it</strong>; where none does, <strong>build new</strong> from collection up.</li>
+          <li>Where a system already exists, <strong>layer onto it</strong>, and where none does, <strong>build new</strong> from collection up.</li>
           <li>Once equipment, documents and history are tied in beyond time-series signals, data becomes <strong>something you can decide with</strong>.</li>
         </ul>
       </div>
@@ -103,9 +103,9 @@ const toc = [
           <span class="wp-n">02</span>
           <h2>Piping data together is not integration</h2>
         </div>
-        <p>“Data integration” usually brings to mind gathering several sources into one store — moving values with ETL and putting them side by side on a dashboard. That work is needed, but on its own it is not integration.</p>
+        <p>“Data integration” usually brings to mind gathering several sources into one store. That is, moving values with ETL and putting them side by side on a dashboard. That work is needed, but on its own it is not integration.</p>
         <p>Even with values from different systems on one screen, if the machine does not know <strong>what those values are about</strong> or <strong>how they relate</strong>, a person still has to interpret them. Putting a vibration graph next to a temperature graph and having the system understand that “this temperature and that vibration are signals from the same pump, and this pump belongs to that line” are altogether different levels.</p>
-        <p>The first has gathered data; the second has connected it. Automating judgment calls for the second.</p>
+        <p>The first has gathered data and the second has connected it. Automating judgment calls for the second.</p>
       </section>
 
       <section id="s3" class="wp-section">
@@ -121,9 +121,9 @@ const toc = [
       <section id="s4" class="wp-section">
         <div class="wp-figure">
           <span class="wp-n">04</span>
-          <h2>Layering on or building new — two paths</h2>
+          <h2>Layering on or building new, two paths</h2>
         </div>
-        <p>Integration starts from a different place at every site. Some have run SCADA, MES and ERP for years; others are only beginning to collect data. A way of integrating has to carry both cases.</p>
+        <p>Integration starts from a different place at every site. Some have run SCADA, MES and ERP for years, while others are only beginning to collect data. A way of integrating has to carry both cases.</p>
         <h3>Layering onto what you have</h3>
         <p>Where a system is already in place, it is not torn out. Replacing an existing SCADA, MES or ERP costs a great deal and carries a high risk of failure. Instead a <strong>unified intelligence layer</strong> goes on top of it and integrates in both directions. The existing systems keep running, and a layer that adds meaning to their data and helps with judgment is laid over them.</p>
         <h3>Building new where none exists</h3>
@@ -136,9 +136,9 @@ const toc = [
           <span class="wp-n">05</span>
           <h2>Data beyond the time series</h2>
         </div>
-        <p>Industrial data brings sensor time series to mind first. But much of the information a judgment needs sits outside the time series — the specification of a piece of equipment, what was replaced at the last inspection, which conditions a work order set out.</p>
+        <p>Industrial data brings sensor time series to mind first. But much of the information a judgment needs sits outside the time series, such as the specification of a piece of equipment, what was replaced at the last inspection, or which conditions a work order set out.</p>
         <p>Integration that stays with the time series can draw graphs but cannot answer “why.” Only when time series, equipment information, documents and work history are tied together on an ontology can a single signal be read alongside its several contexts.</p>
-        <p>And once data of this range runs through one structure, a single platform gives rise naturally to uses that cross industries — <strong>predictive maintenance, quality, energy, safety and administration</strong>.</p>
+        <p>And once data of this range runs through one structure, a single platform gives rise naturally to uses that cross industries, such as <strong>predictive maintenance, quality, energy, safety and administration</strong>.</p>
       </section>
 
       <section id="s6" class="wp-section">
