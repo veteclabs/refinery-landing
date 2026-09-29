@@ -1,0 +1,213 @@
+---
+// 영어판 데이터 통합 백서. 한국어 /whitepapers/data-integration.astro를 옮긴 것이다.
+// ⚠️ 두 파일은 사전을 공유하지 않는 복제 관계다 — 카피를 고치면 양쪽을 함께 고쳐야 한다.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import '../../../styles/industry.css';
+import '../../../styles/whitepaper.css';
+
+const SITE = 'https://refinery.kr';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Industrial data integration: scattered data into one body of knowledge',
+  description: 'Industrial sites do not lack data; it is scattered. This paper sets out a way to integrate that goes beyond piping data together — giving it meaning through an ontology.',
+  author: { '@type': 'Organization', name: 'Refinery' },
+  publisher: { '@type': 'Organization', name: 'Refinery', logo: { '@type': 'ImageObject', url: `${SITE}/logo_Refinery_symbol.svg` } },
+  mainEntityOfPage: `${SITE}/en/whitepapers/data-integration`,
+};
+const toc = [
+  { id: 's1', t: 'Plenty of data, little of it used' },
+  { id: 's2', t: 'Piping data together is not integration' },
+  { id: 's3', t: 'The ontology that gives data meaning' },
+  { id: 's4', t: 'Layering on or building new — two paths' },
+  { id: 's5', t: 'Data beyond the time series' },
+  { id: 's6', t: 'Data you can decide with' },
+  { id: 's7', t: 'Where to start' },
+];
+---
+<BaseLayout
+  title="Whitepaper ⁠· Industrial data integration: scattered data into one body of knowledge | Refinery"
+  description="Industrial data is not scarce; it is scattered. A whitepaper on integrating beyond pipes — giving data meaning through an ontology — and on the two paths of layering onto what you have or building new."
+  canonical="/en/whitepapers/data-integration"
+  robots="index, follow"
+  jsonLd={jsonLd}
+>
+  <Nav />
+  <main class="wp-page">
+    {/* 히어로의 글자 규격 · 여백은 /why-refinery(플랫폼 개요)와 같다. */}
+    {/* --obj는 '히어로에 3D 오브젝트가 있다'는 표시다. 좁은 화면에서 오브젝트를
+        글 아래로 내리고 아래 여백을 좁히는 규칙이 이 클래스에 걸려 있다. */}
+    <section class="wp-hero wp-hero--obj">
+      {/* 배경 무늬. 원본은 촘촘한 쪽이 왼쪽이라 좌우를 뒤집어 넣었다. */}
+      <img
+        class="wp-hero-pattern"
+        src="/whitepapers/hero-pattern.webp"
+        alt=""
+        aria-hidden="true"
+        width="2880"
+        height="1200"
+        decoding="async"
+        fetchpriority="high"
+      />
+      {/* 무늬 위에 얹는 3D 오브젝트. 좌우는 뒤집지 않는다
+          (뒤집으면 막대그래프의 상승 화살표가 하락이 된다). */}
+      <div class="wp-hero-objects" aria-hidden="true">
+        <img class="wp-obj wp-obj-bubble" src="/whitepapers/obj-bubble.webp" alt="" width="504" height="346" decoding="async" loading="lazy" />
+        <img class="wp-obj wp-obj-chart"  src="/whitepapers/obj-chart.webp"  alt="" width="475" height="468" decoding="async" loading="lazy" />
+        <img class="wp-obj wp-obj-report" src="/whitepapers/obj-report.webp" alt="" width="698" height="561" decoding="async" loading="lazy" />
+      </div>
+      <div class="ind-container">
+        <p class="wp-eyebrow"><span>Whitepaper</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>Data integration</span></p>
+        <h1 class="wp-title">Scattered data into<br>one body of knowledge</h1>
+        <p class="wp-sub">Sites do not lack data. The problem is that it is scattered.<br>This paper goes beyond piping data together to how meaning is given to it.</p>
+      </div>
+    </section>
+
+    <div class="ind-container">
+    <div class="wp-body">
+      <aside class="wp-aside">
+        <nav class="wp-toc" aria-label="Table of contents">
+          <ol>
+            {toc.map((c) => (
+              <li><a href={`#${c.id}`} data-toc={c.id}>{c.t}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+
+    <article class="wp-article">
+      <div class="wp-summary">
+        <ul>
+          <li>The real problem with industrial data is not scarcity but <strong>scatter and missing context</strong>.</li>
+          <li>Gathering data in one place (pipes) and <strong>giving it meaning</strong> (an ontology) are different things.</li>
+          <li>Where a system already exists, <strong>layer onto it</strong>; where none does, <strong>build new</strong> from collection up.</li>
+          <li>Once equipment, documents and history are tied in beyond time-series signals, data becomes <strong>something you can decide with</strong>.</li>
+        </ul>
+      </div>
+
+      <section id="s1" class="wp-section">
+        {/* 파랑 그라데이션 띠 안에 절 제목을 넣는다. 히어로(Blue 800)에서 밝은 쪽으로 흐른다. */}
+        <div class="wp-figure">
+          <span class="wp-n">01</span>
+          <h2>Plenty of data, little of it used</h2>
+        </div>
+        <p>Most industrial sites already produce vast amounts of data. Sensors on equipment leave readings by the second, SCADA records the state of the grid, and MES and ERP accumulate the flow of production and materials. Add documents such as inspection reports, work orders and equipment manuals, and the volume of data is never the shortfall.</p>
+        <p>Even so, at the moment a judgment is needed, this data goes unused. Values sit scattered across systems, and even the name for the same piece of equipment differs from system to system. When an anomaly is detected, checking its cause means moving between screens and piecing the data together in one’s head.</p>
+        <div class="wp-callout"><strong>The heart of the problem is not volume but connection.</strong> Data is shut inside separate silos with no context linking them, so it never carries through to a judgment.</div>
+      </section>
+
+      <section id="s2" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">02</span>
+          <h2>Piping data together is not integration</h2>
+        </div>
+        <p>“Data integration” usually brings to mind gathering several sources into one store — moving values with ETL and putting them side by side on a dashboard. That work is needed, but on its own it is not integration.</p>
+        <p>Even with values from different systems on one screen, if the machine does not know <strong>what those values are about</strong> or <strong>how they relate</strong>, a person still has to interpret them. Putting a vibration graph next to a temperature graph and having the system understand that “this temperature and that vibration are signals from the same pump, and this pump belongs to that line” are altogether different levels.</p>
+        <p>The first has gathered data; the second has connected it. Automating judgment calls for the second.</p>
+      </section>
+
+      <section id="s3" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">03</span>
+          <h2>The ontology that gives data meaning</h2>
+        </div>
+        <p>An ontology is a structure that defines <strong>what data is about</strong>. It defines subjects such as equipment, lines, processes and documents as objects, and describes the relations between them (containment, connection, sequence). It is the work of attaching to every scattered number and record the meaning of “what is this data about.”</p>
+        <p>Once meaning is attached, data is no longer a value inside an individual system but one body of knowledge. When a sensor reading jumps, the system can follow on its own which equipment that sensor belongs to, which process that equipment sits in, and what inspection history it has had recently.</p>
+        <div class="wp-callout">An ontology is less a showy technology than <strong>the work of writing down what the field already knows as data</strong>. The longer someone has spent on the floor, the more accurately they can draw this structure.</div>
+      </section>
+
+      <section id="s4" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">04</span>
+          <h2>Layering on or building new — two paths</h2>
+        </div>
+        <p>Integration starts from a different place at every site. Some have run SCADA, MES and ERP for years; others are only beginning to collect data. A way of integrating has to carry both cases.</p>
+        <h3>Layering onto what you have</h3>
+        <p>Where a system is already in place, it is not torn out. Replacing an existing SCADA, MES or ERP costs a great deal and carries a high risk of failure. Instead a <strong>unified intelligence layer</strong> goes on top of it and integrates in both directions. The existing systems keep running, and a layer that adds meaning to their data and helps with judgment is laid over them.</p>
+        <h3>Building new where none exists</h3>
+        <p>Where systems are not in place, building from the data collection stage up is in fact the cleaner route. With no legacy to fit around, the data structure can be designed with the ontology in mind from the start.</p>
+        <p>What matters is not the method but whether, either way, the result <strong>comes together as one body of knowledge</strong>.</p>
+      </section>
+
+      <section id="s5" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">05</span>
+          <h2>Data beyond the time series</h2>
+        </div>
+        <p>Industrial data brings sensor time series to mind first. But much of the information a judgment needs sits outside the time series — the specification of a piece of equipment, what was replaced at the last inspection, which conditions a work order set out.</p>
+        <p>Integration that stays with the time series can draw graphs but cannot answer “why.” Only when time series, equipment information, documents and work history are tied together on an ontology can a single signal be read alongside its several contexts.</p>
+        <p>And once data of this range runs through one structure, a single platform gives rise naturally to uses that cross industries — <strong>predictive maintenance, quality, energy, safety and administration</strong>.</p>
+      </section>
+
+      <section id="s6" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">06</span>
+          <h2>Data you can decide with</h2>
+        </div>
+        <p>The result of integration done well is not more dashboards. It is <strong>data you can decide with right away</strong>. When something goes wrong, the related equipment, history and documents are already connected, so following the cause takes no moving between screens.</p>
+        <p>Once things stand this way, AI can be set on top. Working from data that carries meaning, an AI agent answers questions, infers causes and suggests the next action. Integration is not an end in itself but <strong>the ground that lets AI help you decide with the evidence shown</strong>.</p>
+      </section>
+
+      <section id="s7" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">07</span>
+          <h2>Where to start</h2>
+        </div>
+        <p>Rather than drawing company-wide integration in one go, it is more realistic to start at a single point where judgment is often needed.</p>
+        <ul>
+          <li>Find the judgment people currently piece together by moving between screens.</li>
+          <li>Set out where the data that judgment needs is scattered, and what the same subject is called in each place.</li>
+          <li>Draw those subjects as objects and relations, and stand up a small ontology first.</li>
+          <li>Layer onto the existing system, or build from collection up where there is none, and widen the scope from there.</li>
+        </ul>
+        {/* 맺음말은 '다음 읽을거리'만 맡는다. 문의하기는 아래 CTA에만 둔다. */}
+        <div class="wp-end">
+          <p>How an AI agent helps with judgment on top of this integration follows in the next whitepaper.</p>
+          <a class="wp-next" href="/en/whitepapers/ai-agent">
+            Industrial AI agents
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <!-- 획 두께는 글자 굵기 400에 맞춘 1.4다. 1.8이면 꺾쇠만 굵게 튄다. -->
+              <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+    </article>
+    </div>
+    </div>
+
+    {/* 히어로와 같은 파랑 그라데이션으로 문서를 닫는다. */}
+    <section class="ind-cta wp-cta">
+      <div class="ind-container">
+        <h2>Connect the data scattered across your site<br>with the <span translate="no">Refinery</span> team.</h2>
+        <a href="/en/contact" class="ind-btn-primary">Contact</a>
+      </div>
+    </section>
+  </main>
+  {/* 목차 현재 위치 표시 — 블로그 글(BlogPost.astro)과 같은 방식이다. */}
+  <script is:inline>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.wp-toc a[data-toc]'));
+      if (!links.length) return;
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute('data-toc')] = a; });
+      var targets = links
+        .map(function (a) { return document.getElementById(a.getAttribute('data-toc')); })
+        .filter(Boolean);
+      var current = null;
+      function activate(id) {
+        if (current === id) return;
+        current = id;
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        if (map[id]) map[id].classList.add('is-active');
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.id); });
+      }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
+      targets.forEach(function (t) { obs.observe(t); });
+    })();
+  </script>
+  <Footer />
+</BaseLayout>
