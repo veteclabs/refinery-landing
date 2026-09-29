@@ -683,9 +683,10 @@ the ontology finds the answer.</h3>
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task and history data<br>
-in the ontology to infer causes and answer conversationally.<br>
-The data sources behind the answer are given too.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history<br>
+data in the ontology to infer causes and<br>
+answer conversationally. The data sources<br>
+behind the answer are given too.</p>
      </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
         <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
@@ -1197,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history data\nin the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'Industrial AI OS'],
+  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes and\nanswer conversationally. The data sources\nbehind the answer are given too.', 'Industrial AI OS'],
   plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
   tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.', 'Tile'],
   pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],
