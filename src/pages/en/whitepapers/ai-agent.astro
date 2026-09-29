@@ -1,0 +1,200 @@
+---
+// 영어판 AI 에이전트 백서. 한국어 /whitepapers/ai-agent.astro를 옮긴 것이다.
+// ⚠️ 두 파일은 사전을 공유하지 않는 복제 관계다 — 카피를 고치면 양쪽을 함께 고쳐야 한다.
+//    (/en/index.astro와 같은 구조. CLAUDE.md의 i18n 항목 참고)
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import '../../../styles/industry.css';
+import '../../../styles/whitepaper.css';
+
+const SITE = 'https://refinery.kr';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Industrial AI agents: AI that helps you decide, with the evidence shown',
+  description: 'Numbers on a dashboard cannot make the judgment for you. This paper sets out how an industrial AI agent reasons over an ontology, shows the sources behind its answers, and suggests the next action.',
+  author: { '@type': 'Organization', name: 'Refinery' },
+  publisher: { '@type': 'Organization', name: 'Refinery', logo: { '@type': 'ImageObject', url: `${SITE}/logo_Refinery_symbol.svg` } },
+  mainEntityOfPage: `${SITE}/en/whitepapers/ai-agent`,
+};
+const toc = [
+  { id: 's1', t: 'Dashboards that stop short of judgment' },
+  { id: 's2', t: 'How an AI agent differs from a chatbot' },
+  { id: 's3', t: 'Answers that come with their sources' },
+  { id: 's4', t: 'From question to next action' },
+  { id: 's5', t: 'Data that does not leave your company' },
+  { id: 's6', t: 'Judgment that carries into automation' },
+  { id: 's7', t: 'How to prepare for adoption' },
+];
+---
+<BaseLayout
+  title="Whitepaper ⁠· Industrial AI agents: AI that helps you decide, with the evidence shown | Refinery"
+  description="Numbers on a dashboard cannot make the judgment for you. A whitepaper on how an industrial AI agent reasons over an ontology, shows the sources behind its answers, and suggests the next action."
+  canonical="/en/whitepapers/ai-agent"
+  robots="index, follow"
+  jsonLd={jsonLd}
+>
+  <Nav />
+  <main class="wp-page">
+    {/* 구성은 데이터 통합 백서와 같다 — 히어로 · 왼쪽 목차 + 오른쪽 820px 본문 ·
+        절 머리 띠 · 맺음말 · 파랑 CTA. 두 백서가 한 시리즈로 읽히게 한다. */}
+    {/* --art는 '히어로에 그림이 한 장 있다'는 표시다. 좁은 화면에서 그림을
+        글 아래로 내리는 규칙이 이 클래스에 걸려 있다. */}
+    <section class="wp-hero wp-hero--art">
+      {/* 그라데이션 위에 바로 얹는 3D 그림. 이 페이지에는 무늬를 깔지 않는다 —
+          원판이 반투명이라 뒤에 무늬가 있으면 겹쳐 어수선하다. */}
+      <div class="wp-hero-art" aria-hidden="true">
+        <img class="wp-art-glow" src="/whitepapers/ai-hero-glow.webp" alt="" width="900" height="900" decoding="async" fetchpriority="high" />
+        <img class="wp-art-icons" src="/whitepapers/ai-hero-icons.webp" alt="" width="1251" height="1200" decoding="async" fetchpriority="high" />
+      </div>
+      <div class="ind-container">
+        <p class="wp-eyebrow"><span>Whitepaper</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>AI agent</span></p>
+        <h1 class="wp-title">AI that helps you decide,<br>with the evidence shown</h1>
+        <p class="wp-sub">Numbers on a dashboard cannot make the judgment for you.<br>This paper sets out an AI agent that reasons over an ontology and shows its evidence.</p>
+      </div>
+    </section>
+
+    <div class="ind-container">
+    <div class="wp-body">
+      <aside class="wp-aside">
+        <nav class="wp-toc" aria-label="Table of contents">
+          <ol>
+            {toc.map((c) => (
+              <li><a href={`#${c.id}`} data-toc={c.id}>{c.t}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+
+    <article class="wp-article">
+      <div class="wp-summary">
+        <ul>
+          <li>A dashboard shows numbers and leaves the <strong>judgment</strong> — what, why and how — to people.</li>
+          <li>An industrial AI agent <strong>reasons over the ontology</strong> and answers conversationally.</li>
+          <li>Every answer comes with <strong>the data sources behind it</strong>.</li>
+          <li>Customer data is <strong>not used to train AI</strong>, and with on-premises deployment it does not leave your company.</li>
+        </ul>
+      </div>
+
+      <section id="s1" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">01</span>
+          <h2>Dashboards that stop short of judgment</h2>
+        </div>
+        <p>For a long time the dashboard was where industrial data ended. KPIs appear, alarms sound, graphs are drawn. But in front of that screen it is still a person who makes the judgment. “Why did this number move?” “What should we do now?” — a dashboard does not answer those questions.</p>
+        <p>When analysis ends as numbers on a dashboard, reading those numbers and turning them into action falls entirely to the site. People read them differently, and the less experienced the operator, the longer they are left guessing in front of the same screen.</p>
+        <div class="wp-callout">Judgment turns into action only when it arrives as a <strong>sentence</strong> — what to do, why, and how. That is where an AI agent comes in.</div>
+      </section>
+
+      <section id="s2" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">02</span>
+          <h2>How an AI agent differs from a chatbot</h2>
+        </div>
+        <p>An industrial AI agent is not a simple chatbot. Rather than returning prepared answers, it <strong>reasons over the asset, task and history data held in the ontology to infer causes and answers conversationally</strong>.</p>
+        <p>As the earlier <a href="/en/whitepapers/data-integration">data integration whitepaper</a> describes, once data carries meaning the AI can follow a single signal together with the equipment, process and history connected to it. The agent works on top of this connected knowledge. So the quality of an answer depends less on the size of the model than on how well the data beneath it is connected.</p>
+      </section>
+
+      <section id="s3" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">03</span>
+          <h2>Answers that come with their sources</h2>
+        </div>
+        <p>For AI to earn trust on site, an answer has to be <strong>grounded</strong> rather than merely plausible. The agent presents the sources of the data behind each answer — which sensor readings, which inspection records, which documents it based that judgment on.</p>
+        <p>When sources come with the answer, users can check the evidence and judge for themselves instead of taking the answer at face value. This makes the AI’s answers verifiable and reduces the risk of stating a possibly wrong answer as fact.</p>
+        <div class="wp-callout"><strong>An answer without a source is convenient but risky.</strong> Decisions on an industrial site have to be verifiable, so showing the evidence is not an option but a basic condition.</div>
+      </section>
+
+      <section id="s4" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">04</span>
+          <h2>From question to next action</h2>
+        </div>
+        <p>A good agent does not stop at answering. Ask what you want to know and it answers from the data, and where needed it <strong>suggests the next action</strong>. To “Why is the vibration on this equipment different from usual?” it offers likely causes together with a next step such as “Shall I create an inspection order?”</p>
+        <p>When question, answer and suggestion run as one flow, the distance from data to action gets shorter. Instead of moving between screens and assembling a judgment alone, the operator receives options laid out with their evidence and can focus on deciding.</p>
+      </section>
+
+      <section id="s5" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">05</span>
+          <h2>Data that does not leave your company</h2>
+        </div>
+        <p>Industrial data holds much that must not go outside — equipment configurations, operating know-how. So in an industrial AI agent, security is not an add-on but a premise.</p>
+        <ul>
+          <li><strong>Customer data is not used to train AI models.</strong> Field data does not flow out to train an external model.</li>
+          <li>Choose <strong>on-premises deployment</strong> and data does not leave your company; it is processed inside the IT/OT boundary.</li>
+        </ul>
+        <p>Trust comes down to two things: whether the evidence behind an answer is visible (transparency), and whether data stays inside a safe boundary (security). With both in place, a site can bring the AI’s judgment into real operation.</p>
+      </section>
+
+      <section id="s6" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">06</span>
+          <h2>Judgment that carries into automation</h2>
+        </div>
+        <p>The agent’s judgment does not end when it reaches a person; under rules you set, it can carry into automation. You decide in conversation, in advance, which situations go through human approval and which are handled automatically.</p>
+        <p>Analysis then flows into reports, alarms and workflow execution with no manual steps. Repeated judgments and actions run on their own, and people concentrate on the exceptional decisions that matter.</p>
+      </section>
+
+      <section id="s7" class="wp-section">
+        <div class="wp-figure">
+          <span class="wp-n">07</span>
+          <h2>How to prepare for adoption</h2>
+        </div>
+        <p>An AI agent does its job only on well-connected data. Adoption is usually more realistic if it starts in this order.</p>
+        <ul>
+          <li>Pick one question the agent would help with most — a judgment that comes up often.</li>
+          <li>Connect the data needed to answer it through the ontology.</li>
+          <li>Check that answers come with their sources, and that the site can trust them.</li>
+          <li>Draw the line between what needs approval and what runs automatically, and widen into automation.</li>
+        </ul>
+        {/* 맺음말은 '다음 읽을거리'만 맡는다. 문의하기는 아래 CTA에만 둔다.
+            데이터 통합 백서가 이 문서의 앞 편이라 그쪽으로 되돌려 보낸다. */}
+        <div class="wp-end">
+          <p>The data integration that underpins this judgment is covered in the earlier whitepaper.</p>
+          <a class="wp-next" href="/en/whitepapers/data-integration">
+            Industrial data integration
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <!-- 획 두께는 글자 굵기 400에 맞춘 1.4다. 1.8이면 꺾쇠만 굵게 튄다. -->
+              <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+    </article>
+    </div>
+    </div>
+
+    <section class="ind-cta wp-cta">
+      <div class="ind-container">
+        <h2>Bring grounded AI in<br>with the <span translate="no">Refinery</span> team.</h2>
+        <a href="/en/contact" class="ind-btn-primary">Contact</a>
+      </div>
+    </section>
+  </main>
+  {/* 목차 현재 위치 표시 — 데이터 통합 백서와 같은 스크립트다. */}
+  <script is:inline>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.wp-toc a[data-toc]'));
+      if (!links.length) return;
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute('data-toc')] = a; });
+      var targets = links
+        .map(function (a) { return document.getElementById(a.getAttribute('data-toc')); })
+        .filter(Boolean);
+      var current = null;
+      function activate(id) {
+        if (current === id) return;
+        current = id;
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        if (map[id]) map[id].classList.add('is-active');
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.id); });
+      }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
+      targets.forEach(function (t) { obs.observe(t); });
+    })();
+  </script>
+  <Footer />
+</BaseLayout>
