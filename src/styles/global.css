@@ -659,7 +659,7 @@
       .ot-it-badge i { font-size: 12px !important; }
       .security-grid .sec-card:nth-child(3) .sec-card-body { padding-top: 0; }
       .security-grid .sec-card:nth-child(3) .sec-card-title-row { margin-top: -2px; }
-      .security-grid .sec-card:nth-child(3) .sec-card-body h4 { white-space: nowrap; }
+      .security-grid .sec-card:nth-child(3) .sec-card-body h3 { white-space: nowrap; }
     }
     @media (max-width: 900px) {
       .security-grid { display: flex; flex-direction: column; align-items: center; grid-template-columns: none; gap: 16px; margin: 28px 0 0; padding: 0; }
@@ -675,9 +675,12 @@
     .sec-card-img::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 50%, #ffffff 100%); pointer-events: none; }
     .sec-card-divider { display: none; }
     .sec-card-body { padding: 20px 24px 24px; }
-    .sec-card-body h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .sec-card-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
     .sec-card-title-row { display: flex; flex-direction: row; align-items: center; gap: 6px; margin-bottom: 6px; }
-    .sec-card-title-row h4 { margin-bottom: 0; }
+    /* 제목 여백을 지워야 배지가 제목 수직 중앙에 선다. align-items:center는 margin box를
+       기준으로 하므로, h3의 margin-bottom이 남아 있으면 배지만 그만큼 아래로 처진다.
+       2026-09-29: 이 규칙들이 h4로 적혀 있어 h3 마크업에 하나도 닿지 않았다. */
+    .sec-card-title-row h3 { margin-bottom: 0; }
     .ot-it-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 400; color: #76A6D7; }
     .ot-it-badge i { font-size: 13px; }
     .sec-card-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
