@@ -124,6 +124,6 @@ context; seeing the trend makes judgment possible; returning to human language m
 action. And all of it is complete only when it gathers into one body
 of knowledge, whether layered on or newly built.
 
-<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>
-<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/whitepapers/ai-agent)<br>
+<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/en/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/en/whitepapers/ai-agent)<br>
 <span class="lead-dot"></span>To talk through your own operation → [Contact](/en/contact)

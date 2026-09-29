@@ -58,6 +58,6 @@ from the start.
 
 ## In closing
 
-<span class="lead-dot"></span>For connecting scattered process data → [Data integration whitepaper](/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>For connecting scattered process data → [Data integration whitepaper](/en/whitepapers/data-integration)<br>
 <span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
 <span class="lead-dot"></span>To talk through your own process → [Contact](/en/contact)
