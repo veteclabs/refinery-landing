@@ -615,9 +615,11 @@
     #integrations .section-header h2 { color: #EDEEF0; }
     #integrations .section-header p { color: #959CA5; }
     /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 각 줄이 다시 감겨 4줄이 됐다.
-       각 줄 필요 폭은 ko 429·390px, en 463·470px. 480px이면 양쪽 다 2줄로 들어가고,
-       ko는 제목 옆 여유(602px) 안이라 나란한 배치도 유지된다. */
-    #integrations .section-header-row p { max-width: 480px; }
+       각 줄 필요 폭은 ko 429·390px, en 491·470px. 500px이면 양쪽 다 2줄로 들어간다.
+       2026-09-29: en 첫 줄이 영어 검증을 거치며 463→491px로 길어져 480px에서는
+       'tools,'만 남는 줄이 생겼다. 값을 올릴 때는 제목 옆 배치도 함께 본다
+       (en 590 + gap 32 + 491 = 1113px, 컨테이너 1184px 안). */
+    #integrations .section-header-row p { max-width: 500px; }
     @media (max-width: 900px) {
       #integrations .section-header-row p { max-width: none; }
     }
