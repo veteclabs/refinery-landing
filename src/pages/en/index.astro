@@ -1040,7 +1040,9 @@ behind the answer are given too.</p>
       .rfn-node[data-pl-node="systems"] .rfn-node-ic{background:#9579C2;}
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-ic{background:#E29050;}
       @media (max-width: 900px) {
-        .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:250px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;scrollbar-width:none;-ms-overflow-style:none;}
+        /* 카드 폭 280px — 250px 에서는 가장 긴 줄 'Groupware/e-Approval'(라벨 130px + 타입)이
+         17px 모자라 …로 잘렸다. 가로로 넘겨 보는 구간이라 카드가 넓어져도 총 폭만 는다. */
+      .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:280px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;scrollbar-width:none;-ms-overflow-style:none;}
         .int-node-grid::-webkit-scrollbar{display:none;}
       }
       @media (max-width: 900px) {
