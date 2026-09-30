@@ -451,9 +451,11 @@ const jsonLd = [orgSchema, faqSchema];
         background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 60%, rgba(246,248,250,0) 100%);
       }
     }
-@media (max-width: 1280px) {
+    /* 세로로 나뉘면 글이 미리보기 폭을 통째로 쓴다. 좁은 칸(352px)에 맞춰 넣어 둔
+       teamsTextMap 의 \n 은 문장 중간을 끊으므로 공백으로 풀고(white-space:normal),
+       대신 JS 가 문장 끝마다 <br> 을 넣어 문장별로 단락을 나눈다. */
+    @media (max-width: 1280px) {
       #teams .teams-preview-text p { white-space: normal; }
-      #teams .teams-preview-text p br { display: none; }
     }
 
     /* 줄바꿈을 걷고 나니 이번엔 한 줄이 너무 길어졌다 — 1280px에서 본문이 1103px
@@ -1376,6 +1378,40 @@ window.dashPanContent = DASH_PAN_MAP['llm'] || 0;
 window.dashKey = 'llm';
 if (window.resizeDash) window.resizeDash();
 
+/* 미리보기 본문은 폭에 따라 다르게 끊는다.
+   1281px 이상(오버레이): 좁은 왼쪽 칸에 맞춘 teamsTextMap 의 \n 을 그대로 쓴다.
+   1280px 이하(세로 분리): 글이 폭을 통째로 쓰므로 그 \n 은 문장 중간을 끊는 꼴이 된다.
+   공백으로 풀고 문장 끝에서만 나눈다 — 마침표 뒤에 이어지는 글자가 있을 때만 끊어
+   마지막 문장 뒤에 빈 줄이 생기지 않게 한다. */
+function renderPreviewBody(el) {
+  var raw = el.dataset.raw;
+  if (raw == null) return;
+  if (window.innerWidth <= 1280) {
+    var flat = raw.replace(/\s*\n\s*/g, ' ').trim();
+    el.innerHTML = flat.replace(/([.!?])\s+(?=\S)/g, '$1<br>');
+  } else {
+    el.textContent = raw;
+  }
+}
+function initPreviewBody() {
+  var el = document.getElementById('teamsPreviewBody');
+  if (!el) return;
+  if (el.dataset.raw == null) {
+    // 초기 렌더는 마크업의 <br> 로 줄이 잡혀 있다 — 그것을 \n 으로 되돌려 원본으로 삼는다
+    el.dataset.raw = el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+  }
+  renderPreviewBody(el);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPreviewBody);
+} else {
+  initPreviewBody();
+}
+window.addEventListener('resize', function () {
+  var el = document.getElementById('teamsPreviewBody');
+  if (el) renderPreviewBody(el);
+});
+
 function switchDash(btn, src, key) {
   if (typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
   document.querySelectorAll('.teams-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1394,7 +1430,7 @@ function switchDash(btn, src, key) {
     var bodyEl = document.getElementById('teamsPreviewBody');
     if (taglineEl) taglineEl.textContent = t[2];
     if (titleEl) titleEl.textContent = t[0];
-    if (bodyEl) bodyEl.textContent = t[1];
+    if (bodyEl) { bodyEl.dataset.raw = t[1]; renderPreviewBody(bodyEl); }
   }
 }
 </script>
