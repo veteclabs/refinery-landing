@@ -478,6 +478,9 @@ const jsonLd = {
         -ms-overflow-style: none;
       }
       #platform .series-viewport::-webkit-scrollbar { display: none; }
+      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
+      #platform .series-viewport { cursor: grab; }
+      #platform .series-viewport.is-dragging { cursor: grabbing; user-select: none; }
       #platform .series-card {
         flex: 0 0 80vw;
         max-width: 300px;
@@ -570,6 +573,48 @@ const jsonLd = {
           if (isMobile()) { viewport.scrollBy({ left: cardStep(), behavior: 'smooth' }); return; }
           index += 1; update();
         });
+        /* 좁은 폭에서는 네이티브 가로 스크롤이 위치를 갖는데, 터치는 스와이프로 넘겨도
+           마우스로는 끌 수가 없었다(휠·화살표뿐). 포인터로 scrollLeft 를 직접 옮겨
+           끌어서 넘기게 한다. 터치·펜은 네이티브가 이미 받으므로 마우스만 가로챈다. */
+        var drag = null;
+        viewport.addEventListener('pointerdown', function(e) {
+          if (!isMobile() || e.pointerType !== 'mouse' || e.button !== 0) return;
+          drag = { x: e.clientX, left: viewport.scrollLeft, moved: false };
+        });
+        viewport.addEventListener('pointermove', function(e) {
+          if (!drag) return;
+          var dx = e.clientX - drag.x;
+          // 3px 은 넘겨야 끌기로 본다 — 손떨림으로 글자 선택이 풀리지 않게 한다
+          if (!drag.moved && Math.abs(dx) < 3) return;
+          if (!drag.moved) {
+            drag.moved = true;
+            viewport.classList.add('is-dragging');
+            try { if (viewport.setPointerCapture) viewport.setPointerCapture(e.pointerId); } catch (err) {}
+          }
+          viewport.scrollLeft = drag.left - dx;
+          e.preventDefault();
+        });
+        function endDrag(e) {
+          if (!drag) return;
+          try {
+            if (drag.moved && viewport.hasPointerCapture && viewport.hasPointerCapture(e.pointerId)) {
+              viewport.releasePointerCapture(e.pointerId);
+            }
+          } catch (err) {}
+          viewport.classList.remove('is-dragging');
+          drag = null;
+        }
+        viewport.addEventListener('pointerup', endDrag);
+        viewport.addEventListener('pointercancel', endDrag);
+        // 끌고 난 뒤 놓는 순간의 클릭은 삼킨다(카드 안에 링크가 생겨도 안전하도록)
+        viewport.addEventListener('click', function(e) {
+          if (viewport.dataset.justDragged === '1') { e.stopPropagation(); e.preventDefault(); }
+        }, true);
+        viewport.addEventListener('pointerup', function() {
+          viewport.dataset.justDragged = '1';
+          setTimeout(function() { viewport.dataset.justDragged = '0'; }, 0);
+        });
+
         window.addEventListener('resize', update);
         var mobileScrollRaf = null;
         viewport.addEventListener('scroll', function() {
