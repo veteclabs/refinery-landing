@@ -226,6 +226,43 @@ const jsonLd = {
        숨겼을 때 'have,or'처럼 낱말이 붙는다(같은 날 FAQ에서 겪었다). */
     @media (max-width: 1229px) { .int-hd-br { display: none; } }
     @media (max-width: 1159px) { .sec-hd-br { display: none; } }
+
+    /* #teams 미리보기 — 901~1280px에서도 세로로 나눈다.
+       원래는 이미지 위에 제목·본문을 얹고, 왼쪽 28.5% 페이드가 글 배경 노릇을 했다.
+       그런데 텍스트 박스는 <br>로 줄이 고정돼 352px로 붙박이인데 페이드는 폭의 %라
+       같이 줄어든다 → 좁아질수록 글이 배경을 벗어나 이미지 위로 올라온다.
+       Plate 탭에서 본문이 막대 차트에 묻혔다(910px에서 배경 밖 125px).
+
+       배경을 px로 고정해 봤지만 그만큼 이미지를 가려 접었다. 900px 이하에서 이미
+       쓰는 세로 분리를 1280px까지 올리는 쪽이 탭·이미지와 무관하게 해결된다.
+
+       900px 이하는 global.css 가 맡는다 — 거기 값은 화면 끝까지 붙이는 모바일용이라
+       (margin-right:-24px 등) 여기서는 데스크톱 여백에 맞춘 값을 따로 쓴다.
+       JS 쪽 resizeDash 의 모바일 판정도 같은 1280으로 맞춰야 이미지가 제자리에 온다.
+       국문도 같은 문제를 안고 있지만 global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
+    @media (min-width: 901px) and (max-width: 1280px) {
+      .teams-preview {
+        aspect-ratio: unset !important;
+        display: flex !important; flex-direction: column !important;
+        background: #F6F8FA;
+        border-radius: 0 0 var(--radius) var(--radius) !important;
+      }
+      .teams-preview-decor { display: none !important; }
+      .teams-preview-title-wrap { position: static !important; padding: 28px 32px 0 !important; order: 1; margin-bottom: 14px; }
+      .teams-preview-text { position: static !important; padding: 0 32px 24px !important; order: 2; }
+      .teams-preview-text p { max-width: none; }
+      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
+      #iframe-wrapper::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
+        z-index: 2; pointer-events: none;
+      }
+      #iframe-wrapper::after {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0.85) 8%, rgba(246,248,250,0) 24%, rgba(246,248,250,0) 76%, rgba(246,248,250,0.85) 92%, #F6F8FA 100%);
+        z-index: 2; pointer-events: none;
+      }
+    }
     #platform .platform-graphic-img {
       margin-top: 64px;
     }
@@ -748,7 +785,7 @@ behind the answer are given too.</p>
         var w = wrapper.offsetWidth;
         var crop = (window.needsRightCrop === false) ? 0 : RIGHT_CROP;
         var pan = window.dashPanContent || 0; // 콘텐츠를 우측으로 밀어 보여주기 위한 좌측 크롭(px, 원본 1440 기준)
-        var isMobile = window.innerWidth <= 900;
+        var isMobile = window.innerWidth <= 1280 /* 1280 이하는 세로 분리 레이아웃 — CSS와 같은 경계 */;
 
         if (isMobile) {
           // 모바일: 좌측 세션 레일을 실제로 잘라내고(pan + 모바일 전용 추가 크롭 포함) 본문 UI만 카드 폭에 꽉 차게 확대한다.
