@@ -289,11 +289,14 @@ const jsonLd = {
        JS 가 이미지를 위로 밀어 자르면서 그 선이 미리보기 상단 10px 자리에 올라온다.
        기존 14px 페이드는 그 지점에서 이미 70% 투명해져 선을 못 가린다 —
        페이드를 키워도 대비만 줄 뿐이라, 앞 24px 을 불투명하게 덮고 나머지로 잇는다.
+       높이는 px 이 아니라 미리보기 높이의 8%다. 좁아질수록 이미지가 작아져 선도 위로
+       올라오는데(1000px 10px → 390px 4px), 40px 으로 고정하면 390px 에서 이미지의
+       20%를 덮어 위쪽이 통째로 가린다. %로 두면 밴드도 같이 줄어든다.
        탭마다 선 위치가 달라(Pipeline 19·22px · Calendar 21px) 이 탭만 골라 건다.
        :has() 로 이미지 src 를 보므로 JS 는 그대로 둔다. */
     @media (max-width: 1280px) {
       #teams #iframe-wrapper:has(#dash-image[src*="Solutions-02-ai-agent"])::before {
-        height: 40px;
+        height: 8%;
         background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 60%, rgba(246,248,250,0) 100%);
       }
     }
