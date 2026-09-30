@@ -478,9 +478,18 @@ const jsonLd = {
         -ms-overflow-style: none;
       }
       #platform .series-viewport::-webkit-scrollbar { display: none; }
+      /* 카드는 왼쪽 면에 맞춰 선다 — 중간에 걸친 자리에서 멈추지 않는다.
+         끄는 동안에는 스냅을 풀어야 손을 따라 매끄럽게 움직인다. */
+      #platform .series-viewport { scroll-snap-type: x mandatory; }
+      #platform .series-card { scroll-snap-align: start; }
+      #platform .series-viewport.is-dragging { scroll-snap-type: none; }
       /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
-      #platform .series-viewport { cursor: grab; }
-      #platform .series-viewport.is-dragging { cursor: grabbing; user-select: none; }
+      #platform .series-viewport,
+      #platform .platform-graphic-wrap { cursor: grab; }
+      #platform .series-viewport.is-dragging,
+      #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
+      /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
+      #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
       #platform .series-card {
         flex: 0 0 80vw;
         max-width: 300px;
@@ -575,45 +584,54 @@ const jsonLd = {
         });
         /* 좁은 폭에서는 네이티브 가로 스크롤이 위치를 갖는데, 터치는 스와이프로 넘겨도
            마우스로는 끌 수가 없었다(휠·화살표뿐). 포인터로 scrollLeft 를 직접 옮겨
-           끌어서 넘기게 한다. 터치·펜은 네이티브가 이미 받으므로 마우스만 가로챈다. */
-        var drag = null;
-        viewport.addEventListener('pointerdown', function(e) {
-          if (!isMobile() || e.pointerType !== 'mouse' || e.button !== 0) return;
-          drag = { x: e.clientX, left: viewport.scrollLeft, moved: false };
-        });
-        viewport.addEventListener('pointermove', function(e) {
-          if (!drag) return;
-          var dx = e.clientX - drag.x;
-          // 3px 은 넘겨야 끌기로 본다 — 손떨림으로 글자 선택이 풀리지 않게 한다
-          if (!drag.moved && Math.abs(dx) < 3) return;
-          if (!drag.moved) {
-            drag.moved = true;
-            viewport.classList.add('is-dragging');
-            try { if (viewport.setPointerCapture) viewport.setPointerCapture(e.pointerId); } catch (err) {}
-          }
-          viewport.scrollLeft = drag.left - dx;
-          e.preventDefault();
-        });
-        function endDrag(e) {
-          if (!drag) return;
-          try {
-            if (drag.moved && viewport.hasPointerCapture && viewport.hasPointerCapture(e.pointerId)) {
-              viewport.releasePointerCapture(e.pointerId);
+           끌어서 넘기게 한다. 터치·펜은 네이티브가 이미 받으므로 마우스만 가로챈다.
+           카드 슬라이더와 상단 그래픽(가로로 넘치는 SVG) 둘 다 같은 방식이다. */
+        function enableDragScroll(el) {
+          var drag = null;
+          el.addEventListener('pointerdown', function(e) {
+            if (!isMobile() || e.pointerType !== 'mouse' || e.button !== 0) return;
+            drag = { x: e.clientX, left: el.scrollLeft, moved: false };
+          });
+          el.addEventListener('pointermove', function(e) {
+            if (!drag) return;
+            var dx = e.clientX - drag.x;
+            // 3px 은 넘겨야 끌기로 본다 — 손떨림으로 글자 선택이 풀리지 않게 한다
+            if (!drag.moved && Math.abs(dx) < 3) return;
+            if (!drag.moved) {
+              drag.moved = true;
+              el.classList.add('is-dragging');
+              try { if (el.setPointerCapture) el.setPointerCapture(e.pointerId); } catch (err) {}
             }
-          } catch (err) {}
-          viewport.classList.remove('is-dragging');
-          drag = null;
+            el.scrollLeft = drag.left - dx;
+            e.preventDefault();
+          });
+          function endDrag(e) {
+            if (!drag) return;
+            var moved = drag.moved;
+            try {
+              if (moved && el.hasPointerCapture && el.hasPointerCapture(e.pointerId)) {
+                el.releasePointerCapture(e.pointerId);
+              }
+            } catch (err) {}
+            el.classList.remove('is-dragging');
+            drag = null;
+            if (moved) {
+              // 끌고 난 뒤 놓는 순간의 click 은 삼킨다(카드 안에 링크가 생겨도 안전하도록)
+              el.dataset.justDragged = '1';
+              setTimeout(function() { el.dataset.justDragged = '0'; }, 0);
+            }
+          }
+          el.addEventListener('pointerup', endDrag);
+          el.addEventListener('pointercancel', endDrag);
+          el.addEventListener('click', function(e) {
+            if (el.dataset.justDragged === '1') { e.stopPropagation(); e.preventDefault(); }
+          }, true);
+          // 이미지·SVG 를 잡으면 브라우저 기본 끌기가 발동해 스크롤이 먹지 않는다
+          el.addEventListener('dragstart', function(e) { e.preventDefault(); });
         }
-        viewport.addEventListener('pointerup', endDrag);
-        viewport.addEventListener('pointercancel', endDrag);
-        // 끌고 난 뒤 놓는 순간의 클릭은 삼킨다(카드 안에 링크가 생겨도 안전하도록)
-        viewport.addEventListener('click', function(e) {
-          if (viewport.dataset.justDragged === '1') { e.stopPropagation(); e.preventDefault(); }
-        }, true);
-        viewport.addEventListener('pointerup', function() {
-          viewport.dataset.justDragged = '1';
-          setTimeout(function() { viewport.dataset.justDragged = '0'; }, 0);
-        });
+        enableDragScroll(viewport);
+        var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
+        if (graphicWrap) enableDragScroll(graphicWrap);
 
         window.addEventListener('resize', update);
         var mobileScrollRaf = null;
