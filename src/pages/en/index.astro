@@ -240,6 +240,32 @@ const jsonLd = {
        (margin-right:-24px 등) 여기서는 데스크톱 여백에 맞춘 값을 따로 쓴다.
        JS 쪽 resizeDash 의 모바일 판정도 같은 1280으로 맞춰야 이미지가 제자리에 온다.
        국문도 같은 문제를 안고 있지만 global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
+    /* #teams 탭 여섯 개는 이 섹션이 말하는 "everything"의 목록이다.
+       900px 이하에서 가로 스크롤(scroll-snap)로 넘기게 되어 있었는데, 880px에서
+       네 개 반만 보인다 — 다 갖췄다는 주장을 정작 화면이 가린다. 줄로 나눠 다 보인다.
+
+       열 수는 가장 긴 버튼('Industrial AI OS' 152px)이 기준이다.
+       3열은 바 폭 456px가 필요해 520px 아래에서는 2열로 내린다.
+       테두리는 줄 끝에서 지우고 둘째 줄부터 위에 긋는데, 열 수가 바뀌면
+       그 자리도 바뀌므로 nth-child 를 구간마다 다시 잡는다.
+       국문도 같은 구조다 — global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
+    @media (max-width: 900px) {
+      #teams .teams-menu-horizontal {
+        flex-wrap: wrap; overflow-x: hidden; margin-right: 0;
+        border-radius: var(--radius) var(--radius) 0 0 !important;
+        scroll-snap-type: none;
+      }
+      #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
+      #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
+      #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 520px) {
+      #teams .teams-tab-btn { flex-basis: 50%; }
+      #teams .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
+      #teams .teams-tab-btn:nth-child(2n) { border-right: none; }
+      #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
+    }
+
     @media (min-width: 901px) and (max-width: 1280px) {
       .teams-preview {
         aspect-ratio: unset !important;
