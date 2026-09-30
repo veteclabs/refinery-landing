@@ -17,7 +17,7 @@ export const steelEn: IndustryData = {
     imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Steel ⁠· Materials',
+    eyebrow: 'Steel & Materials',
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {
@@ -28,12 +28,12 @@ export const steelEn: IndustryData = {
       {
         title: 'Small process shifts decide quality',
         description:
-          'Furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
+          'Heat-treatment furnaces, compressed air, cooling water and forming equipment run continuously, and a slight difference in conditions stays in the product.',
       },
       {
-        title: 'Heat treatment needs stability and energy control together',
+        title: 'Heat treatment needs equipment stability and energy control together',
         description:
-          'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not repeat the result.',
+          'Temperature, hold time and cooling conditions set the material properties, so getting only one of them right will not reproduce the result.',
       },
       {
         title: 'Complex energy flow, frequent peaks',
@@ -43,8 +43,8 @@ export const steelEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a steel site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a steel site.',
     layout: 'steps',
     items: [
       {
@@ -55,31 +55,31 @@ export const steelEn: IndustryData = {
       },
       {
         title: 'Demand-based compressed air control and monitoring',
-        problem: 'Compressed air equipment overrunning against real demand',
-        approach: 'Power draw, pipeline flow, temperature and humidity are measured together so supply is controlled to match demand.',
+        problem: 'Compressed air equipment running hard regardless of actual demand',
+        approach: 'Power draw, header flow, temperature and humidity are measured together so supply is controlled to match demand.',
         outcome: 'Lower energy use and longer equipment life',
       },
       {
         title: 'Heat-treatment temperature and time analysis',
-        problem: 'Process deviations confirmed only once the piece is out',
-        approach: 'Furnace temperature, hold time and cooling curves are stacked batch by batch and compared with the normal pattern.',
+        problem: 'Process deviations confirmed only after the piece comes out of the furnace',
+        approach: 'Heat-treatment furnace temperature, hold time and cooling curves are overlaid batch by batch and compared with the normal pattern.',
         outcome: 'Steadier material quality',
       },
       {
         title: 'Energy flow visualized by process',
-        problem: 'No visibility into which process consumes the energy',
-        approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure and lines up on equal terms.',
+        problem: 'No visibility into which processes are eating up the energy',
+        approach: 'Processes and assets are connected through an ontology so energy flow gathers into one structure, and use by process can be compared on equal terms.',
         outcome: 'Over-consuming segments identified and process efficiency improved',
       },
       {
         title: 'Remote cooling water control and monitoring',
-        problem: 'Cooling water equipment that has to be checked on foot',
+        problem: 'Cooling water equipment that has to be checked in person on site',
         approach: 'Cooling water temperature, flow and pump state are monitored remotely, and any departure from the band is raised at once.',
         outcome: 'Steadier equipment operation',
       },
       {
         title: 'Vibration-based equipment monitoring',
-        problem: 'Rotating-equipment faults that surface only after a stop',
+        problem: 'Rotating-equipment anomalies that surface only after a stop',
         approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and maintenance made more efficient',
       },
@@ -87,14 +87,14 @@ export const steelEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Heat-treatment furnaces ⁠· compressed air ⁠· cooling water ⁠· forming equipment sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· Plant EMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Process dashboard ⁠· peak alerts ⁠· quality history', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where PLC or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where PLC or a plant EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -103,7 +103,7 @@ export const steelEn: IndustryData = {
       {
         title: 'Steadier heat-treatment quality',
         icon: 'ph-thermometer',
-        description: 'Temperature patterns are kept batch by batch so the same result repeats.',
+        description: 'Temperature patterns are recorded batch by batch so the same result is reproduced.',
       },
       {
         title: 'Compressed air matched to demand',
@@ -123,19 +123,19 @@ export const steelEn: IndustryData = {
       {
         title: 'Failures prevented',
         icon: 'ph-pulse',
-        description: 'Vibration catches faults early, making maintenance more efficient.',
+        description: 'Vibration catches anomalies early, making maintenance more efficient.',
       },
     ],
   },
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on steel sites.',
-    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC UA', 'LTE-M'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour steel operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your steel operation.',
     buttonLabel: 'Request a demo',
   },
 };

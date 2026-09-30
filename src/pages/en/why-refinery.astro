@@ -1,15 +1,17 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/industry.css';
+// 영어판 플랫폼 개요. 한국어 /why-refinery.astro를 옮긴 것이다.
+// ⚠️ 두 파일은 사전을 공유하지 않는 복제 관계다 — 카피를 고치면 양쪽을 함께 고쳐야 한다.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: '왜 Refinery인가 | Refinery',
-  url: `${SITE}/why-refinery`,
+  name: 'Why Refinery | Refinery',
+  url: `${SITE}/en/why-refinery`,
   isPartOf: { '@type': 'WebSite', name: 'Refinery', url: `${SITE}/` },
 };
 
@@ -17,41 +19,41 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 ⁠· 설비 ⁠· 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 ⁠· TCP/IP ⁠· Modbus ⁠· OPC UA)⁠까지 다룹니다.' },
-  { icon: '/why-refinery/icon-02.svg', title: '걷어내지 않는 도입', desc: '쓰던 시스템 위에 얹습니다.<br>없으면 30년 경험의 템플릿에서 시작합니다.' },
-  { icon: '/why-refinery/icon-03.svg', title: '숫자를 넘어, 지식으로', desc: '설비 ⁠· 문서 ⁠· 이력까지 온톨로지로 엮습니다.<br>AI가 근거를 들어 답합니다.' },
+  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, Modbus, OPC UA).' },
+  { icon: '/why-refinery/icon-02.svg', title: 'Adoption that tears nothing out', desc: 'We sit on top of the systems you already use.<br>Where there are none, we start from a template shaped by 30 years on site.' },
+  { icon: '/why-refinery/icon-03.svg', title: 'Beyond numbers, into knowledge', desc: 'We tie equipment, documents and history together in an ontology.<br>AI answers with the evidence shown.' },
 ];
 
 // 기능 스토리 3 — 통합 / AI 에이전트 / 자동화
 const stories = [
   {
     image: '/why-refinery/story-01.svg',
-    eyebrow: '통합',
-    title: '흩어진 데이터가 하나의 지식으로',
+    eyebrow: 'Integration',
+    title: 'Scattered data into one body of knowledge',
     points: [
-      'SCADA ⁠· MES ⁠· ERP를 한곳에 모읍니다.',
-      '온톨로지로 어떤 데이터인지 의미를 부여합니다.',
-      '숫자와 기록이 맥락을 얻어 판단에 쓰입니다.',
+      'SCADA, MES and ERP are gathered in one place.',
+      'An ontology gives data the meaning of what it is.',
+      'Numbers and records gain context and serve judgment.',
     ],
   },
   {
     image: '/why-refinery/story-02.svg',
-    eyebrow: 'AI 에이전트',
-    title: '물으면 답하는 현장',
+    eyebrow: 'AI agent',
+    title: 'A field that answers when you ask',
     points: [
-      '궁금한 점을 물어보면 데이터를 근거로 답합니다.',
-      '원인을 추론하고 다음 조치까지 제안합니다.',
-      '답변의 근거가 된 데이터 출처를 함께 제시합니다.',
+      'Ask what you want to know and it answers from the data.',
+      'It infers causes and suggests the next action.',
+      'The data sources behind the answer are given too.',
     ],
   },
   {
     image: '/why-refinery/story-03.svg',
-    eyebrow: '자동화',
-    title: '사람 없이 돌아가는 운영',
+    eyebrow: 'Automation',
+    title: 'Operations that run without people',
     points: [
-      '무엇을 자동으로 할지 대화로 정합니다.',
-      '분석이 보고서 ⁠· 워크플로우 실행까지 이어집니다.',
-      '반복 업무는 사람 손 없이 자동으로 처리됩니다.',
+      'You decide through conversation what runs automatically.',
+      'Analysis flows into reports and workflow execution.',
+      'Repeated work is handled automatically, with no manual steps.',
     ],
   },
 ];
@@ -59,16 +61,16 @@ const stories = [
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
 // 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
-  { title: '데이터', icon: 'ph-database', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
-  { title: '지능', icon: 'ph-sparkle', items: ['AI 에이전트', '이상 감지', '알람', '예지보전', '품질 예측', '에너지 최적화'] },
-  { title: '운영', icon: 'ph-gear-six', items: ['자동화', '워크플로우', '리포트 자동화', 'ESG 리포트'] },
-  { title: '신뢰', icon: 'ph-shield-check', items: ['온프레미스 배포', '권한', '암호화'] },
+  { title: 'Data', icon: 'ph-database', items: ['Ontology', 'Unified dashboard', 'Pipeline', 'Time-series analysis', 'Turning documents into knowledge', 'Connecting to existing systems'] },
+  { title: 'Intelligence', icon: 'ph-sparkle', items: ['AI agent', 'Anomaly detection', 'Alarms', 'Predictive maintenance', 'Quality prediction', 'Energy optimization'] },
+  { title: 'Operations', icon: 'ph-gear-six', items: ['Automation', 'Workflows', 'Report automation', 'ESG reports'] },
+  { title: 'Trust', icon: 'ph-shield-check', items: ['On-premises deployment', 'Permissions', 'Encryption'] },
 ];
 ---
 <BaseLayout
-  title="왜 Refinery인가 ⁠· 현장을 아는 팀이 만든 산업 AI | Refinery"
-  description="흩어진 현장 데이터를 하나의 지식으로 잇고, AI가 근거를 들어 의사결정을 돕습니다. 기존 위에 얹거나 없으면 새로 구축해, 하나의 플랫폼으로 현장을 지능화합니다."
-  canonical="/why-refinery"
+  title="Why Refinery ⁠· Industrial AI built by a team that knows the field | Refinery"
+  description="Scattered field data is tied into one body of knowledge, and AI helps you decide with the evidence shown. Layer onto what you have or build new where there is none, and one platform brings intelligence to the field."
+  canonical="/en/why-refinery"
   jsonLd={jsonLd}
 >
   <Nav />
@@ -97,11 +99,11 @@ const capabilityGroups = [
         </div>
       </div>
       <div class="ind-container">
-        <p class="wr-tag">플랫폼 개요</p>
-        <h1>하나의 플랫폼으로<br>현장을 지능화합니다</h1>
-        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지<br class="wr-lede-br">{' '}흩어진 현장을 하나의 통합 지능으로 잇습니다.</p>
+        <p class="wr-tag">Platform overview</p>
+        <h1>One platform that brings<br>intelligence to the field</h1>
+        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution,<br class="wr-lede-br">{' '}scattered field sites are tied into one unified intelligence.</p>
         <div class="ind-hero-actions">
-          <a href="/contact" class="ind-btn-primary">문의하기</a>
+          <a href="/en/contact" class="ind-btn-primary">Contact</a>
         </div>
       </div>
     </section>
@@ -110,8 +112,8 @@ const capabilityGroups = [
     <section class="ind-section wr-dark">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>현장이 먼저입니다</h2>
-          <p>팀도 도입도 데이터도 현장 기준으로</p>
+          <h2>The field comes first</h2>
+          <p>The team, the adoption and the data, all measured by the field</p>
         </header>
         <div class="wr-values">
           {values.map((v) => (
@@ -129,8 +131,8 @@ const capabilityGroups = [
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>한 플랫폼에서 이어지는 흐름</h2>
-          <p>모아서 붙이고 묻고 실행하기까지</p>
+          <h2>One flow across one platform</h2>
+          <p>Gather, connect, ask and execute</p>
         </header>
         <div class="wr-stories">
           {stories.map((s, i) => (
@@ -155,8 +157,8 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>한 플랫폼 안에 담긴 기능</h2>
-          <p>현장 운영에 필요한 기능이 한곳에</p>
+          <h2>The capabilities one platform holds</h2>
+          <p>The capabilities your field operations need, in one place</p>
         </header>
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
@@ -178,8 +180,8 @@ const capabilityGroups = [
     <section class="ind-cta wr-cta-bg">
       <img class="wr-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="ind-container">
-        <h2>현장의 문제를<br>Refinery 팀과 함께 풀어보세요.</h2>
-        <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
+        <h2>Solve what your field faces<br>with the <span translate="no">Refinery</span> team.</h2>
+        <a href="/en/contact" class="ind-btn-primary ind-btn-lg">Contact</a>
       </div>
     </section>
   </main>

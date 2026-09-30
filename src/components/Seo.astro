@@ -38,7 +38,12 @@ const ogImageURL = new URL(ogImage, Astro.site);
 const _ogTitle = ogTitle ?? title;
 const _ogDesc = ogDescription ?? description;
 ---
-<title>{title}</title>
+{/* translate="no" — 제목이 통째로 원문으로 남는다. 탭 제목은 번역되지 않지만
+    브랜드가 번역되는 것을 막는다(2026-09-29 영어 백서 title의 Refinery가
+    '정유소'로 나왔다. 검증 §6.1의 랜딩 '정유 산업용 AI OS'와 같은 뿌리다).
+    <title> 안에는 태그를 못 넣어 <span translate="no">로 낱말만 막을 수 없다 —
+    본문에서는 그 방식을 쓴다. */}
+<title translate="no">{title}</title>
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
 <link rel="canonical" href={canonicalURL} />

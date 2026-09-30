@@ -1,6 +1,6 @@
 ---
-title: "Starting the Refinery blog"
-description: "Insight and product news on industrial data, AI agents and field operations – starting here."
+title: "The Refinery blog starts here"
+description: "Insights and product news on industrial data, AI agents and field operations, starting here."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -8,25 +8,25 @@ tags: ["news", "product"]
 category: "News"
 hideCoverKind: true
 image: "../../../assets/blog/refinery-blog-start.webp"
-cardBreakAfter: "Insight and product news on industrial data,"
+cardBreakAfter: "Insights and product news on industrial data,"
 lang: "en"
 ---
 
-We are starting the Refinery blog. This is where we will talk, in practical terms, about
+This is where we will talk, in practical terms, about
 how data on industrial sites gets connected, refined, and put to work in decisions through
 AI agents.
 
-We are a team that has spent a long time in power, manufacturing and energy. It is not
-only developers here – field engineers who have handled the equipment and the process
-themselves build the product alongside them. So this blog leans toward what actually works on site
+We are a team that has spent a long time in power, manufacturing and energy. Here the
+product is built not only by developers but by field engineers who have handled the
+equipment and the process themselves. So this blog leans toward what actually works on site
 rather than what sounds good in theory.
 
 ## What we will write about
 
-- **Field data practices**: from collecting and refining data to connecting it through an
-  ontology – the methods that hold up in a real plant.
-- **AI agents in use**: the actual moments where AI helps decide – predictive maintenance,
-  quality, energy, autonomous operation.
+- **Field data best practices**: from collecting and refining data to connecting it through an
+  ontology, the methods that hold up in a real plant.
+- **AI agents in use**: the actual moments where AI helps decide in predictive maintenance,
+  quality, energy and autonomous operation.
 - **Product news**: new capabilities and updates in Refinery, and the thinking behind them.
 
 Each topic focuses on the context a product brochure struggles to carry: why it was built
@@ -39,8 +39,8 @@ do, but not why that capability was needed or which problem it solved on the flo
 
 Problems on industrial sites are mostly quiet. Cost accumulates less from major incidents
 than from the small inefficiencies that repeat daily, and from the effort people spend by
-hand bridging data that sits apart. We want to record those problems and how they get
-solved, steadily, so it is of use to anyone working through the same thing.
+hand bridging data that sits apart. We want to keep a steady record of those problems and how
+they get solved, so they are of use to anyone working through the same thing.
 
 ## How we write
 

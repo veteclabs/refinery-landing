@@ -5,7 +5,7 @@ import type { IndustryData } from './types';
 export const electronicsEn: IndustryData = {
   slug: 'electronics',
   name: 'Electronics & Precision',
-  pageTitle: 'Refinery for electronics & precision: power quality, uninterrupted operation, microclimate control',
+  pageTitle: 'Refinery for electronics & precision: power quality, uninterrupted operation, microenvironment control',
   description:
     'Connect power quality, UPS events, temperature, humidity and equipment alarms into one structure, and let an AI agent flag the risk of a line stop before it happens. Refinery for semiconductor, component and precision equipment manufacturing.',
   hero: {
@@ -19,23 +19,23 @@ export const electronicsEn: IndustryData = {
     imagePosition: 'center 20%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Electronics ⁠· Precision',
-    title: 'Uninterrupted power and\nmicroclimate, in one structure',
+    eyebrow: 'Electronics & Precision',
+    title: 'Uninterrupted power and microenvironment,\nprotected by one system',
   },
   challenges: {
     dark: true,
     title: 'Challenges on electronics sites',
-    subtitle: 'Recurring problems in semiconductor and precision plants.',
+    subtitle: 'Recurring problems in semiconductor, electronic component and precision equipment manufacturing.',
     items: [
       {
         title: 'Equipment reacts to the smallest change',
         description:
-          'Production equipment is sensitive to temperature shifts and power quality, so a slight wobble carries straight into the process.',
+          'Production equipment is sensitive to temperature shifts and power quality, so a slight fluctuation leaves its mark on the process.',
       },
       {
-        title: 'An outage becomes scrap',
+        title: 'A power outage or equipment anomaly becomes a defect',
         description:
-          'A momentary outage or equipment fault turns directly into defective product and a line stop.',
+          'A momentary outage or equipment anomaly turns directly into defective product and a line stop.',
       },
       {
         title: 'Operating factors are tangled together',
@@ -43,39 +43,39 @@ export const electronicsEn: IndustryData = {
           'Peak demand, UPS-backed outage response, temperature, humidity, equipment alarms and now safety and fire systems are all expected to sit in one structure.',
       },
       {
-        title: 'High-mix production splits the lines',
+        title: 'High-mix, low-volume production splits the lines',
         description:
           'The finer the lines are divided, the harder process-level energy management and equipment visibility become.',
       },
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non an electronics site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an electronics site.',
     layout: 'steps',
     items: [
       {
-        title: 'Peak demand monitoring and load control',
+        title: 'Live peak demand monitoring and load control',
         problem: 'Peak demand confirmed only once the peak has passed',
-        approach: 'Working with a demand controller, load is held inside the target and an alert is raised before the peak is exceeded.',
+        approach: 'Linked to a demand controller, the system holds load inside the target and raises an alert before the peak is exceeded.',
         outcome: 'Lower electricity charges and reduced peak risk',
       },
       {
         title: 'Power usage patterns by asset',
         problem: 'No way to tell which equipment draws the most power',
-        approach: 'Assets and processes are connected through an ontology, giving every signal a meaning, so power can be compared on equal terms.',
+        approach: 'Assets and processes are connected through an ontology, so each signal is given meaning — which asset it belongs to and what it measures — and power can be compared on equal terms.',
         outcome: 'Energy-intensive processes identified',
       },
       {
         title: 'UPS-linked outage detection and alerts',
         problem: 'Outage and UPS transfer events logged apart from equipment history',
-        approach: 'An AI agent reads power quality and UPS events on the same timeline as equipment state, and proposes both the blast radius and the next action.',
+        approach: 'An AI agent reads power quality and UPS events on the same timeline as equipment state, and proposes both the scope of impact and the next action.',
         outcome: 'Uninterrupted operation and minimal line stops',
       },
       {
-        title: 'Live temperature and humidity monitoring',
-        problem: 'Invisible drift between lines',
-        approach: 'Process environment is collected segment by segment and any point outside the band is flagged immediately.',
+        title: 'Live temperature, humidity and process heater monitoring',
+        problem: 'Invisible temperature and humidity drift between lines',
+        approach: 'Process environment data is collected zone by zone and each point outside the band is flagged immediately.',
         outcome: 'Steadier process quality',
       },
       {
@@ -91,8 +91,8 @@ export const electronicsEn: IndustryData = {
         outcome: 'Safety incidents prevented',
       },
       {
-        title: 'Wireless power and environment sensing',
-        problem: 'Measurement points that need cabling work to add',
+        title: 'Wireless sensor deployment for power and environment',
+        problem: 'Measurement points that are hard to add because they need cabling',
         approach: 'Wireless sensors extend power and environment coverage without new cable runs.',
         outcome: 'Lower build cost and room to scale',
       },
@@ -100,14 +100,14 @@ export const electronicsEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where MES or SCADA already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -119,14 +119,14 @@ export const electronicsEn: IndustryData = {
         description: 'Load is lowered ahead of the peak rather than after it.',
       },
       {
-        title: 'Immediate alerts on equipment faults',
+        title: 'Immediate alerts on equipment anomalies',
         icon: 'ph-bell-ringing',
-        description: 'When a fault appears, the responsible engineer is paged at once.',
+        description: 'When an anomaly appears, the responsible engineer is alerted at once.',
       },
       {
         title: 'Live process environment monitoring',
         icon: 'ph-thermometer',
-        description: 'Temperature and humidity are tracked segment by segment in real time.',
+        description: 'Temperature and humidity are tracked zone by zone in real time.',
       },
       {
         title: 'Operation tracked against the plan',
@@ -148,12 +148,12 @@ export const electronicsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on electronics sites.',
-    systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC-⁠UA', 'ERP'],
+    systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC UA', 'ERP'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour precision operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your electronics operation.',
     buttonLabel: 'Request a demo',
   },
 };

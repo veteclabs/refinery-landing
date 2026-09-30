@@ -128,7 +128,7 @@ export const steel: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '철강 ⁠· 소재 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
-    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC-⁠UA', 'LTE-M'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'MES', 'Modbus TCP⁠/⁠IP', 'CAN', 'OPC UA', 'LTE-M'],
     note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

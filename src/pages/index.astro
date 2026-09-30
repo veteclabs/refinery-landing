@@ -307,22 +307,7 @@ const jsonLd = [orgSchema, faqSchema];
     }
     #platform .series-card:has(.series-tagline) .series-icon {
       margin-bottom: 52.8px;
-    }
-    #platform .series-en {
-      color: #959CA5;
-      font-weight: 400;
-      font-size: 0.8em;
-      display: block;
-      margin-top: 2px;
-    }
-    #platform .series-quote {
-      font-size: 13px;
-      font-style: italic;
-      color: var(--accent);
-      margin: 0 0 10px;
-      line-height: 1.55;
-    }
-    #platform .series-desc {
+    }    #platform .series-desc {
       font-size: 13px;
       color: #959CA5;
       line-height: 1.65;
@@ -826,11 +811,7 @@ const jsonLd = [orgSchema, faqSchema];
       .rfn-node-ic .ph{font-size:14px;}
       .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#EDEEF0;}
       .rfn-node-grip{flex:none;display:inline-flex;color:#424850;cursor:grab;}
-      .rfn-node-grip .ph{font-size:13px;}
-      .rfn-node-tabs{display:flex;gap:0;padding:0 8px;border-bottom:1px solid #EFF2F5;}
-      .rfn-node-tab{height:30px;display:inline-flex;align-items:center;padding:0 8px;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;font-size:12.5px;color:#7E8A98;cursor:pointer;white-space:nowrap;}
-      .rfn-node-tab.active{color:#16202C;border-bottom-color:#16202C;font-weight:600;}
-      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #272B32;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#757C85;}
+      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #272B32;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#757C85;}
       .rfn-node-colhead span:last-child{text-align:right;}
       .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #272B32;font-size:13px;}
       .rfn-node-col:last-child{border-bottom:0;}
@@ -838,17 +819,11 @@ const jsonLd = [orgSchema, faqSchema];
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #272B32;}
       .rfn-node-col-name{display:flex;align-items:center;gap:6px;min-width:0;color:#C0C4CA;}
       .rfn-node-col-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#878E97;white-space:nowrap;text-align:right;}
-      .rfn-node-col-null{text-align:right;font-size:12.5px;color:#7E8A98;}
-      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
-      .rfn-key .ph{font-size:12px;}
-      .rfn-key.pk{color:#F0A93A;}
-      .rfn-key.conn{color:#3FB255;}
+      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#878E97;white-space:nowrap;text-align:right;}      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
+      .rfn-key .ph{font-size:12px;}      .rfn-key.conn{color:#3FB255;}
       .rfn-key.cloud{color:#3B7FD4;}
       .rfn-key.sys{color:#9579C2;}
-      .rfn-key.bi{color:#E29050;}
-      .rfn-key.none{visibility:hidden;}
-      .rfn-node[data-pl-node="protocols"] .rfn-node-ic{background:#3FB255;}
+      .rfn-key.bi{color:#E29050;}      .rfn-node[data-pl-node="protocols"] .rfn-node-ic{background:#3FB255;}
       .rfn-node[data-pl-node="cloud"] .rfn-node-ic{background:#3B7FD4;}
       .rfn-node[data-pl-node="systems"] .rfn-node-ic{background:#9579C2;}
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-ic{background:#E29050;}
@@ -876,7 +851,7 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="rfn-node" data-pl-node="protocols">
         <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-plug"></i></span><span class="rfn-node-name">protocols</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
         <div class="rfn-node-colhead"><span>Name</span><span>Type</span></div>
-        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">OPC-UA</span></span><span class="rfn-node-col-type">industrial</span></div>
+        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">OPC UA</span></span><span class="rfn-node-col-type">industrial</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">Modbus</span></span><span class="rfn-node-col-type">industrial</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">MQTT</span></span><span class="rfn-node-col-type">iot</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">BACnet</span></span><span class="rfn-node-col-type">building</span></div>
@@ -1018,7 +993,6 @@ const jsonLd = [orgSchema, faqSchema];
 
 <!-- SECURITY -->
 <section id="security" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
-  <style>.sec-card-body h3{font-size:16px;font-weight:700;line-height:1.4;}</style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -1083,7 +1057,6 @@ const jsonLd = [orgSchema, faqSchema];
 
 <Footer />
 
-
 <script is:inline>
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
@@ -1097,46 +1070,6 @@ const jsonLd = [orgSchema, faqSchema];
       }
     });
   });
-  document.querySelectorAll('.s-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-    });
-  });
-</script>
-
-<script is:inline>
-function highlightTab(btn, cardId) {
-  document.querySelectorAll('.platform-tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(cardId).scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-const cardTabMap = {
-  'card-plate': 0,
-  'card-intelligence': 1,
-  'card-ontology': 2
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const idx = cardTabMap[entry.target.id];
-      if (idx !== undefined) {
-        document.querySelectorAll('.platform-tab-btn').forEach((b, i) => {
-          b.classList.toggle('active', i === idx);
-        });
-      }
-    }
-  });
-}, { threshold: 0.9 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  ['card-plate', 'card-intelligence', 'card-ontology'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-});
 </script>
 
 <script is:inline>
@@ -1341,11 +1274,7 @@ function switchDash(btn, src, key) {
   }
   .cd-close:hover{background:#EFF2F5;}
 
-  .cd-inner{padding:64px 48px 48px;max-width:620px;margin:0 auto;width:100%;}
-  .cd-eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2,#76A6D7);margin-bottom:14px;}
-  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;}
-  .cd-desc{font-size:14px;color:var(--text-muted,#7E8A98);line-height:1.6;margin-bottom:32px;}
-
+  .cd-inner{padding:64px 48px 48px;max-width:620px;margin:0 auto;width:100%;}  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;}
   .cd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
   .cd-form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
   .cd-form-group label{font-size:13px;font-weight:600;color:#111;}
@@ -1374,9 +1303,7 @@ function switchDash(btn, src, key) {
     font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;
   }
   .cd-submit:disabled{cursor:not-allowed;opacity:.5;}
-  .cd-submit:hover:not(:disabled){background:#5A8FC5;}
-  .cd-note{font-size:12px;color:#888;margin-top:14px;text-align:center;}
-  .cd-step-actions{display:flex;flex-direction:column;gap:16px;margin-top:16px;}
+  .cd-submit:hover:not(:disabled){background:#5A8FC5;}  .cd-step-actions{display:flex;flex-direction:column;gap:16px;margin-top:16px;}
   .cd-step-buttons{display:flex;gap:10px;width:100%;}
   .cd-step-buttons .cd-submit{flex:1;margin-top:0;}
   .cd-progress-track{width:100%;height:4px;background:var(--border,#E3E7EC);border-radius:999px;overflow:hidden;}

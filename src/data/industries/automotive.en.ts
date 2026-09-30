@@ -16,8 +16,8 @@ export const automotiveEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Automotive ⁠· Mobility',
-    title: 'Holding equipment flow and\nquality steady, with data',
+    eyebrow: 'Automotive & Mobility',
+    title: 'Process flow and quality consistency,\ncontrolled with data',
   },
   challenges: {
     dark: true,
@@ -27,12 +27,12 @@ export const automotiveEn: IndustryData = {
       {
         title: 'One process shakes the whole line',
         description:
-          'Press, body, paint and assembly are coupled end to end, so a single piece of equipment going wrong spreads into a full line stoppage.',
+          'Press, body, paint and assembly are coupled end to end, so a single piece of equipment going wrong escalates into a full line stoppage.',
       },
       {
         title: 'High power and fine control at once',
         description:
-          'Heavy-draw equipment and precision control share the same line, so tuning one side unsettles the other.',
+          'High-power equipment runs on a line that also needs fine control, so tuning one side makes the other unstable.',
       },
       {
         title: 'Equipment, energy and output stay apart',
@@ -42,20 +42,20 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non an automotive site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an automotive site.',
     layout: 'steps',
     items: [
       {
-        title: 'Vibration-based predictive maintenance',
-        problem: 'Rotating-equipment faults confirmed only after a stoppage',
+        title: 'Vibration-based predictive maintenance for motors and rotating equipment',
+        problem: 'Rotating-equipment anomalies confirmed only after a stoppage',
         approach: 'An AI agent reads anomalies in vibration and current trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Less equipment downtime and steadier production',
       },
       {
         title: 'Power usage patterns by line',
         problem: 'Different power draw line to line, with no way to explain it',
-        approach: 'Lines, processes and assets are connected through an ontology, giving every signal a meaning, so power use can be compared on equal terms.',
+        approach: 'Lines, processes and assets are connected through an ontology, so each signal is given meaning — which asset it belongs to and what it measures — and power use can be compared on equal terms.',
         outcome: 'Lower energy cost and inefficient processes identified',
       },
       {
@@ -67,12 +67,12 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Energy intensity tied to output',
         problem: 'No structure for seeing efficiency against production',
-        approach: 'Production records and energy use are linked to derive intensity by line and model automatically.',
+        approach: 'Production records and energy use are linked to derive energy intensity by line and vehicle model automatically.',
         outcome: 'Efficiency made visible against output, cost structure improved',
       },
       {
         title: 'Ambient conditions and quality impact',
-        problem: 'Causes of quality issues recorded apart and hard to retrace',
+        problem: 'Causes of quality issues recorded in separate systems and hard to retrace',
         approach: 'Temperature, humidity, equipment state and quality results are joined on one timeline to trace the cause.',
         outcome: 'Less quality variance and better process conditions',
       },
@@ -80,14 +80,14 @@ export const automotiveEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Press, paint and assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC-⁠UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Line dashboard ⁠· maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or PLC already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where MES or PLC already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -96,7 +96,7 @@ export const automotiveEn: IndustryData = {
       {
         title: 'Less equipment downtime',
         icon: 'ph-pulse',
-        description: 'Faults are caught early in vibration data, keeping production steady.',
+        description: 'Anomalies are caught early in rotating-equipment vibration, keeping production steady.',
       },
       {
         title: 'Lower energy cost',
@@ -118,12 +118,12 @@ export const automotiveEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on automotive sites.',
-    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC-⁠UA', 'LTE'],
+    systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC UA', 'LTE'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour automotive operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your automotive operation.',
     buttonLabel: 'Request a demo',
   },
 };

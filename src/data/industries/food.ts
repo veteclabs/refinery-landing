@@ -93,7 +93,7 @@ export const food: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '냉동기 ⁠· 공기압축기 ⁠· 보일러 ⁠· 온도 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '설비 대시보드 ⁠· 온도 이탈 알람 ⁠· 배치별 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -133,7 +133,7 @@ export const food: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '식품 제조 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
-    systems: ['MES', 'SCADA', 'ERP ⁠· SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
+    systems: ['MES', 'SCADA', 'ERP ⁠· SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4–20 mA', 'Serial', 'BMS'],
     note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

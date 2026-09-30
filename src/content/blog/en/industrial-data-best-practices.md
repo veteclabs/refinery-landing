@@ -1,6 +1,6 @@
 ---
 title: "Five principles for turning industrial data into an asset"
-description: "Practical principles for turning scattered site data into something you can actually decide on."
+description: "Practical principles for turning scattered field data into something you can trust and decide on."
 pubDate: 2026-07-29
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -11,12 +11,12 @@ coverTextColor: "#173B6B"
 coverIcon: "/icon_blog.svg"
 coverFoot: "Guide"
 titleBreakAfter: ["for turning", "industrial data"]
-cardBreakAfter: "Practical principles for turning scattered site data"
+cardBreakAfter: "Practical principles for turning scattered field data"
 lang: "en"
 ---
 
-Industrial sites do not lack data. If anything it is **too scattered** – across SCADA,
-MES, ERP, sensors and documents – to be of use at the moment a decision has to be made.
+Industrial sites do not lack data. If anything it is **too scattered** across SCADA,
+MES, ERP, sensors and documents to be of use at the moment a decision has to be made.
 The problem is not volume. It is connection and trust.
 
 What we have seen repeat across many sites is that turning data into an asset does not
@@ -31,9 +31,9 @@ provenance cannot be used for a decision, however convincing it looks.
 
 When an anomaly appears on site, the first question anyone asks is "is this real?" The
 same value of 90 means something entirely different when it comes right after a sensor
-recalibration than when it arrives at the end of an unusual trend. Unless it is recorded
-alongside the value – which system, which tag, collected when, and what transformations it
-passed through – there is no way to tell whether that number is fact or error.
+recalibration than when it arrives at the end of an unusual trend. Unless the value carries
+a record of which system and tag it came from, when it was collected, and what
+transformations it passed through, there is no way to tell whether that number is fact or error.
 
 Data lineage is therefore not a <span class="nb">nice-to-have</span> but the minimum condition for trust. Make the
 source system, tag, collection time, and any unit conversions or corrections travel with
@@ -47,13 +47,13 @@ When provenance is visible, that error can be traced back and corrected.
 ## 2. Give it meaning (the ontology)
 
 If only one person in the organization knows what `TAG_0421` means, that data is not an
-organizational asset – it is that person’s memory. The moment they are away or leave the
+organizational asset but that person’s memory. The moment they are away or leave the
 company, years of accumulated data revert to an uninterpretable pile of numbers.
 
-Giving data meaning means defining things – equipment, lines, processes, documents – as
-entities, and describing the relationships between them. The structure that results is
+Giving data meaning means defining things such as equipment, lines, processes and
+documents as entities, and describing the relationships between them. The structure that results is
 called an ontology. With one in place, a single signal can be read together with the
-context it connects to. When a vibration value spikes, the system can follow on its own
+context it connects to. When a vibration value spikes, the system can work out on its own
 that the sensor belongs to pump 3 on line B, that the pump had its bearing replaced two
 weeks ago, and that it feeds reactor 2 downstream.
 
@@ -78,8 +78,8 @@ current value sits alongside the last few days, the pattern from the same period
 season, and the curve leading into a past failure, you can tell whether what is happening
 now is a signal you have never seen or one you recognize.
 
-Put a threshold on instantaneous values alone and the alarms never stop – until nobody
-looks at alarms at all. Alert fatigue mostly comes from thresholds without context. Seen
+Put a threshold on instantaneous values alone and the alarms never stop, and eventually
+nobody looks at them at all. Alarm fatigue mostly comes from thresholds without context. Seen
 together with the trend and a basis for comparison, the signals worth acting on separate
 from ordinary noise.
 
@@ -104,7 +104,7 @@ without evidence is convenient, and dangerous for an industrial decision.
 The starting point for integration differs by site. Some have run SCADA, MES and ERP for
 years. Others are only beginning to collect data at all.
 
-Where systems already exist, ripping them out mostly fails. The cost is high, and so is the
+Where systems already exist, most attempts to rip them out fail. The cost is high, and so is the
 risk of replacing tools the site has long grown accustomed to in one move. Here it is more
 realistic to leave the existing systems in place and add an intelligence layer on top that
 integrates in both directions. The existing systems keep running, and a layer that adds
@@ -121,9 +121,9 @@ whether the result comes together as one body of knowledge.
 
 The five principles connect to one another. Provenance creates trust; meaning creates
 context; seeing the trend makes judgment possible; returning to human language makes it
-action. And all of it is complete only when – layered on or newly built – it gathers into
-one body of knowledge.
+action. And all of it is complete only when it gathers into one body
+of knowledge, whether layered on or newly built.
 
-<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/whitepapers/data-integration)<br>
-<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/whitepapers/ai-agent)<br>
-<span class="lead-dot"></span>To talk through your own site → [Contact](/en/contact)
+<span class="lead-dot"></span>For data integration → [Data integration whitepaper](/en/whitepapers/data-integration)<br>
+<span class="lead-dot"></span>For AI agents → [AI agent whitepaper](/en/whitepapers/ai-agent)<br>
+<span class="lead-dot"></span>To talk through your own operation → [Contact](/en/contact)

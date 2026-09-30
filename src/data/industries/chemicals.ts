@@ -95,7 +95,7 @@ export const chemicals: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '반응기 ⁠· 열매체 보일러 ⁠· 송풍기 ⁠· 압축기 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '에너지 대시보드 ⁠· 목표 알람 ⁠· 배출량 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -135,7 +135,7 @@ export const chemicals: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '화학 공정 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
-    systems: ['SCADA', 'PLC', 'FEMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4-20mA', 'OPC-⁠UA'],
+    systems: ['SCADA', 'PLC', 'FEMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4–20 mA', 'OPC UA'],
     note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

@@ -42,15 +42,16 @@ const T = {
     canonical: '/en/resources',
     h1: 'Resource library',
     soon: 'Soon',
-    // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
-    // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
+    // 앞 세 개는 영어판 페이지가 생겨 링크를 열었다(2026-09-29).
+    // 나머지(리포트 · 비디오 · 키트)는 영어판이 없어 링크 없이 Soon으로 둔다 —
+    // 한국어 문서로 보내면 영어 방문자가 읽을 수 없는 자료를 받게 된다.
     resources: [
-      { label: 'Product overview', desc: 'Core capabilities ⁠· outcomes ⁠· industry use, in one page', kind: 'Platform overview', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
-      { label: 'Whitepaper ⁠· Industrial data integration', desc: 'Pipes versus ontology, and the two paths into adoption', kind: 'Whitepaper', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: 'Data integration' },
-      { label: 'Whitepaper ⁠· Industrial AI agents', desc: 'Sourced answers, on-premise deployment, adoption steps', kind: 'Whitepaper', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI agents' },
-      { label: '2026 Industrial Data & AI Report', desc: 'Data use in the field today, and the direction of AI agents', kind: 'Report' },
-      { label: 'Webinars & demo videos', desc: 'Product walkthroughs and field application videos', kind: 'Video' },
-      { label: 'Industry kits', desc: 'Application points for energy ⁠· manufacturing ⁠· logistics ⁠· public sector', kind: 'Kit' },
+      { label: 'One platform that brings intelligence to the field', desc: 'Core capabilities ⁠· outcomes ⁠· industry use, on one page', kind: 'Platform overview', href: '/en/why-refinery', image: '/resources/platform-overview.webp', cover: 'One platform for<br>an intelligent site' },
+      { label: 'Scattered data into one body of knowledge', desc: 'Pipes versus ontology, and the two paths to adoption', kind: 'Whitepaper', href: '/en/whitepapers/data-integration', image: '/resources/data-integration.webp', imageW: 1400, imageH: 875, cover: 'Data integration' },
+      { label: 'AI that helps decide, with the evidence shown', desc: 'Sourced answers, on-premises deployment, adoption steps', kind: 'Whitepaper', href: '/en/whitepapers/ai-agent', image: '/resources/ai-agent.webp', imageW: 1400, imageH: 875, cover: 'AI agents' },
+      { label: '2026 Industrial Data & AI Report', desc: 'Data use in the field today, and how AI agents are being adopted', kind: 'Report' },
+      { label: 'Webinars & demo videos', desc: 'Product demos and field application case videos', kind: 'Video' },
+      { label: 'Industry application materials', desc: 'Application points for energy, manufacturing, logistics and the public sector', kind: 'Kit' },
     ] as ResItem[],
   },
 }[lang];

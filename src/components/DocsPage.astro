@@ -27,7 +27,7 @@ const T = {
     relTitle: '문서가 준비되기 전에',
     relDesc: '블로그에서 현장 인사이트와 제품 소식을 먼저 만나보실 수 있습니다.',
     blog: '블로그 보기',
-    platform: '플랫폼 살펴보기 →', platformHref: '/#platform',
+    platform: '플랫폼 살펴보기 →', platformHref: '/#platform', blogHref: '/blog',
     ctaTitle: '필요한 문서를<br>바로 요청하세요.',
     groups: [
       {
@@ -40,7 +40,7 @@ const T = {
       {
         title: '플랫폼 가이드',
         items: [
-          { label: '데이터 연동', desc: 'SCADA ⁠· MES ⁠· ERP ⁠· 센서, OPC-UA ⁠· Modbus 등 프로토콜', ready: false },
+          { label: '데이터 연동', desc: 'SCADA ⁠· MES ⁠· ERP ⁠· 센서, OPC UA ⁠· Modbus 등 프로토콜', ready: false },
           { label: '온톨로지 설계', desc: '흩어진 데이터에 의미를 부여하는 구조', ready: false },
           { label: 'AI 에이전트', desc: '대화형 질의 ⁠· 근거 추론 ⁠· 다음 조치 제안', ready: false },
           { label: '자동화 ⁠· 워크플로우', desc: '승인/자동 처리 규칙을 대화로 설계', ready: false },
@@ -61,38 +61,38 @@ const T = {
     canonical: '/en/docs',
     crumbAria: 'Breadcrumb', home: 'Home', crumb: 'Docs',
     h1: 'Product documentation',
-    lede: 'From setup and integration through ontology, AI agents, automation and deployment — we are preparing the documentation you need to put Refinery to work on site.',
+    lede: 'From installation and integration through ontology, AI agents, automation and deployment, we are preparing the documentation you need to put Refinery to work on site.',
     noteBefore: 'Documentation is being put together. If there is something you need right now, ask us through ',
     noteAfter: ' and we will get it to you first.',
     contactLabel: 'Contact', contactHref: '/en/contact',
     soon: 'Soon',
     relBadge: 'In the meantime',
     relTitle: 'Before the docs are ready',
-    relDesc: 'The blog covers field insight and product news in the meantime.',
+    relDesc: 'The blog covers field insights and product news in the meantime.',
     blog: 'Read the blog',
-    platform: 'Explore the platform →', platformHref: '/en#platform',
+    platform: 'Explore the platform →', platformHref: '/en#platform', blogHref: '/en/blog',
     ctaTitle: 'Need a document?<br>Just ask.',
     groups: [
       {
         title: 'Getting started',
         items: [
-          { label: 'Quick start', desc: 'From install and first setup to your first dashboard', ready: false },
-          { label: 'Core concepts', desc: 'Ontology, AI agents, pipelines, automation', ready: false },
+          { label: 'Quick start', desc: 'From installation and first setup to your first dashboard', ready: false },
+          { label: 'Core concepts at a glance', desc: 'Ontology, AI agents, pipelines, automation', ready: false },
         ],
       },
       {
         title: 'Platform guides',
         items: [
-          { label: 'Data integration', desc: 'SCADA, MES, ERP and sensors — OPC-UA, Modbus and more', ready: false },
+          { label: 'Data integration', desc: 'SCADA, MES, ERP and sensors — OPC UA, Modbus and other protocols', ready: false },
           { label: 'Designing the ontology', desc: 'The structure that gives scattered data meaning', ready: false },
           { label: 'AI agents', desc: 'Conversational queries, evidence-backed reasoning, next actions', ready: false },
-          { label: 'Automation & workflows', desc: 'Design approval and auto-handling rules in conversation', ready: false },
+          { label: 'Automation & workflows', desc: 'Set approval and auto-handling rules through conversation', ready: false },
         ],
       },
       {
         title: 'Operations & scale',
         items: [
-          { label: 'Deployment & security', desc: 'On-premises or cloud, permissions, encryption, OT/IT boundary', ready: false },
+          { label: 'Deployment & security', desc: 'On-premises or cloud, permissions, encryption, IT/OT boundary', ready: false },
           { label: 'API & webhooks', desc: 'Interfaces for connecting external systems', ready: false },
         ],
       },
@@ -147,7 +147,7 @@ const T = {
           <p>{T.relDesc}</p>
         </header>
         <div class="ind-hero-actions" style="justify-content:center;">
-          <a href="/blog" class="ind-btn-primary">{T.blog}</a>
+          <a href={T.blogHref} class="ind-btn-primary">{T.blog}</a>
           <a href={T.platformHref} class="ind-btn-ghost">{T.platform}</a>
         </div>
       </div>
