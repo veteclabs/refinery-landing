@@ -244,12 +244,13 @@ const jsonLd = {
        900px 이하에서 가로 스크롤(scroll-snap)로 넘기게 되어 있었는데, 880px에서
        네 개 반만 보인다 — 다 갖췄다는 주장을 정작 화면이 가린다. 줄로 나눠 다 보인다.
 
-       열 수는 가장 긴 버튼('Industrial AI OS' 152px)이 기준이다.
+       한 줄에 여섯 개가 온전히 들어가려면 칸이 152px는 되어야 한다 — 1024px까지는
+       들어가고 그 아래부터 잘린다. 잘리기 전에 여유를 두어 1089px 이하에서 줄로 나눈다.
        3열은 바 폭 456px가 필요해 520px 아래에서는 2열로 내린다.
        테두리는 줄 끝에서 지우고 둘째 줄부터 위에 긋는데, 열 수가 바뀌면
        그 자리도 바뀌므로 nth-child 를 구간마다 다시 잡는다.
        국문도 같은 구조다 — global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
-    @media (max-width: 900px) {
+    @media (max-width: 1089px) {
       #teams .teams-menu-horizontal {
         flex-wrap: wrap; overflow-x: hidden; margin-right: 0;
         border-radius: var(--radius) var(--radius) 0 0 !important;
@@ -258,10 +259,12 @@ const jsonLd = {
       #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
       #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
       #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
-      /* 미리보기 카드도 탭바와 같은 자리에서 끝낸다. global.css 는 가로 스크롤 시절
-         ' 더 있다'는 힌트를 주려고 margin-right:-24px 로 화면 끝까지 흘렸는데,
-         탭바를 줄바꿈으로 바꾸면서 탭바만 컨테이너 안에서 끝나 오른쪽이 어긋났다.
-         모서리도 왼쪽만 둥글던 것을 양쪽으로 되돌린다. */
+    }
+    /* 카드 오른쪽 정렬은 900px 이하만 해당한다 — global.css 가 거기서만
+       margin-right:-24px 로 화면 끝까지 흘리기 때문이다. 가로 스크롤 시절
+       '더 있다'는 힌트였는데, 탭바가 줄바꿈으로 바뀌며 탭바만 컨테이너 안에서
+       끝나 오른쪽이 어긋났다. 모서리도 왼쪽만 둥글던 것을 양쪽으로 되돌린다. */
+    @media (max-width: 900px) {
       #teams .teams-preview {
         margin-right: 0;
         border-radius: 0 0 var(--radius) var(--radius) !important;
