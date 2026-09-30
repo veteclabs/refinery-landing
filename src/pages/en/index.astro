@@ -256,6 +256,8 @@ const jsonLd = {
         scroll-snap-type: none;
       }
       #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
+      #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
+      #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
       /* 미리보기 카드도 탭바와 같은 자리에서 끝낸다. global.css 는 가로 스크롤 시절
          ' 더 있다'는 힌트를 주려고 margin-right:-24px 로 화면 끝까지 흘렸는데,
          탭바를 줄바꿈으로 바꾸면서 탭바만 컨테이너 안에서 끝나 오른쪽이 어긋났다.
