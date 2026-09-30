@@ -556,8 +556,22 @@ const jsonLd = {
       }
       function initIntegrationsDrag() {
         var grid = document.querySelector('#integrations .int-node-grid');
+        if (!grid) return;
         // 통합 격자는 1279px 까지 가로로 넘친다(CSS 와 같은 경계)
-        if (grid) enableDragScroll(grid, function() { return window.innerWidth <= 1279; });
+        enableDragScroll(grid, function() { return window.innerWidth <= 1279; });
+        function updateFade() {
+          var max = grid.scrollWidth - grid.clientWidth;
+          var scrollable = max > 1 && window.innerWidth <= 1279;
+          grid.classList.toggle('fade-left', scrollable && grid.scrollLeft > 1);
+          grid.classList.toggle('fade-right', scrollable && grid.scrollLeft < max - 1);
+        }
+        var fadeRaf = null;
+        grid.addEventListener('scroll', function() {
+          if (fadeRaf) return;
+          fadeRaf = requestAnimationFrame(function() { fadeRaf = null; updateFade(); });
+        }, { passive: true });
+        window.addEventListener('resize', updateFade);
+        updateFade();
       }
       function initSeriesSlider() {
         var viewport = document.querySelector('#platform .series-viewport');
@@ -1048,6 +1062,21 @@ behind the answer are given too.</p>
       @media (max-width: 1279px) {
         #integrations .int-node-grid { cursor: grab; }
         #integrations .int-node-grid.is-dragging { cursor: grabbing; user-select: none; }
+        /* 넘겨 볼 게 남은 쪽만 가장자리를 배경으로 흐린다. 카드가 뚝 끊긴 단면 대신
+           녹아드는 모습이 되고, 흐림 자체가 '그쪽에 더 있다'는 신호가 된다.
+           끝까지 민 쪽은 흐릴 게 없으므로 JS 가 클래스를 떼어 낸다. */
+        #integrations .int-node-grid.fade-right {
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+        }
+        #integrations .int-node-grid.fade-left {
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px);
+        }
+        #integrations .int-node-grid.fade-left.fade-right {
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+        }
       }
       @media (max-width: 1279px) {
         .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:280px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none;-ms-overflow-style:none;}
