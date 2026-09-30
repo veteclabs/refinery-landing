@@ -338,6 +338,18 @@ const jsonLd = [orgSchema, faqSchema];
         -ms-overflow-style: none;
       }
       #platform .series-viewport::-webkit-scrollbar { display: none; }
+      /* 카드는 왼쪽 면에 맞춰 선다 — 중간에 걸친 자리에서 멈추지 않는다.
+         끄는 동안에는 스냅을 풀어야 손을 따라 매끄럽게 움직인다. */
+      #platform .series-viewport { scroll-snap-type: x mandatory; }
+      #platform .series-card { scroll-snap-align: start; }
+      #platform .series-viewport.is-dragging { scroll-snap-type: none; }
+      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
+      #platform .series-viewport,
+      #platform .platform-graphic-wrap { cursor: grab; }
+      #platform .series-viewport.is-dragging,
+      #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
+      /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
+      #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
       #platform .series-card {
         flex: 0 0 80vw;
         max-width: 300px;
@@ -350,9 +362,178 @@ const jsonLd = [orgSchema, faqSchema];
         margin-bottom: 40px;
       }
     }
+    /* #teams 미리보기 — 901~1280px에서도 세로로 나눈다.
+       원래는 이미지 위에 제목·본문을 얹고, 왼쪽 28.5% 페이드가 글 배경 노릇을 했다.
+       그런데 텍스트 박스는 <br>로 줄이 고정돼 352px로 붙박이인데 페이드는 폭의 %라
+       같이 줄어든다 → 좁아질수록 글이 배경을 벗어나 이미지 위로 올라온다.
+       Plate 탭에서 본문이 막대 차트에 묻혔다(910px에서 배경 밖 125px).
+
+       배경을 px로 고정해 봤지만 그만큼 이미지를 가려 접었다. 900px 이하에서 이미
+       쓰는 세로 분리를 1280px까지 올리는 쪽이 탭·이미지와 무관하게 해결된다.
+
+       900px 이하는 global.css 가 맡는다 — 거기 값은 화면 끝까지 붙이는 모바일용이라
+       (margin-right:-24px 등) 여기서는 데스크톱 여백에 맞춘 값을 따로 쓴다.
+       JS 쪽 resizeDash 의 모바일 판정도 같은 1280으로 맞춰야 이미지가 제자리에 온다.
+       영문(en/index.astro)에도 같은 규칙이 있다 — global.css 가 공용이라 각 페이지에 따로 둔다. */
+    @media (min-width: 901px) and (max-width: 1280px) {
+      .teams-preview {
+        aspect-ratio: unset !important;
+        display: flex !important; flex-direction: column !important;
+        background: #F6F8FA;
+        border-radius: 0 0 var(--radius) var(--radius) !important;
+      }
+      .teams-preview-decor { display: none !important; }
+      .teams-preview-title-wrap { position: static !important; padding: 28px 32px 0 !important; order: 1; margin-bottom: 14px; }
+      .teams-preview-text { position: static !important; padding: 0 32px 24px !important; order: 2; }
+      .teams-preview-text p { max-width: none; }
+      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
+      #iframe-wrapper::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
+        z-index: 2; pointer-events: none;
+      }
+      #iframe-wrapper::after {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0.85) 8%, rgba(246,248,250,0) 24%, rgba(246,248,250,0) 76%, rgba(246,248,250,0.85) 92%, #F6F8FA 100%);
+        z-index: 2; pointer-events: none;
+      }
+    }
+
+    /* #teams 탭 여섯 개는 이 섹션이 말하는 "everything"의 목록이다.
+       900px 이하에서 가로 스크롤(scroll-snap)로 넘기게 되어 있었는데, 880px에서
+       네 개 반만 보인다 — 다 갖췄다는 주장을 정작 화면이 가린다. 줄로 나눠 다 보인다.
+
+       한 줄에 여섯 개가 온전히 들어가려면 칸이 152px는 되어야 한다 — 1024px까지는
+       들어가고 그 아래부터 잘린다. 잘리기 전에 여유를 두어 1089px 이하에서 줄로 나눈다.
+       3열은 바 폭 456px가 필요해 520px 아래에서는 2열로 내린다.
+       테두리는 줄 끝에서 지우고 둘째 줄부터 위에 긋는데, 열 수가 바뀌면
+       그 자리도 바뀌므로 nth-child 를 구간마다 다시 잡는다.
+       영문에도 같은 규칙이 있다 — global.css 가 공용이라 각 페이지에 따로 둔다. */
+    @media (max-width: 1089px) {
+      #teams .teams-menu-horizontal {
+        flex-wrap: wrap; overflow-x: hidden; margin-right: 0;
+        border-radius: var(--radius) var(--radius) 0 0 !important;
+        scroll-snap-type: none;
+      }
+      #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
+      #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
+      #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
+    }
+    /* 카드 오른쪽 정렬은 900px 이하만 해당한다 — global.css 가 거기서만
+       margin-right:-24px 로 화면 끝까지 흘리기 때문이다. 가로 스크롤 시절
+       '더 있다'는 힌트였는데, 탭바가 줄바꿈으로 바뀌며 탭바만 컨테이너 안에서
+       끝나 오른쪽이 어긋났다. 모서리도 왼쪽만 둥글던 것을 양쪽으로 되돌린다. */
+    @media (max-width: 900px) {
+      #teams .teams-preview {
+        margin-right: 0;
+        border-radius: 0 0 var(--radius) var(--radius) !important;
+      }
+    }
+    @media (max-width: 520px) {
+      #teams .teams-tab-btn { flex-basis: 50%; }
+      #teams .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
+      #teams .teams-tab-btn:nth-child(2n) { border-right: none; }
+      #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
+    }
+
+    /* Industrial AI OS 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
+       JS 가 이미지를 위로 밀어 자르면서 그 선이 미리보기 상단 10px 자리에 올라온다.
+       기존 14px 페이드는 그 지점에서 이미 70% 투명해져 선을 못 가린다 —
+       페이드를 키워도 대비만 줄 뿐이라, 앞 24px 을 불투명하게 덮고 나머지로 잇는다.
+       높이는 px 이 아니라 미리보기 높이의 8%다. 좁아질수록 이미지가 작아져 선도 위로
+       올라오는데(1000px 10px → 390px 4px), 40px 으로 고정하면 390px 에서 이미지의
+       20%를 덮어 위쪽이 통째로 가린다. %로 두면 밴드도 같이 줄어든다.
+       탭마다 선 위치가 달라(Pipeline 19·22px · Calendar 21px) 이 탭만 골라 건다.
+       :has() 로 이미지 src 를 보므로 JS 는 그대로 둔다. */
+    @media (max-width: 1280px) {
+      #teams #iframe-wrapper:has(#dash-image[src*="Solutions-02-ai-agent"])::before {
+        height: 8%;
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 60%, rgba(246,248,250,0) 100%);
+      }
+    }
+@media (max-width: 1280px) {
+      #teams .teams-preview-text p { white-space: normal; }
+      #teams .teams-preview-text p br { display: none; }
+    }
+
+    /* 줄바꿈을 걷고 나니 이번엔 한 줄이 너무 길어졌다 — 1280px에서 본문이 1103px
+       한 줄로 늘어진다. 오버레이 시절 데스크톱 값(640px)으로 다시 묶는다.
+       15px 글자에서 70자 안팎이라 읽기 좋은 길이이고, 본문은 어느 폭에서나 2줄 위로 선다.
+       (901~1280px 블록의 max-width:none 보다 #teams 를 붙인 이쪽이 이긴다) */
+    @media (max-width: 1280px) {
+      #teams .teams-preview-title-wrap h3,
+      #teams .teams-preview-text p { max-width: 640px; }
+    }
   </style>
   <script is:inline>
     (function() {
+      /* 좁은 폭에서는 가로 스크롤이 위치를 갖는데, 터치는 스와이프로 넘겨도 마우스로는
+         끌 수가 없었다(휠·화살표뿐). 포인터로 scrollLeft 를 직접 옮겨 끌게 한다.
+         터치·펜은 네이티브가 이미 받으므로 마우스만 가로챈다.
+         플랫폼 섹션의 카드·그래픽, 통합 섹션의 노드 격자가 모두 같은 방식이다. */
+      function isNarrow() { return window.innerWidth <= 900; }
+      function enableDragScroll(el, canDrag) {
+        var drag = null;
+        el.addEventListener('pointerdown', function(e) {
+          if (!canDrag() || e.pointerType !== 'mouse' || e.button !== 0) return;
+          drag = { x: e.clientX, left: el.scrollLeft, moved: false };
+        });
+        el.addEventListener('pointermove', function(e) {
+          if (!drag) return;
+          var dx = e.clientX - drag.x;
+          // 3px 은 넘겨야 끌기로 본다 — 손떨림으로 글자 선택이 풀리지 않게 한다
+          if (!drag.moved && Math.abs(dx) < 3) return;
+          if (!drag.moved) {
+            drag.moved = true;
+            el.classList.add('is-dragging');
+            try { if (el.setPointerCapture) el.setPointerCapture(e.pointerId); } catch (err) {}
+          }
+          el.scrollLeft = drag.left - dx;
+          e.preventDefault();
+        });
+        function endDrag(e) {
+          if (!drag) return;
+          var moved = drag.moved;
+          try {
+            if (moved && el.hasPointerCapture && el.hasPointerCapture(e.pointerId)) {
+              el.releasePointerCapture(e.pointerId);
+            }
+          } catch (err) {}
+          el.classList.remove('is-dragging');
+          drag = null;
+          if (moved) {
+            // 끌고 난 뒤 놓는 순간의 click 은 삼킨다(카드 안에 링크가 생겨도 안전하도록)
+            el.dataset.justDragged = '1';
+            setTimeout(function() { el.dataset.justDragged = '0'; }, 0);
+          }
+        }
+        el.addEventListener('pointerup', endDrag);
+        el.addEventListener('pointercancel', endDrag);
+        el.addEventListener('click', function(e) {
+          if (el.dataset.justDragged === '1') { e.stopPropagation(); e.preventDefault(); }
+        }, true);
+        // 이미지·SVG 를 잡으면 브라우저 기본 끌기가 발동해 스크롤이 먹지 않는다
+        el.addEventListener('dragstart', function(e) { e.preventDefault(); });
+      }
+      function initIntegrationsDrag() {
+        var grid = document.querySelector('#integrations .int-node-grid');
+        if (!grid) return;
+        // 통합 격자는 1279px 까지 가로로 넘친다(CSS 와 같은 경계)
+        enableDragScroll(grid, function() { return window.innerWidth <= 1279; });
+        function updateFade() {
+          var max = grid.scrollWidth - grid.clientWidth;
+          var scrollable = max > 1 && window.innerWidth <= 1279;
+          grid.classList.toggle('fade-left', scrollable && grid.scrollLeft > 1);
+          grid.classList.toggle('fade-right', scrollable && grid.scrollLeft < max - 1);
+        }
+        var fadeRaf = null;
+        grid.addEventListener('scroll', function() {
+          if (fadeRaf) return;
+          fadeRaf = requestAnimationFrame(function() { fadeRaf = null; updateFade(); });
+        }, { passive: true });
+        window.addEventListener('resize', updateFade);
+        updateFade();
+      }
       function initSeriesSlider() {
         var viewport = document.querySelector('#platform .series-viewport');
         var slider = document.querySelector('#platform .series-slider');
@@ -430,6 +611,10 @@ const jsonLd = [orgSchema, faqSchema];
           if (isMobile()) { viewport.scrollBy({ left: cardStep(), behavior: 'smooth' }); return; }
           index += 1; update();
         });
+        enableDragScroll(viewport, isNarrow);
+        var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
+        if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
+
         window.addEventListener('resize', update);
         var mobileScrollRaf = null;
         viewport.addEventListener('scroll', function() {
@@ -439,10 +624,11 @@ const jsonLd = [orgSchema, faqSchema];
         }, { passive: true });
         update();
       }
+      function initAll() { initSeriesSlider(); initIntegrationsDrag(); }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSeriesSlider);
+        document.addEventListener('DOMContentLoaded', initAll);
       } else {
-        initSeriesSlider();
+        initAll();
       }
     })();
   </script>
@@ -719,7 +905,7 @@ const jsonLd = [orgSchema, faqSchema];
         var w = wrapper.offsetWidth;
         var crop = (window.needsRightCrop === false) ? 0 : RIGHT_CROP;
         var pan = window.dashPanContent || 0; // 콘텐츠를 우측으로 밀어 보여주기 위한 좌측 크롭(px, 원본 1440 기준)
-        var isMobile = window.innerWidth <= 900;
+        var isMobile = window.innerWidth <= 1280 /* 1280 이하는 세로 분리 레이아웃 — CSS와 같은 경계 */;
 
         if (isMobile) {
           // 모바일: 좌측 세션 레일을 실제로 잘라내고(pan + 모바일 전용 추가 크롭 포함) 본문 UI만 카드 폭에 꽉 차게 확대한다.
@@ -827,9 +1013,33 @@ const jsonLd = [orgSchema, faqSchema];
       .rfn-node[data-pl-node="cloud"] .rfn-node-ic{background:#3B7FD4;}
       .rfn-node[data-pl-node="systems"] .rfn-node-ic{background:#9579C2;}
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-ic{background:#E29050;}
-      @media (max-width: 900px) {
-        .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:250px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;scrollbar-width:none;-ms-overflow-style:none;}
+      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
+      @media (max-width: 1279px) {
+        #integrations .int-node-grid { cursor: grab; }
+        #integrations .int-node-grid.is-dragging { cursor: grabbing; user-select: none; }
+        /* 넘겨 볼 게 남은 쪽만 가장자리를 배경으로 흐린다. 카드가 뚝 끊긴 단면 대신
+           녹아드는 모습이 되고, 흐림 자체가 '그쪽에 더 있다'는 신호가 된다.
+           끝까지 민 쪽은 흐릴 게 없으므로 JS 가 클래스를 떼어 낸다. */
+        #integrations .int-node-grid.fade-right {
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+        }
+        #integrations .int-node-grid.fade-left {
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px);
+        }
+        #integrations .int-node-grid.fade-left.fade-right {
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+        }
+      }
+      @media (max-width: 1279px) {
+        .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:280px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none;-ms-overflow-style:none;}
         .int-node-grid::-webkit-scrollbar{display:none;}
+      }
+      /* 화면 끝까지 흘려 '옆에 더 있다'를 보이는 것은 모바일에서만 한다 */
+      @media (max-width: 900px) {
+        .int-node-grid{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;}
       }
       @media (max-width: 900px) {
         .int-node-grid, .int-refinery-outer { position: relative; z-index: 1; }
@@ -897,7 +1107,7 @@ const jsonLd = [orgSchema, faqSchema];
         var pill = document.getElementById('intRefineryPill');
         var cards = document.querySelectorAll('#intNodeGrid .rfn-node');
         if (!flowWrap || !svg || !pill || !cards.length) return;
-        var isMobile = window.innerWidth <= 900;
+        var isMobile = window.innerWidth <= 1279 /* 카드가 280px 고정 + 가로 스크롤이 되는 경계 — CSS와 같다 */;
         var scroller = document.getElementById('intNodeGrid');
         var wrapRect = flowWrap.getBoundingClientRect();
         var pillRect = pill.getBoundingClientRect();
