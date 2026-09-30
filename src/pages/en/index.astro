@@ -1304,7 +1304,11 @@ function switchDash(btn, src, key) {
   }
   .cd-close:hover{background:#EFF2F5;}
 
-  .cd-inner{padding:64px 48px 48px;max-width:620px;margin:0 auto;width:100%;}  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;}
+  .cd-inner{padding:64px 48px 48px;max-width:620px;margin:0 auto;width:100%;}  /* text-wrap:pretty — 1단계 제목 2행이 감기며 마지막 줄에 'demo.'만 남았다.
+     524px 폭에서 "…guide you through a tailored / demo." → "…through a / tailored demo."
+     <br>로 잡으면 그 폭에서만 맞는다. 보안 카드와 같은 방법이다.
+     2단계 제목은 걸든 안 걸든 같다. 국문은 .cd-title을 따로 들고 있어 영향받지 않는다. */
+  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;text-wrap:pretty;}
   .cd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
   .cd-form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
   .cd-form-group label{font-size:13px;font-weight:600;color:#111;}
