@@ -12,24 +12,24 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'Industrial data integration: scattered data into one body of knowledge',
-  description: 'Industrial sites do not lack data. The problem is that it is scattered. This paper sets out a way to integrate that goes beyond piping data together, giving it meaning through an ontology.',
+  description: 'Industrial sites do not lack data. The problem is that it is scattered. This paper sets out a way to integrate that goes beyond connecting pipes, giving data meaning through an ontology.',
   author: { '@type': 'Organization', name: 'Refinery' },
   publisher: { '@type': 'Organization', name: 'Refinery', logo: { '@type': 'ImageObject', url: `${SITE}/logo_Refinery_symbol.svg` } },
   mainEntityOfPage: `${SITE}/en/whitepapers/data-integration`,
 };
 const toc = [
   { id: 's1', t: 'Plenty of data, little of it used' },
-  { id: 's2', t: 'Piping data together is not integration' },
+  { id: 's2', t: 'The difference between connecting pipes and integration' },
   { id: 's3', t: 'The ontology that gives data meaning' },
   { id: 's4', t: 'Layering on or building new, two paths' },
   { id: 's5', t: 'Data beyond the time series' },
   { id: 's6', t: 'Data you can decide with' },
-  { id: 's7', t: 'Where to start' },
+  { id: 's7', t: 'How to start' },
 ];
 ---
 <BaseLayout
   title="Whitepaper ⁠· Industrial data integration: scattered data into one body of knowledge | Refinery"
-  description="Industrial data is not scarce. It is scattered. A whitepaper on integrating beyond pipes, giving data meaning through an ontology, and on the two paths of layering onto what you have or building new."
+  description="Industrial data is not scarce. It is scattered. A whitepaper on integrating beyond connecting pipes, giving data meaning through an ontology, and on the two paths of layering onto what you have or building new."
   canonical="/en/whitepapers/data-integration"
   robots="index, follow"
   jsonLd={jsonLd}
@@ -61,7 +61,7 @@ const toc = [
       <div class="ind-container">
         <p class="wp-eyebrow"><span>Whitepaper</span><i class="wp-eyebrow-bar" aria-hidden="true"></i><span>Data integration</span></p>
         <h1 class="wp-title">Scattered data into<br>one body of knowledge</h1>
-        <p class="wp-sub">Sites do not lack data. The problem is that it is scattered.<br>This paper goes beyond piping data together to how meaning is given to it.</p>
+        <p class="wp-sub">Sites do not lack data. The problem is that it is scattered.<br>This paper goes beyond connecting pipes to how meaning is given to data.</p>
       </div>
     </section>
 
@@ -95,13 +95,13 @@ const toc = [
         </div>
         <p>Most industrial sites already produce vast amounts of data. Sensors on equipment leave readings by the second, SCADA records the state of the grid, and MES and ERP accumulate the flow of production and materials. Add documents such as inspection reports, work orders and equipment manuals, and the volume of data is never the shortfall.</p>
         <p>Even so, at the moment a judgment is needed, this data goes unused. Values sit scattered across systems, and even the name for the same piece of equipment differs from system to system. When an anomaly is detected, checking its cause means moving between screens and piecing the data together in one’s head.</p>
-        <div class="wp-callout"><strong>The heart of the problem is not volume but connection.</strong> Data is shut inside separate silos with no context linking them, so it never carries through to a judgment.</div>
+        <div class="wp-callout"><strong>The heart of the problem is not volume but connection.</strong> Data is shut inside separate silos with no context linking them, so it does not carry through to a judgment.</div>
       </section>
 
       <section id="s2" class="wp-section">
         <div class="wp-figure">
           <span class="wp-n">02</span>
-          <h2>Piping data together is not integration</h2>
+          <h2>The difference between connecting pipes and integration</h2>
         </div>
         <p>“Data integration” usually brings to mind gathering several sources into one store. That is, moving values with ETL and putting them side by side on a dashboard. That work is needed, but on its own it is not integration.</p>
         <p>Even with values from different systems on one screen, if the machine does not know <strong>what those values are about</strong> or <strong>how they relate</strong>, a person still has to interpret them. Putting a vibration graph next to a temperature graph and having the system understand that “this temperature and that vibration are signals from the same pump, and this pump belongs to that line” are altogether different levels.</p>
@@ -113,7 +113,7 @@ const toc = [
           <span class="wp-n">03</span>
           <h2>The ontology that gives data meaning</h2>
         </div>
-        <p>An ontology is a structure that defines <strong>what data is about</strong>. It defines subjects such as equipment, lines, processes and documents as objects, and describes the relations between them (containment, connection, sequence). It is the work of attaching to every scattered number and record the meaning of “what is this data about.”</p>
+        <p>An ontology is a structure that defines <strong>what data is about</strong>. It defines equipment, lines, processes and documents as objects, and describes the relations between them (containment, connection, sequence). It is the work of attaching to every scattered number and record the meaning of “what is this data about.”</p>
         <p>Once meaning is attached, data is no longer a value inside an individual system but one body of knowledge. When a sensor reading jumps, the system can follow on its own which equipment that sensor belongs to, which process that equipment sits in, and what inspection history it has had recently.</p>
         <div class="wp-callout">An ontology is less a showy technology than <strong>the work of writing down what the field already knows as data</strong>. The longer someone has spent on the floor, the more accurately they can draw this structure.</div>
       </section>
@@ -153,13 +153,13 @@ const toc = [
       <section id="s7" class="wp-section">
         <div class="wp-figure">
           <span class="wp-n">07</span>
-          <h2>Where to start</h2>
+          <h2>How to start</h2>
         </div>
         <p>Rather than drawing company-wide integration in one go, it is more realistic to start at a single point where judgment is often needed.</p>
         <ul>
           <li>Find the judgment people currently piece together by moving between screens.</li>
-          <li>Set out where the data that judgment needs is scattered, and what the same subject is called in each place.</li>
-          <li>Draw those subjects as objects and relations, and stand up a small ontology first.</li>
+          <li>Set out where the data that judgment needs is scattered, and what the same thing is called.</li>
+          <li>Draw those things as objects and relations, and stand up a small ontology first.</li>
           <li>Layer onto the existing system, or build from collection up where there is none, and widen the scope from there.</li>
         </ul>
         {/* 맺음말은 '다음 읽을거리'만 맡는다. 문의하기는 아래 CTA에만 둔다. */}
