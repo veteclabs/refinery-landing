@@ -490,9 +490,7 @@ const jsonLd = {
       #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
       /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
       #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
-      /* 통합 섹션 노드 격자도 같은 조건에서 가로로 넘친다(880px 에서 243px) */
-      #integrations .int-node-grid { cursor: grab; }
-      #integrations .int-node-grid.is-dragging { cursor: grabbing; user-select: none; }
+
       #platform .series-card {
         flex: 0 0 80vw;
         max-width: 300px;
@@ -513,10 +511,10 @@ const jsonLd = {
          터치·펜은 네이티브가 이미 받으므로 마우스만 가로챈다.
          플랫폼 섹션의 카드·그래픽, 통합 섹션의 노드 격자가 모두 같은 방식이다. */
       function isNarrow() { return window.innerWidth <= 900; }
-      function enableDragScroll(el) {
+      function enableDragScroll(el, canDrag) {
         var drag = null;
         el.addEventListener('pointerdown', function(e) {
-          if (!isNarrow() || e.pointerType !== 'mouse' || e.button !== 0) return;
+          if (!canDrag() || e.pointerType !== 'mouse' || e.button !== 0) return;
           drag = { x: e.clientX, left: el.scrollLeft, moved: false };
         });
         el.addEventListener('pointermove', function(e) {
@@ -558,7 +556,8 @@ const jsonLd = {
       }
       function initIntegrationsDrag() {
         var grid = document.querySelector('#integrations .int-node-grid');
-        if (grid) enableDragScroll(grid);
+        // 통합 격자는 1279px 까지 가로로 넘친다(CSS 와 같은 경계)
+        if (grid) enableDragScroll(grid, function() { return window.innerWidth <= 1279; });
       }
       function initSeriesSlider() {
         var viewport = document.querySelector('#platform .series-viewport');
@@ -637,9 +636,9 @@ const jsonLd = {
           if (isMobile()) { viewport.scrollBy({ left: cardStep(), behavior: 'smooth' }); return; }
           index += 1; update();
         });
-        enableDragScroll(viewport);
+        enableDragScroll(viewport, isNarrow);
         var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
-        if (graphicWrap) enableDragScroll(graphicWrap);
+        if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
 
         window.addEventListener('resize', update);
         var mobileScrollRaf = null;
@@ -1039,11 +1038,24 @@ behind the answer are given too.</p>
       .rfn-node[data-pl-node="cloud"] .rfn-node-ic{background:#3B7FD4;}
       .rfn-node[data-pl-node="systems"] .rfn-node-ic{background:#9579C2;}
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-ic{background:#E29050;}
-      @media (max-width: 900px) {
-        /* 카드 폭 280px — 250px 에서는 가장 긴 줄 'Groupware/e-Approval'(라벨 130px + 타입)이
-         17px 모자라 …로 잘렸다. 가로로 넘겨 보는 구간이라 카드가 넓어져도 총 폭만 는다. */
-      .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:280px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;scrollbar-width:none;-ms-overflow-style:none;}
+      /* 4열 1fr 로 두면 카드가 컨테이너를 따라 줄어 가장 긴 줄이 잘린다 —
+         'Groupware/e-Approval'(라벨 130px + 타입)이 1200px 에서 13px 모자랐다.
+         카드를 280px 로 고정하고 넘치는 만큼 가로로 넘겨 본다.
+         1279px 이 경계인 이유: 1280px 부터 .container 가 max-width 1280 에 걸려 폭이
+         1184px 로 고정되고, 그때 카드가 281px 라 잘리지 않는다. 그 아래는 컨테이너가
+         화면을 따라 줄어 카드도 같이 좁아진다(1240px 에서 267px — 6px 모자랐다). */
+      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
+      @media (max-width: 1279px) {
+        #integrations .int-node-grid { cursor: grab; }
+        #integrations .int-node-grid.is-dragging { cursor: grabbing; user-select: none; }
+      }
+      @media (max-width: 1279px) {
+        .int-node-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:280px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none;-ms-overflow-style:none;}
         .int-node-grid::-webkit-scrollbar{display:none;}
+      }
+      /* 화면 끝까지 흘려 '옆에 더 있다'를 보이는 것은 모바일에서만 한다 */
+      @media (max-width: 900px) {
+        .int-node-grid{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px;}
       }
       @media (max-width: 900px) {
         .int-node-grid, .int-refinery-outer { position: relative; z-index: 1; }
@@ -1111,7 +1123,7 @@ behind the answer are given too.</p>
         var pill = document.getElementById('intRefineryPill');
         var cards = document.querySelectorAll('#intNodeGrid .rfn-node');
         if (!flowWrap || !svg || !pill || !cards.length) return;
-        var isMobile = window.innerWidth <= 900;
+        var isMobile = window.innerWidth <= 1279 /* 카드가 280px 고정 + 가로 스크롤이 되는 경계 — CSS 와 같다 */;
         var scroller = document.getElementById('intNodeGrid');
         var wrapRect = flowWrap.getBoundingClientRect();
         var pillRect = pill.getBoundingClientRect();
