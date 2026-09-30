@@ -284,7 +284,20 @@ const jsonLd = {
        white-space:normal 이면 그 \n 도 공백이 되어 함께 풀린다.
        <br> 앞 공백은 필수다 — Astro 가 <br> 뒤 개행을 지워서, 그냥 숨기면
        'historydata'처럼 붙는다(같은 날 FAQ에서 겪었다). */
+    
+    /* Industrial AI OS 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
+       JS 가 이미지를 위로 밀어 자르면서 그 선이 미리보기 상단 10px 자리에 올라온다.
+       기존 14px 페이드는 그 지점에서 이미 70% 투명해져 선을 못 가린다 —
+       페이드를 키워도 대비만 줄 뿐이라, 앞 24px 을 불투명하게 덮고 나머지로 잇는다.
+       탭마다 선 위치가 달라(Pipeline 19·22px · Calendar 21px) 이 탭만 골라 건다.
+       :has() 로 이미지 src 를 보므로 JS 는 그대로 둔다. */
     @media (max-width: 1280px) {
+      #teams #iframe-wrapper:has(#dash-image[src*="Solutions-02-ai-agent"])::before {
+        height: 40px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 60%, rgba(246,248,250,0) 100%);
+      }
+    }
+@media (max-width: 1280px) {
       #teams .teams-preview-text p { white-space: normal; }
       #teams .teams-preview-text p br { display: none; }
     }
