@@ -179,6 +179,18 @@ const jsonLd = {
     #platform .section-header-row p {
       max-width: 400px;
     }
+
+    /* FAQ 4번 답변을 절 경계에서 끊는다. <br> 없이 두면 브라우저가
+       'and / integrates'처럼 접속사만 줄 끝에 남긴다.
+       1행 'Refinery tears nothing out … your existing systems'에 633px가 필요한데,
+       FAQ가 2열인 구간에서는 답변 폭이 그보다 좁아(1100px에서 617px) 1행이 다시
+       감겨 5줄이 된다 → 그 구간에서만 <br>를 걷는다.
+       900px 이하는 FAQ가 1열로 바뀌며 폭이 되레 넓어져(900px에서 837px) 그대로 둔다.
+       숨겨도 마크업에는 남아 번역기가 여기서 세그먼트를 끊지만, 절 경계라
+       'and integrates bidirectionally with them.'만으로도 뜻이 온전하다. */
+    @media (min-width: 901px) and (max-width: 1149px) {
+      .faq-wide-br { display: none; }
+    }
     #platform .platform-graphic-img {
       margin-top: 64px;
     }
@@ -1016,7 +1028,7 @@ behind the answer are given too.</p>
       <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">From a PoC to a company-wide rollout,<br>it depends on the scale of your operation and the complexity of your existing systems.<br>We’ll share an exact timeline through consultation.</div></div>
       <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is encrypted with <span style="white-space:nowrap">AES-256</span>,<br>with per-organization isolation (PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, in which case data does not leave your company.</div></div>
       <div class="faq-item"><div class="faq-q">Do you use our field data to train AI?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">No. Customer data is not used to train AI models.<br>Each customer’s data is kept fully isolated.</div></div>
-      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a"><span translate="no">Refinery</span> tears nothing out. It runs as a unified intelligence layer on top of your existing systems and integrates bidirectionally with them.<br>Where no system exists, we build from a template shaped by 30 years on site<br>(an energy management system, for example). Both paths are supported.</div></div>
+      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a"><span translate="no">Refinery</span> tears nothing out. It runs as a unified intelligence layer on top of your existing systems<br class="faq-wide-br">and integrates bidirectionally with them.<br>Where no system exists, we build from a template shaped by 30 years on site<br>(an energy management system, for example). Both paths are supported.</div></div>
       <div class="faq-item"><div class="faq-q">Which languages do you support?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">The interface and Industrial AI OS responses are currently provided in Korean.<br>We plan to expand English support.</div></div>
       <div class="faq-item"><div class="faq-q">Can we choose between cloud and on-premises?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">We support cloud, on-premises, and hybrid.<br>Choose flexibly according to your security policy.</div></div>
      </div>
