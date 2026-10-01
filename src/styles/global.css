@@ -222,6 +222,12 @@
          영문은 그대로 Inter로 그려진다. */
       font-family: 'Inter', 'Pretendard', sans-serif;
       color: #16202C;
+      /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
+         360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
+         CJK 에만 듣는 값이라 영문 제목은 그대로 단어 단위로 끊긴다.
+         어절 하나가 줄보다 길 때를 대비해 break-word 를 함께 둔다. */
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     #hero h1 .hero-title-accent {
       display: inline-block;
