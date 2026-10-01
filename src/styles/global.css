@@ -628,7 +628,11 @@
     .sec-card-title-row h3 { margin-bottom: 0; }
     .ot-it-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 400; color: #76A6D7; }
     .ot-it-badge i { font-size: 13px; }
-    .sec-card-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    /* keep-all — 없으면 좁은 폭에서 한글이 글자 단위로 끊긴다
+       ("안전하게 기록합 / 니다.", "단방향 전송 / 을 지원합니다."). 아래 sec-br 들이
+       닿지 않는 폭(1220px 위 · 779px 아래)이 그대로 드러나는 자리였다. */
+    .sec-card-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; word-break: keep-all; overflow-wrap: break-word; }
+    #security .section-header p { word-break: keep-all; overflow-wrap: break-word; }
     /* 2x2 가 좁아지는 780~1219px 구간의 줄 나눔. 이 폭에서는 자연 감김이 낱말
        한가운데서 끊겨("안/전하게", "지원합/니다") 읽기 나빴다. 1200px 위는 두 줄이
        20px 넘는 여유로 들어가고 739px 아래는 1열이라 카드가 넓으므로, 둘 다 이 <br> 를
