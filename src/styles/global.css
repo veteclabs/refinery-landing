@@ -688,17 +688,27 @@
     }
     /* 1·2·4번(.faq-long)은 문장이 길어 775px 아래에서 문장 경계로 끊으면 넘친다.
        그 구간에는 지정받은 자리에 끊는 br.faq-br 을 따로 두고 문장 경계 <br> 는 끈다.
-       775px 은 4번 첫 문장이 한 줄에 들어가는 하한이고(698px + 여유 20px),
-       지정 단락 쪽은 487px 까지 버틴다(1번 445 · 2번 448 · 4번 487).
+       되돌리는 폭은 1번 520 · 2번 535 · 4번 775px 이고(각자 가장 긴 문장 442 · 456 · 698px),
+       지정 단락 쪽은 1번 445 · 2번 448 · 4번 487px 까지 버틴다.
        br.faq-keep 은 두 구간이 같은 자리를 쓰는 줄바꿈이라 양쪽에서 켠다.
        두 규칙의 구체성이 같아야 순서로 이긴다 — 그래서 nth-child 가 아니라 클래스다.
        숨겨지는 <br> 앞에는 마크업에 공백을 넣어 뒀다(없으면 낱말이 붙는다). */
     #faq .faq-a.faq-long br { display: none; }
-    #faq .faq-a br.faq-br,
-    #faq .faq-a br.faq-keep { display: inline; }
+    #faq .faq-a.faq-long br.faq-br,
+    #faq .faq-a.faq-long br.faq-keep { display: inline; }
+    /* 되돌리는 폭은 답변마다 다르다 — 가장 긴 문장이 한 줄에 들어가는 폭이다.
+       하나로 묶으면(4번 기준 775px) 1·2번이 자리가 남는데도 지정 단락으로 보인다. */
+    @media (min-width: 520px) {
+      #faq .faq-item:nth-child(1) .faq-a br { display: inline; }
+      #faq .faq-item:nth-child(1) .faq-a br.faq-br { display: none; }
+    }
+    @media (min-width: 535px) {
+      #faq .faq-item:nth-child(2) .faq-a br { display: inline; }
+      #faq .faq-item:nth-child(2) .faq-a br.faq-br { display: none; }
+    }
     @media (min-width: 775px) {
-      #faq .faq-a.faq-long br { display: inline; }
-      #faq .faq-a br.faq-br { display: none; }
+      #faq .faq-item:nth-child(4) .faq-a br { display: inline; }
+      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: none; }
     }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
