@@ -810,6 +810,16 @@ const jsonLd = [
     min-height: 64px; margin-top: -32px;
     display: flex; align-items: flex-end;
   }
+  /* 네 제목이 모두 두 줄인 페이지에는 걸지 않는다. 위 보정은 '한 줄 제목 옆에 선
+     두 줄 제목'을 끌어올려 본문 시작선을 맞추는 것인데, 모두 두 줄이면 시작선이
+     이미 맞아 있고 보정만 먹어 페이지가 통째로 32px 위로 당겨진다 — 아이콘과 제목
+     사이가 69px -> 37px 이 되어 그 페이지만 다른 페이지보다 좁아 보인다.
+     1440px 에서 그런 페이지는 영문 예지보전 하나뿐이다(국문은 네 제목이 모두 한 줄).
+     줄 수가 섞인 전력관리 [1,1,1,2] · 전력품질 [1,2,1,1] · 공장에너지 [1,1,2,2] 는
+     위 규칙을 그대로 쓴다. */
+  .uc-predictive-maintenance.uc-en .ind-grid-3 .ind-card h3 {
+    min-height: 0; margin-top: 0; display: block;
+  }
   .uc-page .ind-card p { text-wrap: pretty; }
   /* '다른 과제' 카드 설명도 같은 방식으로 둔다. 영문은 데이터에 <br>로 두 줄을
      잡아 뒀는데 1행이 칸(333px)보다 길어 세 카드가 실제로는 세 줄로 감겼다
