@@ -198,7 +198,10 @@
       border-radius: var(--radius);
     }
     @media (max-width: 900px) {
-      .hero-motion-placeholder { margin-top: 48px; aspect-ratio: 1144 / 900; }
+      /* 세로로 긴 1144/900 은 좌측 레일을 잘라 본문을 키우던 시절의 칸 비율이다.
+         크롭을 걷은 뒤로는 데스크탑과 같은 무대 비율이라야 위아래에 데모 배경이
+         남지 않는다(aspect-ratio 는 위에서 상속). */
+      .hero-motion-placeholder { margin-top: 48px; }
     }
     /* 데모 위를 덮는 투명 버튼. 평소에는 보이지 않고 멈췄을 때만 ▶가 뜬다. */
     .hero-demo-toggle {
