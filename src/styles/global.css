@@ -722,6 +722,18 @@
       #faq .faq-item:nth-child(4) .faq-a.faq-long br { display: inline; }
       #faq .faq-item:nth-child(4) .faq-a.faq-long br.faq-br { display: none; }
     }
+    /* 423px 아래로는 어느 벌도 들어가지 않는다 — 지정 단락의 하한이 국문 1번 445 ·
+       2번 448 · 4번 487px, 영문 2번 451 · 4번 460px 이다. 더 잘게 쪼개는 대신
+       <br> 를 모두 끄고 브라우저에 맡긴다. 국문은 keep-all 이 어절을 지키고 영어는
+       낱말 단위로 감기므로, 양쪽 모두 넘침이 생기지 않고 줄 수도 그 폭에서 가장 적다.
+       max-width 를 쓰지만 짝이 되는 min-width 규칙이 없어 소수 폭 틈이 생기지 않는다.
+       국문 쪽은 .faq-long 규칙이 구체성이 높아 같은 모양으로 한 번 더 적어 줘야 한다. */
+    @media (max-width: 422.98px) {
+      #faq .faq-a br,
+      #faq .faq-a.faq-long br,
+      #faq .faq-a.faq-long br.faq-br,
+      #faq .faq-a.faq-long br.faq-keep { display: none; }
+    }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
       #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
