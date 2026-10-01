@@ -22,7 +22,7 @@ export const foodEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on food sites',
+    title: 'Challenges on\nfood sites',
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     items: [
       {

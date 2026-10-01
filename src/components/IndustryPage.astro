@@ -114,8 +114,12 @@ const lines = (s: string) => s.split('\n');
       )}
       <div class="ind-container">
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
-          <h2>{ind.challenges.title}</h2>
-          {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
+          {/* 제목도 히어로처럼 개행을 <br>로 낸다. 영문은 제목이 길어 한 줄로 두면
+              소제목 자리를 밀어내 아래로 내려보낸다. */}
+          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+          {/* 소제목도 데이터의 개행을 <br>로 낸다. 영문은 두 줄이 되는 소제목이 있고,
+              자연 감김에 맡기면 줄 끝에 접속사만 남는다. */}
+          {ind.challenges.subtitle && <p>{lines(ind.challenges.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>}
         </header>
         <div class="ind-grid ind-grid-2 ind-grid-bubble">
           {ind.challenges.items.map((c) => (
@@ -264,7 +268,7 @@ const lines = (s: string) => s.split('\n');
     </section>
 
     <!-- BENEFITS -->
-    <section class="ind-section ind-soft">
+    <section class="ind-section ind-soft ind-benefits">
       <div class="ind-container">
         <header class="ind-head">
           <h2>{ind.benefits.title}</h2>

@@ -103,7 +103,12 @@ middleware.ts  Vercel Edge — 홈(/)에서만 언어 자동 안내(봇·쿠키 
   - 긴급 수정은 `hotfix/*` (main에서 분기 → main·develop 둘 다 반영).
 - 브랜치 네이밍: `feat/`, `fix/`, `chore/`, `docs/`, `content/` + 짧은 설명.
 - 머지 전 반드시 **Preview 배포 URL**에서 검증한다(스테이징 = `develop` Preview). 상태코드만 믿지 말고 히어로 iframe 등 실제 표시를 육안 확인.
-- 커밋 메시지는 한국어 요약 + 변경 근거. 이미지 변환은 before/after 용량을 남긴다.
+- 커밋 메시지는 **`<접두사>: 한국어 요약`** + 본문에 변경 근거. 이미지 변환은 before/after 용량을 남긴다.
+  - 접두사: `design:`(배치 · 줄 나눔 · 간격 · 색 등 보이는 것) · `fix:`(동작 · 버그) ·
+    `content:`(문구 · 번역 · 콘텐츠) · `feat:`(새 페이지 · 새 기능) · `chore:`(정리 · 설정) ·
+    `docs:`(문서). 같은 CSS를 만져도 **보이는 모습을 바꾸면 `design:`**, 깨진 것을 고치면 `fix:`.
+  - 줄 나눔 · `<br>` · `max-width` · `text-wrap` 조정은 전부 `design:`이다.
+  - 과거 `style:`을 쓴 커밋이 있으나(2026-09-11까지) 지금은 `design:`으로 통일한다.
 - PR 본문에는 변경 요약 · 검증 방법 · 영향 범위를 적는다.
 - 커밋·PR 메시지에 **AI 공동작성/생성 표기를 넣지 않는다** (`Co-Authored-By`, `Generated with ...` 등 금지).
 
