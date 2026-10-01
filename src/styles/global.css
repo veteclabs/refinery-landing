@@ -671,7 +671,9 @@
     .faq-q .faq-icon { font-size: 14px; color: var(--text-dim); flex-shrink: 0; margin-left: 12px; transition: transform .2s; -webkit-text-stroke: 0.3px currentColor; }
     .faq-item.open .faq-icon { transform: rotate(180deg); }
     #teams .section-header { margin-bottom: 0; }
-    .faq-a { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+    /* keep-all 이 없으면 한글이 글자 단위로 끊긴다("안내드립니 / 다."). 아래에서
+       문장 <br> 을 풀어 자연 감김에 맡기는 답변들이 있어 특히 필요하다. */
+    .faq-a { font-size: 15px; color: var(--text-muted); line-height: 1.7; word-break: keep-all; overflow-wrap: break-word; }
     /* FAQ 는 900px 이하에서 제목·리스트가 2열에서 1열로 바뀌며 오히려 넓어진다
        (693px → 852px). 그런데 mobile-br 도 같은 900px 에서 켜져, 자리가 가장 넉넉한
        구간에서 답변이 끊겼다. 자리가 되는 데까지 풀어 두되, 답변마다 길이가 달라
@@ -680,15 +682,19 @@
     @media (min-width: 470px) {
       #faq .faq-item:nth-child(5) .faq-a br.mobile-br { display: none; }
     }
-    @media (min-width: 520px) {
-      #faq .faq-item:nth-child(1) .faq-a br.mobile-br { display: none; }
-    }
-    @media (min-width: 535px) {
-      #faq .faq-item:nth-child(2) .faq-a br.mobile-br { display: none; }
-    }
-    /* 4번(SCADA)만 첫 문장이 698px 로 길어 775px 아래로는 풀 수 없다. */
-    @media (min-width: 775px) {
-      #faq .faq-item:nth-child(4) .faq-a br.mobile-br { display: none; }
+    /* 1·2·4번은 문장이 길다. 좁은 폭용 mobile-br 로 끊어 봐야 한 줄만 짧아지고
+       나머지가 그대로 넘치므로 아예 쓰지 않는다. */
+    #faq .faq-item:nth-child(1) .faq-a br.mobile-br,
+    #faq .faq-item:nth-child(2) .faq-a br.mobile-br,
+    #faq .faq-item:nth-child(4) .faq-a br.mobile-br { display: none; }
+    /* 그 세 답변은 775px 아래에서 문장 구분 <br> 도 푼다. 775px 은 4번의 첫 문장이
+       한 줄에 들어가는 하한이고(698px + 여유 20px), 그 아래로는 어차피 문장이
+       넘치므로 끊어 두기보다 단락으로 흘려보내는 쪽이 낫다. 숨겨지는 <br> 앞에는
+       마크업에 공백을 넣어 뒀다 — 없으면 그 자리에서 낱말이 붙는다. */
+    @media (max-width: 774.98px) {
+      #faq .faq-item:nth-child(1) .faq-a br,
+      #faq .faq-item:nth-child(2) .faq-a br,
+      #faq .faq-item:nth-child(4) .faq-a br { display: none; }
     }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
