@@ -25,7 +25,7 @@ export const electronicsEn: IndustryData = {
   challenges: {
     dark: true,
     title: 'Challenges on\nelectronics sites',
-    subtitle: 'Recurring problems in semiconductor, electronic component and precision equipment manufacturing.',
+    subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
     items: [
       {
         title: 'Equipment reacts to the smallest change',
