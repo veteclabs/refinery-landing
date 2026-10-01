@@ -178,12 +178,7 @@ const jsonLd = {
        900px 이하는 FAQ가 1열로 바뀌며 폭이 되레 넓어져(900px에서 837px) 그대로 둔다.
        숨겨도 마크업에는 남아 번역기가 여기서 세그먼트를 끊지만, 절 경계라
        'and integrates bidirectionally with them.'만으로도 뜻이 온전하다. */
-    @media (min-width: 900.02px) {
-      .faq-wide-br { display: none; }
-    }
-    @media (min-width: 1150px) {
-      .faq-wide-br { display: inline; }
-    }
+
 
     /* FAQ 1번도 같은 이유로 절 경계에서 끊는다. <br> 없이 두면
        'the complexity of your / existing systems.'처럼 두 낱말만 남는다.
@@ -191,12 +186,23 @@ const jsonLd = {
        4번(633px)보다 여유가 있다 → 걷는 구간도 그만큼 좁다.
        1024px 이상이면 답변 폭이 566px라 1행이 들어가고, 960px에서는 523px로
        모자라 'operation'만 홀로 남는다. */
-    @media (min-width: 900.02px) {
-      .faq-mid-br { display: none; }
-    }
-    @media (min-width: 1024px) {
-      .faq-mid-br { display: inline; }
-    }
+    /* 좁은 폭에서는 절을 한 번 더 쪼갠다(faq-sm*). 중간 쪼갬(faq-mid-br · faq-wide-br ·
+       faq-br2)만으로는 앞쪽 행이 그대로 감겨 낱말이 홀로 남았다 — 480px 에서 2번이
+       "… encrypted with / AES-256," 로 끊겼다.
+       켜고 끄는 폭은 그 답변의 중간 쪼갬 줄이 한 줄에 들어가는 지점이다
+       (1번 615px · 2번 554px · 4번 708px). 900px 을 넘기면 FAQ 가 2열이 되며
+       답변 폭이 844 → 486px 로 되레 줄어 다시 켜고, 폭이 돌아오는 지점에서 끈다
+       (1번 1024px · 2번 950px · 4번 1150px).
+       좁은 쪼갬 자체는 423px 까지 들어간다(1번 411 · 2번 423 · 4번 409px).
+       중간 쪼갬은 이제 늘 켜 둔다 — 좁은 쪽은 faq-sm 이 맡는다. */
+    .faq-sm1, .faq-sm2, .faq-sm4 { display: inline; }
+    @media (min-width: 554px) { .faq-sm2 { display: none; } }
+    @media (min-width: 615px) { .faq-sm1 { display: none; } }
+    @media (min-width: 708px) { .faq-sm4 { display: none; } }
+    @media (min-width: 900.02px) { .faq-sm1, .faq-sm2, .faq-sm4 { display: inline; } }
+    @media (min-width: 950px) { .faq-sm2 { display: none; } }
+    @media (min-width: 1024px) { .faq-sm1 { display: none; } }
+    @media (min-width: 1150px) { .faq-sm4 { display: none; } }
 
     /* 2·5번도 같은 방식으로 절 경계에서 쪼갠다. 자리가 되는 폭에서는 문장 단락이
        한 줄씩 들어가므로 끄고, 문장이 넘치는 폭에서만 켠다.
@@ -1304,10 +1310,10 @@ behind the answer are given too.</p>
     <div class="section-header" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
       <h2>Before platform adoption,<br>frequently asked questions</h2>
       <div class="faq-list" style="max-width:none;margin:0;">
-      <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">From a PoC to a company-wide rollout, it depends on the scale of your operation <br class="faq-mid-br">and the complexity of your existing systems.<br>We’ll share an exact timeline through consultation.</div></div>
-      <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is encrypted with <span style="white-space:nowrap">AES-256</span>,<br>with per-organization isolation (PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="faq-br2">in which case data does not leave your company.</div></div>
+      <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">From a PoC to a company-wide rollout, <br class="faq-sm1">it depends on the scale of your operation <br class="faq-mid-br">and the complexity of your existing systems.<br>We’ll share an exact timeline through consultation.</div></div>
+      <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 <br class="faq-sm2">and data at rest is encrypted with <span style="white-space:nowrap">AES-256</span>,<br>with per-organization isolation (PostgreSQL RLS), <br class="faq-sm2">RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="faq-br2">in which case data does not leave your company.</div></div>
       <div class="faq-item"><div class="faq-q">Do you use our field data to train AI?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">No. Customer data is not used to train AI models.<br>Each customer’s data is kept fully isolated.</div></div>
-      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a"><span translate="no">Refinery</span> tears nothing out. It runs as a unified intelligence layer on top of your existing systems <br class="faq-wide-br">and integrates bidirectionally with them.<br>Where no system exists, we build from a template shaped by 30 years on site<br>(an energy management system, for example). Both paths are supported.</div></div>
+      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a"><span translate="no">Refinery</span> tears nothing out. <br class="faq-sm4">It runs as a unified intelligence layer <br class="faq-sm4">on top of your existing systems <br class="faq-wide-br">and integrates bidirectionally with them.<br>Where no system exists, we build from a template <br class="faq-sm4">shaped by 30 years on site<br>(an energy management system, for example). <br class="faq-sm4">Both paths are supported.</div></div>
       <div class="faq-item"><div class="faq-q">Which languages do you support?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">The interface and Industrial AI OS responses <br class="faq-br5">are currently provided in Korean.<br>We plan to expand English support.</div></div>
       <div class="faq-item"><div class="faq-q">Can we choose between cloud and on-premises?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">We support cloud, on-premises, and hybrid.<br>Choose flexibly according to your security policy.</div></div>
      </div>
