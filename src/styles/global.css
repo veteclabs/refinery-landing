@@ -606,7 +606,13 @@
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     .sec-card-img img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
     .sec-card:hover .sec-card-img img { transform: scale(1.07); }
-    .sec-card-img { height: 180px; overflow: hidden; position: relative; }
+    /* 칸을 일러스트 비율로 둔다. 높이를 180px 로 고정하면 카드 폭이 그 비율과
+       어긋나는 순간 object-fit: contain 이 위아래에 빈 자리를 남겼다
+       (1·4번 SVG 는 398x180, 2·3번은 606x180 이라 칸마다 비율이 다르다).
+       cover 로 채우면 좌우 끝의 아이콘이 잘리므로 칸 쪽을 맞춘다. */
+    .sec-card-img { aspect-ratio: 398 / 180; overflow: hidden; position: relative; }
+    .security-grid .sec-card:nth-child(2) .sec-card-img,
+    .security-grid .sec-card:nth-child(3) .sec-card-img { aspect-ratio: 606 / 180; }
     .sec-card-img::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 50%, #ffffff 100%); pointer-events: none; }
     .sec-card-divider { display: none; }
     .sec-card-body { padding: 20px 24px 24px; }
