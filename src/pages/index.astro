@@ -1383,13 +1383,18 @@ function renderPreviewBody(el) {
   var src = wide ? wide
     : raw.replace(/\s*\n\s*/g, ' ').trim().replace(/([.!?])\s+(?=\S)/g, '$1\n');
   paintPreviewBody(el, src);
-  // 그 줄마저 감기는 폭에서는 더 잘게 나눈 5번째 값으로 바꾼다.
   var narrow = el.dataset.narrow;
   if (!narrow) return;
   var lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
-  if (lh && Math.round(el.scrollHeight / lh) > src.split('\n').length) {
-    paintPreviewBody(el, narrow);
-  }
+  if (!lh) return;
+  var lines = function () { return Math.round(el.scrollHeight / lh); };
+  // 그 줄이 감기기 시작하면 더 잘게 나눈 5번째 값으로 바꾼다.
+  if (lines() <= src.split('\n').length) return;
+  paintPreviewBody(el, narrow);
+  // 그것마저 감기는 폭에서는 끊어 둔 자리가 오히려 낱말을 홀로 남긴다
+  // (`… in the / ontology`). 줄 나눔을 풀어 문장 단위로 되돌린다 — 자연 줄바꿈은
+  // 어절에서 끊으니 고아가 생기지 않는다.
+  if (lines() > narrow.split('\n').length) paintPreviewBody(el, src);
 }
 function paintPreviewBody(el, src) {
   el.textContent = '';
