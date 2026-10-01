@@ -400,7 +400,12 @@
     /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
-    .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    /* grid-auto-rows: 1fr — 행 높이를 그리드 전체에서 하나로 맞춘다. 기본값(auto)이면
+       행마다 그 행에서 가장 높은 카드에 맞춰져, 소제목이 세 줄인 카드가 있는 행만
+       높아진다(660px 영문에서 342 / 321 / 321 / 321). 카드 안에서 본문이 flex: 1 로
+       남는 높이를 먹으므로 두 줄짜리 카드도 줄 수는 그대로인 채 높이와 화살표 자리만
+       세 줄 카드에 맞춰진다. 모든 카드가 두 줄인 폭에서는 아무것도 바뀌지 않는다. */
+    .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 18px; }
     /* 3열은 1280px 위에서만 쓴다. 컨테이너 max-width가 1280이라 그 위에서는
        카드가 383px로 고정되는데, 아래로 내려가면 카드가 같이 좁아진다.
        영문 소제목은 카드가 383px보다 좁아지는 순간부터 마지막 줄이 길어져
