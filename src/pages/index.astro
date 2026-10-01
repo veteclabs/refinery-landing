@@ -1394,6 +1394,13 @@ function initPreviewBody() {
   if (el.dataset.raw == null) {
     // 초기 렌더는 마크업의 <br> 로 줄이 잡혀 있다 — 그것을 \n 으로 되돌려 원본으로 삼는다
     el.dataset.raw = el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+    // 첫 화면의 탭은 switchDash 를 거치지 않아 wide 가 비어 있었다. 그래서 세로 분리
+    // 폭에서 기본 탭만 지정한 줄 나눔 대신 문장 끝 자동 분할로 그려졌다.
+    // 활성 버튼의 onclick 에 적힌 키로 teamsTextMap 의 4번째 값을 찾아 채운다.
+    var btn = document.querySelector('#teams .teams-tab-btn.active');
+    var m = btn && (btn.getAttribute('onclick') || '').match(/,\s*'([^']+)'\s*\)/);
+    var t = m && typeof teamsTextMap !== 'undefined' && teamsTextMap[m[1]];
+    if (t && t[3]) { el.dataset.wide = t[3]; }
   }
   renderPreviewBody(el);
 }
