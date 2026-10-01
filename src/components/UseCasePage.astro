@@ -785,6 +785,18 @@ const jsonLd = [
     font-size: 20px; font-weight: 600; line-height: 1.6; margin: 0 0 5px;
   }
   .uc-redesigned .ind-card p { font-size: 15px; line-height: 1.5; margin: 0; }
+  /* 카드 제목·설명의 줄을 고르게 나눈다. 영문 제목이 두 줄이 될 때 마지막 줄에 낱말
+     하나만 떨어지는 자리가 많았다 — 예지보전만 1440px에서 제목 4곳 · 설명 2곳이다
+     ('Wireless vibration sensor / mounting', 'Assessment against ISO / 20816' 등).
+     balance는 줄 수를 늘리지 않고 폭만 고르게 맞추므로 카드 높이가 그대로고,
+     pretty는 마지막 줄만 손봐 앞 줄을 건드리지 않는다. 산업 페이지 카드와 같은 처방이다.
+     일곱 유즈케이스 · 두 언어를 1440 · 1280 · 1100 · 960 · 768px 에서 재어
+     낱말 혼자 남는 자리가 78곳 -> 33곳으로 줄었고 넘침은 양쪽 모두 0이다.
+     .uc-redesigned 가 아니라 .uc-page 에 거는 것은 재단장하지 않은 유즈케이스가
+     생겨도 같이 적용되게 하기 위해서다(지금은 일곱 개가 모두 redesigned 다).
+     지원하지 않는 브라우저는 지금 모습 그대로다. */
+  .uc-page .ind-card h3 { text-wrap: balance; }
+  .uc-page .ind-card p { text-wrap: pretty; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
