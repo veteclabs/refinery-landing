@@ -586,11 +586,13 @@
     .security-grid .sec-card:nth-child(2) { grid-column: 5 / 11; }
     .security-grid .sec-card:nth-child(3) { grid-column: 1 / 7; }
     .security-grid .sec-card:nth-child(4) { grid-column: 7 / 11; }
-    /* 1열로 내리는 경계는 740px 이다. 한때 680px 까지 내렸지만, 그 폭에서는 아래
-       sec-br 로 끊어 둔 줄이 카드 안에 1px 여유로 겨우 들어간다 — 실제 브라우저의
-       글자 폭이 조금만 달라도 넘쳐 한 줄이 더 생겼다. 가장 긴 줄에 20px 이상
-       여유가 남는 폭이 740px 이다(680px 1px · 700px 9px · 720px 17px · 740px 25px). */
-    @media (max-width: 739.98px) {
+    /* 1열로 내리는 경계는 780px 이다. 아래 sec-br 로 끊어 둔 줄이 카드 안에 20px 이상
+       여유를 두고 들어가야 한다 — 여유가 1~2px 이면 실제 브라우저의 글자 폭이 조금만
+       달라도 넘쳐 한 줄이 더 생긴다. 국문만 보면 740px 이면 되지만(680px 1px ·
+       700px 9px · 720px 17px · 740px 25px), 영문은 "Role-based access control (RBAC)"
+       가 215px 이라 740px 에서 여유가 8px 뿐이다. 배치는 두 언어가 같아야 하므로
+       영문 쪽에 맞춰 780px 로 둔다(영문 24px · 국문 37px). */
+    @media (max-width: 779.98px) {
       /* 1열에서는 카드 높이를 서로 맞춘다. flex column 은 교차축이 가로라 높이를
          맞출 방법이 없어 grid + grid-auto-rows: 1fr 로 둔다. */
       .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 16px; margin: 28px 0 0; padding: 0; }
@@ -627,7 +629,7 @@
     .ot-it-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 400; color: #76A6D7; }
     .ot-it-badge i { font-size: 13px; }
     .sec-card-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-    /* 2x2 가 좁아지는 740~1199px 구간의 줄 나눔. 이 폭에서는 자연 감김이 낱말
+    /* 2x2 가 좁아지는 780~1219px 구간의 줄 나눔. 이 폭에서는 자연 감김이 낱말
        한가운데서 끊겨("안/전하게", "지원합/니다") 읽기 나빴다. 1200px 위는 두 줄이
        20px 넘는 여유로 들어가고 739px 아래는 1열이라 카드가 넓으므로, 둘 다 이 <br> 를
        쓰지 않는다. 1160~1199px 은 두 줄이 11~19px 여유로 아슬아슬해 여기 포함시켰다.
@@ -640,14 +642,14 @@
        999.3px 에서 실제로 그랬다. */
     #security .sec-card-body p br.sec-br,
     #security .sec-card-body p br.sec-br-wide { display: none; }
-    @media (min-width: 740px) {
+    @media (min-width: 780px) {
       #security .sec-card-body p br.sec-br { display: inline; }
     }
     @media (min-width: 1050px) {
       #security .sec-card-body p br.sec-br { display: none; }
       #security .sec-card-body p br.sec-br-wide { display: inline; }
     }
-    @media (min-width: 1200px) {
+    @media (min-width: 1220px) {
       #security .sec-card-body p br.sec-br,
       #security .sec-card-body p br.sec-br-wide { display: none; }
     }
