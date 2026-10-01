@@ -176,9 +176,19 @@
        잡아 그 아래는 모두 세로로 둔다. */
     @media (max-width: 960px) {
       .section-header-row { flex-direction: column; align-items: flex-start; }
+      /* align-items: flex-start 는 교차축이 가로가 되면서 제목·소제목까지 내용 폭으로
+         줄인다. 통합 섹션 제목이 275px 로 묶여 데스크탑 두 줄(1행 328px)이 아예
+         불가능했다. 왼쪽 정렬만 두고 폭은 행을 그대로 쓰게 한다. */
+      .section-header-row > * { align-self: stretch; }
       /* 세로로 내려가면 소제목이 행 폭을 다 쓴다 — 좁은 폭용 줄 나눔(mobile-br)이
          오히려 줄을 하나 더 만들어 두 줄이던 것이 세 줄이 됐다. 이 구간에서는 끈다. */
       .section-header-row p br.mobile-br { display: none; }
+    }
+    /* 통합 섹션 제목도 같은 이유로 데스크탑 두 줄을 지킨다. 폭이 돌아오면 좁은 폭용
+       줄 나눔이 필요 없다 — 1행 328px · 2행 229px 이라 376px 까지 두 줄로 선다. */
+    @media (max-width: 900px) {
+      #integrations .section-header-row h2 br.mobile-br { display: none; }
+      #integrations .section-header-row h2 br.desktop-br { display: inline; }
     }
 
     /* HERO */
