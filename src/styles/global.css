@@ -64,13 +64,16 @@
        문장1 필요폭은 16px 438px · 18px 492px 이고 소제목 폭은
        버튼이 옆이면 vw-214(16px)·vw-277(18px), 버튼이 아래면 vw-48 이다.
        → 490px 부터 문장1 이 한 줄에 들어가므로 그 위로는 mobile-br 을 쓰지 않는다.
-       문장2(16px 610px · 18px 687px)는 버튼이 밑으로 내려간 980px 아래에서 폭
-       vw-48 을 쓰므로 658px 부터 한 줄에 들어간다 — 글꼴 차이를 감안해 670px 까지만
-       절 경계에서 끊고, 그 위는 끊지 않는다. 489px 아래는 폭이 모자라 mobile-br 이 맡는다. */
+       문장2(16px 610px · 18px 687px)가 한 줄에 못 들어가는 폭에서만 절 경계에서 끊는다.
+       소제목 폭은 버튼이 옆이면 vw-214(16px)·vw-277(18px), 아래면 vw-48 이므로
+       한 줄이 되는 하한은 824px(16px)·964px(18px) — 글꼴 차이를 감안해 830·970px 로
+       잡는다. 900/901px 에서 글자가 16 ↔ 18px 로 바뀌며 문장2 폭도 같이 뛰므로
+       구간이 둘로 갈린다. 489px 아래는 폭이 모자라 mobile-br 이 맡는다. */
     @media (min-width: 490px) {
       #hero p br.mobile-br { display: none; }
     }
-    @media (min-width: 490px) and (max-width: 670px) {
+    @media (min-width: 490px) and (max-width: 830px),
+           (min-width: 901px) and (max-width: 970px) {
       #hero p br.hero-mid-br { display: inline; }
     }
     .cd-title-desktop-only { display: inline; }
@@ -230,13 +233,13 @@
     }
     #hero .hero-actions { justify-content: flex-end; flex-shrink: 0; }
     /* 데모 신청 버튼이 제목·소제목 옆에 있으면 그 폭(16px 126px · 18px 189px)과
-       gap 40px 만큼 본문이 쓸 폭이 줄어든다. 그 탓에 제목은 3줄로 갈라지고(영문
-       601px · 국문 536px 아래) 소제목은 마지막 어절만 흘러넘쳤다(964px 아래).
-       둘 중 먼저 걸리는 소제목을 기준으로, 소제목 2번째 문장(18px 687px)이 버튼
-       옆에서도 한 줄에 들어가는 980px 까지만 옆에 두고 그 아래는 밑으로 내린다.
+       gap 40px 만큼 본문이 쓸 폭이 줄어, 제목이 3줄로 갈라지고 소제목 1번째 문장도
+       갈렸다. 소제목은 `문장1 한 줄 + 문장2 를 절 경계에서 둘로` 형태만 들어가면
+       되므로 필요폭은 문장1 의 438px(16px)이고, 버튼 옆 폭 vw-214 로는 652px 까지
+       된다 — 글꼴 차이를 감안해 660px 까지 버튼을 옆에 두고 그 아래만 내린다.
        (flex-wrap 에 맡기려면 .hero-text 의 min-width 를 400px 까지 키워야 하는데,
         그 값은 320px 같은 좁은 폭에서 가로 넘침을 만든다.) */
-    @media (max-width: 979px) {
+    @media (max-width: 659px) {
       #hero .hero-row { flex-direction: column; align-items: flex-start; }
       /* align-items: flex-start 는 교차축이 가로가 되면서 .hero-text 까지 내용 폭으로
          줄인다(640px 에서 소제목이 592px 대신 480px 만 썼다). 버튼만 왼쪽에 두고
