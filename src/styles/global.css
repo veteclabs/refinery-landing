@@ -63,12 +63,14 @@
     /* 소제목은 공간이 되는 한 `문장1 한 줄` + `문장2 를 자율 운전까지에서 끊기`로 둔다.
        문장1 필요폭은 16px 438px · 18px 492px 이고 소제목 폭은
        버튼이 옆이면 vw-214(16px)·vw-277(18px), 버튼이 아래면 vw-48 이다.
-       → 두 경우 모두 486px 에서 438px 이 되어 문장1 이 겨우 들어가므로, 글꼴 차이를
-       감안해 490px 부터 켠다(버튼 전환을 660px 로 맞춰 두 식이 갈리는 틈은 없앴다).
-       966px 부터는 문장2 도 한 줄이라 끊지 않는다.
-       489px 아래는 폭이 모자라 mobile-br 이 맡는다. */
-    @media (min-width: 490px) and (max-width: 965px) {
+       → 490px 부터 문장1 이 한 줄에 들어가므로 그 위로는 mobile-br 을 쓰지 않는다.
+       문장2(16px 610px · 18px 687px)는 버튼이 밑으로 내려간 980px 아래에서 폭
+       vw-48 을 쓰므로 658px 부터 한 줄에 들어간다 — 글꼴 차이를 감안해 670px 까지만
+       절 경계에서 끊고, 그 위는 끊지 않는다. 489px 아래는 폭이 모자라 mobile-br 이 맡는다. */
+    @media (min-width: 490px) {
       #hero p br.mobile-br { display: none; }
+    }
+    @media (min-width: 490px) and (max-width: 670px) {
       #hero p br.hero-mid-br { display: inline; }
     }
     .cd-title-desktop-only { display: inline; }
@@ -227,13 +229,14 @@
       .hero-demo-toggle-icon { transition: none; }
     }
     #hero .hero-actions { justify-content: flex-end; flex-shrink: 0; }
-    /* 데모 신청 버튼이 제목 옆에 있으면 그 폭(국문 126px · 영문 159px)과 gap 40px 만큼
-       제목이 쓸 폭이 줄어, accent 가 들어가지 못하고 제목이 3줄이 된다.
-       실측으로 3줄이 시작되는 폭은 영문 601px · 국문 536px — 버튼이 넓은 영문이 먼저다.
-       긴 쪽 기준 640px 이하에서 버튼을 제목 아래로 내려 제목이 폭을 다 쓰게 한다.
+    /* 데모 신청 버튼이 제목·소제목 옆에 있으면 그 폭(16px 126px · 18px 189px)과
+       gap 40px 만큼 본문이 쓸 폭이 줄어든다. 그 탓에 제목은 3줄로 갈라지고(영문
+       601px · 국문 536px 아래) 소제목은 마지막 어절만 흘러넘쳤다(964px 아래).
+       둘 중 먼저 걸리는 소제목을 기준으로, 소제목 2번째 문장(18px 687px)이 버튼
+       옆에서도 한 줄에 들어가는 980px 까지만 옆에 두고 그 아래는 밑으로 내린다.
        (flex-wrap 에 맡기려면 .hero-text 의 min-width 를 400px 까지 키워야 하는데,
         그 값은 320px 같은 좁은 폭에서 가로 넘침을 만든다.) */
-    @media (max-width: 660px) {
+    @media (max-width: 979px) {
       #hero .hero-row { flex-direction: column; align-items: flex-start; }
       /* align-items: flex-start 는 교차축이 가로가 되면서 .hero-text 까지 내용 폭으로
          줄인다(640px 에서 소제목이 592px 대신 480px 만 썼다). 버튼만 왼쪽에 두고
@@ -241,11 +244,11 @@
       #hero .hero-text { align-self: stretch; }
       #hero .hero-actions { justify-content: flex-start; }
       /* 버튼을 내리면 제목이 폭을 다 쓰게 되어 이번엔 `Refinery 산업 AI 운영체제`가
-         한 줄로 붙는다(48px 기준 국문 529px · 영문 561px). 1440px 의 1줄과 같은
-         모습이긴 하나 이 폭에서는 제목만 커 보이므로, accent 가 들어갈 만큼(영문
-         354px)은 넓고 한 줄로는 모자란 480px 로 묶어 2줄을 지킨다.
-         480px 미만에서는 컨테이너가 더 좁으니 이 값은 무효가 된다. */
-      #hero h1 { max-width: 480px; }
+         한 줄로 붙는다. 글자 크기 대비로 보면 한 줄은 국문 11.0em · 영문 11.7em,
+         accent 한 줄은 국문 6.7em · 영문 7.4em 이 필요하다. 그 사이인 10em 으로
+         묶어 2줄을 지킨다 — px 로 두면 폰트가 7vw 로 커지는 900px 대에서 비율이
+         틀어지므로 em 이어야 한다. 컨테이너가 더 좁은 폭에서는 자연히 무효가 된다. */
+      #hero h1 { max-width: 10em; }
     }
     #hero .hero-text p:last-child { margin-bottom: 0; }
     #hero h1 {
