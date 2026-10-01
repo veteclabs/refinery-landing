@@ -510,15 +510,17 @@
        1열이라 카드가 넓어 소제목이 두 줄로 들어가므로 세 줄 높이를 강제하지 않는다.
        min-height 4.5em — line-height 1.5 의 세 줄. 두 줄짜리 카드도 높이와 화살표
        자리가 세 줄에 맞춰져, 폭이 줄다 실제로 세 줄이 될 때 카드가 한 번 더 뛰지 않는다.
-       padding-right 36px — 글 폭을 좁혀 긴 소제목이 실제로 세 줄로 나뉘게 한다.
-       52px 이면 600px 에서 네 줄이 두 장 생기고 40px 이어도 한 장 남는다. 36px 이
-       전 구간 최대 세 줄을 지키면서 세 줄짜리가 가장 많은 값이다(600·640px 11장).
-       br 해제 — 소제목의 줄 나눔을 풀어 한 흐름으로 감기게 한다. 두 조각을 따로
-       감으면 각 조각이 한 줄씩 더 먹어 600px 에서 네 줄이 된다.
-       화살표 자리는 padding-right 로 비니 이 구간에서는 ::after 가 필요 없다.
-       짧은 글(국문은 최장 156px)은 그대로 두 줄이고 높이만 맞춰진다. */
+       max-width 163px — 글 폭을 고정해 카드마다 줄 수가 들쭉날쭉하지 않게 한다.
+       한 줄로 폈을 때 영문 소제목은 327~412px 이고, 2px 간격으로 140~200px 를 훑어
+       14장이 모두 세 줄이 되는 값은 160~166px 뿐이었다(150px 에서는 네 줄이 두 장,
+       170px 에서는 두 줄이 한 장). 그 가운데값을 쓴다. 폭이 고정이라 600~760px
+       어디서나 영문은 모두 세 줄이다. 국문은 207~295px 로 짧아 두 줄이고
+       높이만 맞춰진다(국문까지 세 줄로 맞추려면 99~103px 이라 너무 좁다).
+       br 해제 — 줄 나눔을 풀어 한 흐름으로 감기게 한다. 두 조각을 따로 감으면 각
+       조각이 한 줄씩 더 먹어 네 줄이 된다.
+       글이 150px 에서 멈추므로 화살표와 멀어져 이 구간에서는 ::after 가 필요 없다. */
     @media (min-width: 600px) and (max-width: 760px) {
-      #industries .industry-desc { min-height: 4.5em; padding-right: 36px; }
+      #industries .industry-desc { min-height: 4.5em; max-width: 163px; }
       #industries .industry-desc br { display: none; }
       #industries .industry-desc::after { display: none; }
     }
