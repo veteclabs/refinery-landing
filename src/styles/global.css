@@ -683,9 +683,6 @@
        구간에서 답변이 끊겼다. 자리가 되는 데까지 풀어 두되, 답변마다 길이가 달라
        경계도 따로 잡는다(각자 가장 긴 줄 + 여유 20px 이 들어가는 폭).
        3·6번은 mobile-br 이 없어 손댈 것이 없다. */
-    @media (min-width: 470px) {
-      #faq .faq-item:nth-child(5) .faq-a br.mobile-br { display: none; }
-    }
     /* 1·2·4번(.faq-long)은 문장이 길어 775px 아래에서 문장 경계로 끊으면 넘친다.
        그 구간에는 지정받은 자리에 끊는 br.faq-br 을 따로 두고 문장 경계 <br> 는 끈다.
        되돌리는 폭은 1번 520 · 2번 535 · 4번 775px 이고(각자 가장 긴 문장 442 · 456 · 698px),
@@ -707,6 +704,19 @@
       #faq .faq-item:nth-child(2) .faq-a br.faq-br { display: none; }
     }
     @media (min-width: 775px) {
+      #faq .faq-item:nth-child(4) .faq-a br { display: inline; }
+      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: none; }
+    }
+    /* 900px 을 넘기면 FAQ 가 제목·리스트 2열이 되며 답변 폭이 852 → 486px 로 오히려 줄어든다.
+       4번 둘째 문장(698px)이 다시 넘치므로 지정 단락으로 되돌리고, 폭이 충분해지는
+       1260px 에서 다시 문장 단락으로 간다(1260px 여유 27px · 1240px 14px).
+       경계는 2열 전환(max-width: 900px)의 바로 뒤여야 한다 — 901px 로 두면 900.6px 처럼
+       소수 폭에서 둘 사이로 빠져 좁은 폭에 문장 단락이 걸린다. */
+    @media (min-width: 900.02px) {
+      #faq .faq-item:nth-child(4) .faq-a br { display: none; }
+      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: inline; }
+    }
+    @media (min-width: 1260px) {
       #faq .faq-item:nth-child(4) .faq-a br { display: inline; }
       #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: none; }
     }
