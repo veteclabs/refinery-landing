@@ -811,6 +811,11 @@ img { max-width: 100%; height: auto; }
    가장 넓은 제목(기계·플랜트 432px)과 32px 사이를 두고도 머리 폭 1184px 안에
    들어간다. 섹션 전용 클래스(.ind-challenges)에만 건다. */
 .ind-page .ind-challenges .ind-head p { max-width: 560px; }
+/* 도입 효과 소제목도 한 줄로 둔다. 영문 'Benefits across operations, engineering
+   and management.'가 468px이라 400px 칸에서는 두 줄이 됐다. 490px으로 올린다 —
+   제목 'What you gain' 287px + gap 32px 과 합쳐도 머리 폭에 넉넉히 들어간다.
+   문구는 일곱 산업이 모두 같아 한 곳만 고치면 된다(국문은 원래 한 줄이다). */
+.ind-page .ind-benefits .ind-head p { max-width: 490px; }
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
