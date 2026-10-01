@@ -427,14 +427,19 @@
           안티에일리어싱이 사진과 섞여 선이 흐려지고 한 픽셀이 더 번진다
           (모서리에서 잰 값: border는 239 → 36으로 한 칸, 덧층은 155 → 54 → 36).
           border로 그리면 곡선에서도 흰 배경과 섞여 선이 또렷하게 남는다. */
+    /* 세로 flex — 그리드가 한 행의 카드 높이를 맞춰 주지만 블록이면 본문이 내용 높이에
+       머물러, 소제목이 두 줄인 카드와 세 줄인 카드의 화살표가 서로 다른 높이에 놓인다
+       (600px 영문에서 21px 어긋났다). 본문이 남는 높이를 먹게 해 화살표 기준을
+       카드 바닥으로 통일한다. */
     .industry-card {
-      display: block; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
       background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
     }
     /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
     /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
     .industry-img {
-      display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+      /* flex item 이라 flex: none 이 없으면 본문이 늘어날 때 사진이 눌린다. */
+      display: block; flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9;
       object-fit: cover; background: #10141B;
       transition: transform .3s ease;
     }
@@ -459,7 +464,9 @@
     }
     a.industry-card:hover .industry-img { transform: scale(1.05); }
     /* keep-all — 없으면 한국어가 어절 중간에서 잘린다. */
-    .industry-body { display: block; position: relative; z-index: 3; background: #ffffff; padding: 22px 24px 24px; word-break: keep-all; }
+    /* 아래 padding 62px = 화살표 자리(bottom 24 + 지름 28)에 10px 틈. 화살표를 글
+       마지막 줄 옆이 아니라 아래에 두기 위한 것이다 — 아래 ::after 주석 참고. */
+    .industry-body { display: block; flex: 1; position: relative; z-index: 3; background: #ffffff; padding: 22px 24px 62px; word-break: keep-all; }
     /* 카드 안에서는 span으로 감싸므로(a 안에 div를 넣지 않는다) display를 명시한다.
        빠지면 이름과 설명이 한 줄에 붙는다. */
     .industry-name { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
@@ -470,7 +477,7 @@
        글 아래에 두면 카드가 장당 50px 커지므로 본문 오른쪽 아래에 절대 배치한다
        (.industry-body가 position: relative라 그 상자 기준으로 잡힌다).
        28px — WCAG 2.2 최소 타깃(24px) 아래로 가면 테두리와 화살촉 사이가 뭉갠다.
-       소제목 둘째 줄은 모두 짧아 이 자리와 겹치지 않는다(가장 긴 줄도 165px, 화살표는 307px부터). */
+       자리는 본문의 아래 padding 으로 비워 두므로 어느 폭에서도 글과 겹치지 않는다. */
     .industry-go {
       position: absolute; right: 24px; bottom: 24px;
       display: inline-flex; align-items: center; justify-content: center;
@@ -485,13 +492,17 @@
       color: #A4ADB8;
       transition: transform .2s ease, color .2s ease;
     }
-    /* 마지막 줄 끝에 화살표 자리를 비운다. inline-block이라 마지막 줄에만 붙어
-       앞줄들의 폭은 그대로다 — 소제목에 padding-right를 주면 국문 첫 줄
-       ('전기 · 가스 · 스팀 · 용수 통합,' 316px)이 좁아져 세 줄이 된다. */
-    .industry-desc::after { content: ''; display: inline-block; width: 52px; height: 1px; }
+    /* 예전에는 ::after 로 마지막 줄 끝에 52px 자리를 비웠는데, 그 자리가 줄에 안 들어가면
+       ::after 가 혼자 다음 줄로 밀리고 바로 앞 줄은 글자로 꽉 차 화살표를 침범했다
+       (552~1232px 를 6px 간격으로 훑어 60개 폭에서 최대 28px 겹침).
+       소제목에 padding-right 를 주는 쪽은 모든 줄이 좁아져 줄 수가 6 → 8 로 늘었다.
+       화살표를 글 아래 자리로 내리는 편이 겹침 0 · 줄 수 그대로이고 카드만 25px 높아진다. */
     .industry-go svg { display: block; }
     a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
-    @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
+    @media (max-width: 900px) {
+      .industry-go { right: 20px; bottom: 20px; }
+      .industry-body { padding-bottom: 58px; }  /* 20 + 28 + 10 */
+    }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     /* FOR TEAMS */
     #teams { background: var(--bg-card); border-top: 1px solid var(--border); }
