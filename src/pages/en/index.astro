@@ -214,6 +214,13 @@ const jsonLd = {
     @media (min-width: 1220px) { .faq-sm2 { display: none; } .faq-br2 { display: inline; } }
     @media (min-width: 1024px) { .faq-sm1 { display: none; } }
     @media (min-width: 1150px) { .faq-sm4 { display: none; } .faq-wide-br { display: inline; } }
+    /* 423px 아래로는 어느 벌도 들어가지 않는다(2번 451 · 4번 460px 이 하한이다).
+       더 잘게 쪼개는 대신 <br> 를 모두 끄고 브라우저에 맡긴다 — 영어는 낱말 단위로
+       감기므로 넘침이 생기지 않고, 줄 수도 그 폭에서 가장 적다.
+       max-width 를 쓰지만 짝이 되는 min-width 규칙이 없어 소수 폭 틈이 생기지 않는다. */
+    @media (max-width: 422.98px) {
+      #faq .faq-a br { display: none; }
+    }
 
     /* 2·5번도 같은 방식으로 절 경계에서 쪼갠다. 자리가 되는 폭에서는 문장 단락이
        한 줄씩 들어가므로 끄고, 문장이 넘치는 폭에서만 켠다.
