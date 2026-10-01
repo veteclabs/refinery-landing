@@ -642,6 +642,14 @@
        999.3px 에서 실제로 그랬다. */
     #security .sec-card-body p br.sec-br,
     #security .sec-card-body p br.sec-br-wide { display: none; }
+    /* 1열의 좁은 쪽 전용. 1열에서도 아래쪽 폭에서는 2번 카드의 둘째 문장이 감겨
+       "차단합니 / 다." 로 끊겼다. 기본값이 inline 이라 가장 좁은 폭에서 켜지고 아래
+       580px 에서 꺼진다 — 국문만 보면 515px 이면 되지만(500px 여유 6px) 영문은
+       같은 문장이 길어 560px 에서 이미 여유가 3px 이다. */
+    #security .sec-card-body p br.sec-br-narrow { display: inline; }
+    @media (min-width: 580px) {
+      #security .sec-card-body p br.sec-br-narrow { display: none; }
+    }
     @media (min-width: 780px) {
       #security .sec-card-body p br.sec-br { display: inline; }
     }
