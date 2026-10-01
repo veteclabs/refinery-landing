@@ -229,6 +229,14 @@
       word-break: keep-all;
       overflow-wrap: break-word;
     }
+    /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
+       넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
+       48px 기준 accent 필요폭은 'Industrial AI OS' 354px · '산업 AI 운영체제' 322px —
+       영문이 더 넓으므로 긴 쪽을 기준으로 폭에 비례해 줄여 두 언어 모두 2줄을 지킨다.
+       420px 에서 min 이 48px 로 수렴하므로 경계에서 글자 크기가 튀지 않는다. */
+    @media (max-width: 420px) {
+      #hero h1 { font-size: min(48px, calc(13.2vw - 7px)); }
+    }
     #hero h1 .hero-title-accent {
       display: inline-block;
       background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
@@ -237,8 +245,23 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
     }
-    #hero p { font-size: 18px; font-weight: 400; color: var(--text-muted); max-width: 960px; margin: 0 0 40px; line-height: 1.7; }
+    #hero p {
+      font-size: 18px; font-weight: 400; color: var(--text-muted);
+      max-width: 960px; margin: 0 0 40px; line-height: 1.7;
+      /* 제목과 같은 이유로 keep-all. 없으면 '품질, 에 / 너지,' · '지원합 / 니다.' 처럼
+         어절 중간에서 잘린다. CJK 에만 듣는 값이라 영문 소제목은 그대로다. */
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
     @media (max-width: 900px) { #hero p { font-size: 16px; } }
+    /* mobile-br 은 900px 이하에서 켜져 두 문장을 각각 2행으로 나눈다. 그런데 폭이
+       더 좁아지면 그 1행 자체가 이미 감겨서 '… 하나의 / 산업 / 지식으로' 처럼
+       낱말 하나가 홀로 남는다. 16px 기준 1행 301px · 3행 306px 이고 소제목 폭은
+       vw-48 이므로 354px 부터 넘치기 시작한다 — 기기 글꼴 차이를 감안해 375px 이하에서
+       끊지 않고 흐르게 둔다(keep-all 이 어절은 지켜 준다). */
+    @media (max-width: 375px) {
+      #hero p br.mobile-br { display: none; }
+    }
     .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     @keyframes scrollBounce {
       0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
