@@ -686,19 +686,19 @@
     @media (min-width: 470px) {
       #faq .faq-item:nth-child(5) .faq-a br.mobile-br { display: none; }
     }
-    /* 1·2·4번은 문장이 길다. 좁은 폭용 mobile-br 로 끊어 봐야 한 줄만 짧아지고
-       나머지가 그대로 넘치므로 아예 쓰지 않는다. */
-    #faq .faq-item:nth-child(1) .faq-a br.mobile-br,
-    #faq .faq-item:nth-child(2) .faq-a br.mobile-br,
-    #faq .faq-item:nth-child(4) .faq-a br.mobile-br { display: none; }
-    /* 그 세 답변은 775px 아래에서 문장 구분 <br> 도 푼다. 775px 은 4번의 첫 문장이
-       한 줄에 들어가는 하한이고(698px + 여유 20px), 그 아래로는 어차피 문장이
-       넘치므로 끊어 두기보다 단락으로 흘려보내는 쪽이 낫다. 숨겨지는 <br> 앞에는
-       마크업에 공백을 넣어 뒀다 — 없으면 그 자리에서 낱말이 붙는다. */
-    @media (max-width: 774.98px) {
-      #faq .faq-item:nth-child(1) .faq-a br,
-      #faq .faq-item:nth-child(2) .faq-a br,
-      #faq .faq-item:nth-child(4) .faq-a br { display: none; }
+    /* 1·2·4번(.faq-long)은 문장이 길어 775px 아래에서 문장 경계로 끊으면 넘친다.
+       그 구간에는 지정받은 자리에 끊는 br.faq-br 을 따로 두고 문장 경계 <br> 는 끈다.
+       775px 은 4번 첫 문장이 한 줄에 들어가는 하한이고(698px + 여유 20px),
+       지정 단락 쪽은 487px 까지 버틴다(1번 445 · 2번 448 · 4번 487).
+       br.faq-keep 은 두 구간이 같은 자리를 쓰는 줄바꿈이라 양쪽에서 켠다.
+       두 규칙의 구체성이 같아야 순서로 이긴다 — 그래서 nth-child 가 아니라 클래스다.
+       숨겨지는 <br> 앞에는 마크업에 공백을 넣어 뒀다(없으면 낱말이 붙는다). */
+    #faq .faq-a.faq-long br { display: none; }
+    #faq .faq-a br.faq-br,
+    #faq .faq-a br.faq-keep { display: inline; }
+    @media (min-width: 775px) {
+      #faq .faq-a.faq-long br { display: inline; }
+      #faq .faq-a br.faq-br { display: none; }
     }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
