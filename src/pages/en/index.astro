@@ -1394,12 +1394,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes and\nanswer conversationally. The data sources\nbehind the answer are given too.', 'Industrial AI OS'],
-  plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.', 'Tile'],
-  pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline'],
-  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other\nfield concepts as objects and relations. This\nstructure powers Plate and Industrial AI OS.', 'Ontology'],
-  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar']
+  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes and\nanswer conversationally. The data sources\nbehind the answer are given too.', 'Industrial AI OS', 'The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'The AI reasons over asset, task and history data in the ontology\nto infer causes and answer conversationally.\nThe data sources behind the answer are given too.'],
+  plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status and anomaly signals on a single screen.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.', 'Tile', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more\npick the widget that fits your data.', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.'],
+  pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline', 'Branch like Git to test schemas,\ncompare snapshots between two points, and visualize changes as an ERD.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.'],
+  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other\nfield concepts as objects and relations. This\nstructure powers Plate and Industrial AI OS.', 'Ontology', 'Define assets, tasks, documents and other field concepts as objects and relations.\nThis structure powers Plate and Industrial AI OS.', 'Define assets, tasks, documents and other field concepts\nas objects and relations.\nThis structure powers Plate and Industrial AI OS.'],
+  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar', 'Manage processing schedules, inspection cycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.']
 };
 
 var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 - 우측 크롭 적용 안 함
@@ -1411,6 +1411,63 @@ window.needsRightCrop = NO_SCROLL_KEYS.indexOf('llm') === -1;
 window.dashPanContent = DASH_PAN_MAP['llm'] || 0;
 window.dashKey = 'llm';
 if (window.resizeDash) window.resizeDash();
+
+/* 미리보기 본문은 폭에 따라 다르게 끊는다.
+   1281px 이상(오버레이): 좁은 왼쪽 칸에 맞춘 teamsTextMap 의 \n 을 그대로 쓴다.
+   1280px 이하(세로 분리): 글이 폭을 통째로 쓰므로 그 \n 은 문장 중간을 끊는 꼴이 된다.
+   공백으로 풀고 문장 끝에서만 나눈다 — 마침표 뒤에 이어지는 글자가 있을 때만 끊어
+   마지막 문장 뒤에 빈 줄이 생기지 않게 한다. */
+function renderPreviewBody(el) {
+  var raw = el.dataset.raw;
+  if (raw == null) return;
+  if (window.innerWidth > 1280) { el.textContent = raw; return; }
+  // 세로 분리 폭: teamsTextMap 의 4번째 값이 있으면 그 줄 나눔을 쓰고,
+  // 없으면 문장 끝에서 자동으로 나눈다(한 문장뿐인 탭은 나눌 자리가 없어 4번째를 둔다).
+  var wide = el.dataset.wide;
+  var src = wide ? wide
+    : raw.replace(/\s*\n\s*/g, ' ').trim().replace(/([.!?])\s+(?=\S)/g, '$1\n');
+  paintPreviewBody(el, src);
+  // 그 줄마저 감기는 폭에서는 더 잘게 나눈 5번째 값으로 바꾼다.
+  var narrow = el.dataset.narrow;
+  if (!narrow) return;
+  var lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
+  if (lh && Math.round(el.scrollHeight / lh) > src.split('\n').length) {
+    paintPreviewBody(el, narrow);
+  }
+}
+function paintPreviewBody(el, src) {
+  el.textContent = '';
+  src.split('\n').forEach(function (line, i) {
+    if (i) el.appendChild(document.createElement('br'));
+    el.appendChild(document.createTextNode(line));
+  });
+}
+function initPreviewBody() {
+  var el = document.getElementById('teamsPreviewBody');
+  if (!el) return;
+  if (el.dataset.raw == null) {
+    // 초기 렌더는 마크업의 <br> 로 줄이 잡혀 있다 — 그것을 \n 으로 되돌려 원본으로 삼는다
+    el.dataset.raw = el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+    // 첫 화면의 탭은 switchDash 를 거치지 않아 wide 가 비어 있었다. 그래서 세로 분리
+    // 폭에서 기본 탭만 지정한 줄 나눔 대신 문장 끝 자동 분할로 그려졌다.
+    // 활성 버튼의 onclick 에 적힌 키로 teamsTextMap 의 4번째 값을 찾아 채운다.
+    var btn = document.querySelector('#teams .teams-tab-btn.active');
+    var m = btn && (btn.getAttribute('onclick') || '').match(/,\s*'([^']+)'\s*\)/);
+    var t = m && typeof teamsTextMap !== 'undefined' && teamsTextMap[m[1]];
+    if (t && t[3]) { el.dataset.wide = t[3]; }
+    if (t && t[4]) { el.dataset.narrow = t[4]; }
+  }
+  renderPreviewBody(el);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPreviewBody);
+} else {
+  initPreviewBody();
+}
+window.addEventListener('resize', function () {
+  var el = document.getElementById('teamsPreviewBody');
+  if (el) renderPreviewBody(el);
+});
 
 function switchDash(btn, src, key) {
   if (typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
@@ -1430,7 +1487,12 @@ function switchDash(btn, src, key) {
     var bodyEl = document.getElementById('teamsPreviewBody');
     if (taglineEl) taglineEl.textContent = t[2];
     if (titleEl) titleEl.textContent = t[0];
-    if (bodyEl) bodyEl.textContent = t[1];
+    if (bodyEl) {
+    bodyEl.dataset.raw = t[1];
+    if (t[3]) { bodyEl.dataset.wide = t[3]; } else { delete bodyEl.dataset.wide; }
+    if (t[4]) { bodyEl.dataset.narrow = t[4]; } else { delete bodyEl.dataset.narrow; }
+    renderPreviewBody(bodyEl);
+  }
   }
 }
 </script>
