@@ -785,6 +785,49 @@ const jsonLd = [
     font-size: 20px; font-weight: 600; line-height: 1.6; margin: 0 0 5px;
   }
   .uc-redesigned .ind-card p { font-size: 15px; line-height: 1.5; margin: 0; }
+  /* 카드 제목·설명의 줄을 고르게 나눈다. 영문 제목이 두 줄이 될 때 마지막 줄에 낱말
+     하나만 떨어지는 자리가 많았다 — 예지보전만 1440px에서 제목 4곳 · 설명 2곳이다
+     ('Wireless vibration sensor / mounting', 'Assessment against ISO / 20816' 등).
+     balance는 줄 수를 늘리지 않고 폭만 고르게 맞추므로 카드 높이가 그대로고,
+     pretty는 마지막 줄만 손봐 앞 줄을 건드리지 않는다. 산업 페이지 카드와 같은 처방이다.
+     일곱 유즈케이스 · 두 언어를 1440 · 1280 · 1100 · 960 · 768px 에서 재어
+     낱말 혼자 남는 자리가 78곳 -> 33곳으로 줄었고 넘침은 양쪽 모두 0이다.
+     .uc-redesigned 가 아니라 .uc-page 에 거는 것은 재단장하지 않은 유즈케이스가
+     생겨도 같이 적용되게 하기 위해서다(지금은 일곱 개가 모두 redesigned 다).
+     지원하지 않는 브라우저는 지금 모습 그대로다. */
+  .uc-page .ind-card h3 { text-wrap: balance; }
+  /* 해결 방법 카드의 제목 칸을 두 줄 높이로 잡고 글자를 아래에 붙인다. 영문은 제목
+     길이가 카드마다 달라 한 페이지 안에서 한 줄과 두 줄이 섞이고, 두 줄인 카드만
+     본문이 32px 내려앉아 가로로 늘어선 카드끼리 시작선이 어긋났다
+     (전력관리 [1,1,1,2] · 전력품질 [1,2,1,1] · 공장에너지 [1,1,2,2]).
+     아래 끝을 고정하는 쪽이라 한 줄 제목은 지금 자리를 그대로 지키고, 두 줄 제목만
+     아이콘 쪽 여백(65px)을 한 줄만큼 먹으며 위로 자란다.
+       한 줄  칸 위 -32 + 글자 아래 32  -> 아이콘에서 65px (그대로)
+       두 줄  칸 위 -32 + 글자 가득 64  -> 아이콘에서 33px
+     줄 높이 32px(20px * 1.6)에 맞춘 값이다. 산업 페이지 도입 효과 카드와 같은 규칙이다.
+     제목이 모두 평문이라 flex 로 둬도 줄 나눔이 깨지지 않는다. */
+  .uc-page .ind-grid-3 .ind-card h3 {
+    min-height: 64px; margin-top: -32px;
+    display: flex; align-items: flex-end;
+  }
+  /* 네 제목이 모두 두 줄인 페이지에는 걸지 않는다. 위 보정은 '한 줄 제목 옆에 선
+     두 줄 제목'을 끌어올려 본문 시작선을 맞추는 것인데, 모두 두 줄이면 시작선이
+     이미 맞아 있고 보정만 먹어 페이지가 통째로 32px 위로 당겨진다 — 아이콘과 제목
+     사이가 69px -> 37px 이 되어 그 페이지만 다른 페이지보다 좁아 보인다.
+     1440px 에서 그런 페이지는 영문 예지보전 하나뿐이다(국문은 네 제목이 모두 한 줄).
+     줄 수가 섞인 전력관리 [1,1,1,2] · 전력품질 [1,2,1,1] · 공장에너지 [1,1,2,2] 는
+     위 규칙을 그대로 쓴다. */
+  .uc-predictive-maintenance.uc-en .ind-grid-3 .ind-card h3 {
+    min-height: 0; margin-top: 0; display: block;
+  }
+  .uc-page .ind-card p { text-wrap: pretty; }
+  /* '다른 과제' 카드 설명도 같은 방식으로 둔다. 영문은 데이터에 <br>로 두 줄을
+     잡아 뒀는데 1행이 칸(333px)보다 길어 세 카드가 실제로는 세 줄로 감겼다
+     (전력품질 · 공장에너지관리 · 품질예측, 일곱 페이지 전부). 끊는 자리를 다시
+     지정해도 줄 끝에 into · and 같은 기능어가 남아, <br>를 걷고 balance 에 맡긴다.
+     폭이 바뀌어도 적응하고, <br>가 없으니 번역기가 문장을 쪼개지도 않는다.
+     국문은 <br>를 그대로 둔다 — 칸 187~226px 에 여섯 개가 모두 두 줄로 들어간다. */
+  .uc-case-desc { text-wrap: balance; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
