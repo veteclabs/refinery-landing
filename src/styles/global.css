@@ -689,6 +689,8 @@
        지정 단락 쪽은 1번 445 · 2번 448 · 4번 487px 까지 버틴다.
        br.faq-keep 은 두 구간이 같은 자리를 쓰는 줄바꿈이라 양쪽에서 켠다.
        두 규칙의 구체성이 같아야 순서로 이긴다 — 그래서 nth-child 가 아니라 클래스다.
+       nth-child 쪽에도 .faq-long 을 붙인다. 이 파일은 국문·영문 공용이라 그것이 없으면
+       영문 FAQ 의 같은 자리 답변까지 끌려간다(4번 <br> 이 통째로 꺼져 네 줄로 감겼다).
        숨겨지는 <br> 앞에는 마크업에 공백을 넣어 뒀다(없으면 낱말이 붙는다). */
     #faq .faq-a.faq-long br { display: none; }
     #faq .faq-a.faq-long br.faq-br,
@@ -696,16 +698,16 @@
     /* 되돌리는 폭은 답변마다 다르다 — 가장 긴 문장이 한 줄에 들어가는 폭이다.
        하나로 묶으면(4번 기준 775px) 1·2번이 자리가 남는데도 지정 단락으로 보인다. */
     @media (min-width: 520px) {
-      #faq .faq-item:nth-child(1) .faq-a br { display: inline; }
-      #faq .faq-item:nth-child(1) .faq-a br.faq-br { display: none; }
+      #faq .faq-item:nth-child(1) .faq-a.faq-long br { display: inline; }
+      #faq .faq-item:nth-child(1) .faq-a.faq-long br.faq-br { display: none; }
     }
     @media (min-width: 535px) {
-      #faq .faq-item:nth-child(2) .faq-a br { display: inline; }
-      #faq .faq-item:nth-child(2) .faq-a br.faq-br { display: none; }
+      #faq .faq-item:nth-child(2) .faq-a.faq-long br { display: inline; }
+      #faq .faq-item:nth-child(2) .faq-a.faq-long br.faq-br { display: none; }
     }
     @media (min-width: 775px) {
-      #faq .faq-item:nth-child(4) .faq-a br { display: inline; }
-      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: none; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br { display: inline; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br.faq-br { display: none; }
     }
     /* 900px 을 넘기면 FAQ 가 제목·리스트 2열이 되며 답변 폭이 852 → 486px 로 오히려 줄어든다.
        4번 둘째 문장(698px)이 다시 넘치므로 지정 단락으로 되돌리고, 폭이 충분해지는
@@ -713,12 +715,12 @@
        경계는 2열 전환(max-width: 900px)의 바로 뒤여야 한다 — 901px 로 두면 900.6px 처럼
        소수 폭에서 둘 사이로 빠져 좁은 폭에 문장 단락이 걸린다. */
     @media (min-width: 900.02px) {
-      #faq .faq-item:nth-child(4) .faq-a br { display: none; }
-      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: inline; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br { display: none; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br.faq-br { display: inline; }
     }
     @media (min-width: 1260px) {
-      #faq .faq-item:nth-child(4) .faq-a br { display: inline; }
-      #faq .faq-item:nth-child(4) .faq-a br.faq-br { display: none; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br { display: inline; }
+      #faq .faq-item:nth-child(4) .faq-a.faq-long br.faq-br { display: none; }
     }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
