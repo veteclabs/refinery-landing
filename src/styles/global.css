@@ -514,15 +514,17 @@
        한 줄로 폈을 때 영문 소제목은 327~412px 이고, 2px 간격으로 140~200px 를 훑어
        14장이 모두 세 줄이 되는 값은 160~166px 뿐이었다(150px 에서는 네 줄이 두 장,
        170px 에서는 두 줄이 한 장). 그 가운데값을 쓴다. 폭이 고정이라 600~760px
-       어디서나 영문은 모두 세 줄이다. 국문은 207~295px 로 짧아 두 줄이고
-       높이만 맞춰진다(국문까지 세 줄로 맞추려면 99~103px 이라 너무 좁다).
+       어디서나 영문은 모두 세 줄이다.
+       국문은 제외한다 — 한 줄로 폈을 때 207~295px 라 이 폭에서 세 줄이 될 일이 없고,
+       억지로 맞추려면 글 폭이 99~103px 이라 카드의 3분의 1밖에 못 쓴다. 그래서
+       국문은 이 구간도 761px 위와 같은 두 줄 포맷 그대로 둔다.
        br 해제 — 줄 나눔을 풀어 한 흐름으로 감기게 한다. 두 조각을 따로 감으면 각
        조각이 한 줄씩 더 먹어 네 줄이 된다.
        글이 150px 에서 멈추므로 화살표와 멀어져 이 구간에서는 ::after 가 필요 없다. */
     @media (min-width: 600px) and (max-width: 760px) {
-      #industries .industry-desc { min-height: 4.5em; max-width: 163px; }
-      #industries .industry-desc br { display: none; }
-      #industries .industry-desc::after { display: none; }
+      html[lang="en"] #industries .industry-desc { min-height: 4.5em; max-width: 163px; }
+      html[lang="en"] #industries .industry-desc br { display: none; }
+      html[lang="en"] #industries .industry-desc::after { display: none; }
     }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     /* FOR TEAMS */
