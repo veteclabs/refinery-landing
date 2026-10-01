@@ -797,6 +797,13 @@ const jsonLd = [
      지원하지 않는 브라우저는 지금 모습 그대로다. */
   .uc-page .ind-card h3 { text-wrap: balance; }
   .uc-page .ind-card p { text-wrap: pretty; }
+  /* '다른 과제' 카드 설명도 같은 방식으로 둔다. 영문은 데이터에 <br>로 두 줄을
+     잡아 뒀는데 1행이 칸(333px)보다 길어 세 카드가 실제로는 세 줄로 감겼다
+     (전력품질 · 공장에너지관리 · 품질예측, 일곱 페이지 전부). 끊는 자리를 다시
+     지정해도 줄 끝에 into · and 같은 기능어가 남아, <br>를 걷고 balance 에 맡긴다.
+     폭이 바뀌어도 적응하고, <br>가 없으니 번역기가 문장을 쪼개지도 않는다.
+     국문은 <br>를 그대로 둔다 — 칸 187~226px 에 여섯 개가 모두 두 줄로 들어간다. */
+  .uc-case-desc { text-wrap: balance; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
