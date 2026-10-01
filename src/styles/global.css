@@ -55,6 +55,14 @@
     }
 
     .mobile-br { display: none; }
+    /* 히어로 소제목 2번째 문장(18px 기준 687px)은 964px 부터 한 줄에 들어간다.
+       그 아래 901px 까지는 감기면서 `지원합니다.` 한 어절만 다음 줄에 떨어지므로,
+       절 경계인 `자율 운전까지` 뒤에서 끊어 두 줄을 고르게 나눈다.
+       900px 이하는 mobile-br 이 맡는 구간이라 건드리지 않는다. */
+    .hero-mid-br { display: none; }
+    @media (min-width: 901px) and (max-width: 965px) {
+      #hero p br.hero-mid-br { display: inline; }
+    }
     .cd-title-desktop-only { display: inline; }
     @media (max-width: 900px) {
       .mobile-br { display: inline; }
