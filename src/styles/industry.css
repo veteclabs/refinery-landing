@@ -816,6 +816,21 @@ img { max-width: 100%; height: auto; }
    제목 'What you gain' 287px + gap 32px 과 합쳐도 머리 폭에 넉넉히 들어간다.
    문구는 일곱 산업이 모두 같아 한 곳만 고치면 된다(국문은 원래 한 줄이다). */
 .ind-page .ind-benefits .ind-head p { max-width: 490px; }
+
+/* 도입 효과 카드의 제목 칸을 두 줄 높이로 잡고 글자를 아래에 붙인다. 제목이 두 줄인
+   카드만 본문이 내려앉아 가로로 늘어선 카드끼리 시작선이 어긋났다.
+   아래 끝을 고정하는 쪽이라 한 줄 제목은 지금 자리를 그대로 지키고, 두 줄 제목만
+   아이콘 쪽 여백(65px)을 한 줄만큼 먹으며 위로 자란다.
+     한 줄  칸 위 -32 + 글자 아래 32  → 아이콘에서 65px (그대로)
+     두 줄  칸 위 -32 + 글자 가득 64  → 아이콘에서 33px
+     아래 끝은 둘 다 같아 본문 시작선이 맞는다.
+   줄 높이 32px(20px * 1.6)에 맞춘 값이다. 일곱 산업 · 두 언어를 320~1600px
+   17개 폭에서 재어 제목은 최대 두 줄이고, 제목에 인라인 태그가 없어 flex 로 둬도
+   줄 나눔이 깨지지 않는다. */
+.ind-page .ind-benefits .ind-card h3 {
+  min-height: 64px; margin-top: -32px;
+  display: flex; align-items: flex-end;
+}
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
