@@ -586,7 +586,10 @@
     .security-grid .sec-card:nth-child(2) { grid-column: 5 / 11; }
     .security-grid .sec-card:nth-child(3) { grid-column: 1 / 7; }
     .security-grid .sec-card:nth-child(4) { grid-column: 7 / 11; }
-    @media (max-width: 900px) {
+    /* 1열로 내리는 경계는 680px 이다. 2x2 를 유지할수록 좁은 쪽 카드(1·4번)의 본문이
+       늘어나는데, 5줄이 되기 직전까지가 한계다 — 국문은 650px, 영문은 680px 에서
+       한 줄 더 늘어난다. 배치는 두 언어가 같아야 하므로 보수적인 쪽을 쓴다. */
+    @media (max-width: 679px) {
       /* 1열에서는 카드 높이를 서로 맞춘다. flex column 은 교차축이 가로라 높이를
          맞출 방법이 없어 grid + grid-auto-rows: 1fr 로 둔다. */
       .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 16px; margin: 28px 0 0; padding: 0; }
@@ -653,8 +656,6 @@
     @media (max-width: 900px) {
       .nav-inner { padding: 0 24px; }
       .container { padding: 0 24px; }
-      .security-grid .sec-card:nth-child(1), .security-grid .sec-card:nth-child(2), .security-grid .sec-card:nth-child(3), .security-grid .sec-card:nth-child(4) { grid-column: 1 / -1; }
-      .security-grid{ grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
