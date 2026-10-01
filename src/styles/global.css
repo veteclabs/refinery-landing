@@ -626,6 +626,13 @@
     .ot-it-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 400; color: #76A6D7; }
     .ot-it-badge i { font-size: 13px; }
     .sec-card-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    /* 2x2 가 좁아지는 680~1159px 구간의 줄 나눔. 이 폭에서는 자연 감김이 낱말
+       한가운데서 끊겨("안/전하게", "지원합/니다") 읽기 나빴다. 1160px 위는 두 줄로
+       떨어지고 679px 아래는 1열이라 카드가 넓으므로, 둘 다 이 <br> 를 쓰지 않는다. */
+    #security .sec-card-body p br.sec-br { display: none; }
+    @media (min-width: 680px) and (max-width: 1159px) {
+      #security .sec-card-body p br.sec-br { display: inline; }
+    }
     .sec-card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
     /* FAQ */
     .faq-list { max-width: 700px; margin: 48px auto 0; }
