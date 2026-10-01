@@ -291,8 +291,10 @@ const jsonLd = {
       }
     }
 @media (max-width: 1280px) {
+      /* 줄 나눔은 renderPreviewBody 가 폭에 맞춰 <br> 로 다시 넣는다. 예전에는 여기서
+         <br> 를 숨겨 데스크탑 줄 나눔을 풀었는데, 그러면 숨은 자리의 공백까지 사라져
+         `conversationally.The` 처럼 붙었다(국문에는 없던 규칙). */
       #teams .teams-preview-text p { white-space: normal; }
-      #teams .teams-preview-text p br { display: none; }
     }
 
     /* 줄바꿈을 걷고 나니 이번엔 한 줄이 너무 길어졌다 — 1280px에서 본문이 1103px
@@ -300,8 +302,11 @@ const jsonLd = {
        15px 글자에서 70자 안팎이라 읽기 좋은 길이이고, 본문은 어느 폭에서나 2줄 위로 선다.
        (901~1280px 블록의 max-width:none 보다 #teams 를 붙인 이쪽이 이긴다) */
     @media (max-width: 1280px) {
-      #teams .teams-preview-title-wrap h3,
-      #teams .teams-preview-text p { max-width: 640px; }
+      #teams .teams-preview-title-wrap h3 { max-width: 640px; }
+      /* 본문만 740px — 두 줄 형태의 가장 긴 행이 Industrial AI OS 의 725px 이다.
+         640px 이면 그 한 탭만 바로 감겨 세 줄로 떨어졌다. 나머지 다섯 탭은
+         498~561px 이라 이 값을 올려도 줄 나눔이 <br> 로 고정돼 있어 달라지지 않는다. */
+      #teams .teams-preview-text p { max-width: 740px; }
     }
 
     @media (min-width: 901px) and (max-width: 1280px) {
