@@ -22,7 +22,7 @@ export const steelEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on steel sites',
+    title: 'Challenges on\nsteel sites',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
       {

@@ -24,7 +24,7 @@ export const chemicalsEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on chemical sites',
+    title: 'Challenges on\nchemical sites',
     subtitle: 'Recurring problems where continuous reaction and heat-based equipment run.',
     items: [
       {

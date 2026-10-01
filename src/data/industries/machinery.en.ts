@@ -23,7 +23,7 @@ export const machineryEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on plant sites',
+    title: 'Challenges on\nplant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [
       {

@@ -22,7 +22,7 @@ export const energyEn: IndustryData = {
   },
   challenges: {
     dark: true,
-    title: 'Challenges on energy sites',
+    title: 'Challenges on\nenergy sites',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
     items: [
       {
