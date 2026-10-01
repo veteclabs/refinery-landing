@@ -1373,27 +1373,20 @@ if (window.resizeDash) window.resizeDash();
    1280px 이하(세로 분리): 글이 폭을 통째로 쓰므로 그 \n 은 문장 중간을 끊는 꼴이 된다.
    공백으로 풀고 문장 끝에서만 나눈다 — 마침표 뒤에 이어지는 글자가 있을 때만 끊어
    마지막 문장 뒤에 빈 줄이 생기지 않게 한다. */
-function paintPreviewBody(el, src) {
+function renderPreviewBody(el) {
+  var raw = el.dataset.raw;
+  if (raw == null) return;
+  if (window.innerWidth > 1280) { el.textContent = raw; return; }
+  // 세로 분리 폭: teamsTextMap 의 4번째 값이 있으면 그 줄 나눔을 쓰고,
+  // 없으면 문장 끝에서 자동으로 나눈다(한 문장뿐인 탭은 나눌 자리가 없어 4번째를 둔다).
+  var wide = el.dataset.wide;
+  var src = wide ? wide
+    : raw.replace(/\s*\n\s*/g, ' ').trim().replace(/([.!?])\s+(?=\S)/g, '$1\n');
   el.textContent = '';
   src.split('\n').forEach(function (line, i) {
     if (i) el.appendChild(document.createElement('br'));
     el.appendChild(document.createTextNode(line));
   });
-}
-function renderPreviewBody(el) {
-  var raw = el.dataset.raw;
-  if (raw == null) return;
-  // 기본은 데스크탑 줄 나눔(raw)이다. 폭이 좁아 그 줄이 감기기 시작하면 — 즉 그린
-  // 줄 수가 raw 가 지정한 줄 수보다 많아지면 — 세로 분리용 줄 나눔으로 바꾼다.
-  // 탭마다 글 길이가 달라 바뀌는 폭도 다르므로, 한 경계를 두지 않고 그려 보고 잰다.
-  paintPreviewBody(el, raw);
-  var lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
-  if (!lh || Math.round(el.scrollHeight / lh) <= raw.split('\n').length) return;
-  // teamsTextMap 의 4번째 값이 있으면 그 줄 나눔을 쓰고, 없으면 문장 끝에서
-  // 자동으로 나눈다(한 문장뿐인 탭은 나눌 자리가 없어 4번째를 둔다).
-  var wide = el.dataset.wide;
-  paintPreviewBody(el, wide ? wide
-    : raw.replace(/\s*\n\s*/g, ' ').trim().replace(/([.!?])\s+(?=\S)/g, '$1\n'));
 }
 function initPreviewBody() {
   var el = document.getElementById('teamsPreviewBody');
