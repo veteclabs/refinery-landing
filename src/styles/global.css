@@ -672,6 +672,24 @@
     .faq-item.open .faq-icon { transform: rotate(180deg); }
     #teams .section-header { margin-bottom: 0; }
     .faq-a { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+    /* FAQ 는 900px 이하에서 제목·리스트가 2열에서 1열로 바뀌며 오히려 넓어진다
+       (693px → 852px). 그런데 mobile-br 도 같은 900px 에서 켜져, 자리가 가장 넉넉한
+       구간에서 답변이 끊겼다. 자리가 되는 데까지 풀어 두되, 답변마다 길이가 달라
+       경계도 따로 잡는다(각자 가장 긴 줄 + 여유 20px 이 들어가는 폭).
+       3·6번은 mobile-br 이 없어 손댈 것이 없다. */
+    @media (min-width: 470px) {
+      #faq .faq-item:nth-child(5) .faq-a br.mobile-br { display: none; }
+    }
+    @media (min-width: 520px) {
+      #faq .faq-item:nth-child(1) .faq-a br.mobile-br { display: none; }
+    }
+    @media (min-width: 535px) {
+      #faq .faq-item:nth-child(2) .faq-a br.mobile-br { display: none; }
+    }
+    /* 4번(SCADA)만 첫 문장이 698px 로 길어 775px 아래로는 풀 수 없다. */
+    @media (min-width: 775px) {
+      #faq .faq-item:nth-child(4) .faq-a br.mobile-br { display: none; }
+    }
     #faq .section-header { margin-bottom: 50px; }
     @media (max-width: 900px) {
       #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
