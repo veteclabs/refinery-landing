@@ -506,14 +506,20 @@
     .industry-go svg { display: block; }
     a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
     @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
-    /* 760px 아래로는 카드를 세 줄 형식으로 둔다.
+    /* 600~760px — 카드가 두 장씩 놓이는 구간만 세 줄 형식으로 둔다. 599px 아래는
+       1열이라 카드가 넓어 소제목이 두 줄로 들어가므로 세 줄 높이를 강제하지 않는다.
        min-height 4.5em — line-height 1.5 의 세 줄. 두 줄짜리 카드도 높이와 화살표
        자리가 세 줄에 맞춰져, 폭이 줄다 실제로 세 줄이 될 때 카드가 한 번 더 뛰지 않는다.
-       padding-right 52px — 글 폭을 화살표 자리만큼 좁혀 긴 소제목이 실제로 세 줄로
-       나뉘게 한다. 짧은 글(국문은 최장 156px)은 그대로 두 줄이고 높이만 맞춰진다.
-       모든 줄이 화살표 자리를 피하므로 이 구간에서는 ::after 가 필요 없다. */
-    @media (max-width: 760px) {
-      #industries .industry-desc { min-height: 4.5em; padding-right: 52px; }
+       padding-right 36px — 글 폭을 좁혀 긴 소제목이 실제로 세 줄로 나뉘게 한다.
+       52px 이면 600px 에서 네 줄이 두 장 생기고 40px 이어도 한 장 남는다. 36px 이
+       전 구간 최대 세 줄을 지키면서 세 줄짜리가 가장 많은 값이다(600·640px 11장).
+       br 해제 — 소제목의 줄 나눔을 풀어 한 흐름으로 감기게 한다. 두 조각을 따로
+       감으면 각 조각이 한 줄씩 더 먹어 600px 에서 네 줄이 된다.
+       화살표 자리는 padding-right 로 비니 이 구간에서는 ::after 가 필요 없다.
+       짧은 글(국문은 최장 156px)은 그대로 두 줄이고 높이만 맞춰진다. */
+    @media (min-width: 600px) and (max-width: 760px) {
+      #industries .industry-desc { min-height: 4.5em; padding-right: 36px; }
+      #industries .industry-desc br { display: none; }
       #industries .industry-desc::after { display: none; }
     }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
