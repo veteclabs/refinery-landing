@@ -410,9 +410,13 @@
        .industries-grid가 같은 특이도라 안 붙이면 그쪽이 이긴다.
        그래서 1열 분기도 여기서 같은 특이도로 다시 잡아 준다. */
     @media (max-width: 1280px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
-    /* 1열도 600px이 아니라 720px부터다. 601~720px의 2열은 카드 안쪽 폭이 250px대라
-       영문 소제목이 세 줄이 된다(국문은 두 줄로 버틴다). */
-    @media (max-width: 720px) { #industries .industries-grid { grid-template-columns: 1fr; } }
+    /* 1열 분기는 600px이 아니라 영문 카드가 못 버티는 폭에 맞춘다. 소제목이 두 줄로
+       남으려면 안쪽 폭이 265px 필요하고(첫 줄 최장 255px, 마지막 줄 최장 213px +
+       화살표 자리 52px), 카드 폭으로는 313px — 2열에서 692px 이 하한이다.
+       2026-10-01 에 720 → 700px 으로 내렸다. 종전 값은 더 긴 영문 카피를 기준으로
+       잡힌 것이라 지금 카피에서는 국문이 190px·영문이 28px 씩 공간을 못 쓰고 있었다.
+       국문 하한은 530px 이지만 두 언어의 카드 배치를 같게 두려고 영문에 맞춘다. */
+    @media (max-width: 699px) { #industries .industries-grid { grid-template-columns: 1fr; } }
     /* 카드는 위쪽 16:9 사진 밴드 + 아래 흰 면이다.
        사진 위에 글을 얹는 형태(과제별 페이지 .uc-case--img)도 만들어 봤지만,
        이 섹션은 흰 배경 페이지 한가운데라 검은 카드가 흐름을 끊고
