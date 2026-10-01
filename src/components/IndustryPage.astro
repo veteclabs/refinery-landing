@@ -114,7 +114,9 @@ const lines = (s: string) => s.split('\n');
       )}
       <div class="ind-container">
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
-          <h2>{ind.challenges.title}</h2>
+          {/* 제목도 히어로처럼 개행을 <br>로 낸다. 영문은 제목이 길어 한 줄로 두면
+              소제목 자리를 밀어내 아래로 내려보낸다. */}
+          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
           {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
         </header>
         <div class="ind-grid ind-grid-2 ind-grid-bubble">
