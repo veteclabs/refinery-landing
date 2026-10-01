@@ -167,13 +167,18 @@
     .section-header-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
     .section-header-row h2 { margin-bottom: 0; }
     .section-header-row p { max-width: 360px; margin: 0; }
-    /* 플랫폼 섹션 헤더는 한 번 세로로 내려가면 그대로 둔다. flex-wrap 에만 맡기면
-       폭이 줄수록 제목·소제목이 좁아지면서 자리가 다시 생겨 가로로 되돌아갔다 —
-       961px 이상 가로, 931~960px 세로, 그러다 900px 에서 mobile-br 이 켜져 소제목
-       폭이 399 → 291px 로 줄자 또 가로가 됐다(670px 아래에서 다시 세로).
-       소제목이 처음 내려가는 960px 부터 세로로 고정한다. */
+    /* 섹션 헤더는 한 번 세로로 내려가면 그대로 둔다. flex-wrap 에만 맡기면 폭이
+       줄수록 제목·소제목이 저마다 좁아지면서 가로로 설 자리가 다시 생겨 되돌아갔다.
+       플랫폼 섹션은 961px 이상 가로 → 931~960px 세로 → 900px 에서 mobile-br 이 켜져
+       소제목 폭이 399 → 291px 로 줄자 또 가로 → 670px 아래에서 다시 세로였다.
+       통합·보안 섹션도 960px 세로 → 900px 가로로 같은 식이었다.
+       섹션마다 되돌아가는 폭이 다르므로, 가장 먼저 내려가는 960px 을 공통 경계로
+       잡아 그 아래는 모두 세로로 둔다. */
     @media (max-width: 960px) {
-      #teams .section-header-row { flex-direction: column; align-items: flex-start; }
+      .section-header-row { flex-direction: column; align-items: flex-start; }
+      /* 세로로 내려가면 소제목이 행 폭을 다 쓴다 — 좁은 폭용 줄 나눔(mobile-br)이
+         오히려 줄을 하나 더 만들어 두 줄이던 것이 세 줄이 됐다. 이 구간에서는 끈다. */
+      .section-header-row p br.mobile-br { display: none; }
     }
 
     /* HERO */
