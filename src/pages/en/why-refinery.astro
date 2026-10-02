@@ -558,7 +558,15 @@ const capabilityGroups = [
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
      제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  /* 영문은 두 열로 둔다(국문은 네 열). 칩 목록은 가로로 흐르는 것이 본래 모양인데,
+     영문 칩이 길어 4열(칸 283px)에서는 하나씩 세로로 쌓이고 'Turning documents into
+     knowledge' · 'Connecting to existing systems' 둘은 칩 안에서 두 줄로 접혔다.
+     2열(칸 580px)에서는 칩이 가로로 두세 개씩 흐르고 접히는 칩이 없어진다 —
+     국문 4열의 모습에 오히려 더 가깝다.
+     항목 수가 6 · 6 · 4 · 3 으로 달라 4열에서는 가장 긴 Data 에 높이가 맞춰져
+     Trust 카드 아래가 크게 비었다(격자 404px). 2열은 행마다 높이가 맞는다.
+     900px 이하 2열 · 520px 이하 1열은 아래 규칙 그대로다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
