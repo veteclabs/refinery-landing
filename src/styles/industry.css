@@ -869,6 +869,14 @@ img { max-width: 100%; height: auto; }
 .ind-page.ind-machinery.ind-en .ind-benefits .ind-grid-3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+
+/* 식품·음료 영문 도입 효과도 2열로 둔다. 3열(칸 333px)에서 제목 넷째 장이 두 줄이라
+   그 카드만 본문이 내려앉았다 — 국문은 다섯 장 모두 한 줄이다. 2열(칸 532px)에서는
+   제목도 설명도 전부 한 줄이 된다. 카드가 다섯이라 마지막 줄에 한 장만 남는다
+   (3열에서는 두 장이 남았다). 국문은 3열 그대로다. */
+.ind-page.ind-food.ind-en .ind-benefits .ind-grid-3 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
