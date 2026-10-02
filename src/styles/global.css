@@ -195,6 +195,16 @@
          오히려 줄을 하나 더 만들어 두 줄이던 것이 세 줄이 됐다. 이 구간에서는 끈다. */
       .section-header-row p br.mobile-br { display: none; }
     }
+
+    /* 영문은 같은 머리라도 글이 길어 훨씬 일찍 내려간다 — 통합 1260 · 산업 1180 ·
+       보안 1150 · 팀 1140 · 플랫폼 960px. 위 1050px 경계로는 1260~1051px 이
+       섞인 채 남아, 영문만 1260px 으로 올린다. 국문은 그 구간에서 자리가 남으므로
+       같이 올리지 않는다(210px 구간을 손해 본다). */
+    html[lang="en"] .section-header-row { flex-wrap: nowrap; }
+    @media (max-width: 1260px) {
+      html[lang="en"] .section-header-row { flex-direction: column; align-items: flex-start; flex-wrap: wrap; }
+      html[lang="en"] .section-header-row > * { align-self: stretch; }
+    }
     /* 통합 섹션 제목도 같은 이유로 데스크탑 두 줄을 지킨다. 폭이 돌아오면 좁은 폭용
        줄 나눔이 필요 없다 — 1행 328px · 2행 229px 이라 376px 까지 두 줄로 선다. */
     @media (max-width: 900px) {
