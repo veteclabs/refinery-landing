@@ -101,7 +101,7 @@ const capabilityGroups = [
       <div class="ind-container">
         <p class="wr-tag">Platform overview</p>
         <h1>One platform that brings<br>intelligence to the field</h1>
-        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution,<br class="wr-lede-br">{' '}scattered field sites are tied into one unified intelligence.</p>
+        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution, scattered field sites are tied into one unified intelligence.</p>
         <div class="ind-hero-actions">
           <a href="/en/contact" class="ind-btn-primary">Contact</a>
         </div>
@@ -340,6 +340,14 @@ const capabilityGroups = [
        '자동 실행 / 까지'처럼 한 어절만 남아 떨어진다. 자연스럽게 흐르게 둔다. */
     .wr-lede-br { display: none; }
   }
+  /* 히어로 소제목은 세 줄을 고르게 나눈다. 국문은 <br>로 두 줄을 잡아 두었는데
+     (칸 600px, 388 / 323), 영문은 글이 1150px 이라 두 줄에 담기지 않는다 —
+     낱말 경계가 575px 씩으로 떨어지지 않는다.
+       <br>를 그대로 두면 그 앞 조각(698px)이 칸을 넘겨 감기면서 2행이
+     'automated execution,' 174px 토막으로 남았고, <br>만 걷으면 3행에
+     'intelligence.' 109px 한 낱말이 남았다. balance 가 [383 / 383 / 384] 로 고르게
+     나눈다. 국문은 <br>를 그대로 둬 두 줄이다. */
+  .ind-lede { text-wrap: balance; }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
