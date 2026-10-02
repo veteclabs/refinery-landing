@@ -820,6 +820,21 @@ const jsonLd = [
   .uc-predictive-maintenance.uc-en .ind-grid-3 .ind-card h3 {
     min-height: 0; margin-top: 0; display: block;
   }
+  /* 예지보전 영문 해결 방법 카드를 2열로 둔다. 카드가 넷이라 4열(칸 233px)인데, 영문은
+     한 줄에 네댓 낱말뿐이라 제목이 두 줄 · 설명이 다섯 줄이 되고 'in / real time' ·
+     'at a / glance' · 'early / signs' 처럼 의미 덩어리가 갈렸다. 그 폭에서는 끊지 말아야 할
+     자리를 모두 피하는 분할이 존재하지 않아 자연 감김으로 두었는데, 2열(칸 500px 남짓)
+     에서는 제목이 모두 한 줄, 설명이 두세 줄이 되어 갈림이 사라진다.
+       3열도 재 봤다. 글은 가장 알맞지만 카드가 넷이라 마지막 줄에 한 장만 남아 격자가
+     깨진다. 2열은 2x2 로 떨어진다.
+       국문은 네 제목이 모두 한 줄이라 4열이 잘 맞아 그대로 둔다.
+       860px 이하 1열은 공통 규칙이 맡는데 이 선택자가 더 강해 같은 경계에서 되돌린다. */
+  .uc-predictive-maintenance.uc-en .ind-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (max-width: 860px) {
+    .uc-predictive-maintenance.uc-en .ind-grid-3 { grid-template-columns: 1fr; }
+  }
   .uc-page .ind-card p { text-wrap: pretty; }
   /* '다른 과제' 카드 설명도 같은 방식으로 둔다. 영문은 데이터에 <br>로 두 줄을
      잡아 뒀는데 1행이 칸(333px)보다 길어 세 카드가 실제로는 세 줄로 감겼다
