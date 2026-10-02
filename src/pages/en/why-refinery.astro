@@ -19,7 +19,7 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, Modbus, OPC UA).' },
+  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, <span style="white-space:nowrap">Modbus, OPC UA).</span>' },
   { icon: '/why-refinery/icon-02.svg', title: 'Adoption that tears nothing out', desc: 'We sit on top of the systems you already use.<br>Where there are none, we start from a template shaped by 30 years on site.' },
   { icon: '/why-refinery/icon-03.svg', title: 'Beyond numbers, into knowledge', desc: 'We tie equipment, documents and history together in an ontology.<br>AI answers with the evidence shown.' },
 ];
@@ -29,7 +29,7 @@ const stories = [
   {
     image: '/why-refinery/story-01.svg',
     eyebrow: 'Integration',
-    title: 'Scattered data into one body of knowledge',
+    title: 'Scattered data into one<br>body of knowledge',
     points: [
       'SCADA, MES and ERP are gathered in one place.',
       'An ontology gives data the meaning of what it is.',
@@ -39,7 +39,7 @@ const stories = [
   {
     image: '/why-refinery/story-02.svg',
     eyebrow: 'AI agent',
-    title: 'A field that answers when you ask',
+    title: 'A field that answers<br>when you ask',
     points: [
       'Ask what you want to know and it answers from the data.',
       'It infers causes and suggests the next action.',
@@ -49,7 +49,7 @@ const stories = [
   {
     image: '/why-refinery/story-03.svg',
     eyebrow: 'Automation',
-    title: 'Operations that run without people',
+    title: 'Operations that run<br>without people',
     points: [
       'You decide through conversation what runs automatically.',
       'Analysis flows into reports and workflow execution.',
@@ -101,7 +101,7 @@ const capabilityGroups = [
       <div class="ind-container">
         <p class="wr-tag">Platform overview</p>
         <h1>One platform that brings<br>intelligence to the field</h1>
-        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution,<br class="wr-lede-br">{' '}scattered field sites are tied into one unified intelligence.</p>
+        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution, scattered field sites are tied into one unified intelligence.</p>
         <div class="ind-hero-actions">
           <a href="/en/contact" class="ind-btn-primary">Contact</a>
         </div>
@@ -142,7 +142,7 @@ const capabilityGroups = [
                 <span class="wr-story-tag">{s.eyebrow}</span>
               </div>
               <div class="wr-story-body">
-                <h3>{s.title}</h3>
+                <h3 set:html={s.title}></h3>
                 <ul>
                   {s.points.map((p) => <li>{p}</li>)}
                 </ul>
@@ -157,7 +157,7 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>The capabilities one platform holds</h2>
+          <h2>The capabilities<br>one platform holds</h2>
           <p>The capabilities your field operations need, in one place</p>
         </header>
         <div class="wr-caps">
@@ -340,6 +340,14 @@ const capabilityGroups = [
        '자동 실행 / 까지'처럼 한 어절만 남아 떨어진다. 자연스럽게 흐르게 둔다. */
     .wr-lede-br { display: none; }
   }
+  /* 히어로 소제목은 세 줄을 고르게 나눈다. 국문은 <br>로 두 줄을 잡아 두었는데
+     (칸 600px, 388 / 323), 영문은 글이 1150px 이라 두 줄에 담기지 않는다 —
+     낱말 경계가 575px 씩으로 떨어지지 않는다.
+       <br>를 그대로 두면 그 앞 조각(698px)이 칸을 넘겨 감기면서 2행이
+     'automated execution,' 174px 토막으로 남았고, <br>만 걷으면 3행에
+     'intelligence.' 109px 한 낱말이 남았다. balance 가 [383 / 383 / 384] 로 고르게
+     나눈다. 국문은 <br>를 그대로 둬 두 줄이다. */
+  .ind-lede { text-wrap: balance; }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
@@ -450,7 +458,11 @@ const capabilityGroups = [
     gap: 32px; flex-wrap: wrap;
   }
   .wr-head-row h2 { margin-bottom: 0; }
-  .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
+  /* 소제목 칸을 360 -> 500px 으로 올린다. 영문은 'The team, the adoption and the data,
+     all measured by the field'가 499px 이라 360px 칸에서 두 줄이 됐다. 제목 409 + gap 32 +
+     499 = 940 으로 머리 폭 1184px 안에 여유 244px 이 있다.
+     국문은 별도 파일이고 소제목이 231~251px 이라 원래 한 줄이다. */
+  .wr-page .wr-head-row p { max-width: 500px; margin: 0; }
   /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
   @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
 
@@ -466,6 +478,18 @@ const capabilityGroups = [
      맡는다 — 거기도 그렇게 잡혀 있다. */
   .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
   .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
+  /* 두 문장을 <br>로 나눠 두었는데(국문과 같은 자리) 영문은 문장이 길어 각 문장이
+     다시 감기고 토막이 남았다 — 항목1의 'UA).' 29px, 항목3의 'ontology.' 62px
+     (칸 383px). balance 가 문장 안에서 줄을 고르게 나눈다. 줄 수는 그대로다.
+     국문은 별도 파일이라 영향이 없다. */
+  .wr-value p { text-wrap: balance; }
+  /* 흐름 카드 목록은 마지막 줄만 손본다. 영문은 각 항목이 두 줄이 되면서 끝에 낱말
+     하나만 남는 자리가 여섯이었다 — 'is.' 15px · 'too.' 26px · 'place.' 40px ·
+     'execution.' 69px · 'judgment.' 67px · 'automatically.' 93px (칸 333px).
+     balance 도 재 봤지만 각 항목을 반으로 쪼개 목록 오른쪽이 들쭉날쭉해졌다.
+     목록은 왼쪽으로 읽어 내려가는 글이라 줄이 꽉 차는 pretty 가 맞다.
+     국문은 항목이 모두 한 줄이라 해당이 없다(별도 파일). */
+  .wr-story li { text-wrap: pretty; }
 
   /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
   .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -534,7 +558,15 @@ const capabilityGroups = [
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
      제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  /* 영문은 두 열로 둔다(국문은 네 열). 칩 목록은 가로로 흐르는 것이 본래 모양인데,
+     영문 칩이 길어 4열(칸 283px)에서는 하나씩 세로로 쌓이고 'Turning documents into
+     knowledge' · 'Connecting to existing systems' 둘은 칩 안에서 두 줄로 접혔다.
+     2열(칸 580px)에서는 칩이 가로로 두세 개씩 흐르고 접히는 칩이 없어진다 —
+     국문 4열의 모습에 오히려 더 가깝다.
+     항목 수가 6 · 6 · 4 · 3 으로 달라 4열에서는 가장 긴 Data 에 높이가 맞춰져
+     Trust 카드 아래가 크게 비었다(격자 404px). 2열은 행마다 높이가 맞는다.
+     900px 이하 2열 · 520px 이하 1열은 아래 규칙 그대로다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
