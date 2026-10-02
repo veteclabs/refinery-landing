@@ -19,7 +19,7 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, Modbus, OPC UA).' },
+  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, <span style="white-space:nowrap">Modbus, OPC UA).</span>' },
   { icon: '/why-refinery/icon-02.svg', title: 'Adoption that tears nothing out', desc: 'We sit on top of the systems you already use.<br>Where there are none, we start from a template shaped by 30 years on site.' },
   { icon: '/why-refinery/icon-03.svg', title: 'Beyond numbers, into knowledge', desc: 'We tie equipment, documents and history together in an ontology.<br>AI answers with the evidence shown.' },
 ];
@@ -474,6 +474,11 @@ const capabilityGroups = [
      맡는다 — 거기도 그렇게 잡혀 있다. */
   .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
   .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
+  /* 두 문장을 <br>로 나눠 두었는데(국문과 같은 자리) 영문은 문장이 길어 각 문장이
+     다시 감기고 토막이 남았다 — 항목1의 'UA).' 29px, 항목3의 'ontology.' 62px
+     (칸 383px). balance 가 문장 안에서 줄을 고르게 나눈다. 줄 수는 그대로다.
+     국문은 별도 파일이라 영향이 없다. */
+  .wr-value p { text-wrap: balance; }
 
   /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
   .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
