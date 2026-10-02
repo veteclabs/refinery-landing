@@ -458,7 +458,11 @@ const capabilityGroups = [
     gap: 32px; flex-wrap: wrap;
   }
   .wr-head-row h2 { margin-bottom: 0; }
-  .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
+  /* 소제목 칸을 360 -> 500px 으로 올린다. 영문은 'The team, the adoption and the data,
+     all measured by the field'가 499px 이라 360px 칸에서 두 줄이 됐다. 제목 409 + gap 32 +
+     499 = 940 으로 머리 폭 1184px 안에 여유 244px 이 있다.
+     국문은 별도 파일이고 소제목이 231~251px 이라 원래 한 줄이다. */
+  .wr-page .wr-head-row p { max-width: 500px; margin: 0; }
   /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
   @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
 
