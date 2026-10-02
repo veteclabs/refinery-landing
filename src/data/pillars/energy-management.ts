@@ -83,7 +83,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     demoTitle: '',
     openTitle: '',
     faqHead: 'FAQ',
-    usesHead: 'Ready-to-run uses<br>on site',
+    usesHead: 'Ready-to-run uses on site',
     usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
     more: 'Learn more',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
