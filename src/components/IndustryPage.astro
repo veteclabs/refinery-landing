@@ -56,7 +56,7 @@ const lines = (s: string) => s.split('\n');
 ---
 <BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} alternates={alternates} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
-  <main class:list={['ind', 'ind-page', lang === 'en' && 'ind-en']}>
+  <main class:list={['ind', 'ind-page', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
       {ind.hero.image && (
