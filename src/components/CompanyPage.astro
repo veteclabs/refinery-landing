@@ -342,7 +342,13 @@ const alternates = [
      그대로 두면 flex-wrap 때문에 소제목이 아래로 내려간다(랜딩은 1184px 전체). */
   .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; max-width: none; }
   .cmp-head-row h2 { margin-bottom: 0; }
-  .cmp-head-row p { max-width: 360px; margin: 0; }
+  /* 소제목 칸을 360 -> 565px 으로 올린다. 영문은 두 머리 모두 소제목이 두 줄이었다 —
+     'From a team that has been on the floor, and 30 years of experience.' 544px ·
+     'Only what we have confirmed on site goes into the product.' 478px.
+     가장 긴 544px 에 여유 20px 을 둔 값이다. 제목과 합쳐도 머리 폭 1184px 안에 들어간다
+     (527 + 32 + 544 = 1103 · 569 + 32 + 478 = 1079).
+     국문은 329 · 272px 이라 360px 에서도 이미 한 줄이었고 변화가 없다. */
+  .cmp-head-row p { max-width: 565px; margin: 0; }
   @media (max-width: 900px) {
     .cmp-head-row { display: block; }
     .cmp-head-row p { margin-top: 12px; max-width: none; }
