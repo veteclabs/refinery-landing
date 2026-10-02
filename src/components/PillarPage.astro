@@ -12,8 +12,10 @@ interface Props {
   content: PillarContent;
   /** ko/en 양쪽이 있는 페이지만 넘긴다. 없으면 hreflang을 내보내지 않는다. */
   alternates?: { lang: string; href: string }[];
+  /** 영문 전용 줄 모양 규칙을 거는 데 쓴다(산업 페이지의 ind-en과 같은 방식). */
+  lang?: 'ko' | 'en';
 }
-const { content: T, alternates } = Astro.props;
+const { content: T, alternates, lang = 'ko' } = Astro.props;
 
 /* 히어로 데모를 넣을지. demoSrc가 비어 있으면 그래픽(heroGraphic)을 쓰고,
    그것도 없으면 판만 남기고 자리로 둔다. */
@@ -41,7 +43,7 @@ const faqSchema = {
   jsonLd={faqSchema}
 >
   <Nav />
-  <main class="ind ind-page">
+  <main class:list={['ind', 'ind-page', lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -1452,6 +1454,24 @@ const faqSchema = {
      'defects'(51px) 처럼 짧은 꼬리만 남았다. 영문 개행을 걷고 balance 에 맡긴다.
      카드3·4는 네 줄에서 세 줄로 줄었다. 국문은 개행을 그대로 둬 두 줄을 지킨다. */
   .ind-grid-4 .ind-card p { text-wrap: balance; }
+  /* 제목이 두 줄인 카드가 섞이면 그 카드만 설명이 32px 내려앉아, 가로로 늘어선
+     네 카드의 설명 시작선이 어긋난다(영문 산업 AI [1,1,1,2] · 에너지관리 [1,2,1,1]).
+     제목 칸을 두 줄 높이로 잡아 설명을 같은 선에서 시작시킨다.
+       유즈케이스 카드처럼 아래 끝을 맞추는 쪽(음수 margin으로 두 줄 제목을 끌어올리기)은
+     여기서는 못 쓴다 — 그쪽은 아이콘 여백 65px에서 32px을 빼왔는데, 이 카드는 제목 위가
+     카드 안 여백 24px뿐이라 뺄 자리가 없다. 그래서 위 정렬이고, 한 줄 제목 카드는 제목
+     아래에 한 줄 빈 자리가 생긴다. 아이콘과 글 사이가 아니라 글과 글 사이라 문단 간격으로
+     읽힌다(사용자 판단, 2026-10-02).
+       국문은 네 제목이 전 폭에서 한 줄이라 빈 자리만 생기므로 .ind-en 에만 건다. */
+  .ind-en .ind-grid-4 .ind-card h3 {
+    min-height: 64px; display: flex; align-items: flex-start;
+  }
+  /* 2열로 접히면 칸이 283 -> 493px 으로 넓어져 네 제목이 모두 한 줄이 된다.
+     그때는 보정이 빈 자리만 만든다. 1101px 에서 2줄 · 3줄이 섞이는 것은 PC 반응형
+     검수 때 함께 본다(min-height 64px으로는 세 줄을 못 담는다). */
+  @media (max-width: 1100px) {
+    .ind-en .ind-grid-4 .ind-card h3 { min-height: 0; display: block; }
+  }
 
   /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
   /* 설명과 '자세히보기' 사이 20px. */
