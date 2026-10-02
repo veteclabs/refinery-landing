@@ -29,7 +29,7 @@ const stories = [
   {
     image: '/why-refinery/story-01.svg',
     eyebrow: 'Integration',
-    title: 'Scattered data into one body of knowledge',
+    title: 'Scattered data into one<br>body of knowledge',
     points: [
       'SCADA, MES and ERP are gathered in one place.',
       'An ontology gives data the meaning of what it is.',
@@ -39,7 +39,7 @@ const stories = [
   {
     image: '/why-refinery/story-02.svg',
     eyebrow: 'AI agent',
-    title: 'A field that answers when you ask',
+    title: 'A field that answers<br>when you ask',
     points: [
       'Ask what you want to know and it answers from the data.',
       'It infers causes and suggests the next action.',
@@ -49,7 +49,7 @@ const stories = [
   {
     image: '/why-refinery/story-03.svg',
     eyebrow: 'Automation',
-    title: 'Operations that run without people',
+    title: 'Operations that run<br>without people',
     points: [
       'You decide through conversation what runs automatically.',
       'Analysis flows into reports and workflow execution.',
@@ -142,7 +142,7 @@ const capabilityGroups = [
                 <span class="wr-story-tag">{s.eyebrow}</span>
               </div>
               <div class="wr-story-body">
-                <h3>{s.title}</h3>
+                <h3 set:html={s.title}></h3>
                 <ul>
                   {s.points.map((p) => <li>{p}</li>)}
                 </ul>
@@ -483,6 +483,13 @@ const capabilityGroups = [
      (칸 383px). balance 가 문장 안에서 줄을 고르게 나눈다. 줄 수는 그대로다.
      국문은 별도 파일이라 영향이 없다. */
   .wr-value p { text-wrap: balance; }
+  /* 흐름 카드 목록은 마지막 줄만 손본다. 영문은 각 항목이 두 줄이 되면서 끝에 낱말
+     하나만 남는 자리가 여섯이었다 — 'is.' 15px · 'too.' 26px · 'place.' 40px ·
+     'execution.' 69px · 'judgment.' 67px · 'automatically.' 93px (칸 333px).
+     balance 도 재 봤지만 각 항목을 반으로 쪼개 목록 오른쪽이 들쭉날쭉해졌다.
+     목록은 왼쪽으로 읽어 내려가는 글이라 줄이 꽉 차는 pretty 가 맞다.
+     국문은 항목이 모두 한 줄이라 해당이 없다(별도 파일). */
+  .wr-story li { text-wrap: pretty; }
 
   /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
   .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
