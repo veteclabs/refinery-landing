@@ -165,6 +165,12 @@
       #security .section-header p br.mobile-br { display: none; }
     }
     .section-header-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+    /* 경계 위에서는 flex-wrap 자연 접힘을 막는다 — 접히는 폭이 섹션마다 다르고
+       글자 폭에 따라 움직여서, 한 섹션만 먼저 내려가는 일이 생긴다(2026-10-02에
+       통합 섹션에서 실제로 났다). 아래 미디어 쿼리가 경계를 쥐게 하고, 자리가
+       모자라면 접히는 대신 소제목이 눌려 줄이 하나 느는 쪽으로 받는다.
+       1200px 위에서 가장 빠듯한 통합 섹션도 여유가 113px 이라 눌릴 일은 없다. */
+    .section-header-row { flex-wrap: nowrap; }
     .section-header-row h2 { margin-bottom: 0; }
     .section-header-row p { max-width: 360px; margin: 0; }
     /* 섹션 헤더는 한 번 세로로 내려가면 그대로 둔다. flex-wrap 에만 맡기면 폭이
@@ -182,11 +188,17 @@
        1050~1011px 은 통합만, 1010~961px 은 통합·보안 둘만 두 행이었다.
        소제목 칸을 좁혀 961px 까지 버티게 하는 쪽(통합 378px · 보안 411px 이하)도
        재 봤으나, 두 섹션의 <br> 두 줄 구성이 깨져 쓰지 않았다.
-       영문(en/index.astro)은 글이 길어 통합 1260 · 산업 1180 · 보안 1150 ·
-       팀 1140px 에서 접힌다 — 이 경계로는 1260~1051px 구간이 여전히 섞인다.
-       공용 CSS 라 하나의 값만 쓸 수 있어 국문을 기준으로 뒀다. */
-    @media (max-width: 1050px) {
-      .section-header-row { flex-direction: column; align-items: flex-start; }
+
+       2026-10-02(2): 1050 -> 1200px 으로 다시 올렸다. 1050px 은 '통합 섹션이
+       접히기 직전'이라 여유가 0px 인 값이었다 — 그 폭에서 제목 499 + gap 32 +
+       소제목 424 = 955px 이 머리 폭 955px 과 정확히 같다. 헤드리스에서는 들어가지만
+       실제 브라우저는 글자가 조금 넓게 잡혀 통합 섹션만 먼저 접혔다(사용자 화면에서
+       확인). 폭별 여유 — 1051px:0 · 1060px:5 · 1080px:15 · 1100px:25 · 1150px:63 ·
+       1200px:113. 1200px 의 113px 이면 렌더링 차이를 넉넉히 흡수한다.
+       **이 값은 '마지막으로 접히는 폭'이 아니라 '여유를 두고 접는 폭'이다.
+       통합 섹션 소제목 칸(500px)이나 카피를 고치면 여유를 다시 재고 값을 옮긴다.** */
+    @media (max-width: 1200px) {
+      .section-header-row { flex-direction: column; align-items: flex-start; flex-wrap: wrap; }
       /* align-items: flex-start 는 교차축이 가로가 되면서 제목·소제목까지 내용 폭으로
          줄인다. 통합 섹션 제목이 275px 로 묶여 데스크탑 두 줄(1행 328px)이 아예
          불가능했다. 왼쪽 정렬만 두고 폭은 행을 그대로 쓰게 한다. */
@@ -761,7 +773,7 @@
        같은 '제목 왼쪽 · 내용 오른쪽' 머리로 읽힌다. 900px 로 두었더니 다섯 섹션이
        세로로 내려간 뒤에도 FAQ 만 가로로 남아 1050~901px 구간에서 어긋났다.
        영문은 랜딩 경계가 1260px 이므로 거기에 맞춘다. */
-    @media (max-width: 1050px) {
+    @media (max-width: 1200px) {
       #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     @media (max-width: 1260px) {
