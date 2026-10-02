@@ -465,6 +465,16 @@ const capabilityGroups = [
   .wr-page .wr-head-row p { max-width: 500px; margin: 0; }
   /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
   @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
+  /* 머리 셋이 제각기 다른 폭에서 내려갔다 — 980 · 700 · 660px. 소제목이 가장 긴
+     머리에 맞춰 980px 을 공통 경계로 두고 셋을 함께 내린다. 국문은 별도 파일이고
+     소제목이 짧아 셋 다 600px 아래에서야 내려가므로 이 값을 쓰지 않는다.
+     (랜딩 .section-header-row 가 쓰는 방식과 같다 — global.css 참고) */
+  .wr-page .wr-head-row { flex-wrap: nowrap; }
+  @media (max-width: 980px) {
+    .wr-page .wr-head-row { flex-direction: column; align-items: flex-start; flex-wrap: wrap; }
+    .wr-page .wr-head-row > * { align-self: stretch; }
+    .wr-page .wr-head-row p { margin-top: 12px; }
+  }
 
   /* 카드 사이 간격은 예지보전이 쓰는 공통값(.ind-grid, 18px)과 같게 둔다. */
   .wr-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
