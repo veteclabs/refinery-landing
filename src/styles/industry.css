@@ -843,6 +843,16 @@ img { max-width: 100%; height: auto; }
   min-height: 64px; margin-top: -32px;
   display: flex; align-items: flex-end;
 }
+
+/* 자동차·모빌리티 영문 도입 효과만 2열로 둔다.
+   이 산업만 카드가 넷이라 4열(칸 229px)이고, 일곱 산업 가운데 칸이 가장 좁다. 국문은
+   그 폭에서도 제목 한 줄 · 설명 두 줄로 들어가지만 영문은 제목 [2,1,1,1] · 설명 [3,3,2,3]
+   으로 갈렸다. 2열(칸 529px)에서는 제목이 모두 한 줄이 되고 설명도 좁혀진다.
+   카드가 넷이라 2행으로 떨어져 격자 모양도 자연스럽다(여섯 장짜리 산업과 달리 3행이
+   되지 않는다). 국문은 4열 그대로다. */
+.ind-page.ind-automotive.ind-en .ind-benefits .ind-grid-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 @media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
