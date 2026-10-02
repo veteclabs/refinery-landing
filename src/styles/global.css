@@ -756,8 +756,16 @@
       #faq .faq-a.faq-long br.faq-keep { display: none; }
     }
     #faq .section-header { margin-bottom: 50px; }
-    @media (max-width: 900px) {
+    /* FAQ 머리도 다른 섹션(.section-header-row)과 같은 폭에서 1열이 된다.
+       여기는 제목 옆이 소제목이 아니라 질문 목록이라 구조가 grid 지만, 화면에서는
+       같은 '제목 왼쪽 · 내용 오른쪽' 머리로 읽힌다. 900px 로 두었더니 다섯 섹션이
+       세로로 내려간 뒤에도 FAQ 만 가로로 남아 1050~901px 구간에서 어긋났다.
+       영문은 랜딩 경계가 1260px 이므로 거기에 맞춘다. */
+    @media (max-width: 1050px) {
       #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
+    }
+    @media (max-width: 1260px) {
+      html[lang="en"] #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), padding 0.3s ease, opacity 0.3s ease; opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
