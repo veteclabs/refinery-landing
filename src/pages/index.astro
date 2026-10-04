@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import { legal } from '../data/legal';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -18,7 +19,7 @@ const orgSchema = {
   "alternateName": ["리파이너리", "Refinery 리파이너리"],
   "url": "https://refinery.kr/",
   "logo": "https://refinery.kr/logo_Refinery_symbol.svg",
-  "description": "산업 데이터의 복잡성을 정제하여 명료한 인사이트로. 수집부터 AI 분석, 예측, 자율 제어까지. 데이터 기반 의사결정이 가능한 조직을 만듭니다.",
+  "description": "Refinery는 산업 AI 운영체제입니다. 현장의 설비·시스템·문서를 온톨로지 하나로 엮어, 사람과 AI가 같은 근거로 판단하고 조치하게 합니다.",
   "sameAs": []
 };
 
@@ -28,7 +29,7 @@ const faqItems = [
   { q: "보안은 어떻게 보장되나요?", a: "전송 구간은 TLS 1.3, 저장 데이터는 AES-256으로 암호화하고, 조직별 데이터 격리(PostgreSQL RLS)와 RBAC ⁠· 감사 로그를 적용합니다. 온프레미스 배포 옵션도 제공하며, 이 경우 데이터가 사내를 벗어나지 않습니다." },
   { q: "현장 데이터를 AI 학습에 사용하나요?", a: "아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다. 각 고객의 데이터는 완전히 격리되어 관리됩니다." },
   { q: "기존 SCADA/MES/ERP는 어떻게 되나요?", a: "기존 시스템이 있으면 걷어내지 않고 그 위에 통합 지능 레이어로 얹혀 양방향 연동합니다. 시스템이 없는 현장은 30년 경험으로 만든 템플릿(예: 에너지경영시스템)에서 새로 구축합니다. 두 방식 모두 지원합니다." },
-  { q: "어떤 언어를 지원하나요?", a: "인터페이스와 산업 AI 운영체제의 답변은 현재 한국어로 제공됩니다. 영어 지원은 추후 확대할 예정입니다." },
+  { q: "어떤 언어를 지원하나요?", a: "인터페이스와 AI 에이전트의 답변은 현재 한국어로 제공됩니다. 영어 지원은 추후 확대할 예정입니다." },
   { q: "클라우드와 온프레미스 중 선택할 수 있나요?", a: "클라우드, 온프레미스, 하이브리드 모두 지원합니다. 보안 정책에 따라 유연하게 선택 가능합니다." },
 ];
 const faqSchema = {
@@ -41,13 +42,24 @@ const faqSchema = {
   })),
 };
 
-const jsonLd = [orgSchema, faqSchema];
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Refinery",
+  "alternateName": ["리파이너리", "Refinery 산업 AI 운영체제"],
+  "url": "https://refinery.kr/",
+  "inLanguage": "ko",
+  "description": "Refinery는 산업 AI 운영체제입니다. 현장의 설비·시스템·문서를 온톨로지 하나로 엮어, 사람과 AI가 같은 근거로 판단하고 조치하게 합니다.",
+  "publisher": { "@type": "Organization", "name": legal('ko').company.legalName },
+};
+
+const jsonLd = [orgSchema, websiteSchema, faqSchema];
 ---
 <BaseLayout
-  title="산업 AI 플랫폼 Refinery | 제조 ⁠· 에너지 현장을 근거 있는 판단으로"
+  title="산업 AI 운영체제 Refinery | 제조 ⁠· 에너지 현장을 근거 있는 판단으로"
   ogTitle="Refinery"
-  description="산업 AI 플랫폼 Refinery(리파이너리). 흩어진 제조 ⁠· 에너지 현장 데이터(SCADA ⁠· MES ⁠· ERP ⁠· 센서)를 온톨로지로 엮어, 산업 AI 운영체제가 근거를 들어 판단을 돕습니다. 예지보전 ⁠· 전력관리 ⁠· 품질 예측까지."
-  ogDescription="Refining complexity into pure insight"
+  description="산업 AI 운영체제 Refinery(리파이너리). 흩어진 제조 ⁠· 에너지 현장 데이터(SCADA ⁠· MES ⁠· ERP ⁠· 센서)를 온톨로지로 엮어, AI 에이전트가 근거를 들어 판단을 돕습니다. 예지보전 ⁠· 전력관리 ⁠· 품질 예측까지."
+  ogDescription="현장의 설비 ⁠· 시스템 ⁠· 문서를 온톨로지 하나로 엮어, 사람과 AI가 같은 근거로 판단하고 조치하게 하는 산업 AI 운영체제"
   canonical="/"
   alternates={alternates}
   jsonLd={jsonLd}
@@ -79,7 +91,7 @@ const jsonLd = [orgSchema, faqSchema];
           <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
         </span>
       </button>
-      <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery 산업 AI 운영체제 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+      <iframe id="hero-agent-iframe" data-src="/agent-replay-demo" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
   </div>
@@ -426,7 +438,7 @@ const jsonLd = [orgSchema, faqSchema];
       #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
     }
 
-    /* Industrial AI OS 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
+    /* AI Agent 탭 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
        JS 가 이미지를 위로 밀어 자르면서 그 선이 미리보기 상단 10px 자리에 올라온다.
        기존 14px 페이드는 그 지점에서 이미 70% 투명해져 선을 못 가린다 —
        페이드를 키워도 대비만 줄 뿐이라, 앞 24px 을 불투명하게 덮고 나머지로 잇는다.
@@ -774,8 +786,8 @@ const jsonLd = [orgSchema, faqSchema];
         <p class="series-desc">시간에 따라 쌓인 데이터를 살펴보고<br>평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
       </div>
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="산업 AI 운영체제"><i class="ph ph-sparkle"></i></div>
-        <div class="series-tagline">산업 AI 운영체제</div>
+        <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
+        <div class="series-tagline">AI Agent</div>
         <h3>질문 하나로 움직이는 현장</h3>
         <p class="series-desc">궁금한 점을 물어보면 데이터를 근거로 답하고<br>다음 조치까지 제안합니다.</p>
       </div>
@@ -838,12 +850,12 @@ const jsonLd = [orgSchema, faqSchema];
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>현장 운영에 필요한<br>모든 기능을 제공하는 플랫폼</h2>
-        <p style="max-width:640px;">데이터를 모으고 보여주고 판단하는 것까지<br>현장 운영에 필요한 모든 기능이 한 플랫폼 안에 <br class="mobile-br">있습니다.</p>
+        <h2>현장 운영에 필요한<br>모든 기능을 담은 운영체제</h2>
+        <p style="max-width:640px;">데이터를 모으고 보여주고 판단하는 것까지<br>현장 운영에 필요한 모든 기능이 하나의 운영체제 안에 <br class="mobile-br">있습니다.</p>
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> 산업 AI 운영체제</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
@@ -856,7 +868,7 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="teams-preview-decor" style="position:absolute;top:0;left:28.5%;bottom:0;width:15%;z-index:1;background:linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
-        <div class="teams-preview-tagline" id="teamsPreviewTagline">산업 AI 운영체제</div>
+        <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
         {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">질문하면<br>
 온톨로지가 답을 찾습니다.</h3>
@@ -1237,7 +1249,7 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="faq-item"><div class="faq-q">보안은 어떻게 보장되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">전송 구간은 TLS 1.3, 저장 데이터는 <span style="white-space:nowrap">AES-256</span>으로 암호화하고, <br class="faq-keep">조직별 데이터 격리(PostgreSQL RLS)와 RBAC ⁠· 감사 로그를 <br class="faq-br">적용합니다. <br>온프레미스 배포 옵션도 제공하며, 이 경우 데이터가 <br class="faq-br">사내를 벗어나지 않습니다.</div></div>
       <div class="faq-item"><div class="faq-q">현장 데이터를 AI 학습에 사용하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다.<br>각 고객의 데이터는 완전히 격리되어 관리됩니다.</div></div>
       <div class="faq-item"><div class="faq-q">기존 SCADA/MES/ERP는 어떻게 되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">기존 시스템이 있으면 걷어내지 않고 그 위에 통합 지능 레이어로 얹혀 <br class="faq-br">양방향 연동합니다. <br>시스템이 없는 현장은 30년 경험으로 만든 템플릿<br class="faq-br">(예: 에너지경영시스템)에서 새로 구축합니다. 두 방식 모두 지원합니다.</div></div>
-      <div class="faq-item"><div class="faq-q">어떤 언어를 지원하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">인터페이스와 산업 AI 운영체제의 답변은 현재 한국어로 제공됩니다.<br>영어 지원은 추후 확대할 예정입니다.</div></div>
+      <div class="faq-item"><div class="faq-q">어떤 언어를 지원하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">인터페이스와 AI 에이전트의 답변은 현재 한국어로 제공됩니다.<br>영어 지원은 추후 확대할 예정입니다.</div></div>
       <div class="faq-item"><div class="faq-q">클라우드와 온프레미스 중 선택할 수 있나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">클라우드, 온프레미스, 하이브리드 모두 지원합니다.<br>보안 정책에 따라 유연하게 선택 가능합니다.</div></div>
       </div>
     </div>
@@ -1350,11 +1362,11 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['질문하면\n온톨로지가 답을 찾습니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를\n근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', '산업 AI 운영체제', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를 근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를 근거로\n원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.'],
+  llm: ['질문하면\n온톨로지가 답을 찾습니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를\n근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AI Agent', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를 근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AI가 온톨로지에 축적된 자산 ⁠· 업무 ⁠· 이력 데이터를 근거로\n원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.'],
   plate: ['현장의 지금 이 순간을\n숫자로 확인하세요.', '현장의 핵심 지표를 실시간으로 모니터링\n합니다. 부서 ⁠· 구간별 처리 현황과\n이상 신호까지 한 화면에서 확인할 수 있습니다.', 'Plate', '현장의 핵심 지표를 실시간으로 모니터링합니다.\n부서 ⁠· 구간별 처리 현황과 이상 신호까지 한 화면에서 확인할 수 있습니다.', '현장의 핵심 지표를 실시간으로 모니터링합니다.\n부서 ⁠· 구간별 처리 현황과 이상 신호까지\n한 화면에서 확인할 수 있습니다.'],
   tile: ['데이터를 보여주는\n20가지 방법', '숫자 카드, 게이지, 시계열 차트, 히트맵, 공간 맵 등\n다양한 위젯을 제공해 데이터 성격에 맞는\n표현 방식을 그대로 가져다 쓸 수 있습니다.', 'Tile', '숫자 카드, 게이지, 시계열 차트, 히트맵, 공간 맵 등 다양한 위젯을 제공해\n데이터 성격에 맞는 표현 방식을 그대로 가져다 쓸 수 있습니다.'],
   pipeline: ['데이터 구조가 바뀌어도\n흔적은 남습니다.', 'Git처럼 브랜치를 나누어 스키마를 실험하고,\n두 시점 간 스냅샷을 비교해\n변경 사항을 ERD로 시각화합니다.', 'Pipeline', 'Git처럼 브랜치를 나누어 스키마를 실험하고,\n두 시점 간 스냅샷을 비교해 변경 사항을 ERD로 시각화합니다.'],
-  ontology: ['현장의 언어를\n데이터의 언어로', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와\n관계로 정의합니다. 이 구조가 플레이트의 시각화와\n산업 AI 운영체제의 추론 근거로 함께 쓰입니다.', 'Ontology', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와 관계로 정의합니다.\n이 구조가 플레이트의 시각화와 산업 AI 운영체제의 추론 근거로 함께 쓰입니다.', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와 관계로 정의합니다.\n이 구조가 플레이트의 시각화와 산업 AI 운영체제의 추론 근거로\n함께 쓰입니다.'],
+  ontology: ['현장의 언어를\n데이터의 언어로', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와\n관계로 정의합니다. 이 구조가 플레이트의 시각화와\nAI 에이전트의 추론 근거로 함께 쓰입니다.', 'Ontology', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와 관계로 정의합니다.\n이 구조가 플레이트의 시각화와 AI 에이전트의 추론 근거로 함께 쓰입니다.', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와 관계로 정의합니다.\n이 구조가 플레이트의 시각화와 AI 에이전트의 추론 근거로\n함께 쓰입니다.'],
   calendar: ['일정과 운영을\n한 곳에서', '처리 일정, 점검 주기, 팀 업무를\n한 화면에서 관리하고\n운영 리듬을 놓치지 않도록 합니다.', 'Calendar', '처리 일정, 점검 주기, 팀 업무를 한 화면에서 관리하고\n운영 리듬을 놓치지 않도록 합니다.']
 };
 

@@ -32,15 +32,18 @@
 
 | 한국어 | 영어 | 상태 | 메모 |
 |---|---|---|---|
+| 산업 AI 운영체제 | Industrial AI OS | 🔵 | **Refinery 전체를 가리키는 범주어.** 제목·태그라인은 `Industrial AI OS`, 문장 안에서는 `industrial AI OS` 또는 `operating system`. 대화형 AI 기능(부분)에는 쓰지 않는다 |
 | 온톨로지 | ontology | ✅ | 업계 표준어 |
-| AI 에이전트 | AI agent | ✅ | |
-| 통합 지능 레이어 | integrated intelligence layer | 🔵 | **자체 조어.** 영어권에서 자연스럽게 읽히는지 확인 필요. 대안: `unified intelligence layer` |
+| AI 에이전트 | AI agent | ✅ | 운영체제 안의 대화형 구성요소 이름. 라벨·태그라인은 `AI Agent`, 문장 안에서는 `AI agent` |
+| 통합 지능 레이어 | integrated intelligence layer | 🔵 | **자체 조어.** 영어권에서 자연스럽게 읽히는지 확인 필요. 대안: `unified intelligence layer`. 범주어가 아니다 — 기존 시스템 위에 얹는 도입 방식을 묘사할 때만 쓴다. |
 | 데이터 계보 | data lineage | ✅ | |
 | 파이프라인 | pipeline | ✅ | |
 | 자동화 · 워크플로우 | automation & workflows | ✅ | |
 | 근거 있는 / 근거를 들어 | evidence-backed / with evidence | ⚠️ | 마케팅 톤 문제. `explainable`을 쓸지 검토 |
 | 전조 | early signs | ⚠️ | 기술 문서라면 `precursors`·`leading indicators`가 더 정확할 수 있음 |
 | 현장 | site / field / plant | ⚠️ | **문맥마다 다르게 옮겼다.** 통일할지 결정 필요 (아래 §7) |
+
+> 범주어(「산업 AI 운영체제」/`Industrial AI OS`)를 바꾸면 고칠 파일 — `src/pages/index.astro`·`src/pages/en/index.astro`(메타·JSON-LD·teams) · `src/pages/why-refinery.astro`·`src/pages/en/why-refinery.astro` · `public/llms.txt` · `src/data/pillars/industrial-ai.ts` · `public/agent-replay-demo.html`·`public/agent-replay-demo-en.html` · `src/components/ResourcesPage.astro`(플랫폼 개요 카드 제목).
 
 ## 2. 설비·예지보전
 

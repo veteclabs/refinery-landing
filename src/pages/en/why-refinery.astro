@@ -58,6 +58,15 @@ const stories = [
   },
 ];
 
+// 왜 운영체제인가 — 연결부터 판단까지 네 개의 층. 아래 기능 카드와 같은 틀에 칩 대신 설명을 둔다.
+// 아이콘은 기능 카드(capabilityGroups)와 겹치지 않게 골랐다.
+const layers = [
+  { title: 'Connection', icon: 'ph-plugs-connected', desc: 'Gateways and connectors link equipment, sensors, and SCADA, MES and ERP. The systems you already run stay in place.' },
+  { title: 'Ontology', icon: 'ph-tree-structure', desc: 'Assets, tasks and documents are defined in one model. Every app and the AI share that single model.' },
+  { title: 'Apps', icon: 'ph-grid-four', desc: 'Dashboards, analysis and workflows run on the same model. When a new app is added, data and permissions carry over.' },
+  { title: 'AI agent', icon: 'ph-chat-circle-dots', desc: 'People ask, and the AI answers with the evidence shown. Actions pass through permissions and approval, and stay on record.' },
+];
+
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
 // 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
@@ -68,8 +77,8 @@ const capabilityGroups = [
 ];
 ---
 <BaseLayout
-  title="Why Refinery ⁠· Industrial AI built by a team that knows the field | Refinery"
-  description="Scattered field data is tied into one body of knowledge, and AI helps you decide with the evidence shown. Layer onto what you have or build new where there is none, and one platform brings intelligence to the field."
+  title="Why Refinery ⁠· An industrial AI OS built by a team that knows the field | Refinery"
+  description="Scattered field data is tied into one body of knowledge, and AI helps you decide with the evidence shown. Layer onto what you have or build new where there is none, and one operating system brings intelligence to the field."
   canonical="/en/why-refinery"
   jsonLd={jsonLd}
 >
@@ -100,7 +109,7 @@ const capabilityGroups = [
       </div>
       <div class="ind-container">
         <p class="wr-tag">Platform overview</p>
-        <h1>One platform that brings<br>intelligence to the field</h1>
+        <h1>One operating system that brings<br>intelligence to the field</h1>
         <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution, scattered field sites are tied into one unified intelligence.</p>
         <div class="ind-hero-actions">
           <a href="/en/contact" class="ind-btn-primary">Contact</a>
@@ -127,11 +136,32 @@ const capabilityGroups = [
       </div>
     </section>
 
+    <!-- WHY AN OS -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <header class="ind-head wr-head-row">
+          <h2>Why an operating system</h2>
+          <p>Four layers, from connection to decision</p>
+        </header>
+        <div class="wr-caps">
+          {layers.map((l) => (
+            <div class="ind-card wr-cap-group">
+              <div class="wr-cap-head">
+                <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${l.icon}`}></i></span>
+                <h3>{l.title}</h3>
+              </div>
+              <p class="wr-layer-desc">{l.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- STORY BLOCKS -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>One flow across one platform</h2>
+          <h2>One flow across one operating system</h2>
           <p>Gather, connect, ask and execute</p>
         </header>
         <div class="wr-stories">
@@ -157,7 +187,7 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>The capabilities<br>one platform holds</h2>
+          <h2>The capabilities<br>one operating system holds</h2>
           <p>The capabilities your field operations need, in one place</p>
         </header>
         <div class="wr-caps">
@@ -615,6 +645,9 @@ const capabilityGroups = [
     /* 랜딩 솔루션 섹션 카드 소제목(.industry-desc)과 같은 var(--text-muted) #7E8A98. */
     padding: 7px 12px; font-size: 15px; line-height: 1.4; color: var(--text-muted);
   }
+
+  /* '왜 운영체제인가' 카드 — 기능 카드의 칩 자리에 설명 한 단락을 둔다. 글자값은 칩과 같다. */
+  .wr-layer-desc { margin: 16px 0 0; font-size: 15px; line-height: 1.6; color: var(--text-muted); }
 
   @media (max-width: 900px) {
     .wr-values { grid-template-columns: 1fr; gap: 30px; }

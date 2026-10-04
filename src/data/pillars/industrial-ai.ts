@@ -86,6 +86,10 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
         a: '산업 AI 에이전트는 질문에 근거(출처)를 들어 답하고, 원인을 추론해 다음 조치까지 제안하는 대화형 AI입니다. \nRefinery는 흩어진 데이터를 온톨로지로 엮어 의미를 부여함으로써 이를 구현합니다.',
       },
       {
+        q: '산업 AI 운영체제란 무엇인가요?',
+        a: '산업 AI 운영체제는 현장의 설비 ⁠· 시스템 ⁠· 문서를 하나의 모델(온톨로지)로 엮고, \n그 위에서 앱과 AI 에이전트가 같은 데이터와 권한으로 돌아가게 하는 기반입니다. 개별 AI 기능을 따로 붙이는 대신 연결 ⁠· 모델 ⁠· 앱 ⁠· 에이전트를 한 체계로 제공하며, Refinery가 이 방식의 산업 AI 운영체제입니다.',
+      },
+      {
         q: 'AI 시스템을 도입하려면 무엇이 필요한가요?',
         a: '먼저 SCADA ⁠· MES ⁠· ERP ⁠· 센서 ⁠· 문서에 흩어진 데이터를 하나로 통합해야 합니다. \nRefinery는 기존 시스템 위에 통합 지능 레이어로 얹거나, 시스템이 없는 현장은 새로 구축해 \n데이터에 의미를 부여하고 AI가 근거를 들어 판단하게 합니다.',
       },
@@ -143,6 +147,10 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       {
         q: 'What is an industrial AI agent?',
         a: 'An industrial AI agent is a conversational AI that answers questions with sources, reasons about causes, and proposes the next action. Refinery does this by weaving scattered data into an ontology that gives it meaning.',
+      },
+      {
+        q: 'What is an industrial AI OS?',
+        a: 'An industrial AI OS ties equipment, systems and documents in the field into one model (an ontology), and lets apps and AI agents run on it with the same data and permissions. Instead of bolting on separate AI features, it provides connection, model, apps and agents as one system. Refinery is an industrial AI OS built this way.',
       },
       {
         q: 'What do you need to adopt an AI system?',
