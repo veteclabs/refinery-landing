@@ -12,8 +12,10 @@ interface Props {
   content: PillarContent;
   /** ko/en 양쪽이 있는 페이지만 넘긴다. 없으면 hreflang을 내보내지 않는다. */
   alternates?: { lang: string; href: string }[];
+  /** 영문 전용 줄 모양 규칙을 거는 데 쓴다(산업 페이지의 ind-en과 같은 방식). */
+  lang?: 'ko' | 'en';
 }
-const { content: T, alternates } = Astro.props;
+const { content: T, alternates, lang = 'ko' } = Astro.props;
 
 /* 히어로 데모를 넣을지. demoSrc가 비어 있으면 그래픽(heroGraphic)을 쓰고,
    그것도 없으면 판만 남기고 자리로 둔다. */
@@ -41,7 +43,7 @@ const faqSchema = {
   jsonLd={faqSchema}
 >
   <Nav />
-  <main class="ind ind-page">
+  <main class:list={['ind', 'ind-page', lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -1440,6 +1442,29 @@ const faqSchema = {
      안 여백 24px은 다른 .ind-page 카드와 같은 값이다. 공통 .ind-card의 26px을 덮는데,
      그 24px 규칙이 .ind-grid-3에만 걸려 있어 4열로 오면서 빠졌다. */
   .ind-grid-4 .ind-card { padding: 24px; }
+  /* '자세히보기'를 카드 바닥에 붙인다. 영문은 설명 줄 수가 카드마다 달라(3~4줄)
+     버튼 높이가 제각각이었다 — 국문은 넷 다 두 줄이라 원래 맞아 있었다.
+     카드를 세로 flex 로 두고 margin-top: auto 로 남는 자리를 버튼 위가 먹는다.
+     padding-top 20px 은 설명이 가장 긴 카드에서도 지키는 최소 간격이다
+     (원래 margin-top 20px 과 같은 값). */
+  .ind-grid-4 .ind-card { display: flex; flex-direction: column; }
+  .ind-grid-4 .ind-card-go { margin-top: auto; padding-top: 20px; }
+  /* 설명 줄을 고르게 나눈다. 데이터의 개행으로 두 줄을 잡아 뒀는데 영문은 1행이
+     칸(233px)을 넘겨 다시 감기고, 2행에 'with wireless'(87px) · 'anomalies'(68px) ·
+     'defects'(51px) 처럼 짧은 꼬리만 남았다. 영문 개행을 걷고 balance 에 맡긴다.
+     카드3·4는 네 줄에서 세 줄로 줄었다. 국문은 개행을 그대로 둬 두 줄을 지킨다. */
+  .ind-grid-4 .ind-card p { text-wrap: balance; }
+  /* 영문은 네 카드를 2열로 둔다. 국문은 4열 그대로다.
+     한국어와 영어는 같은 뜻을 담는 데 드는 글자 폭이 1.6~1.9배 차이 난다. 4열(칸 232px)
+     에서 국문 설명은 넷 다 두 줄인데 영문은 [4,3,3,3] · [4,2,2,3]으로 갈리고, 제목도
+     [1,1,1,2] · [1,2,1,1]로 섞였다. 2열(칸 533px)에서는 제목이 넷 다 한 줄이 되고
+     설명은 산업 AI [2,1,1,2] · 에너지관리 [2,2,2,2]로 국문과 같은 구조가 된다.
+       대가는 격자 높이가 166 -> 351px으로 늘고, 카드가 넓어져 짧은 설명이 한 줄로
+     끝난다는 점이다. 글 배치가 가지런한 쪽을 택했다(사용자 판단, 2026-10-02).
+       제목 칸을 두 줄 높이로 잡던 보정(0176705)은 걷었다 — 2열에서는 제목이 모두
+     한 줄이라 빈 자리만 만든다.
+       860px 이하 1열 전환은 공통 규칙 그대로다. */
+  .ind-en .ind-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* 브랜드 하늘색 하나로 통일한다 — 밝은 배경용 #4B86BF를 따로 두지 않는다. */
   /* 설명과 '자세히보기' 사이 20px. */

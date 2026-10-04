@@ -1,6 +1,6 @@
 ---
 title: "What predictive maintenance actually predicts"
-description: "Not magic that guesses failures in advance, but the work of reading early signs in data. How predictive maintenance really operates."
+description: "Not magic that guesses failures in advance, but the work of reading early signs in data. How predictive maintenance actually works."
 pubDate: 2026-07-30
 updatedDate: 2026-07-31
 author: "Refinery Team"
@@ -17,12 +17,12 @@ lang: "en"
 ---
 
 The moment equipment stops, losses start accumulating. So plants work hard to prevent
-failures in advance – but setting the standard for "in advance" is not easy. Predictive
+failures in advance, but setting the standard for "in advance" is not easy. Predictive
 maintenance is an attempt to set that standard from data rather than instinct.
 
 ## The limits of preventive maintenance
 
-Many sites still maintain to a calendar: replace and inspect parts every few months. It is
+Many sites still run maintenance on a calendar: replace and inspect parts every few months. It is
 safe, but wasteful. Parts with life left get thrown away, and equipment still fails
 suddenly between service intervals. Time, as a criterion, has nothing to do with the actual
 condition of the machine.
@@ -38,9 +38,9 @@ reading.
 ## What has to be in place for prediction to work
 
 The quality of a prediction depends more on the data beneath it than on the model. First
-you need history of how that machine normally behaves – without a baseline to compare
+you need a history of how that machine normally behaves. Without a baseline to compare
 against, you cannot even tell whether the current value is unusual. And you need context
-for which machine a signal belongs to and what it connects to – an ontology – before a
+for which machine a signal belongs to and what it connects to — an ontology — before a
 cause can be narrowed down. If data is scattered and its provenance unclear, even a good
 model will chase the wrong thing.
 
@@ -49,17 +49,17 @@ model will chase the wrong thing.
 If vibration is the signal that reveals early signs first, the next question is how to
 measure it consistently. Sending someone around with a handheld meter is hard to do often,
 and the records vary from person to person. Wiring a sensor to every machine, meanwhile,
-is no small amount of construction.
+is no small construction job.
 
 So we use wireless vibration sensors. A sensor like the Advantech <span class="nb">WISE-2410</span> simply mounts
-on the motor – with no wiring work it can go onto equipment that is already running. A
+on the motor, and with no wiring work it can go onto equipment that is already running. A
 <span class="nb">built-in</span> 3-axis accelerometer measures vibration along with temperature, and the data goes
 out over LoRaWAN. Because LoRaWAN is <span class="nb">low-power</span>, the battery lasts and the signal carries
-far, so sensors spread across a large plant can be collected by one or two gateways such
+far, so data from sensors spread across a large plant can be collected by one or two gateways such
 as the <span class="nb">WISE-6610</span>.
 
 The measured 3-axis values are assessed against an international standard such as ISO
-20816. That lets you say whether "this much vibration is normal" against a benchmark
+20816. That lets you answer "is this much vibration normal?" against a standard
 rather than a hunch. The sensor itself is built to an IP66 rating across a wide
 temperature range, so it holds up in humid, hot and dusty conditions.
 
@@ -69,7 +69,7 @@ sensor to the machine you want to watch.
 
 ## In a form a person can act on
 
-A risk score alone does not move anyone. More than "this pump is at 0.87 risk," it is a
+A risk score alone does not move the shop floor. More than "this pump’s risk is 0.87," it is a
 sentence like "vibration is rising in a pattern similar to the <span class="nb">run-up</span> to the last failure;
 bearing wear is suspected; inspection recommended" that produces action. An AI agent turns
 the analysis back into human language like this, and presents the data and history the
@@ -85,4 +85,4 @@ actually being caught, and widen the scope from there.
 ## In closing
 
 <span class="lead-dot"></span>For the groundwork → [Five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices)<br>
-<span class="lead-dot"></span>For how AI decides with evidence → [AI agent whitepaper](/whitepapers/ai-agent)
+<span class="lead-dot"></span>For how AI decides with evidence → [AI agent whitepaper](/en/whitepapers/ai-agent)

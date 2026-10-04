@@ -17,74 +17,74 @@ export const foodEn: IndustryData = {
     imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Food ⁠· Beverage',
+    eyebrow: 'Food & Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
   },
   challenges: {
     dark: true,
-    title: 'Challenges on food sites',
-    subtitle: 'Recurring problems from intake to packaging and storage.',
+    title: 'Challenges on\nfood sites',
+    subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     items: [
       {
-        title: 'Refrigeration losses become cost',
+        title: 'Thermal and refrigeration efficiency losses become cost',
         description:
           'Air compressors, chillers, boilers and steam equipment carry most of the load, so any efficiency loss turns straight into cost and quality risk.',
       },
       {
         title: 'A stoppage costs a great deal',
         description:
-          'Hygiene standards and quality regulation are strict, so a single interruption leaves a large loss.',
+          'Hygiene standards and quality regulation are strict, so a single interruption results in a large loss.',
       },
       {
         title: 'Energy patterns shift batch to batch',
         description:
-          'With batch production, a change in output changes the energy profile with it.',
+          'With batch production, a shift in output moves the energy profile with it.',
       },
       {
-        title: 'Cost, carbon and ageing arrive together',
+        title: 'Cost, carbon and aging arrive together',
         description:
-          'Cost pressure, carbon compliance and ageing equipment are all happening in the same period.',
+          'Cost pressure, carbon compliance and aging equipment are all happening in the same period.',
       },
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a food manufacturing site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a food manufacturing site.',
     layout: 'steps',
     items: [
       {
         title: 'Chiller and compressor power and operating pattern analysis',
         problem: 'Equipment efficiency slipping without ever surfacing',
-        approach: 'Power consumption and operating patterns are stacked to locate where efficiency bends.',
+        approach: 'Power consumption and operating patterns are overlaid to locate where efficiency falls off.',
         outcome: 'Better equipment efficiency and lower energy cost',
       },
       {
-        title: 'Before and after simulation for equipment replacement',
+        title: 'Energy simulation before and after replacing aging equipment',
         problem: 'Replacement benefit that cannot be shown in numbers',
-        approach: 'Post-replacement energy use is estimated from current operating data and placed side by side.',
+        approach: 'Post-replacement energy use is estimated from current operating data and placed side by side with current use.',
         outcome: 'Investment case verified and replacement benefit quantified',
       },
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
-        problem: 'Utilities tallied separately, each on its own',
+        problem: 'Multiple energy sources, each aggregated separately',
         approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole plant energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
       {
         title: 'Energy intensity tied to output',
-        problem: 'Batch-to-batch variance with no baseline to compare',
-        approach: 'Production records and energy use are linked to derive intensity by batch and product automatically.',
+        problem: 'Batch-to-batch variance with no baseline to compare it against',
+        approach: 'Production records and energy use are linked to derive energy intensity by batch and product automatically.',
         outcome: 'Better cost structure and comparable process efficiency',
       },
       {
         title: 'Chiller efficiency analysis and operating optimization',
-        problem: 'Chillers running on without a reference point',
+        problem: 'Chillers that keep running with no reference point',
         approach: 'Chiller COP is computed continuously so the most efficient units are run first.',
-        outcome: 'Lower cooling energy and steadier quality',
+        outcome: 'Lower thermal and refrigeration energy, and steadier quality',
       },
       {
         title: 'Vibration-based equipment monitoring',
-        problem: 'Rotating-equipment faults that surface only after a stop',
+        problem: 'Rotating-equipment anomalies that surface only after a stop',
         approach: 'An AI agent reads anomalies in vibration trends to catch early signs, and proposes both the likely cause and the next action with the history behind it.',
         outcome: 'Failures prevented and downtime reduced',
       },
@@ -92,33 +92,33 @@ export const foodEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Chillers ⁠· air compressors ⁠· boilers ⁠· temperature sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· ERP⁠ ⁠· ⁠SAP ⁠· Modbus TCP⁠/⁠IP ⁠· LoRaWAN ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Equipment dashboard ⁠· excursion alerts ⁠· batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Equipment dashboard ⁠· temperature excursion alerts ⁠· batch reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where PLC or MES already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where PLC or MES already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
     subtitle: 'Benefits across operations, engineering and management.',
     items: [
       {
-        title: 'Verified case for replacement',
+        title: 'Replacement justified with evidence',
         icon: 'ph-calculator',
         description: 'Before and after are set out in numbers to justify the spend.',
       },
       {
         title: 'Chiller and compressor tuning',
         icon: 'ph-snowflake',
-        description: 'Operating patterns are refined to save cooling energy.',
+        description: 'Operating patterns are refined to save thermal and refrigeration energy.',
       },
       {
         title: 'Efficiency compared against output',
         icon: 'ph-chart-line',
-        description: 'Batches are weighed against each other to improve the cost structure.',
+        description: 'Energy is compared batch to batch to improve the cost structure.',
       },
       {
         title: 'Retracing equipment on a quality issue',
@@ -128,19 +128,19 @@ export const foodEn: IndustryData = {
       {
         title: 'Less downtime',
         icon: 'ph-pulse',
-        description: 'Vibration catches faults early, preventing failures.',
+        description: 'Vibration catches anomalies early, preventing failures.',
       },
     ],
   },
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on food manufacturing sites.',
-    systems: ['MES', 'SCADA', 'ERP ⁠· SAP', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4-20mA', 'Serial', 'BMS'],
+    systems: ['MES', 'SCADA', 'ERP (SAP)', 'Modbus TCP⁠/⁠IP', 'LoRaWAN', '4–20 mA', 'Serial', 'BMS'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour food operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your food operation.',
     buttonLabel: 'Request a demo',
   },
 };

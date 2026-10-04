@@ -19,28 +19,28 @@ export const chemicalsEn: IndustryData = {
     imagePosition: 'center 75%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Chemicals ⁠· Materials',
+    eyebrow: 'Chemicals & Materials',
     title: 'Continuous reactions and heat,\nunder precise control',
   },
   challenges: {
     dark: true,
-    title: 'Challenges on chemical sites',
-    subtitle: 'Recurring problems in continuous reaction operations.',
+    title: 'Challenges on\nchemical sites',
+    subtitle: 'Recurring problems where continuous reaction\nand heat-based equipment run.',
     items: [
       {
-        title: 'Several utilities run at once',
+        title: 'Several energy sources run at once',
         description:
-          'Electricity, LNG, steam and water all feed the process, yet each is tallied on its own and the whole picture never forms.',
+          'Electricity, LNG, steam and water all feed the process, yet each is aggregated separately and the whole picture never forms.',
       },
       {
-        title: 'Small changes move quality and stability',
+        title: 'Small changes upset quality and production stability',
         description:
-          'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight into the result.',
+          'Reactors, boilers, blowers and compressors run continuously, so a slight change in conditions carries straight through to the result.',
       },
       {
         title: 'Process variables need precise control',
         description:
-          'Air-fuel ratio, temperature, pressure and flow must be held together, and judgment by feel cannot keep them at the optimum.',
+          'Air-fuel ratio, temperature, pressure and flow must all be held in range at once, and going by feel cannot keep them at the optimum.',
       },
       {
         title: 'Energy cost and carbon rules tighten together',
@@ -50,13 +50,13 @@ export const chemicalsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a chemical site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a chemical site.',
     layout: 'steps',
     items: [
       {
         title: 'Unified electricity, LNG, steam and water monitoring',
-        problem: 'Utilities tallied separately, each on its own',
+        problem: 'Multiple energy sources, each aggregated separately',
         approach: 'Electricity, LNG, steam, water and consumption by asset are connected through an ontology into one structure, so the whole energy flow sits on one screen.',
         outcome: 'Usage patterns made visible by energy source',
       },
@@ -67,41 +67,41 @@ export const chemicalsEn: IndustryData = {
         outcome: 'Over-consumption prevented and immediate response in place',
       },
       {
-        title: 'Air-fuel ratio based blower inverter control',
-        problem: 'Thermal boiler air-fuel ratio set by feel',
-        approach: 'The blower inverter is controlled against the thermal boiler air-fuel ratio so the optimum is held.',
+        title: 'Air-fuel-ratio-based blower VFD control for thermal fluid boilers',
+        problem: 'Thermal fluid boiler air-fuel ratio set by feel',
+        approach: 'The blower VFD is controlled against the thermal fluid boiler air-fuel ratio so the optimum is held.',
         outcome: 'Better combustion efficiency and lower energy cost',
       },
       {
         title: 'Energy use analysis by asset',
-        problem: 'No way to tell which asset consumes the energy',
+        problem: 'No way to tell which assets are eating up the energy',
         approach: 'Energy is metered separately by asset and compared on equal terms.',
         outcome: 'Energy-intensive assets identified',
       },
       {
-        title: 'Air compressor state and operating factors',
-        problem: 'Compressor faults that surface only after a stop',
-        approach: 'An AI agent reads compressor state and operating factors together to catch flows that differ from the norm, and proposes both the cause and the next action.',
+        title: 'Air compressor state and operating parameter monitoring',
+        problem: 'Compressor anomalies that surface only after a stop',
+        approach: 'An AI agent reads compressor state and operating parameters together to catch early signs in patterns that differ from the norm, and proposes both the cause and the next action.',
         outcome: 'Steadier equipment operation and more efficient maintenance',
       },
       {
-        title: 'Unified greenhouse gas accounting',
+        title: 'Unified greenhouse gas emissions management',
         problem: 'Manual aggregation of emissions and regulatory reports',
-        approach: 'Emission metrics are aggregated automatically from site data into reports traceable to their source.',
+        approach: 'Emission metrics are aggregated automatically from field data into reports traceable to their source.',
         outcome: 'Carbon compliance and energy performance management',
       },
     ],
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Reactors ⁠· thermal boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4-20mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Site', detail: 'Reactors ⁠· thermal fluid boilers ⁠· blowers ⁠· compressor sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· Plant EMS ⁠· Modbus ⁠· Serial ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Energy dashboard ⁠· target alerts ⁠· emission reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where SCADA or FEMS already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where SCADA or a plant EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -125,7 +125,7 @@ export const chemicalsEn: IndustryData = {
       {
         title: 'Early detection of energy anomalies',
         icon: 'ph-pulse',
-        description: 'Flows that differ from the norm are noticed first.',
+        description: 'Patterns that differ from the norm are noticed first.',
       },
       {
         title: 'Carbon compliance',
@@ -137,12 +137,12 @@ export const chemicalsEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on chemical sites.',
-    systems: ['SCADA', 'PLC', 'FEMS', 'ERP', 'Modbus', 'Serial ⁠· RS-485', '4-20mA', 'OPC-⁠UA'],
+    systems: ['SCADA', 'PLC', 'Plant EMS', 'ERP', 'Modbus', 'Serial (RS-485)', '4–20 mA', 'OPC UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour chemical operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your chemical operation.',
     buttonLabel: 'Request a demo',
   },
 };

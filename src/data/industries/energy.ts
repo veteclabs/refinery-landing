@@ -88,7 +88,7 @@ export const energy: IndustryData = {
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
       { label: '현장', detail: '발전 ⁠· 변전 설비 ⁠· 스마트미터 ⁠· 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC-⁠UA ⁠· DNP3 ⁠· IEC 61850', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: '연동', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC UA ⁠· DNP3 ⁠· IEC 61850', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '통합 대시보드 ⁠· 알람 ⁠· ESG 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
@@ -133,7 +133,7 @@ export const energy: IndustryData = {
   integrations: {
     title: '연동 시스템',
     subtitle: '에너지 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
-    systems: ['SCADA', 'EMS', '스마트미터 ⁠· AMI', 'Modbus', 'OPC-⁠UA', 'DNP3', 'IEC 61850', 'ERP'],
+    systems: ['SCADA', 'EMS', '스마트미터 ⁠· AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
     note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
   },
   cta: {

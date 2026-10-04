@@ -18,44 +18,44 @@ export const machineryEn: IndustryData = {
     imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Machinery ⁠· Plant',
+    eyebrow: 'Machinery & Plant',
     title: 'Large equipment and process,\ncontrolled together in real time',
   },
   challenges: {
     dark: true,
-    title: 'Challenges on plant sites',
+    title: 'Challenges on\nplant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [
       {
         title: 'Several energy sources run at once',
         description:
-          'Compressed air, electricity, cooling and HVAC all run on one site, and where the consumption lands never becomes clear.',
+          'Compressed air, electricity, process heating and cooling and HVAC all run at one site, and it never becomes clear where the energy goes or how much.',
       },
       {
         title: 'Equipment is tightly coupled',
         description:
-          'A fault in one machine carries straight through to the efficiency of the whole process.',
+          'An anomaly in one machine carries straight through to the efficiency of the whole process.',
       },
       {
         title: 'Non-stop running with precise conditions',
         description:
-          'The plant cannot pause while process conditions must still hold, leaving no obvious moment to intervene.',
+          'The plant cannot pause, and process conditions must still hold, leaving no obvious moment to intervene.',
       },
       {
-        title: 'Ageing, cost and rules arrive at once',
+        title: 'Aging, cost and rules arrive at once',
         description:
-          'Ageing equipment, rising energy cost and carbon compliance run in parallel, so equipment and energy have to be seen as one system.',
+          'Aging equipment, rising energy cost and carbon compliance run in parallel, so equipment and energy have to be seen as one system.',
       },
     ],
   },
   useCases: {
-    title: 'Representative use cases',
-    subtitle: 'What <mark>Refinery\nactually does</mark>\non a plant site.',
+    title: 'How the problems are solved',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a plant site.',
     layout: 'steps',
     items: [
       {
         title: 'Demand-based compressed air control and monitoring',
-        problem: 'Shared utilities running on when demand drops',
+        problem: 'Shared utilities that keep running when demand drops',
         approach: 'Real demand is read and discharge pressure and unit staging are matched to what is needed.',
         outcome: 'Lower energy use and longer equipment life',
       },
@@ -66,10 +66,10 @@ export const machineryEn: IndustryData = {
         outcome: 'Energy-intensive assets identified and operations improved',
       },
       {
-        title: 'Enthalpy-based HVAC inverter control',
+        title: 'Enthalpy-based HVAC VFD control',
         problem: 'HVAC running fixed, regardless of outdoor conditions',
-        approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC inverter is controlled to hold the target.',
-        outcome: 'Steadier process environment and lower cooling energy',
+        approach: 'Line temperature and humidity are converted to enthalpy, and the HVAC VFD is controlled to hold the target.',
+        outcome: 'Steadier process environment and lower heating and cooling energy',
       },
       {
         title: 'Energy intensity tied to output',
@@ -78,8 +78,8 @@ export const machineryEn: IndustryData = {
         outcome: 'Process efficiency made visible and cost structure improved',
       },
       {
-        title: 'DC microgrid based equipment control',
-        problem: 'Operations tied to a single grid feed',
+        title: 'DC-microgrid-based equipment control',
+        problem: 'Equipment operation left unsteady, tied to a single grid feed',
         approach: 'On-site generation and the grid are read together to distribute power across equipment.',
         outcome: 'Lower fuel cost and steadier energy operations',
       },
@@ -93,14 +93,14 @@ export const machineryEn: IndustryData = {
   },
   architecture: {
     title: 'How it fits together',
-    subtitle: 'How site data gains meaning and turns into a decision.',
+    subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
       { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
+      { label: 'Connect', detail: 'Plant EMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Utility dashboard ⁠· intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Use', detail: 'Utility dashboard ⁠· energy intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where FEMS or SCADA already exists, Refinery sits on top of it and integrates both ways rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: 'Where a plant EMS or SCADA already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },
   benefits: {
     title: 'What you gain',
@@ -109,12 +109,12 @@ export const machineryEn: IndustryData = {
       {
         title: 'Demand-based compressed air control',
         icon: 'ph-wind',
-        description: 'Shared utilities run only as far as real demand asks.',
+        description: 'Shared utilities run only as much as actual demand requires.',
       },
       {
-        title: 'Savings from HVAC inverter control',
+        title: 'Savings from HVAC VFD control',
         icon: 'ph-thermometer',
-        description: 'Load follows enthalpy, cutting cooling energy.',
+        description: 'Load follows enthalpy, cutting heating and cooling energy.',
       },
       {
         title: 'Condition-based maintenance',
@@ -141,12 +141,12 @@ export const machineryEn: IndustryData = {
   integrations: {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on machinery and plant sites.',
-    systems: ['FEMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', 'OPC-⁠UA'],
+    systems: ['Plant EMS', 'SCADA', 'PLC', 'ERP', 'Modbus', 'BACnet', 'TCP⁠/⁠IP', 'OPC UA'],
     note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: 'Let’s find the answer that fits\nyour plant operation, together.',
+    title: 'The Refinery team will work with you to find\nthe answer that fits your plant operation.',
     buttonLabel: 'Request a demo',
   },
 };

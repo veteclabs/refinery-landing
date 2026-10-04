@@ -810,12 +810,75 @@ img { max-width: 100%; height: auto; }
    7개 중 5개가 두 줄이 됐다(가장 긴 식품 542px). 560px으로 올린다 —
    가장 넓은 제목(기계·플랜트 432px)과 32px 사이를 두고도 머리 폭 1184px 안에
    들어간다. 섹션 전용 클래스(.ind-challenges)에만 건다. */
-.ind-page .ind-challenges .ind-head p { max-width: 560px; }
-@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
+/* 소제목 칸은 남는 자리에 맞춘다. 고정값으로 두면 제목이 긴 산업에서
+   제목 + gap + 칸 이 머리 폭을 넘겨 소제목이 통째로 아래로 내려간다 —
+   전자·정밀이 그랬다(제목 624 + 32 + 560 = 1216 > 머리 1184).
+   flex-basis 0 으로 두면 남은 자리를 그대로 쓰고, 최대 660px 까지만 넓어진다.
+   min-width 420px 은 두 줄을 지키는 하한이다. 그보다 좁아지면 줄이 가파르게
+   늘어나므로 차라리 아래로 내려보낸다(flex-wrap 이 맡는다).
+     상한을 560 -> 660px 으로 올린 이유: 식품 소제목이 626px 이라 560px 칸에서
+   두 줄이 됐다. 1440px 에서 제목이 두 줄(286px)이 되며 남는 자리가 866px 으로
+   늘어 660px 을 줘도 넉넉하다(286 + 32 + 660 = 978 <= 1184). 식품 626px 에
+   여유 34px. 나머지는 이 변경으로 달라지지 않는다 — 에너지 446 · 기계 468 ·
+   철강 473 · 자동차 482 는 원래 한 줄이고, 전자·정밀과 화학은 <br> 로 줄을
+   고정해 두 줄이다. */
+.ind-page .ind-challenges .ind-head p { flex: 1 1 0; min-width: 420px; max-width: 660px; }
+/* 도입 효과 소제목도 한 줄로 둔다. 영문 'Benefits across operations, engineering
+   and management.'가 468px이라 400px 칸에서는 두 줄이 됐다. 490px으로 올린다 —
+   제목 'What you gain' 287px + gap 32px 과 합쳐도 머리 폭에 넉넉히 들어간다.
+   문구는 일곱 산업이 모두 같아 한 곳만 고치면 된다(국문은 원래 한 줄이다). */
+.ind-page .ind-benefits .ind-head p { max-width: 490px; }
+
+/* 도입 효과 카드의 제목 칸을 두 줄 높이로 잡고 글자를 아래에 붙인다. 제목이 두 줄인
+   카드만 본문이 내려앉아 가로로 늘어선 카드끼리 시작선이 어긋났다.
+   아래 끝을 고정하는 쪽이라 한 줄 제목은 지금 자리를 그대로 지키고, 두 줄 제목만
+   아이콘 쪽 여백(65px)을 한 줄만큼 먹으며 위로 자란다.
+     한 줄  칸 위 -32 + 글자 아래 32  → 아이콘에서 65px (그대로)
+     두 줄  칸 위 -32 + 글자 가득 64  → 아이콘에서 33px
+     아래 끝은 둘 다 같아 본문 시작선이 맞는다.
+   줄 높이 32px(20px * 1.6)에 맞춘 값이다. 일곱 산업 · 두 언어를 320~1600px
+   17개 폭에서 재어 제목은 최대 두 줄이고, 제목에 인라인 태그가 없어 flex 로 둬도
+   줄 나눔이 깨지지 않는다. */
+.ind-page .ind-benefits .ind-card h3 {
+  min-height: 64px; margin-top: -32px;
+  display: flex; align-items: flex-end;
+}
+
+/* 영문 산업 페이지의 도입 효과는 2열로 둔다. 국문은 카드 수에 따라 3열 · 4열 그대로다.
+   한국어와 영어는 같은 뜻을 담는 데 드는 글자 폭이 1.6~1.9배 차이 난다. 3열(칸 333px)
+   에서 국문은 일곱 산업 모두 제목 한 줄 · 설명 두 줄인데 영문은 갈렸다 — 전자·정밀
+   [1,2,2,1,1,1] · 기계 [2,1,1,1,1,1] · 식품 [1,1,1,2,1] 이 제목에서, 에너지 [2,2,2,3,3,4] ·
+   철강 [2,2,1,2,2] · 화학 [1,1,2,2,2] 가 설명에서 그랬다(자동차는 카드가 넷이라 4열,
+   칸 229px 으로 가장 좁고 제목 [2,1,1,1] · 설명 [3,3,2,3] 이었다).
+     2열(칸 532px)에서는 일곱 산업 모두 제목이 한 줄이 된다. 설명은 네 산업이 전부 한 줄,
+   에너지와 철강만 [2,1,...] 로 한 줄 차이가 남는다.
+     산업마다 예외를 두지 않고 규칙 하나로 둔 이유: '제목이 두 줄이 되는 산업만 2열'은
+   번역 글자 폭에 달린 판정이라 카피를 한 낱말만 고쳐도 뒤집힌다. 예외를 넷 쌓아 두면
+   문구를 손볼 때마다 되짚어야 한다.
+     대가는 섹션 높이가 472 -> 652px 으로 늘어나는 것이다(카드 다섯·여섯은 3행, 넷은 2행).
+   1100px 이하에서 공통 규칙이 이미 2열이고 860px 이하 1열 전환도 그대로라, 이 규칙은
+   사실상 1101px 이상에서만 작동한다. */
+.ind-page.ind-en .ind-benefits .ind-grid-3,
+.ind-page.ind-en .ind-benefits .ind-grid-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+/* 860px 이하 1열은 공통 규칙(.ind-grid-3 · .ind-grid-4)이 맡는데, 위 선택자가 클래스
+   넷이라 우선순위가 높아 그대로 두면 1열로 접히지 않는다. 같은 경계에서 되돌린다. */
+@media (max-width: 860px) {
+  .ind-page.ind-en .ind-benefits .ind-grid-3,
+  .ind-page.ind-en .ind-benefits .ind-grid-4 { grid-template-columns: 1fr; }
+}@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
    색은 배경마다 달라 그대로 둔다 — 예지보전의 #959CA5는 어두운 면 위 값이다. */
-.ind-page .ind-card h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin-bottom: 5px; }
+/* 카드 제목은 줄을 고르게 나눈다. 영문 제목이 두 줄이 될 때 마지막 줄에 낱말
+   하나만 떨어지는 자리가 많았다 — 전자·정밀 'A power outage or equipment anomaly
+   becomes a / defect', 'Immediate alerts on equipment / anomalies' 같은 식이다.
+   balance는 줄 수를 늘리지 않고 같은 줄 수 안에서 폭만 고르게 맞추므로 카드 높이는
+   그대로다(도입 효과 제목 칸 64px 가정도 지킨다). 일곱 산업 · 두 언어를 1600~480px
+   일곱 폭에서 재어 낱말 혼자 남는 자리가 58곳 -> 6곳으로 줄었고 넘침은 양쪽 모두 0이다.
+   국문은 제목이 모두 한 줄이라 변화가 없다. 지원하지 않는 브라우저는 지금 모습 그대로다. */
+.ind-page .ind-card h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin-bottom: 5px; text-wrap: balance; }
 .ind-page .ind-card p { line-height: 1.5; }
 .ind-page .ind-usecase-body h3 { font-weight: 600; line-height: 1.6; }
 
@@ -1135,11 +1198,15 @@ img { max-width: 100%; height: auto; }
 
 /* 영문 말풍선 글은 줄바꿈을 손으로 넣지 않는다 — 영어는 자연 줄바꿈이 잘 되고,
    한글처럼 <br>를 박으면 화면 폭이 바뀔 때마다 자리가 어긋난다.
-   대신 text-wrap: balance로 줄 길이를 고르게 만든다. 이걸 걸기 전에는 마지막
-   줄에 한 단어만 남는 곳이 4군데였다(12 · 9 · 6 · 20%). 걸고 나면 0이 되고
-   줄 채움이 51~99%로 고르게 퍼진다.
+   대신 text-wrap으로 브라우저에 맡긴다. 아무것도 걸지 않으면 마지막 줄에 한
+   단어만 남는 곳이 4군데였다(12 · 9 · 6 · 20%).
+   처음에는 balance를 걸었는데, 그건 모든 줄을 고르게 나누는 설정이라 3줄
+   카드에서 각 줄이 60%에 그쳐 2줄 카드(꽉 참)와 나란히 놓였을 때 눈에 띄었다.
+   pretty는 앞줄을 최대한 채우고 마지막 줄만 조정한다 — 3줄 카드도 95%까지
+   차고 마지막 줄은 2~3단어라 고아도 생기지 않는다. balance는 제목처럼 짧은
+   글을 위한 설정이고 본문에는 pretty가 맞다.
    한글에는 걸지 않는다. 수동 <br>가 있어 데스크톱에서는 아무 효과가 없다. */
-.ind-en .ind-grid-bubble .ind-card p { text-wrap: balance; }
+.ind-en .ind-grid-bubble .ind-card p { text-wrap: pretty; }
 .ind-en .ind-uc-panel dt { gap: 0; }
 
 @media (max-width: 640px) {

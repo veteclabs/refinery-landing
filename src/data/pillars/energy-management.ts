@@ -67,7 +67,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     title: 'What Is an Energy Management System (EMS)? Power Monitoring Explained | Refinery',
     description: 'A plain explanation of energy management systems (EMS), building energy management systems (BEMS), power management systems, power monitoring and outage detection. Refinery ties power and energy data into an ontology, so AI can explain what it finds with evidence.',
     canonical: '/en/energy-management',
-    heroTitle: 'An energy management system that finds<br>anomalies and savings in your power data',
+    heroTitle: 'An energy management system that finds anomalies<br>and savings in your power and energy data',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
     ctaGhost: 'Platform overview',
@@ -83,7 +83,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     demoTitle: '',
     openTitle: '',
     faqHead: 'FAQ',
-    usesHead: 'Where energy management<br>is used on site',
+    usesHead: 'Ready-to-run uses on site',
     usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
     more: 'Learn more',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
@@ -95,11 +95,11 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'What is a building energy management system (BEMS)?',
-        a: 'A building energy management system (BEMS) is an EMS that manages the energy used by a building\'s HVAC, lighting and electrical equipment in one place. It works on the same principle as a factory EMS; what differs is that the equipment it manages belongs to a building.',
+        a: 'A building energy management system (BEMS) is an EMS that manages the energy used by a building’s HVAC, lighting and electrical equipment in one place. It works on the same principle as a factory EMS; the difference is that what it manages is building equipment.',
       },
       {
         q: 'What is a power management system?',
-        a: 'A power management system collects and analyzes the voltage, current, power and power factor of incoming and distribution circuits in real time to monitor and optimize electricity use. By managing peak demand and abnormal loads, it lowers both electricity bills and the risk of an outage.',
+        a: 'A power management system collects and analyzes the voltage, current, power and power factor of the incoming and distribution circuits in real time to monitor and optimize electricity use. By managing peak demand and abnormal loads, it lowers both electricity bills and the risk of an outage.',
       },
       {
         q: 'What is power monitoring?',
@@ -107,20 +107,20 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
       },
       {
         q: 'How is outage detection done?',
-        a: 'Outage detection senses a power fault or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable, the person on duty is notified.',
+        a: 'Outage detection senses a power anomaly or blackout the moment it happens and reports it. Voltage and current across the circuit are monitored continuously, so the instant power is lost or becomes unstable, the responsible engineer is notified.',
       },
       {
         q: 'What makes energy and power management on Refinery different?',
-        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings can be read in context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data never leaves your company.',
+        a: 'Refinery ties EMS, power metering and equipment data into a single ontology, so scattered readings can be seen in context. AI explains what caused a peak or an anomaly with evidence and proposes what to do next, and it can be deployed on premises so the data does not leave your company.',
       },
     ],
     uses: [
-      { label: 'Power management', desc: 'Find peaks, anomalies and savings\nin your power data', href: '/en/use-cases/power-management' },
+      { label: 'Power management', desc: 'A power management solution that finds peaks,\nanomalies and savings in your power data', href: '/en/use-cases/power-management' },
       /* 카드 제목은 한 줄로 둔다. 'Factory energy management'는 카드 안쪽
          폭(235px)을 넘겨 두 줄이 되고, 그 카드만 높아져 넉 장이 어긋난다. */
-      { label: 'Factory energy', desc: 'Manage energy use across the\nwhole plant in one EMS', href: '/en/use-cases/factory-energy' },
-      { label: 'Energy optimization', desc: 'AI that finds waste and cuts\nenergy use', href: '/en/use-cases/energy-optimization' },
-      { label: 'Industrial AI', desc: 'Industrial, manufacturing and\nenergy AI at a glance', href: '/en/industrial-ai' },
+      { label: 'Factory energy management', desc: 'An EMS that manages energy use\nacross the whole plant', href: '/en/use-cases/factory-energy' },
+      { label: 'Energy optimization', desc: 'AI optimization that finds waste\nand cuts energy use', href: '/en/use-cases/energy-optimization' },
+      { label: 'Industrial AI', desc: 'The concepts of industrial, manufacturing\nand energy AI at a glance', href: '/en/industrial-ai' },
     ],
   },
 };

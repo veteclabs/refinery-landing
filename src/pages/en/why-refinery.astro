@@ -1,15 +1,17 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/industry.css';
+// 영어판 플랫폼 개요. 한국어 /why-refinery.astro를 옮긴 것이다.
+// ⚠️ 두 파일은 사전을 공유하지 않는 복제 관계다 — 카피를 고치면 양쪽을 함께 고쳐야 한다.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: '왜 Refinery인가 | Refinery',
-  url: `${SITE}/why-refinery`,
+  name: 'Why Refinery | Refinery',
+  url: `${SITE}/en/why-refinery`,
   isPartOf: { '@type': 'WebSite', name: 'Refinery', url: `${SITE}/` },
 };
 
@@ -17,41 +19,41 @@ const jsonLd = {
 // 아이콘은 디자인에서 받은 2색 SVG(흰색 + #76A6D7)를 순서대로 쓴다.
 // 색이 그림 안에 박혀 있어 currentColor로 물들일 수 없다 — 어두운 면 전용이다.
 const values = [
-  { icon: '/why-refinery/icon-01.svg', title: '현장을 아는 팀', desc: '현장실사로 수변전계통 ⁠· 설비 ⁠· 케이블을 직접 봅니다.<br>센서 설치부터 현장 네트워크 통합(485 ⁠· TCP/IP ⁠· Modbus ⁠· OPC UA)⁠까지 다룹니다.' },
-  { icon: '/why-refinery/icon-02.svg', title: '걷어내지 않는 도입', desc: '쓰던 시스템 위에 얹습니다.<br>없으면 30년 경험의 템플릿에서 시작합니다.' },
-  { icon: '/why-refinery/icon-03.svg', title: '숫자를 넘어, 지식으로', desc: '설비 ⁠· 문서 ⁠· 이력까지 온톨로지로 엮습니다.<br>AI가 근거를 들어 답합니다.' },
+  { icon: '/why-refinery/icon-01.svg', title: 'A team that knows the field', desc: 'On a site survey we look at the substation system, the equipment and the cabling ourselves.<br>We cover everything from installing sensors to integrating the field network (485, TCP/IP, <span style="white-space:nowrap">Modbus, OPC UA).</span>' },
+  { icon: '/why-refinery/icon-02.svg', title: 'Adoption that tears nothing out', desc: 'We sit on top of the systems you already use.<br>Where there are none, we start from a template shaped by 30 years on site.' },
+  { icon: '/why-refinery/icon-03.svg', title: 'Beyond numbers, into knowledge', desc: 'We tie equipment, documents and history together in an ontology.<br>AI answers with the evidence shown.' },
 ];
 
 // 기능 스토리 3 — 통합 / AI 에이전트 / 자동화
 const stories = [
   {
     image: '/why-refinery/story-01.svg',
-    eyebrow: '통합',
-    title: '흩어진 데이터가 하나의 지식으로',
+    eyebrow: 'Integration',
+    title: 'Scattered data into one<br>body of knowledge',
     points: [
-      'SCADA ⁠· MES ⁠· ERP를 한곳에 모읍니다.',
-      '온톨로지로 어떤 데이터인지 의미를 부여합니다.',
-      '숫자와 기록이 맥락을 얻어 판단에 쓰입니다.',
+      'SCADA, MES and ERP are gathered in one place.',
+      'An ontology gives data the meaning of what it is.',
+      'Numbers and records gain context and serve judgment.',
     ],
   },
   {
     image: '/why-refinery/story-02.svg',
-    eyebrow: 'AI 에이전트',
-    title: '물으면 답하는 현장',
+    eyebrow: 'AI agent',
+    title: 'A field that answers<br>when you ask',
     points: [
-      '궁금한 점을 물어보면 데이터를 근거로 답합니다.',
-      '원인을 추론하고 다음 조치까지 제안합니다.',
-      '답변의 근거가 된 데이터 출처를 함께 제시합니다.',
+      'Ask what you want to know and it answers from the data.',
+      'It infers causes and suggests the next action.',
+      'The data sources behind the answer are given too.',
     ],
   },
   {
     image: '/why-refinery/story-03.svg',
-    eyebrow: '자동화',
-    title: '사람 없이 돌아가는 운영',
+    eyebrow: 'Automation',
+    title: 'Operations that run<br>without people',
     points: [
-      '무엇을 자동으로 할지 대화로 정합니다.',
-      '분석이 보고서 ⁠· 워크플로우 실행까지 이어집니다.',
-      '반복 업무는 사람 손 없이 자동으로 처리됩니다.',
+      'You decide through conversation what runs automatically.',
+      'Analysis flows into reports and workflow execution.',
+      'Repeated work is handled automatically, with no manual steps.',
     ],
   },
 ];
@@ -59,25 +61,25 @@ const stories = [
 // 왜 운영체제인가 — 연결부터 판단까지 네 개의 층. 아래 기능 카드와 같은 틀에 칩 대신 설명을 둔다.
 // 아이콘은 기능 카드(capabilityGroups)와 겹치지 않게 골랐다.
 const layers = [
-  { title: '연결', icon: 'ph-plugs-connected', desc: '설비 ⁠· 센서와 SCADA ⁠· MES ⁠· ERP를 게이트웨이와 커넥터로 잇습니다. 쓰던 시스템은 그대로 둡니다.' },
-  { title: '온톨로지', icon: 'ph-tree-structure', desc: '설비 ⁠· 업무 ⁠· 문서를 하나의 모델로 정의합니다. 모든 앱과 AI가 이 모델 하나를 함께 씁니다.' },
-  { title: '앱', icon: 'ph-grid-four', desc: '대시보드 ⁠· 분석 ⁠· 워크플로우가 같은 모델 위에서 돌아갑니다. 새 앱이 더해져도 데이터와 권한은 그대로 이어집니다.' },
-  { title: 'AI 에이전트', icon: 'ph-chat-circle-dots', desc: '사람이 묻고 AI가 근거를 들어 답합니다. 조치는 권한과 승인을 거치고 기록으로 남습니다.' },
+  { title: 'Connection', icon: 'ph-plugs-connected', desc: 'Gateways and connectors link equipment, sensors, and SCADA, MES and ERP. The systems you already run stay in place.' },
+  { title: 'Ontology', icon: 'ph-tree-structure', desc: 'Assets, tasks and documents are defined in one model. Every app and the AI share that single model.' },
+  { title: 'Apps', icon: 'ph-grid-four', desc: 'Dashboards, analysis and workflows run on the same model. When a new app is added, data and permissions carry over.' },
+  { title: 'AI agent', icon: 'ph-chat-circle-dots', desc: 'People ask, and the AI answers with the evidence shown. Actions pass through permissions and approval, and stay on record.' },
 ];
 
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
 // 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
-  { title: '데이터', icon: 'ph-database', items: ['온톨로지', '통합 대시보드', '파이프라인', '시계열 분석', '문서 지식화', '기존 시스템 연동'] },
-  { title: '지능', icon: 'ph-sparkle', items: ['AI 에이전트', '이상 감지', '알람', '예지보전', '품질 예측', '에너지 최적화'] },
-  { title: '운영', icon: 'ph-gear-six', items: ['자동화', '워크플로우', '리포트 자동화', 'ESG 리포트'] },
-  { title: '신뢰', icon: 'ph-shield-check', items: ['온프레미스 배포', '권한', '암호화'] },
+  { title: 'Data', icon: 'ph-database', items: ['Ontology', 'Unified dashboard', 'Pipeline', 'Time-series analysis', 'Turning documents into knowledge', 'Connecting to existing systems'] },
+  { title: 'Intelligence', icon: 'ph-sparkle', items: ['AI agent', 'Anomaly detection', 'Alarms', 'Predictive maintenance', 'Quality prediction', 'Energy optimization'] },
+  { title: 'Operations', icon: 'ph-gear-six', items: ['Automation', 'Workflows', 'Report automation', 'ESG reports'] },
+  { title: 'Trust', icon: 'ph-shield-check', items: ['On-premises deployment', 'Permissions', 'Encryption'] },
 ];
 ---
 <BaseLayout
-  title="왜 Refinery인가 ⁠· 현장을 아는 팀이 만든 산업 AI 운영체제 | Refinery"
-  description="흩어진 현장 데이터를 하나의 지식으로 잇고, AI가 근거를 들어 의사결정을 돕습니다. 기존 위에 얹거나 없으면 새로 구축해, 하나의 운영체제로 현장을 지능화합니다."
-  canonical="/why-refinery"
+  title="Why Refinery ⁠· An industrial AI OS built by a team that knows the field | Refinery"
+  description="Scattered field data is tied into one body of knowledge, and AI helps you decide with the evidence shown. Layer onto what you have or build new where there is none, and one operating system brings intelligence to the field."
+  canonical="/en/why-refinery"
   jsonLd={jsonLd}
 >
   <Nav />
@@ -106,11 +108,11 @@ const capabilityGroups = [
         </div>
       </div>
       <div class="ind-container">
-        <p class="wr-tag">플랫폼 개요</p>
-        <h1>하나의 운영체제로<br>현장을 지능화합니다</h1>
-        <p class="ind-lede">데이터 수집부터 온톨로지, AI 분석, 예측, 자동 실행까지<br class="wr-lede-br">{' '}흩어진 현장을 하나의 통합 지능으로 잇습니다.</p>
+        <p class="wr-tag">Platform overview</p>
+        <h1>One operating system that brings<br>intelligence to the field</h1>
+        <p class="ind-lede">From data collection through ontology, AI analysis, prediction and automated execution, scattered field sites are tied into one unified intelligence.</p>
         <div class="ind-hero-actions">
-          <a href="/contact" class="ind-btn-primary">문의하기</a>
+          <a href="/en/contact" class="ind-btn-primary">Contact</a>
         </div>
       </div>
     </section>
@@ -119,8 +121,8 @@ const capabilityGroups = [
     <section class="ind-section wr-dark">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>현장이 먼저입니다</h2>
-          <p>팀도 도입도 데이터도 현장 기준으로</p>
+          <h2>The field comes first</h2>
+          <p>The team, the adoption and the data, all measured by the field</p>
         </header>
         <div class="wr-values">
           {values.map((v) => (
@@ -138,8 +140,8 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>왜 운영체제인가</h2>
-          <p>연결부터 판단까지 네 개의 층으로</p>
+          <h2>Why an operating system</h2>
+          <p>Four layers, from connection to decision</p>
         </header>
         <div class="wr-caps">
           {layers.map((l) => (
@@ -159,8 +161,8 @@ const capabilityGroups = [
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>하나의 운영체제에서 이어지는 흐름</h2>
-          <p>모아서 붙이고 묻고 실행하기까지</p>
+          <h2>One flow across one operating system</h2>
+          <p>Gather, connect, ask and execute</p>
         </header>
         <div class="wr-stories">
           {stories.map((s, i) => (
@@ -170,7 +172,7 @@ const capabilityGroups = [
                 <span class="wr-story-tag">{s.eyebrow}</span>
               </div>
               <div class="wr-story-body">
-                <h3>{s.title}</h3>
+                <h3 set:html={s.title}></h3>
                 <ul>
                   {s.points.map((p) => <li>{p}</li>)}
                 </ul>
@@ -185,8 +187,8 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
-          <h2>하나의 운영체제에 담긴 기능</h2>
-          <p>현장 운영에 필요한 기능이 한곳에</p>
+          <h2>The capabilities<br>one operating system holds</h2>
+          <p>The capabilities your field operations need, in one place</p>
         </header>
         <div class="wr-caps">
           {capabilityGroups.map((g) => (
@@ -208,8 +210,8 @@ const capabilityGroups = [
     <section class="ind-cta wr-cta-bg">
       <img class="wr-cta-bg-img" src="/use-cases/cta-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="ind-container">
-        <h2>현장의 문제를<br>Refinery 팀과 함께 풀어보세요.</h2>
-        <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
+        <h2>Solve what your field faces<br>with the <span translate="no">Refinery</span> team.</h2>
+        <a href="/en/contact" class="ind-btn-primary ind-btn-lg">Contact</a>
       </div>
     </section>
   </main>
@@ -368,6 +370,14 @@ const capabilityGroups = [
        '자동 실행 / 까지'처럼 한 어절만 남아 떨어진다. 자연스럽게 흐르게 둔다. */
     .wr-lede-br { display: none; }
   }
+  /* 히어로 소제목은 세 줄을 고르게 나눈다. 국문은 <br>로 두 줄을 잡아 두었는데
+     (칸 600px, 388 / 323), 영문은 글이 1150px 이라 두 줄에 담기지 않는다 —
+     낱말 경계가 575px 씩으로 떨어지지 않는다.
+       <br>를 그대로 두면 그 앞 조각(698px)이 칸을 넘겨 감기면서 2행이
+     'automated execution,' 174px 토막으로 남았고, <br>만 걷으면 3행에
+     'intelligence.' 109px 한 낱말이 남았다. balance 가 [383 / 383 / 384] 로 고르게
+     나눈다. 국문은 <br>를 그대로 둬 두 줄이다. */
+  .ind-lede { text-wrap: balance; }
   /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다. */
   .wr-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
@@ -478,7 +488,11 @@ const capabilityGroups = [
     gap: 32px; flex-wrap: wrap;
   }
   .wr-head-row h2 { margin-bottom: 0; }
-  .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
+  /* 소제목 칸을 360 -> 500px 으로 올린다. 영문은 'The team, the adoption and the data,
+     all measured by the field'가 499px 이라 360px 칸에서 두 줄이 됐다. 제목 409 + gap 32 +
+     499 = 940 으로 머리 폭 1184px 안에 여유 244px 이 있다.
+     국문은 별도 파일이고 소제목이 231~251px 이라 원래 한 줄이다. */
+  .wr-page .wr-head-row p { max-width: 500px; margin: 0; }
   /* 좁은 화면에서는 줄바꿈되어 제목 아래로 내려간다 — 그때는 간격을 준다. */
   @media (max-width: 900px) { .wr-page .wr-head-row p { margin-top: 12px; } }
 
@@ -494,6 +508,18 @@ const capabilityGroups = [
      맡는다 — 거기도 그렇게 잡혀 있다. */
   .wr-value h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin: 0 0 5px; }
   .wr-value p { font-size: 15px; line-height: 1.5; margin: 0; color: #47535f; }
+  /* 두 문장을 <br>로 나눠 두었는데(국문과 같은 자리) 영문은 문장이 길어 각 문장이
+     다시 감기고 토막이 남았다 — 항목1의 'UA).' 29px, 항목3의 'ontology.' 62px
+     (칸 383px). balance 가 문장 안에서 줄을 고르게 나눈다. 줄 수는 그대로다.
+     국문은 별도 파일이라 영향이 없다. */
+  .wr-value p { text-wrap: balance; }
+  /* 흐름 카드 목록은 마지막 줄만 손본다. 영문은 각 항목이 두 줄이 되면서 끝에 낱말
+     하나만 남는 자리가 여섯이었다 — 'is.' 15px · 'too.' 26px · 'place.' 40px ·
+     'execution.' 69px · 'judgment.' 67px · 'automatically.' 93px (칸 333px).
+     balance 도 재 봤지만 각 항목을 반으로 쪼개 목록 오른쪽이 들쭉날쭉해졌다.
+     목록은 왼쪽으로 읽어 내려가는 글이라 줄이 꽉 차는 pretty 가 맞다.
+     국문은 항목이 모두 한 줄이라 해당이 없다(별도 파일). */
+  .wr-story li { text-wrap: pretty; }
 
   /* 셋을 한 줄에 카드로 둔다. 카드 위에는 이미지 자리를 비워 놓았다. */
   .wr-stories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -562,7 +588,15 @@ const capabilityGroups = [
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
      제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  /* 영문은 두 열로 둔다(국문은 네 열). 칩 목록은 가로로 흐르는 것이 본래 모양인데,
+     영문 칩이 길어 4열(칸 283px)에서는 하나씩 세로로 쌓이고 'Turning documents into
+     knowledge' · 'Connecting to existing systems' 둘은 칩 안에서 두 줄로 접혔다.
+     2열(칸 580px)에서는 칩이 가로로 두세 개씩 흐르고 접히는 칩이 없어진다 —
+     국문 4열의 모습에 오히려 더 가깝다.
+     항목 수가 6 · 6 · 4 · 3 으로 달라 4열에서는 가장 긴 Data 에 높이가 맞춰져
+     Trust 카드 아래가 크게 비었다(격자 404px). 2열은 행마다 높이가 맞는다.
+     900px 이하 2열 · 520px 이하 1열은 아래 규칙 그대로다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
