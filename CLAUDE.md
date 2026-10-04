@@ -76,12 +76,25 @@ middleware.ts  Vercel Edge — 홈(/)에서만 언어 자동 안내(봇·쿠키 
 - 동의 배너는 미결정 시 노출, 푸터 '쿠키 설정' 버튼이 `window.openCookieSettings()`로 재노출한다.
 - Vercel 두 종은 **대시보드에서 각각 Enable** 해야 수집되며, localhost 404는 정상.
 
+## 브랜드 문장 · 호칭
+- **Refinery = 산업 AI 운영체제**(en: Industrial AI OS). 정의 한 줄:
+  「Refinery는 산업 AI 운영체제입니다. 현장의 설비·시스템·문서를 온톨로지 하나로 엮어, 사람과 AI가 같은 근거로 판단하고 조치하게 합니다.」
+- **전체와 부분을 같은 이름으로 부르지 않는다.** 「산업 AI 운영체제」는 Refinery 전체에만 쓰고,
+  대화형 AI 기능은 「AI 에이전트」(라벨 `AI Agent`)다. 이름을 바꿀 때 일괄 치환하지 말고 자리마다
+  전체인지 부분인지 본다.
+- Refinery가 무엇인지 말하는 자리(title · description · og · h1 · JSON-LD · `llms.txt` · 정의형 FAQ)에는
+  「플랫폼」을 범주어로 쓰지 않는다. 내비 라벨 「플랫폼 개요」 같은 일반 명사는 그대로 둔다.
+- 운영체제를 이루는 층은 넷 — 연결 · 온톨로지 · 앱 · AI 에이전트(`/why-refinery`, `llms.txt`). 앱 층은 열려 있다.
+  단, **출하되지 않은 앱·기능은 공개 문구에 쓰지 않는다.**
+- 범주어를 바꾸면 함께 고칠 파일은 `I18N-GLOSSARY.md` §1 아래에 있다. 제품 이름·구분의 정본은
+  앱 리포의 `PRODUCTS.md` 이고, 어긋나면 그쪽이 이긴다.
+
 ## SEO / 메타 — `src/components/Seo.astro`
 - 페이지별 `title`/`description`/`canonical`/OG/Twitter/`theme-color`를 props로 주입.
 - 공개 색인 페이지 `robots: index`, 문의/유틸 `noindex, follow`.
 - **sitemap은 `@astrojs/sitemap`이 자동 생성**(`/sitemap-index.xml`), 블로그 **RSS는 `/rss.xml`**.
 - 블로그 글은 `BlogPosting` JSON-LD + `og:type=article`. canonical은 클린 URL(sitemap 정합).
-- `jsonLd` prop은 객체·배열 모두 가능(홈은 Organization + FAQPage 2개).
+- `jsonLd` prop은 객체·배열 모두 가능(국문 홈은 Organization + WebSite + FAQPage 3개, 영문 홈은 Organization + WebSite 2개).
 - 정식 도메인은 **`https://refinery.kr`**로 전환 완료(`astro.config.mjs`의 `site`·robots·JSON-LD 기준값).
 
 ## 다국어(i18n) — 현재 상태
