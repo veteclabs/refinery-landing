@@ -798,6 +798,24 @@ img { max-width: 100%; height: auto; }
    그대로 두면 두 줄이 되고, 두 줄이 되면 오른쪽 끝이 들쭉날쭉해진다.
    글도 오른쪽에 맞춰 대제목과 반대편 끝에서 만나게 한다. */
 .ind-page .ind-head p { margin: 0; max-width: 400px; font-size: 18px; line-height: 1.7; text-align: right; }
+
+/* 에너지·유틸리티 — 소제목이 제목 아래로 내려가는 폭을 세 머리 모두 800px 으로 맞춘다.
+   자연 접힘에 맡겨 두면 머리마다 제각각이다 — 국문 680 / 580 / 480px ·
+   영문 660 / 700 / 660px. 한 페이지를 내려가는 동안 소제목이 오른쪽에 있다가
+   아래로 갔다 한다.
+     가장 먼저 내려가는 영문 700px 보다 100px 위에 둔다. 첫 머리는 제목과 소제목이
+   양끝에 붙어 가운데 여유가 늘 0px 이라 완충이 없다 — 경계를 '접히기 직전'에 두면
+   글자 폭이 조금만 흔들려도 그 머리만 먼저 내려간다(랜딩에서 같은 일을 겪었다,
+   global.css 의 .section-header-row 주석 참고).
+     모양은 지금 접힐 때와 같다 — 소제목 칸(max-width: 400px)과 정렬(text-align: right)은
+   그대로 두고 줄만 내린다.
+     flex-basis: 100% 는 쓸 수 없다. max-width 가 그걸 400px 로 되돌려 제목 옆에 다시
+   들어가므로 국문은 아무 변화가 없었고, 소제목이 400px 를 넘는 영문 둘째 머리에만
+   걸려 오히려 섞였다. flex-direction 으로 바꿔야 한다. */
+@media (max-width: 800px) {
+  .ind-page.ind-energy .ind-head { flex-direction: column; align-items: flex-start; }
+  .ind-page.ind-energy .ind-head p { margin-top: 12px; }
+}
 /* 어두운 면 위 소제목은 랜딩 다크 섹션(#platform · #integrations)과 같은
    #959CA5다. 밝은 면 소제목은 이미 --text-muted(#7E8A98)로 랜딩과 같다.
    base(.ind-head-light p)는 11개 파일이 함께 쓰므로 .ind-page로만 좁힌다. */
