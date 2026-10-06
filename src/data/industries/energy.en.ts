@@ -95,7 +95,7 @@ export const energyEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Unified dashboard ⁠· alerts ⁠· ESG reports', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where SCADA or EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. <br class="note-br">Where none exists, collection is built from the ground up.',
+    note: '<span class="note-s">Where SCADA or EMS already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it.</span><span class="note-s">Where none exists, collection is built from the ground up.</span>',
   },
   benefits: {
     title: 'What you gain',
@@ -137,7 +137,7 @@ export const energyEn: IndustryData = {
     title: 'Systems we connect to',
     subtitle: 'The systems and protocols commonly used on energy sites.',
     systems: ['SCADA', 'EMS', 'Smart meters / AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
-    note: 'Systems not listed here can still be connected over standard protocols and APIs. <br class="note-br">Get in touch and we will walk through it.',
+    note: '<span class="note-s">Systems not listed here can still be connected over standard protocols and APIs.</span><span class="note-s">Get in touch and we will walk through it.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',

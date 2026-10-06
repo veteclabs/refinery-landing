@@ -96,7 +96,7 @@ export const energy: IndustryData = {
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '통합 대시보드 ⁠· 알람 ⁠· ESG 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, <br class="note-br">없는 현장은 수집부터 새로 구축합니다.',
+    note: '<span class="note-s">기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고,</span><span class="note-s">없는 현장은 수집부터 새로 구축합니다.</span>',
   },
   benefits: {
     title: '도입 효과',
@@ -138,7 +138,7 @@ export const energy: IndustryData = {
     title: '연동 시스템',
     subtitle: '에너지 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
     systems: ['SCADA', 'EMS', '스마트미터 ⁠· AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
-    note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. <br class="note-br">자세한 내용은 문의해 주세요.',
+    note: '<span class="note-s">목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다.</span><span class="note-s">자세한 내용은 문의해 주세요.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
