@@ -1239,6 +1239,30 @@ img { max-width: 100%; height: auto; }
      영문은 데이터가 원래 두 줄이라 해당 <br>이 없다. */
   .ind-page.ind-energy .ind-uc-lede .uc-lede-br { display: none; }
 }
+
+/* 에너지·유틸리티 — '활용' 칸 라벨이 한 번 갈라지면 그대로 둔다.
+   폭이 주는데 카드는 오히려 넓어지는 자리가 있어, 좁아지는 도중에 갈라졌던 줄이
+   도로 붙는다. 900px 에서 컨테이너 여백이 작아지며 카드가 196 -> 203px 이 되는
+   자리다. 라벨 세 개의 실측:
+     940px  카드 201   통합 대시보드 알람 / ESG 리포트
+     920px  카드 196   통합 대시보드 / 알람 ESG 리포트     <- 갈라진다
+     900px  카드 203   통합 대시보드 알람 / ESG 리포트     <- 도로 붙는다
+     880px  카드 198   통합 대시보드 / 알람 ESG 리포트     <- 다시 갈라진다
+   첫 상자 뒤에서 줄을 끊어 갈라진 모양을 고정한다. margin-right 가 칸 폭만큼
+   자리를 먹어 다음 상자가 밀려난다 — flex-basis 100% 로는 상자 자체가 칸 전폭짜리
+   띠가 되므로 쓰지 않는다. 넘치는 마진은 카드의 overflow: hidden 이 받는다.
+   flex-shrink 를 0 으로 막는다 — 마진이 남는 공간을 음수로 만들면 flex 가 상자
+   자체를 줄여, '통합 대시보드'가 상자 안에서 '통합 / 대시보드' 두 줄로 감긴다.
+   상한 910px 은 자연히 갈라지는 920px 과 도로 붙는 900px 사이다. 둘 중 어느 쪽으로
+   10px 어긋나도 모양이 이어진다 — 글자 폭은 브라우저마다 1~2px 씩 다르다.
+   하한 861px 은 그 아래에서 카드가 전폭이 되며 한 줄로 합쳐지는 것을 그대로 두려는
+   것이다(아래 860px 규칙). 그건 카드 배치가 바뀌는 자리라 요동이 아니다. */
+@media (max-width: 910px) and (min-width: 861px) {
+  .ind-page.ind-energy .ind-flow-step:last-child .ind-flow-detail li:first-child {
+    margin-right: 100%;
+    flex-shrink: 0;
+  }
+}
 /* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
    칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
 .ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
