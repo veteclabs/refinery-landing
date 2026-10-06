@@ -897,6 +897,15 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 860px) {
   .ind-page.ind-en .ind-benefits .ind-grid-3,
   .ind-page.ind-en .ind-benefits .ind-grid-4 { grid-template-columns: 1fr; }
+}
+/* 에너지 영문 — 두 칸을 764px 까지 끌어내린다(국문과 같은 경계). 한 칸으로 가면
+   칸이 812px 이 되어 줄당 96자가 된다 — 영문 통상 범위 45~75자를 크게 넘는다.
+   두 칸을 강제해 재 보면 861px 칸 398px 에서 줄당 45자, 764px 에서 41자다.
+   선택자는 클래스 다섯이라 위 860px 되돌림(넷)을 이긴다. */
+@media (max-width: 860px) and (min-width: 764px) {
+  .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
@@ -1268,7 +1277,17 @@ img { max-width: 100%; height: auto; }
    — 900px 에서 컨테이너 여백이 작아지며 카드가 196 -> 203px 으로 되레 넓어지는 자리였다.
    align-items 는 flex-start 로 둔다 — 기본값 stretch 로는 상자가 칸 전폭짜리 띠가 된다. */
 @media (max-width: 990px) and (min-width: 861px) {
-  .ind-page.ind-energy .ind-flow-step:last-child .ind-flow-detail {
+  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* 영문은 Refinery 칸이 964px 에서 세 줄이 된다(국문 980px). 라벨이 'Ontology ·
+   AI agent · rules and automation' 으로 길어 한 줄에 둘씩 들어가는 폭이 더 좁다.
+   국문 경계 990px 을 그대로 쓰면 990~965px 에서 활용만 세 줄이 되어 되레 어긋난다.
+   영문은 970px 로 늦춘다 — 964px 보다 6px 넓다. */
+@media (max-width: 970px) and (min-width: 861px) {
+  .ind-page.ind-en.ind-energy .ind-flow-step:last-child .ind-flow-detail {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -1290,6 +1309,16 @@ img { max-width: 100%; height: auto; }
 }
 @media (max-width: 526px) {
   .ind-page.ind-energy .ind-systems-note .note-br { display: inline; }
+}
+/* 영문은 같은 노트가 훨씬 넓은 폭에서 두 줄이 된다. 1px 단위 실측 —
+     흐름 노트  1096px 한 줄 -> 1094px 두 줄   (국문 632px)
+     연동 노트   758px 한 줄 ->  756px 두 줄   (국문 518px)
+   끊는 자리는 국문과 같이 두 문장 사이다. */
+@media (max-width: 1100px) {
+  .ind-page.ind-en.ind-energy .ind-flow-note .note-br { display: inline; }
+}
+@media (max-width: 764px) {
+  .ind-page.ind-en.ind-energy .ind-systems-note .note-br { display: inline; }
 }
 
 /* 에너지·유틸리티 — 도입 효과 카드를 1000px 에서 두 칸으로 내린다.
