@@ -275,8 +275,16 @@ img { max-width: 100%; height: auto; }
 }
 /* 주석임을 표시하는 별표. 데이터가 아니라 표시라서 ::before로 붙인다 —
    ko/en 문장을 건드리지 않고, 읽기 프로그램에도 글자로 새어 나가지 않는다. */
+/* 별표와 글을 두 칸으로 나눈다. 글이 제 칸 안에서 감기므로 둘째 줄이 별표가
+   아니라 첫 글자에 맞춰 선다. padding-left 와 음수 text-indent 로도 되지만
+   별표 폭을 숫자로 박아야 해서, 글꼴이나 글자 크기가 바뀌면 어긋난다. */
+.ind-page .ind-flow-note {
+  display: flex;
+  align-items: baseline;
+}
 .ind-page .ind-flow-note::before {
   content: '*';
+  flex: none;
   margin-right: 4px;
 }
 /* 칸 — 카드와 카드 사이를 원형 하나로 채운다. 원은 30px이지만 좌우 margin을
@@ -988,8 +996,13 @@ img { max-width: 100%; height: auto; }
   text-align: left;
   word-break: keep-all;
 }
+.ind-page .ind-systems-note {
+  display: flex;
+  align-items: baseline;
+}
 .ind-page .ind-systems-note::before {
   content: '*';
+  flex: none;
   margin-right: 4px;
 }
 
