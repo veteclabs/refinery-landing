@@ -814,7 +814,11 @@ img { max-width: 100%; height: auto; }
    걸려 오히려 섞였다. flex-direction 으로 바꿔야 한다. */
 @media (max-width: 800px) {
   .ind-page.ind-energy .ind-head { flex-direction: column; align-items: flex-start; }
-  .ind-page.ind-energy .ind-head p { margin-top: 12px; }
+  /* 세로로 내려가면 왼쪽 정렬로 바꾼다. 제목 옆에 설 때는 오른쪽 끝에서 제목과 만나라고
+     text-align: right 를 주는데, 아래로 내려간 뒤에도 그대로 두면 글이 400px 칸 안
+     오른쪽에 붙어 제목과 시작선이 어긋난다. 칸(max-width: 400px)은 줄 길이 제한이라
+     그대로 두고 정렬만 바꾼다 — 머리 셋 모두 같은 조건이라 함께 적용한다. */
+  .ind-page.ind-energy .ind-head p { margin-top: 12px; text-align: left; }
 }
 /* 어두운 면 위 소제목은 랜딩 다크 섹션(#platform · #integrations)과 같은
    #959CA5다. 밝은 면 소제목은 이미 --text-muted(#7E8A98)로 랜딩과 같다.
