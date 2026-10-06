@@ -1214,6 +1214,15 @@ img { max-width: 100%; height: auto; }
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 40px 32px; }
   .ind-uc-lede { font-size: 24px; }
 }
+/* 에너지·유틸리티 — 카드 칸이 안쪽 폭의 60% 밑으로 떨어지면 그 전에 쌓는다.
+   소제목 칸이 280px 고정이라 비율은 폰트와 무관하게 계산된다 — 1080px:61.0% ·
+   1060px:60.0% · 1040px:59.0% · 1000px:56.8% · 901px:50.4%.
+   위 900px 경계로는 1040~901px 구간에서 카드가 60% 아래인 채 가로로 남아,
+   본문이 좁은 칸에 갇혀 잘게 감긴다. 60% 가 되는 1060px 에서 세로로 바꾼다.
+   padding 과 소제목 크기는 그대로 둔다 — 그건 900px 아래의 좁은 화면용 값이다. */
+@media (max-width: 1060px) {
+  .ind-page.ind-energy .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
+}
 /* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
    칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
 .ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
