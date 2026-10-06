@@ -388,16 +388,19 @@ const jsonLd = [orgSchema, faqSchema];
          Last sync …' 툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지
          왼쪽이 잘려 '…ema · Snapshot Diff' 처럼 읽혔다.
          실측(카드 1155px · 이미지 배율 0.686) — 그 줄이 래퍼 위에서 19~43px 에 온다.
-         80px 에 37.5%까지 불투명을 둬 30px 을 덮고, 나머지 50px 에 걸쳐 옅어진다.
-         실측상 그 줄 하단이 43px 이라 마지막 13px 이 그라데이션 구간에 들어가고
-         그 지점 불투명도가 약 74% 다 — 밑동이 옅게 비칠 수 있는 값이다.
-         100px/70%(불투명 70px) -> 80px/60%(48) -> 50%(40) -> 47.5%(38) ->
-         43.75%(35) -> 지금 값 순으로 줄여 왔다.
+         65px 에 53.85%까지 불투명을 둬 35px 을 덮고, 나머지 30px 에 걸쳐 옅어진다.
+         실측상 그 줄 하단이 43px 이라 마지막 8px 이 그라데이션 구간에 들어가고
+         그 지점 불투명도는 약 74% 다.
+         주의 — height 를 줄이면 전환 구간이 짧아져 같은 불투명 길이라도 그 아래가
+         더 빨리 투명해진다. 불투명 길이(여기서는 35px)와 height 를 함께 봐야 한다.
+         100px/70%(불투명 70px) -> 80px 에서 60%(48) -> 50%(40) -> 47.5%(38) ->
+         43.75%(35) -> 37.5%(30) 으로 줄인 뒤, 불투명을 35px 로 되돌리고
+         height 를 80 -> 65px 로 좁힌 값이다.
          다른 다섯 탭은 그 자리에 가릴 UI 가 없어 14px 그대로 둔다.
          data-dash 는 switchDash 가 탭마다 넣어 준다. */
       #iframe-wrapper[data-dash="pipeline"]::before {
-        height: 80px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 37.5%, rgba(246,248,250,0) 100%);
+        height: 65px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 53.85%, rgba(246,248,250,0) 100%);
       }
       #iframe-wrapper::after {
         content: ""; position: absolute; inset: 0;
