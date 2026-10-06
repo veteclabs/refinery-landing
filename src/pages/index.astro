@@ -388,16 +388,16 @@ const jsonLd = [orgSchema, faqSchema];
          Last sync …' 툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지
          왼쪽이 잘려 '…ema · Snapshot Diff' 처럼 읽혔다.
          실측(카드 1155px · 이미지 배율 0.686) — 그 줄이 래퍼 위에서 19~43px 에 온다.
-         80px 에 47.5%까지 불투명을 둬 38px 을 덮고, 나머지 42px 에 걸쳐 옅어진다.
-         실측상 그 줄 하단이 43px 이라 마지막 5px 은 그라데이션 초반에 걸리는데
-         거기는 아직 거의 불투명이라 눈에 띄지 않는다.
-         100px/70%(불투명 70px) -> 80px/60%(48px) -> 80px/50%(40px) -> 지금 값
-         순으로 줄였다 — 가리려는 건 툴바 한 줄뿐이라 덮는 구간을 좁혔다.
+         80px 에 43.75%까지 불투명을 둬 35px 을 덮고, 나머지 45px 에 걸쳐 옅어진다.
+         실측상 그 줄 하단이 43px 이라 마지막 8px 은 그라데이션 구간에 들어간다 —
+         그 지점의 불투명도가 약 82% 라 아직 덮이지만, 더 줄이면 밑동이 비친다.
+         100px/70%(불투명 70px) -> 80px/60%(48px) -> 80px/50%(40px) ->
+         80px/47.5%(38px) -> 지금 값 순으로 줄였다.
          다른 다섯 탭은 그 자리에 가릴 UI 가 없어 14px 그대로 둔다.
          data-dash 는 switchDash 가 탭마다 넣어 준다. */
       #iframe-wrapper[data-dash="pipeline"]::before {
         height: 80px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 47.5%, rgba(246,248,250,0) 100%);
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 43.75%, rgba(246,248,250,0) 100%);
       }
       #iframe-wrapper::after {
         content: ""; position: absolute; inset: 0;
