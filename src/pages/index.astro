@@ -377,9 +377,16 @@ const jsonLd = [orgSchema, faqSchema];
       .teams-preview-text { position: static !important; padding: 0 32px 24px !important; order: 2; }
       .teams-preview-text p { max-width: none; }
       #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
+      /* 이 구간은 .teams-preview-decor 를 끄고(위 375행) 이 가상요소가 상단 가림막을
+         맡는다. 14px 은 이미지 윗변의 경계선만 지우는 값이라, 파이프라인 캡처의
+         'Schema · Snapshot Diff | develop | flux-energy > grid_ops | Last sync …'
+         툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지 왼쪽이 잘려
+         '…ema · Snapshot Diff' 처럼 읽혔다.
+         실측(카드 1155px) — 그 줄이 래퍼 위에서 19~43px 에 온다. 100px 에 70%까지
+         불투명을 둬 70px 을 덮는다(여유 27px). 1281px 이상 큰 화면은 손대지 않았다. */
       #iframe-wrapper::before {
-        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 100px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 70%, rgba(246,248,250,0) 100%);
         z-index: 2; pointer-events: none;
       }
       #iframe-wrapper::after {
