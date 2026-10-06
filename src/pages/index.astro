@@ -894,7 +894,31 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var RIGHT_CROP = 20; // 브라우저 기본 스크롤바가 우측 끝에 보이지 않도록 살짝 잘라냄 (스크롤 있는 화면만)
 
       var MOBILE_RAIL_CROP = 244; // 좌측 세션 레일 폭(px, 원본 1440 기준) — 모바일에서는 실제로 잘라내 보여준다
-      var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: 40, ontology: 40, calendar: 40 }; // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
+      // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
+      // 파이프라인만 음수다. 캡처 상단의 'Schema · Snapshot Diff | develop |
+      // flux-energy > grid_ops | Last sync …' 툴바 줄과 그 아래 Export / Apply Migration
+      // 줄을 래퍼 위로 밀어내고 ERD 탭 줄부터 보여준다. 이 구간은 좌측 레일을 244px
+      // 잘라내는데, 파이프라인은 레일이 277px(원본 2000 기준) 뿐이라 본문 좌측까지 먹혀
+      // 그 줄이 '…ema · Snapshot Diff' 처럼 글자 중간이 잘린 채 드러났다.
+      // 다른 탭은 레일 옆에 패널이 하나 더 있어 같은 자리의 제목이 온전히 남는다.
+      //   실측(카드 1155px · 배율 0.704) — 값별로 그 줄 하단이 래퍼 위 몇 px 에 오는지:
+      //   40:43 · 0:4 · -20:-16 · -40:-35 · -60:-55 · -80:-74.
+      //   0 이면 그 줄이 윗변에 걸려 사라지고 Export / Apply Migration 줄부터 보인다.
+      //   값 1 당 화면 0.98px 이다(1440 기준 px × 2000/1440 × 배율).
+      //   산업 AI 운영체제(llm)는 120. 40 에서는 창 머리가 전혀 안 보여 상단이 비었다.
+      //   120 이면 우측 툴바 줄이 들어오고 가운데 AI 패널이 아직 중앙을 지킨다
+      //   (130 은 '인터랙티브 데모' 줄까지, 160 은 창 머리 두 줄까지 들어온다).
+      //   40 / 70 / 100 / 130 / 160 / 190 을 렌더해 비교한 뒤 그 사이로 잡았다.
+      //   아래는 어느 값에서도 꽉 찬다(이미지가 래퍼보다 세로로 길다).
+      var MOBILE_EXTRA_TOP_MAP = { llm: 120, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
+      // 1281px 이상(데스크탑)용 세로 보정. 거기는 원래 top 이 0 고정이라 캡처 윗변이
+      // 카드 윗변에 붙어 패널이 위로 쏠리고 아래가 비었다. 양수면 아래로 내려간다.
+      //   산업 AI 운영체제(llm) 80 — 우측 툴바 줄이 하나 들어오고 패널이 조금 내려온다.
+      //   0 / 40 / 80 / 120 / 160 / 200 을 렌더해 비교했다. 아래 여유는 185px 에서
+      //   시작해 값만큼 늘어나므로 어느 값에서도 빈 공간이 생기지 않는다.
+      //   값 1 당 화면 0.83px 이다(1440 기준 px × 2000/1440 × 배율 0.597).
+      //   모바일 맵과 배율이 달라 같은 숫자라도 움직이는 양이 다르다 — 함께 바꾸지 말 것.
+      var DESKTOP_EXTRA_TOP_MAP = { llm: 80 };
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
@@ -933,7 +957,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           img.style.left = (pan * scale) + 'px';
           img.style.transform = 'scale(' + scale + ')';
           img.style.transformOrigin = 'top left';
-          img.style.top = '0px';
+          var desktopExtraTop = (DESKTOP_EXTRA_TOP_MAP[window.dashKey] || 0) * unitScale;
+          img.style.top = (desktopExtraTop * scale) + 'px';
         }
       }
       window.resizeDash = resizeDash;
