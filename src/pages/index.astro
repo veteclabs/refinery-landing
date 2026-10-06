@@ -893,11 +893,11 @@ const jsonLd = [orgSchema, faqSchema];
       //   40:43 · 0:4 · -20:-16 · -40:-35 · -60:-55 · -80:-74.
       //   0 이면 그 줄이 윗변에 걸려 사라지고 Export / Apply Migration 줄부터 보인다.
       //   값 1 당 화면 0.98px 이다(1440 기준 px × 2000/1440 × 배율).
-      //   산업 AI 운영체제(llm)는 130. 40 에서는 창 머리가 전혀 안 보여 상단이 비었다 —
-      //   130 이면 '인터랙티브 데모' 줄까지 들어오고 가운데 AI 패널도 자리를 지킨다.
+      //   산업 AI 운영체제(llm)는 160. 40 에서는 창 머리가 전혀 안 보여 상단이 비었다 —
+      //   160 이면 창 머리 두 줄이 온전히 들어온다(130 은 '인터랙티브 데모' 줄까지).
       //   40 / 70 / 100 / 130 / 160 / 190 을 렌더해 비교한 값이다. 아래는 어느 값에서도
       //   꽉 찬다(이미지가 래퍼보다 세로로 길다).
-      var MOBILE_EXTRA_TOP_MAP = { llm: 130, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
+      var MOBILE_EXTRA_TOP_MAP = { llm: 160, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
