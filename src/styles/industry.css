@@ -1291,6 +1291,28 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 526px) {
   .ind-page.ind-energy .ind-systems-note .note-br { display: inline; }
 }
+
+/* 에너지·유틸리티 — 도입 효과 카드를 1000px 에서 두 칸으로 내린다.
+   세 칸으로 더 버티면 칸이 289px 밑으로 떨어져 본문이 두 줄에서 세 줄로 늘어난다.
+   여섯 장의 본문 줄 수 실측 —
+     1180px 칸 349px   2 2 2 2 2 2
+     1175px 칸 348px   2 2 2 2 2 3   '통합 또는 신규'가 세 줄
+     1005px 칸 291px   2 2 2 2 2 3   여기까지 유지된다
+     1000px 칸 289px   2 2 2 2 3 3   '현장 보안'도 세 줄
+      940px 칸 269px   3 2 2 2 3 3   가장 짧은 카드까지 세 줄, 끝줄은 다섯 자
+      900px 칸 272px   2 2 2 2 3 3   칸이 되레 넓어져 줄 수가 되돌아간다
+   두 칸이면 칸이 460px 로 넓어져 여섯 장이 다시 두 줄로 선다.
+   상한 861px 을 두는 이유: 아래 860px 공통 규칙(.ind-grid-2, .ind-grid-3,
+   .ind-grid-4)은 클래스 하나라 이 규칙보다 약해, 범위를 끊지 않으면 좁은 폭에서도
+   두 칸이 남아 한 칸으로 내려가지 않는다. */
+@media (max-width: 1000px) and (min-width: 861px) {
+  .ind-page.ind-energy .ind-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  /* 위 1100px 규칙이 푼 단락 나눔을 되살린다. 그 규칙은 칸이 300px 밑으로
+     좁아지면 나뉜 반쪽이 다시 감겨 세 줄이 되는 것을 막으려던 것인데,
+     두 칸에서는 칸이 398~443px 로 넓어져 그럴 일이 없다. 되살리지 않으면
+     짧은 카드 넷이 한 줄로 붙어, 두 줄인 긴 카드 둘과 어긋난다. */
+  .ind-page.ind-energy .ind-grid-3 .ind-card p br { display: inline; }
+}
 /* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
    칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
 .ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
