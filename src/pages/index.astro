@@ -889,10 +889,11 @@ const jsonLd = [orgSchema, faqSchema];
       // 잘라내는데, 파이프라인은 레일이 277px(원본 2000 기준) 뿐이라 본문 좌측까지 먹혀
       // 그 줄이 '…ema · Snapshot Diff' 처럼 글자 중간이 잘린 채 드러났다.
       // 다른 탭은 레일 옆에 패널이 하나 더 있어 같은 자리의 제목이 온전히 남는다.
-      //   실측(카드 1155px · 배율 0.686) — 40 일 때 툴바 하단이 래퍼 위 43px.
-      //   -80 이면 툴바 -104~-71px · Export 줄 -60~-36px 으로 빠지고 탭 줄이 79px 에 온다.
-      //   이미지 아래끝은 684px 로 래퍼(679px)를 아직 덮는다 — 더 올리면 아래가 빈다.
-      var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: -80, ontology: 40, calendar: 40 };
+      //   실측(카드 1155px · 배율 0.704) — 값별로 그 줄 하단이 래퍼 위 몇 px 에 오는지:
+      //   40:43 · 0:4 · -20:-16 · -40:-35 · -60:-55 · -80:-74.
+      //   0 이면 그 줄이 윗변에 걸려 사라지고 Export / Apply Migration 줄부터 보인다.
+      //   값 1 당 화면 0.98px 이다(1440 기준 px × 2000/1440 × 배율).
+      var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
