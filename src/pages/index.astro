@@ -901,12 +901,12 @@ const jsonLd = [orgSchema, faqSchema];
       var MOBILE_EXTRA_TOP_MAP = { llm: 120, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
       // 1281px 이상(데스크탑)용 세로 보정. 거기는 원래 top 이 0 고정이라 캡처 윗변이
       // 카드 윗변에 붙어 패널이 위로 쏠리고 아래가 비었다. 양수면 아래로 내려간다.
-      //   산업 AI 운영체제(llm) 100 — 패널이 중앙 쪽으로 오고 우측 툴바 줄이 하나 들어온다.
+      //   산업 AI 운영체제(llm) 80 — 우측 툴바 줄이 하나 들어오고 패널이 조금 내려온다.
       //   0 / 40 / 80 / 120 / 160 / 200 을 렌더해 비교했다. 아래 여유는 185px 에서
       //   시작해 값만큼 늘어나므로 어느 값에서도 빈 공간이 생기지 않는다.
       //   값 1 당 화면 0.83px 이다(1440 기준 px × 2000/1440 × 배율 0.597).
       //   모바일 맵과 배율이 달라 같은 숫자라도 움직이는 양이 다르다 — 함께 바꾸지 말 것.
-      var DESKTOP_EXTRA_TOP_MAP = { llm: 100 };
+      var DESKTOP_EXTRA_TOP_MAP = { llm: 80 };
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
