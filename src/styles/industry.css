@@ -1214,13 +1214,16 @@ img { max-width: 100%; height: auto; }
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 40px 32px; }
   .ind-uc-lede { font-size: 24px; }
 }
-/* 에너지·유틸리티 — 카드 칸이 안쪽 폭의 60% 밑으로 떨어지면 그 전에 쌓는다.
-   소제목 칸이 280px 고정이라 비율은 폰트와 무관하게 계산된다 — 1080px:61.0% ·
-   1060px:60.0% · 1040px:59.0% · 1000px:56.8% · 901px:50.4%.
-   위 900px 경계로는 1040~901px 구간에서 카드가 60% 아래인 채 가로로 남아,
-   본문이 좁은 칸에 갇혀 잘게 감긴다. 60% 가 되는 1060px 에서 세로로 바꾼다.
+/* 에너지·유틸리티 — 흰 카드(.ind-uc-panel)가 제 폭의 70% 밑으로 떨어지면 그 전에 쌓는다.
+   기준은 카드 자체다. 오른쪽 칸(.ind-uc-steps)에는 번호 원 68px + 간격 28px 이
+   함께 들어 있어 칸으로 재면 96px 넓게 나온다 — 둘을 섞지 말 것.
+     카드 폭은 1300px 이상에서 616px 로 고정된다(컨테이너 max-width 1184 → 안쪽 1040,
+   거기서 소제목 칸 280 · gap 48 · 번호 96 을 뺀 값). 그 616px 을 100% 로 보면
+   1200px:87.0% · 1150px:78.9% · 1100px:70.8% · 1061px:64.4% 다.
+     소제목 칸이 280px 고정이라 이 비율은 폰트와 무관한 구조 수치다.
+   70% 가 되는 지점은 1095px 이고, 여유를 둬 1100px 에서 세로로 바꾼다.
    padding 과 소제목 크기는 그대로 둔다 — 그건 900px 아래의 좁은 화면용 값이다. */
-@media (max-width: 1060px) {
+@media (max-width: 1100px) {
   .ind-page.ind-energy .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
 }
 /* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
