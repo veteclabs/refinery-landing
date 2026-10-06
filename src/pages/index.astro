@@ -852,13 +852,7 @@ const jsonLd = [orgSchema, faqSchema];
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
-      {/* 상단 가림막. 높이의 80%까지 불투명이라 110px 일 때 덮이는 구간이 88px 이었는데,
-          파이프라인 캡처의 'Schema · Snapshot Diff | develop | flux-energy > grid_ops |
-          Last sync …' 툴바 줄 하단이 1281px 이상에서 정확히 화면 y 88px 에 와 경계에 걸렸다
-          (카드가 1182x561 로 고정되고 scale 0.597 이라 폭을 넓혀도 이 값은 변하지 않는다).
-          150px 으로 올려 불투명 구간을 120px 으로 둔다 — 여유 32px.
-          1280px 이하에서는 좌측 레일을 잘라내 확대하므로 그 줄이 y 7~44px 에 와 원래 덮였다. */}
-      <div class="teams-preview-decor" style="position:absolute;top:0;left:0;right:0;height:150px;z-index:1;background:linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 80%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
+      <div class="teams-preview-decor" style="position:absolute;top:0;left:0;right:0;height:110px;z-index:1;background:linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 80%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-decor" style="position:absolute;top:0;left:28.5%;bottom:0;width:15%;z-index:1;background:linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
