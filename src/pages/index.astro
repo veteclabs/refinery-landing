@@ -382,26 +382,6 @@ const jsonLd = [orgSchema, faqSchema];
         background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
         z-index: 2; pointer-events: none;
       }
-      /* 파이프라인 탭만 가림막을 키운다. 이 구간은 .teams-preview-decor 를 모두 끄고
-         (위 375행) 이 가상요소가 상단을 맡는데, 14px 은 이미지 윗변의 경계선만 지우는
-         값이라 캡처의 'Schema · Snapshot Diff | develop | flux-energy > grid_ops |
-         Last sync …' 툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지
-         왼쪽이 잘려 '…ema · Snapshot Diff' 처럼 읽혔다.
-         실측(카드 1155px · 이미지 배율 0.686) — 그 줄이 래퍼 위에서 19~43px 에 온다.
-         75px 에 46.67%까지 불투명을 둬 35px 을 덮고, 나머지 40px 에 걸쳐 옅어진다.
-         실측상 그 줄 하단이 43px 이라 마지막 8px 이 그라데이션 구간에 들어가고
-         그 지점 불투명도는 약 80% 다.
-         주의 — height 를 줄이면 전환 구간이 짧아져 같은 불투명 길이라도 그 아래가
-         더 빨리 투명해진다. 불투명 길이(여기서는 35px)와 height 를 함께 봐야 한다.
-         100px/70%(불투명 70px) -> 80px 에서 60%(48) -> 50%(40) -> 47.5%(38) ->
-         43.75%(35) -> 37.5%(30) 으로 줄인 뒤, 불투명을 35px 로 되돌리고
-         height 를 80 -> 65px 로 좁힌 값이다.
-         다른 다섯 탭은 그 자리에 가릴 UI 가 없어 14px 그대로 둔다.
-         data-dash 는 switchDash 가 탭마다 넣어 준다. */
-      #iframe-wrapper[data-dash="pipeline"]::before {
-        height: 75px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 46.67%, rgba(246,248,250,0) 100%);
-      }
       #iframe-wrapper::after {
         content: ""; position: absolute; inset: 0;
         background: linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0.85) 8%, rgba(246,248,250,0) 24%, rgba(246,248,250,0) 76%, rgba(246,248,250,0.85) 92%, #F6F8FA 100%);
@@ -902,7 +882,17 @@ const jsonLd = [orgSchema, faqSchema];
       var RIGHT_CROP = 20; // 브라우저 기본 스크롤바가 우측 끝에 보이지 않도록 살짝 잘라냄 (스크롤 있는 화면만)
 
       var MOBILE_RAIL_CROP = 244; // 좌측 세션 레일 폭(px, 원본 1440 기준) — 모바일에서는 실제로 잘라내 보여준다
-      var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: 40, ontology: 40, calendar: 40 }; // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
+      // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
+      // 파이프라인만 음수다. 캡처 상단의 'Schema · Snapshot Diff | develop |
+      // flux-energy > grid_ops | Last sync …' 툴바 줄과 그 아래 Export / Apply Migration
+      // 줄을 래퍼 위로 밀어내고 ERD 탭 줄부터 보여준다. 이 구간은 좌측 레일을 244px
+      // 잘라내는데, 파이프라인은 레일이 277px(원본 2000 기준) 뿐이라 본문 좌측까지 먹혀
+      // 그 줄이 '…ema · Snapshot Diff' 처럼 글자 중간이 잘린 채 드러났다.
+      // 다른 탭은 레일 옆에 패널이 하나 더 있어 같은 자리의 제목이 온전히 남는다.
+      //   실측(카드 1155px · 배율 0.686) — 40 일 때 툴바 하단이 래퍼 위 43px.
+      //   -80 이면 툴바 -104~-71px · Export 줄 -60~-36px 으로 빠지고 탭 줄이 79px 에 온다.
+      //   이미지 아래끝은 684px 로 래퍼(679px)를 아직 덮는다 — 더 올리면 아래가 빈다.
+      var MOBILE_EXTRA_TOP_MAP = { llm: 40, tile: 40, pipeline: -80, ontology: 40, calendar: 40 };
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
@@ -1386,7 +1376,6 @@ var MOBILE_EXTRA_PAN_MAP = { tile: 160, ontology: 160, calendar: 160 }; // 모�
 window.needsRightCrop = NO_SCROLL_KEYS.indexOf('llm') === -1;
 window.dashPanContent = DASH_PAN_MAP['llm'] || 0;
 window.dashKey = 'llm';
-(function(){ var w = document.getElementById('iframe-wrapper'); if (w) w.setAttribute('data-dash', 'llm'); })();
 if (window.resizeDash) window.resizeDash();
 
 /* 미리보기 본문은 폭에 따라 다르게 끊는다.
@@ -1459,9 +1448,6 @@ function switchDash(btn, src, key) {
   window.needsRightCrop = NO_SCROLL_KEYS.indexOf(key) === -1;
   window.dashPanContent = DASH_PAN_MAP[key] || 0;
   window.dashKey = key;
-  // 탭별 CSS 분기용 — 지금은 파이프라인 상단 가림막(#iframe-wrapper::before)만 쓴다
-  var wrapEl = document.getElementById('iframe-wrapper');
-  if (wrapEl) wrapEl.setAttribute('data-dash', key);
 
   if (img) img.src = src;
   if (window.resizeDash) window.resizeDash();
