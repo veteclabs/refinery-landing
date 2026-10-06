@@ -1260,6 +1260,24 @@ img { max-width: 100%; height: auto; }
     align-items: flex-start;
   }
 }
+
+/* 에너지·유틸리티 — 노트가 두 줄이 되는 자리에서 끊을 곳을 지정한다.
+   맡겨 두면 칸 폭이 정하는 자리에서 감겨 뜻 단위와 어긋난다. 두 노트는 길이가 달라
+   두 줄이 되는 지점도 다르다. 1px 단위 실측 —
+     흐름 노트  633px 한 줄 -> 632px 두 줄   '… 양방향 연동하고, / 없는 현장은 …'
+     연동 노트  519px 한 줄 -> 518px 두 줄   '… 연동 가능합니다. / 자세한 내용은 …'
+   <br>은 그 전까지 숨겨 한 줄을 지킨다(숨겨도 앞의 공백이 남아 낱말이 붙지 않게,
+   공백은 <br> 앞에 둔다).
+   경계는 전환점보다 8px 넓다 — 글자 폭은 브라우저마다 1~2px 씩 다르므로 넓은 쪽에
+   두어야 '두 줄이면 지정한 자리에서 끊긴다'가 어느 쪽으로 어긋나든 지켜진다.
+   좁게 두면 그 사이 폭에서 <br> 없이 엉뚱한 자리에서 감긴다. */
+.ind-page.ind-energy .note-br { display: none; }
+@media (max-width: 640px) {
+  .ind-page.ind-energy .ind-flow-note .note-br { display: inline; }
+}
+@media (max-width: 526px) {
+  .ind-page.ind-energy .ind-systems-note .note-br { display: inline; }
+}
 /* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
    칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
 .ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
