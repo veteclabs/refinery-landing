@@ -377,17 +377,27 @@ const jsonLd = [orgSchema, faqSchema];
       .teams-preview-text { position: static !important; padding: 0 32px 24px !important; order: 2; }
       .teams-preview-text p { max-width: none; }
       #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
-      /* 이 구간은 .teams-preview-decor 를 끄고(위 375행) 이 가상요소가 상단 가림막을
-         맡는다. 14px 은 이미지 윗변의 경계선만 지우는 값이라, 파이프라인 캡처의
-         'Schema · Snapshot Diff | develop | flux-energy > grid_ops | Last sync …'
-         툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지 왼쪽이 잘려
-         '…ema · Snapshot Diff' 처럼 읽혔다.
-         실측(카드 1155px) — 그 줄이 래퍼 위에서 19~43px 에 온다. 100px 에 70%까지
-         불투명을 둬 70px 을 덮는다(여유 27px). 1281px 이상 큰 화면은 손대지 않았다. */
       #iframe-wrapper::before {
-        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 100px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 70%, rgba(246,248,250,0) 100%);
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
         z-index: 2; pointer-events: none;
+      }
+      /* 파이프라인 탭만 가림막을 키운다. 이 구간은 .teams-preview-decor 를 모두 끄고
+         (위 375행) 이 가상요소가 상단을 맡는데, 14px 은 이미지 윗변의 경계선만 지우는
+         값이라 캡처의 'Schema · Snapshot Diff | develop | flux-energy > grid_ops |
+         Last sync …' 툴바 줄이 그대로 드러났다 — 좌측 레일을 잘라낸 폭이라 그 줄까지
+         왼쪽이 잘려 '…ema · Snapshot Diff' 처럼 읽혔다.
+         실측(카드 1155px · 이미지 배율 0.686) — 그 줄이 래퍼 위에서 19~43px 에 온다.
+         80px 에 50%까지 불투명을 둬 40px 을 덮고, 나머지 40px 에 걸쳐 옅어진다.
+         실측상 그 줄 하단이 43px 이라 마지막 3px 은 그라데이션 초반(50~55%)에 걸리는데
+         거기는 거의 불투명이라 눈에 띄지 않는다.
+         100px/70%(불투명 70px) -> 80px/60%(48px) -> 지금 값 순으로 줄였다 —
+         가리려는 건 툴바 한 줄뿐이라 덮는 구간을 좁혔다.
+         다른 다섯 탭은 그 자리에 가릴 UI 가 없어 14px 그대로 둔다.
+         data-dash 는 switchDash 가 탭마다 넣어 준다. */
+      #iframe-wrapper[data-dash="pipeline"]::before {
+        height: 80px;
+        background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 50%, rgba(246,248,250,0) 100%);
       }
       #iframe-wrapper::after {
         content: ""; position: absolute; inset: 0;
@@ -1373,6 +1383,7 @@ var MOBILE_EXTRA_PAN_MAP = { tile: 160, ontology: 160, calendar: 160 }; // 모�
 window.needsRightCrop = NO_SCROLL_KEYS.indexOf('llm') === -1;
 window.dashPanContent = DASH_PAN_MAP['llm'] || 0;
 window.dashKey = 'llm';
+(function(){ var w = document.getElementById('iframe-wrapper'); if (w) w.setAttribute('data-dash', 'llm'); })();
 if (window.resizeDash) window.resizeDash();
 
 /* 미리보기 본문은 폭에 따라 다르게 끊는다.
@@ -1445,6 +1456,9 @@ function switchDash(btn, src, key) {
   window.needsRightCrop = NO_SCROLL_KEYS.indexOf(key) === -1;
   window.dashPanContent = DASH_PAN_MAP[key] || 0;
   window.dashKey = key;
+  // 탭별 CSS 분기용 — 지금은 파이프라인 상단 가림막(#iframe-wrapper::before)만 쓴다
+  var wrapEl = document.getElementById('iframe-wrapper');
+  if (wrapEl) wrapEl.setAttribute('data-dash', key);
 
   if (img) img.src = src;
   if (window.resizeDash) window.resizeDash();
