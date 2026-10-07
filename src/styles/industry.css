@@ -826,12 +826,14 @@ img { max-width: 100%; height: auto; }
    들어가므로 국문은 아무 변화가 없었고, 소제목이 400px 를 넘는 영문 둘째 머리에만
    걸려 오히려 섞였다. flex-direction 으로 바꿔야 한다. */
 @media (max-width: 800px) {
-  .ind-page.ind-energy .ind-head { flex-direction: column; align-items: flex-start; }
+  .ind-page.ind-energy .ind-head,
+.ind-page.ind-automotive .ind-head { flex-direction: column; align-items: flex-start; }
   /* 세로로 내려가면 왼쪽 정렬로 바꾼다. 제목 옆에 설 때는 오른쪽 끝에서 제목과 만나라고
      text-align: right 를 주는데, 아래로 내려간 뒤에도 그대로 두면 글이 400px 칸 안
      오른쪽에 붙어 제목과 시작선이 어긋난다. 칸(max-width: 400px)은 줄 길이 제한이라
      그대로 두고 정렬만 바꾼다 — 머리 셋 모두 같은 조건이라 함께 적용한다. */
-  .ind-page.ind-energy .ind-head p { margin-top: 12px; text-align: left; }
+  .ind-page.ind-energy .ind-head p,
+.ind-page.ind-automotive .ind-head p { margin-top: 12px; text-align: left; }
 }
 /* 어두운 면 위 소제목은 랜딩 다크 섹션(#platform · #integrations)과 같은
    #959CA5다. 밝은 면 소제목은 이미 --text-muted(#7E8A98)로 랜딩과 같다.
@@ -929,6 +931,20 @@ img { max-width: 100%; height: auto; }
 @media (min-width: 1001px) {
   .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 자동차·모빌리티 — 도입 효과 두 칸을 764px 까지 끌어내린다(에너지와 같은 경계).
+   카드가 넷이라 네 칸으로 서고, 공통 규칙이 1100px 에서 두 칸 · 860px 에서 한 칸으로
+   내린다. 한 칸이 되면 칸이 812px 로 벌어져 본문이 한 줄에 다 들어간다.
+   두 칸을 강제해 재 보면 600px(칸 267px)까지도 설명이 네 장 모두 두 줄이고 줄당
+   최장 14자다 — 이 페이지는 본문이 짧아 두 칸을 훨씬 좁은 폭까지 끌 수 있다.
+   에너지와 같은 자리에서 갈리게 764px 로 맞춘다.
+   상한 861px 은 공통 860px 규칙이 클래스 하나라 이 규칙보다 약하기 때문이다 —
+   범위를 끊지 않으면 아무리 좁아져도 두 칸이 남는다. */
+@media (max-width: 860px) and (min-width: 764px) {
+  .ind-page.ind-automotive .ind-benefits .ind-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
@@ -1281,12 +1297,14 @@ img { max-width: 100%; height: auto; }
    가로를 오래 버티는 쪽이 오히려 읽기 나쁘다 — 경계를 늦추지 말 것.
    padding 과 소제목 크기는 그대로 둔다 — 그건 900px 아래의 좁은 화면용 값이다. */
 @media (max-width: 1200px) {
-  .ind-page.ind-energy .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
+  .ind-page.ind-energy .ind-uc-shell,
+.ind-page.ind-automotive .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
   /* 세로로 내려가면 소제목 칸이 280px 에서 전체 폭으로 넓어진다. 좁은 칸에 맞춰
      잡아 둔 둘째 줄 나눔이 더는 필요 없어 세 줄이 두 줄이 된다.
      ('에너지 현장에서 / Refinery가 실제로 하는 일입니다.')
      영문은 데이터가 원래 두 줄이라 해당 <br>이 없다. */
-  .ind-page.ind-energy .ind-uc-lede .uc-lede-br { display: none; }
+  .ind-page.ind-energy .ind-uc-lede .uc-lede-br,
+.ind-page.ind-automotive .ind-uc-lede .uc-lede-br { display: none; }
 }
 
 /* 에너지·유틸리티 — 'Refinery' 칸이 세 줄이 되는 자리에서 '활용' 칸도 세 줄로 간다.
@@ -1332,7 +1350,8 @@ img { max-width: 100%; height: auto; }
    덩어리 사이의 공백이 줄바꿈 자리가 되므로 <span> 사이는 반드시 띄운다.
    덩어리 하나가 칸보다 길면 그 안에서 다시 감긴다 — 좁은 폭에서는 어쩔 수 없고,
    지정한 덩어리 경계는 그대로 지켜진다. */
-.ind-page.ind-energy .note-s {
+.ind-page.ind-energy .note-s,
+.ind-page.ind-automotive .note-s {
   /* 줄이지 않는다 — 줄이면 둘 다 한 줄에 욱여넣고 각자 감겨, 끊는 자리가
      칸 폭에 넘어간다. 0 0 auto 면 한 줄에 못 들어갈 때 통째로 내려간다.
      max-width 는 덩어리가 칸보다 길 때를 받는다 — 그때는 제 줄 안에서 감긴다. */
@@ -1353,7 +1372,8 @@ img { max-width: 100%; height: auto; }
 /* 문장 안에서 한 번 더 끊을 자리. 영문 흐름 노트는 등위접속사 and 앞에서
    ('얹는다 / 양방향 연동한다'), 연동 노트는 전치사구 over 앞에서
    ('연결된다 / 무엇으로') 끊는다. 세 줄 길이가 60·56·58자 · 46·33·41자로 고르다. */
-.ind-page.ind-energy .note-s2 {
+.ind-page.ind-energy .note-s2,
+.ind-page.ind-automotive .note-s2 {
   flex: 0 0 auto;
   max-width: 100%;
 }
