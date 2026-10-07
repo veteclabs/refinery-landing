@@ -911,6 +911,25 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+/* 에너지 영문 — 국문과 같이 세 칸 · 두 칸 · 한 칸 세 단계로 둔다. 위 영문 공통
+   규칙(.ind-page.ind-en .ind-benefits)은 전 구간 두 칸인데, 그것은 일곱 산업을
+   한 규칙으로 묶으면서 제목이 두 줄이 되는 산업(전자·정밀 · 기계 · 식품)에
+   맞춘 값이다. 에너지는 제목이 세 칸에서도 여섯 장 모두 한 줄이라 예외로 뺀다.
+   세 칸으로 강제해 재 보면 —
+     1184px 칸 351px  제목 111111  설명 322334  줄당 최장 41자
+     1120px 칸 329px  제목 111111  설명 332334  줄당 최장 36자
+     1005px 칸 291px  제목 111111  설명 332344  줄당 최장 32자
+   설명 줄 수가 2~4줄로 고르지 않고 줄당 글자 수도 영문 통상 범위(45~75자)
+   아래다. 그 대가를 알고 세 칸을 택한 것이다 — 두 칸은 줄당 58~63자로 범위에
+   들지만 섹션이 2행에서 3행으로 길어진다.
+   경계는 1001px 이다. 국문은 세 칸이 기본값이고 두 칸이 max-width: 1000px 이라
+   1001px 까지 세 칸인데, 영문에서 min-width: 1005px 로 두면 1004~1001px 네 칸이
+   두 칸으로 어긋난다. 같은 자리에서 갈리게 1001px 로 맞춘다. */
+@media (min-width: 1001px) {
+  .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
