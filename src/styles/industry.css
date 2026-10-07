@@ -1446,6 +1446,14 @@ img { max-width: 100%; height: auto; }
     flex-direction: column;
     align-items: flex-start;
   }
+  /* 전자·정밀은 Refinery 칸도 같은 자리에서 쌓는다. 경계 990px 은 Refinery 가
+     저절로 세 줄이 되는 980px 보다 10px 넓어, 그 사이 990~985px 에서 활용만
+     세 줄이 되어 두 칸이 어긋났다. 둘을 함께 고정하면 구간 전체가 맞는다.
+     에너지는 활용이 980px 에서 함께 따라붙어 이 문제가 없다. */
+  .ind-page.ind-electronics:not(.ind-en) .ind-flow-step.is-on .ind-flow-detail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 /* 영문은 Refinery 칸이 964px 에서 세 줄이 된다(국문 980px). 라벨이 'Ontology ·
    AI agent · rules and automation' 으로 길어 한 줄에 둘씩 들어가는 폭이 더 좁다.
