@@ -1440,13 +1440,7 @@ img { max-width: 100%; height: auto; }
    이 구간을 세로로 고정하면 좁아지는 도중에 줄이 갈라졌다 도로 붙던 것도 함께 사라진다
    — 900px 에서 컨테이너 여백이 작아지며 카드가 196 -> 203px 으로 되레 넓어지는 자리였다.
    align-items 는 flex-start 로 둔다 — 기본값 stretch 로는 상자가 칸 전폭짜리 띠가 된다. */
-@media (max-width: 990px) and (min-width: 861px) {
-  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-/* 전자·정밀은 Refinery 칸과 활용 칸을 상한 없이 쌓는다.
+/* 에너지 · 전자·정밀은 Refinery 칸과 활용 칸을 상한 없이 쌓는다.
    둘은 라벨이 셋으로 같은데 글자 길이가 달라, 가로로 흘리면 칸이 좁아질수록
    Refinery(온톨로지 · AI 에이전트 · 룰/자동화)가 먼저 세 줄이 되고 활용
    (전력품질 대시보드 · 정전 알람 · 환경 감시)은 뒤늦게 따라온다.
@@ -1454,8 +1448,11 @@ img { max-width: 100%; height: auto; }
    그보다 넓은 폭에서 이미 세 줄이었다. 글자 폭은 글꼴 · 렌더러 · 확대율마다 다르다.
    상한을 두지 않으면 어느 폭에서든 두 칸이 같은 줄 수로 선다. 하한 861px 아래는
    카드가 전폭이 되며 한 줄로 합쳐지는 자리라 그대로 둔다.
-   에너지는 두 칸이 980px 에서 함께 전환되어 어긋나지 않으므로 990px 경계를 쓴다. */
+   에너지도 같은 자리에서 어긋났다 — 990px 경계 밖에서 Refinery 만 세 줄이고
+   활용은 '통합 대시보드 알람 / ESG 리포트' 두 줄로 남았다. 둘을 같은 규칙으로 묶는다. */
 @media (min-width: 861px) {
+  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail,
+  .ind-page.ind-energy:not(.ind-en) .ind-flow-step.is-on .ind-flow-detail,
   .ind-page.ind-electronics:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail,
   .ind-page.ind-electronics:not(.ind-en) .ind-flow-step.is-on .ind-flow-detail {
     flex-direction: column;
