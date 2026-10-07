@@ -962,7 +962,17 @@ img { max-width: 100%; height: auto; }
    하한 861px 아래는 카드가 전폭이 되며 한 줄로 합쳐지는 자리라 그대로 둔다.
    에너지와는 방향이 반대다. 거기서는 Refinery 가 먼저 세 줄이 되어 활용을 당겼다. */
 @media (max-width: 1050px) and (min-width: 861px) {
-  .ind-page.ind-automotive .ind-flow-step.is-on .ind-flow-detail {
+  .ind-page.ind-automotive:not(.ind-en) .ind-flow-step.is-on .ind-flow-detail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* 영문은 '활용' 칸 라벨이 길어(Line dashboard · predictive maintenance alerts ·
+   quality traceability) 아무리 넓어도 세 줄이다 — 1920px 칸 286px 에서도 그렇다.
+   그래서 상한을 두지 않는다. 국문은 1040px 에서야 세 줄이 되므로 거기서만 쌓는다.
+   하한 861px 아래는 카드가 전폭이 되며 한 줄로 합쳐지는 자리라 그대로 둔다. */
+@media (min-width: 861px) {
+  .ind-page.ind-en.ind-automotive .ind-flow-step.is-on .ind-flow-detail {
     flex-direction: column;
     align-items: flex-start;
   }
