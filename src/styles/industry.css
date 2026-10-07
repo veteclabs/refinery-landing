@@ -946,6 +946,26 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-automotive .ind-benefits .ind-grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* 자동차·모빌리티 — '활용' 칸이 세 줄이 되는 자리에서 Refinery 칸도 세 줄로 간다.
+   둘은 라벨이 셋으로 같은데, 글자가 짧은 Refinery(온톨로지 · AI 에이전트 ·
+   룰/자동화)가 더 오래 두 줄로 버텨 나란히 선 두 칸의 줄 수가 어긋났다. 실측 —
+     1045px 칸 227px   활용 2줄   Refinery 2줄
+     1040px 칸 226px   활용 3줄   Refinery 2줄   <- 여기서 어긋난다
+      985px 칸 212px   활용 3줄   Refinery 2줄
+      980px 칸 211px   활용 3줄   Refinery 3줄
+   55px 구간에서 활용만 세 줄이었다. 세로로 쌓아 줄 수를 라벨 개수에 고정한다.
+   상한 1050px 은 활용이 세 줄이 되는 1040px 보다 10px 넓다 — 글자 폭은 브라우저마다
+   다르므로 넓은 쪽에 두어야 '활용이 세 줄이면 Refinery도 세 줄'이 어느 쪽으로
+   어긋나든 지켜진다.
+   하한 861px 아래는 카드가 전폭이 되며 한 줄로 합쳐지는 자리라 그대로 둔다.
+   에너지와는 방향이 반대다. 거기서는 Refinery 가 먼저 세 줄이 되어 활용을 당겼다. */
+@media (max-width: 1050px) and (min-width: 861px) {
+  .ind-page.ind-automotive .ind-flow-step.is-on .ind-flow-detail {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
