@@ -1031,6 +1031,17 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-automotive .ind-benefits .ind-grid-4 .ind-card:first-child p br {
     display: none;
   }
+}
+/* 한 칸이 되면 칸이 715px 로 벌어져 <br>로 나눈 두 줄이 어중간해진다 — 한 줄에
+   다 들어가는데도 둘로 끊겨 오른쪽이 크게 빈다. 단락 나눔을 풀어 칸 폭에 맡긴다.
+   에너지(.ind-grid-3)는 공통 1100px 규칙이 이미 풀고 있어 한 칸에서 한 줄로 서는데,
+   자동차는 .ind-grid-4 라 그 규칙에 들지 않아 <br>이 남아 있었다.
+   네 장 모두에 건다 — 한 칸에서는 어느 카드든 사정이 같다.
+   영문 데이터에는 개행이 없어 <br> 자체가 없으므로 달라지는 것이 없다. */
+@media (max-width: 763px) {
+  .ind-page.ind-automotive .ind-benefits .ind-grid-4 .ind-card p br {
+    display: none;
+  }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
