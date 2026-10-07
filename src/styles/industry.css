@@ -966,6 +966,25 @@ img { max-width: 100%; height: auto; }
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+/* 자동차·모빌리티 — 네 칸이 좁아지는 구간에서 '설비 다운타임 감소' 카드의 단락
+   나눔을 푼다. 칸이 251px 밑으로 떨어지면 <br>로 나눈 첫 반쪽이 다시 감겨
+   '잡아' 한 낱말만 둘째 줄에 남는다. 실측 —
+     1154px 칸 251px  2줄  회전체 진동에서 이상을 미리 잡아 / 생산 안정성을 확보합니다.
+     1152px 칸 251px  3줄  회전체 진동에서 이상을 미리 / 잡아 / 생산 안정성을 확보합니다.
+   풀면 그 구간이 두 줄로 돌아온다(회전체 진동에서 이상을 미리 / 잡아 생산 안정성을
+   확보합니다).
+   경계 1160px 은 1152px 보다 8px 넓다. 그 사이 폭에서는 풀어도 묶이는 자리가 같아
+   달라지는 것이 없어, 넓은 쪽에 두어도 손해가 없다.
+   하한 1101px 을 두는 이유: 1100px 아래는 두 칸이 되어 칸이 493px 로 넓어지므로,
+   거기서 풀면 글이 한 줄에 다 들어가 두 줄인 다른 카드와 어긋난다.
+   첫 카드에만 거는 이유: 나머지 셋은 이 구간에서도 두 줄이라 <br>이 잡아 둔 뜻
+   단위 나눔을 그대로 두는 편이 낫다. */
+@media (max-width: 1160px) and (min-width: 1101px) {
+  .ind-page.ind-automotive .ind-benefits .ind-grid-4 .ind-card:first-child p br {
+    display: none;
+  }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
