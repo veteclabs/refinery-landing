@@ -1441,15 +1441,22 @@ img { max-width: 100%; height: auto; }
    — 900px 에서 컨테이너 여백이 작아지며 카드가 196 -> 203px 으로 되레 넓어지는 자리였다.
    align-items 는 flex-start 로 둔다 — 기본값 stretch 로는 상자가 칸 전폭짜리 띠가 된다. */
 @media (max-width: 990px) and (min-width: 861px) {
-  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail,
-  .ind-page.ind-electronics:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
+  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
     flex-direction: column;
     align-items: flex-start;
   }
-  /* 전자·정밀은 Refinery 칸도 같은 자리에서 쌓는다. 경계 990px 은 Refinery 가
-     저절로 세 줄이 되는 980px 보다 10px 넓어, 그 사이 990~985px 에서 활용만
-     세 줄이 되어 두 칸이 어긋났다. 둘을 함께 고정하면 구간 전체가 맞는다.
-     에너지는 활용이 980px 에서 함께 따라붙어 이 문제가 없다. */
+}
+/* 전자·정밀은 Refinery 칸과 활용 칸을 상한 없이 쌓는다.
+   둘은 라벨이 셋으로 같은데 글자 길이가 달라, 가로로 흘리면 칸이 좁아질수록
+   Refinery(온톨로지 · AI 에이전트 · 룰/자동화)가 먼저 세 줄이 되고 활용
+   (전력품질 대시보드 · 정전 알람 · 환경 감시)은 뒤늦게 따라온다.
+   그 전환점을 숫자로 박으면 어긋난다 — 헤드리스로는 980px 인데 실제 브라우저에서는
+   그보다 넓은 폭에서 이미 세 줄이었다. 글자 폭은 글꼴 · 렌더러 · 확대율마다 다르다.
+   상한을 두지 않으면 어느 폭에서든 두 칸이 같은 줄 수로 선다. 하한 861px 아래는
+   카드가 전폭이 되며 한 줄로 합쳐지는 자리라 그대로 둔다.
+   에너지는 두 칸이 980px 에서 함께 전환되어 어긋나지 않으므로 990px 경계를 쓴다. */
+@media (min-width: 861px) {
+  .ind-page.ind-electronics:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail,
   .ind-page.ind-electronics:not(.ind-en) .ind-flow-step.is-on .ind-flow-detail {
     flex-direction: column;
     align-items: flex-start;
