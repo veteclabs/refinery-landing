@@ -256,7 +256,7 @@ const lines = (s: string) => s.split('\n');
               제목이 왼쪽 · 소제목이 오른쪽 끝이다. */}
           <div class="ind-systems-head">
             <h3>{ind.integrations.title}</h3>
-            {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+            {ind.integrations.subtitle && <p class="ind-systems-sub" set:html={ind.integrations.subtitle} />}
           </div>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}

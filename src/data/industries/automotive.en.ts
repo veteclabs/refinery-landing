@@ -117,7 +117,7 @@ export const automotiveEn: IndustryData = {
   },
   integrations: {
     title: 'Systems we connect to',
-    subtitle: 'The systems and protocols commonly used on automotive sites.',
+    subtitle: '<span class="note-s">The systems and protocols</span><span class="note-s">commonly used on automotive sites.</span>',
     systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC UA', 'LTE'],
     note: '<span class="note-s"><span class="note-s2">Systems not listed here can still be connected</span><span class="note-s2">over standard protocols and APIs.</span></span><span class="note-s">Get in touch and we will walk through it.</span>',
   },
