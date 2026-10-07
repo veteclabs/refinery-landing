@@ -827,12 +827,14 @@ img { max-width: 100%; height: auto; }
    걸려 오히려 섞였다. flex-direction 으로 바꿔야 한다. */
 @media (max-width: 800px) {
   .ind-page.ind-energy .ind-head,
+.ind-page.ind-electronics .ind-head,
 .ind-page.ind-automotive .ind-head { flex-direction: column; align-items: flex-start; }
   /* 세로로 내려가면 왼쪽 정렬로 바꾼다. 제목 옆에 설 때는 오른쪽 끝에서 제목과 만나라고
      text-align: right 를 주는데, 아래로 내려간 뒤에도 그대로 두면 글이 400px 칸 안
      오른쪽에 붙어 제목과 시작선이 어긋난다. 칸(max-width: 400px)은 줄 길이 제한이라
      그대로 두고 정렬만 바꾼다 — 머리 셋 모두 같은 조건이라 함께 적용한다. */
   .ind-page.ind-energy .ind-head p,
+.ind-page.ind-electronics .ind-head p,
 .ind-page.ind-automotive .ind-head p { margin-top: 12px; text-align: left; }
 }
 /* 어두운 면 위 소제목은 랜딩 다크 섹션(#platform · #integrations)과 같은
@@ -1042,6 +1044,25 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-automotive .ind-benefits .ind-grid-4 .ind-card p br {
     display: none;
   }
+}
+
+/* 전자·정밀 — 도입 효과를 세 칸 · 두 칸 · 한 칸 세 단계로 둔다. 카드가 여섯 장에
+   .ind-grid-3 이라 에너지와 같은 구성인데, 본문이 짧아 무너지는 자리가 다르다.
+   세 칸으로 재 보면 —
+     1150px 칸 339px  설명 222222  줄당 14자
+     1100px 칸 323px  설명 111122  줄당 23자   공통 규칙이 단락 나눔을 푸는 자리다
+     1050px 칸 306px  설명 111122  줄당 20자
+      960px 칸 276px  설명 222222  줄당 20자
+   1100px 에서 <br>이 풀리며 카드마다 한 줄 · 두 줄로 갈려, 그 아래 세 칸 구간이
+   들쭉날쭉하다. 그래서 세 칸을 1101px 까지만 쓰고 거기서 두 칸으로 내린다
+   (에너지는 1001px 인데, 그쪽은 본문이 길어 1005px 까지 버틴다).
+   두 칸은 600px(칸 267px)까지도 설명이 여섯 장 모두 두 줄이지만, 한 칸으로
+   내려가는 자리는 에너지 · 자동차와 같은 764px 로 맞춘다. */
+@media (max-width: 1100px) and (min-width: 764px) {
+  .ind-page.ind-electronics .ind-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  /* 두 칸에서는 칸이 349~543px 로 넓어 나뉜 반쪽이 다시 감기지 않는다.
+     위 1100px 공통 규칙이 푼 단락 나눔을 되살린다. */
+  .ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline; }
 }@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
@@ -1394,12 +1415,14 @@ img { max-width: 100%; height: auto; }
    padding 과 소제목 크기는 그대로 둔다 — 그건 900px 아래의 좁은 화면용 값이다. */
 @media (max-width: 1200px) {
   .ind-page.ind-energy .ind-uc-shell,
+.ind-page.ind-electronics .ind-uc-shell,
 .ind-page.ind-automotive .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
   /* 세로로 내려가면 소제목 칸이 280px 에서 전체 폭으로 넓어진다. 좁은 칸에 맞춰
      잡아 둔 둘째 줄 나눔이 더는 필요 없어 세 줄이 두 줄이 된다.
      ('에너지 현장에서 / Refinery가 실제로 하는 일입니다.')
      영문은 데이터가 원래 두 줄이라 해당 <br>이 없다. */
   .ind-page.ind-energy .ind-uc-lede .uc-lede-br,
+.ind-page.ind-electronics .ind-uc-lede .uc-lede-br,
 .ind-page.ind-automotive .ind-uc-lede .uc-lede-br { display: none; }
 }
 
@@ -1418,7 +1441,8 @@ img { max-width: 100%; height: auto; }
    — 900px 에서 컨테이너 여백이 작아지며 카드가 196 -> 203px 으로 되레 넓어지는 자리였다.
    align-items 는 flex-start 로 둔다 — 기본값 stretch 로는 상자가 칸 전폭짜리 띠가 된다. */
 @media (max-width: 990px) and (min-width: 861px) {
-  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
+  .ind-page.ind-energy:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail,
+  .ind-page.ind-electronics:not(.ind-en) .ind-flow-step:last-child .ind-flow-detail {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -1447,6 +1471,7 @@ img { max-width: 100%; height: auto; }
    덩어리 하나가 칸보다 길면 그 안에서 다시 감긴다 — 좁은 폭에서는 어쩔 수 없고,
    지정한 덩어리 경계는 그대로 지켜진다. */
 .ind-page.ind-energy .note-s,
+.ind-page.ind-electronics .note-s,
 .ind-page.ind-automotive .note-s {
   /* 줄이지 않는다 — 줄이면 둘 다 한 줄에 욱여넣고 각자 감겨, 끊는 자리가
      칸 폭에 넘어간다. 0 0 auto 면 한 줄에 못 들어갈 때 통째로 내려간다.
@@ -1469,6 +1494,7 @@ img { max-width: 100%; height: auto; }
    ('얹는다 / 양방향 연동한다'), 연동 노트는 전치사구 over 앞에서
    ('연결된다 / 무엇으로') 끊는다. 세 줄 길이가 60·56·58자 · 46·33·41자로 고르다. */
 .ind-page.ind-energy .note-s2,
+.ind-page.ind-electronics .note-s2,
 .ind-page.ind-automotive .note-s2 {
   flex: 0 0 auto;
   max-width: 100%;
