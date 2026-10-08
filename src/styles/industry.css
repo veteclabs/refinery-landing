@@ -912,7 +912,8 @@ img { max-width: 100%; height: auto; }
    두 칸을 강제해 재 보면 861px 칸 398px 에서 줄당 45자, 764px 에서 41자다.
    선택자는 클래스 다섯이라 위 860px 되돌림(넷)을 이긴다. */
 @media (max-width: 860px) and (min-width: 764px) {
-  .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3 {
+  .ind-page.ind-en.ind-energy .ind-benefits .ind-grid-3,
+  .ind-page.ind-en.ind-electronics .ind-benefits .ind-grid-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -963,20 +964,24 @@ img { max-width: 100%; height: auto; }
    commonly used on … sites.' 로 끊기게 했다(데이터의 note-s). 에너지도 같다. */
 @media (min-width: 801px) {
   .ind-page.ind-en.ind-automotive .ind-systems-head,
-  .ind-page.ind-en.ind-energy .ind-systems-head { flex-wrap: nowrap; }
+  .ind-page.ind-en.ind-energy .ind-systems-head,
+  .ind-page.ind-en.ind-electronics .ind-systems-head { flex-wrap: nowrap; }
 }
 @media (max-width: 800px) {
   .ind-page.ind-en.ind-automotive .ind-systems-head,
-  .ind-page.ind-en.ind-energy .ind-systems-head {
+  .ind-page.ind-en.ind-energy .ind-systems-head,
+  .ind-page.ind-en.ind-electronics .ind-systems-head {
     flex-direction: column;
     align-items: flex-start;
   }
   .ind-page.ind-en.ind-automotive .ind-systems-sub,
-  .ind-page.ind-en.ind-energy .ind-systems-sub { text-align: left; }
+  .ind-page.ind-en.ind-energy .ind-systems-sub,
+  .ind-page.ind-en.ind-electronics .ind-systems-sub { text-align: left; }
 }
 /* 덩어리가 제 단위로 움직이게 소제목도 wrap 되는 flex 로 둔다. */
 .ind-page.ind-automotive .ind-systems-sub,
-.ind-page.ind-energy .ind-systems-sub {
+.ind-page.ind-energy .ind-systems-sub,
+.ind-page.ind-electronics .ind-systems-sub {
   display: flex;
   flex-wrap: wrap;
   column-gap: .32em;
@@ -984,7 +989,8 @@ img { max-width: 100%; height: auto; }
 }
 @media (max-width: 800px) {
   .ind-page.ind-automotive .ind-systems-sub,
-  .ind-page.ind-energy .ind-systems-sub { justify-content: flex-start; }
+  .ind-page.ind-energy .ind-systems-sub,
+  .ind-page.ind-electronics .ind-systems-sub { justify-content: flex-start; }
 }
 
 /* 자동차·모빌리티 — 네 칸이 좁아지는 구간에서 '설비 다운타임 감소' 카드의 단락
