@@ -86,6 +86,10 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
     }
+    /* 버튼 박스는 KO/EN 과 중심이 정확히 같은데(실측 0.0px 차) 글리프가 em 박스 안에서
+       아래로 치우쳐 그려져, 세 줄이 글자보다 1px 내려앉아 보였다. 글리프만 올린다 —
+       버튼 박스를 건드리면 40px 터치 영역이 따라 움직인다. */
+    .nav-hamburger i { transform: translateY(-1px); }
 .mobile-nav-panel {
       display: none;
       flex-direction: column;
