@@ -378,6 +378,46 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 항목을 묶음 제목보다 들여쓰지 않는다 — 12px 들여쓰기가 있으면 제목과 항목의
    왼쪽 축이 두 개가 되어 목록이 들쭉날쭉해 보인다. 층 구분은 글자 크기·굵기가 맡는다. */
 .mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px; }
+/* 묶음이 둘 이상인 메뉴(솔루션 = 산업별 · 과제별)는 제목을 여닫이로 둔다.
+   평평하게 늘어놓으면 항목이 열넷이라 패널이 화면을 넘겼다. 묶음이 하나뿐인
+   메뉴(리소스 · 회사)는 제목이 상위 메뉴명과 겹치므로 그대로 흐른다.
+   <details>라 자바스크립트 없이 열리고, 키보드 · 보조기술도 기본으로 받는다. */
+.mm-mobile-acc > summary {
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0;
+  font-size: 14.5px; font-weight: 600; color: var(--ink-800);
+  cursor: pointer;
+}
+.mm-mobile-acc > summary::-webkit-details-marker { display: none; }
+/* 꺾쇠 — 7px 정사각형의 두 변만 남겨 돌린다. 열리면 위를 향한다. */
+.mm-mobile-acc > summary::after {
+  content: '';
+  width: 7px; height: 7px;
+  margin-right: 3px;
+  border-right: 1.5px solid var(--ink-400);
+  border-bottom: 1.5px solid var(--ink-400);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform .15s ease;
+}
+.mm-mobile-acc[open] > summary::after { transform: rotate(-135deg) translateY(-2px); }
+@media (prefers-reduced-motion: reduce) {
+  .mm-mobile-acc > summary::after { transition: none; }
+}
+/* 펼친 항목은 두 칸으로 늘어놓는다 — 큰 화면 메가메뉴와 같은 짜임이고,
+   산업별 일곱 · 과제별 일곱을 한 줄로 흘리면 패널이 그만큼 길어진다.
+   제목보다 한 단 들여 써 여닫이 안쪽임이 보이게 한다. */
+.mm-mobile-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+  padding: 0 0 6px 10px;
+}
+/* 아주 좁은 화면에서는 한 칸으로 돌린다 — 두 칸이면 글자 칸이 150px 밑으로
+   떨어져 '에너지 · 유틸리티' 같은 항목이 감긴다. */
+@media (max-width: 380px) {
+  .mm-mobile-items { grid-template-columns: 1fr; }
+}
 .mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 0; border: none !important; }
 .mm-mobile-sub .mm-soon { padding: 7px 0; font-size: 14.5px; }
 

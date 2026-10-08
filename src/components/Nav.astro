@@ -110,11 +110,26 @@ const home = lang === 'en' ? '/en' : '/';
         <a href={m.href} class="mm-mobile-top">{m.label}</a>
         {m.groups && (
           <div class="mm-mobile-sub">
-            {m.groups.map((g) => g.items.map((it) => (
-              it.href
-                ? <a href={it.href}>{it.label}</a>
-                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
-            )))}
+            {m.groups.map((g) => (
+              m.groups!.length > 1 && g.title ? (
+                <details class="mm-mobile-acc">
+                  <summary>{g.title}</summary>
+                  <div class="mm-mobile-items">
+                    {g.items.map((it) => (
+                      it.href
+                        ? <a href={it.href}>{it.label}</a>
+                        : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+                    ))}
+                  </div>
+                </details>
+              ) : (
+                g.items.map((it) => (
+                  it.href
+                    ? <a href={it.href}>{it.label}</a>
+                    : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+                ))
+              )
+            ))}
           </div>
         )}
       </div>
