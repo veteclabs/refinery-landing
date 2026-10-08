@@ -247,7 +247,7 @@ const lines = (s: string) => s.split('\n');
             </>
           ))}
         </div>
-        {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
+        {ind.architecture.note && <p class="ind-flow-note" set:html={ind.architecture.note} />}
 
         {/* 연동 시스템 — 흐름 2단계(연동)가 실제로 무엇과 연결되는지다.
             따로 섹션을 두는 대신 흐름 바로 아래에 붙인다. */}
@@ -256,14 +256,14 @@ const lines = (s: string) => s.split('\n');
               제목이 왼쪽 · 소제목이 오른쪽 끝이다. */}
           <div class="ind-systems-head">
             <h3>{ind.integrations.title}</h3>
-            {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+            {ind.integrations.subtitle && <p class="ind-systems-sub" set:html={ind.integrations.subtitle} />}
           </div>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
-        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
+        {ind.integrations.note && <p class="ind-systems-note" set:html={ind.integrations.note} />}
       </div>
     </section>
 

@@ -106,18 +106,27 @@ const home = lang === 'en' ? '/en' : '/';
 
   <div class="mobile-nav-panel mm-mobile" id="mobileNavPanel">
     {menu.map((m) => (
-      <div class="mm-mobile-group">
-        <a href={m.href} class="mm-mobile-top">{m.label}</a>
-        {m.groups && (
-          <div class="mm-mobile-sub">
-            {m.groups.map((g) => g.items.map((it) => (
-              it.href
-                ? <a href={it.href}>{it.label}</a>
-                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
-            )))}
+      m.groups ? (
+        <details class="mm-mobile-group">
+          <summary class="mm-mobile-top">{m.label}</summary>
+          <div class:list={['mm-mobile-sub', m.groups.length > 1 && 'is-split']}>
+            {m.groups.map((g) => (
+              <div class="mm-mobile-col">
+                {m.groups!.length > 1 && g.title && <p class="mm-mobile-coltitle">{g.title}</p>}
+                {g.items.map((it) => (
+                  it.href
+                    ? <a href={it.href}>{it.label}</a>
+                    : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+                ))}
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </details>
+      ) : (
+        <div class="mm-mobile-group">
+          <a href={m.href} class="mm-mobile-top">{m.label}</a>
+        </div>
+      )
     ))}
     <a href={ui.ctaHref} class="mobile-nav-cta">{ui.cta}</a>
   </div>

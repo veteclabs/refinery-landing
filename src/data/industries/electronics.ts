@@ -49,7 +49,7 @@ export const electronics: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '전자 ⁠· 정밀 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
+    subtitle: '전자 ⁠· 정밀 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
     layout: 'steps',
     items: [
       {
@@ -105,7 +105,7 @@ export const electronics: IndustryData = {
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '전력품질 대시보드 ⁠· 정전 알람 ⁠· 환경 감시', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 MES⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '<span class="note-s">기존 MES⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고,</span><span class="note-s">없는 현장은 수집부터 새로 구축합니다.</span>',
   },
   benefits: {
     title: '도입 효과',
@@ -147,7 +147,7 @@ export const electronics: IndustryData = {
     title: '연동 시스템',
     subtitle: '전자 ⁠· 정밀 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
     systems: ['MES', 'SCADA', 'UPS', '최대수요관리장치', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC UA', 'ERP'],
-    note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
+    note: '<span class="note-s">목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다.</span><span class="note-s">자세한 내용은 문의해 주세요.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',

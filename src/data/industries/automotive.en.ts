@@ -87,7 +87,7 @@ export const automotiveEn: IndustryData = {
       { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: 'Where MES or PLC already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: '<span class="note-s"><span class="note-s2">Where MES or PLC already exists, a layer sits on top of it</span><span class="note-s2">and integrates bidirectionally rather than replacing it.</span></span><span class="note-s">Where none exists, collection is built from the ground up.</span>',
   },
   benefits: {
     title: 'What you gain',
@@ -117,9 +117,9 @@ export const automotiveEn: IndustryData = {
   },
   integrations: {
     title: 'Systems we connect to',
-    subtitle: 'The systems and protocols commonly used on automotive sites.',
+    subtitle: '<span class="note-s">The systems and protocols</span><span class="note-s">commonly used on automotive sites.</span>',
     systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC UA', 'LTE'],
-    note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
+    note: '<span class="note-s"><span class="note-s2">Systems not listed here can still be connected</span><span class="note-s2">over standard protocols and APIs.</span></span><span class="note-s">Get in touch and we will walk through it.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
