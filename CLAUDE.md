@@ -63,7 +63,15 @@ middleware.ts  Vercel Edge — 홈(/)에서만 언어 자동 안내(봇·쿠키 
 - ⚠️ **크기 규칙은 `:global(...)`로 쓴다.** `set:html`로 넣는 인라인 SVG에는 Astro 스코프 속성이 붙지 않아
   페이지 `<style>` 안의 `.cmp-stat-icon { … }` 같은 규칙이 통째로 빗나간다. 크기가 제멋대로면 여기부터 본다.
   (`src/styles/*.css`의 전역 규칙은 그대로 먹는다 — `.ind-flow-img`가 그 경우다.)
-- 원본·PNG·WebP가 든 작업 폴더 `refinery-icons/`는 `.gitignore`에 있다. 사이트가 쓰는 건 `src/icons/`의 SVG뿐이다.
+- 아이콘을 고칠 때는 `src/icons/`의 SVG를 직접 건드리지 말고 **`refinery-icons/source/`에서 다시 뽑는다**.
+  `icons.js`가 13종의 생김새를, `lib.js`가 재질(면 그라데이션 · 디테일 색 · 그림자)을 쥐고 있다.
+  막대 두께는 `BAR`(28) · 점 반지름은 `DOT`(15) — 한 벌이 같은 값을 쓴다. 낱개로 다른 값을 박지 말 것.
+  다크 디테일은 `DARK_DETAIL_G`(좌상단 brand-50 → 우하단 brand-100) 대각 그라데이션 하나를 함께 쓴다.
+  단색 흰 면으로 두면 그 부분만 평평하게 뜨고, 더 파랗게 내리면 54px 수치 아이콘에서 디테일이 묻힌다.
+- 다시 뽑는 법: `source/`를 CommonJS로 돌릴 수 있는 곳에 복사해(리포 `package.json`이 `type: module`이라
+  그대로는 안 돈다) `setMode({ css: true, theme, pfx: 'rf-<d- 또는 빈칸><이름>-' })` 뒤 `ic.draw()`.
+  접두사 규약이 어긋나면 한 페이지에 놓인 아이콘끼리 id가 충돌한다. `build-themes.js`는 playwright가 있어야 돈다.
+- `refinery-icons/`에서 커밋하는 건 `source/`와 `README.md`뿐이다. PNG·WebP·테마 산출물(52MB)은 `.gitignore`에 있다.
 
 ## 이미지 규칙
 - **래스터 이미지는 WebP로 커밋**한다. 표시 크기로 리사이즈(`cwebp -q 82 -resize <폭> 0 원본 -o 결과.webp`).
