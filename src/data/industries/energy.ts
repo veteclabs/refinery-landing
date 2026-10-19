@@ -48,7 +48,11 @@ export const energy: IndustryData = {
   useCases: {
     title: '문제를 푸는 방법',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾼다.
-    subtitle: '에너지 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
+    // 둘째 줄 나눔만 <br>을 직접 써서 클래스를 단다 — 카드가 아래로 내려가는
+    // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.
+    // <br> 뒤 공백은 일부러 둔 것이다. 숨겼을 때 '실제로 하는'이 붙지 않게 하고,
+    // 보일 때는 줄 첫머리 공백이라 렌더링에 영향이 없다.
+    subtitle: '에너지 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
     layout: 'steps',
     items: [
       {
@@ -92,7 +96,7 @@ export const energy: IndustryData = {
       { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
       { label: '활용', detail: '통합 대시보드 ⁠· 알람 ⁠· ESG 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
     ],
-    note: '기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '<span class="note-s">기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고,</span><span class="note-s">없는 현장은 수집부터 새로 구축합니다.</span>',
   },
   benefits: {
     title: '도입 효과',
@@ -134,7 +138,7 @@ export const energy: IndustryData = {
     title: '연동 시스템',
     subtitle: '에너지 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
     systems: ['SCADA', 'EMS', '스마트미터 ⁠· AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
-    note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
+    note: '<span class="note-s">목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다.</span><span class="note-s">자세한 내용은 문의해 주세요.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',

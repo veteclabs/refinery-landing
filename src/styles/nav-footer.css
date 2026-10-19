@@ -86,6 +86,10 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
     }
+    /* 버튼 박스는 KO/EN 과 중심이 정확히 같은데(실측 0.0px 차) 글리프가 em 박스 안에서
+       아래로 치우쳐 그려져, 세 줄이 글자보다 1px 내려앉아 보였다. 글리프만 올린다 —
+       버튼 박스를 건드리면 40px 터치 영역이 따라 움직인다. */
+    .nav-hamburger i { transform: translateY(-1px); }
 .mobile-nav-panel {
       display: none;
       flex-direction: column;
@@ -374,6 +378,70 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 항목을 묶음 제목보다 들여쓰지 않는다 — 12px 들여쓰기가 있으면 제목과 항목의
    왼쪽 축이 두 개가 되어 목록이 들쭉날쭉해 보인다. 층 구분은 글자 크기·굵기가 맡는다. */
 .mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px; }
+/* 상위 메뉴를 여닫이로 둔다 — 솔루션 · 리소스 · 회사 세 줄만 두고, 누르면 그
+   아래로 항목이 펼쳐진다. 평평하게 늘어놓으면 항목이 스물넷이라 패널이 화면을
+   세 배 넘겼다.
+   <details>/<summary>라 자바스크립트가 필요 없고, 키보드 · 보조기술도 기본으로
+   받는다. 패널을 닫는 스크립트는 a 만 보므로 summary 를 눌러도 닫히지 않는다. */
+.mobile-nav-panel summary.mm-mobile-top {
+  display: flex; align-items: center; justify-content: space-between;
+  list-style: none; cursor: pointer;
+}
+.mobile-nav-panel summary.mm-mobile-top::-webkit-details-marker { display: none; }
+/* 꺾쇠 — 7px 정사각형의 두 변만 남겨 돌린다. 열리면 위를 향한다. */
+.mobile-nav-panel summary.mm-mobile-top::after {
+  content: '';
+  width: 7px; height: 7px;
+  margin-right: 3px;
+  border-right: 1.5px solid var(--ink-400);
+  border-bottom: 1.5px solid var(--ink-400);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform .15s ease;
+}
+details.mm-mobile-group[open] > summary.mm-mobile-top::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-panel summary.mm-mobile-top::after { transition: none; }
+}
+
+/* 묶음이 둘 이상인 메뉴(솔루션 = 산업별 · 과제별)는 두 축을 좌우로 둔다.
+   큰 화면 메가메뉴와 같은 짜임이다 — 왼쪽이 산업별, 오른쪽이 과제별.
+   한 줄로 흘리면 솔루션 하나에 항목이 열넷 쌓여 패널이 화면을 넘겼다.
+   묶음 제목은 띄우지 않는다. 상위 '솔루션'이 제목 노릇을 하고, 두 축은 자리로
+   구분된다 — 제목을 넣으면 층이 셋이 되어 패널이 도로 길어진다.
+   묶음이 하나뿐인 메뉴(리소스 · 회사)는 지금처럼 한 줄로 흐른다. */
+.mm-mobile-sub.is-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 18px;
+}
+/* 두 축 사이 세로선 — 큰 화면 메가메뉴(.mm-col + .mm-col)와 같은 값이다.
+   선은 둘째 칸의 왼쪽 변에 그어지므로, 안쪽 여백을 바깥 간격과 같게 둬야
+   선이 두 칸 가운데에 선다(18 / 18). */
+.mm-mobile-sub.is-split .mm-mobile-col + .mm-mobile-col {
+  border-left: 1px solid var(--ink-200);
+  padding-left: 18px;
+}
+.mm-mobile-col { display: flex; flex-direction: column; min-width: 0; }
+/* 열 이름 — 큰 화면 메가메뉴의 .mm-col-title 과 같은 값이다(12px · 500 · 대문자 ·
+   ink-400). 같은 역할이므로 같은 처리를 쓴다. 묶음이 하나뿐인 메뉴(리소스 · 회사)는
+   제목이 상위 메뉴명과 겹치므로 띄우지 않는다. */
+.mm-mobile-coltitle {
+  margin: 8px 0 4px;
+  font-size: 12px; font-weight: 500; text-transform: uppercase;
+  color: var(--ink-400);
+}
+/* 아주 좁은 화면에서는 한 칸으로 돌린다 — 두 칸이면 글자 칸이 150px 밑으로
+   떨어져 '에너지 · 유틸리티' 같은 항목이 감긴다. */
+@media (max-width: 380px) {
+  .mm-mobile-sub.is-split { grid-template-columns: 1fr; }
+  /* 한 칸이 되면 세로선은 뜻이 없다 — 위아래로 놓인 두 축 사이에 선이 서 버린다. */
+  .mm-mobile-sub.is-split .mm-mobile-col + .mm-mobile-col {
+    border-left: none;
+    padding-left: 0;
+  }
+}
 .mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 0; border: none !important; }
 .mm-mobile-sub .mm-soon { padding: 7px 0; font-size: 14.5px; }
 
@@ -383,10 +451,14 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
   .nav-hamburger { display: flex; }
 }
 
-/* 모바일: 상단 문의하기 버튼 숨김(모바일 패널에 CTA 있음) + 스위처 여백 정리 */
-@media (max-width: 980px) {
-  .nav-actions .btn-primary { display: none; }
-  .nav-actions { gap: 10px; }
+/* 좁은 폭에서도 문의하기를 헤더 바에 남긴다 — 순서는 KO/EN · 문의하기 · 햄버거로,
+   마크업 순서 그대로다. 버튼 모양은 큰 화면과 같다 — 크기를 줄이면 같은 버튼인데
+   폭마다 다르게 보인다. 자리가 모자라면 사이 간격만 좁힌다. */
+/* 사이 간격도 큰 화면과 같은 28px 로 둔다. 360px 까지는 로고와 부딪히지 않는다
+   (틈 9px). 그 아래에서는 버튼 글자가 '문의하 / 기'로 잘리고 로고와 겹치므로
+   간격만 좁혀 막는다 — 버튼 모양은 그대로 둔다. */
+@media (max-width: 359px) {
+  .nav-actions { gap: 12px; }
 }
 
 /* 푸터 하단 법적 링크 바 */
