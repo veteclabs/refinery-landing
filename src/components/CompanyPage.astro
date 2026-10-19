@@ -4,11 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
+import RfIcon from './RfIcon.astro';
 
 interface Props {
   lang?: 'ko' | 'en';
 }
 const { lang = 'ko' } = Astro.props;
+
+// '일하는 세 가지 기준' 카드 아이콘. 순서는 T.principles 와 같다.
+const RULE_ICONS = ['rule-field', 'rule-build', 'rule-context'];
 
 const SITE = 'https://refinery.kr';
 
@@ -27,9 +31,9 @@ const T = {
     storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
     stats: [
-      { num: '30년+', label: '산업 현장에서 쌓은 <span class="cmp-stat-hl">경험</span>', icon: '/company/icon-stat-02.svg' },
-      { num: '100+', label: '데이터를 다룬 <span class="cmp-stat-hl">현장 수</span>', icon: '/company/icon-stat-01.svg' },
-      { num: '20+', label: '철강 ⁠· 반도체 ⁠· 식품 등 <span class="cmp-stat-hl">산업군 수</span>', icon: '/company/icon-stat-03.svg' },
+      { num: '30년+', label: '산업 현장에서 쌓은 <span class="cmp-stat-hl">경험</span>', icon: 'stat-experience' },
+      { num: '100+', label: '데이터를 다룬 <span class="cmp-stat-hl">현장 수</span>', icon: 'stat-sites' },
+      { num: '20+', label: '철강 ⁠· 반도체 ⁠· 식품 등 <span class="cmp-stat-hl">산업군 수</span>', icon: 'stat-industries' },
     ],
     strengthsTitle: '제품의 세 가지 뿌리',
     strengthsSub: '현장을 겪은 팀과 30년의 경험에서 나왔습니다.',
@@ -60,9 +64,9 @@ const T = {
     storyLede: 'We do not build flashy tech demos.<br>We build what actually works on site.',
     storySig: 'A product built by VETEC, 30 years in the field',
     stats: [
-      { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: '/company/icon-stat-02.svg' },
-      { num: '100+', label: '<span class="cmp-stat-hl">sites</span> where we handled data', icon: '/company/icon-stat-01.svg' },
-      { num: '20+', label: '<span class="cmp-stat-hl">industries</span>, from steel to food', icon: '/company/icon-stat-03.svg' },
+      { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: 'stat-experience' },
+      { num: '100+', label: '<span class="cmp-stat-hl">sites</span> where we handled data', icon: 'stat-sites' },
+      { num: '20+', label: '<span class="cmp-stat-hl">industries</span>, from steel to food', icon: 'stat-industries' },
     ],
     strengthsTitle: 'Three roots of the product',
     strengthsSub: 'From a team that has been on the floor, and 30 years of experience.',
@@ -151,14 +155,12 @@ const alternates = [
         <!-- 오른쪽 칸 — 사진이 닿지 않아 비어 있던 자리. 수치를 여기로 옮겼다. -->
         <div class="cmp-stats">
           {T.stats.map((st) => (
-            <div class="cmp-stat">
+            <div class="cmp-stat rf-ic-host">
               <div class="cmp-stat-num">{st.num}</div>
               <div class="cmp-stat-label">
-                {/* 이미지/icon_회사 소개-01~03.svg. 파일이 흰색·하늘색 두 색을 쓰므로
-                    마스크로 색을 입히면 한 색으로 뭉개진다 — <img>로 그대로 둔다.
-                    파일에서 고친 건 선 굵기뿐(70x70 뷰박스에 선언이 없어 기본 1이면
-                    54px에서 실효 0.77px라 2로 올렸다). */}
-                <img class="cmp-stat-icon" src={st.icon} alt="" aria-hidden="true" width="54" height="54" />
+                {/* 어두운 판(rgba(17,19,22,.40)) 위에 놓이므로 dark 세트를 쓴다.
+                    크기는 아래 .cmp-stat-icon 의 clamp 가 정한다. */}
+                <RfIcon name={st.icon} class="cmp-stat-icon" />
                 <span set:html={st.label}></span>
               </div>
             </div>
@@ -211,12 +213,10 @@ const alternates = [
             3열 · gap 18 · 900px에서 2열 · 600px에서 1열. */}
         <ol class="cmp-rule">
           {T.principles.map((p, i) => (
-            <li class="cmp-rule-card">
+            <li class="cmp-rule-card rf-ic-host">
               <span class="cmp-rule-num">{i + 1}</span>
-              {/* SVG는 내용의 97%가 내장 base64 래스터라 벡터로 둘 이점이 없었다.
-                  표시 크기 160px의 2배인 320px WebP로 대체(778.7KB -> 21.6KB). */}
-              <img class="cmp-rule-icon" src={`/company/icon-rule-0${i + 1}.webp`} alt="" aria-hidden="true"
-                   width="320" height="320" loading="lazy" decoding="async" />
+              {/* 이 카드만 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
+              <RfIcon name={RULE_ICONS[i]} theme="light" class="cmp-rule-icon" />
               <h3>{p.title}</h3>
               <p set:html={p.description}></p>
             </li>
@@ -409,7 +409,8 @@ const alternates = [
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
      위쪽은 카드 패딩 30px이 이미 깔려 있으므로 마진은 30px만 더한다. */
-  .cmp-rule-icon { display: block; width: 160px; height: 160px; margin: 30px auto 40px; }
+  /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
+  :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 30px auto 40px; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
@@ -873,7 +874,8 @@ const alternates = [
   .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
   .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
   /* 파일 색(흰색 + 하늘색)을 그대로 쓴다. 크기만 지정한다. */
-  .cmp-stat-icon {
+  /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
+  :global(.cmp-stat-icon) {
     width: clamp(40px, 5.4vw, 54px); height: clamp(40px, 5.4vw, 54px); flex: none;
   }
   .cmp-story { max-width: 760px; }

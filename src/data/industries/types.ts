@@ -23,12 +23,10 @@ export interface Benefit {
 export interface FlowStep {
   label: string;
   detail: string;
-  /** Phosphor 아이콘 이름(ph-*). 없으면 번호만 든다. */
+  /** 카드 안에 놓는 아이콘 이름(src/icons/dark/<이름>.svg). 어두운 카드 면에 맞춘 것이다. */
   icon?: string;
   /** 우리 자리를 밝힌다. 흐름에서 한 칸만 켜는 값이다. */
   highlight?: boolean;
-  /** 카드 안에 놓는 일러스트(public 기준 경로). 어두운 카드 면에 맞춰 그린 것이다. */
-  image?: string;
 }
 
 export interface IndustryData {

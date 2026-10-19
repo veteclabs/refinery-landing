@@ -1,0 +1,50 @@
+---
+/**
+ * Refinery 아이콘 세트(13종)를 인라인 SVG로 놓는다.
+ *
+ * <img>가 아니라 인라인인 까닭: 파일 안의 CSS 애니메이션이 --rf-play 를 읽는데,
+ * <img>로 넣으면 바깥 CSS가 그 변수에 닿지 못해 늘 돌아간다. 한 화면에 아이콘이
+ * 서넛씩 놓이는 자리라 상시 재생은 산만하다 — 기본은 멈춤이고, 조상 .rf-ic-host 에
+ * 마우스를 올렸을 때만 돈다.
+ *
+ * 테마는 OS 설정이 아니라 **놓이는 면의 밝기**로 고른다. 사이트에 테마 토글이 없고
+ * 섹션 배경이 고정이기 때문이다(어두운 면 dark · 밝은 면 light).
+ *
+ * 크기는 CSS가 정한다. 원본에 박힌 width/height 512 를 떼지 않으면 그 값이 이긴다.
+ */
+interface Props {
+  /** src/icons/<theme>/ 아래 파일 이름(확장자 없이). 예: 'flow-site' */
+  name: string;
+  theme?: 'dark' | 'light';
+  class?: string;
+}
+const { name, theme = 'dark', class: extra } = Astro.props;
+
+const files = import.meta.glob('../icons/**/*.svg', {
+  query: '?raw', import: 'default', eager: true,
+}) as Record<string, string>;
+
+const key = `../icons/${theme}/${name}.svg`;
+const raw = files[key];
+if (!raw) throw new Error(`RfIcon: ${key} 가 없다. src/icons/ 아래 이름을 확인할 것.`);
+
+const head = /^<svg\s+xmlns="([^"]+)"\s+width="\d+"\s+height="\d+"\s+viewBox="([^"]+)"\s+class="([^"]+)"/;
+if (!head.test(raw)) throw new Error(`RfIcon: ${name} 의 <svg> 머리말이 예상과 다르다.`);
+
+const svg = raw.replace(head, (_m, ns, viewBox, cls) =>
+  `<svg xmlns="${ns}" viewBox="${viewBox}" class="rf-ic ${cls}${extra ? ` ${extra}` : ''}" aria-hidden="true" focusable="false"`);
+---
+
+<Fragment set:html={svg} />
+
+<style is:global>
+  /* 기본은 멈춤 — 0% 프레임이 제자리라 정지 그림과 같은 모습이 나온다. */
+  .rf-ic { display: block; --rf-play: paused; }
+  .rf-ic-host:hover .rf-ic,
+  .rf-ic-host:focus-within .rf-ic { --rf-play: running; }
+  /* 모션을 줄여 달라는 설정이면 호버해도 멈춰 둔다. */
+  @media (prefers-reduced-motion: reduce) {
+    .rf-ic-host:hover .rf-ic,
+    .rf-ic-host:focus-within .rf-ic { --rf-play: paused; }
+  }
+</style>

@@ -17,12 +17,13 @@ Refinery 제품 소개용 **Astro 기반 정적 사이트**. 랜딩 + 문의 + �
 ```
 src/
 ├─ layouts/    BaseLayout(공유 head)·BlogPost
-├─ components/ Seo·Analytics·CookieConsent·Nav·Footer·LanguageSwitcher
+├─ components/ Seo·Analytics·CookieConsent·Nav·Footer·LanguageSwitcher·RfIcon
 ├─ pages/      index.astro·en/index.astro·contact.astro·blog/*·rss.xml.js
 │              industries/[slug]·use-cases/*·company·docs·resources·why-refinery
 │              whitepapers/*·reports/*·privacy·terms·cookie-policy
 ├─ content/    blog/*.md (컬렉션, 스키마는 content.config.ts)
 ├─ data/       industries/*·usecases/* (데이터 주도 페이지 소스)
+├─ icons/      dark/*·light/* — RfIcon이 인라인으로 넣는 아이콘 13종
 ├─ i18n/       ui.ts (사전 + t·translatePath 헬퍼)
 └─ styles/     global.css(랜딩)·nav-footer·contact·blog·industry·whitepaper·legal
 public/        경로 고정 자산(이미지·favicon·og-image·robots·데모 iframe)
@@ -50,6 +51,27 @@ middleware.ts  Vercel Edge — 홈(/)에서만 언어 자동 안내(봇·쿠키 
     닫는 태그 뒤에서 글자가 새 줄로 시작할 때도 같다(`</strong>` 개행 `이 경우에도` → 붙는다).
   - 줄 끝이 **쉼표·마침표**여도 똑같이 사라진다(`처리하며,` 개행 `<strong>` → `처리하며,정보주체의`).
   - 점검은 소스가 아니라 **`dist/*.html`에서** 한다. 2026-09-08 법적 고지 4개 페이지에서 20곳을 고쳤다.
+
+## 아이콘 (`src/components/RfIcon.astro`)
+- 솔루션 구조·현장이 먼저입니다·회사 소개 수치·일하는 세 가지 기준 — 네 섹션이 한 벌(13종)을 쓴다.
+  Phosphor(`ph-*`)는 별개다. 섞지 말 것.
+- **`<img>`가 아니라 인라인 SVG다.** 파일 안의 CSS 애니메이션이 `--rf-play`를 읽는데 `<img>`로 넣으면
+  바깥 CSS가 그 변수에 닿지 못해 늘 돌아간다. 기본은 멈춤이고, 조상 `.rf-ic-host`에 마우스를 올렸을 때만 돈다.
+  → **아이콘을 놓는 카드에 `rf-ic-host`를 함께 준다.** 빠뜨리면 영영 멈춰 있다.
+- 테마는 OS 설정이 아니라 **놓이는 면의 밝기**로 고른다(어두운 면 `dark` · 밝은 면 `light`).
+  사이트에 테마 토글이 없고 섹션 배경이 고정이기 때문이다.
+- ⚠️ **크기 규칙은 `:global(...)`로 쓴다.** `set:html`로 넣는 인라인 SVG에는 Astro 스코프 속성이 붙지 않아
+  페이지 `<style>` 안의 `.cmp-stat-icon { … }` 같은 규칙이 통째로 빗나간다. 크기가 제멋대로면 여기부터 본다.
+  (`src/styles/*.css`의 전역 규칙은 그대로 먹는다 — `.ind-flow-img`가 그 경우다.)
+- 아이콘을 고칠 때는 `src/icons/`의 SVG를 직접 건드리지 말고 **`refinery-icons/source/`에서 다시 뽑는다**.
+  `icons.js`가 13종의 생김새를, `lib.js`가 재질(면 그라데이션 · 디테일 색 · 그림자)을 쥐고 있다.
+  막대 두께는 `BAR`(28) · 점 반지름은 `DOT`(15) — 한 벌이 같은 값을 쓴다. 낱개로 다른 값을 박지 말 것.
+  다크 디테일은 `DARK_DETAIL_G`(좌상단 brand-50 → 우하단 brand-100) 대각 그라데이션 하나를 함께 쓴다.
+  단색 흰 면으로 두면 그 부분만 평평하게 뜨고, 더 파랗게 내리면 54px 수치 아이콘에서 디테일이 묻힌다.
+- 다시 뽑는 법: `source/`를 CommonJS로 돌릴 수 있는 곳에 복사해(리포 `package.json`이 `type: module`이라
+  그대로는 안 돈다) `setMode({ css: true, theme, pfx: 'rf-<d- 또는 빈칸><이름>-' })` 뒤 `ic.draw()`.
+  접두사 규약이 어긋나면 한 페이지에 놓인 아이콘끼리 id가 충돌한다. `build-themes.js`는 playwright가 있어야 돈다.
+- `refinery-icons/`에서 커밋하는 건 `source/`와 `README.md`뿐이다. PNG·WebP·테마 산출물(52MB)은 `.gitignore`에 있다.
 
 ## 이미지 규칙
 - **래스터 이미지는 WebP로 커밋**한다. 표시 크기로 리사이즈(`cwebp -q 82 -resize <폭> 0 원본 -o 결과.webp`).
