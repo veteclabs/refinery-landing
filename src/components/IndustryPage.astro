@@ -6,6 +6,7 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import type { IndustryData } from '../data/industries/types';
+import RfIcon from './RfIcon.astro';
 
 interface Props {
   ind: IndustryData;
@@ -227,17 +228,14 @@ const lines = (s: string) => s.split('\n');
               {i > 0 && (
               <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
             )}
-              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
+              <div class:list={['ind-flow-step', 'rf-ic-host', s.highlight && 'is-on']}>
                 {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
                     말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
                     순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-                {s.image && (
-                <img class="ind-flow-img" src={s.image} alt="" aria-hidden="true"
-                     width="240" height="240" loading="lazy" decoding="async" />
-              )}
+                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
               {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
                   '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
               <ul class="ind-flow-detail">

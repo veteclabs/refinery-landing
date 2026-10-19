@@ -19,3 +19,6 @@ Thumbs.db
 
 # 이미지 원본(변환 전). 사이트가 참조하는 건 public/의 WebP다.
 이미지/
+
+# 아이콘 작업 폴더(52MB 원본·PNG·WebP). 사이트가 쓰는 건 src/icons/의 SVG다.
+refinery-icons/

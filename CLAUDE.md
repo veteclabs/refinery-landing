@@ -17,12 +17,13 @@ Refinery 제품 소개용 **Astro 기반 정적 사이트**. 랜딩 + 문의 + �
 ```
 src/
 ├─ layouts/    BaseLayout(공유 head)·BlogPost
-├─ components/ Seo·Analytics·CookieConsent·Nav·Footer·LanguageSwitcher
+├─ components/ Seo·Analytics·CookieConsent·Nav·Footer·LanguageSwitcher·RfIcon
 ├─ pages/      index.astro·en/index.astro·contact.astro·blog/*·rss.xml.js
 │              industries/[slug]·use-cases/*·company·docs·resources·why-refinery
 │              whitepapers/*·reports/*·privacy·terms·cookie-policy
 ├─ content/    blog/*.md (컬렉션, 스키마는 content.config.ts)
 ├─ data/       industries/*·usecases/* (데이터 주도 페이지 소스)
+├─ icons/      dark/*·light/* — RfIcon이 인라인으로 넣는 아이콘 13종
 ├─ i18n/       ui.ts (사전 + t·translatePath 헬퍼)
 └─ styles/     global.css(랜딩)·nav-footer·contact·blog·industry·whitepaper·legal
 public/        경로 고정 자산(이미지·favicon·og-image·robots·데모 iframe)
@@ -50,6 +51,19 @@ middleware.ts  Vercel Edge — 홈(/)에서만 언어 자동 안내(봇·쿠키 
     닫는 태그 뒤에서 글자가 새 줄로 시작할 때도 같다(`</strong>` 개행 `이 경우에도` → 붙는다).
   - 줄 끝이 **쉼표·마침표**여도 똑같이 사라진다(`처리하며,` 개행 `<strong>` → `처리하며,정보주체의`).
   - 점검은 소스가 아니라 **`dist/*.html`에서** 한다. 2026-09-08 법적 고지 4개 페이지에서 20곳을 고쳤다.
+
+## 아이콘 (`src/components/RfIcon.astro`)
+- 솔루션 구조·현장이 먼저입니다·회사 소개 수치·일하는 세 가지 기준 — 네 섹션이 한 벌(13종)을 쓴다.
+  Phosphor(`ph-*`)는 별개다. 섞지 말 것.
+- **`<img>`가 아니라 인라인 SVG다.** 파일 안의 CSS 애니메이션이 `--rf-play`를 읽는데 `<img>`로 넣으면
+  바깥 CSS가 그 변수에 닿지 못해 늘 돌아간다. 기본은 멈춤이고, 조상 `.rf-ic-host`에 마우스를 올렸을 때만 돈다.
+  → **아이콘을 놓는 카드에 `rf-ic-host`를 함께 준다.** 빠뜨리면 영영 멈춰 있다.
+- 테마는 OS 설정이 아니라 **놓이는 면의 밝기**로 고른다(어두운 면 `dark` · 밝은 면 `light`).
+  사이트에 테마 토글이 없고 섹션 배경이 고정이기 때문이다.
+- ⚠️ **크기 규칙은 `:global(...)`로 쓴다.** `set:html`로 넣는 인라인 SVG에는 Astro 스코프 속성이 붙지 않아
+  페이지 `<style>` 안의 `.cmp-stat-icon { … }` 같은 규칙이 통째로 빗나간다. 크기가 제멋대로면 여기부터 본다.
+  (`src/styles/*.css`의 전역 규칙은 그대로 먹는다 — `.ind-flow-img`가 그 경우다.)
+- 원본·PNG·WebP가 든 작업 폴더 `refinery-icons/`는 `.gitignore`에 있다. 사이트가 쓰는 건 `src/icons/`의 SVG뿐이다.
 
 ## 이미지 규칙
 - **래스터 이미지는 WebP로 커밋**한다. 표시 크기로 리사이즈(`cwebp -q 82 -resize <폭> 0 원본 -o 결과.webp`).
