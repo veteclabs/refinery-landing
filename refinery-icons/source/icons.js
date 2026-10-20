@@ -1,7 +1,9 @@
 const { C, Icon, rr, ci, pa, rrPath, roundPoly, tr, sc, ro, bounce, spring, smooth, seg, motion, wrap } = require('./lib');
 
 // Shared rhythm constants (series consistency)
-const BAR = 28, BR = 14;     // info bar thickness / radius
+const BAR = 24, BR = 12;     // info bar thickness / radius (BR = BAR/2 — 양끝이 반원)
+// 막대에 붙는 원(느낌표의 점 등)은 BR 로 적어 둔다. 그래야 BAR 를 바꿀 때 함께 따라온다.
+// DOT 계열 원은 막대와 무관한 점이라 여기 묶이지 않는다.
 const DOT = 15;              // info dot radius
 
 function pinPath(cx, cy, R, k, rt = 26) {
