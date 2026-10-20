@@ -489,7 +489,9 @@ const capabilityGroups = [
   /* 아이콘 그림은 100x100 화판의 87%만 채운다(가장자리 6~7%가 빈다).
      124px으로 두면 실제로 보이는 크기는 108px 안팎이다. */
   /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
-  :global(.wr-value-ic) { display: block; width: 124px; height: 124px; margin: 0 auto 26px; }
+  /* 아래 여백은 그림이 끝나는 자리에서 잰다. 124→145 로 키우면 아이콘 안 빈칸(아래 9.4%)도
+     함께 2px 늘어나므로, 26 을 그대로 두면 제목이 그만큼 멀어진다. */
+  :global(.wr-value-ic) { display: block; width: 145px; height: 145px; margin: 0 auto 24px; }
   /* 글자 값은 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같다.
      19px/700/-0.02em → 20px/600/-0.01em, 설명 줄간격 1.72 → 1.5.
      제목·설명 사이 간격은 설명의 margin-top(11px) 대신 제목의 margin-bottom(5px)이
