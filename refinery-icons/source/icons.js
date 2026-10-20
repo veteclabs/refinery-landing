@@ -2,7 +2,8 @@ const { C, Icon, rr, ci, pa, rrPath, roundPoly, tr, sc, ro, bounce, spring, smoo
 
 // Shared rhythm constants (series consistency)
 const BAR = 24, BR = 12;     // info bar thickness / radius (BR = BAR/2 — 양끝이 반원)
-// 막대에 붙는 원(느낌표의 점 등)은 BR 로 적어 둔다. 그래야 BAR 를 바꿀 때 함께 따라온다.
+// 막대와 굵기를 맞출 원은 BR 로 적어 둔다(지름 = BAR). 그래야 BAR 를 바꿀 때 함께 따라온다.
+// 솔루션 구조 넷과 느낌표의 점이 그렇다.
 // DOT 계열 원은 막대와 무관한 점이라 여기 묶이지 않는다.
 const DOT = 15;              // info dot radius
 
@@ -32,7 +33,7 @@ const icons = {
     I.raw(puff1 + puff0);
     const frontShape = pa(roundPoly([[66, 424], [66, 196], [190, 150], [190, 220], [330, 160], [330, 424]], [44, 40, 28, 26, 30, 44]));
     I.face(frontShape, [66, 150, 264, 274], { kind: 'glass', behind: back });
-    I.detail(ci(124, 300, DOT + 3) + ci(188, 300, DOT + 3) + ci(252, 300, DOT + 3) + rr(106, 352, 108, BAR, BR), C.b600);
+    I.detail(ci(124, 300, BR) + ci(188, 300, BR) + ci(252, 300, BR) + rr(106, 352, 108, BAR, BR), C.b600);
     return I.svg();
   } },
   'flow-connect': { center: [0, 0], group: '솔루션 구조', label: '연동', motion: '두 고리가 살짝 벌어졌다가 탄성으로 맞물림', draw() {
@@ -42,7 +43,7 @@ const icons = {
     const A = motion(dir(-1), [256, 256], 'rotate(-35 256 256)'), B = motion(dir(1), [256, 256], 'rotate(-35 256 256)');
     const back = I.face(ring(54, 186, 250, 150, 75, 46), [54, 186, 250, 150], { kind: 'primary', tf: A });
     I.face(ring(208, 176, 250, 150, 75, 46), [208, 176, 250, 150], { kind: 'glass', tf: B, behind: back });
-    I.detail(ci(333, 251, DOT - 1), C.b600, B);
+    I.detail(ci(333, 251, BR), C.b600, B);
     return I.svg();
   } },
   'flow-refinery': { center: [0, -6], group: '솔루션 구조', label: 'Refinery', motion: '세 개의 레이어가 위아래로 벌어졌다가 탄성으로 다시 겹침', draw() {
@@ -52,7 +53,7 @@ const icons = {
     const mid = I.face(pa(rhombus(256, 266, 184, 100)), [72, 166, 368, 200], { kind: 'primary', noAppend: true });
     I.raw(mid);
     const top = I.face(pa(rhombus(256, 190, 184, 100)), [72, 90, 368, 200], { kind: 'glass', tf: up, behind: b1 + mid });
-    I.detail(ci(196, 190, DOT) + ci(256, 158, DOT) + ci(306, 206, DOT) + ci(256, 226, DOT - 4), C.b600, up);
+    I.detail(ci(196, 190, BR) + ci(256, 158, BR) + ci(306, 206, BR) + ci(256, 226, BR), C.b600, up);
     return I.svg();
   } },
   'flow-use': { center: [0, 2], group: '솔루션 구조', label: '활용', motion: '알림 카드가 위로 떠올랐다가 탄성으로 자리 잡음', draw() {
@@ -62,7 +63,7 @@ const icons = {
     I.detail(rr(100, 236, BAR, 70, BR) + rr(160, 186, BAR, 120, BR) + rr(220, 214, BAR, 92, BR) + rr(100, 136, 110, BAR, BR), C.b50, '', 0.92);
     const y = motion(t => ({ y: bounce(t, 0.08, 0.36, 0.85, -26) }), [364, 311]);
     I.face(rr(272, 236, 184, 150, 44), [272, 236, 184, 150], { kind: 'glass', tf: y, behind: back + stand });
-    I.detail(ci(320, 290, DOT + 3) + rr(352, 276, 72, BAR, BR) + rr(304, 330, 120, BAR, BR), C.b600, y);
+    I.detail(ci(320, 290, BR) + rr(352, 276, 72, BAR, BR) + rr(304, 330, 120, BAR, BR), C.b600, y);
     return I.svg();
   } },
 
