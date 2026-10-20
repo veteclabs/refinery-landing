@@ -173,7 +173,9 @@ const icons = {
     I.face(bub, [184, 72, 262, 250], { kind: 'glass', tf: y, behind: bars });
     const ckm = motion(t => ({ y: bounce(t, 0.06, 0.34, 0.84, -24), o: t < 0.34 ? 1 - smooth(t, 0.06, 0.2) * 0.75 : 0.25 + 0.75 * smooth(t, 0.42, 0.7) }), [315, 197]);
     const seg2 = (P, Q) => { const L = Math.hypot(Q[0] - P[0], Q[1] - P[1]), a = Math.atan2(Q[1] - P[1], Q[0] - P[0]) * 180 / Math.PI; return `<rect x="${P[0] - BR}" y="${P[1] - BR}" width="${L + BAR}" height="${BAR}" rx="${BR}" transform="rotate(${a} ${P[0]} ${P[1]})"/>`; };
-    const ck = seg2([246, 172], [292, 218]) + seg2([292, 218], [384, 126]);
+    // 말풍선 중심(315, 172) 기준 0.75 배. 선 두께는 BAR 그대로 두고 길이만 줄인다 —
+    // 두께까지 줄이면 한 벌의 막대 규칙에서 혼자 벗어난다.
+    const ck = seg2([263, 172], [298, 206]) + seg2([298, 206], [367, 138]);
     I.detail(ck, C.b600, ckm);
     return I.svg();
   } },
