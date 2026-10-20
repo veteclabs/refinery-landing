@@ -324,10 +324,11 @@
       font-size: clamp(48px, 7vw, 84px);
       line-height: 1.15;
       padding: 0.1em 0;
-      /* Roboto에는 한글이 없다. 다음 자리에 Pretendard를 둬야 한글 제목이
-         OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다.
-         영문·숫자는 Roboto로 그려진다. */
-      font-family: 'Roboto', 'Pretendard', sans-serif;
+      /* 히어로 대제목만 Inter 다. 본문·숫자는 Roboto 지만 이 자리는 글자가 크게
+         찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
+         Inter에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글 제목이
+         OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다. */
+      font-family: 'Inter', 'Pretendard', sans-serif;
       color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
