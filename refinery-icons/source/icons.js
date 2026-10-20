@@ -55,7 +55,9 @@ const icons = {
     const mid = I.face(pa(rhombus(256, 266, 184, 100)), [72, 166, 368, 200], { kind: 'primary', noAppend: true });
     I.raw(mid);
     const top = I.face(pa(rhombus(256, 190, 184, 100)), [72, 90, 368, 200], { kind: 'glass', tf: up, behind: b1 + mid });
-    I.detail(ci(196, 190, PIP) + ci(256, 158, PIP) + ci(306, 206, PIP) + ci(256, 226, PIP), C.b600, up);
+    // 네 점은 맨 위 마름모(중심 256,190 · 184x100)와 같은 비율의 작은 마름모를 이룬다.
+    // 55:30 ≈ 184:100 이라 네 변 길이가 62.7 로 같고, 면의 기울기를 그대로 따라간다.
+    I.detail(ci(256, 160, PIP) + ci(311, 190, PIP) + ci(256, 220, PIP) + ci(201, 190, PIP), C.b600, up);
     return I.svg();
   } },
   'flow-use': { center: [0, 2], group: '솔루션 구조', label: '활용', motion: '알림 카드가 위로 떠올랐다가 탄성으로 자리 잡음', draw() {
