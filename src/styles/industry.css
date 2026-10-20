@@ -17,7 +17,7 @@
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg); color: var(--text); line-height: 1.65;
   /* -webkit-font-smoothing은 지정하지 않는다(=auto).
      랜딩(global.css)에 이 선언이 없어 auto로 그려지는데, 여기만 antialiased를 걸면
