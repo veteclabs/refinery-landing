@@ -389,9 +389,10 @@ img { max-width: 100%; height: auto; }
 .ind-hero-bg-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
-  /* 세로 초점. 값을 낮출수록 사진의 위쪽이 보인다(0% = 위쪽 끝, 100% = 아래쪽 끝).
-     사진마다 담긴 장면이 달라 데이터의 hero.imagePosition으로 덮어쓴다. */
-  object-position: center 45%;
+  /* 세로 초점은 가운데로 둔다. 사진이 모두 16:9 라 히어로 밴드와 비율이 같고,
+     장면도 가운데에 담겨 있어 치우치게 둘 까닭이 없다. 필요하면 데이터의
+     hero.imagePosition 으로 낱장만 덮어쓸 수 있다(0% = 위쪽 끝, 100% = 아래쪽 끝). */
+  object-position: center;
   /* 아래쪽 170px을 흘려 다음 섹션과 잇는다. 두 섹션 배경색은 #111316으로 같은데
      사진이 히어로 밑변에서 뚝 끊겨 가로줄이 보였다(경계 위아래 파랑 채널 42 차).
      사진 알파가 0이 되는 지점에서 스크림(.5)만 남아 결국 #111316이 되므로

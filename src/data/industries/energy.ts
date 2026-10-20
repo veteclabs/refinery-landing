@@ -8,11 +8,10 @@ export const energy: IndustryData = {
     'SCADA ⁠· EMS ⁠· 미터에 흩어진 에너지 데이터를 하나로 연결하고, AI 에이전트가 이상을 먼저 감지하며 ESG 리포트를 자동화합니다. 발전 ⁠· 송배전 ⁠· 유틸리티 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값은 45%이고, 낮출수록 사진 위쪽이 보여 이미지가 아래로
     // 내려간 것처럼 된다. 이 사진은 세로 이동 여유가 387px이라 30%면 45%보다
     // 58px 아래다.
-    imagePosition: 'center 30%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '에너지 ⁠· 유틸리티',
