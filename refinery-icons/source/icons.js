@@ -3,6 +3,10 @@ const { C, Icon, rr, ci, pa, rrPath, roundPoly, tr, sc, ro, bounce, spring, smoo
 // Shared rhythm constants (series consistency)
 const BAR = 20, BR = 10;     // info bar thickness / radius (BR = BAR/2 — 양끝이 반원)
 const PIP = 12;              // 막대와 나란히 놓는 점의 반지름(지름 24)
+// 막대는 중심선으로 적는다. rr() 은 좌상단 기준이라 BAR 를 줄이면 중심이 위(왼쪽)로
+// 밀려, 같은 줄에 놓인 점과 어긋난다 — 28→20 으로 내렸을 때 4px 씩 틀어졌다.
+const hbar = (x, cy, w) => rr(x, cy - BAR / 2, w, BAR, BR);   // 가로 막대: 중심선 cy
+const vbar = (cx, y, h) => rr(cx - BAR / 2, y, BAR, h, BR);   // 세로 막대: 중심선 cx
 // 점은 PIP 로, 막대는 BAR 로 적는다. 둘을 따로 두는 까닭은 한쪽만 조절하는 일이
 // 잦아서다 — BR 에 점을 묶어 두면 막대를 줄일 때 점까지 끌려 내려간다.
 // 솔루션 구조 넷의 점과 느낌표의 점(PIP + 1)이 PIP 를 쓴다.
@@ -35,7 +39,7 @@ const icons = {
     I.raw(puff1 + puff0);
     const frontShape = pa(roundPoly([[66, 424], [66, 196], [190, 150], [190, 220], [330, 160], [330, 424]], [44, 40, 28, 26, 30, 44]));
     I.face(frontShape, [66, 150, 264, 274], { kind: 'glass', behind: back });
-    I.detail(ci(124, 300, PIP) + ci(188, 300, PIP) + ci(252, 300, PIP) + rr(106, 352, 108, BAR, BR), C.b600);
+    I.detail(ci(124, 300, PIP) + ci(188, 300, PIP) + ci(252, 300, PIP) + hbar(106, 366, 108), C.b600);
     return I.svg();
   } },
   'flow-connect': { center: [0, 0], group: '솔루션 구조', label: '연동', motion: '두 고리가 살짝 벌어졌다가 탄성으로 맞물림', draw() {
@@ -64,10 +68,10 @@ const icons = {
     const I = new Icon();
     const back = I.face(rr(56, 92, 360, 250, 48), [56, 92, 360, 250], { kind: 'primary' });
     const stand = I.face(rr(206, 330, 60, 60, 20) + rr(136, 378, 200, 40, 20), [136, 330, 200, 88], { kind: 'deep' });
-    I.detail(rr(100, 236, BAR, 70, BR) + rr(160, 186, BAR, 120, BR) + rr(220, 214, BAR, 92, BR) + rr(100, 136, 110, BAR, BR), C.b50, '', 0.92);
+    I.detail(vbar(114, 236, 70) + vbar(174, 186, 120) + vbar(234, 214, 92) + hbar(100, 150, 110), C.b50, '', 0.92);
     const y = motion(t => ({ y: bounce(t, 0.08, 0.36, 0.85, -26) }), [364, 311]);
     I.face(rr(272, 236, 184, 150, 44), [272, 236, 184, 150], { kind: 'glass', tf: y, behind: back + stand });
-    I.detail(ci(320, 290, PIP) + rr(352, 276, 72, BAR, BR) + rr(304, 330, 120, BAR, BR), C.b600, y);
+    I.detail(ci(320, 290, PIP) + hbar(352, 290, 72) + hbar(304, 344, 120), C.b600, y);
     return I.svg();
   } },
 
@@ -83,10 +87,10 @@ const icons = {
   'why-layer': { center: [0, -18], group: '현장이 먼저입니다', label: '걷어내지 않는 도입', motion: '위 카드가 들렸다가 기존 판 위로 탄성 있게 내려앉음', draw() {
     const I = new Icon();
     const base = I.face(rr(58, 312, 396, 112, 44), [58, 312, 396, 112], { kind: 'primary' });
-    I.detail(ci(118, 368, DOT) + ci(166, 368, DOT) + rr(204, 354, 120, BAR, BR), C.b50, '', 0.9);
+    I.detail(ci(118, 368, DOT) + ci(166, 368, DOT) + hbar(204, 368, 120), C.b50, '', 0.9);
     const y = motion(t => ({ y: bounce(t, 0.06, 0.36, 0.86, -40) }), [256, 231]);
     I.face(rr(108, 124, 296, 214, 48), [108, 124, 296, 214], { kind: 'glass', tf: y, behind: base });
-    I.detail(rr(156, 180, 150, BAR, BR) + rr(156, 228, 200, BAR, BR) + ci(342, 194, DOT - 1), C.b600, y);
+    I.detail(hbar(156, 194, 150) + hbar(156, 242, 200) + ci(342, 194, DOT - 1), C.b600, y);
     return I.svg();
   } },
   'why-knowledge': { center: [2, -4], group: '현장이 먼저입니다', label: '숫자를 넘어, 지식으로', motion: '주변 노드가 순서대로 살짝 커졌다 돌아옴', draw() {
@@ -111,8 +115,8 @@ const icons = {
     I.face(ci(242, 242, 168), [74, 74, 336, 336], { kind: 'glass', behind: back });
     I.detail(ci(242, 116, 11) + ci(368, 242, 11) + ci(242, 368, 11) + ci(116, 242, 11), C.b, '', 0.9);
     const a = motion(t => ({ r: 360 * smooth(t, 0.08, 0.82) }), [242, 242]);
-    I.detail(rr(228, 150, BAR, 106, BR), C.b700);                                // hour hand (12 o'clock)
-    I.detail(rr(228, 228, 120, BAR, BR), C.b600, a);              // minute hand
+    I.detail(vbar(242, 150, 106), C.b700);                                // hour hand (12 o'clock)
+    I.detail(hbar(228, 242, 120), C.b600, a);              // minute hand
     I.detail(ci(242, 242, 22), C.b700);
     return I.svg();
   } },
@@ -133,7 +137,7 @@ const icons = {
     const B = I.face(ci(357, 155, 79), [278, 76, 158, 158], { kind: 'deep', tf: pB });
     const Cc = I.face(rr(76, 278, 158, 158, 46), [76, 278, 158, 158], { kind: 'primary', tf: pC });
     I.face(rr(240, 240, 196, 196, 54), [240, 240, 196, 196], { kind: 'glass', tf: pD, behind: A + B + Cc });
-    I.detail(ci(298, 304, DOT) + rr(284, 352, 108, BAR, BR), C.b600, pD);
+    I.detail(ci(298, 304, DOT) + hbar(284, 366, 108), C.b600, pD);
     return I.svg();
   } },
 
@@ -149,7 +153,7 @@ const icons = {
     const gear = I.face(ci(gx, gy, 128) + teeth, [56, 120, 336, 336], { kind: 'primary', tf: rot, mask: mid });
     const s = motion(t => ({ s: 1 + bounce(t, 0.3, 0.46, 0.9, 0.1) }), [362, 150]);
     I.face(ci(362, 150, 84), [278, 66, 168, 168], { kind: 'glass', tf: s, behind: gear });
-    I.detail(rr(348, 104, BAR, 60, BR) + ci(362, 192, PIP + 1), C.b600, s);
+    I.detail(vbar(362, 104, 60) + ci(362, 192, PIP + 1), C.b600, s);
     return I.svg();
   } },
   'rule-build': { center: [0, -4], group: '일하는 세 가지 기준', label: '얹거나, 새로 세우거나', motion: '위 블록이 들렸다가 아래 블록 위로 탄성 착지', draw() {
@@ -158,7 +162,7 @@ const icons = {
     const R = I.face(rr(266, 274, 176, 150, 42), [266, 274, 176, 150], { kind: 'deep' });
     const y = motion(t => ({ y: bounce(t, 0.06, 0.36, 0.86, -40) }), [258, 196]);
     I.face(rr(160, 98, 196, 196, 50), [160, 98, 196, 196], { kind: 'glass', tf: y, behind: L + R });
-    I.detail(rr(244, 152, BAR, 88, BR) + rr(214, 182, 88, BAR, BR), C.b600, y); // rounded plus
+    I.detail(vbar(258, 152, 88) + hbar(214, 196, 88), C.b600, y); // rounded plus
     return I.svg();
   } },
   'rule-context': { center: [-2, 14], group: '일하는 세 가지 기준', label: '숫자에 붙는 맥락', motion: '말풍선이 떠올랐다 탄성으로 자리 잡고 체크가 은은히 나타남', draw() {
