@@ -19,7 +19,7 @@ function ring(x, y, w, h, r, th) { return `<path fill-rule="evenodd" d="${rrPath
 
 const icons = {
   // ───────── 솔루션 구조 ─────────
-  'flow-site': { group: '솔루션 구조', label: '현장', motion: '굴뚝 위 원형 점이 천천히 떠오르며 사라짐 (ease-in-out)', draw() {
+  'flow-site': { center: [0, 18], group: '솔루션 구조', label: '현장', motion: '굴뚝 위 원형 점이 천천히 떠오르며 사라짐 (ease-in-out)', draw() {
     const I = new Icon();
     const back = I.face(rr(330, 96, 60, 200, 30) + rr(262, 176, 184, 248, 44), [262, 96, 184, 328], { kind: 'primary' });
     // puffs (loop: rises & fades, a new one fades in at base)
@@ -33,7 +33,7 @@ const icons = {
     I.detail(ci(124, 300, DOT + 3) + ci(188, 300, DOT + 3) + ci(252, 300, DOT + 3) + rr(106, 352, 108, BAR, BR), C.b600);
     return I.svg();
   } },
-  'flow-connect': { group: '솔루션 구조', label: '연동', motion: '두 고리가 살짝 벌어졌다가 탄성으로 맞물림', draw() {
+  'flow-connect': { center: [0, 0], group: '솔루션 구조', label: '연동', motion: '두 고리가 살짝 벌어졌다가 탄성으로 맞물림', draw() {
     const I = new Icon();
     const cs = Math.cos(-35 * Math.PI / 180), sn = Math.sin(-35 * Math.PI / 180);
     const dir = k => t => { const d = k * bounce(t, 0.08, 0.38, 0.85, 22); return { x: d * cs, y: d * sn }; };
@@ -43,7 +43,7 @@ const icons = {
     I.detail(ci(333, 251, DOT - 1), C.b600, B);
     return I.svg();
   } },
-  'flow-refinery': { group: '솔루션 구조', label: 'Refinery', motion: '세 개의 레이어가 위아래로 벌어졌다가 탄성으로 다시 겹침', draw() {
+  'flow-refinery': { center: [0, -6], group: '솔루션 구조', label: 'Refinery', motion: '세 개의 레이어가 위아래로 벌어졌다가 탄성으로 다시 겹침', draw() {
     const I = new Icon();
     const dn = motion(t => ({ y: bounce(t, 0.08, 0.38, 0.85, 18) }), [256, 336]), up = motion(t => ({ y: -bounce(t, 0.08, 0.38, 0.85, 18) }), [256, 190]);
     const b1 = I.face(pa(rhombus(256, 336, 184, 100)), [72, 236, 368, 200], { kind: 'deep', tf: dn });
@@ -53,7 +53,7 @@ const icons = {
     I.detail(ci(196, 190, DOT) + ci(256, 158, DOT) + ci(306, 206, DOT) + ci(256, 226, DOT - 4), C.b600, up);
     return I.svg();
   } },
-  'flow-use': { group: '솔루션 구조', label: '활용', motion: '알림 카드가 위로 떠올랐다가 탄성으로 자리 잡음', draw() {
+  'flow-use': { center: [0, 2], group: '솔루션 구조', label: '활용', motion: '알림 카드가 위로 떠올랐다가 탄성으로 자리 잡음', draw() {
     const I = new Icon();
     const back = I.face(rr(56, 92, 360, 250, 48), [56, 92, 360, 250], { kind: 'primary' });
     const stand = I.face(rr(206, 330, 60, 60, 20) + rr(136, 378, 200, 40, 20), [136, 330, 200, 88], { kind: 'deep' });
@@ -65,7 +65,7 @@ const icons = {
   } },
 
   // ───────── 플랫폼 개요 · 현장이 먼저입니다 ─────────
-  'why-team': { group: '현장이 먼저입니다', label: '현장을 아는 팀', motion: '앞 인물이 먼저, 뒤 인물이 이어서 살짝 튀어 오름', draw() {
+  'why-team': { center: [0, -5], group: '현장이 먼저입니다', label: '현장을 아는 팀', motion: '앞 인물이 먼저, 뒤 인물이 이어서 살짝 튀어 오름', draw() {
     const I = new Icon();
     const y2 = motion(t => ({ y: bounce(t, 0.16, 0.42, 0.9, -16) }), [330, 250]), y1 = motion(t => ({ y: bounce(t, 0.06, 0.32, 0.8, -20) }), [192, 280]);
     const body = (x, y, w, h) => pa(`M${x} ${y + h - 30}V${y + w / 2}A${w / 2} ${w / 2} 0 0 1 ${x + w} ${y + w / 2}V${y + h - 30}Q${x + w} ${y + h} ${x + w - 30} ${y + h}H${x + 30}Q${x} ${y + h} ${x} ${y + h - 30}Z`);
@@ -73,7 +73,7 @@ const icons = {
     I.face(ci(192, 198, 64) + body(74, 286, 236, 140), [74, 134, 236, 292], { kind: 'glass', tf: y1, behind: back });
     return I.svg();
   } },
-  'why-layer': { group: '현장이 먼저입니다', label: '걷어내지 않는 도입', motion: '위 카드가 들렸다가 기존 판 위로 탄성 있게 내려앉음', draw() {
+  'why-layer': { center: [0, -18], group: '현장이 먼저입니다', label: '걷어내지 않는 도입', motion: '위 카드가 들렸다가 기존 판 위로 탄성 있게 내려앉음', draw() {
     const I = new Icon();
     const base = I.face(rr(58, 312, 396, 112, 44), [58, 312, 396, 112], { kind: 'primary' });
     I.detail(ci(118, 368, DOT) + ci(166, 368, DOT) + rr(204, 354, 120, BAR, BR), C.b50, '', 0.9);
@@ -82,7 +82,7 @@ const icons = {
     I.detail(rr(156, 180, 150, BAR, BR) + rr(156, 228, 200, BAR, BR) + ci(342, 194, DOT - 1), C.b600, y);
     return I.svg();
   } },
-  'why-knowledge': { group: '현장이 먼저입니다', label: '숫자를 넘어, 지식으로', motion: '주변 노드가 순서대로 살짝 커졌다 돌아옴', draw() {
+  'why-knowledge': { center: [2, -4], group: '현장이 먼저입니다', label: '숫자를 넘어, 지식으로', motion: '주변 노드가 순서대로 살짝 커졌다 돌아옴', draw() {
     const I = new Icon();
     const k = (a, b, o) => motion(t => ({ s: 1 + bounce(t, a, a + 0.18, b, 0.1) }), o);
     const s1 = k(0.04, 0.5, [110, 142]), s2 = k(0.16, 0.64, [356, 170]), s3 = k(0.28, 0.8, [384, 388]);
@@ -98,7 +98,7 @@ const icons = {
   } },
 
   // ───────── 회사 소개 · 통계 ─────────
-  'stat-experience': { group: '회사 소개', label: '30년+ 경험', motion: '분침이 한 바퀴 부드럽게 회전 (중심 고정)', draw() {
+  'stat-experience': { center: [-2, -2], group: '회사 소개', label: '30년+ 경험', motion: '분침이 한 바퀴 부드럽게 회전 (중심 고정)', draw() {
     const I = new Icon();
     const back = I.face(ci(296, 296, 148), [148, 148, 296, 296], { kind: 'primary' });
     I.face(ci(242, 242, 168), [74, 74, 336, 336], { kind: 'glass', behind: back });
@@ -109,7 +109,7 @@ const icons = {
     I.detail(ci(242, 242, 22), C.b700);
     return I.svg();
   } },
-  'stat-sites': { group: '회사 소개', label: '100+ 현장', motion: '앞 핀이 튀어 올랐다가 탄성으로 착지', draw() {
+  'stat-sites': { center: [-2, 0], group: '회사 소개', label: '100+ 현장', motion: '앞 핀이 튀어 올랐다가 탄성으로 착지', draw() {
     const I = new Icon();
     I.face(pa(`M96 398a160 34 0 1 0 320 0a160 34 0 1 0 -320 0Z`), [96, 364, 320, 68], { kind: 'light', drop: false });
     const back = I.face(pa(pinPath(342, 172, 80, 150, 22)), [264, 90, 156, 254], { kind: 'primary' });
@@ -118,7 +118,7 @@ const icons = {
     I.detail(ci(214, 196, 42), C.b600, y);
     return I.svg();
   } },
-  'stat-industries': { group: '회사 소개', label: '20+ 산업군', motion: '타일이 순서대로 작게 튀었다 제자리로 (스태거)', draw() {
+  'stat-industries': { center: [0, 0], group: '회사 소개', label: '20+ 산업군', motion: '타일이 순서대로 작게 튀었다 제자리로 (스태거)', draw() {
     const I = new Icon();
     const p = (a, o) => motion(t => ({ s: 1 + bounce(t, a, a + 0.16, a + 0.5, -0.08) }), o);
     const pA = p(0.04, [155, 155]), pB = p(0.12, [357, 155]), pC = p(0.2, [155, 357]), pD = p(0.28, [338, 338]);
@@ -131,7 +131,7 @@ const icons = {
   } },
 
   // ───────── 회사 소개 · 일하는 세 가지 기준 ─────────
-  'rule-field': { group: '일하는 세 가지 기준', label: '현장에서 나온 문제', motion: '톱니가 살짝 돌다 멈추고(탄성), 경고 배지가 톡 튐', draw() {
+  'rule-field': { center: [2, -2], group: '일하는 세 가지 기준', label: '현장에서 나온 문제', motion: '톱니가 살짝 돌다 멈추고(탄성), 경고 배지가 톡 튐', draw() {
     const I = new Icon();
     const gx = 224, gy = 288;
     let teeth = '';
@@ -145,7 +145,7 @@ const icons = {
     I.detail(rr(348, 104, BAR, 60, BR) + ci(362, 192, BR + 1), C.b600, s);
     return I.svg();
   } },
-  'rule-build': { group: '일하는 세 가지 기준', label: '얹거나, 새로 세우거나', motion: '위 블록이 들렸다가 아래 블록 위로 탄성 착지', draw() {
+  'rule-build': { center: [0, -4], group: '일하는 세 가지 기준', label: '얹거나, 새로 세우거나', motion: '위 블록이 들렸다가 아래 블록 위로 탄성 착지', draw() {
     const I = new Icon();
     const L = I.face(rr(70, 274, 176, 150, 42), [70, 274, 176, 150], { kind: 'primary' });
     const R = I.face(rr(266, 274, 176, 150, 42), [266, 274, 176, 150], { kind: 'deep' });
@@ -154,7 +154,7 @@ const icons = {
     I.detail(rr(244, 152, BAR, 88, BR) + rr(214, 182, 88, BAR, BR), C.b600, y); // rounded plus
     return I.svg();
   } },
-  'rule-context': { group: '일하는 세 가지 기준', label: '숫자에 붙는 맥락', motion: '말풍선이 떠올랐다 탄성으로 자리 잡고 체크가 은은히 나타남', draw() {
+  'rule-context': { center: [-2, 14], group: '일하는 세 가지 기준', label: '숫자에 붙는 맥락', motion: '말풍선이 떠올랐다 탄성으로 자리 잡고 체크가 은은히 나타남', draw() {
     const I = new Icon();
     const bars = I.face(rr(72, 246, 64, 168, 32) + rr(156, 170, 64, 244, 32) + rr(240, 300, 64, 114, 32), [72, 170, 232, 244], { kind: 'primary' });
     const y = motion(t => ({ y: bounce(t, 0.06, 0.34, 0.84, -24) }), [315, 197]);
