@@ -82,6 +82,10 @@ function tfStr(v, o) {
   return `translate(${f2(x)} ${f2(y)}) translate(${o[0]} ${o[1]}) rotate(${f2(r)}) scale(${f2(s)}) translate(${-o[0]} ${-o[1]})`;
 }
 /** fn(t) -> {x,y,r,s,o}; origin = pivot (element centre); inner = static transform applied inside */
+// --rf-play 는 '재생 여부'가 아니라 animation-name 을 담는다. 값을 none 으로 주면
+// 애니메이션이 아예 걸리지 않아 그림이 0% 자세로 돌아간다. animation-play-state:paused 는
+// 그 순간 프레임에서 굳어 버려, 호버를 뗐을 때 제자리로 못 돌아온다.
+// 값을 비우려면 initial — var() 가 fallback(각자의 keyframe 이름)을 쓰게 된다.
 function motion(fn, origin = [256, 256], inner = '') {
   if (!MODE.css) { const v = fn(MODE.t); return { raster: tfStr(v, origin) + ' ' + inner, op: v.o, inner }; }
   const cls = `${MODE.pfx}m${MODE.anims.length}`;
@@ -97,7 +101,7 @@ function motion(fn, origin = [256, 256], inner = '') {
   // collapse holds: keep first & last of each run of identical declarations
   const kept = frames.filter((f, i) => i === 0 || i === N || f[1] !== frames[i - 1][1] || f[1] !== frames[i + 1][1]);
   const [cx, cy] = MODE.center || [0, 0];
-  MODE.anims.push(`.${cls}{transform-box:view-box;transform-origin:${origin[0] + cx}px ${origin[1] + cy}px;animation:${cls} var(--rf-duration,1.6s) linear infinite;animation-play-state:var(--rf-play,running)}` +
+  MODE.anims.push(`.${cls}{transform-box:view-box;transform-origin:${origin[0] + cx}px ${origin[1] + cy}px;animation:var(--rf-play,${cls}) var(--rf-duration,1.6s) linear infinite}` +
     `@keyframes ${cls}{${kept.map(([p, d]) => `${p}%{${d}}`).join('')}}`);
   return { cls, inner };
 }
