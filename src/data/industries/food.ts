@@ -8,11 +8,10 @@ export const food: IndustryData = {
     '냉동기 ⁠· 공기압축기 ⁠· 보일러의 운전 상태와 생산 데이터를 하나의 구조로 연결하고, AI 에이전트가 품질 온도 이탈을 먼저 감지합니다. 식품 ⁠· 음료 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
-    imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '식품 ⁠· 음료',

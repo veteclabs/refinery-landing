@@ -10,11 +10,10 @@ export const steelEn: IndustryData = {
     'Connect heat-treatment temperature, cooling curves, compressed air and peak demand into one structure, and let an AI agent trace the cause of quality variance. Refinery for steel, non-ferrous and materials coating operations.',
   hero: {
     dark: true,
-    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 밝은 시트 띠가 대제목 줄을 가로지른다.
     // 10%로 낮추면 띠가 제목 아래로 내려가고 압연 롤 구조가 위쪽에 들어온다
     // (이동 여유 387px 중 135px).
-    imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Steel & Materials',

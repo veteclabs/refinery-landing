@@ -8,13 +8,12 @@ export const electronics: IndustryData = {
     '전력 품질 ⁠· UPS ⁠· 온습도 ⁠· 설비 알람을 하나의 구조로 연결하고, AI 에이전트가 라인 중단 가능성을 미리 감지합니다. 반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1079 },
+    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1080 },
     // 원본(3500x1477)은 가로가 길어 히어로 상자와 비율이 거의 같았다. 그대로 쓰면
     // 세로 이동 여유가 38px뿐이라 초점을 0%까지 내려도 17px밖에 안 움직였다.
     // 좌우를 436px씩 잘라 2629x1477로 만든 뒤 넣었다 — 여유가 246px이 된다.
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
-    imagePosition: 'center 20%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '전자 ⁠· 정밀',

@@ -290,6 +290,7 @@ const alternates = [
     font-size: clamp(48px, 7vw, 84px);
     line-height: 1.15;
     padding: 0.1em 0;
+    /* 히어로 대제목만 Inter — 랜딩 #hero h1 과 같은 자리다. */
     font-family: 'Inter', 'Pretendard', sans-serif;
     /* .ind-hero h1이 걸어 둔 700/자간을 랜딩과 같은 값으로 되돌린다. */
     font-weight: 500; letter-spacing: normal;
@@ -405,12 +406,21 @@ const alternates = [
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
        위치값(30px)은 카드 패딩과 같아 보이는 자리는 그대로다. */
     position: absolute; top: 30px; left: 30px; margin: 0;
+    /* 글리프를 원 한가운데로 내린다. align-items: center 는 글자 상자를 가운데 두는데,
+       숫자 글리프는 그 상자 안에서 baseline 위에 놓여 1.3px 떠 보였다(1·2·3 모두 같은 값).
+       border-box 라 padding 을 줘도 원 지름 30px 은 그대로다.
+       값은 재서 골랐다 — 0px 에서 -1.27px, 2px 에서 -0.27px, 3px 에서 +0.73px.
+       글리프가 정수 픽셀에 스냅돼 1.65~2px 이 같은 자리에 선다. */
+    padding-top: 2px;
   }
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
      위쪽은 카드 패딩 30px이 이미 깔려 있으므로 마진은 30px만 더한다. */
   /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
-  :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 30px auto 40px; }
+  /* 이 자리만 160px 이다(다른 둘은 145). 카드가 넓어 160 이 그 안에서 비율을 잡는다.
+     크기는 그대로지만 중앙 정렬로 아래 빈칸이 7.6%→12.5% 로 커졌으므로, 처음 모습의
+     간격(위 50.6 · 아래 52.2px)을 지키려면 아래 margin 은 40 이 아니라 32 다. */
+  :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 31px auto 32px; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */

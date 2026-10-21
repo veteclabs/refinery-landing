@@ -10,11 +10,10 @@ export const foodEn: IndustryData = {
     'Connect chillers, air compressors and boilers to production data in one structure, and let an AI agent catch temperature excursions first. Refinery for food and beverage manufacturing.',
   hero: {
     dark: true,
-    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
-    imagePosition: 'center 15%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Food & Beverage',

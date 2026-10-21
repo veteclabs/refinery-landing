@@ -21,7 +21,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;

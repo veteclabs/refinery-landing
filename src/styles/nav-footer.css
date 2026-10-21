@@ -359,13 +359,15 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    좌우는 6px으로 같다. letter-spacing이 마지막 글자 뒤에 공백을 남기므로 잉크만 보면
    왼쪽이 조금 넓지만, 그 값을 보정해 잉크를 정확히 반씩 맞추면 글자가 오른쪽으로
    쏠려 보인다 — 눈은 자간이 만든 뒤 공백도 글자의 일부로 읽는다.
-   위아래는 건드리지 않는다 — line-height가 1이라 여백을 흔들어도 글자는 그대로 있고
-   상자만 바뀐다(2.5/3.5로 재봤을 때 잉크 위치가 0.03px밖에 안 움직였다). */
+   위아래는 3/2 다. align-items: center 가 가운데 두는 건 글자 '상자'인데, 글리프는 그
+   상자 안에서 baseline 위에 놓여 1px 떠 보였다(line-height 1 이라 상자가 글자 크기와
+   같다). 위를 1px 늘리고 아래를 1px 줄여 상자째 내린다 — 합이 5로 같아 배지 높이 15px
+   은 그대로다. 2/3 → -1.00px · 3/2 → 0.00px · 4/2 → +0.50px 을 재서 고른 값이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 500; line-height: 1; letter-spacing: .06em;
   color: #5B9BD5; background: #DCE8F5;
-  padding: 2px 6px 3px 6px; border-radius: 999px;
+  padding: 3px 6px 2px 6px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */

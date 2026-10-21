@@ -8,11 +8,10 @@ export const steel: IndustryData = {
     '열처리 온도 ⁠· 냉각 곡선 ⁠· 압축공기 ⁠· 피크 전력을 하나의 구조로 연결하고, AI 에이전트가 품질 편차의 원인을 추적합니다. 철강 ⁠· 비철금속 ⁠· 소재 코팅 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 밝은 시트 띠가 대제목 줄을 가로지른다.
     // 10%로 낮추면 띠가 제목 아래로 내려가고 압연 롤 구조가 위쪽에 들어온다
     // (이동 여유 387px 중 135px).
-    imagePosition: 'center 10%',
     showSecondary: false,
     showBreadcrumb: false,
     eyebrow: '철강 ⁠· 소재',

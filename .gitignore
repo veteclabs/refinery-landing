@@ -25,3 +25,7 @@ Thumbs.db
 refinery-icons/*
 !refinery-icons/source/
 !refinery-icons/README.md
+캡처/
+
+# 소개서에서 꺼낸 원본 JPEG(4.3MB). 사이트가 쓰는 건 변환된 public/ 의 WebP다.
+intro-deck/
