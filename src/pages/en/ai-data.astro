@@ -1,6 +1,7 @@
 ---
 // AI 데이터 처리 안내 영어판. 한국어판(src/pages/ai-data.astro)을 문장 단위로 그대로 옮긴다.
-// 한국어판은 앱 리포의 /ai-data-notice 와 글자 그대로 같은 문장이다 — 한국어판이 바뀌면 이 파일도 함께 고칠 것.
+// 한국어판은 앱 리포의 /ai-data-notice 와 같은 문장이다(앱 화면 전제 표현 「이 서버」 · 「여기 등록한」만 공개 페이지에
+// 맞게 바꿨다 — 한국어판 머리 주석) — 한국어판이 바뀌면 이 파일도 함께 고칠 것.
 // 용어 · 표기는 docs/legal-en-glossary.md · I18N-GLOSSARY.md §0 을 따르고, 거기 없는 말(베텍 AI 게이트웨이 ·
 // 베텍 제공 크레딧 · 귀사의 AI 키 등)은 평이한 영어로 옮겼다. 원문에 없는 말을 만들지 않는다(용어집 §7).
 // 호칭 — 세 당사자(베텍 · AI 모델 제공사 · 귀사)가 문장마다 갈리므로 we 대신 VETEC 을 그대로 쓴다.
@@ -21,7 +22,7 @@ const AI_NOTICE = {
   vetecCreditFlow:
     'To generate answers, your input is delivered to the AI model provider (Anthropic, United States) through the VETEC AI Gateway. VETEC does not store conversation content and records only usage (token count, model, and time).',
   customerKeyFlow:
-    'Your input is delivered directly to your company’s AI model provider account and does not pass through VETEC servers. Usage (token count and number of calls) is recorded only on this server.',
+    'Your input is delivered directly to your company’s AI model provider account and does not pass through VETEC servers. Usage (token count and number of calls) is recorded only on your company’s server.',
   inputProhibition:
     'Do not enter personal information (such as names, contact details, or resident registration numbers), secrets (passwords or API keys), or contract or unit price information. Equipment data is included automatically, only to the extent needed for the answer.',
   humanReview:
@@ -29,11 +30,11 @@ const AI_NOTICE = {
   training:
     'VETEC does not use conversation content to train AI models. Service quality analysis is performed only if your organization administrator has consented, and only in aggregate form after personal information has been removed.',
   dataAccess:
-    'The AI agent reads this server’s equipment, time-series, and document data only when it is needed for an answer. There is no continuous collection.',
+    'The AI agent reads equipment, time-series, and document data on your company’s server only when it is needed for an answer. There is no continuous collection.',
   deletion:
-    'Your organization administrator can delete conversation history on this server. To access or delete the usage information recorded by VETEC, please make a request through your contract contact.',
+    'Your organization administrator can delete conversation history on your company’s server. To access or delete the usage information recorded by VETEC, please make a request through your contract contact.',
   systemCredential:
-    'An AI key registered here is your company’s key. Usage with this key is not deducted from VETEC credits.',
+    'Usage with an AI key registered by your company is not deducted from VETEC credits.',
   purchaseGuidance: 'If you need more credits, please contact the Refinery operations team.',
 };
 
@@ -51,7 +52,7 @@ const PATH_ROWS: { label: string; vetec: string; customer: string }[] = [
   {
     label: 'Retention period',
     vetec: 'Each usage record is kept for two years, after which only monthly totals by organization and installation are kept.',
-    customer: 'Usage (token count and number of calls) is recorded only on this server.',
+    customer: 'Usage (token count and number of calls) is recorded only on your company’s server.',
   },
   {
     label: 'Charges',
@@ -101,7 +102,7 @@ const COMMON: { title: string; body: string }[] = [
       <p>
         This notice explains where your input goes and what is recorded when you use AI features in Refinery On-Premises,
         such as the AI agent and AI summaries in Lens. AI runs on one of two paths, as set for each server. You can check
-        this server’s path on the <strong>AI</strong> tab in organization settings.
+        which path your company’s server uses on the <strong>AI</strong> tab in organization settings.
       </p>
 
       <section>
@@ -132,7 +133,7 @@ const COMMON: { title: string; body: string }[] = [
             Equipment data that the AI agent sends along because it is needed for an answer is also delivered to the AI
             model provider over the same path. The purpose of this delivery is to generate the answer.
           </li>
-          <li>For security and usage limits, this server’s public IP address is recorded in access logs.</li>
+          <li>For security and usage limits, the public IP address of your company’s server is recorded in access logs.</li>
           <li>You can check the AI model provider’s retention and usage terms through your contract contact.</li>
           <li>When all credits are used up, AI stops running. {AI_NOTICE.purchaseGuidance}</li>
         </ul>
