@@ -1,0 +1,169 @@
+---
+// AI 데이터 처리 안내 영어판. 한국어판(src/pages/ai-data.astro)을 문장 단위로 그대로 옮긴다.
+// 한국어판은 앱 리포의 /ai-data-notice 와 글자 그대로 같은 문장이다 — 한국어판이 바뀌면 이 파일도 함께 고칠 것.
+// 용어 · 표기는 docs/legal-en-glossary.md · I18N-GLOSSARY.md §0 을 따르고, 거기 없는 말(베텍 AI 게이트웨이 ·
+// 베텍 제공 크레딧 · 귀사의 AI 키 등)은 평이한 영어로 옮겼다. 원문에 없는 말을 만들지 않는다(용어집 §7).
+// 호칭 — 세 당사자(베텍 · AI 모델 제공사 · 귀사)가 문장마다 갈리므로 we 대신 VETEC 을 그대로 쓴다.
+// 가운뎃점 병렬은 영어 관행대로 쉼표로 푼다(용어집 §10). 화면 문구라 em dash 를 쓰지 않는다.
+// 푸터 · 내비에 노출하지 않고 앱의 링크로만 연다 → noindex, sitemap 에서도 뺀다(astro.config.mjs).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/legal.css';
+
+const alternates = [
+  { lang: 'ko', href: '/ai-data' },
+  { lang: 'en', href: '/en/ai-data' },
+];
+
+// 한국어판 AI_NOTICE 와 같은 키 · 같은 순서다.
+const AI_NOTICE = {
+  vetecCreditFlow:
+    'To generate answers, your input is delivered to the AI model provider (Anthropic, United States) through the VETEC AI Gateway. VETEC does not store conversation content and records only usage (token count, model, and time).',
+  customerKeyFlow:
+    'Your input is delivered directly to your company’s AI model provider account and does not pass through VETEC servers. Usage (token count and number of calls) is recorded only on this server.',
+  inputProhibition:
+    'Do not enter personal information (such as names, contact details, or resident registration numbers), secrets (passwords or API keys), or contract or unit price information. Equipment data is included automatically, only to the extent needed for the answer.',
+  humanReview:
+    'VETEC staff cannot see conversation content. If temporary records are needed to diagnose a failure, they are collected for a set period with the consent of the person in charge at your company and deleted when the work is done.',
+  training:
+    'VETEC does not use conversation content to train AI models. Service quality analysis is performed only if your organization administrator has consented, and only in aggregate form after personal information has been removed.',
+  dataAccess:
+    'The AI agent reads this server’s equipment, time-series, and document data only when it is needed for an answer. There is no continuous collection.',
+  deletion:
+    'Your organization administrator can delete conversation history on this server. To access or delete the usage information recorded by VETEC, please make a request through your contract contact.',
+  systemCredential:
+    'An AI key registered here is your company’s key. Usage with this key is not deducted from VETEC credits.',
+  purchaseGuidance: 'If you need more credits, please contact the Refinery operations team.',
+};
+
+const PATH_ROWS: { label: string; vetec: string; customer: string }[] = [
+  {
+    label: 'Where your input goes',
+    vetec: 'Through the VETEC AI Gateway to the AI model provider (Anthropic, United States)',
+    customer: 'Directly to your company’s AI model provider account. It does not pass through VETEC servers.',
+  },
+  {
+    label: 'What VETEC stores',
+    vetec: 'VETEC does not store conversation content. It keeps only usage (token count, model, time, installation, and organization) and access logs.',
+    customer: 'Nothing. VETEC receives nothing.',
+  },
+  {
+    label: 'Retention period',
+    vetec: 'Each usage record is kept for two years, after which only monthly totals by organization and installation are kept.',
+    customer: 'Usage (token count and number of calls) is recorded only on this server.',
+  },
+  {
+    label: 'Charges',
+    vetec: 'The VETEC console deducts charges from the AI credits VETEC has provided. When the credits run out, AI stops running.',
+    customer: 'Governed by the contract between your company and the AI model provider. Nothing is deducted from VETEC credits.',
+  },
+];
+
+const COMMON: { title: string; body: string }[] = [
+  { title: 'Information you should not enter', body: AI_NOTICE.inputProhibition },
+  { title: 'Scope of data access', body: AI_NOTICE.dataAccess },
+  { title: 'Human review', body: AI_NOTICE.humanReview },
+  { title: 'Training and analysis', body: AI_NOTICE.training },
+  {
+    title: 'Deletion and access requests',
+    body: AI_NOTICE.deletion + ' Changing the run path does not automatically delete existing conversation history.',
+  },
+  {
+    title: 'Problematic answers',
+    body: 'Please report them using the rating buttons below the answer. If you don’t see the rating buttons, please tell your organization administrator or the Refinery operations team.',
+  },
+  {
+    title: 'Intended users',
+    body: 'These are business features for users signed in with an organization account. They cannot be used without signing in, and there is no feature for sharing conversations.',
+  },
+];
+---
+<BaseLayout
+  title="AI Data Processing Notice | Refinery"
+  description="This notice explains where the AI features of Refinery On-Premises send your input and what they record."
+  canonical="/en/ai-data"
+  robots="noindex, follow"
+  alternates={alternates}
+>
+  <Nav />
+  <main class="legal-main">
+    <h1>AI Data Processing Notice</h1>
+
+    {/* 한국어판 우선 고지 — 용어집 §0-1 · 다른 영어 법적 고지와 같은 문구다. 문구를 바꾸지 않는다. */}
+    <p class="legal-lang-notice">
+      This English version is provided for reference only. In the event of any discrepancy
+      between this translation and the <a href="/ai-data" hreflang="ko" lang="ko">Korean original</a>,
+      the Korean version shall prevail.
+    </p>
+
+    <div class="legal-body">
+      <p>
+        This notice explains where your input goes and what is recorded when you use AI features in Refinery On-Premises,
+        such as the AI agent and AI summaries in Lens. AI runs on one of two paths, as set for each server. You can check
+        this server’s path on the <strong>AI</strong> tab in organization settings.
+      </p>
+
+      <section>
+        <h2>Run paths</h2>
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead>
+              <tr><th scope="col">Item</th><th scope="col">VETEC-provided credits</th><th scope="col">Your company’s AI key</th></tr>
+            </thead>
+            <tbody>
+              {PATH_ROWS.map((row) => (
+                <tr><th scope="row">{row.label}</th><td>{row.vetec}</td><td>{row.customer}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="legal-note">
+          Conversations on a model to which your organization has connected its own AI key run on your company’s AI key,
+          regardless of the server’s path.
+        </p>
+      </section>
+
+      <section>
+        <h2>When running on VETEC-provided credits</h2>
+        <ul>
+          <li>{AI_NOTICE.vetecCreditFlow}</li>
+          <li>
+            Equipment data that the AI agent sends along because it is needed for an answer is also delivered to the AI
+            model provider over the same path. The purpose of this delivery is to generate the answer.
+          </li>
+          <li>For security and usage limits, this server’s public IP address is recorded in access logs.</li>
+          <li>You can check the AI model provider’s retention and usage terms through your contract contact.</li>
+          <li>When all credits are used up, AI stops running. {AI_NOTICE.purchaseGuidance}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>When running on your company’s AI key</h2>
+        <ul>
+          <li>{AI_NOTICE.customerKeyFlow}</li>
+          <li>{AI_NOTICE.systemCredential}</li>
+          <li>The contract and data terms with the AI model provider are set between your company and the provider.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Common to both paths</h2>
+        <ul>
+          {COMMON.map((item) => (
+            <li><strong>{item.title}</strong>: {item.body}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Policies that also apply</h2>
+        <p>
+          The supply contract, the processing entrustment agreement, and the Refinery <a href="/en/terms">Terms of Service</a>{' '}
+          and <a href="/en/privacy">Privacy Policy</a> also apply. This notice is based on Refinery On-Premises.
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
