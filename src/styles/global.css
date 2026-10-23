@@ -294,6 +294,12 @@
             로 못박아 뒀고 그쪽 특이도가 더 높다. 그 선언이 읽는 변수에 넣는다 —
             background shorthand 라 색뿐 아니라 그라데이션도 받는다. */
       --ink-200-bg: linear-gradient(180deg, #EFF2F5 0%, #FFFFFF 100%);
+      /* 핀 · 카드를 화면 픽셀 1:1 로 그린다. 그래픽은 무대를 --vh-s(약 0.62)로 줄이고
+         그 위에 --vh-ui(0.9/s)를 곱해 0.9배로 되돌리는데, 비정수 배율이라 카드 글자가
+         뭉개진다. 역수를 넣어 두 배율이 정확히 상쇄되게 한다 — 무대를 --hero-art-scale
+         로 키웠다면 그만큼도 함께 나눈다.
+         ⚠️ --vh-ui 는 vetec-hero.js 가 인라인 스타일로 쓰므로 !important 가 필요하다. */
+      --vh-ui: calc(1 / (var(--vh-s, 1) * var(--hero-art-scale, 1))) !important;
       /* 그래픽 무대의 크기·위치 손잡이. 1 이 기본이고 y 는 아래가 + 다.
          vetec-hero.js 는 .vh-scene 에만 inline transform 을 쓰고 무대에는
          --vh-s 변수만 넘기므로, 여기서 무대 transform 을 덮어도 부딪히지 않는다. */
