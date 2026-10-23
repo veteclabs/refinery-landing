@@ -266,8 +266,8 @@
     #hero .container a,
     #hero .container button { pointer-events: auto; }
     /* 소제목·버튼은 지형 앞에 그대로 둔다. */
-    #hero .hero-row { position: relative; z-index: 2; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; width: 100%; }
-    #hero .hero-text { flex: 1; min-width: 280px; }
+    #hero .hero-row { position: relative; z-index: 2; display: flex; flex-direction: row; justify-content: center; align-items: flex-end; gap: 40px; flex-wrap: wrap; width: 100%; }
+    #hero .hero-text { flex: 1; min-width: 280px; text-align: center; }
     /* 그래픽이 들어가는 둥근 네모 칸. #hero 의 패딩이 남긴 자리를 통째로 채우므로
        상하좌우 여백이 --hero-gap 하나로 같다(윗변만 헤더 높이가 더해진다).
        aspect-ratio 는 두지 않는다 — 비율을 박으면 화면 높이에 딱 맞출 수 없다.
@@ -401,6 +401,9 @@
     #hero h1 {
       margin-bottom: 35px;
       font-size: clamp(48px, 7vw, 84px);
+      /* 제목·소제목은 칸 가운데에 세운다. 전역 h1 의 500 에서 한 단 올린 600 이다. */
+      text-align: center;
+      font-weight: 600;
       /* 제목은 그래픽 앞에 둔다 — .vh 가 z 1 이라 그보다 높게. */
       position: relative; z-index: 2;
       line-height: 1.15;
@@ -439,7 +442,8 @@
 
     #hero p {
       font-size: 18px; font-weight: 400; color: var(--text-muted);
-      max-width: 960px; margin: 0 0 40px; line-height: 1.7;
+      /* 가운데 정렬이라 좌우 margin 은 auto 다 — 0 으로 두면 960px 띠가 왼쪽에 붙는다. */
+      max-width: 960px; margin: 0 auto 40px; line-height: 1.7;
       /* 제목과 같은 이유로 keep-all. 없으면 '품질, 에 / 너지,' · '지원합 / 니다.' 처럼
          어절 중간에서 잘린다. CJK 에만 듣는 값이라 영문 소제목은 그대로다. */
       word-break: keep-all;
