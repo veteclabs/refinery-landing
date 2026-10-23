@@ -287,6 +287,53 @@
     .hero-motion-placeholder > .vh {
       position: relative; z-index: 1;
       pointer-events: none;
+      /* 하늘. far-cut.webp 가 하늘을 비워 둔 판이라 이 면이 그대로 하늘이 된다.
+         위 ink-100(#EFF2F5)에서 아래 흰색으로 옅어진다. 구간은 칸 전체 높이다.
+         ⚠️ background 를 직접 덮을 수 없다. vetec-hero.css 가
+            `section.vh[data-vetec-hero] { background: var(--ink-200-bg) !important }`
+            로 못박아 뒀고 그쪽 특이도가 더 높다. 그 선언이 읽는 변수에 넣는다 —
+            background shorthand 라 색뿐 아니라 그라데이션도 받는다. */
+      --ink-200-bg: linear-gradient(180deg, #EFF2F5 0%, #FFFFFF 100%);
+      /* 그래픽 무대의 크기·위치 손잡이. 1 이 기본이고 y 는 아래가 + 다.
+         vetec-hero.js 는 .vh-scene 에만 inline transform 을 쓰고 무대에는
+         --vh-s 변수만 넘기므로, 여기서 무대 transform 을 덮어도 부딪히지 않는다. */
+      --hero-art-scale: 1;
+      --hero-art-y: 60px;
+    }
+    /* 마커 카드를 'From Data to Intelligence'(#platform)의 카드와 같은 모양으로.
+       어두운 면에 가는 테두리, 작은 제목, 흐린 본문 — 그 섹션이 쓰는 값 그대로다.
+       원본 vetec-hero.css 는 건드리지 않는다. 그래픽을 새로 가져와도 이 설정이
+       덮이지 않게 하려는 것이다. */
+    .hero-motion-placeholder .vh-card {
+      background: #111316;
+      border: 1px solid #272B32;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: none;
+    }
+    /* 카드가 열릴 때 흰 면으로 덮던 규칙을 같은 어두운 면으로 바꾼다. */
+    .hero-motion-placeholder .vh-marker.is-open .vh-card { background: #111316; }
+    /* 태그는 series-tagline 처럼 알약을 벗고 글자만 남긴다. */
+    .hero-motion-placeholder .vh-card__tag {
+      height: auto; padding: 0; border: 0; background: transparent;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      color: var(--accent);
+    }
+    .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 8px; }
+    .hero-motion-placeholder .vh-card__title {
+      font-size: 16px; font-weight: 600; line-height: 1.4;
+      letter-spacing: normal; color: #EDEEF0; margin: 0 0 10px;
+    }
+    .hero-motion-placeholder .vh-card__en,
+    .hero-motion-placeholder .vh-card__desc {
+      font-size: 13px; line-height: 1.65; color: #959CA5;
+    }
+    .hero-motion-placeholder .vh-card__en { margin-top: 0; margin-bottom: 10px; }
+    /* translate 를 scale 보다 왼쪽에 둬야 y 가 화면 픽셀 그대로 먹는다 —
+       순서를 바꾸면 이동량까지 배율에 곱해진다. */
+    .hero-motion-placeholder .vh-stage {
+      transform: translateY(var(--hero-art-y, 0px))
+                 scale(calc(var(--vh-s, 1) * var(--hero-art-scale, 1)));
     }
     /* .vh 는 제 기본값이 min(100vh, 56.25vw) 라 칸보다 커진다. 칸을 그대로 채우게
        높이를 넘기고 min-height(420px)도 푼다 — 좁은 화면에서 칸 밖으로 비어져 나온다.
@@ -339,8 +386,8 @@
       word-break: keep-all;
       overflow-wrap: break-word;
     }
-    /* 아랫줄만 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번진다. 앞의 제품 이름은
-       단색이라 둘의 무게가 갈린다. */
+    /* 아랫줄만 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번진다. 윗줄(제품 이름)은
+       단색이라 두 줄의 무게가 갈린다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
       background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
