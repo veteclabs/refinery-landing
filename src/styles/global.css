@@ -300,9 +300,10 @@
       --hero-art-scale: 1;
       --hero-art-y: 60px;
     }
-    /* 마커 카드를 'From Data to Intelligence'(#platform)의 .series-card 와 같은
-       모양으로 맞춘다 — 폭 300px · 어두운 면 · 가는 테두리 · 24px 패딩, 그리고
-       tagline(12/600 accent) · h3(16/600 ink) · desc(13 muted) 3단 활자까지.
+    /* 마커 카드는 'From Data to Intelligence'(#platform)의 .series-card 를 따르되
+       색만 밝은 기준으로 세운다 — 히어로 면이 밝아서 어두운 카드는 혼자 무겁다.
+       폭 300px · 24px 패딩 · 반경 12px 과 tagline(12/600) · h3(16/600) · desc(13)
+       3단 활자는 그대로이고, 면과 글자색만 밝은 쪽 값으로 바꾼다.
        원본 vetec-hero.css 는 건드리지 않는다. 그래픽을 새로 가져와도 이 설정이
        덮이지 않게 하려는 것이다. */
     .hero-motion-placeholder .vh-card {
@@ -312,35 +313,35 @@
       top: auto;
       bottom: 8px;
       width: 300px;
-      background: #111316;
-      border: 1px solid #272B32;
+      background: #ffffff;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 24px;
-      box-shadow: none;
+      /* 밝은 면끼리 맞닿으면 카드가 그래픽에 묻힌다 — 옅은 그림자로 띄운다. */
+      box-shadow: 0 18px 48px rgba(22, 32, 44, .12);
       gap: 0;
     }
-    /* 카드가 열릴 때 흰 면으로 덮던 규칙을 같은 어두운 면으로 바꾼다. */
-    .hero-motion-placeholder .vh-marker.is-open .vh-card { background: #111316; }
     /* 태그는 series-tagline 처럼 알약을 벗고 글자만 남긴다. */
     .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 0; }
     .hero-motion-placeholder .vh-card__tag {
       height: auto; padding: 0; border: 0; background: transparent;
       font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
-      color: var(--accent);
+      /* 흰 면 위에서는 brand(#76A6D7)가 흐리다 — 한 단 짙은 brand-700 을 쓴다. */
+      color: #3F76AE;
       margin-bottom: 8px;
     }
     .hero-motion-placeholder .vh-card__title {
       font-size: 16px; font-weight: 600; line-height: 1.4;
-      letter-spacing: normal; color: #EDEEF0; margin: 0 0 10px;
+      letter-spacing: normal; color: var(--text); margin: 0 0 10px;
     }
     /* 보조 한 줄은 series-card 에 없는 단이다 — 본문과 같은 활자로 두되 한 단 위에
        붙여 제목에 딸린 줄로 읽히게 한다. */
     .hero-motion-placeholder .vh-card__en {
-      font-size: 13px; line-height: 1.65; color: #959CA5;
+      font-size: 13px; line-height: 1.65; color: var(--text-muted);
       margin: 0 0 10px;
     }
     .hero-motion-placeholder .vh-card__desc {
-      font-size: 13px; line-height: 1.65; color: #959CA5;
+      font-size: 13px; line-height: 1.65; color: #45525C;
       margin: 0;
     }
     /* 카드가 열리면 소제목을 물린다. 카드는 무대(.vh-stage) 안에 있고 그 무대에
