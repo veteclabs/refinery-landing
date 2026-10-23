@@ -77,7 +77,7 @@
     return '' +
       '<div class="vh-stage" aria-hidden="false">' +
         '<div class="vh-scene">' +
-          '<div class="vh-slice vh-slice--far">' + layer(a + 'far-cut.webp', 'vh-fade') + '</div>' +
+          '<div class="vh-slice vh-slice--far">' + layer(a + 'far.webp', 'vh-fade') + '</div>' +
           '<div class="vh-slice vh-slice--mid">' + layer(a + 'mid.webp', 'vh-fade') + '</div>' +
           '<div class="vh-slice vh-slice--near">' +
             layer(a + 'near.webp', 'vh-fade', '공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽') +

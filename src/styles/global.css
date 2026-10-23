@@ -290,17 +290,12 @@
       max-width: none;
       overflow: hidden;
       border-radius: var(--radius);
-      /* far-cut.webp 는 하늘이 투명하다 — 그 자리를 칸이 칠한다.
-         값은 원본 far.webp 하늘색 그대로라 잘라내기 전과 같아 보인다. */
-      background: rgb(227, 231, 237);
     }
-    /* 쌓는 순서: 칸 배경(하늘) → 글씨 → .vh(산부터 시작). 글씨가 능선 뒤로 들어간다.
-       .vh 는 제 배경색을 비워야 뒤의 글씨가 비친다.
-       ⚠️ vetec-hero.css 가 `section.vh[data-vetec-hero] { background: … !important }`
-          로 못박아 둬서 background 를 덮을 수 없다 — 그 값이 읽는 변수를 비운다. */
+    /* 제목(z 2)·소제목(z 2)이 그래픽 위에 얹히므로 .vh 는 그 아래 층이다.
+       pointer-events 를 끄는 건 칸 전체가 카피의 클릭을 가로채지 않게 하기 위함이고,
+       눌려야 하는 마커와 카드만 다시 켠다. */
     .hero-motion-placeholder > .vh {
       position: relative; z-index: 1;
-      --ink-200-bg: transparent;
       pointer-events: none;
     }
     .hero-motion-placeholder > .vh .vh-pin,
