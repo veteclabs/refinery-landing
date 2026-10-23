@@ -61,14 +61,11 @@
           '--stem:' + m.stem + 'px;--d1:' + (0.9 + i * 0.22) + 's;--d2:' + (1.3 + i * 0.22) + 's;--d3:' + (2 + i * 0.4) + 's">' +
           '<span class="vh-stem"></span><span class="vh-dot"></span>' +
           '<div class="vh-head">' +
-            '<button type="button" class="vh-pin" aria-expanded="false" aria-controls="' + cardId + '" aria-label="' + esc(m.label) + ' 정보 열기">' + ICON_PLUS + '</button>' +
+            '<button type="button" class="vh-pin" aria-describedby="' + cardId + '" aria-label="' + esc(m.title) + '">' + ICON_PLUS + '</button>' +
             '<div class="vh-card" id="' + cardId + '" role="region" aria-label="' + esc(m.title) + '" hidden>' +
-              '<div class="vh-card__top"><span class="vh-card__tag">' + esc(m.tag) + '</span>' +
-                '<button type="button" class="vh-card__close" aria-label="닫기">' + ICON_X + '</button></div>' +
-              '<div><div class="vh-card__label">' + esc(m.label) + '</div>' +
-                '<h3 class="vh-card__title">' + esc(m.title) + '</h3>' +
+              '<div class="vh-card__top"><span class="vh-card__tag">' + esc(m.tag) + '</span></div>' +
+              '<div><h3 class="vh-card__title">' + esc(m.title) + '</h3>' +
                 '<div class="vh-card__en">' + esc(m.en) + '</div></div>' +
-              '<p class="vh-card__desc">' + esc(m.desc) + '</p>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -158,9 +155,7 @@
       card.hidden = !on;
       if (on) this.fitCard(m); else m.classList.remove('flip-down', 'flip-x');
       var pinned = this.pinned === m.getAttribute('data-id');
-      pin.setAttribute('aria-expanded', pinned ? 'true' : 'false');
-      pin.setAttribute('aria-label', pin.getAttribute('aria-label').replace(/ 정보 (열기|닫기)$/, pinned ? ' 정보 닫기' : ' 정보 열기'));
-    }
+                }
   };
 
   // keep an open card inside the hero: flip vertically / horizontally if it would overflow
@@ -261,15 +256,28 @@
       }
     }
 
-    // click / tap pins the card; click again, ×, outside or Esc closes it
-    root.addEventListener('click', function (e) {
-      if (e.target.closest('.vh-card__close')) { self.close(true); return; }
-      var pin = e.target.closest('.vh-pin');
-      if (pin) { self.toggle(pin.closest('.vh-marker').getAttribute('data-id')); return; }
-      if (!e.target.closest('.vh-card')) self.close(false);
+    // The card is shown on hover only. A mouse click does nothing.
+    // Keyboard: focusing a pin shows its card. Touch (no hover): a tap shows it, a tap elsewhere hides it.
+    root.addEventListener('focusin', function (e) {
+      var pin = e.target.closest && e.target.closest('.vh-pin');
+      if (pin) { self.preview = pin.closest('.vh-marker').getAttribute('data-id'); self.sync(); }
+    });
+    root.addEventListener('focusout', function (e) {
+      if (e.target.closest && e.target.closest('.vh-pin')) { self.preview = null; self.sync(); }
+    });
+    var lastType = 'mouse';
+    document.addEventListener('pointerdown', function (e) { lastType = e.pointerType || 'mouse'; }, true);
+    document.addEventListener('click', function (e) {
+      if (lastType === 'mouse') return;
+      var r = root.getBoundingClientRect(), x = e.clientX, y = e.clientY;
+      if (x < r.left || x > r.right || y < r.top || y > r.bottom) { self.close(false); return; }
+      var hit = null, ms = root.querySelectorAll('.vh-pin');
+      for (var i = 0; i < ms.length; i++) { var b = ms[i].getBoundingClientRect(); if (x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) hit = ms[i]; }
+      if (hit) { var id = hit.closest('.vh-marker').getAttribute('data-id'); self.preview = (self.preview === id ? null : id); self.pinned = null; self.sync(); }
+      else self.close(false);
     });
     root.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') self.close(true);
+      if (e.key === 'Escape') self.close(false);
     });
   };
 
