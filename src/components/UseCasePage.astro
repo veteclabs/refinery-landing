@@ -727,7 +727,7 @@ const jsonLd = [
 
   /* 헤더(.nav-inner)와 같은 박스 — 좌측이 로고 선에 정확히 맞는다.
      nav-footer.css의 .nav-inner: max-width 1280 / padding 0 48px, 900px 이하에서 24px. */
-  .uc-container--nav { max-width: 1280px; padding: 0 48px; }
+  .uc-container--nav { max-width: 1600px; padding: 0 48px; }
   @media (max-width: 900px) {
     .uc-container--nav { padding: 0 24px; }
   }
@@ -858,7 +858,7 @@ const jsonLd = [
      .ind-section만 대상이라 히어로(.ind-hero, 이미 uc-container--nav)와 CTA(.ind-cta)는 제외된다.
      선택자가 .uc-narrow(2개)보다 구체적(3개)이라 좁은 폭 제약도 함께 풀린다. */
   .uc-redesigned .ind-section .ind-container {
-    max-width: 1280px;
+    max-width: 1600px;
     padding: 0 48px;
   }
   /* 섹션 위아래 여백을 랜딩 본문 섹션과 같은 130px으로. (공통값은 84px)
@@ -1207,7 +1207,7 @@ const jsonLd = [
   }
   /* 본문 섹션과 같은 선(헤더 로고~버튼)에 맞춘다. */
   .uc-redesigned .uc-cta-bg .ind-container {
-    max-width: 1280px;
+    max-width: 1600px;
     padding: 0 48px;
   }
   @media (max-width: 900px) {

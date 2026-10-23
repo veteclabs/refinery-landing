@@ -187,7 +187,7 @@
    길고 끊을 곳 없는 문자열(URL 등)만 예외로 강제로 접는다. */
 .wp-page { word-break: keep-all; overflow-wrap: break-word; }
 
-.wp-page .ind-container { max-width: 1280px; padding: 0 48px; }
+.wp-page .ind-container { max-width: 1600px; padding: 0 48px; }
 
 /* 왼쪽 목차 + 오른쪽 본문 두 단. 본문은 읽기 좋은 폭(820px)을 유지한 채
    오른쪽 끝에 붙는다(margin-left: auto) — 목차 열이 넓어져도 본문 줄 길이는 그대로다. */

@@ -414,7 +414,7 @@ img { max-width: 100%; height: auto; }
 .ind-hero-bg > .ind-container { position: relative; z-index: 1; }
 /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 예지보전 히어로와 같은 값(1280/48).
    공통 .ind-container는 1120/24라 글이 로고보다 74px 안쪽에서 시작했다. */
-.ind-hero-bg > .ind-container { max-width: 1280px; padding: 0 48px; }
+.ind-hero-bg > .ind-container { max-width: 1600px; padding: 0 48px; }
 @media (max-width: 900px) {
   .ind-hero-bg > .ind-container { padding: 0 24px; }
 }
@@ -787,7 +787,7 @@ img { max-width: 100%; height: auto; }
 
 /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다. 공통값 1120/24는 내용이
    헤더 로고보다 74px 안쪽에서 시작했다. */
-.ind-page .ind-container { max-width: 1280px; padding: 0 48px; }
+.ind-page .ind-container { max-width: 1600px; padding: 0 48px; }
 @media (max-width: 900px) { .ind-page .ind-container { padding: 0 24px; } }
 
 /* 섹션 위아래 여백 84px -> 130px (좁은 화면 60px은 공통값과 같다). */

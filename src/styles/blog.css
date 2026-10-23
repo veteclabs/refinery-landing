@@ -289,7 +289,7 @@ img { max-width: 100%; height: auto; }
 .blog-main--post { word-break: keep-all; overflow-wrap: break-word; }
 /* 아래 여백 110px = 표지 위 여백과 같다(백서 히어로가 헤더 아래에 두는 간격).
    글이 위아래 같은 간격 안에 놓이고, 그 끝에서 푸터 구분선이 받는다. */
-.blog-main--post { max-width: 1280px; padding-left: 48px; padding-right: 48px; padding-bottom: 110px; }
+.blog-main--post { max-width: 1600px; padding-left: 48px; padding-right: 48px; padding-bottom: 110px; }
 /* 좁은 화면에서는 24px로 되돌린다(자료실 .res-page와 같은 규칙).
    48px을 그대로 두면 375px 화면에서 본문이 279px까지 줄어든다. */
 @media (max-width: 900px) {
