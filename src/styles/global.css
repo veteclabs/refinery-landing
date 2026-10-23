@@ -400,7 +400,7 @@
     #hero .hero-text p:last-child { margin-bottom: 0; }
     #hero h1 {
       margin-bottom: 35px;
-      font-size: clamp(48px, 7vw, 84px);
+      font-size: clamp(44px, 6vw, 72px);
       /* 제목·소제목은 칸 가운데에 세운다. 전역 h1 의 500 에서 한 단 올린 600 이다. */
       text-align: center;
       font-weight: 600;
@@ -437,7 +437,10 @@
        영문이 더 넓으므로 긴 쪽을 기준으로 폭에 비례해 줄여 두 언어 모두 2줄을 지킨다.
        420px 에서 min 이 48px 로 수렴하므로 경계에서 글자 크기가 튀지 않는다. */
     @media (max-width: 420px) {
-      #hero h1 { font-size: min(48px, calc(13.2vw - 7px)); }
+      /* 수식 13.2vw - 7px 은 '필요폭이 글자 크기에 비례한다'에서 나온 것이라
+         최대치(여기 min 의 첫 값)만 clamp 의 최소와 맞추면 된다. 420px 에서
+         13.2vw - 7 = 48.4 라 min 은 44px 을 내준다 — clamp 최소와 이어진다. */
+      #hero h1 { font-size: min(44px, calc(13.2vw - 7px)); }
     }
 
     #hero p {
