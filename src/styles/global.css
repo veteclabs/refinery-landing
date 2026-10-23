@@ -21,12 +21,12 @@
     }
 
     /* 히어로 대제목 전용. Fontshare 의 ITF Free Font License 폰트를 직접 들고 있다
-       (public/fonts/, 라이선스 같은 자리). 가변이라 파일 하나(29KB)로 200~700 굵기를 덮는다. */
+       (public/fonts/, 라이선스 같은 자리). 가변이라 파일 하나(42KB)로 300~900 굵기를 덮는다. */
     @font-face {
-      font-family: 'Clash Display';
-      src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2-variations'),
-           url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
-      font-weight: 200 700;
+      font-family: 'Satoshi';
+      src: url('/fonts/Satoshi-Variable.woff2') format('woff2-variations'),
+           url('/fonts/Satoshi-Variable.woff2') format('woff2');
+      font-weight: 300 900;
       font-style: normal;
       font-display: swap;
     }
@@ -250,7 +250,9 @@
       text-align: left;
       position: relative;
       margin: 0;
-      padding: calc(var(--header-h) + var(--hero-gap)) var(--hero-gap) var(--hero-gap);
+      /* 윗변은 헤더에 바로 붙인다 — 고정 헤더(fixed)가 덮는 만큼만 내리고 여백은 두지
+         않는다. 좌우·아래만 --hero-gap 이다. */
+      padding: var(--header-h) var(--hero-gap) var(--hero-gap);
       border-radius: 0;
       overflow: hidden;
     }
@@ -336,33 +338,25 @@
     #hero .hero-text p:last-child { margin-bottom: 0; }
     #hero h1 {
       margin-bottom: 35px;
-      /* 한 줄을 칸 폭에 거의 꽉 채우는 값이다. 글자 폭이 크기의 7.2배라
-         내용 폭 ÷ 7.2 가 상한인데, 그 비율이 화면마다 다르다(패딩 48px 이 좁은
-         화면에서 상대적으로 크고, 넓은 화면에서는 max-width 가 걸린다).
-         가장 빡빡한 1100px 대에 맞춰 12vw 로 잡고, 넓은 쪽은 192px 로 묶는다.
-         ⚠️ vw 는 스크롤바를 포함한 뷰포트 폭이고 칸은 그보다 15px 좁다 —
-            12.5vw 로는 1100px 에서 994 > 989 로 간발의 차이로 두 줄이 됐다. */
-      font-size: clamp(48px, 12vw, 192px);
+      font-size: clamp(48px, 7vw, 84px);
       text-align: center;
-      /* 제목만 산 뒤로 — .vh 가 z 1 이라 그보다 낮게 둔다. */
-      position: relative; z-index: 0;
+      /* 제목은 그래픽 앞에 둔다 — .vh 가 z 1 이라 그보다 높게. */
+      position: relative; z-index: 2;
       line-height: 1.15;
       padding: 0.1em 0;
-      /* 히어로 대제목만 Clash Display 다. 본문·숫자는 Roboto 지만 이 자리는
+      /* 히어로 대제목만 Satoshi 다. 본문·숫자는 Roboto 지만 이 자리는
          글자가 크게 찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
          이 글꼴에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글 제목이
          OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다. */
-      font-family: 'Clash Display', 'Pretendard', sans-serif;
-      /* 글래스모피즘 — 글자 자체를 유리로 본다. backdrop-filter 는 요소 상자에만
-         걸려 글자 모양을 따라가지 못하므로(사각 판이 생긴다), 반투명 면 + 가장자리
-         하이라이트 + 바닥 그림자로 굴절감을 만든다.
-         text-stroke 는 글자 안쪽으로 그려지므로 큰 제목에서만 쓸 수 있다. */
-      color: #ffffff;
-      text-shadow:
-        /* 가장자리를 또렷하게 — 밝은 그래픽 위에서 흰 글자가 묻히지 않게 한다. */
-        0 1px 2px rgba(22, 32, 44, 0.22),
-        /* 유리가 바닥에 드리우는 그림자. 글자가 떠 보인다. */
-        0 24px 48px rgba(22, 32, 44, 0.18);
+      font-family: 'Satoshi', 'Pretendard', sans-serif;
+      /* 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번지는 그라데이션.
+         흰색으로 바꾸기 전 .hero-title-accent 가 쓰던 값 그대로이고,
+         이제 제목 전체가 한 덩어리라 h1 이 직접 쥔다. */
+      background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
          CJK 에만 듣는 값이라 영문 제목은 그대로 단어 단위로 끊긴다.

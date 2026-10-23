@@ -18,16 +18,16 @@
   // Copy follows the "제품의 세 가지 뿌리" section of /company.
   // side: 'left' | 'right' | 'up' — the direction the card opens (chosen so no card covers another pin).
   var MARKERS = [
-    { id: 'comp', x: 843, y: 677, stem: 135, side: 'left',
-      label: '공기압축기 · 에너지', tag: 'EXPERIENCE',
+    { id: 'comp', x: 432, y: 735, stem: 60, side: 'right',
+      label: '산업 현장 · 30년', tag: 'EXPERIENCE',
       title: '30년의 노하우로 두 방식을 지원합니다', en: '*템플릿 예시 : 에너지경영시스템',
       desc: '기존 시스템 위에 얹는 것도, 없는 현장을 새로 세우는 것도 가능합니다. 신규 구축도 30년 경험으로 만든 템플릿에서 시작합니다.' },
-    { id: 'pump', x: 1033, y: 705, stem: 150, side: 'up',
-      label: '펌프 · 센서 데이터', tag: 'TECHNOLOGY',
+    { id: 'pump', x: 1078, y: 697, stem: 80, side: 'right',
+      label: '진동 센서 · 데이터', tag: 'TECHNOLOGY',
       title: '시계열을 넘어 AI 판단까지 잇습니다', en: '센서 · 설비 · 문서 · 이력을 온톨로지로 연결',
       desc: '센서 시계열뿐 아니라 설비 · 문서 · 이력까지 엮고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
-    { id: 'motor', x: 1164, y: 692, stem: 120, side: 'right',
-      label: '모터 · 베어링 진동', tag: 'PEOPLE',
+    { id: 'motor', x: 1461, y: 754, stem: 60, side: 'right',
+      label: '산업 현장 · 엔지니어', tag: 'PEOPLE',
       title: '현장을 겪은 사람들이 제품을 설계합니다', en: '발전 · 제조 · 에너지 현장 엔지니어와 개발자가 한 팀',
       desc: '설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지, 겪어 본 사람들이 제품을 설계합니다.' }
   ];
@@ -226,16 +226,27 @@
       root.classList.add('is-ready');
     }
 
-    // viewpoint follows the pointer (mouse / trackpad only)
+    // viewpoint follows the pointer (mouse / trackpad only).
+    // Listen on the document, not the hero: pages often put text/buttons over the hero or set
+    // `pointer-events: none` on it, which would stop the hero from ever seeing the mouse.
     if (this.canHover && !this.reduced) {
-      root.addEventListener('pointermove', function (e) {
+      var inside = false;
+      document.addEventListener('pointermove', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
         var r = root.getBoundingClientRect();
         if (!r.width) return;
-        self.tx = Math.max(-0.5, Math.min(0.5, (e.clientX - r.left) / r.width - 0.5));
-        self.ty = Math.max(-0.5, Math.min(0.5, (e.clientY - r.top) / r.height - 0.5));
-        self.kick();
-      });
-      root.addEventListener('pointerleave', function () { self.tx = 0; self.ty = 0; self.kick(); });
+        var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
+          inside = true;
+          self.tx = x - 0.5; self.ty = y - 0.5;
+          self.kick();
+        } else if (inside) {
+          inside = false;
+          self.tx = 0; self.ty = 0;
+          self.kick();
+        }
+      }, { passive: true });
+      document.addEventListener('pointerleave', function () { inside = false; self.tx = 0; self.ty = 0; self.kick(); });
     }
 
     // hover preview (mouse / trackpad only)
