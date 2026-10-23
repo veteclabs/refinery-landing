@@ -306,13 +306,16 @@
       --hero-art-scale: 1;
       --hero-art-y: 60px;
     }
-    /* 마커 카드는 'From Data to Intelligence'(#platform)의 .series-card 를 따르되
+    /* ⚠️ 선택자에 #hero 를 붙여 특이도를 올린다. 없으면 `#hero p`(1,0,1)가
+       `.hero-motion-placeholder .vh-card__desc`(0,2,0)를 이겨 본문이 히어로 소제목
+       크기(18px)로 커진다.
+       마커 카드는 'From Data to Intelligence'(#platform)의 .series-card 를 따르되
        색만 밝은 기준으로 세운다 — 히어로 면이 밝아서 어두운 카드는 혼자 무겁다.
        폭 300px · 24px 패딩 · 반경 12px 과 tagline(12/600) · h3(16/600) · desc(13)
        3단 활자는 그대로이고, 면과 글자색만 밝은 쪽 값으로 바꾼다.
        원본 vetec-hero.css 는 건드리지 않는다. 그래픽을 새로 가져와도 이 설정이
        덮이지 않게 하려는 것이다. */
-    .hero-motion-placeholder .vh-card {
+    #hero .hero-motion-placeholder .vh-card {
       /* 핀 위로 연다. 마커 셋이 무대 아래쪽(y 735~754)에 있어 아래로 열면 칸 밖으로
          넘치는데, fitCard() 는 위로 넘칠 때만 뒤집는다. 본문이 붙어 카드가
          길어진 뒤로는 아래로 열 자리가 없다. */
@@ -328,25 +331,25 @@
       gap: 0;
     }
     /* 태그는 series-tagline 처럼 알약을 벗고 글자만 남긴다. */
-    .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 0; }
-    .hero-motion-placeholder .vh-card__tag {
+    #hero .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 0; }
+    #hero .hero-motion-placeholder .vh-card__tag {
       height: auto; padding: 0; border: 0; background: transparent;
       font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
       /* 흰 면 위에서는 brand(#76A6D7)가 흐리다 — 한 단 짙은 brand-700 을 쓴다. */
       color: #3F76AE;
       margin-bottom: 8px;
     }
-    .hero-motion-placeholder .vh-card__title {
+    #hero .hero-motion-placeholder .vh-card__title {
       font-size: 16px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
     }
     /* 보조 한 줄은 series-card 에 없는 단이다 — 본문과 같은 활자로 두되 한 단 위에
        붙여 제목에 딸린 줄로 읽히게 한다. */
-    .hero-motion-placeholder .vh-card__en {
+    #hero .hero-motion-placeholder .vh-card__en {
       font-size: 13px; line-height: 1.65; color: var(--text-muted);
       margin: 0 0 10px;
     }
-    .hero-motion-placeholder .vh-card__desc {
+    #hero .hero-motion-placeholder .vh-card__desc {
       font-size: 13px; line-height: 1.65; color: #45525C;
       margin: 0;
     }
