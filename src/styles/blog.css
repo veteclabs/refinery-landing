@@ -28,7 +28,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ---- Main ---- */
-.blog-main { max-width: var(--maxw); margin: 0 auto; padding: 70px 24px 96px; } /* 70px = 고정 내비 높이 */
+.blog-main { max-width: var(--maxw); margin: 0 auto; padding: var(--header-h) 24px 96px; } /* 70px = 고정 내비 높이 */
 
 /* ---- Blog list ---- */
 .blog-hero { padding: 40px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }

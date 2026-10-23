@@ -17,20 +17,18 @@
   --ink-50:  #F6F8FA;
 }
 
+/* 고정 헤더 높이. 히어로 · 드로어 · 모바일 패널이 모두 이 값을 기준으로 내려온다.
+   이 파일은 Nav/Footer 를 통해 모든 페이지에 실리므로 여기서 쥔다. */
+:root { --header-h: 70px; }
+
 .container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
 
 /* 헤더: 모든 페이지에서 고정 + 일관된 반투명 흰색 배경(스크롤 시 배경이 바뀌지 않도록) */
 .mm-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 70px;
+  height: var(--header-h);
   background: #ffffff;
-  border-bottom: 1px solid var(--ink-200);
 }
-/* 패널이 열려 있는 동안에는 헤더 아래 구분선을 지운다 —
-   헤더와 패널이 한 장의 흰 면으로 이어지고, 끝나는 자리는 패널 아래 선이 맡는다.
-   :has로 '패널이 열린 상태'만 골라낸다(로고만 스칠 때는 구분선이 그대로 있어야 한다). */
-.mm-nav:has(.mm-item.has-panel:hover),
-.mm-nav:has(.mm-item.has-panel:focus-within) { border-bottom-color: transparent; }
 
 /* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
    .mm-nav 안에 두면 안 된다 — 헤더가 position: fixed라 그 안의
@@ -38,7 +36,7 @@
    z-index 90 — 헤더(100)보다 아래라 헤더와 그 안의 패널(60)은 막 위에 그대로 뜬다.
    pointer-events: none — 막이 클릭을 가로채지 않는다. */
 .mm-scrim {
-  position: fixed; inset: 70px 0 0; z-index: 90;
+  position: fixed; inset: var(--header-h) 0 0; z-index: 90;
   background: rgba(22, 32, 44, .42);  /* ink-900 #16202C */
   /* 흐림(blur)은 쓰지 않는다 — 톤만 한 단계 내린다. */
   opacity: 0; visibility: hidden; pointer-events: none;
@@ -50,30 +48,37 @@ body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: vi
 /* 패널이 열린 채로 스크롤하면 닫는다. :hover는 JS로 풀 수 없으므로
    헤더에 클래스를 걸어 눌러 두고, 마우스가 헤더를 벗어나면 푼다. */
 .mm-nav.is-shut .mm-panel { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; }
-.mm-nav.is-shut { border-bottom-color: var(--ink-200) !important; }
 .mm-nav.is-shut .mm-caret { transform: none !important; }
 body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden !important; }
 @media (prefers-reduced-motion: reduce) { .mm-scrim { transition: none; } }
+/* 로고 · 메뉴 · 우측 버튼의 3칸. 양 끝 칸을 1fr 로 같게 잡아야 가운데 칸이 헤더
+   한가운데에 선다 — space-between 으로는 로고와 버튼의 폭 차이만큼 메뉴가 밀린다. */
 .nav-inner {
       max-width: 1600px; margin: 0 auto; height: 100%;
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
       padding: 0 48px;
     }
-.nav-left { display: flex; align-items: center; gap: 48px; }
+.nav-left { display: flex; align-items: center; }
+.nav-inner > .nav-actions { justify-self: end; }
 .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
-/* 로고 높이는 29px이다. 30px에서는 심볼 두 갈래가 서로 다른 서브픽셀 위치에 앉아
-   한쪽만 반 픽셀 회색 테를 물고, 그 결과 오른쪽이 더 굵어 보였다(1x에서 3px 대 4px).
-   29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
-   실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
-.nav-logo img { height: 29px; display: block; }
+/* 로고 높이. 심볼 두 갈래는 SVG 상 똑같이 80 단위이고 뷰박스 높이가 784 이라
+   획 두께 = 높이 x 0.10204 다. 이 값이 픽셀에 떨어지지 않으면 두 갈래가 서로 다른
+   소수 위치에 앉아 한쪽만 반 픽셀을 더 물고, 그래서 오른쪽이 굵어 보인다.
+   29~42px 사이에서 1x·2x 모두 안전한 높이는 세 개뿐이다 —
+     29.40px -> 획 3.00px  ← 지금. 29px 에서 올릴 수 있는 가장 가까운 값
+     34.30px -> 획 3.50px  (2x 에만 떨어진다)
+     39.20px -> 획 4.00px
+   30px 은 예전에 실측으로 걸러진 값이다(두 갈래가 3px 대 4px 로 갈렸다). */
+.nav-logo img { height: 29.4px; display: block; }
 /* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
    12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
 .nav-actions { display: flex; gap: 28px; align-items: center; }
 .btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
-         테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
-      background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
+      /* 면을 브랜드 색으로 채운 주 행동 버튼. 테두리는 같은 색으로 둬야
+         호버에서 색이 바뀔 때 높이가 흔들리지 않는다. */
+      background: #76A6D7; color: #ffffff; border: 1px solid #76A6D7; border-radius: 6px;
       transition: all .2s;
     }
 .nav-hamburger {
@@ -94,11 +99,11 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       display: none;
       flex-direction: column;
       position: fixed;
-      top: 70px; left: 0; right: 0;
+      top: var(--header-h); left: 0; right: 0;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       padding: 8px 24px 20px;
-      max-height: calc(100vh - 70px);
+      max-height: calc(100vh - var(--header-h));
       overflow-y: auto;
       box-shadow: 0 12px 24px rgba(10,14,20,0.10);
       z-index: 99;
@@ -122,17 +127,18 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
          color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
          같은 버튼인데 모바일만 글자색이 달라진다. */
-      color: #16202C;
-      border: 1px solid #5A6776;
+      background: #76A6D7;
+      color: #ffffff;
+      border: 1px solid #76A6D7;
       border-radius: 6px;
       padding: 12px;
       font-weight: 500;
     }
-.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-/* 헤더 문의하기 — 테두리만 있는 버튼. 호버에서 글자와 테두리가 하늘색이 된다(면은 그대로).
-   nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
-nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+/* 헤더 CTA 호버 — 면이 한 단 짙어진다(brand-600). nav 안쪽으로 한정한다 —
+   랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
+nav .btn-primary:hover, nav .btn-primary:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
     상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
@@ -451,6 +457,8 @@ details.mm-mobile-group[open] > summary.mm-mobile-top::after {
 @media (max-width: 980px) {
   .mm-menu { display: none; }
   .nav-hamburger { display: flex; }
+  /* 가운데 칸이 비므로 2칸으로 되돌린다 — 빈 칸이 남으면 로고가 왼쪽으로 치우친다. */
+  .nav-inner { grid-template-columns: auto auto; }
 }
 
 /* 좁은 폭에서도 문의하기를 헤더 바에 남긴다 — 순서는 KO/EN · 문의하기 · 햄버거로,
