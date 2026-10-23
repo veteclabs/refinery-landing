@@ -29,3 +29,8 @@ refinery-icons/*
 
 # 소개서에서 꺼낸 원본 JPEG(4.3MB). 사이트가 쓰는 건 변환된 public/ 의 WebP다.
 intro-deck/
+
+# 시안 작업 폴더에서 node_modules 는 본 폴더를 가리키는 심볼릭 링크다.
+# 끝에 / 가 붙은 패턴은 링크를 걸러내지 못해 따로 적는다.
+node_modules
+시안.md
