@@ -15,21 +15,16 @@
   };
 
   // Marker anchors are on the 1920×1080 design stage (surface point the stem touches).
-  // Copy follows the "제품의 세 가지 뿌리" section of /company.
   // side: 'left' | 'right' | 'up' — the direction the card opens (chosen so no card covers another pin).
+  //
+  // ⚠️ 랜딩 패치: 카드 문구와 마크업은 여기 없다. 이 파일은 핀 위치 · 열고 닫기 ·
+  //    화면 밖 넘침 보정까지만 맡고, 카드 안은 랜딩이 채운다.
+  //    문구: src/data/heroMarkers.ts · 마크업: 홈 페이지의 <template data-hero-card>
+  //    원본(운영 리포 public/hero/)을 새로 가져오면 이 패치를 다시 올려야 한다.
   var MARKERS = [
-    { id: 'comp', x: 432, y: 735, stem: 60, side: 'right',
-      label: '산업 현장 · 30년', tag: 'EXPERIENCE',
-      title: '30년의 노하우로 두 방식을 지원합니다', en: '*템플릿 예시 : 에너지경영시스템',
-      desc: '기존 시스템 위에 얹는 것도, 없는 현장을 새로 세우는 것도 가능합니다. 신규 구축도 30년 경험으로 만든 템플릿에서 시작합니다.' },
-    { id: 'pump', x: 1078, y: 697, stem: 80, side: 'right',
-      label: '진동 센서 · 데이터', tag: 'TECHNOLOGY',
-      title: '시계열을 넘어 AI 판단까지 잇습니다', en: '센서 · 설비 · 문서 · 이력을 온톨로지로 연결',
-      desc: '센서 시계열뿐 아니라 설비 · 문서 · 이력까지 엮고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
-    { id: 'motor', x: 1461, y: 754, stem: 60, side: 'right',
-      label: '산업 현장 · 엔지니어', tag: 'PEOPLE',
-      title: '현장을 겪은 사람들이 제품을 설계합니다', en: '발전 · 제조 · 에너지 현장 엔지니어와 개발자가 한 팀',
-      desc: '설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지, 겪어 본 사람들이 제품을 설계합니다.' }
+    { id: 'comp',  x: 432,  y: 735, stem: 60, side: 'right' },
+    { id: 'pump',  x: 1078, y: 697, stem: 80, side: 'right' },
+    { id: 'motor', x: 1461, y: 754, stem: 60, side: 'right' }
   ];
 
   var STAGE_W = 1920, STAGE_H = 1080;
@@ -61,12 +56,8 @@
           '--stem:' + m.stem + 'px;--d1:' + (0.9 + i * 0.22) + 's;--d2:' + (1.3 + i * 0.22) + 's;--d3:' + (2 + i * 0.4) + 's">' +
           '<span class="vh-stem"></span><span class="vh-dot"></span>' +
           '<div class="vh-head">' +
-            '<button type="button" class="vh-pin" aria-describedby="' + cardId + '" aria-label="' + esc(m.title) + '">' + ICON_PLUS + '</button>' +
-            '<div class="vh-card" id="' + cardId + '" role="region" aria-label="' + esc(m.title) + '" hidden>' +
-              '<div class="vh-card__top"><span class="vh-card__tag">' + esc(m.tag) + '</span></div>' +
-              '<div><h3 class="vh-card__title">' + esc(m.title) + '</h3>' +
-                '<div class="vh-card__en">' + esc(m.en) + '</div></div>' +
-            '</div>' +
+            '<button type="button" class="vh-pin" aria-describedby="' + cardId + '">' + ICON_PLUS + '</button>' +
+            '<div class="vh-card" id="' + cardId + '" role="region" hidden></div>' +
           '</div>' +
         '</div>';
     }).join('');
