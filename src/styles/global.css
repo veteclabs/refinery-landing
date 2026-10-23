@@ -20,17 +20,6 @@
       --hero-gap: 24px;
     }
 
-    /* 히어로 대제목 전용. Fontshare 의 ITF Free Font License 폰트를 직접 들고 있다
-       (public/fonts/, 라이선스 같은 자리). 가변이라 파일 하나(42KB)로 300~900 굵기를 덮는다. */
-    @font-face {
-      font-family: 'Satoshi';
-      src: url('/fonts/Satoshi-Variable.woff2') format('woff2-variations'),
-           url('/fonts/Satoshi-Variable.woff2') format('woff2');
-      font-weight: 300 900;
-      font-style: normal;
-      font-display: swap;
-    }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -333,30 +322,32 @@
     #hero h1 {
       margin-bottom: 35px;
       font-size: clamp(48px, 7vw, 84px);
-      text-align: center;
       /* 제목은 그래픽 앞에 둔다 — .vh 가 z 1 이라 그보다 높게. */
       position: relative; z-index: 2;
       line-height: 1.15;
       padding: 0.1em 0;
-      /* 히어로 대제목만 Satoshi 다. 본문·숫자는 Roboto 지만 이 자리는
-         글자가 크게 찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
-         이 글꼴에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글 제목이
+      /* 히어로 대제목만 Inter 다. 본문·숫자는 Roboto 지만 이 자리는 글자가 크게
+         찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
+         Inter에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글 제목이
          OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다. */
-      font-family: 'Satoshi', 'Pretendard', sans-serif;
-      /* 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번지는 그라데이션.
-         흰색으로 바꾸기 전 .hero-title-accent 가 쓰던 값 그대로이고,
-         이제 제목 전체가 한 덩어리라 h1 이 직접 쥔다. */
-      background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      font-family: 'Inter', 'Pretendard', sans-serif;
+      color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
          CJK 에만 듣는 값이라 영문 제목은 그대로 단어 단위로 끊긴다.
          어절 하나가 줄보다 길 때를 대비해 break-word 를 함께 둔다. */
       word-break: keep-all;
       overflow-wrap: break-word;
+    }
+    /* 아랫줄만 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번진다. 앞의 제품 이름은
+       단색이라 둘의 무게가 갈린다. */
+    #hero h1 .hero-title-accent {
+      display: inline-block;
+      background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
     }
     /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
        넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
