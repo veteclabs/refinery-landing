@@ -393,9 +393,9 @@
     #hero h1 {
       margin-bottom: 35px;
       font-size: clamp(44px, 6vw, 72px);
-      /* 제목·소제목은 칸 가운데에 세운다. 전역 h1 의 500 에서 한 단 올린 600 이다. */
+      /* 제목·소제목은 칸 가운데에 세운다. */
       text-align: center;
-      font-weight: 600;
+      font-weight: 500;
       /* 제목은 그래픽 앞에 둔다 — .vh 가 z 1 이라 그보다 높게. */
       position: relative; z-index: 2;
       line-height: 1.15;
