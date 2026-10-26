@@ -20,6 +20,9 @@
        스스로 풀리므로, 자라는 쪽 계산은 건드리지 않는다. */
     max-height: calc(var(--hero-flat, 380px) + 1600px * var(--hero-p, 0));
   }
+  /* 낮아진 칸은 무대 바닥 쪽에 세운다 — 카피 바로 아래에 붙이면 그 아래가 통째로
+     빈다. 자라면서 남는 자리가 줄면 이 여백도 함께 사라진다. */
+  #hero .container { margin-bottom: auto; }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; max-height: none; }
