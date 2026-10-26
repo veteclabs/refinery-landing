@@ -1,0 +1,81 @@
+---
+/**
+ * 히어로 그래픽이 스크롤을 따라 자란다.
+ *
+ * 처음에는 카피 아래 칸에 담겨 있고, 히어로의 스크롤 구간을 내려가는 동안 위로
+ * 자라 카피를 덮으며 한 화면을 가득 채운다.
+ *
+ * 진행도(0~1)를 --hero-p 로 넘기고, 칸을 얼마나 끌어올릴지는 CSS 가 정한다.
+ * 레이아웃은 global.css 의 #hero · .hero-stage 가 쥔다.
+ */
+---
+
+<style is:global>
+  /* 칸을 카피 높이(--hero-copy-h)만큼 위로 끌어올린다. .hero-stage 가 flex 라
+     칸은 margin 으로 줄어든 자리를 그대로 높이로 돌려받는다 — 위로 자라는 셈이다.
+     --hero-copy-h 는 카피가 실제로 차지한 높이이고 JS 가 재어 넣는다. */
+  .hero-motion-placeholder {
+    margin-top: calc(var(--hero-p, 0) * -1 * var(--hero-copy-h, 0px));
+  }
+  /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-motion-placeholder { margin-top: 0; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var d = document;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function start() {
+      var hero = d.getElementById('hero');
+      var stage = hero && hero.querySelector('.hero-stage');
+      var copy = hero && hero.querySelector('.container');
+      if (!hero || !stage || !copy) return;
+
+      var ZOOM = 0.62;   // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
+      var run = 0, copyH = 0, ticking = false;
+
+      /* 구간 길이는 '히어로 전체 높이 - 무대 한 화면'이다. 이 만큼을 내려가는 동안
+         진행도가 0 에서 1 로 간다. 카피 높이는 margin 이 먹기 전의 값이라야 해서
+         --hero-p 를 0 으로 되돌린 뒤 잰다. */
+      function measure() {
+        hero.style.setProperty('--hero-p', '0');
+        copyH = copy.getBoundingClientRect().height;
+        hero.style.setProperty('--hero-copy-h', copyH + 'px');
+        run = hero.getBoundingClientRect().height - stage.getBoundingClientRect().height;
+        if (run < 1) run = 1;
+      }
+
+      function step() {
+        ticking = false;
+        /* 히어로 윗변이 화면 위로 올라간 거리 / 다 자라는 데 쓰는 길이.
+           구간 전체가 아니라 앞쪽 ZOOM 만 쓴다 — 남는 뒤쪽이 '다 자란 모습'을
+           잠시 머무르게 하는 자리다. 구간을 다 쓰면 p 가 1 이 되는 순간 무대가
+           sticky 를 놓고 올라가 버려 꽉 찬 모습을 볼 틈이 없다. */
+        var passed = -hero.getBoundingClientRect().top;
+        var p = passed / (run * ZOOM);
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        hero.style.setProperty('--hero-p', p.toFixed(4));
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(step);
+      }
+
+      measure();
+      step();
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', function () { measure(); step(); }, { passive: true });
+      // 글꼴이 늦게 와서 카피 높이가 바뀌면 다시 잰다.
+      if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { measure(); step(); });
+    }
+
+    if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start);
+    else start();
+  })();
+</script>

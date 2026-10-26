@@ -8,6 +8,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import { legal } from '../data/legal';
 import { heroCards } from '../data/heroMarkers';
 import ScrollReveal from '../components/ScrollReveal.astro';
+import HeroZoom from '../components/HeroZoom.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -73,24 +74,27 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 <!-- HERO -->
 <main id="main">
 <section id="hero">
-  <div class="container">
-    <h1><span class="hero-title-accent">Industrial AI OS</span></h1>
-    <div class="hero-row">
-      <div class="hero-text">
-        <p>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 <br class="mobile-br">지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, <br class="mobile-br">자율 운전까지 <br class="hero-mid-br">모든 운영 의사결정을 지원합니다.</p>
+  <HeroZoom />
+  <div class="hero-stage">
+    <div class="container">
+      <h1><span class="hero-title-accent">Industrial AI OS</span></h1>
+      <div class="hero-row">
+        <div class="hero-text">
+          <p>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 <br class="mobile-br">지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, <br class="mobile-br">자율 운전까지 <br class="hero-mid-br">모든 운영 의사결정을 지원합니다.</p>
+        </div>
       </div>
-    </div>
 
-  </div>
-  <div class="hero-motion-placeholder">
-    {/* VETEC 히어로 그래픽. 쓰는 법·옵션은 public/hero/README.md 가 쥔다 —
-        마커 문구·좌표는 public/hero/vetec-hero.js 맨 위 MARKERS 다.
-        .vh 는 기본으로 화면 높이를 차지하므로, 칸에 맞게 --vh-height 를 넘겨 쓴다
-        (src/styles/global.css). 스크립트가 안 돌면 static 이 대신 보인다. */}
-    <section class="vh no-js" data-vetec-hero data-assets="/hero/assets/"
-      data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="베텍 산업현장 디지털 트윈">
-      <img class="vh-static" src="/hero/assets/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
-    </section>
+    </div>
+    <div class="hero-motion-placeholder">
+      {/* VETEC 히어로 그래픽. 쓰는 법·옵션은 public/hero/README.md 가 쥔다 —
+          마커 문구·좌표는 public/hero/vetec-hero.js 맨 위 MARKERS 다.
+          .vh 는 기본으로 화면 높이를 차지하므로, 칸에 맞게 --vh-height 를 넘겨 쓴다
+          (src/styles/global.css). 스크립트가 안 돌면 static 이 대신 보인다. */}
+      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets/"
+        data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="베텍 산업현장 디지털 트윈">
+        <img class="vh-static" src="/hero/assets/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
+      </section>
+    </div>
   </div>
   
   <script is:inline src="/hero/vetec-hero.js" defer></script>

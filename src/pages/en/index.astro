@@ -8,6 +8,7 @@ import Footer from '../../components/Footer.astro';
 import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
 import ScrollReveal from '../../components/ScrollReveal.astro';
+import HeroZoom from '../../components/HeroZoom.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -53,24 +54,27 @@ const jsonLd = [orgSchema, websiteSchema];
 <!-- HERO -->
 <main id="main">
 <section id="hero">
-  <div class="container">
-    <h1><span class="hero-title-accent">Industrial AI OS</span></h1>
-    <div class="hero-row">
-      <div class="hero-text">
-        <p>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+  <HeroZoom />
+  <div class="hero-stage">
+    <div class="container">
+      <h1><span class="hero-title-accent">Industrial AI OS</span></h1>
+      <div class="hero-row">
+        <div class="hero-text">
+          <p>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+       </div>
      </div>
-   </div>
 
-   </div>
-  <div class="hero-motion-placeholder">
-    {/* VETEC hero graphic — usage and options live in public/hero/README.md.
-        Marker copy and coordinates are in MARKERS at the top of public/hero/vetec-hero.js.
-        .vh defaults to viewport height, so global.css hands it a --vh-height that fits
-        the box. Without JS the static image shows instead. */}
-    <section class="vh no-js" data-vetec-hero data-assets="/hero/assets/"
-      data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="VETEC industrial site digital twin">
-      <img class="vh-static" src="/hero/assets/static.webp" alt="Digital twin graphic: an air compressor, air receiver tank and pump-motor skid on a site set in mountain terrain">
-    </section>
+     </div>
+    <div class="hero-motion-placeholder">
+      {/* VETEC hero graphic — usage and options live in public/hero/README.md.
+          Marker copy and coordinates are in MARKERS at the top of public/hero/vetec-hero.js.
+          .vh defaults to viewport height, so global.css hands it a --vh-height that fits
+          the box. Without JS the static image shows instead. */}
+      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets/"
+        data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="VETEC industrial site digital twin">
+        <img class="vh-static" src="/hero/assets/static.webp" alt="Digital twin graphic: an air compressor, air receiver tank and pump-motor skid on a site set in mountain terrain">
+      </section>
+    </div>
   </div>
   
   <script is:inline src="/hero/vetec-hero.js" defer></script>
