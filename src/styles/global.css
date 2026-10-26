@@ -238,7 +238,7 @@
        커진다 — 그 진행도는 HeroZoom 컴포넌트가 --hero-p 로 넘긴다.
        구간 길이(100vh + --hero-run)만큼 다음 섹션이 늦게 올라온다. */
     #hero {
-      --hero-run: 90vh;
+      --hero-run: 150vh;
       height: calc(100vh + var(--hero-run));
       background: none;
       text-align: left;
