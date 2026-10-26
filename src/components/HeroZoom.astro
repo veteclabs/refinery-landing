@@ -38,6 +38,16 @@
   .hero-motion-placeholder .vh-marker {
     opacity: calc((var(--hero-p, 0) - 0.25) * 2.2);
   }
+  /* ⚠️ .vh-head 를 포인터가 닿는 요소로 되살린다. 원본 CSS 는 마커 레이어를 통째로
+     pointer-events: none 으로 두고 .vh-pin 만 auto 로 켜는데, 카드를 여는 리스너는
+     vetec-hero.js 가 .vh-head 에 건다(pointerenter). none 인 요소에는 포인터가
+     '들어왔다'는 판정 자체가 서지 않아 — 자식인 핀이 auto 라도 — 호버로 카드가
+     열리지 않았다. 합성 이벤트로는 열리는데 실제 마우스로는 안 열리던 원인이다. */
+  .hero-motion-placeholder .vh-head { pointer-events: auto; }
+  /* 다 자라기 전에는 핀을 누르거나 올릴 수 없다 — 흐릿하게 비치는 동안 카드가 뜨면
+     그래픽을 가린다. is-grown 은 JS 가 p 를 보고 붙인다. */
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-head,
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-pin { pointer-events: none; }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder .vh-marker { opacity: 1; }
   }
@@ -90,6 +100,8 @@
         if (p < 0) p = 0;
         if (p > 1) p = 1;
         hero.style.setProperty('--hero-p', p.toFixed(4));
+        // 다 자란 뒤에야 마커를 만질 수 있다.
+        hero.classList.toggle('is-grown', p > 0.9);
       }
 
       function onScroll() {

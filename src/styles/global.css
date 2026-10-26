@@ -287,13 +287,14 @@
       overflow: hidden;
       border-radius: var(--radius);
     }
-    /* 제목(z 2)·소제목(z 2)이 그래픽 위에 얹히므로 .vh 는 그 아래 층이다.
-       pointer-events 를 끄는 건 칸 전체가 카피의 클릭을 가로채지 않게 하기 위함이다.
-       마커를 되살릴 필요는 없다 — 카드는 클릭이 아니라 호버로 열리고, 그 감지는
-       vetec-hero.js 가 document 에서 포인터를 받아 처리한다. */
+    /* 제목·소제목이 그래픽 위에 얹히므로 .vh 는 그 아래 층이다.
+       ⚠️ 여기에 pointer-events: none 을 주면 안 된다. 그 값이 .vh-head 까지 내려가
+          vetec-hero.js 가 거기 거는 pointerenter 가 죽는다 — 핀에 올려도 카드가 열리지
+          않는다(.vh-pin 만 auto 로 되살려도 소용없다. pointerenter 는 버블링하지 않아
+          핀에서 난 이벤트가 head 로 가지 않는다).
+          카피가 클릭을 가로채는 문제는 #hero .container 쪽에서 막는다. */
     .hero-motion-placeholder > .vh {
       position: relative; z-index: 1;
-      pointer-events: none;
       /* 하늘. far-cut.webp 가 하늘을 비워 둔 판이라 이 면이 그대로 하늘이 된다.
          위 ink-100(#EFF2F5)에서 아래 흰색으로 옅어진다. 구간은 칸 전체 높이다.
          ⚠️ background 를 직접 덮을 수 없다. vetec-hero.css 가
