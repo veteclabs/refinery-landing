@@ -1,0 +1,113 @@
+---
+/**
+ * 홈 전용 스크롤 등장.
+ *
+ * 섹션 헤더와 카드가 16px 아래에서 올라오며 나타난다. 한 줄에 놓인 카드는
+ * 60ms 씩 차례로 뜬다.
+ *
+ * ⚠️ 마크업은 건드리지 않는다. 선택자로 대상을 찾으므로 카드가 늘거나 줄어도
+ *    이 파일만 본다. 홈(ko·en)에만 넣는 컴포넌트라 다른 페이지에는 영향이 없다.
+ *
+ * ⚠️ 본문 맨 위에 놓는다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+ *    섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. 늦으면 보였다가
+ *    사라지는 깜빡임이 난다.
+ */
+---
+
+<style is:global>
+  /* rv-on 은 스크립트가 붙인다 — JS 가 없거나 막히면 이 규칙이 아예 걸리지 않아
+     콘텐츠가 그냥 보인다. 숨기는 쪽을 기본값으로 두지 않는 이유다. */
+  .rv-on .section-header:not(.rv-done),
+  .rv-on .series-card:not(.rv-done),
+  .rv-on .industry-card:not(.rv-done),
+  .rv-on .sec-card:not(.rv-done),
+  .rv-on .faq-item:not(.rv-done) {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .55s cubic-bezier(.2, .7, .2, 1),
+                transform .55s cubic-bezier(.2, .7, .2, 1);
+  }
+  /* :not(.rv-done) 한 겹이 더 있어 .rv-in 쪽 특이도가 위를 이긴다. */
+  .rv-on .section-header.rv-in:not(.rv-done),
+  .rv-on .series-card.rv-in:not(.rv-done),
+  .rv-on .industry-card.rv-in:not(.rv-done),
+  .rv-on .sec-card.rv-in:not(.rv-done),
+  .rv-on .faq-item.rv-in:not(.rv-done) {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var d = document, root = d.documentElement;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    root.classList.add('rv-on');
+    // start() 가 끝내 돌지 않더라도 콘텐츠는 보여야 한다.
+    var guard = setTimeout(function () { root.classList.remove('rv-on'); }, 4000);
+
+    function start() {
+      clearTimeout(guard);
+      var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item';
+      var nodes = d.querySelectorAll(SEL);
+      if (!nodes.length) { root.classList.remove('rv-on'); return; }
+
+      /* ⚠️ IntersectionObserver 를 쓰지 않는다. 두 가지가 걸렸다.
+         1. overflow 가 걸린 조상은 교차 판정 자체를 자른다. #platform 의 카드 줄은
+            .series-viewport(overflow hidden) 안에서 가로로 흐르는 캐러셀이라,
+            오른쪽으로 넘어간 카드는 아무리 스크롤해도 교차하지 않는다. rootMargin 은
+            root(뷰포트)에만 먹어서 이걸 못 푼다.
+         2. 빠르게 스크롤하면 교차 상태 변화가 한 프레임에 합쳐져 콜백을 놓친다.
+            실측에서 37개 중 4개가 그렇게 빠졌다.
+         둘 다 '콘텐츠가 영영 안 보인다'로 끝나는 실패다. 프레임마다 제 위치를 직접
+         재는 쪽이 빠뜨리지 않는다 — 목록이 수십 개뿐이라 비용도 눈에 띄지 않는다. */
+      var pending = [];
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        // 같은 줄에 놓인 형제 중 몇 번째인지로 지연을 준다.
+        var k = 0;
+        for (var c = n.previousElementSibling; c; c = c.previousElementSibling) {
+          if (c.matches && c.matches(SEL)) k++;
+        }
+        if (k) n.style.transitionDelay = Math.min(k, 7) * 60 + 'ms';
+        // 다 뜨고 나면 reveal 규칙을 통째로 벗는다 — 안 그러면 여기서 건 transition 과
+        // 지연이 카드 제 호버 효과까지 늦춘다.
+        n.addEventListener('transitionend', function () {
+          this.style.transitionDelay = '';
+          this.classList.add('rv-done');
+        }, { once: true });
+        pending.push(n);
+      }
+
+      // 화면 아래 12% 에 걸친 것은 아직 두고, 그 위로 올라온 것부터 켠다.
+      function sweep() {
+        var line = (window.innerHeight || root.clientHeight) * 0.88;
+        for (var j = pending.length - 1; j >= 0; j--) {
+          if (pending[j].getBoundingClientRect().top < line) {
+            pending[j].classList.add('rv-in');
+            pending.splice(j, 1);
+          }
+        }
+        if (!pending.length) {
+          removeEventListener('scroll', onScroll);
+          removeEventListener('resize', onScroll);
+        }
+      }
+
+      var ticking = false;
+      function onScroll() {
+        if (ticking || !pending.length) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; sweep(); });
+      }
+
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll, { passive: true });
+      sweep();
+    }
+
+    if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start);
+    else start();
+  })();
+</script>
