@@ -271,7 +271,7 @@
          카피의 폭이다 — .hero-motion-placeholder 와 같은 계산이다. */
       max-width: calc(1600px - var(--hero-gap) * 2);
       margin-inline: auto;
-      padding: clamp(24px, 3.2vw, 52px) 0 0;
+      padding: clamp(12px, 1.8vw, 32px) 0 0;
       /* 그래픽이 자라 카피 자리까지 올라오므로 한 층 위에 둔다. */
       z-index: 2;
       pointer-events: none;
