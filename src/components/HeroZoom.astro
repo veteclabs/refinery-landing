@@ -49,6 +49,14 @@
         hero.style.setProperty('--hero-copy-h', copyH + 'px');
         run = hero.getBoundingClientRect().height - stage.getBoundingClientRect().height;
         if (run < 1) run = 1;
+        /* 멈춰 있을 때 무대 바닥을 칸 바닥에 맞추는 값. 칸이 무대보다 낮으므로
+           그 차이의 절반만큼 위로 올리면 아래가 딱 떨어진다. */
+        var boxEl = hero.querySelector('.hero-motion-placeholder');
+        var stageEl = hero.querySelector('.vh-stage');
+        if (boxEl && stageEl) {
+          var gap = stageEl.getBoundingClientRect().height - boxEl.getBoundingClientRect().height;
+          hero.style.setProperty('--hero-art-y0', (gap > 0 ? -gap / 2 : 60).toFixed(0) + 'px');
+        }
       }
 
       function step() {

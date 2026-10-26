@@ -311,7 +311,14 @@
          vetec-hero.js 는 .vh-scene 에만 inline transform 을 쓰고 무대에는
          --vh-s 변수만 넘기므로, 여기서 무대 transform 을 덮어도 부딪히지 않는다. */
       --hero-art-scale: 1;
-      --hero-art-y: 60px;
+      /* 무대를 세로로 어디에 둘지. 다 자란 자리에서는 60px(조금 아래), 멈춰 있을
+         때는 --hero-art-y0 — 칸 바닥에 무대 바닥을 맞추는 값으로, JS 가 칸과 무대
+         높이를 재어 넣는다. 칸이 낮은 동안 그래픽 하단(설비·지면)이 보이게 하려는
+         것이다. 기본값을 60px 로 둬서 JS 가 없으면 지금까지와 같이 선다. */
+      --hero-art-y: calc(
+        var(--hero-art-y0, 60px)
+        + (60px - var(--hero-art-y0, 60px)) * var(--hero-p, 0)
+      );
     }
     /* ⚠️ 선택자에 #hero 를 붙여 특이도를 올려 둔다. 한때 `#hero p`(1,0,1)가
        `.hero-motion-placeholder .vh-card__desc`(0,2,0)를 이겨 카드 본문이 히어로
