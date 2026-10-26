@@ -393,7 +393,7 @@
     }
     #hero h1 {
       margin-bottom: 35px;
-      font-size: clamp(44px, 6.4vw, 80px);
+      font-size: clamp(36px, 5.2vw, 64px);
       /* 제목·소제목은 내용 너비 왼쪽 끝에 세운다. */
       text-align: left;
       font-weight: 600;
@@ -445,7 +445,7 @@
          최대치(여기 min 의 첫 값)만 clamp 의 최소와 맞추면 된다. 경계도 그 값이
          나오는 폭으로 올린다 — 480px 에서 13.2vw - 7 = 56.4 라 min 은 56px 을
          내주고 clamp 최소와 이어진다. */
-      #hero h1 { font-size: min(44px, calc(13.2vw - 7px)); }
+      #hero h1 { font-size: min(36px, calc(13.2vw - 7px)); }
     }
 
     @keyframes scrollBounce {
