@@ -340,15 +340,29 @@ const jsonLd = [orgSchema, websiteSchema];
         z-index: 2; pointer-events: none;
       }
     }
-    #platform .platform-graphic-img {
+    /* 왼쪽은 카드 칸, 오른쪽은 그래픽. 그래픽(1200×1200 정사각형)이 폭만큼 높아져
+       행 높이를 정하고, 카드 칸은 그 높이 안에서 세로로 넘긴다. */
+    #platform .platform-split {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 64px;
       margin-top: 64px;
+    }
+    #platform .platform-split__cards {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+    }
+    #platform .platform-graphic-img {
+      margin-top: 0;
     }
     #platform .series-nav-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-top: 48px;
+      margin-top: 24px;
     }
     #platform .series-progress {
       width: 120px;
@@ -395,24 +409,29 @@ const jsonLd = [orgSchema, websiteSchema];
     /* 쉐브론 화살표는 기하학적으로는 중앙이지만, 뾰족한 끝과 벌어진 두 선의 무게중심이
        달라 눈으로 보면 한쪽으로 치우쳐 보인다 - 시각적으로 가운데처럼 보이도록 미세 보정 */
     #platform .series-prev svg {
-      transform: translateX(-1px);
+      transform: translateY(-1px);
     }
     #platform .series-next svg {
-      transform: translateX(1px);
+      transform: translateY(1px);
     }
+    /* ⚠️ flex-basis 가 0 이라야 안의 카드가 칸 높이를 밀지 못한다. auto 로 두면
+       카드 7장 높이가 그대로 행 높이가 되어 그래픽이 따라 늘어난다. */
     #platform .series-viewport {
+      flex: 1 1 0;
+      min-height: 0;
       overflow: hidden;
-      margin: 16px 0 0;
-      padding: 0 0 4px;
+      margin: 0;
+      padding: 0;
     }
     #platform .series-slider {
       display: flex;
+      flex-direction: column;
       gap: 16px;
       transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
       will-change: transform;
     }
     #platform .series-card {
-      flex: 0 0 300px;
+      flex: 0 0 auto;
       background: #111316;
       border: 1px solid #272B32;
       border-radius: var(--radius);
@@ -472,31 +491,23 @@ const jsonLd = [orgSchema, websiteSchema];
         min-width: 680px;
         max-width: none;
       }
-      #platform .series-viewport {
-        margin: 16px 0 0;
-        padding: 0 0 4px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+      /* 두 단을 한 단으로 쌓는다. 카드 칸은 더 이상 그래픽 높이를 따라갈 수 없어
+         보이는 장수를 높이로 직접 정한다. */
+      #platform .platform-split {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 40px;
       }
-      #platform .series-viewport::-webkit-scrollbar { display: none; }
-      /* 카드는 왼쪽 면에 맞춰 선다 — 중간에 걸친 자리에서 멈추지 않는다.
-         끄는 동안에는 스냅을 풀어야 손을 따라 매끄럽게 움직인다. */
-      #platform .series-viewport { scroll-snap-type: x mandatory; }
-      #platform .series-card { scroll-snap-align: start; }
-      #platform .series-viewport.is-dragging { scroll-snap-type: none; }
+      #platform .series-viewport {
+        flex: 0 0 auto;
+        height: 520px;
+      }
       /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
-      #platform .series-viewport,
       #platform .platform-graphic-wrap { cursor: grab; }
-      #platform .series-viewport.is-dragging,
       #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
       /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
       #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
-
       #platform .series-card {
-        flex: 0 0 80vw;
-        max-width: 300px;
         padding: 20px;
       }
       #platform .series-icon {
@@ -583,87 +594,46 @@ const jsonLd = [orgSchema, websiteSchema];
         var nextBtn = document.querySelector('#platform .series-next');
         if (!viewport || !slider || !prevBtn || !nextBtn) return;
         var index = 0;
-        function cardStep() {
-          var card = slider.querySelector('.series-card');
-          if (!card) return 316;
-          var gap = parseFloat(getComputedStyle(slider).columnGap || 16);
-          return card.getBoundingClientRect().width + gap;
+        /* 카드 높이는 글 길이에 따라 제각각이라 '한 칸'을 하나의 상수로 둘 수 없다.
+           첫 카드로부터의 실제 거리를 그때그때 잰다. transform 이 걸려 있어도 카드끼리의
+           거리는 그대로라 rect 차이로 구하면 맞다. */
+        function cards() { return slider.querySelectorAll('.series-card'); }
+        function cardTop(i) {
+          var cs = cards();
+          if (!cs.length) return 0;
+          if (i < 0) i = 0;
+          if (i > cs.length - 1) i = cs.length - 1;
+          return cs[i].getBoundingClientRect().top - cs[0].getBoundingClientRect().top;
         }
-        /* 좌우 잘리는 카드(peek)가 동일한 크기로 보이도록, 가운데 3장이 꽉 차고
-           남는 여백만큼을 뷰포트 좌우 패딩(peek)으로 분배한다.
-           단, 첫 카드는 좌측 끝에 정확히 붙고 마지막 카드는 우측 끝에 정확히 붙도록
-           경계(처음/끝)에서는 해당 방향 패딩을 0으로 만든다. */
-        function computePeek() {
-          var card = slider.querySelector('.series-card');
-          if (!card || window.innerWidth <= 900) return 0;
-          var gap = parseFloat(getComputedStyle(slider).columnGap || 16);
-          var cardWidth = card.getBoundingClientRect().width;
-          var vpWidth = viewport.getBoundingClientRect().width;
-          var targetCount = 3;
-          var peek = (vpWidth - targetCount * cardWidth - (targetCount - 1) * gap) / 2;
-          return peek < 16 ? 16 : peek;
+        function maxOffset() {
+          return Math.max(0, slider.scrollHeight - viewport.clientHeight);
         }
-        function maxIndex(peek) {
-          var step = cardStep();
-          var maxScrollBase = Math.max(0, slider.scrollWidth - viewport.clientWidth);
-          return Math.ceil((peek + maxScrollBase) / step);
-        }
-        function isMobile() { return window.innerWidth <= 900; }
-        function updateMobileUI() {
-          var maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-          var scrollLeft = viewport.scrollLeft;
-          prevBtn.disabled = scrollLeft <= 2;
-          nextBtn.disabled = scrollLeft >= maxScroll - 2;
-          var fill = document.querySelector('#platform .series-progress-fill');
-          if (fill) {
-            var pct = maxScroll > 0 ? ((scrollLeft / maxScroll) * 80 + 20) : 100;
-            fill.style.width = pct + '%';
-          }
+        // 마지막 카드가 칸 바닥에 닿는 첫 자리까지만 넘긴다 — 그 뒤로는 빈 자리만 남는다.
+        function maxIndex() {
+          var cs = cards(), mo = maxOffset();
+          for (var i = 0; i < cs.length; i++) if (cardTop(i) >= mo - 1) return i;
+          return Math.max(0, cs.length - 1);
         }
         function update() {
-          // 모바일: 네이티브 가로 스크롤(스와이프)로 카드가 움직이므로,
-          // JS 트랜스폼 기반 위치 계산을 하지 않고 스크롤 위치 기준으로만 UI(진행바/버튼)를 갱신한다.
-          if (isMobile()) {
-            slider.style.transform = '';
-            viewport.style.paddingLeft = '';
-            viewport.style.paddingRight = '';
-            updateMobileUI();
-            return;
-          }
-          var peek = computePeek();
-          var mi = maxIndex(peek);
+          var mi = maxIndex();
           if (index > mi) index = mi;
           if (index < 0) index = 0;
-          var padLeft = (index === 0) ? 0 : peek;
-          viewport.style.paddingLeft = padLeft + 'px';
-          viewport.style.paddingRight = peek + 'px';
-          var maxScrollBase = Math.max(0, slider.scrollWidth - viewport.clientWidth);
-          var offset = Math.min(index * cardStep(), padLeft + maxScrollBase);
-          slider.style.transform = 'translateX(-' + offset + 'px)';
+          /* 마지막 자리에서는 칸 바닥에 붙인다. 카드 높이가 제각각이라 마지막 카드의
+             윗변까지 가는 것만으로는 아랫단이 칸 밖에 남는다(실측 53.6px). */
+          var offset = (index >= mi) ? maxOffset() : Math.min(cardTop(index), maxOffset());
+          slider.style.transform = 'translateY(-' + offset + 'px)';
           prevBtn.disabled = index <= 0;
           nextBtn.disabled = index >= mi;
           var fill = document.querySelector('#platform .series-progress-fill');
           if (fill) { var pct = mi > 0 ? ((index / mi) * 80 + 20) : 100; fill.style.width = pct + '%'; }
         }
-        prevBtn.addEventListener('click', function() {
-          if (isMobile()) { viewport.scrollBy({ left: -cardStep(), behavior: 'smooth' }); return; }
-          index -= 1; update();
-        });
-        nextBtn.addEventListener('click', function() {
-          if (isMobile()) { viewport.scrollBy({ left: cardStep(), behavior: 'smooth' }); return; }
-          index += 1; update();
-        });
-        enableDragScroll(viewport, isNarrow);
+        prevBtn.addEventListener('click', function() { index -= 1; update(); });
+        nextBtn.addEventListener('click', function() { index += 1; update(); });
+
         var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
         if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
 
         window.addEventListener('resize', update);
-        var mobileScrollRaf = null;
-        viewport.addEventListener('scroll', function() {
-          if (!isMobile()) return;
-          if (mobileScrollRaf) return;
-          mobileScrollRaf = requestAnimationFrame(function() { mobileScrollRaf = null; updateMobileUI(); });
-        }, { passive: true });
         update();
       }
       function initAll() { initSeriesSlider(); initIntegrationsDrag(); }
@@ -777,64 +747,68 @@ const jsonLd = [orgSchema, websiteSchema];
         <p>Field data is connected and, through an ontology,<br>given meaning that leads to AI-driven decisions.</p>
      </div>
    </div>
-    <div class="platform-graphic-wrap">
-      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
-   </div>
-    <div class="series-nav-row">
-      <div class="series-progress"><div class="series-progress-fill"></div></div>
-      <div class="series-nav-btns">
-        <button type="button" class="series-nav-btn series-prev" aria-label="Previous">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="series-nav-btn series-next" aria-label="Next">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+    <div class="platform-split">
+      <div class="platform-split__cards">
+        <div class="series-viewport">
+          <div class="series-slider">
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
+            <h3>Industrial data integration</h3>
+            <p class="series-desc">Gathering data scattered across your systems in one place is the first step.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
+            <div class="series-tagline">Ontology</div>
+            <h3>Data with meaning attached</h3>
+            <p class="series-desc">Every scattered number and record is given meaning: what the data is about.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
+            <div class="series-tagline">Workflow</div>
+            <h3>Operating procedures designed through conversation</h3>
+            <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
+            <div class="series-tagline">Plate</div>
+            <h3>The field on one dashboard</h3>
+            <p class="series-desc">Real-time KPIs, status and alarms<br>can all be checked on one screen.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
+            <div class="series-tagline">Lens</div>
+            <h3>Analysis that finds causes and looks ahead</h3>
+            <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
+            <div class="series-tagline">AI Agent</div>
+            <h3>A field run by one question</h3>
+            <p class="series-desc">Ask, and it answers from your data<br>and suggests the next action.</p>
+         </div>
+          <div class="series-card">
+            <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
+            <h3>Automation that runs the site without people</h3>
+            <p class="series-desc">Analysis flows into reports, alarms and workflow execution, with no manual steps.</p>
+         </div>
+         </div>
+       </div>
+        <div class="series-nav-row">
+          <div class="series-progress"><div class="series-progress-fill"></div></div>
+          <div class="series-nav-btns">
+            <button type="button" class="series-nav-btn series-prev" aria-label="Previous">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="series-nav-btn series-next" aria-label="Next">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+         </div>
+       </div>
+      </div>
+      <div class="platform-graphic-wrap">
+        <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
      </div>
-   </div>
-    <div class="series-viewport">
-      <div class="series-slider">
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
-        <h3>Industrial data integration</h3>
-        <p class="series-desc">Gathering data scattered across your systems in one place is the first step.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
-        <div class="series-tagline">Ontology</div>
-        <h3>Data with meaning attached</h3>
-        <p class="series-desc">Every scattered number and record is given meaning: what the data is about.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
-        <div class="series-tagline">Workflow</div>
-        <h3>Operating procedures designed through conversation</h3>
-        <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
-        <div class="series-tagline">Plate</div>
-        <h3>The field on one dashboard</h3>
-        <p class="series-desc">Real-time KPIs, status and alarms<br>can all be checked on one screen.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
-        <div class="series-tagline">Lens</div>
-        <h3>Analysis that finds causes and looks ahead</h3>
-        <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
-        <div class="series-tagline">AI Agent</div>
-        <h3>A field run by one question</h3>
-        <p class="series-desc">Ask, and it answers from your data<br>and suggests the next action.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
-        <h3>Automation that runs the site without people</h3>
-        <p class="series-desc">Analysis flows into reports, alarms and workflow execution, with no manual steps.</p>
-     </div>
-     </div>
-   </div>
+    </div>
  </div>
 </section>
 
