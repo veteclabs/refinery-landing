@@ -28,15 +28,19 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--header-h);
   background: #ffffff;
-  transition: transform .3s cubic-bezier(.2, .7, .2, 1), opacity .3s ease;
+  transition: opacity .3s ease, visibility .3s;
 }
-/* 아래로 내려가는 동안에는 옅어지며 걷히고, 위로 올리면 바로 돌아온다(클래스는 JS 가 건다).
-   걷히는 동안에는 클릭도 받지 않는다 — opacity 만으로는 투명해진 채 그대로 눌린다.
+/* 아래로 내려가는 동안에는 제자리에서 옅어져 사라지고, 위로 올리면 돌아온다
+   (클래스는 JS 가 건다).
+   ⚠️ 위로 걷는 transform 은 쓰지 않는다. 같은 0.3초에 70px 을 올리면 '위로 사라진다'로만
+      보이고 옅어지는 것이 묻힌다.
+   visibility 와 pointer-events 를 함께 끈다 — opacity 만으로는 투명해진 채 그대로 눌리고
+   읽기 도구에도 남는다.
    움직임을 줄이는 설정에서는 걸지 않는다 — 헤더가 사라지는 것 자체가 움직임이다. */
-.mm-nav.is-away { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.mm-nav.is-away { opacity: 0; visibility: hidden; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   .mm-nav { transition: none; }
-  .mm-nav.is-away { transform: none; opacity: 1; pointer-events: auto; }
+  .mm-nav.is-away { opacity: 1; visibility: visible; pointer-events: auto; }
 }
 
 /* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
