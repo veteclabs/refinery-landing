@@ -311,14 +311,7 @@
          vetec-hero.js 는 .vh-scene 에만 inline transform 을 쓰고 무대에는
          --vh-s 변수만 넘기므로, 여기서 무대 transform 을 덮어도 부딪히지 않는다. */
       --hero-art-scale: 1;
-      /* 무대를 세로로 어디에 둘지. 다 자란 자리에서는 60px(조금 아래), 멈춰 있을
-         때는 --hero-art-y0 — 칸 바닥에 무대 바닥을 맞추는 값으로, JS 가 칸과 무대
-         높이를 재어 넣는다. 칸이 낮은 동안 그래픽 하단(설비·지면)이 보이게 하려는
-         것이다. 기본값을 60px 로 둬서 JS 가 없으면 지금까지와 같이 선다. */
-      --hero-art-y: calc(
-        var(--hero-art-y0, 60px)
-        + (60px - var(--hero-art-y0, 60px)) * var(--hero-p, 0)
-      );
+      --hero-art-y: 60px;
     }
     /* ⚠️ 선택자에 #hero 를 붙여 특이도를 올려 둔다. 한때 `#hero p`(1,0,1)가
        `.hero-motion-placeholder .vh-card__desc`(0,2,0)를 이겨 카드 본문이 히어로
@@ -377,8 +370,16 @@
     /* .vh 는 제 기본값이 min(100vh, 56.25vw) 라 칸보다 커진다. 칸을 그대로 채우게
        높이를 넘기고 min-height(420px)도 푼다 — 좁은 화면에서 칸 밖으로 비어져 나온다.
        radius 를 한 번 더 주는 건 .vh 가 overflow:hidden 으로 제 자식을 자르기 때문이다. */
+    /* ⚠️ 높이를 칸(100%)에 맞추지 않는다. 칸이 낮으면 그래픽까지 작아져 다 자란
+       모습과 배율도 잘리는 방향도 달라진다(폭 기준 ↔ 높이 기준).
+       다 자란 칸 높이(--hero-full-h, JS 가 재어 넣는다)로 고정하고 칸 바닥에 붙이면,
+       낮은 동안에는 위가 잘려 다 자란 모습의 아랫부분이 그대로 미리 보인다. */
     .hero-motion-placeholder > .vh {
-      --vh-height: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      --vh-height: var(--hero-full-h, 100%);
       min-height: 0;
       border-radius: inherit;
     }

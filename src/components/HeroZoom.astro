@@ -50,16 +50,16 @@
         hero.style.setProperty('--hero-p', '0');
         copyH = copy.getBoundingClientRect().height;
         hero.style.setProperty('--hero-copy-h', copyH + 'px');
-        run = hero.getBoundingClientRect().height - stage.getBoundingClientRect().height;
+        var sr = stage.getBoundingClientRect();
+        run = hero.getBoundingClientRect().height - sr.height;
         if (run < 1) run = 1;
-        /* 멈춰 있을 때 무대 바닥을 칸 바닥에 맞추는 값. 칸이 무대보다 낮으므로
-           그 차이의 절반만큼 위로 올리면 아래가 딱 떨어진다. */
-        var boxEl = hero.querySelector('.hero-motion-placeholder');
-        var stageEl = hero.querySelector('.vh-stage');
-        if (boxEl && stageEl) {
-          var gap = stageEl.getBoundingClientRect().height - boxEl.getBoundingClientRect().height;
-          hero.style.setProperty('--hero-art-y0', (gap > 0 ? -gap / 2 : 60).toFixed(0) + 'px');
-        }
+        /* 다 자란 자리에서 칸이 갖게 될 높이. 그래픽을 늘 이 높이로 그려 두면 칸이
+           낮은 동안에도 배율이 같아, 보이는 것이 다 자란 모습의 아랫부분이 된다.
+           무대 높이에서 헤더와 아래 여백(--hero-edge)을 뺀 값이다. */
+        var cs = getComputedStyle(hero);
+        var headerH = parseFloat(cs.getPropertyValue('--header-h')) || 70;
+        var edge = parseFloat(cs.getPropertyValue('--hero-edge')) || 16;
+        hero.style.setProperty('--hero-full-h', (sr.height - headerH - edge).toFixed(0) + 'px');
       }
 
       function step() {
