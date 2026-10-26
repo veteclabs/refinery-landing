@@ -8,13 +8,23 @@
  */
 import { industriesEn } from '../data/industries/en';
 
+interface Props {
+  /** 'en' 이면 영문 홈용 고정 문구를 쓴다. 기본은 국문. */
+  locale?: 'ko' | 'en';
+}
+const { locale = 'ko' } = Astro.props;
+
 const names = industriesEn.map((i) => i.name);
+// 개수는 레지스트리에서 센다 — 산업이 늘면 문구의 숫자도 따라 바뀐다.
+const lead = locale === 'en'
+  ? `Across ${names.length} industries —`
+  : `${names.length}개 산업 현장에서 —`;
 // 타이핑으로 글자 수가 오락가락해도 칸 폭이 흔들리지 않게, 가장 긴 이름으로 자리를 잡아 둔다.
 const widest = names.reduce((a, b) => (b.length > a.length ? b : a), names[0]);
 ---
 
 <p class="hero-for" data-hero-for={JSON.stringify(names)}>
-  <span class="hero-for__fixed">Refinery for</span>{' '}
+  <span class="hero-for__fixed">{lead}</span>{' '}
   <span class="hero-for__slot">
     {/* 스크린 리더에는 한 줄만 읽힌다 — 일곱 개를 연달아 읽으면 문장이 깨진다.
         눈으로 보는 쪽은 아래 .hero-for__out 이 맡는다. */}
