@@ -569,15 +569,16 @@
        높아진다(660px 영문에서 342 / 321 / 321 / 321). 카드 안에서 본문이 flex: 1 로
        남는 높이를 먹으므로 두 줄짜리 카드도 줄 수는 그대로인 채 높이와 화살표 자리만
        세 줄 카드에 맞춰진다. 모든 카드가 두 줄인 폭에서는 아무것도 바뀌지 않는다. */
-    .industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 18px; }
-    /* 3열은 1280px 위에서만 쓴다. 컨테이너 max-width가 1280이라 그 위에서는
-       카드가 383px로 고정되는데, 아래로 내려가면 카드가 같이 좁아진다.
-       영문 소제목은 카드가 383px보다 좁아지는 순간부터 마지막 줄이 길어져
-       오른쪽 아래 화살표에 닿는다(1260px에서 3px, 1120px에서 26px).
-       2열로 내리면 폭이 두 배가 되어 사라진다.
-       #industries를 붙여 특이도를 올린다 — 뒤에 오는 900/600px 블록의
-       .industries-grid가 같은 특이도라 안 붙이면 그쪽이 이긴다.
-       그래서 1열 분기도 여기서 같은 특이도로 다시 잡아 준다. */
+    .industries-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 18px; }
+    /* 4 → 3 → 2 → 1열. 내용 너비가 1600px 이라 가장 넓은 화면에서 카드가 362px 로
+       선다(4열 · gap 18).
+       ⚠️ 영문 소제목은 카드가 383px 보다 좁아지면 마지막 줄이 길어져 오른쪽 아래
+          화살표에 닿는다(1260px 에서 3px, 1120px 에서 26px 모자랐다). 4열에서는 그
+          폭을 늘 밑돌므로, 영문 카피가 길어지면 이 자리부터 본다.
+       #industries를 붙여 특이도를 올린다 — 뒤에 오는 블록의 .industries-grid가
+       같은 특이도라 안 붙이면 그쪽이 이긴다. 그래서 아래 분기도 모두 같은 특이도로
+       다시 잡아 준다. */
+    @media (max-width: 1500px) { #industries .industries-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 1280px) { #industries .industries-grid { grid-template-columns: repeat(2, 1fr); } }
     /* 1열 분기는 카드 제목이 한 줄로 남는 폭에 맞춘다. 소제목은 좁아지면 두 줄에서
        세 줄이 되는데(그 하한은 영문 692px) 그건 받아들이고, 제목까지 갈리는 폭에서만
