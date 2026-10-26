@@ -404,6 +404,25 @@
          방식이라, 두 글꼴을 한 선언으로 나눠 맡긴다. */
       font-family: 'Roboto', 'Pretendard', sans-serif;
       letter-spacing: -0.03em;
+      /* ⚠️ 박스를 글자 폭에 맞춘다. 블록인 채로 두면 박스가 칸 전체(글자보다 28% 넓다)라
+         아래 그라데이션의 stop 이 글자와 어긋난다. */
+      width: fit-content;
+      /* 제목 전체를 글자색 → 브랜드색 → 글자색 으로 두른다. 밝은 자리(69%)는
+         '하나의 운영체제'(44~93%)의 한가운데다 — 양 끝의 '흩어진 현장을'과 '로'는
+         본문 글자색으로 남는다.
+         먹색과 브랜드색만 두면 그 사이가 탁한 청회색(#46637F 언저리)을 지나므로
+         44% · 93% 에 brand-700 을 세워 브랜드 계열 안에서 건너가게 한다. */
+      background: linear-gradient(
+        90deg,
+        #16202C 0%,
+        #3F76AE 44%,
+        #76A6D7 69%,
+        #3F76AE 93%,
+        #16202C 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
       color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
@@ -433,24 +452,9 @@
     @media (max-width: 900px) {
       #hero .hero-sub { font-size: 16px; }
     }
+    /* 그라데이션은 h1 이 통째로 쥔다 — 여기서는 굵기만 다르게 둔다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
-      /* 글자색(먹색) → 브랜드색 → 글자색. 가장 밝은 자리는 72% 로, '운영체제' 네
-         글자의 한가운데다('하나의 '가 0~45%, '운영체제'가 45~100% 를 차지한다).
-         ⚠️ 먹색과 브랜드색만 두면 그 사이가 탁한 청회색(#46637F 언저리)을 지난다.
-            45% · 88% 에 brand-700 을 세워 브랜드 계열 안에서 건너가게 한다. */
-      background: linear-gradient(
-        90deg,
-        #16202C 0%,
-        #3F76AE 45%,
-        #76A6D7 72%,
-        #3F76AE 88%,
-        #16202C 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
     }
     /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
        넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
