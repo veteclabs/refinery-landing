@@ -24,6 +24,15 @@
      빈다. 자라면서 남는 자리가 줄면 이 여백도 함께 사라진다. */
   #hero .container { margin-bottom: auto; }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
+
+  /* 마커(+ 원과 기둥)는 자라면서 생긴다. 멈춰 있을 때는 그래픽만 보인다.
+     p 0.25 까지는 음수라 0 으로 깎이고, 0.7 에서 다 보인다. */
+  .hero-motion-placeholder .vh-marker {
+    opacity: calc((var(--hero-p, 0) - 0.25) * 2.2);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-motion-placeholder .vh-marker { opacity: 1; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; max-height: none; }
   }
