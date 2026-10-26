@@ -365,8 +365,14 @@
     /* translate 를 scale 보다 왼쪽에 둬야 y 가 화면 픽셀 그대로 먹는다 —
        순서를 바꾸면 이동량까지 배율에 곱해진다. */
     .hero-motion-placeholder .vh-stage {
-      transform: translateY(var(--hero-art-y, 0px))
+      transform: translate(var(--hero-art-x, 0px), var(--hero-art-y, 0px))
                  scale(calc(var(--vh-s, 1) * var(--hero-art-scale, 1)));
+      /* 핀을 눌러 그 자리로 확대·이동할 때 쓰는 전환. 기울기는 .vh-scene 이 따로
+         쥐고 있어 여기 transition 과 부딪히지 않는다. */
+      transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-motion-placeholder .vh-stage { transition: none; }
     }
     /* .vh 는 제 기본값이 min(100vh, 56.25vw) 라 칸보다 커진다. 칸을 그대로 채우게
        높이를 넘기고 min-height(420px)도 푼다 — 좁은 화면에서 칸 밖으로 비어져 나온다.

@@ -84,6 +84,8 @@
       var stage = hero && hero.querySelector('.hero-stage');
       var copy = hero && hero.querySelector('.container');
       if (!hero || !stage || !copy) return;
+      var boxEl = hero.querySelector('.hero-motion-placeholder');
+      var vhEl = hero.querySelector('.hero-motion-placeholder > .vh');
 
       var ZOOM = 0.38;   // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
       var run = 0, copyH = 0, ticking = false;
@@ -130,6 +132,77 @@
         ticking = true;
         requestAnimationFrame(step);
       }
+
+      /* ── 핀을 누르면 그 자리로 확대·이동한다 ────────────────────────────────
+         무대는 translate(x, y) scale(vh-s × art-scale) 로 그려진다. 핀의 '무대 로컬
+         오프셋'(배율을 걷어낸 값)을 미리 재 두면, 배율 Z 에서 그 점을 칸 한가운데로
+         보내는 이동량이 -오프셋 × vh-s × Z 로 떨어진다.
+         --hero-art-scale 에 Z 를 넣으므로 --vh-ui 가 그만큼 역보정한다 — 그래픽만
+         커지고 핀·카드는 1:1 크기로 남는다. */
+      var ZOOM_Z = 2;
+      var BASE_Y = 60;            // global.css 의 --hero-art-y 기본값
+      var pinAt = {};             // id → 무대 로컬 오프셋
+      var zoomedId = null;
+
+      function stageScale() {
+        return parseFloat(getComputedStyle(vhEl).getPropertyValue('--vh-s')) || 1;
+      }
+
+      function measurePins() {
+        /* ⚠️ 확대 중에는 재지 않는다 — 기준이 '확대 전 자리'여야 한다.
+           핀은 vetec-hero.js 가 늦게 만들므로 여기서 한 번에 다 잡히지 않을 수 있다.
+           비어 있으면 첫 클릭 때 다시 잰다. */
+        if (!vhEl || zoomedId) return;
+        var S = stageScale();
+        /* ⚠️ 기준은 칸이 아니라 .vh 다. 무대는 .vh 한가운데에 정렬되는데, 자라기 전에는
+           .vh 가 칸보다 크고 칸 바닥에 붙어 있어 두 중심이 어긋난다 — 칸으로 재면
+           그만큼 틀어진 오프셋이 저장된다. */
+        var br = vhEl.getBoundingClientRect();
+        var bcx = (br.left + br.right) / 2, bcy = (br.top + br.bottom) / 2;
+        var ms = hero.querySelectorAll('.vh-marker');
+        for (var i = 0; i < ms.length; i++) {
+          var pin = ms[i].querySelector('.vh-pin');
+          if (!pin) continue;
+          var pr = pin.getBoundingClientRect();
+          pinAt[ms[i].getAttribute('data-id')] = {
+            x: ((pr.left + pr.right) / 2 - bcx) / S,
+            y: ((pr.top + pr.bottom) / 2 - bcy - BASE_Y) / S
+          };
+        }
+      }
+
+      function zoomTo(id) {
+        var o = pinAt[id];
+        if (!o || !vhEl) return;
+        var S = stageScale();
+        vhEl.style.setProperty('--hero-art-scale', ZOOM_Z);
+        vhEl.style.setProperty('--hero-art-x', (-o.x * S * ZOOM_Z).toFixed(1) + 'px');
+        vhEl.style.setProperty('--hero-art-y', (-o.y * S * ZOOM_Z).toFixed(1) + 'px');
+        zoomedId = id;
+      }
+
+      function zoomOut() {
+        if (!vhEl) return;
+        vhEl.style.removeProperty('--hero-art-scale');
+        vhEl.style.removeProperty('--hero-art-x');
+        vhEl.style.removeProperty('--hero-art-y');
+        zoomedId = null;
+      }
+
+      d.addEventListener('click', function (e) {
+        var pin = e.target.closest && e.target.closest('#hero .vh-pin');
+        if (pin) {
+          var id = pin.closest('.vh-marker').getAttribute('data-id');
+          if (zoomedId === id) { zoomOut(); return; }
+          /* 누를 때마다 다시 잰다. 핀은 vetec-hero.js 가 늦게 만들고 자리도 스크롤·
+             리사이즈를 따라 바뀌므로, 확대 전인 '지금'을 기준으로 삼아야 정확하다. */
+          if (!zoomedId) measurePins();
+          zoomTo(id);
+          return;
+        }
+        // 그래픽 바깥을 누르면 풀린다.
+        if (zoomedId) zoomOut();
+      });
 
       measure();
       step();
