@@ -288,12 +288,12 @@
       position: relative; z-index: 1;
       pointer-events: none;
       /* 하늘. far-cut.webp 가 하늘을 비워 둔 판이라 이 면이 그대로 하늘이 된다.
-         위 ink-100(#EFF2F5)에서 아래 흰색으로 옅어진다. 구간은 칸 전체 높이다.
+         위 #EEF4FB 에서 아래 흰색으로 옅어진다. 구간은 칸 전체 높이다.
          ⚠️ background 를 직접 덮을 수 없다. vetec-hero.css 가
             `section.vh[data-vetec-hero] { background: var(--ink-200-bg) !important }`
             로 못박아 뒀고 그쪽 특이도가 더 높다. 그 선언이 읽는 변수에 넣는다 —
             background shorthand 라 색뿐 아니라 그라데이션도 받는다. */
-      --ink-200-bg: linear-gradient(180deg, #EFF2F5 0%, #FFFFFF 100%);
+      --ink-200-bg: linear-gradient(180deg, #EEF4FB 0%, #FFFFFF 100%);
       /* 핀 · 카드를 화면 픽셀 1:1 로 그린다. 그래픽은 무대를 --vh-s(약 0.62)로 줄이고
          그 위에 --vh-ui(0.9/s)를 곱해 0.9배로 되돌리는데, 비정수 배율이라 카드 글자가
          뭉개진다. 역수를 넣어 두 배율이 정확히 상쇄되게 한다 — 무대를 --hero-art-scale
