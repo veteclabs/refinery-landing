@@ -868,8 +868,10 @@
     /* CTA */
     #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
     #cta h2 { color: #fff; font-weight: 500; margin-bottom: 0; line-height: 1.35; }
-    #cta .btn-primary { color: #fff; border-color: rgba(255,255,255,0.6); padding: 9px 22px; font-size: 15px; }
-    #cta .btn-primary:hover { background: #76A6D7; border-color: #76A6D7; }
+    /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
+       면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */
+    #cta .btn-primary { color: #fff; border-color: transparent; padding: 9px 22px; font-size: 15px; }
+    #cta .btn-primary:hover { background: #5A8FC5; border-color: #5A8FC5; }
     #cta p { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 540px; margin: 30px auto 36px !important; line-height: 1.7; }
     /* 푸터는 nav-footer.css(Footer 컴포넌트 소유)가 전부 담당한다. 여기에는 없다.
        예전에는 /en 랜딩이 <footer>를 직접 써서 사본을 뒀고, 그 뒤 /en도 Footer 컴포넌트를
