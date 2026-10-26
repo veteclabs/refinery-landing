@@ -349,17 +349,17 @@
     #hero .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 0; }
     #hero .hero-motion-placeholder .vh-card__tag {
       height: auto; padding: 0; border: 0; background: transparent;
-      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      font-size: 13px; font-weight: 600; letter-spacing: 1.2px;
       /* 흰 면 위에서는 brand(#76A6D7)가 흐리다 — 한 단 짙은 brand-700 을 쓴다. */
       color: #3F76AE;
       margin-bottom: 8px;
     }
     #hero .hero-motion-placeholder .vh-card__title {
-      font-size: 16px; font-weight: 600; line-height: 1.4;
+      font-size: 20px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
     }
     #hero .hero-motion-placeholder .vh-card__desc {
-      font-size: 13px; line-height: 1.65; color: #45525C;
+      font-size: 15px; line-height: 1.65; color: #45525C;
       margin: 0;
     }
     /* translate 를 scale 보다 왼쪽에 둬야 y 가 화면 픽셀 그대로 먹는다 —
