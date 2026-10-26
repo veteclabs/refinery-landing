@@ -368,12 +368,6 @@
       font-size: 16px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
     }
-    /* 보조 한 줄은 series-card 에 없는 단이다 — 본문과 같은 활자로 두되 한 단 위에
-       붙여 제목에 딸린 줄로 읽히게 한다. */
-    #hero .hero-motion-placeholder .vh-card__en {
-      font-size: 13px; line-height: 1.65; color: var(--text-muted);
-      margin: 0 0 10px;
-    }
     #hero .hero-motion-placeholder .vh-card__desc {
       font-size: 13px; line-height: 1.65; color: #45525C;
       margin: 0;
