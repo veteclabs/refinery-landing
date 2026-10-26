@@ -435,6 +435,23 @@
        단색이라 두 줄의 무게가 갈린다. */
     /* 앞머리는 얇게 — 뒤의 accent 가 제목의 무게를 받는다. */
     #hero h1 .hero-title-lead { font-weight: 400; }
+    /* 대제목을 받는 설명 두 줄. 줄 나눔은 문장 사이 <br> 하나만 두고 나머지는
+       브라우저에 맡긴다 — 폭마다 <br> 를 박으면 실제 브라우저에서 어긋난다. */
+    #hero .hero-sub {
+      margin: 18px 0 0;
+      max-width: 960px;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-muted);
+      /* keep-all — 없으면 '품질, 에 / 너지,' 처럼 어절 중간에서 잘린다.
+         CJK 에만 듣는 값이라 영문 소제목은 그대로다. */
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    @media (max-width: 900px) {
+      #hero .hero-sub { font-size: 16px; }
+    }
     /* 그라데이션은 h1 이 통째로 쥔다 — 여기서는 굵기만 다르게 둔다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
