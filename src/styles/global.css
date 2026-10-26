@@ -414,8 +414,8 @@
     }
     /* 아랫줄만 왼쪽 ink-900 에서 오른쪽 Refined Blue 로 번진다. 윗줄(제품 이름)은
        단색이라 두 줄의 무게가 갈린다. */
-    /* 앞머리는 한 단 얇게 — 뒤의 accent 가 제목의 무게를 받는다. */
-    #hero h1 .hero-title-lead { font-weight: 500; }
+    /* 앞머리는 얇게 — 뒤의 accent 가 제목의 무게를 받는다. */
+    #hero h1 .hero-title-lead { font-weight: 400; }
     #hero h1 .hero-title-accent {
       display: inline-block;
       background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
