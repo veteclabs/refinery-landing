@@ -29,7 +29,11 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      overflow-x: hidden;
+      /* ⚠️ hidden 이 아니라 clip 이다. hidden 은 body 를 스크롤 컨테이너로 만들어
+         (overflow-y 가 auto 로 따라붙는다) 그 안의 position: sticky 가 화면 스크롤을
+         따라가지 못한다 — 히어로 무대가 39px 어긋나 아래 여백이 16 → 54.8px 로
+         벌어졌다. clip 은 스크롤 포트를 만들지 않고 넘침만 자른다. */
+      overflow-x: clip;
     }
 
     a { color: inherit; text-decoration: none; }
