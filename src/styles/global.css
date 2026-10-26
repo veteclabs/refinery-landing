@@ -359,7 +359,7 @@
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
     }
     #hero .hero-motion-placeholder .vh-card__desc {
-      font-size: 15px; line-height: 1.65; color: #45525C;
+      font-size: 15px; line-height: 1.65; color: var(--text-muted);
       margin: 0;
     }
     /* translate 를 scale 보다 왼쪽에 둬야 y 가 화면 픽셀 그대로 먹는다 —
