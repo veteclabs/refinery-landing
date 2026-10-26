@@ -423,6 +423,7 @@
          Epilogue 에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글이
          OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다. */
       font-family: 'Epilogue', 'Pretendard', sans-serif;
+      letter-spacing: -0.03em;
       color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
