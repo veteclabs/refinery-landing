@@ -353,14 +353,6 @@
       font-size: 13px; line-height: 1.65; color: #45525C;
       margin: 0;
     }
-    /* 카드가 열리면 소제목을 물린다. 카드는 무대(.vh-stage) 안에 있고 그 무대에
-       transform 이 걸려 스태킹 컨텍스트를 만들기 때문에, 카드만 소제목(z 2) 위로
-       끌어올릴 방법이 없다. 글자가 카드 위에 겹쳐 읽히지 않던 것을 이렇게 푼다. */
-    #hero .hero-row { transition: opacity .2s ease; }
-    #hero:has(.vh-marker.is-open) .hero-row { opacity: .14; }
-    @media (prefers-reduced-motion: reduce) {
-      #hero .hero-row { transition: none; }
-    }
     /* translate 를 scale 보다 왼쪽에 둬야 y 가 화면 픽셀 그대로 먹는다 —
        순서를 바꾸면 이동량까지 배율에 곱해진다. */
     .hero-motion-placeholder .vh-stage {
