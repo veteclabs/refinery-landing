@@ -9,6 +9,7 @@ import { legal } from '../data/legal';
 import { heroCards } from '../data/heroMarkers';
 import ScrollReveal from '../components/ScrollReveal.astro';
 import HeroZoom from '../components/HeroZoom.astro';
+import HeroRotator from '../components/HeroRotator.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -78,6 +79,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   <div class="hero-stage">
     <div class="container">
       <h1><span class="hero-title-lead">흩어진 현장을</span> <span class="hero-title-accent">하나의 운영체제</span>로</h1>
+      <HeroRotator />
     </div>
     <div class="hero-motion-placeholder">
       {/* VETEC 히어로 그래픽. 쓰는 법·옵션은 public/hero/README.md 가 쥔다 —

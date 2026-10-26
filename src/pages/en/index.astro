@@ -9,6 +9,7 @@ import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
 import ScrollReveal from '../../components/ScrollReveal.astro';
 import HeroZoom from '../../components/HeroZoom.astro';
+import HeroRotator from '../../components/HeroRotator.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -58,6 +59,7 @@ const jsonLd = [orgSchema, websiteSchema];
   <div class="hero-stage">
     <div class="container">
       <h1><span class="hero-title-accent">Industrial AI OS</span></h1>
+      <HeroRotator />
      </div>
     <div class="hero-motion-placeholder">
       {/* VETEC hero graphic — usage and options live in public/hero/README.md.
