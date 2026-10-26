@@ -238,6 +238,10 @@
        커진다 — 그 진행도는 HeroZoom 컴포넌트가 --hero-p 로 넘긴다.
        구간 길이(100vh + --hero-run)만큼 다음 섹션이 늦게 올라온다. */
     #hero {
+      /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
+         덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
+         130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
+      padding: 0;
       --hero-run: 150vh;
       height: calc(100vh + var(--hero-run));
       background: none;
