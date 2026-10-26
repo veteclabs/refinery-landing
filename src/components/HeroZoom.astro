@@ -18,8 +18,40 @@
     margin-top: calc(var(--hero-p, 0) * -1 * var(--hero-copy-h, 0px));
   }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
+
+  /* 그래픽은 칸 한가운데의 원에서 피어난다. p 가 0 이면 반지름도 0 이라 아무것도
+     보이지 않고(핀 셋도 함께 잘린다), 자라는 동안 원이 넓어져 전체가 드러난다.
+     --hero-r 은 원이 칸 구석까지 닿는 반지름이고 JS 가 재어 넣는다. */
+  .hero-motion-placeholder > .vh {
+    clip-path: circle(calc(var(--hero-p, 0) * var(--hero-r, 0px)) at 50% 50%);
+  }
+  /* 비어 있는 동안 가운데에 서는 + 표. 마커 핀과 같은 생김새다.
+     ⚠️ 칸의 자식이 아니라 ::after 라서 위의 clip-path 에 잘리지 않는다 —
+        clip 은 .vh 에만 걸려 있고 이 표는 칸 위에 그대로 뜬다. */
+  .hero-motion-placeholder::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: #ffffff
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="%2376A6D7" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>')
+      center / 20px 20px no-repeat;
+    border: 1.5px solid #76A6D7;
+    box-shadow: 0 2px 8px rgba(22, 32, 44, .08);
+    /* 조금만 자라도 비킨다 — 그래픽이 드러나는 자리에 겹쳐 있으면 안 된다. */
+    opacity: calc(1 - var(--hero-p, 0) * 4);
+    pointer-events: none;
+    z-index: 2;
+  }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; }
+    .hero-motion-placeholder > .vh { clip-path: none; }
+    .hero-motion-placeholder::after { display: none; }
   }
 </style>
 
@@ -44,8 +76,12 @@
         hero.style.setProperty('--hero-p', '0');
         copyH = copy.getBoundingClientRect().height;
         hero.style.setProperty('--hero-copy-h', copyH + 'px');
-        run = hero.getBoundingClientRect().height - stage.getBoundingClientRect().height;
+        var sr = stage.getBoundingClientRect();
+        run = hero.getBoundingClientRect().height - sr.height;
         if (run < 1) run = 1;
+        /* 원이 칸 구석까지 닿을 반지름. 칸은 자라면서 커지므로 다 자란 크기(무대
+           안쪽)를 기준으로 잡고 한 뼘 더 준다 — 모자라면 구석이 잘린 채 멈춘다. */
+        hero.style.setProperty('--hero-r', (Math.sqrt(sr.width * sr.width + sr.height * sr.height) / 2 * 1.1).toFixed(0) + 'px');
       }
 
       function step() {
