@@ -24,8 +24,6 @@
       var(--hero-slot-gap, 35px)
       - var(--hero-p, 0) * (var(--hero-slot-gap, 35px) + var(--hero-copy-h, 0px))
     );
-    /* 화면을 꽉 채울 때는 둥근 모서리도 편다. */
-    border-radius: calc(var(--radius) * (1 - var(--hero-p2, 0)));
     /* 상한은 화면 높이에 비례해 둔다. px 로 박으면 세로로 긴 화면에서만 남는 자리가
        상한을 크게 넘어 틈이 제멋대로 벌어진다(450px 일 때 1585×1200 에서 350px). */
     max-height: calc(62vh + 1600px * var(--hero-p, 0));
@@ -48,19 +46,13 @@
     transform-style: flat;
   }
 
-  /* 헤더는 히어로가 자라는 동안 붙들어 둔다 — 그래픽이 커지는 사이 헤더까지 사라지면
-     화면이 한꺼번에 비는 것처럼 보인다. 반대로 히어로를 빠져나가며 그래픽이 화면을
-     꽉 채울 때는 감춘다. 두 클래스는 JS 가 진행도를 보고 <html> 에 붙인다.
+  /* 헤더는 히어로에 머무는 동안 붙들어 둔다 — 그래픽이 커지는 사이 헤더까지 사라지면
+     화면이 한꺼번에 비는 것처럼 보인다. 클래스는 JS 가 진행도를 보고 <html> 에 붙이고,
      Nav 제 스크롤 규칙(.is-away)을 지우지 않고 위에서 덮는 방식이다. */
   html.hero-nav-hold .mm-nav {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-  }
-  html.hero-nav-hide .mm-nav {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
   }
 
   /* ⚠️ .vh-head 를 포인터가 닿는 요소로 되살린다. 원본 CSS 는 마커 레이어를 통째로
@@ -93,9 +85,7 @@
       var copy = hero && hero.querySelector('.container');
       if (!hero || !stage || !copy) return;
 
-      var ZOOM = 0.38;        // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
-      var FULL_FROM = 0.74;   // 이 지점부터 여백이 0 으로 줄며 화면을 꽉 채운다.
-      var FULL_TO = 0.93;     // 여기서 다 찬다 — 구간 끝까지 쓰면 꽉 찬 모습이 머물 틈이 없다.
+      var ZOOM = 0.38;   // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
       var run = 0, copyH = 0, ticking = false;
 
       /* 구간 길이는 '히어로 전체 높이 - 무대 한 화면'이다. 이 만큼을 내려가는 동안
@@ -131,17 +121,8 @@
         // 다 자란 뒤에야 마커를 만질 수 있다.
         hero.classList.toggle('is-grown', p > 0.9);
 
-        /* 2단계: 구간의 마지막 FULL_FROM 뒤부터 1 로 간다 — 머무는 자리를 지나
-           히어로를 빠져나가는 동안 여백이 0 으로 줄고 헤더가 물러난다. */
-        var q = passed / run;
-        var p2 = (q - FULL_FROM) / (FULL_TO - FULL_FROM);
-        if (p2 < 0) p2 = 0;
-        if (p2 > 1) p2 = 1;
-        hero.style.setProperty('--hero-p2', p2.toFixed(4));
-
-        var inHero = passed > -1 && q < 1.02;
-        root.classList.toggle('hero-nav-hold', inHero && p2 <= 0);
-        root.classList.toggle('hero-nav-hide', p2 > 0.12);
+        // 히어로에 머무는 동안에는 헤더를 붙들어 둔다.
+        root.classList.toggle('hero-nav-hold', passed > -1 && passed / run < 1.02);
       }
 
       function onScroll() {
