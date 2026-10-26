@@ -28,6 +28,14 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--header-h);
   background: #ffffff;
+  transition: transform .3s cubic-bezier(.2, .7, .2, 1);
+}
+/* 아래로 내려가는 동안에는 걷어 두고, 위로 올리면 바로 돌아온다(클래스는 JS 가 건다).
+   움직임을 줄이는 설정에서는 걸지 않는다 — 헤더가 사라지는 것 자체가 움직임이다. */
+.mm-nav.is-away { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) {
+  .mm-nav { transition: none; }
+  .mm-nav.is-away { transform: none; }
 }
 
 /* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
