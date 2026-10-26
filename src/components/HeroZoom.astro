@@ -38,6 +38,14 @@
   .hero-motion-placeholder .vh-marker {
     opacity: calc((var(--hero-p, 0) - 0.25) * 2.2);
   }
+  /* UI 슬라이스는 3D 를 쓰지 않는다 — 카드 글자가 평면으로 그려져야 선명하다.
+     원본의 translateZ(1px) scale(0.99933) 은 scene 안에서 앞세우려던 값인데, 이제
+     슬라이스가 scene 밖(무대 직속)이라 그 자리에 있을 이유도 없다. */
+  .hero-motion-placeholder .vh-slice--ui {
+    transform: none;
+    transform-style: flat;
+  }
+
   /* ⚠️ .vh-head 를 포인터가 닿는 요소로 되살린다. 원본 CSS 는 마커 레이어를 통째로
      pointer-events: none 으로 두고 .vh-pin 만 auto 로 켜는데, 카드를 여는 리스너는
      vetec-hero.js 가 .vh-head 에 건다(pointerenter). none 인 요소에는 포인터가

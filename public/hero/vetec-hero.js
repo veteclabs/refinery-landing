@@ -77,8 +77,13 @@
             layer(a + 'fg-contour.webp', 'vh-contour vh-fade') +
             layer(a + 'fg-glow.webp', 'vh-glow') + flow(a + 'fg-glow.webp') +
           '</div>' +
-          '<div class="vh-slice vh-slice--ui"><div class="vh-layer vh-markers">' + markers + '</div></div>' +
         '</div>' +
+        /* ⚠️ 랜딩 패치: UI 슬라이스를 .vh-scene 밖(무대 직속)에 둔다. 원본은 scene 안에
+           두고 translateZ(1px) scale(0.99933) 로 앞세우는데, 그러면 카드 글자가 3D
+           레이어 안에서 비정수 배율로 다시 샘플링돼 뭉개진다. 밖에 두면 무대의 2D
+           배율만 받고, 그건 --vh-ui 가 상쇄해 1:1 로 그려진다.
+           대신 마커는 그래픽과 함께 기울지 않는다 — 기울기가 0.01 수준이라 눈에 띄지 않는다. */
+        '<div class="vh-slice vh-slice--ui"><div class="vh-layer vh-markers">' + markers + '</div></div>' +
       '</div>';
   }
 
