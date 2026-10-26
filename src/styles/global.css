@@ -338,7 +338,7 @@
       bottom: auto;
       width: 300px;
       background: #ffffff;
-      border: 1px solid #76A6D7;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 24px;
       /* 밝은 면끼리 맞닿으면 카드가 그래픽에 묻힌다 — 옅은 그림자로 띄운다. */
