@@ -437,20 +437,10 @@
        단색이라 두 줄의 무게가 갈린다. */
     /* 앞머리는 얇게 — 뒤의 accent 가 제목의 무게를 받는다. */
     #hero h1 .hero-title-lead { font-weight: 400; }
-    /* 설명과 'Refinery for' 줄을 한 행에 놓고 양 끝으로 민다. 아래를 맞춰(flex-end)
-       설명의 마지막 줄과 'Refinery for' 가 같은 선에 선다. */
-    #hero .hero-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
     /* 대제목을 받는 설명 두 줄. 줄 나눔은 문장 사이 <br> 하나만 두고 나머지는
        브라우저에 맡긴다 — 폭마다 <br> 를 박으면 실제 브라우저에서 어긋난다. */
     #hero .hero-sub {
-      margin: 0;
+      margin: 18px 0 0;
       max-width: 960px;
       font-size: 18px;
       font-weight: 400;
