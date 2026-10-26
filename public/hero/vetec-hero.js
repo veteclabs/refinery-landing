@@ -23,7 +23,7 @@
   //    원본(운영 리포 public/hero/)을 새로 가져오면 이 패치를 다시 올려야 한다.
   var MARKERS = [
     { id: 'comp',  x: 432,  y: 735, stem: 60, side: 'right' },
-    { id: 'pump',  x: 1078, y: 697, stem: 80, side: 'right' },
+    { id: 'pump',  x: 942,  y: 640, stem: 70, side: 'right' },
     { id: 'motor', x: 1461, y: 754, stem: 60, side: 'right' }
   ];
 
