@@ -18,6 +18,8 @@
       --radius: 12px;
       /* 히어로 그래픽 칸의 상하좌우 여백 — 네 값이 같아야 해서 한 곳에 둔다. */
       --hero-gap: 48px;
+      /* 히어로 그래픽이 다 자랐을 때 화면 끝에 남기는 여백 */
+      --hero-edge: 16px;
     }
 
     html { scroll-behavior: smooth; }
@@ -246,9 +248,13 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      /* 윗변은 헤더에 바로 붙인다 — 고정 헤더(fixed)가 덮는 만큼만 내리고 여백은 두지
-         않는다. 좌우·아래만 --hero-gap 이다. */
-      padding: var(--header-h) var(--hero-gap) var(--hero-gap);
+      /* 좌우·아래 여백은 자라는 동안 --hero-gap(48px)에서 --hero-edge(16px)로 줄어
+         그래픽이 화면 끝까지 간다. 윗변은 헤더에 바로 붙인다 — 고정 헤더(fixed)가
+         덮는 만큼만 내리고 여백은 두지 않는다.
+         ⚠️ 윗변은 줄이지 않는다. 다 자란 자리에서 위로 조금만 올려도 헤더가 돌아오는데
+            헤더는 불투명 흰 면이라 그래픽 윗단을 덮는다. */
+      --hero-pad: calc(var(--hero-gap) + (var(--hero-edge) - var(--hero-gap)) * var(--hero-p, 0));
+      padding: var(--header-h) var(--hero-pad) var(--hero-pad);
       overflow: hidden;
     }
     .hero-stage > * { position: relative; z-index: 1; }
@@ -278,10 +284,14 @@
       position: relative;
       flex: 1 1 auto;
       width: 100%;
-      /* 내용 너비(1600px · 좌우 48px)에 맞춰 선다. #hero 의 패딩이 이미 --hero-gap
-         만큼 들어와 있으므로 그만큼을 뺀 값이 칸의 폭이다 — 카피를 담는
-         #hero .container 와 같은 계산이라 둘의 좌우 끝이 한 축에 선다. */
-      max-width: calc(1600px - var(--hero-gap) * 2);
+      /* 처음에는 내용 너비(1600px · 좌우 48px)에 맞춰 서고 — 카피를 담는
+         #hero .container 와 같은 계산이라 둘의 좌우 끝이 한 축에 선다 — 자라는
+         동안 무대 안쪽(100%)까지 넓어진다. 무대 패딩도 함께 줄어 화면 끝에서
+         --hero-edge 만 남는다. */
+      max-width: calc(
+        (1600px - var(--hero-gap) * 2)
+        + (100% - (1600px - var(--hero-gap) * 2)) * var(--hero-p, 0)
+      );
       margin-inline: auto;
       overflow: hidden;
       border-radius: var(--radius);
