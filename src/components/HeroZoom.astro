@@ -142,6 +142,7 @@
       var ZOOM_Z = 1.08;
       var BASE_Y = 60;            // global.css 의 --hero-art-y 기본값
       var pinAt = {};             // id → 무대 로컬 오프셋
+      var pinRoom = null;         // 확대로 생기는 여유 — 이동은 이 안에서만 한다
       var zoomedId = null;
 
       function stageScale() {
@@ -169,15 +170,30 @@
             y: ((pr.top + pr.bottom) / 2 - bcy - BASE_Y) / S
           };
         }
+        /* 확대하면 그림이 Z 배로 커지고, 칸 밖으로 넘치는 만큼만 움직일 여유가 생긴다.
+           그 여유를 넘겨 밀면 반대쪽에 빈 바닥이 드러난다 — 가장자리 핀에서 특히 크게
+           난다(왼쪽 핀을 한가운데로 끌어오려면 그림을 폭의 1/3 넘게 밀어야 한다).
+           그래서 핀을 '한가운데로' 가 아니라 '여유가 허락하는 데까지' 보낸다. */
+        // 무대는 vetec-hero.js 가 늦게 만든다 — 캐시하지 않고 그때그때 찾는다.
+        var artEl = vhEl.querySelector('.vh-stage');
+        var sr = artEl ? artEl.getBoundingClientRect() : null;
+        pinRoom = sr ? { x: sr.width * (ZOOM_Z - 1) / 2, y: sr.height * (ZOOM_Z - 1) / 2 } : null;
+      }
+
+      function clampMove(v, max) {
+        return max && max > 0 ? Math.max(-max, Math.min(max, v)) : 0;
       }
 
       function zoomTo(id) {
         var o = pinAt[id];
         if (!o || !vhEl) return;
         var S = stageScale();
+        // 기본 자리(0, BASE_Y)에서 얼마나 움직이는지로 바꿔 재고, 여유 안으로 자른다.
+        var dx = clampMove(-o.x * S * ZOOM_Z, pinRoom && pinRoom.x);
+        var dy = clampMove(-o.y * S * ZOOM_Z - BASE_Y, pinRoom && pinRoom.y);
         vhEl.style.setProperty('--hero-art-scale', ZOOM_Z);
-        vhEl.style.setProperty('--hero-art-x', (-o.x * S * ZOOM_Z).toFixed(1) + 'px');
-        vhEl.style.setProperty('--hero-art-y', (-o.y * S * ZOOM_Z).toFixed(1) + 'px');
+        vhEl.style.setProperty('--hero-art-x', dx.toFixed(1) + 'px');
+        vhEl.style.setProperty('--hero-art-y', (BASE_Y + dy).toFixed(1) + 'px');
         zoomedId = id;
       }
 
