@@ -246,8 +246,14 @@
          덮는 만큼만 내리고 여백은 두지 않는다.
          ⚠️ 윗변은 줄이지 않는다. 다 자란 자리에서 위로 조금만 올려도 헤더가 돌아오는데
             헤더는 불투명 흰 면이라 그래픽 윗단을 덮는다. */
-      --hero-pad: calc(var(--hero-gap) + (var(--hero-edge) - var(--hero-gap)) * var(--hero-p, 0));
-      padding: var(--header-h) var(--hero-pad) var(--hero-pad);
+      /* 1단계(--hero-p): 좌우·아래가 --hero-gap(48px)에서 --hero-edge(16px)로 준다.
+         2단계(--hero-p2): 히어로를 빠져나가는 동안 그 나머지와 윗변까지 0 으로 가
+         그래픽이 화면을 여백 없이 채운다. */
+      --hero-pad: calc(
+        (var(--hero-gap) + (var(--hero-edge) - var(--hero-gap)) * var(--hero-p, 0))
+        * (1 - var(--hero-p2, 0))
+      );
+      padding: calc(var(--header-h) * (1 - var(--hero-p2, 0))) var(--hero-pad) var(--hero-pad);
       overflow: hidden;
     }
     .hero-stage > * { position: relative; z-index: 1; }
