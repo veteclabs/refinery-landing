@@ -418,7 +418,9 @@
     #hero h1 .hero-title-lead { font-weight: 400; }
     #hero h1 .hero-title-accent {
       display: inline-block;
-      background: linear-gradient(90deg, #16202C 0%, #76A6D7 100%);
+      /* 글자색(먹색)에서 브랜드색으로 건너간다. 두 색만 두면 중간이 탁한 회청색을
+         지나므로, 사이에 brand-700 을 세워 브랜드 계열 안에서 이어지게 한다. */
+      background: linear-gradient(90deg, #16202C 0%, #3F76AE 52%, #76A6D7 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
