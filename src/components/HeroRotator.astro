@@ -9,6 +9,8 @@
 import { industriesEn } from '../data/industries/en';
 
 const names = industriesEn.map((i) => i.name);
+// 타이핑으로 글자 수가 오락가락해도 칸 폭이 흔들리지 않게, 가장 긴 이름으로 자리를 잡아 둔다.
+const widest = names.reduce((a, b) => (b.length > a.length ? b : a), names[0]);
 ---
 
 <p class="hero-for" data-hero-for={JSON.stringify(names)}>
@@ -17,18 +19,32 @@ const names = industriesEn.map((i) => i.name);
     {/* 스크린 리더에는 한 줄만 읽힌다 — 일곱 개를 연달아 읽으면 문장이 깨진다.
         눈으로 보는 쪽은 아래 .hero-for__out 이 맡는다. */}
     <span class="hero-for__sr">industrial sites</span>
-    <span class="hero-for__out" aria-hidden="true">{names[0]}</span><span
-      class="hero-for__caret" aria-hidden="true"></span>
+    {/* 보이지 않지만 자리를 차지해 칸 폭을 정한다 — 글자가 늘고 줄어도 왼쪽 끝이 밀리지 않는다. */}
+    <span class="hero-for__ghost" aria-hidden="true">{widest}</span>
+    <span class="hero-for__live" aria-hidden="true"><span class="hero-for__out">{names[0]}</span><span
+      class="hero-for__caret"></span></span>
   </span>
 </p>
 
 <style is:global>
   .hero-for {
-    margin: 18px 0 0;
+    margin: 0;
     font-size: 20px;
     font-weight: 400;
     line-height: 1.5;
     color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .hero-for__slot {
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .hero-for__ghost { visibility: hidden; }
+  .hero-for__live {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
   .hero-for__out {
     color: var(--text);
