@@ -25,16 +25,6 @@
   #hero .container { margin-bottom: auto; }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
 
-  /* 대제목은 두 문구가 같은 자리에서 교대한다. 멈춰 있을 때는 '흩어진 현장의 모든
-     것을 하나로', 다 자라면 'Refinery 산업 AI 운영체제'.
-     같은 격자 칸에 포개 두므로 둘 중 긴 쪽이 제목 높이를 정하고, 바뀌는 동안
-     줄 높이가 흔들리지 않는다. */
-  #hero h1 { display: grid; }
-  #hero h1 .hero-h1__phase { grid-area: 1 / 1; }
-  /* 0.55~0.7 이 겹치는 구간이다 — 둘 다 사라지는 틈이 생기지 않게 조금 포갠다. */
-  #hero h1 .hero-h1__phase--a { opacity: calc(1 - (var(--hero-p, 0) - 0.4) * 3.33); }
-  #hero h1 .hero-h1__phase--b { opacity: calc((var(--hero-p, 0) - 0.55) * 3.33); }
-
   /* 마커(+ 원과 기둥)는 자라면서 생긴다. 멈춰 있을 때는 그래픽만 보인다.
      p 0.25 까지는 음수라 0 으로 깎이고, 0.7 에서 다 보인다. */
   .hero-motion-placeholder .vh-marker {
@@ -42,9 +32,6 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder .vh-marker { opacity: 1; }
-    /* 자라지 않으므로 교대도 없다 — 앞의 문구만 세운다. */
-    #hero h1 .hero-h1__phase--a { opacity: 1; }
-    #hero h1 .hero-h1__phase--b { opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; max-height: none; }
