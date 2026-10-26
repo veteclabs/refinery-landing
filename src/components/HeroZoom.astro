@@ -25,20 +25,6 @@
   #hero .container { margin-bottom: auto; }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
 
-  /* 멈춰 있는 동안에는 현장 사진이 덮고 있다가, 자라면서 걷히며 그 아래 디지털
-     트윈이 드러난다. 사진과 그래픽은 설비 배치가 같아 같은 자리에서 바뀐다.
-     아래를 기준으로 맞춘다(center bottom) — 칸이 낮을 때 그래픽과 같이 설비가 보인다. */
-  .hero-motion-placeholder::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background: url('/hero-photo.webp') center bottom / cover no-repeat;
-    border-radius: inherit;
-    opacity: calc(1 - var(--hero-p, 0) * 2);
-    pointer-events: none;
-  }
-
   /* 마커(+ 원과 기둥)는 자라면서 생긴다. 멈춰 있을 때는 그래픽만 보인다.
      p 0.25 까지는 음수라 0 으로 깎이고, 0.7 에서 다 보인다. */
   .hero-motion-placeholder .vh-marker {
@@ -46,8 +32,6 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder .vh-marker { opacity: 1; }
-    /* 자라지 않으므로 사진이 걷히지 않는다 — 아예 덮지 않는다. */
-    .hero-motion-placeholder::before { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; max-height: none; }
