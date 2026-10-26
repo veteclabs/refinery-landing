@@ -23,34 +23,34 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
     {
       id: 'comp', tag: 'EXPERIENCE',
       title: '30년 경험, 두 가지 시작',
-      desc: '기존 시스템 위에 얹고, 없는 현장은 새로 세웁니다. 신규 구축도 30년 템플릿에서 시작합니다.',
+      desc: '기존 시스템 위에 얹거나, 없는 현장을 새로 세웁니다.',
     },
     {
       id: 'pump', tag: 'TECHNOLOGY',
       title: '시계열 너머의 AI 판단',
-      desc: '센서 시계열에 설비 · 문서 · 이력을 엮고, AI 에이전트가 근거를 들어 판단합니다.',
+      desc: '설비 · 문서 · 이력까지 엮어 근거로 판단합니다.',
     },
     {
       id: 'motor', tag: 'PEOPLE',
       title: '현장을 겪은 사람들의 설계',
-      desc: '설비가 어떻게 멈추는지 겪어 본 사람들이 만듭니다.',
+      desc: '설비가 어떻게 멈추는지 아는 사람들이 만듭니다.',
     },
   ],
   en: [
     {
       id: 'comp', tag: 'EXPERIENCE',
       title: 'Thirty years, two ways to start',
-      desc: 'Sits on the systems you already run, or stands up a site that has none — from templates shaped by thirty years.',
+      desc: 'Sits on the systems you run, or stands up a site that has none.',
     },
     {
       id: 'pump', tag: 'TECHNOLOGY',
       title: 'From time series to AI judgement',
-      desc: 'Sensor series woven with equipment, documents and history — an AI agent decides with the evidence in hand.',
+      desc: 'Equipment, documents and history woven in — judged with evidence.',
     },
     {
       id: 'motor', tag: 'PEOPLE',
       title: 'Design from the floor',
-      desc: 'Made by people who have seen equipment fail on the floor.',
+      desc: 'Made by people who know how equipment fails.',
     },
   ],
 };
