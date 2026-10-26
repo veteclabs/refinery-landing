@@ -422,11 +422,11 @@
       font-weight: 500;
       line-height: 1.15;
       padding: 0.1em 0;
-      /* 랜딩 히어로 대제목만 Epilogue 다. 본문·숫자는 Roboto 지만 이 자리는 글자가
-         크게 찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
-         Epilogue 에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글이
+      /* 히어로 대제목만 Inter 다. 본문·숫자는 Roboto 지만 이 자리는 글자가 크게
+         찍혀 글꼴 성격이 그대로 드러나는 곳이라 따로 둔다.
+         Inter에도 한글이 없으니 다음 자리에 Pretendard를 둬야 한글 제목이
          OS 기본 글꼴(맥·윈도·안드로이드가 제각각)로 떨어지지 않는다. */
-      font-family: 'Epilogue', 'Pretendard', sans-serif;
+      font-family: 'Inter', 'Pretendard', sans-serif;
       letter-spacing: -0.03em;
       color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
