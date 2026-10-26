@@ -15,11 +15,18 @@
      칸은 margin 으로 줄어든 자리를 그대로 높이로 돌려받는다 — 위로 자라는 셈이다.
      --hero-copy-h 는 카피가 실제로 차지한 높이이고 JS 가 재어 넣는다. */
   .hero-motion-placeholder {
-    margin-top: calc(var(--hero-p, 0) * -1 * var(--hero-copy-h, 0px));
-    /* ⚠️ 높이에 상한을 두지 않는다. 450px 같은 상한을 두면 세로로 긴 화면에서만
-       남는 자리가 상한을 넘어, 그 차이가 카피와 칸 사이 틈으로 벌어진다
-       (1585×900 에서 50px, 1585×1200 에서 350px). 칸이 남은 자리를 그대로 받으면
-       어느 화면에서든 카피 바로 아래에 붙는다. */
+    /* 멈춰 있을 때는 카피와 --hero-slot-gap 만큼 떨어져 있다가, 자라면서 그 틈까지
+       먹으며 카피 위로 올라선다. p 가 1 이면 -카피높이 로 전과 같은 자리다.
+       35px 은 대제목과 소제목 사이와 같은 값이다(#hero h1 의 margin-bottom —
+       .hero-row 의 margin-top 18px 을 흡수한다). */
+    --hero-slot-gap: 35px;
+    margin-top: calc(
+      var(--hero-slot-gap, 35px)
+      - var(--hero-p, 0) * (var(--hero-slot-gap, 35px) + var(--hero-copy-h, 0px))
+    );
+    /* 상한은 화면 높이에 비례해 둔다. px 로 박으면 세로로 긴 화면에서만 남는 자리가
+       상한을 크게 넘어 틈이 제멋대로 벌어진다(450px 일 때 1585×1200 에서 350px). */
+    max-height: calc(62vh + 1600px * var(--hero-p, 0));
   }
   /* 낮아진 칸은 무대 바닥 쪽에 세운다 — 카피 바로 아래에 붙이면 그 아래가 통째로
      빈다. 자라면서 남는 자리가 줄면 이 여백도 함께 사라진다. */
