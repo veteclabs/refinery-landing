@@ -21,34 +21,34 @@ export type HeroCard = {
 export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
   ko: [
     {
-      id: 'comp', tag: 'EXPERIENCE',
+      id: 'comp', tag: 'Experience',
       title: '30년 경험, 두 가지 시작',
       desc: '기존 시스템 위에 얹거나, 없는 현장을 새로 세웁니다.',
     },
     {
-      id: 'pump', tag: 'TECHNOLOGY',
+      id: 'pump', tag: 'Technology',
       title: '시계열 너머의 AI 판단',
       desc: '설비 · 문서 · 이력까지 엮어 근거로 판단합니다.',
     },
     {
-      id: 'motor', tag: 'PEOPLE',
+      id: 'motor', tag: 'People',
       title: '현장을 겪은 사람들의 설계',
       desc: '설비가 어떻게 멈추는지 아는 사람들이 만듭니다.',
     },
   ],
   en: [
     {
-      id: 'comp', tag: 'EXPERIENCE',
+      id: 'comp', tag: 'Experience',
       title: 'Thirty years, two ways to start',
       desc: 'Sits on the systems you run, or stands up a site that has none.',
     },
     {
-      id: 'pump', tag: 'TECHNOLOGY',
+      id: 'pump', tag: 'Technology',
       title: 'From time series to AI judgement',
       desc: 'Equipment, documents and history woven in — judged with evidence.',
     },
     {
-      id: 'motor', tag: 'PEOPLE',
+      id: 'motor', tag: 'People',
       title: 'Design from the floor',
       desc: 'Made by people who know how equipment fails.',
     },
