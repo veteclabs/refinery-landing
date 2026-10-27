@@ -158,7 +158,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           섹션 직속으로 두면 아래 .pf-body 가 올라와 덮을 때까지 붙어 있는다.
        .pf-run 이 낱말이 바뀌는 구간이다. 길이를 바꾸면 낱말 하나에 주어지는
        스크롤도 같이 바뀐다. */
-    #platform .pf-run { height: 80vh; }
+    #platform .pf-run { height: 120vh; }
     #platform .section-header {
       position: sticky;
       top: 0;
@@ -176,15 +176,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          타원 세로 반지름이 150vh 라, 칸 바닥(y=100vh)이 33.33% 정지점이다.
          아래 .pf-body 의 면과 이음매 없이 이어지는 근거다.
          ⚠️ 정지점이 % 라 화면 높이가 바뀌어도 비율이 그대로 따라간다. */
-      background: radial-gradient(ellipse 180% 150vh at 50% 150vh,#16202C 0%,#16202C 33.33%,#1D2A39 34.40%,#253547 35.47%,#2D4055 36.53%,#354C64 37.60%,#3E5772 38.67%,#466382 39.73%,#4F6F91 40.80%,#587CA1 41.87%,#6189B1 42.93%,#6A96C2 44.00%,#74A3D3 45.07%,#7EABDA 46.13%,#89B2DD 47.20%,#92B8E0 48.27%,#9BBEE3 49.33%,#A4C4E5 50.40%,#ABC9E8 51.47%,#B3CEEA 52.53%,#BAD2EC 53.60%,#C0D6EE 54.67%,#C6DAEF 55.73%,#CCDEF1 56.80%,#D1E1F2 57.87%,#D5E4F4 58.93%,#DAE7F5 60.00%,#DEE9F6 61.07%,#E1ECF7 62.13%,#E5EEF8 63.20%,#E8F0F9 64.27%,#EAF2FA 65.33%,#EDF3FA 66.40%,#EFF5FB 67.47%,#F1F6FB 68.53%,#F3F7FC 69.60%,#F5F8FC 70.67%,#F6F9FD 71.73%,#F8FAFD 72.80%,#F9FBFD 73.87%,#FAFCFE 74.93%,#FBFCFE 76.00%,#FBFDFE 77.07%,#FCFDFE 78.13%,#FDFDFE 79.20%,#FDFEFE 80.27%,#FDFEFF 81.33%,#FEFEFF 82.40%,#FEFFFF 84.53%,#FFFFFF 86.67%);
+      background: radial-gradient(ellipse var(--pf-rx, 180%) var(--pf-ry, 150vh) at 50% 150vh,#16202C 0%,#16202C 33.33%,#1D2A39 34.40%,#253547 35.47%,#2D4055 36.53%,#354C64 37.60%,#3E5772 38.67%,#466382 39.73%,#4F6F91 40.80%,#587CA1 41.87%,#6189B1 42.93%,#6A96C2 44.00%,#74A3D3 45.07%,#7EABDA 46.13%,#89B2DD 47.20%,#92B8E0 48.27%,#9BBEE3 49.33%,#A4C4E5 50.40%,#ABC9E8 51.47%,#B3CEEA 52.53%,#BAD2EC 53.60%,#C0D6EE 54.67%,#C6DAEF 55.73%,#CCDEF1 56.80%,#D1E1F2 57.87%,#D5E4F4 58.93%,#DAE7F5 60.00%,#DEE9F6 61.07%,#E1ECF7 62.13%,#E5EEF8 63.20%,#E8F0F9 64.27%,#EAF2FA 65.33%,#EDF3FA 66.40%,#EFF5FB 67.47%,#F1F6FB 68.53%,#F3F7FC 69.60%,#F5F8FC 70.67%,#F6F9FD 71.73%,#F8FAFD 72.80%,#F9FBFD 73.87%,#FAFCFE 74.93%,#FBFCFE 76.00%,#FBFDFE 77.07%,#FCFDFE 78.13%,#FDFDFE 79.20%,#FDFEFE 80.27%,#FDFEFF 81.33%,#FEFEFF 82.40%,#FEFFFF 84.53%,#FFFFFF 86.67%);
     }
-    #platform .section-lead-ko { margin-bottom: 0; }
+    /* 배경이 어두워지는 동안 제목은 같이 빠진다 — 먹색 글자라 그냥 두면
+       중간의 회색 구간에서 뭉개진다. */
+    #platform .section-lead-ko { margin-bottom: 0; opacity: var(--pf-title, 1); }
 
-    /* 어두운 면. 붙어 있는 제목 위로 올라와 덮는다. */
+    /* 본문 띠. 면을 따로 칠하지 않는다 — 올라올 즈음이면 배경이 이미 어두워져
+       있어서, 칠하면 그 윗변이 가로선으로 보인다('덮는 판' 처럼 읽힌다).
+       z-index 만 앞세워 붙어 있는 제목 위에 그려지게 한다. */
     #platform .pf-body {
       position: relative;
       z-index: 1;
-      background: #16202C;
       padding-top: 130px;
     }
 
@@ -589,6 +592,29 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
         if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
       }
+      /* 두 단을 차례로 띄운다. 칸이 화면 아래 12% 선에 닿으면 .is-in 을 붙이고,
+         그래픽 → 제목 줄 → 아코디언 순서는 CSS 의 transition-delay 가 쥔다. */
+      function initPlatformReveal() {
+        var split = document.querySelector('#platform .platform-split');
+        if (!split) return;
+        function check() {
+          if (split.getBoundingClientRect().top < (window.innerHeight || 800) * 0.88) {
+            split.classList.add('is-in');
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+          }
+        }
+        var ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; check(); });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        check();
+      }
+
       function initAll() { initPlatformAccordion(); initIntegrationsDrag(); initPlatformReveal(); }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAll);
@@ -764,16 +790,43 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             bs[i].classList.toggle('is-past', i < n);
           }
         }
+        /* 앞 62% 는 낱말이 바뀌는 구간, 뒤 42% 는 배경이 어두워지는 구간이다.
+           4% 를 겹쳐 둬야 마지막 낱말이 선 직후에 바로 어두워지기 시작한다. */
+        var W_END = 0.62, D_START = 0.58;
+        function ease(t) { return t * t * (3 - 2 * t); }
         function upd() {
           /* 제목이 붙은 뒤(섹션 윗변이 0 을 지난 뒤)부터 .pf-run 길이만큼이
-             낱말이 바뀌는 구간이다. 길이가 0 이면 마지막 낱말을 바로 세운다. */
+             이 섹션의 진행도다. 길이가 0 이면 마지막 모습으로 바로 세운다. */
           var span = run.offsetHeight;
           if (span <= 0) { show(bs.length - 1); return; }
           var p = -sec.getBoundingClientRect().top / span;
           if (p < 0) p = 0; else if (p > 1) p = 1;
-          var n = Math.floor(p * bs.length);
+
+          var w = p / W_END;
+          if (w > 1) w = 1;
+          var n = Math.floor(w * bs.length);
           if (n > bs.length - 1) n = bs.length - 1;
           show(n);
+
+          /* 타원의 세로 반지름을 늘리면 먹색 구간이 위로 번져 칸 전체가 어두워진다 —
+             판이 덮는 게 아니라 배경 자체가 어두워진다.
+             ⚠️ 중심을 위로 끌어올리는 방법은 안 된다. 방사형은 중심에서의 '거리' 로
+                색을 고르므로, 중심이 칸 위로 올라가면 그 아래가 거리가 멀어지며
+                도로 희어진다 — 화면 가운데에 검은 타원이 뜬 모습이 됐다.
+             먹색 경계는 y = 150vh - RY/3 이다. RY 150vh → 480vh 면 경계가
+             칸 바닥에서 윗변 밖으로 올라간다.
+             ⚠️ 가로 반지름도 같은 배수로 키운다. 세로만 늘리면 타원이 세로로
+                길쭉해져 좌우 모서리가 중심에서 멀어지며 도로 밝아진다 —
+                가운데만 검은 타원이 뜬 모습이 된다. */
+          var d = (p - D_START) / (1 - D_START);
+          if (d < 0) d = 0; else if (d > 1) d = 1;
+          d = ease(d);
+          var k = 1 + 2.2 * d;
+          sec.style.setProperty('--pf-ry', (150 * k).toFixed(1) + 'vh');
+          sec.style.setProperty('--pf-rx', (180 * k).toFixed(0) + '%');
+          /* 제목은 배경과 같은 속도로 빠진다. 먼저 사라지게 두면 어두워지는 끝자락에
+             아무것도 없는 검은 화면이 한 뼘 생긴다 — 그 사이가 끊겨 보인다. */
+          sec.style.setProperty('--pf-title', (1 - d).toFixed(3));
         }
         var ticking = false;
         function onScroll() {
