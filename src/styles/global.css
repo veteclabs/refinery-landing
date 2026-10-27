@@ -942,15 +942,26 @@
           펴지므로, 좁은 폭에서는 기존 격자를 그대로 쓴다.
        ⚠️ 펴는 신호는 호버다. 카드가 통째로 <a> 라 클릭은 이동이어야 한다. */
     @media (min-width: 901px) and (hover: hover) {
+      /* 카드 줄만 화면 가장자리까지 뺀다 — 제목·소제목·탭은 내용 너비 그대로다.
+         ⚠️ 끊는 자리는 .sol-viewport 다. 그 안쪽에 overflow: hidden 이 걸려 있어
+            (판 두 장을 옆으로 넘기는 칸이다) 더 안쪽에서 빼면 잘린다.
+         ⚠️ 100vw 는 세로 스크롤바 폭까지 센다. body 의 overflow-x: clip 이 넘치는
+            몇 px 을 잘라 주므로 가로 스크롤은 생기지 않는다. */
+      #industries .sol-viewport {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+      }
       #industries .industries-grid {
         display: flex;
-        gap: 10px;
-        height: 440px;
+        /* 틈도 모서리도 없이 붙여 한 장의 띠로 읽히게 한다. */
+        gap: 0;
+        height: 460px;
       }
       #industries .industry-card {
         flex: 1 1 0;
         min-width: 0;
         border: 0;
+        border-radius: 0;
         background: #16202C;
         transition: flex-grow .5s cubic-bezier(.22, 1, .36, 1);
       }
