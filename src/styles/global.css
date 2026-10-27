@@ -746,15 +746,10 @@
     }
     #industries .ind-stage > .container { width: 100%; }
     #industries .section-header { margin-bottom: 0; }
-    /* 제목이 다 차면 제목이 위로 올라가고, 그 아래로 소제목부터 카드까지가
-       따라 올라와 자리를 채운다 — #platform 이 제목을 비우고 본문을 들이는 것과
-       같은 흐름이다.
-       ⚠️ 끌어올린 값(64vh)은 제목이 올라간 만큼(30vh)과 무대의 빈 아래 절반을
-          합친 값이다. 둘 중 하나만 고치면 제목과 소제목 사이가 벌어지거나 겹친다. */
-    #industries .ind-stage > .container {
-      transform: translateY(calc(-30vh * var(--ind-lift, 0)));
-    }
-    #industries > .container { margin-top: -64vh; padding-top: 24px; }
+    /* 제목은 무대에 붙어 움직이지 않는다. 소제목부터 아래 묶음 전체가 화면 밖에서
+       스크롤을 타고 올라와 제목 밑에 가 붙는다 — 끌어올린 만큼(38vh)이 무대의
+       빈 아래 절반이라, 핀이 풀리는 순간 딱 제자리에 선다. */
+    #industries > .container { margin-top: -38vh; padding-top: 24px; }
     /* #platform 의 제목 줄(.pf-lead)과 같은 활자·같은 맞춤이다. 색은 제목과 같다. */
     #industries .sol-sub {
       font-size: clamp(22px, 3vw, 30px);
