@@ -442,7 +442,7 @@
       /* flex 로 아래 끝을 맞추므로 아래 마진은 두지 않는다. 소제목까지의 틈은
          가로 gap 이고, 그래픽 칸 위 틈은 HeroZoom 의 --hero-slot-gap(35px)이다. */
       margin-bottom: 0;
-      font-size: clamp(32px, 4.2vw, 50px);
+      font-size: clamp(36px, 5vw, 60px);
       /* 두 줄로 묶는다. 한 줄은 국문 11.0em · 영문 11.7em 이 필요하고 뒷동강
          '하나의 운영체제로'는 9자다 — 그 사이인 9.4em 이면 어느 쪽도 흔들리지 않는다. */
       max-width: 9.4em;
