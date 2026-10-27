@@ -279,6 +279,8 @@
       display: flex;
       align-items: flex-end;
       flex-wrap: wrap;
+      /* 제목은 왼쪽, 소제목은 오른쪽 — 남는 자리는 둘 사이로 간다. */
+      justify-content: space-between;
       gap: 20px 32px;
     }
     #hero .container a,
@@ -451,8 +453,22 @@
             넓게 잡으면 1024px 대에서 한 줄에 못 들어가 통째로 아래로 내려가며
             하단 맞춤이 무너진다. flex-basis 로 접히는 지점만 정한다.
          ⚠️ min-width:0 — flex 아이템의 기본값(auto)이면 긴 어절이 칸을 밀어낸다. */
+      /* 내용 너비의 오른쪽에 놓인다. margin-left:auto 가 칸을 끝으로 밀고,
+         basis 520px 이 폭의 상한이다.
+         ⚠️ grow 는 0 이다. 1 로 두면 넓은 화면에서 소제목이 제목 옆을 통째로
+            차지해 '우측 배치'가 아니라 두 단 레이아웃이 된다.
+         ⚠️ shrink 는 1 이다. 0 으로 두면 1024px 대에서 520px 을 고집하다 한 줄에
+            못 들어가 통째로 아래로 내려가며 하단 맞춤이 무너진다. */
       margin: 0;
-      flex: 1 1 340px;
+      /* ⚠️ basis 는 0 이다. 520px 을 basis 로 두면 1024px 대에서 제목과 합이 칸을
+            넘어, flex 가 줄이기 전에 먼저 줄바꿈해 소제목이 통째로 아래로 내려간다
+            (그러면 하단 맞춤이 무너진다). basis 0 + grow 로 남는 자리를 받고
+            max-width 로 상한만 건다.
+         ⚠️ margin-left:auto 를 쓰지 않는다. flex 에서 auto 마진은 grow 보다 먼저
+            자유 공간을 먹어 치워 소제목 폭이 0 이 된다. 오른쪽으로 미는 일은
+            칸의 space-between 이 한다. */
+      flex: 1 1 0;
+      max-width: 520px;
       min-width: 0;
       /* 글은 왼쪽 정렬이다. 칸이 내용 너비 오른쪽에 놓일 뿐, 글줄까지 오른쪽으로
          맞추지 않는다 — 한 번 오른쪽 정렬로 해 봤고 아니었다. */
