@@ -19,10 +19,10 @@
        먹으며 카피 위로 올라선다. p 가 1 이면 -카피높이 로 전과 같은 자리다.
        35px 은 대제목과 소제목 사이와 같은 값이다(#hero h1 의 margin-bottom —
        소제목의 margin-top 18px 을 흡수한다). */
-    --hero-slot-gap: 22px;
+    --hero-slot-gap: 35px;
     margin-top: calc(
-      var(--hero-slot-gap, 22px)
-      - var(--hero-p, 0) * (var(--hero-slot-gap, 22px) + var(--hero-copy-h, 0px))
+      var(--hero-slot-gap, 35px)
+      - var(--hero-p, 0) * (var(--hero-slot-gap, 35px) + var(--hero-copy-h, 0px))
     );
     /* 상한은 화면 높이에 비례해 둔다. px 로 박으면 세로로 긴 화면에서만 남는 자리가
        상한을 크게 넘어 틈이 제멋대로 벌어진다(450px 일 때 1585×1200 에서 350px). */

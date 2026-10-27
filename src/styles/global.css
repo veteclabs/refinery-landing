@@ -399,8 +399,8 @@
       #hero h1 { max-width: 10em; }
     }
     #hero h1 {
-      /* 소제목까지의 틈. HeroZoom 의 --hero-slot-gap(그래픽 칸 위 틈)이 같은 값을
-         쓴다 — 한쪽만 고치면 카피와 그래픽의 간격이 어긋난다. */
+      /* 소제목까지의 틈. 그래픽 칸 위 틈(HeroZoom 의 --hero-slot-gap, 35px)과는
+         따로 간다 — 예전에 같은 값으로 묶었으나 카피 쪽만 좁히기로 했다. */
       margin-bottom: 22px;
       font-size: clamp(36px, 5.2vw, 64px);
       /* 제목·소제목은 내용 너비 왼쪽 끝에 세운다. */
