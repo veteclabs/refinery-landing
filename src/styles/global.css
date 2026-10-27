@@ -750,14 +750,19 @@
        스크롤을 타고 올라와 제목 밑에 가 붙는다 — 끌어올린 만큼(38vh)이 무대의
        빈 아래 절반이라, 핀이 풀리는 순간 딱 제자리에 선다. */
     #industries > .container { margin-top: -38vh; padding-top: 24px; }
+    /* #platform 의 제목 줄(.pf-lead)과 같은 활자·같은 맞춤이다. 색은 제목과 같다. */
     #industries .sol-sub {
-      font-size: 18px;
-      line-height: 1.5;
-      color: #5A6776;
-      text-align: center;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      letter-spacing: -0.8px;
+      line-height: 1.35;
+      color: #16202C;
+      max-width: none;
+      /* .pf-lead 와 같다 — 글도 덩어리도 내용 너비 왼쪽 끝에 붙는다. */
+      text-align: left;
+      word-break: keep-all;
       margin: 0;
     }
-    @media (max-width: 900px) { #industries .sol-sub { font-size: 16px; } }
     #industries .ind-stage::before {
       content: "";
       position: absolute;
