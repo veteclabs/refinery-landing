@@ -153,9 +153,9 @@
 
     .section-header { text-align: left; margin-bottom: 64px; }
     /* 섹션 소제목 색은 히어로와 같은 #5A6776 이다.
-       ⚠️ --text-muted 토큰을 내리지 않는다 — 다크 섹션(#platform · #integrations)이
-          같은 토큰을 쓰고 있어 전역으로 어둡게 하면 그쪽 대비가 무너진다. 두 섹션은
-          제 색(#959CA5)으로 따로 덮여 있다. */
+       ⚠️ --text-muted 토큰을 내리지 않는다 — 다크 섹션(#integrations)이 같은 토큰을
+          쓰고 있어 전역으로 어둡게 하면 그쪽 대비가 무너진다. 그 섹션은 아래에서
+          제 색(#959CA5)으로 덮는다. */
     .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: 1.7; }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
     @media (max-width: 900px) {
@@ -444,12 +444,15 @@
     /* 대제목을 받는 설명 두 줄. 줄 나눔은 문장 사이 <br> 하나만 두고 나머지는
        브라우저에 맡긴다 — 폭마다 <br> 를 박으면 실제 브라우저에서 어긋난다. */
     #hero .hero-sub {
-      /* margin-left:auto 로 내용 너비의 오른쪽 끝에 붙는다.
-         ⚠️ 폭은 제목이 쓰고 남는 자리에 맞춘다. 1024px 기준 칸 안쪽이 913px,
-            제목이 404px(9.4em) · gap 32px 이라 440px 을 넘기면 한 줄에 못 들어가
-            소제목이 통째로 아래로 내려간다(그러면 하단 맞춤이 무너진다). */
-      margin: 0 0 0 auto;
-      max-width: 440px;
+      /* 제목이 쓰고 남는 자리를 그대로 가져간다 — 화면이 넓어지면 소제목도 함께
+         넓어지고, 오른쪽 끝은 내용 너비에 붙는다.
+         ⚠️ 고정 max-width 로 두지 않는다. 좁게 잡으면 넓은 화면에서 혼자 좁고,
+            넓게 잡으면 1024px 대에서 한 줄에 못 들어가 통째로 아래로 내려가며
+            하단 맞춤이 무너진다. flex-basis 로 접히는 지점만 정한다.
+         ⚠️ min-width:0 — flex 아이템의 기본값(auto)이면 긴 어절이 칸을 밀어낸다. */
+      margin: 0;
+      flex: 1 1 340px;
+      min-width: 0;
       font-size: 16px;
       font-weight: 300;
       line-height: 1.7;
