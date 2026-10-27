@@ -262,7 +262,31 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     /* 무대가 화면 하나라 그래픽이 그 안에 들어가야 한다. 넓은 화면에서는 폭이,
        낮은 화면에서는 높이가 먼저 걸린다 — 둘 중 작은 쪽을 따른다. */
-    #platform .platform-graphic-wrap { position: relative; display: flex; justify-content: center; }
+    #platform .platform-graphic-wrap { position: relative; display: flex; justify-content: center; overflow: hidden; }
+    /* 아코디언에서 고른 줄에 해당하는 자리만 남기고 나머지를 어둡게 덮는다.
+       ⚠️ 그래픽이 한 장짜리 SVG 라 안쪽 요소를 집어서 켤 수 없다. 자리를 % 로
+          적어 두고(각 줄의 data-spot) 그 사각형만 비우는 방식이다.
+       ⚠️ 덮는 면은 box-shadow 의 퍼짐으로 만든다. 사각형 바깥을 한 겹으로 칠해
+          주므로 요소가 하나면 되고, left/top/width/height 가 전이되어 자리를
+          옮길 때 부드럽게 미끄러진다(그라데이션 배경은 전이가 안 걸린다). */
+    #platform .pf-spot {
+      position: absolute;
+      left: var(--sx, 0%); top: var(--sy, 0%);
+      width: var(--sw, 100%); height: var(--sh, 100%);
+      border-radius: 20px;
+      box-shadow: 0 0 0 9999px rgba(10, 15, 22, 0.66);
+      outline: 1px solid rgba(118, 166, 215, 0.45);
+      outline-offset: -1px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease, left .45s cubic-bezier(.2,.8,.2,1),
+                  top .45s cubic-bezier(.2,.8,.2,1), width .45s cubic-bezier(.2,.8,.2,1),
+                  height .45s cubic-bezier(.2,.8,.2,1);
+    }
+    #platform .pf-spot.is-on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      #platform .pf-spot { transition: opacity .2s ease; }
+    }
     #platform .platform-graphic-img {
       display: block;
       width: 100%;
@@ -567,15 +591,32 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
             panel.style.height = open ? panel.scrollHeight + 'px' : '0px';
           }
+          /* 고른 줄에 해당하는 그래픽 자리를 비춘다. 자리는 각 줄의 data-spot
+             (x,y,w,h — 그래픽 칸의 %)에 적혀 있다. */
+          var spot = document.querySelector('#platform .pf-spot');
+          function lightUp(it) {
+            if (!spot) return;
+            var v = it && it.getAttribute('data-spot');
+            if (!v) { spot.classList.remove('is-on'); return; }
+            var a = v.split(',');
+            spot.style.setProperty('--sx', a[0] + '%');
+            spot.style.setProperty('--sy', a[1] + '%');
+            spot.style.setProperty('--sw', a[2] + '%');
+            spot.style.setProperty('--sh', a[3] + '%');
+            spot.classList.add('is-on');
+          }
+
           for (var i = 0; i < items.length; i++) {
             (function (it) {
               it.querySelector('.pf-q').addEventListener('click', function () {
                 var willOpen = !it.classList.contains('is-open');
                 for (var j = 0; j < items.length; j++) setOpen(items[j], false);
-                if (willOpen) setOpen(it, true);
+                if (willOpen) { setOpen(it, true); lightUp(it); }
+                else lightUp(null);
               });
             })(items[i]);
             setOpen(items[i], items[i].classList.contains('is-open'));
+            if (items[i].classList.contains('is-open')) lightUp(items[i]);
           }
           /* 폭이 바뀌면 글이 다시 감겨 높이가 달라진다 — 열려 있는 칸만 다시 잰다. */
           window.addEventListener('resize', function () {
@@ -841,7 +882,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="platform-split__cards">
         <p class="pf-lead">현장 데이터를 연결하고<br>온톨로지를 통해 의미를 부여하여<br>AI 기반 의사결정으로 이어집니다</p>
         <div class="pf-acc">
-          <div class="pf-item is-open">
+          <div data-spot="14,60,72,34" class="pf-item is-open">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
               <span class="pf-tag" translate="no">Connect</span>
             </button>
@@ -850,7 +891,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>현장의 여러 설비와 시스템에 흩어진 데이터를 한곳에 모으는 첫 단계입니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="12,34,76,32" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a1">
               <span class="pf-tag" translate="no">Ontology</span>
             </button>
@@ -859,7 +900,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>흩어진 숫자와 기록 하나하나에 "무엇에 대한 데이터인지" 의미를 붙이는 과정입니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="26,38,48,24" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a2">
               <span class="pf-tag" translate="no">Workflow</span>
             </button>
@@ -868,7 +909,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>승인이 필요한 상황과 자동 처리할 상황을 대화로 정해두는 과정입니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="6,2,28,30" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a3">
               <span class="pf-tag" translate="no">Plate</span>
             </button>
@@ -877,7 +918,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>실시간 KPI ⁠· 현황 ⁠· 알람을 한 화면에서 확인할 수 있습니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="36,0,28,32" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a4">
               <span class="pf-tag" translate="no">Lens</span>
             </button>
@@ -886,7 +927,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>시간에 따라 쌓인 데이터를 살펴보고 평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="66,2,30,30" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a5">
               <span class="pf-tag" translate="no">AI Agent</span>
             </button>
@@ -895,7 +936,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
               <p>궁금한 점을 물어보면 데이터를 근거로 답하고 다음 조치까지 제안합니다.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-spot="10,24,80,22" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a6">
               <span class="pf-tag" translate="no">Automation</span>
             </button>
@@ -913,6 +954,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="platform-graphic-wrap">
         <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img pf-art-top" loading="lazy" decoding="async">
         <img src="/From%20Data%20to%20Intelligence.svg" alt="" aria-hidden="true" class="platform-graphic-img pf-art-bot" loading="lazy" decoding="async">
+        <span class="pf-spot" aria-hidden="true"></span>
       </div>
     </div>
   </div>
