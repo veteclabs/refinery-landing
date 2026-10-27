@@ -327,7 +327,7 @@
       --hero-base-w: min(620px, 100vw - 96px, 100vh - 170px);
       /* 그래픽을 그리는 판의 폭. 칸(--hero-base-w)과 따로 간다 — 칸은 심볼 모양으로
          오려 낼 작은 창이고, 판이 좁아지면 그 안의 설비까지 같이 작아진다. */
-      --hero-art-w: min(1020px, 100vw - 96px);
+      --hero-art-w: min(880px, 100vw - 96px);
       /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
