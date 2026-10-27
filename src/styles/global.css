@@ -691,13 +691,31 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(to right, rgba(118,166,215,.16) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(118,166,215,.16) 1px, transparent 1px),
-        linear-gradient(to right, rgba(118,166,215,.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(118,166,215,.07) 1px, transparent 1px);
+        linear-gradient(to right, rgba(118,166,215,.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(118,166,215,.3) 1px, transparent 1px),
+        linear-gradient(to right, rgba(118,166,215,.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(118,166,215,.14) 1px, transparent 1px);
       background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
-      -webkit-mask-image: radial-gradient(ellipse 74% 64% at 50% 32%, #000 0%, rgba(0,0,0,.5) 52%, rgba(0,0,0,0) 90%);
-              mask-image: radial-gradient(ellipse 74% 64% at 50% 32%, #000 0%, rgba(0,0,0,.5) 52%, rgba(0,0,0,0) 90%);
+      -webkit-mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.26) 58%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.26) 58%, rgba(0,0,0,0) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 격자 위에 도면 표식을 한 겹 더 얹는다 — 240px 마다 십자 등록 표식, 120px 칸
+       한가운데마다 점. 선만 있으면 모눈종이고, 이 둘이 있어야 도면으로 읽힌다.
+       십자는 가로·세로 길이가 유한해야 해서 background-image 로는 못 그린다 —
+       data URI SVG 한 장이면 된다(외부 요청 없음). */
+    #industries::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M120 111.5v17M111.5 120h17' stroke='%2376a6d7' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
+        radial-gradient(circle, rgba(118,166,215,.5) 1px, rgba(118,166,215,0) 1.5px);
+      background-size: 240px 240px, 120px 120px;
+      background-position: 0 0, 60px 60px;
+      -webkit-mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 100%);
       pointer-events: none;
       z-index: 0;
     }
