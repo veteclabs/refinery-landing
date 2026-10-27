@@ -220,7 +220,7 @@
       content: "";
       position: absolute;
       left: 50%;
-      width: calc(100% + 48px);
+      width: calc(100% + 20px);
       height: 7px;
       transform: translateX(-50%);
       border-left: 1px solid rgba(118,166,215,.55);
