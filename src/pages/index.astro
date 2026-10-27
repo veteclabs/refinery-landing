@@ -163,19 +163,43 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
                   transform .9s cubic-bezier(.2, .7, .2, 1),
                   filter .9s cubic-bezier(.2, .7, .2, 1);
     }
-    .rv-on #platform .section-header:not(.rv-in) .section-lead-ko,
     .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
       opacity: 0;
       transform: translateY(26px);
       filter: blur(8px);
     }
-    #platform .section-header.rv-in .section-header-row p { transition-delay: .2s; }
+    /* 대제목이 다 찍힌 뒤에 뜬다 — 열 글자 × 80ms 에 한 박자 더. */
+    #platform .section-header.rv-in .section-header-row p { transition-delay: .95s; }
+
+    /* 대제목은 타자처럼 한 글자씩 찍힌다. 글자를 미리 다 깔아 두고 투명도만
+       열어 가므로 줄 폭이 변하지 않는다 — textContent 를 늘려 가면 가운데 정렬이라
+       글이 양옆으로 벌어지며 떨린다. */
+    #platform .section-lead-ko { position: relative; }
+    #platform .section-lead-ko .tw-c { opacity: 0; }
+    #platform .section-lead-ko .tw-c.on { opacity: 1; }
+    /* 커서는 흐름 밖에 둔다. 글자 사이에 끼우면 그 폭만큼 뒷글자가 밀린다. */
+    #platform .tw-caret {
+      position: absolute;
+      top: 50%;
+      width: 4px;
+      height: 0.62em;
+      margin-top: -0.31em;
+      background: currentColor;
+      border-radius: 1px;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    #platform .tw-caret.on { opacity: 1; animation: tw-blink 1.05s steps(1, end) infinite; }
+    @keyframes tw-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      #platform .section-lead-ko .tw-c { opacity: 1; }
+      #platform .tw-caret { display: none; }
+    }
     /* ⚠️ 머리 상자 자체의 등장은 끈다. ScrollReveal 이 .section-header 를 통째로
        올리는데, 그대로 두면 두 줄이 상자와 함께 한 번, 제 몫으로 또 한 번 움직인다.
        선택자에 #platform 을 끼워 특이도로 이긴다. */
     .rv-on #platform .section-header:not(.rv-done) { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
-      .rv-on #platform .section-header:not(.rv-in) .section-lead-ko,
       .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
         opacity: 1; transform: none; filter: none;
       }
@@ -712,6 +736,72 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
       </div>
     </div>
+    <script is:inline>
+      /* 대제목을 타자처럼 찍는다.
+         ⚠️ 마크업의 글자는 그대로 둔다 — 스크립트가 못 돌면 그냥 보여야 하고,
+            색인·번역도 원문을 읽어야 한다. 여기서 글자를 span 으로 쪼갤 뿐이다.
+         ⚠️ 한 글자씩 textContent 를 늘리지 않는다. 가운데 정렬이라 글이 양옆으로
+            벌어지며 떨린다. 다 깔아 두고 투명도만 연다. */
+      (function () {
+        var h = document.querySelector('#platform .section-lead-ko');
+        if (!h) return;
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) return;
+
+        var text = h.textContent;
+        var frag = document.createDocumentFragment();
+        var spans = [];
+        for (var i = 0; i < text.length; i++) {
+          var sp = document.createElement('span');
+          sp.className = 'tw-c';
+          /* 공백은 span 안에 넣으면 접힌다 — 줄바꿈 없는 공백 문자로 바꿔 자리를 지킨다. */
+          sp.textContent = text[i] === ' ' ? '\u00a0' : text[i];
+          frag.appendChild(sp);
+          spans.push(sp);
+        }
+        var caret = document.createElement('span');
+        caret.className = 'tw-caret';
+        caret.setAttribute('aria-hidden', 'true');
+        h.textContent = '';
+        h.appendChild(frag);
+        h.appendChild(caret);
+        /* 읽기 보조기기에는 쪼갠 글자 대신 원문 한 줄을 준다. */
+        h.setAttribute('aria-label', text);
+
+        var STEP = 80, idx = 0, started = false;
+
+        function moveCaret() {
+          var last = idx > 0 ? spans[idx - 1] : null;
+          caret.style.left = (last ? last.offsetLeft + last.offsetWidth + 2 : spans[0].offsetLeft - 6) + 'px';
+        }
+        function type() {
+          if (idx >= spans.length) {
+            setTimeout(function () { caret.classList.remove('on'); }, 900);
+            return;
+          }
+          spans[idx].classList.add('on');
+          idx++;
+          moveCaret();
+          setTimeout(type, STEP);
+        }
+        function go() {
+          if (started) return;
+          started = true;
+          caret.classList.add('on');
+          moveCaret();
+          setTimeout(type, 160);
+          removeEventListener('scroll', onScroll);
+          removeEventListener('resize', onScroll);
+        }
+        /* ScrollReveal 과 같은 선(화면 아래 12%)에서 시작한다. */
+        function onScroll() {
+          if (h.getBoundingClientRect().top < (innerHeight || 800) * 0.88) go();
+        }
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
 
     <div class="platform-split">
       <div class="platform-split__cards">
