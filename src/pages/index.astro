@@ -229,10 +229,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        그대로 멈춰 있다 — 아코디언은 그 상태에서 연다.
        두 단은 따로 뜬다. 그래픽이 먼저(--pf-in), 왼쪽 글이 뒤따른다(--pf-in2). */
     #platform .pf-body { pointer-events: var(--pf-pe, none); }
-    #platform .platform-graphic-wrap {
-      opacity: var(--pf-in, 0);
-      transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
-    }
     #platform .platform-split__cards {
       opacity: var(--pf-in2, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in2, 0))));
@@ -262,7 +258,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     /* 무대가 화면 하나라 그래픽이 그 안에 들어가야 한다. 넓은 화면에서는 폭이,
        낮은 화면에서는 높이가 먼저 걸린다 — 둘 중 작은 쪽을 따른다. */
-    #platform .platform-graphic-wrap { display: flex; justify-content: center; }
+    #platform .platform-graphic-wrap { position: relative; display: flex; justify-content: center; }
     #platform .platform-graphic-img {
       display: block;
       width: 100%;
@@ -270,6 +266,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       max-height: calc(100vh - 220px);
       object-fit: contain;
     }
+    /* 자르는 자리 — 위 38% 가 카드 세 장, 그 아래가 온톨로지 판이다. */
+    #platform .pf-art-top {
+      clip-path: inset(0 0 62% 0);
+      opacity: var(--pf-in, 0);
+      transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
+    }
+    #platform .pf-art-bot {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      clip-path: inset(38% 0 0 0);
+      opacity: var(--pf-in3, 0);
+      transform: translateY(calc(36px * (1 - var(--pf-in3, 0))));
+    }
+    #platform .platform-graphic-wrap { opacity: 1; transform: none; }
 
     /* 층을 하나씩 펼쳐 보는 글 목록. 카드로 쌓으면 일곱 장이 그래픽 높이를 넘겨
        따로 넘겨야 했는데, 접어 두면 한 화면에 들어온다. */
@@ -743,17 +754,19 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         /* 섹션 진행도 하나로 세 가지를 몬다.
              0 ~ 45%  낱말이 한 칸씩 바뀐다
             46 ~ 60%  배경이 어두워지고 제목이 빠진다
-            54 ~ 69%  그래픽이, 반 박자 뒤 왼쪽 글이 떠오른다
-            69 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
+            54 ~ 72%  카드 세 장 · 온톨로지 판 · 왼쪽 글 순으로 떠오른다
+            72 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
            배경 구간은 짧게 둔다. 길게 끌면 흰 면과 먹색 사이의 회색이 오래 머물러
            화면이 바래 보인다 — 한 번에 넘어가는 편이 낫다. */
         var W_END = 0.45, D_START = 0.46, D_END = 0.60;
         /* 본문은 배경이 거의 다 어두워진 뒤에야 뜨기 시작한다.
            배경과 같은 구간에 묶으면, 아직 흰 면일 때 본문이 옅게 비쳐 보인다 —
            그래픽과 아코디언이 유령처럼 밑에 깔린 모습이 된다. */
-        var V_START = 0.545, V_END = 0.66;
-        /* 왼쪽 글은 그래픽보다 반 박자 늦는다 — 순서만 읽히면 된다. */
-        var V2_START = 0.575, V2_END = 0.69;
+        var V_START = 0.545, V_END = 0.63;
+        /* 아래 판은 카드 세 장보다 조금 늦는다. */
+        var V3_START = 0.585, V3_END = 0.675;
+        /* 왼쪽 글은 그래픽이 다 뜬 뒤에 따라온다 — 순서만 읽히면 되니 간격은 짧다. */
+        var V2_START = 0.625, V2_END = 0.715;
         function ease(t) { return t * t * (3 - 2 * t); }
         function upd() {
           /* 무대가 붙어 있는 동안 쓸 수 있는 스크롤 = 섹션 높이 - 화면 하나. */
@@ -786,6 +799,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           v = ease(v);
           sec.style.setProperty('--pf-in', v.toFixed(3));
 
+          var v3 = (p - V3_START) / (V3_END - V3_START);
+          if (v3 < 0) v3 = 0; else if (v3 > 1) v3 = 1;
+          sec.style.setProperty('--pf-in3', ease(v3).toFixed(3));
+
           var v2 = (p - V2_START) / (V2_END - V2_START);
           if (v2 < 0) v2 = 0; else if (v2 > 1) v2 = 1;
           v2 = ease(v2);
@@ -807,7 +824,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
     <div class="platform-split">
       <div class="platform-split__cards">
-        <p class="pf-lead">현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
+        <p class="pf-lead">현장 데이터를 연결하고<br>온톨로지를 통해 의미를 부여하여<br>AI 기반 의사결정으로 이어집니다</p>
         <div class="pf-acc">
           <div class="pf-item is-open">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
@@ -874,8 +891,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           </div>
         </div>
       </div>
+      {/* 같은 그림을 두 장 겹쳐 위아래로 잘라 쓴다. 위쪽 세 장(Plate · Lens · AI Agent)이
+          먼저 뜨고 아래 온톨로지 판이 뒤따른다 — 한 장짜리 SVG 라 안쪽 요소를 따로
+          움직일 수 없어서, 자르는 자리를 나눠 순서를 만든다.
+          ⚠️ 두 번째 장은 읽기 보조기기에서 감춘다. 같은 그림이 두 번 읽히지 않게. */}
       <div class="platform-graphic-wrap">
-        <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async">
+        <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img pf-art-top" loading="lazy" decoding="async">
+        <img src="/From%20Data%20to%20Intelligence.svg" alt="" aria-hidden="true" class="platform-graphic-img pf-art-bot" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
