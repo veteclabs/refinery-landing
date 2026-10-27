@@ -1082,6 +1082,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function ease(t) { return t * t * (3 - 2 * t); }
 
+    /* 제목만 있을 때 화면 가운데에 서도록 무대를 내릴 거리를 잰다.
+       ⚠️ 재기 전에 --ind-lift 를 0 으로 돌린다. 제가 건 translate 가 남아 있으면
+          그만큼 더해져 잴 때마다 값이 불어난다. */
+    function measure() {
+      var st = sec.querySelector('.ind-stage');
+      var title = sec.querySelector('.sol-title');
+      if (!st || !title) return;
+      sec.style.setProperty('--ind-lift', '0px');
+      var pad = parseFloat(getComputedStyle(st).paddingTop) || 0;
+      var sr = st.getBoundingClientRect();
+      var tr = title.getBoundingClientRect();
+      sec.style.setProperty('--ind-lift',
+        ((sr.top + pad + (sr.height - pad) / 2) - (tr.top + tr.height / 2)).toFixed(1) + 'px');
+    }
+
     var ticking = false;
     function upd() {
       var span = pin.offsetHeight - (window.innerHeight || 800);
@@ -1115,13 +1130,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       requestAnimationFrame(function () { ticking = false; upd(); });
     }
     addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll, { passive: true });
+    addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
     sec.addEventListener('click', function (e) {
       if (e.target.closest('.sol-tab')) requestAnimationFrame(upd);
     });
+    measure();
     upd();
-    requestAnimationFrame(upd);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(upd);
+    requestAnimationFrame(function () { measure(); upd(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); upd(); });
   })();
 </script>
 
