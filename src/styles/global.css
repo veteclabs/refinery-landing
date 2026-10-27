@@ -789,10 +789,12 @@
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M120 111.5v17M111.5 120h17' stroke='%2376a6d7' stroke-opacity='.5' stroke-width='1'/%3E%3C/svg%3E"),
         radial-gradient(circle, rgba(118,166,215,.28) 1px, rgba(118,166,215,0) 1.5px);
       background-size: 240px 240px, 120px 120px;
-      /* 십자는 240px 타일 한가운데에, 점은 120px 타일 한가운데에 그려 두었다.
-         둘 다 center 로 깔면 화면 중심에 십자 하나가 정확히 놓이고, 점은 격자
-         칸 한가운데에 들어간다. */
-      background-position: center, center;
+      /* 십자는 격자가 만나는 자리에, 점은 칸 한가운데에 놓여야 도면으로 읽힌다.
+         굵은 눈금은 화면 중심에서 60px 떨어진 자리부터 120px 마다 선다(격자
+         타일을 center 로 깔아 그렇다). 그래서 십자 층만 60px 밀어 준다 —
+         240px 간격이라 미는 자리마다 굵은 눈금이 교차한다.
+         점은 칸 한가운데(= 화면 중심)에 이미 맞으므로 center 그대로다. */
+      background-position: calc(50% + 60px) calc(50% + 60px), center;
       -webkit-mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
               mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
       pointer-events: none;
