@@ -162,7 +162,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       color: #EDEEF0;
       max-width: none;
       margin: 0;
+      /* 위 국문 대제목과 한 축에 세운다. 칸은 flex 라 text-align 만으로는 안 되고
+         justify-content 를 함께 눕혀야 글 상자 자체가 가운데로 온다. */
+      text-align: center;
     }
+    #platform .section-header .section-header-row { justify-content: center; }
     #platform .section-header p {
       color: #959CA5;
     }
