@@ -67,7 +67,7 @@
        그 바깥은 아무것도 그리지 않아 바탕은 비어 있다. */
     function dots() {
       /* R 은 점이 반응하는 반지름이다 — 넓힐수록 더 많은 점이 한꺼번에 끌려온다. */
-      var step = 16, R = 190;
+      var step = 11, R = 190;
       /* 격자가 촘촘해 전부 훑으면 한 프레임에 수천 번을 돈다. 커서 둘레만 돈다. */
       var half = step / 2;
       var y0 = Math.max(half, Math.floor((py - R - half) / step) * step + half);
@@ -85,7 +85,7 @@
              0.92 는 다 붙지 않고 아주 조금 틈을 두는 값이다. */
           var pull = k * k * 0.92;
           ctx.beginPath();
-          ctx.arc(x - dx * pull, y - dy * pull, 0.7 + k * 0.9, 0, Math.PI * 2);
+          ctx.arc(x - dx * pull, y - dy * pull, 0.55 + k * 0.75, 0, Math.PI * 2);
           ctx.fillStyle = 'rgba(118,166,215,' + (0.30 + k * 0.55).toFixed(3) + ')';
           ctx.fill();
         }
