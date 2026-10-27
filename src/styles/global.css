@@ -536,11 +536,12 @@
     @media (max-width: 900px) {
       #hero .hero-sub { font-size: 15px; }
     }
-    /* 소제목 위에 얹는 제품 이름. 소제목 <p> 안의 블록이라 크기는 물려받는다 —
-       900px 이하에서 소제목이 15px 로 줄면 이 줄도 함께 줄어든다. */
+    /* 소제목 위에 얹는 제품 이름. 소제목 <p> 안의 블록이다.
+       ⚠️ 크기는 소제목과 따로 간다 — 물려받게 두면 900px 이하에서 15px 로 끌려간다. */
     #hero .hero-eyebrow {
       display: block;
       margin-bottom: 10px;
+      font-size: 14px;
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
       font-weight: 400;
       color: #76A6D7;
