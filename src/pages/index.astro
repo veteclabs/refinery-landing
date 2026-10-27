@@ -740,7 +740,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             42 ~ 72%  배경이 어두워지고 제목이 빠지며 본문이 떠오른다
             72 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
            구간을 3% 겹쳐 둬야 마지막 낱말이 선 직후에 바로 어두워지기 시작한다. */
-        var W_END = 0.45, D_START = 0.42, D_END = 0.72;
+        var W_END = 0.45, D_START = 0.42, D_END = 0.70;
+        /* 본문은 배경이 거의 다 어두워진 뒤에야 뜨기 시작한다.
+           배경과 같은 구간에 묶으면, 아직 흰 면일 때 본문이 옅게 비쳐 보인다 —
+           그래픽과 아코디언이 유령처럼 밑에 깔린 모습이 된다. */
+        var V_START = 0.60, V_END = 0.80;
         function ease(t) { return t * t * (3 - 2 * t); }
         function upd() {
           /* 무대가 붙어 있는 동안 쓸 수 있는 스크롤 = 섹션 높이 - 화면 하나. */
@@ -767,9 +771,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           sec.style.setProperty('--pf-ry', (150 * k).toFixed(1) + 'vh');
           sec.style.setProperty('--pf-rx', (180 * k).toFixed(0) + '%');
           sec.style.setProperty('--pf-title', (1 - d).toFixed(3));
-          sec.style.setProperty('--pf-in', d.toFixed(3));
+
+          var v = (p - V_START) / (V_END - V_START);
+          if (v < 0) v = 0; else if (v > 1) v = 1;
+          v = ease(v);
+          sec.style.setProperty('--pf-in', v.toFixed(3));
           /* 다 뜨기 전에는 클릭을 받지 않는다 — 안 보이는 아코디언이 눌린다. */
-          sec.style.setProperty('--pf-pe', d > 0.9 ? 'auto' : 'none');
+          sec.style.setProperty('--pf-pe', v > 0.9 ? 'auto' : 'none');
         }
         var ticking = false;
         function onScroll() {
