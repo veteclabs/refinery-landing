@@ -164,7 +164,7 @@
       letter-spacing: -0.8px;
       line-height: 1.3;
       /* 아래 줄이 45px 제목 활자라 6px 이면 두 줄이 한 덩어리로 붙어 보인다. */
-      margin: 0 0 24px;
+      margin: 0 0 40px;
       max-width: none;
       color: inherit;
       /* 이 줄만 가운데에 세운다 — 섹션 헤더의 나머지는 왼쪽 정렬 그대로다. */
