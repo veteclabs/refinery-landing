@@ -175,7 +175,10 @@
       var clipRects = d.querySelectorAll('#rf-symbol-clip rect');
       function shapeClip(p) {
         if (!clipRects.length || !boxEl) return;
-        var t = p / 0.85; if (t > 1) t = 1;
+        /* ⚠️ 일찍 끝내야 한다. 0.85 까지 끌었더니 자라는 구간 내내 두 사각형이
+           어긋난 채라 우상단 · 좌하단 모서리에 계단 자국이 남았다. 0.2 면 스크롤을
+           조금만 내려도 완전한 사각형이 되고, 남는 구간은 그 사각형이 커지는 데 쓴다. */
+        var t = p / 0.2; if (t > 1) t = 1;
         var size = CLIP_S + (1 - CLIP_S) * t;
         var r = boxEl.getBoundingClientRect();
         var radius = parseFloat(getComputedStyle(hero).getPropertyValue('--hero-base-w')) * 0.0968;
