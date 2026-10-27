@@ -227,6 +227,9 @@
        커진다 — 그 진행도는 HeroZoom 컴포넌트가 --hero-p 로 넘긴다.
        구간 길이(100vh + --hero-run)만큼 다음 섹션이 늦게 올라온다. */
     #hero {
+      /* 기본 모습 칸 폭. 높이(/2.95)도 그래픽 높이(*0.95)도 전부 이 값에서 나온다 —
+         한 군데서 쥐어야 화면이 달라져도 보이는 구도가 같다. */
+      --hero-base-w: min(1200px, 100vw - 96px);
       /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
@@ -297,7 +300,7 @@
          꽉 채우는 만큼만 보이게 하려는 값이다. 넓은 화면에서 내용 너비에 맞추면
          설비가 작아지고 좌우가 텅 빈다.
          자라면서 무대 안쪽(100%)까지 넓어진다. */
-      max-width: calc(960px + (100% - 960px) * var(--hero-p, 0));
+      max-width: calc(var(--hero-base-w) + (100% - var(--hero-base-w)) * var(--hero-p, 0));
       margin-inline: auto;
       overflow: hidden;
       border-radius: var(--radius);
@@ -388,14 +391,25 @@
        radius 를 한 번 더 주는 건 .vh 가 overflow:hidden 으로 제 자식을 자르기 때문이다. */
     /* ⚠️ 높이를 칸(100%)에 맞추지 않는다. 칸이 낮으면 그래픽까지 작아져 다 자란
        모습과 배율도 잘리는 방향도 달라진다(폭 기준 ↔ 높이 기준).
-       다 자란 칸 높이(--hero-full-h, JS 가 재어 넣는다)로 고정하고 칸 바닥에 붙이면,
-       낮은 동안에는 위가 잘려 다 자란 모습의 아랫부분이 그대로 미리 보인다. */
+       고정 높이로 두고 칸 바닥에 붙이면, 낮은 동안에는 위가 잘려 다 자란 모습의
+       아랫부분이 그대로 미리 보인다.
+       ⚠️ 그 고정 높이를 화면 높이(--hero-full-h)로 두지 않는다. vetec-hero 의 fit()
+          이 cover(max(w/1920, h/1080))로 배율을 잡는데 이 판에서는 늘 높이가 이겨,
+          화면이 낮으면 그래픽이 작고 높으면 커져 같은 폭에서도 보이는 구도가 달라졌다
+          (1024x768 에서 0.6315 · 1600x900 에서 0.7537). 칸 폭에 묶으면 화면 비율과
+          무관하게 같다. 0.747 은 설비가 띠를 채우는 자리다 — 키우면 그래픽이 커지면서
+          설비가 창 위로 올라가고 바닥만 남는다(0.95 에서 그랬다).
+       ⚠️ 다 자란 자리에서는 칸이 그보다 높아질 수 있어(세로로 긴 화면) --hero-full-h
+          와 큰 쪽을 쓴다. p 를 곱해 두면 멈춰 있을 때는 폭 기준만 남는다. */
     .hero-motion-placeholder > .vh {
       position: absolute;
       left: 0;
       right: 0;
       bottom: 0;
-      --vh-height: var(--hero-full-h, 100%);
+      --vh-height: max(
+        calc(var(--hero-base-w) * 0.747),
+        calc(var(--hero-full-h, 0px) * var(--hero-p, 0))
+      );
       min-height: 0;
       border-radius: inherit;
     }
