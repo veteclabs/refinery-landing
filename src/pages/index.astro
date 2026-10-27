@@ -253,11 +253,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     #platform .section-header p {
       color: #959CA5;
     }
-    /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 반반으로 나눠 그래픽을 줄인다 —
-       전에는 왼쪽이 360px 고정이라 그래픽이 1176px 까지 커졌다. */
+    /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 그래픽이 이 섹션의 주인공이라
+       더 넓게 가져간다 — 내용 너비 1600px 에서 글 582px · 그래픽 938px 이다.
+       반반(625/625)으로 나눠 보니 그래픽이 글에 밀렸다. */
     #platform .platform-split {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
       gap: 80px;
       margin-top: 64px;
       align-items: center;
