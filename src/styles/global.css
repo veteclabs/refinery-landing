@@ -813,42 +813,42 @@
        좌우 화살표는 없앴다: 판이 둘뿐이라 둘 중 하나는 늘 비활성이었고,
        탭과 하는 일이 같은데 어디로 가는지는 탭만 말해 준다.
        넘김은 탭과 스와이프로 한다. */
-    /* 제목 · 소제목이 가운데에 서므로 탭도 가운데에 세운다. */
-    #industries .sol-switch-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; }
-    /* 네모 테두리 탭. 둘을 맞붙여 한 묶음으로 보이게 하고, 고른 쪽만 먹색으로
-       채운다.
-       ⚠️ 맞닿는 변은 왼쪽 테두리를 지워 겹치지 않게 한다. 두 장 다 1px 을 그으면
-          가운데만 2px 이 되어 두꺼워 보인다. */
+    /* 제목이 가운데에 서므로 탭도 가운데에 세운다.
+       ⚠️ 위 여백은 0 이다. 제목과의 사이는 무대의 gap 이 쥔다 — 여기에 또 주면
+          제목~탭 과 탭~사진 의 사이가 달라진다. */
+    #industries .sol-switch-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 0; }
+    /* 헤더 CTA(.btn-primary)와 같은 단추다 — 반경 6px · 6px 18px · 14px/400.
+       고른 쪽이 그 단추의 채운 모습이고, 고르지 않은 쪽은 같은 크기의 테두리만
+       남은 모습이다. */
     #industries .sol-tabs {
       display: inline-flex;
-      gap: 0;
+      gap: 8px;
       background: none;
       border-radius: 0;
       padding: 0;
     }
     #industries .sol-tab {
       font-family: inherit;
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 400;
       color: var(--text-muted);
       background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 0;
-      padding: 11px 24px;
+      border-radius: 6px;
+      padding: 6px 18px;
       cursor: pointer;
       transition: background .2s, color .2s, border-color .2s;
     }
-    #industries .sol-tab + .sol-tab { border-left: 0; }
-    #industries .sol-tab:hover { color: var(--text); }
+    #industries .sol-tab:hover { color: var(--text); border-color: #C8CED5; }
     #industries .sol-tab[aria-selected="true"] {
-      background: var(--text);
-      border-color: var(--text);
-      color: #F6F8FA;
+      background: #76A6D7;
+      border-color: #76A6D7;
+      color: #ffffff;
     }
     /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
        옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
        grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
-    #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 20px; }
+    #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 40px; }
     #industries .sol-track { display: grid; }
     #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
     /* 숨긴 판은 visibility로 접근성 트리와 탭 이동에서도 빠진다(opacity만으로는 안 빠진다). */
@@ -1049,9 +1049,9 @@
     }
     @media (max-width: 900px) { .industry-desc { font-size: 14px; } }
     /* FOR TEAMS */
-    #teams { background: var(--bg-card); border-top: 1px solid var(--border); }
+    #teams { background: var(--bg-card); }
     /* INTEGRATIONS */
-    #integrations { position: relative; border-top: 1px solid var(--border); background: #16202C !important; overflow: hidden; }
+    #integrations { position: relative; background: #16202C !important; overflow: hidden; }
     #integrations::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; z-index: 0; }
     #integrations::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; background:
       radial-gradient(circle at top left, #16202C 0%, transparent 30%),
