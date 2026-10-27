@@ -286,14 +286,15 @@
       /* 그래픽이 자라 카피 자리까지 올라오므로 한 층 위에 둔다. */
       z-index: 2;
       pointer-events: none;
-      /* 대제목(왼쪽)과 소제목(오른쪽)을 한 줄에 놓고 아래 끝을 맞춘다.
-         칸이 좁아지면 소제목이 아래로 내려간다. */
-      display: flex;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      /* 제목은 왼쪽, 소제목은 오른쪽 — 남는 자리는 둘 사이로 간다. */
+      /* 두 칸 · 두 줄 격자다. 대제목은 왼쪽 윗칸, 소제목은 오른쪽 아랫칸 —
+         소제목이 대제목 바로 아래에서 시작하되 가로 자리는 오른쪽에 그대로 있다.
+         높이는 두 줄을 합친 값이라, 칸을 수직 가운데에 두면 덩어리 전체가 가운데 선다.
+         남는 가로 자리는 space-between 이 둘 사이로 보낸다. */
+      display: grid;
+      grid-template-columns: auto minmax(0, 440px);
+      align-items: start;
       justify-content: space-between;
-      gap: 20px 32px;
+      gap: 0 32px;
     }
     #hero .container a,
     #hero .container button { pointer-events: auto; }
@@ -439,8 +440,8 @@
       #hero h1 { max-width: 10em; }
     }
     #hero h1 {
-      /* flex 로 아래 끝을 맞추므로 아래 마진은 두지 않는다. 소제목까지의 틈은
-         가로 gap 이고, 그래픽 칸 위 틈은 HeroZoom 의 --hero-slot-gap(35px)이다. */
+      /* 격자가 자리를 잡으므로 아래 마진은 두지 않는다. */
+      grid-area: 1 / 1;
       margin-bottom: 0;
       font-size: clamp(36px, 5vw, 60px);
       /* 두 줄로 묶는다. 한 줄은 국문 11.0em · 영문 11.7em 이 필요하고 뒷동강
@@ -495,7 +496,7 @@
          ⚠️ margin-left:auto 를 쓰지 않는다. flex 에서 auto 마진은 grow 보다 먼저
             자유 공간을 먹어 치워 소제목 폭이 0 이 된다. 오른쪽으로 미는 일은
             칸의 space-between 이 한다. */
-      flex: 1 1 0;
+      grid-area: 2 / 2;
       max-width: 440px;
       min-width: 0;
       /* 글은 왼쪽 정렬이다. 칸이 내용 너비 오른쪽에 놓일 뿐, 글줄까지 오른쪽으로
