@@ -49,9 +49,11 @@
        자라는 몫(1600px * p)은 그대로 더한다. */
     max-height: calc(var(--hero-base-w) + 1600px * var(--hero-p, 0));
   }
-  /* 멈춰 있는 동안 칸을 로고 심볼 모양으로 오려낸다. 자라는 동안에도 모양을 쥔 채
-     커지다가, 다 자라면(is-grown) 풀려 한 화면을 그대로 채운다. */
-  #hero:not(.is-grown) .hero-motion-placeholder {
+  /* 멈춰 있는 동안만 칸을 로고 심볼 모양으로 오려낸다.
+     ⚠️ 자라는 동안 쥐고 있으면 안 된다. 기본 크기가 이미 무대 높이에 닿아 있어
+        세로로는 더 못 커지고 가로로만 늘어나, 심볼이 옆으로 퍼진 다른 모양이 된다.
+        스크롤이 시작되는 즉시(is-growing, p > 0.02) 풀어 사각형으로 꽉 채운다. */
+  #hero:not(.is-growing) .hero-motion-placeholder {
     clip-path: url(#rf-symbol-clip);
     border-radius: 0;
     /* ⚠️ 면을 깔아야 모양이 보인다. 그래픽 자체가 거의 흰색이라 흰 바탕 위에서는
@@ -169,6 +171,10 @@
         hero.style.setProperty('--hero-p', p.toFixed(4));
         // 다 자란 뒤에야 마커를 만질 수 있다.
         hero.classList.toggle('is-grown', p > 0.9);
+        /* 심볼 모양은 멈춰 있을 때만이다. 자라기 시작하면 바로 사각형으로 바꿔
+           칸을 꽉 채우며 커진다 — 세로가 이미 한계라 심볼을 쥔 채 커지면 가로로만
+           늘어나 모양이 망가진다. */
+        hero.classList.toggle('is-growing', p > 0.02);
 
         // 히어로에 머무는 동안에는 헤더를 붙들어 둔다.
         root.classList.toggle('hero-nav-hold', passed > -1 && passed / run < 1.02);
