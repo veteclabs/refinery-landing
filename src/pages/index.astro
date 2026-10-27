@@ -789,8 +789,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       flex-wrap: nowrap;
       gap: 24px;
     }
+    /* 대제목 크기는 #platform 의 '데이터에서 지능으로' 와 같은 60px 이다. */
     #industries .section-header-row h2 {
-      font-size: 65px;
+      font-size: 60px;
       text-align: center;
       max-width: none;
       margin-bottom: 0;
@@ -809,7 +810,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       margin: 0;
     }
     @media (max-width: 900px) {
-      #industries .section-header-row h2 { font-size: clamp(32px, 7vw, 65px); }
+      #industries .section-header-row h2 { font-size: clamp(32px, 7vw, 60px); }
       #industries .section-header-row p { font-size: clamp(20px, 4.4vw, 40px); }
     }
   </style>
