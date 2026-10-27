@@ -842,9 +842,44 @@
        탭과 하는 일이 같은데 어디로 가는지는 탭만 말해 준다.
        넘김은 탭과 스와이프로 한다. */
     #industries .sol-switch-row { display: flex; align-items: center; gap: 16px; margin-top: 48px; }
-    #industries .sol-tabs { display: inline-flex; gap: 4px; background: #EFF2F5; border-radius: 999px; padding: 4px; }
-    #industries .sol-tab { font-family: inherit; font-size: 15px; font-weight: 600; color: var(--text-muted); background: none; border: 0; padding: 9px 20px; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s; }
-    #industries .sol-tab[aria-selected="true"] { background: #ffffff; color: var(--text); box-shadow: 0 1px 2px rgba(16,32,44,.08); }
+    /* 밑줄 탭. 회색 알약 띠를 쓰지 않는다 — 카드 줄이 화면 끝까지 나가는 구성에서
+       띠만 혼자 작은 섬처럼 떠 보였다. 밑줄은 카드 줄의 왼쪽 시작선과 축이 맞는다. */
+    #industries .sol-tabs {
+      display: inline-flex;
+      gap: 28px;
+      background: none;
+      border-radius: 0;
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    #industries .sol-tab {
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: none;
+      border: 0;
+      border-radius: 0;
+      padding: 10px 2px 12px;
+      position: relative;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    #industries .sol-tab[aria-selected="true"] { color: var(--text); }
+    /* ⚠️ 밑줄은 ::after 로 긋고 scaleX 로 편다. border-bottom 을 켜고 끄면 글자가
+       1px 씩 들썩인다. bottom: -1px 은 묶음의 선 위에 정확히 겹치는 자리다. */
+    #industries .sol-tab::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--text);
+      transform: scaleX(0);
+      transition: transform .25s cubic-bezier(.22, 1, .36, 1);
+    }
+    #industries .sol-tab[aria-selected="true"]::after { transform: none; }
     /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
        옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
        grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
