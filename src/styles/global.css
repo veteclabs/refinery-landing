@@ -17,7 +17,7 @@
       --red: #ef4444;
       --radius: 12px;
       /* 히어로 그래픽 칸의 상하좌우 여백 — 네 값이 같아야 해서 한 곳에 둔다. */
-      --hero-gap: 48px;
+      --hero-gap: 100px;
       /* 히어로 그래픽이 다 자랐을 때 화면 끝에 남기는 여백 */
       --hero-edge: 16px;
     }
@@ -233,10 +233,10 @@
          못 내줘 칸이 납작해지고, 정사각 기준으로 그린 심볼 오림틀이 세로로 눌려
          위아래가 잘린다. 무대 안쪽 높이는 100vh 에서 헤더(70)와 위아래 패딩(96)을
          뺀 값이고, 여유를 조금 더 둔다. */
-      --hero-base-w: min(620px, 100vw - 96px, 100vh - 170px);
+      --hero-base-w: min(620px, 100vw - 200px, 100vh - 170px);
       /* 그래픽을 그리는 판의 폭. 칸(--hero-base-w)과 따로 간다 — 칸은 심볼 모양으로
          오려 낼 작은 창이고, 판이 좁아지면 그 안의 설비까지 같이 작아진다. */
-      --hero-art-w: min(1200px, 100vw - 96px);
+      --hero-art-w: min(1200px, 100vw - 200px);
       /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
@@ -421,11 +421,10 @@
       top: 50%;
       right: auto;
       transform: translate(-50%, -50%);
-      width: calc(var(--hero-art-w) + (100% - var(--hero-art-w)) * var(--hero-p, 0));
-      --vh-height: max(
-        calc(var(--hero-art-w) * 0.747),
-        calc(var(--hero-full-h, 0px) * var(--hero-p, 0))
-      );
+      /* ⚠️ 보간하지 않고 큰 쪽을 쓴다. p 로 섞으면 자라는 내내 판이 칸보다 작아
+         칸 가장자리가 빈다(1920 에서 칸 1628x988 · 판 1548x896 이었다). */
+      width: max(var(--hero-art-w), 100%);
+      --vh-height: max(calc(var(--hero-art-w) * 0.747), 100%);
       min-height: 0;
       border-radius: inherit;
     }
