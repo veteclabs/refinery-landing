@@ -815,7 +815,7 @@
       radial-gradient(circle at bottom left, #111316 0%, transparent 30%),
       radial-gradient(circle at bottom right, #111316 0%, transparent 30%); }
     #integrations > * { position: relative; z-index: 1; }
-    #integrations .section-header h2 { color: #EDEEF0; }
+    #integrations .section-header h2 { color: #F6F8FA; }
     #integrations .section-header p { color: #959CA5; }
     /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 각 줄이 다시 감겨 4줄이 됐다.
        각 줄 필요 폭은 ko 429·390px, en 491·470px. 500px이면 양쪽 다 2줄로 들어간다.

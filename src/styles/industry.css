@@ -185,13 +185,13 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 0;
 }
 /* 이름 — 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다.
-   20px / 600 / 줄높이 1.6. 색만 어두운 면에 맞춰 #EDEEF0이다. */
+   20px / 600 / 줄높이 1.6. 색만 어두운 면에 맞춰 #F6F8FA이다. */
 .ind-page .ind-flow-label {
   flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: inherit;
   font-size: 20px; font-weight: 600; line-height: 1.6;
   letter-spacing: -0.01em; text-transform: none;
-  color: #edeef0; margin-bottom: 0;
+  color: #F6F8FA; margin-bottom: 0;
 }
 /* 카드 일러스트 — 어두운 카드 면(#191D22)에 맞춰 그린 그림이라 배경을 따로
    깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
@@ -232,7 +232,7 @@ img { max-width: 100%; height: auto; }
      구간이라 크기를 줄여도 대비 요구가 올라가지 않는다.
      글자색은 --ink-800(#C0C4CA)이다. 상자 면(#32373F) 위에서 AA(4.5:1)를
      지키는 가장 어두운 단계다 — 한 칸 더 내려간 --ink-700(#959CA5)은
-     4.32:1로 미달이다. 카드 제목(#EDEEF0)보다 한 단계 눌러 위계를 만든다. */
+     4.32:1로 미달이다. 카드 제목(#F6F8FA)보다 한 단계 눌러 위계를 만든다. */
   font-size: 14px; line-height: 1.5; color: #c0c4ca;
   word-break: keep-all;
 }
@@ -265,8 +265,8 @@ img { max-width: 100%; height: auto; }
   border-radius: 0;
   padding: 0;
   /* 글자색은 섹션 소제목과 같은 #959CA5다. 섹션 면(#111316) 위 대비 6.72:1
-     — AA를 넘기면서 위계가 제목(#EDEEF0) → 상자 글(#C0C4CA) → 주석 순으로
-     선다. 제목과 같은 #EDEEF0을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
+     — AA를 넘기면서 위계가 제목(#F6F8FA) → 상자 글(#C0C4CA) → 주석 순으로
+     선다. 제목과 같은 #F6F8FA을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
   font-size: 13px; line-height: 1.5; color: #959ca5;
@@ -317,8 +317,8 @@ img { max-width: 100%; height: auto; }
      쌓임 맥락을 만들어 작은 원 뒤로 못 보낸다. */
   background: #32373f; border: 0;
   box-shadow: 0 0 0 10px #1e2228, 0 0 0 11px #272b32;
-  /* 화살표는 카드 제목과 같은 #EDEEF0이다. */
-  color: #edeef0;
+  /* 화살표는 카드 제목과 같은 #F6F8FA이다. */
+  color: #F6F8FA;
   font-size: 0;
 }
 .ind-page .ind-flow-arrow .ph { font-size: 14px; line-height: 1; }
@@ -653,7 +653,7 @@ img { max-width: 100%; height: auto; }
    묶으면 사진과 말풍선을 따로 조절할 수 있다 - 사진 .10→.16으로 올렸는데도
    말풍선 구분 대비가 1.14:1에서 1.20:1로 오히려 좋아졌다. */
 .ind-soft-dark .ind-grid-bubble .ind-card { background: #272b32; }
-.ind-soft-dark .ind-card h3 { color: #edeef0; }
+.ind-soft-dark .ind-card h3 { color: #F6F8FA; }
 .ind-soft-dark .ind-card p { color: #959ca5; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
    (.rfn-node)와 같은 값이다. */
@@ -1116,7 +1116,7 @@ img { max-width: 100%; height: auto; }
 }
 .ind-page .ind-systems-head h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
-  color: #edeef0; margin: 0;
+  color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
   margin: 0; font-size: 15px; line-height: 1.5; color: #959ca5;
