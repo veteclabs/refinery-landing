@@ -881,18 +881,23 @@ const faqSchema = {
       /* 불러오는 즉시 준비한다(감추기). 재생은 준비가 끝난 뒤 화면에 들어올 때다.
          load 시점에는 SVG 레이아웃이 아직이라 getBBox()가 0을 준다 — 그러면
          모든 부분이 걸러져 준비가 통째로 건너뛰어진다. 크기가 잡힐 때까지 기다린다. */
-      var tries = 0;
+      var tries = 0, started = false;
       function ready() {
+        if (started) return;
         var doc = obj.contentDocument;
         var root = doc && (doc.querySelector('#_레이어_1') || doc.querySelector('svg > g'));
         var ok = false;
         if (root) { try { ok = root.getBBox().width > 0; } catch (e) {} }
-        if (ok) { run(); return; }
+        if (ok) { started = true; run(); return; }
         if (++tries < 60) { requestAnimationFrame(ready); return; }
         obj.classList.add('is-ready');   /* 끝내 못 재면 그림만이라도 보인다 */
       }
+      /* ⚠️ load 는 언제나 건다. 빈 <object>(about:blank)도 readyState 가 'complete'
+         라서, 그것만 보고 시작하면 740KB 짜리 그림이 아직 오는 중인데 1초를 세다
+         포기한다 — 디스크에서 읽는 로컬은 늘 성공하고 프로덕션만 조용히 실패했다.
+         실제로 다 받은 시점에 다시 세도록 load 에서 tries 를 0 으로 되돌린다. */
+      obj.addEventListener('load', function () { tries = 0; ready(); });
       if (obj.contentDocument && obj.contentDocument.readyState === 'complete') ready();
-      else obj.addEventListener('load', ready);
       /* 스크립트가 못 도는 경우(다른 출처 등)에도 그림은 보여야 한다. */
       setTimeout(function () { obj.classList.add('is-ready'); }, 2500);
     })();
