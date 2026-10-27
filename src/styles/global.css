@@ -763,19 +763,6 @@
                                  + 28px * (1 - var(--ind-body, 1))));
     }
 
-    /* 히어로 소제목(.hero-sub)과 같은 활자다 — 덩어리만 가운데에 세운다. */
-    #industries .sol-sub {
-      font-size: 16px;
-      font-weight: 300;
-      line-height: 1.5;
-      color: #5A6776;
-      max-width: none;
-      text-align: center;
-      word-break: keep-all;
-      overflow-wrap: break-word;
-      margin: 0;
-    }
-    @media (max-width: 900px) { #industries .sol-sub { font-size: 15px; } }
     /* 도면 바탕은 제목이 다 차면 걷힌다 — 사진이 들어설 자리에 격자가 남아 있으면
        둘이 겹쳐 어수선하다. --ind-body 는 소제목부터 아래가 차오르는 값이다. */
     #industries .ind-stage::before,
