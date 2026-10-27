@@ -405,7 +405,7 @@
       font-size: clamp(36px, 5.2vw, 64px);
       /* 제목·소제목은 내용 너비 왼쪽 끝에 세운다. */
       text-align: left;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1.15;
       padding: 0.1em 0;
       /* 사이트 공통 규칙대로 영문·숫자는 Roboto, 한글은 Pretendard 다.
