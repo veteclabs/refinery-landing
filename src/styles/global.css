@@ -416,24 +416,6 @@
       /* ⚠️ 박스를 글자 폭에 맞춘다. 블록인 채로 두면 박스가 칸 전체(글자보다 28% 넓다)라
          아래 그라데이션의 stop 이 글자와 어긋난다. */
       width: fit-content;
-      /* 제목 전체를 글자색 → 브랜드색 → 글자색 으로 두른다. 밝은 자리(69%)는
-         '하나의 운영체제'(44.1~93.2%)의 한가운데다.
-         ⚠️ 0% 와 42% 에 먹색을 두 번 둔다. 한 번만 두면 0→44 를 선형으로 건너가며
-            '흩어진 현장을'(~42.3%) 끝이 벌써 파래진다 — 앞머리는 끝까지 글자색이어야
-            한다. 먹색과 브랜드색 사이가 탁한 청회색(#46637F 언저리)을 지나므로
-            55% · 90% 에 brand-700 을 세워 브랜드 계열 안에서 건너가게 한다. */
-      background: linear-gradient(
-        90deg,
-        #16202C 0%,
-        #16202C 42%,
-        #3F76AE 55%,
-        #76A6D7 69%,
-        #3F76AE 90%,
-        #16202C 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
       color: #16202C;
       /* keep-all — 없으면 한국어가 어절 중간에서 잘린다.
          360px에서 '산업 AI 운영체 / 제', 320px에서 '산업 AI 운영 / 체제'가 됐다.
@@ -464,9 +446,27 @@
     @media (max-width: 900px) {
       #hero .hero-sub { font-size: 16px; }
     }
-    /* 그라데이션은 h1 이 통째로 쥔다 — 여기서는 굵기만 다르게 둔다. */
+    /* '하나의 운영체제'에만 브랜드 빛을 둔다. 발밑 바깥(60% · 102%)에서 올라오는
+       작은 원이라 윗부분은 글자색 그대로이고 아래쪽만 브랜드색으로 번진다.
+       ⚠️ 순서를 지킨다 — background 단축 속성이 background-clip 을 초기화하므로
+          clip 은 반드시 background 뒤에 와야 한다.
+       ⚠️ 반지름은 em 이다. 제목이 clamp 로 크기를 오가므로 px 로 두면 좁은 화면에서
+          빛이 글자를 통째로 덮는다.
+       ⚠️ line-height:1 로 박스를 글자에 맞춘다. h1 의 1.15 를 그대로 받으면 박스가
+          글자보다 높아 102% 자리의 빛이 글자 아래 여백에 떨어진다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
+      line-height: 1;
+      background: radial-gradient(
+        circle 1.2em at 60% 102%,
+        #76A6D7 0%,
+        #4A7FA8 38%,
+        #24354A 72%,
+        #16202C 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
        넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
