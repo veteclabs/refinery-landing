@@ -9,7 +9,6 @@ import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
 import ScrollReveal from '../../components/ScrollReveal.astro';
 import HeroZoom from '../../components/HeroZoom.astro';
-import HeroBackdrop from '../../components/HeroBackdrop.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -57,7 +56,6 @@ const jsonLd = [orgSchema, websiteSchema];
 <section id="hero">
   <HeroZoom />
   <div class="hero-stage">
-    <HeroBackdrop />
     <div class="container">
       <h1><span class="hero-title-lead">Scattered sites,</span><br><span class="hero-title-accent">one operating system</span></h1>
       <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
