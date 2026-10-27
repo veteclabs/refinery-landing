@@ -293,14 +293,11 @@
       position: relative;
       flex: 1 1 auto;
       width: 100%;
-      /* 처음에는 내용 너비(1600px · 좌우 48px)에 맞춰 서고 — 카피를 담는
-         #hero .container 와 같은 계산이라 둘의 좌우 끝이 한 축에 선다 — 자라는
-         동안 무대 안쪽(100%)까지 넓어진다. 무대 패딩도 함께 줄어 화면 끝에서
-         --hero-edge 만 남는다. */
-      max-width: calc(
-        (1600px - var(--hero-gap) * 2)
-        + (100% - (1600px - var(--hero-gap) * 2)) * var(--hero-p, 0)
-      );
+      /* 멈춰 있을 때는 내용 너비(1504px)보다 좁은 960px 에 묶는다 — 설비가 칸을
+         꽉 채우는 만큼만 보이게 하려는 값이다. 넓은 화면에서 내용 너비에 맞추면
+         설비가 작아지고 좌우가 텅 빈다.
+         자라면서 무대 안쪽(100%)까지 넓어진다. */
+      max-width: calc(960px + (100% - 960px) * var(--hero-p, 0));
       margin-inline: auto;
       overflow: hidden;
       border-radius: var(--radius);
