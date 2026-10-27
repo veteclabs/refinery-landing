@@ -399,8 +399,8 @@
       display: block;
       font-size: 26px;
       line-height: 1;
-      /* 흰 면 위에서는 brand(#76A6D7)가 흐리다 — 한 단 짙은 brand-700 을 쓴다. */
-      color: #3F76AE;
+      /* 하늘색은 면 밝기와 무관하게 브랜드 기본값 하나로 간다. */
+      color: #76A6D7;
       margin-bottom: 12px;
     }
     #hero .hero-motion-placeholder .vh-card__title {

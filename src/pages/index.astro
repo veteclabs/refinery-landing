@@ -187,18 +187,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다 — ScrollReveal 스크립트가 못 돌면
           글이 그냥 보여야 한다. 기본값으로 숨겨 두지 않는 이유다. */
     #platform .section-lead-ko,
-    #platform .section-header-row p {
+    #platform .pf-lead {
       transition: opacity .9s cubic-bezier(.2, .7, .2, 1),
                   transform .9s cubic-bezier(.2, .7, .2, 1),
                   filter .9s cubic-bezier(.2, .7, .2, 1);
     }
-    .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
+    /* 제목 줄은 대제목이 다 찍힌 뒤에 떠오른다 — 타자 스크립트가 .is-in 을 붙인다.
+       ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다. 스크립트가 못 돌면 그냥 보여야 한다. */
+    .rv-on #platform .pf-lead:not(.is-in) {
       opacity: 0;
       transform: translateY(26px);
       filter: blur(8px);
     }
-    /* 대제목이 다 찍힌 뒤에 뜬다 — 열 글자 × 80ms 에 한 박자 더. */
-    #platform .section-header.rv-in .section-header-row p { transition-delay: .95s; }
 
     /* 대제목은 타자처럼 한 글자씩 찍힌다. 글자를 미리 다 깔아 두고 투명도만
        열어 가므로 줄 폭이 변하지 않는다 — textContent 를 늘려 가면 가운데 정렬이라
@@ -229,30 +229,24 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        선택자에 #platform 을 끼워 특이도로 이긴다. */
     .rv-on #platform .section-header:not(.rv-done) { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
-      .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
-        opacity: 1; transform: none; filter: none;
-      }
+      .rv-on #platform .pf-lead:not(.is-in) { opacity: 1; transform: none; filter: none; }
     }
-    /* 제목 자리로 올라온 문구다 — 소제목이 아니라 제목 활자로 세운다.
-       (국문 대제목 '데이터에서 지능으로' 는 그 위에 60px 로 따로 선다.) */
-    /* ⚠️ 선택자를 한 겹 더 쥔다. 아래 '#platform .section-header p' 와 특이도가
-       같아 나중에 선언된 그쪽 색(#959CA5)이 이겼다. */
-    #platform .section-header .section-header-row p {
+    /* 제목 줄. 머리에서 떼어 왼쪽 단 맨 위로 옮겼다 — 왼쪽 맞춤이고 윗변이
+       오른쪽 그래픽의 윗변과 같은 선에 선다(.platform-split 의 align-items: start).
+       대제목만 가운데에 남는다. */
+    #platform .pf-lead {
       font-size: clamp(28px, 4vw, 40px);
       font-weight: 600;
       letter-spacing: -0.8px;
       line-height: 1.3;
       color: #EDEEF0;
       max-width: none;
-      margin: 0;
-      /* 위 국문 대제목과 한 축에 세운다. 칸은 flex 라 text-align 만으로는 안 되고
-         justify-content 를 함께 눕혀야 글 상자 자체가 가운데로 온다. */
-      text-align: center;
+      margin: 0 0 40px;
+      text-align: left;
+      word-break: keep-all;
     }
-    #platform .section-header .section-header-row { justify-content: center; }
-    #platform .section-header p {
-      color: #959CA5;
-    }
+    /* 머리에는 대제목만 남았다 — 아래쪽 간격은 대제목이 쥔다. */
+    #platform .section-header { margin-bottom: 0; }
     /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 그래픽이 이 섹션의 주인공이라
        더 넓게 가져간다 — 내용 너비 1600px 에서 글 582px · 그래픽 938px 이다.
        반반(625/625)으로 나눠 보니 그래픽이 글에 밀렸다. */
@@ -260,8 +254,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       display: grid;
       grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
       gap: 80px;
-      margin-top: 64px;
-      align-items: center;
+      /* 머리(대제목)와의 간격은 대제목 아래 여백 250px 하나로 잡는다 — 여기서
+         margin-top 을 더하면 그만큼 또 벌어진다. */
+      margin-top: 0;
+      /* 두 단의 윗변을 맞춘다. 제목 줄의 첫 획이 그래픽 윗변과 같은 선에 선다. */
+      align-items: start;
     }
     #platform .platform-split__cards {
       display: flex;
@@ -674,9 +671,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   <div class="container">
     <div class="section-header">
       <h2 class="section-lead-ko">데이터에서 지능으로</h2>
-      <div class="section-header-row">
-        <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
-      </div>
     </div>
     <script is:inline>
       /* 대제목을 타자처럼 찍는다.
@@ -718,6 +712,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         }
         function type() {
           if (idx >= spans.length) {
+            /* 다 찍은 뒤에 제목 줄을 띄운다 — 두 줄이 겹쳐 움직이지 않게. */
+            var lead = document.querySelector('#platform .pf-lead');
+            if (lead) lead.classList.add('is-in');
             setTimeout(function () { caret.classList.remove('on'); }, 900);
             return;
           }
@@ -747,6 +744,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
     <div class="platform-split">
       <div class="platform-split__cards">
+        <p class="pf-lead">현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
         <div class="pf-acc">
           <div class="pf-item is-open">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
