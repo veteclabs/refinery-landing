@@ -1031,6 +1031,32 @@
          가려지지 않는 쪽에 세운다. 왼쪽 장은 오른쪽이 덮이지만 글이 이미 왼쪽에
          있어 그대로 둔다. */
       #industries .industry-card.is-right .industry-body { text-align: right; }
+
+      /* 겹친 자리를 흰 그라데이션으로 가른다. 뒤에 깔린 장이 제 몸에 그리므로
+         앞 장 위로는 넘어가지 않는다.
+         ⚠️ 시작점을 겹친 만큼(--sol-ov) 안으로 민다. 변에서 바로 시작하면 그
+            구간이 통째로 앞 장 밑이라 화면에는 꼬리만 비친다 — 처음에 그렇게
+            넣었다가 아무것도 안 보였다.
+         ⚠️ 가운데 장에는 걸지 않는다. 맨 위라 덮이는 변이 없다. */
+      #industries .industry-card.is-right::after,
+      #industries .industry-card.is-left::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 46%;
+        z-index: 4;
+        pointer-events: none;
+        border-radius: inherit;
+      }
+      #industries .industry-card.is-right::after {
+        left: var(--sol-ov, 38px);
+        background: linear-gradient(to right, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
+      }
+      #industries .industry-card.is-left::after {
+        right: var(--sol-ov, 38px);
+        background: linear-gradient(to left, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
+      }
       /* 설명은 가운데 장에만 나온다. 옆 장은 이름만 이고 선다. */
       #industries .industry-desc {
         color: #C8CED5;

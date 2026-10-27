@@ -1097,8 +1097,11 @@ const jsonLd = [orgSchema, websiteSchema];
         c.style.setProperty('--sol-h', h[Math.min(a, 2)]);
         c.style.setProperty('--sol-o', a > 2 ? '0' : '1');
         c.style.setProperty('--sol-z', String(10 - a));
+        /* 앞 장에 덮인 폭 — 겹침 값 그대로다. 흰 가름선을 이만큼 안으로 민다. */
+        c.style.setProperty('--sol-ov', (-GAP).toFixed(1) + 'px');
         c.classList.toggle('is-center', d === 0);
         c.classList.toggle('is-right', d > 0);
+        c.classList.toggle('is-left', d < 0);
         c.setAttribute('aria-hidden', a > 2 ? 'true' : 'false');
         c.tabIndex = d === 0 ? 0 : -1;
       }
