@@ -202,7 +202,7 @@
         linear-gradient(to right,
           #16202C 0 var(--sol-fill, 100%),
           rgba(22,32,44,0) var(--sol-fill, 100%) 100%),
-        repeating-linear-gradient(-45deg,
+        repeating-linear-gradient(45deg,
           #AEBAC8 0 1px,
           #E9EEF3 1px 6px);
       -webkit-background-clip: text;
@@ -225,6 +225,8 @@
       transform: translateX(-50%);
       border-left: 1px solid rgba(118,166,215,.55);
       border-right: 1px solid rgba(118,166,215,.55);
+      /* 스크립트가 미는 값. 없으면(동작 줄이기·스크립트 차단) 아예 안 그린다. */
+      opacity: var(--sol-guide, 0);
       pointer-events: none;
     }
     /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */

@@ -3,13 +3,13 @@
   <defs>
     <style>
 
-      [data-part] { transition: filter .35s ease; }
-      /* 흐리는 데 opacity 를 쓰지 않는다. 이 그림은 판이 서로 겹쳐 가리는 구조라,
-         투명해지는 순간 가려져 있던 아래 판의 파란 윗면이 드러나 전혀 다른
-         그림이 된다. 덮는 힘은 그대로 두고, 초점 밖으로 밀어 뒤로 보낸다 —
-         어둡게 물리면 그림 전체가 가라앉는다. */
-      svg.rf-sel [data-part] { filter: grayscale(.5) blur(2.5px) brightness(.9); }
-      svg.rf-sel [data-part].rf-on { filter: none; }
+      [data-part] { transition: opacity .35s ease; }
+      /* 고르지 않은 쪽은 옅어지기만 한다 — 흐리거나 어둡게 하지 않는다.
+         ⚠️ 온톨로지 판의 불투명 바닥 두 장(cls-15·cls-16)에는 data-part 를 달지
+            않았다. 그 두 장이 아래 데이터 판을 가리는 덮개라, 같이 옅어지면
+            가려져 있던 파란 윗면이 통째로 드러나 그림이 전혀 달라진다. */
+      svg.rf-sel [data-part] { opacity: .32; }
+      svg.rf-sel [data-part].rf-on { opacity: 1; }
       .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
         fill: none;
       }

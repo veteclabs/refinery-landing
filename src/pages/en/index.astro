@@ -1056,6 +1056,8 @@ const jsonLd = [orgSchema, websiteSchema];
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - 0.05 - i * 0.12) / 0.26));
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
+        /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
+        lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
       }
     }
     function onScroll() {
