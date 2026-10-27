@@ -1021,7 +1021,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       </div>
     </div>
   </div>
-  <div class="ind-next">
   <div class="container">
     <p class="sol-sub">Refinery 산업 AI 운영체제가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
     <div class="sol-switch-row">
@@ -1057,7 +1056,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       </div>
     </div>
   </div>
-  </div>
 </section>
 
 <script is:inline>
@@ -1082,6 +1080,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       /* 진행도는 핀 상자가 화면을 지나간 비율이다 — 무대가 붙어 있는 동안 0→1. */
       var span = pin.offsetHeight - (window.innerHeight || 800);
       var p = span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+      /* 제목이 다 찬 뒤에 위로 올라간다 — 그 아래를 소제목·카드가 채운다. */
+      sec.style.setProperty('--ind-lift', ease(clamp((p - 0.48) / 0.34)).toFixed(3));
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - 0.05 - i * 0.12) / 0.26));
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
