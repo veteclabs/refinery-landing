@@ -54,6 +54,9 @@
   #hero:not(.is-grown) .hero-motion-placeholder {
     clip-path: url(#rf-symbol-clip);
     border-radius: 0;
+    /* ⚠️ 면을 깔아야 모양이 보인다. 그래픽 자체가 거의 흰색이라 흰 바탕 위에서는
+       오려낸 윤곽이 묻혀, 클립이 걸렸는데도 아무 모양도 안 보였다. */
+    background: #E9EDF1;
   }
   /* 카피는 무대 세로 한가운데에 떠 있고 그래픽이 그 뒤로 지나간다.
      ⚠️ absolute 라 흐름에서 빠진다. 그래야 칸이 무대의 유일한 아이템이 되어
