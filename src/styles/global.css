@@ -163,8 +163,10 @@
       font-weight: 600;
       letter-spacing: -0.8px;
       line-height: 1.3;
-      /* 아래 줄이 45px 제목 활자라 6px 이면 두 줄이 한 덩어리로 붙어 보인다. */
-      margin: 0 0 64px;
+      /* 아래 줄이 45px 제목 활자라 6px 이면 두 줄이 한 덩어리로 붙어 보인다.
+         #platform 에서는 이 사이에서 배경이 흰 면에서 어두운 면으로 넘어간다 —
+         간격을 줄이면 번질 자리가 없어진다. */
+      margin: 0 0 150px;
       max-width: none;
       color: inherit;
       /* 이 줄만 가운데에 세운다 — 섹션 헤더의 나머지는 왼쪽 정렬 그대로다. */
@@ -173,6 +175,7 @@
     @media (max-width: 720px) {
       .section-header .section-lead-ko { font-size: clamp(32px, 8vw, 60px); }
     }
+    /* 대제목만 그라데이션의 흰 구간 위에 선다 — 그 아래 제목 줄부터는 어두운 면이다. */
     #platform .section-header .section-lead-ko { color: #16202C; }
     .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: 1.5; }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
@@ -532,6 +535,15 @@
     }
     @media (max-width: 900px) {
       #hero .hero-sub { font-size: 15px; }
+    }
+    /* 소제목 위에 얹는 제품 이름. 소제목 <p> 안의 블록이라 크기는 물려받는다 —
+       900px 이하에서 소제목이 15px 로 줄면 이 줄도 함께 줄어든다. */
+    #hero .hero-eyebrow {
+      display: block;
+      margin-bottom: 10px;
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 400;
+      color: #76A6D7;
     }
     /* '하나의 운영체제'에만 브랜드 빛을 둔다. 발밑 바깥(60% · 102%)에서 올라오는
        작은 원이라 윗부분은 글자색 그대로이고 아래쪽만 브랜드색으로 번진다.
