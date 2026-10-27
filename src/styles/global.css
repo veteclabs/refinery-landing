@@ -183,7 +183,12 @@
     /* 소제목은 제목 오른쪽이 아니라 아래에 둔다 — 60px 제목 옆에 18px 글이 서면
        줄 끝이 서로 멀어 한 덩어리로 읽히지 않는다. 둘 다 가운데에 세운다. */
     #industries .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-    #industries .section-header-row p { max-width: none; margin-top: 0; }
+    #industries .section-header-row p {
+      max-width: none;
+      margin-top: 0;
+      opacity: var(--ind-sub, 1);
+      transform: translateY(calc(14px * (1 - var(--ind-sub, 1))));
+    }
     /* 제목 글자는 옅은 색으로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이 찬다.
        줄마다 제 --sol-fill 을 쥐므로 윗줄이 먼저 차고 아랫줄이 뒤따른다.
        ⚠️ background-clip: text 라 글자 자체에는 색이 없다(color: transparent).
@@ -191,14 +196,54 @@
           색으로 보이는 이유다. 스크립트가 막히면 --sol-fill 이 없어 100% 로 선다. */
     #industries .sol-title .sol-line {
       display: block;
-      background-image: linear-gradient(to right,
-        #16202C 0 var(--sol-fill, 100%),
-        #D3DAE2 var(--sol-fill, 100%) 100%);
+      position: relative;
+      /* 보조선이 글자 폭을 기준으로 그어져야 한다 — 칸 폭을 그대로 쓰면 선이
+         섹션 끝까지 뻗어 제도선이 아니라 구분선으로 읽힌다. */
+      width: fit-content;
+      margin-inline: auto;
+      /* 두 겹이다. 위층은 채워진 데까지만 먹이고 그 뒤는 투명 — 그래서 아직 안
+         채워진 글자에서는 아래층 해칭이 그대로 비친다. 활자 견본지에서 아직
+         먹을 올리지 않은 글자를 빗금으로 두는 것과 같다. */
+      background-image:
+        linear-gradient(to right,
+          #16202C 0 var(--sol-fill, 100%),
+          rgba(22,32,44,0) var(--sol-fill, 100%) 100%),
+        repeating-linear-gradient(45deg,
+          #AEBAC8 0 1px,
+          #E9EEF3 1px 6px);
       -webkit-background-clip: text;
               background-clip: text;
       color: transparent;
       /* 받침·꼬리가 잘리지 않게 칠할 칸을 조금 넓힌다. */
       padding-bottom: .06em;
+    }
+    /* 줄마다 캡 하이트와 베이스라인에 제도 보조선을 긋고, 양 끝에 치수 연장선을
+       세운다. 선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
+       ⚠️ 높이 값(.16em·.2em)은 Pretendard 의 캡 하이트·베이스라인에 눈으로 맞춘
+          값이다. 활자를 바꾸면 다시 봐야 한다. */
+    #industries .sol-title .sol-line::before,
+    #industries .sol-title .sol-line::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: calc(100% + 48px);
+      height: 7px;
+      transform: translateX(-50%);
+      border-left: 1px solid rgba(118,166,215,.55);
+      border-right: 1px solid rgba(118,166,215,.55);
+      pointer-events: none;
+    }
+    /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */
+    #industries .sol-title .sol-line::before {
+      top: .16em;
+      border-bottom: 1px dashed rgba(118,166,215,.6);
+      transform: translate(-50%, -100%);
+    }
+    /* 베이스라인 — 점선은 윗변, 연장선이 아래로 뻗는다. */
+    #industries .sol-title .sol-line::after {
+      bottom: .2em;
+      border-top: 1px dashed rgba(118,166,215,.6);
+      transform: translate(-50%, 100%);
     }
     @media (prefers-reduced-motion: reduce) {
       #industries .sol-title .sol-line { --sol-fill: 100% !important; }
@@ -688,8 +733,30 @@
           data URI SVG 를 타일로 깐다(외부 요청 없음).
        ⚠️ 마스크는 네 변 모두에서 흰 면으로 풀린다. 선이 화면 끝에 닿으면 잘린 자국이
           남고, 아래로 내려가면 사진 카드와 겹쳐 지저분해진다 — 제목 둘레에만 둔다. */
-    #industries { background: #ffffff !important; position: relative; overflow: hidden; }
-    #industries::before {
+    #industries { background: #ffffff !important; position: relative; padding: 0 0 130px; }
+    /* 제목은 한 화면을 통째로 쓰고 선다. 스크롤이 무대를 지나는 동안 글자에 색이
+       차고 소제목이 떠오르며, 무대가 끝나면 탭과 카드가 이어진다.
+       ⚠️ 섹션에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다. */
+    #industries .ind-pin { height: 180vh; }
+    #industries .ind-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+    #industries .ind-stage > .container { width: 100%; }
+    #industries .section-header { margin-bottom: 0; }
+    /* ⚠️ 뒤 묶음을 음수 여백으로 끌어올리지 않는다. 무대는 핀이 풀린 뒤에도 제
+       100vh 상자를 그대로 들고 다니므로, 끌어올린 만큼이 무대 흰 바탕에 영영
+       가린다(탭 줄이 통째로 사라졌다). 대신 무대 끝에서 머리글을 내려 넘긴다. */
+    #industries > .container { padding-top: 40px; }
+    #industries .ind-stage > .container {
+      transform: translateY(calc(18vh * var(--ind-drop, 0)));
+    }
+    #industries .ind-stage::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -704,7 +771,7 @@
        한가운데마다 점. 선만 있으면 모눈종이고, 이 둘이 있어야 도면으로 읽힌다.
        십자는 가로·세로 길이가 유한해야 해서 background-image 로는 못 그린다 —
        data URI SVG 한 장이면 된다(외부 요청 없음). */
-    #industries::after {
+    #industries .ind-stage::after {
       content: "";
       position: absolute;
       inset: 0;

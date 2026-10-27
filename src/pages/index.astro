@@ -923,7 +923,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="platform-split__cards">
         <p class="pf-lead">현장 데이터를 연결하고<br>온톨로지를 통해 의미를 부여하여<br>AI 기반 의사결정으로 이어집니다</p>
         <div class="pf-acc">
-          <div data-part="data" class="pf-item is-open">
+          <div data-part="data" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
               <span class="pf-t">산업 데이터 통합</span>
             </button>
@@ -1003,13 +1003,19 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- INDUSTRIES -->
 <section id="industries" style="border-top:1px solid #E3E7EC;">
-  <div class="container">
+  <div class="ind-pin">
+    <div class="ind-stage">
+      <div class="container">
     <div class="section-header">
-      <div class="section-header-row">
-        <h2 class="sol-title"><span class="sol-line">산업도 과제도 가리지 않는</span><span class="sol-line">모든 현장에 최적화된 솔루션</span></h2>
-        <p>Refinery 산업 AI 운영체제가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
+          <div class="section-header-row">
+            <h2 class="sol-title"><span class="sol-line">산업도 과제도 가리지 않는</span><span class="sol-line">모든 현장에 최적화된 솔루션</span></h2>
+            <p>Refinery 산업 AI 운영체제가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="container">
     <div class="sol-switch-row">
       <div class="sol-tabs" role="tablist">
         <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="산업별 카드 보기">산업별</button>
@@ -1046,7 +1052,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 </section>
 
 <script is:inline>
-  /* 솔루션 제목 — 스크롤을 따라 글자에 제 색이 찬다.
+  /* 솔루션 머리글 — 핀 무대를 지나는 동안 글자에 색이 차고 소제목이 떠오른다.
      ⚠️ 칠은 CSS 가 한다(background-clip: text). 여기서는 줄마다 --sol-fill 만 민다.
      ⚠️ 줄마다 조금씩 늦춰 윗줄이 먼저 차게 한다 — 한꺼번에 차면 번쩍이는 느낌이다.
      ⚠️ 동작 줄이기를 켠 환경에서는 아예 손대지 않는다. CSS 기본값이 100% 라
@@ -1054,24 +1060,27 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   (function () {
     var sec = document.getElementById('industries');
     if (!sec) return;
-    var head = sec.querySelector('.section-header-row');
+    var pin = sec.querySelector('.ind-pin');
     var lines = sec.querySelectorAll('.sol-title .sol-line');
-    if (!head || !lines.length) return;
+    var sub = sec.querySelector('.section-header-row p');
+    if (!pin || !lines.length) return;
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function ease(t) { return t * t * (3 - 2 * t); }
 
     var ticking = false;
     function upd() {
-      var vh = window.innerHeight || 800;
-      var top = head.getBoundingClientRect().top;
-      /* 머리글이 화면 아래 82% 에 닿을 때 차기 시작해, 44% 를 더 올라오면 다 찬다. */
-      var p = (vh * 0.82 - top) / (vh * 0.44);
-      if (p < 0) p = 0; else if (p > 1) p = 1;
+      /* 진행도는 핀 상자가 화면을 지나간 비율이다 — 무대가 붙어 있는 동안 0→1. */
+      var span = pin.offsetHeight - (window.innerHeight || 800);
+      var p = span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
       for (var i = 0; i < lines.length; i++) {
-        var q = (p - i * 0.18) / 0.62;
-        if (q < 0) q = 0; else if (q > 1) q = 1;
-        q = q * q * (3 - 2 * q);
+        var q = ease(clamp((p - 0.06 - i * 0.13) / 0.3));
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
       }
+      if (sub) sec.style.setProperty('--ind-sub', ease(clamp((p - 0.52) / 0.24)).toFixed(3));
+      /* 끝머리에서 머리글을 조금 내려, 무대가 걷히는 순간 카드와의 사이를 좁힌다. */
+      sec.style.setProperty('--ind-drop', ease(clamp((p - 0.8) / 0.2)).toFixed(3));
     }
     function onScroll() {
       if (ticking) return;
