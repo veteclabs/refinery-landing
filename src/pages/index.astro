@@ -157,6 +157,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       position: sticky;
       top: 0;
       height: 100vh;
+      /* 내비(fixed · 70px)가 무대 윗부분을 덮는다. 그만큼 위를 비워 두어야
+         '보이는 화면' 의 위아래 여백이 같아진다 — box-sizing 이 border-box 라
+         높이는 100vh 그대로다. */
+      padding-top: 70px;
       overflow: hidden;
       /* 제목과 본문이 같은 칸을 나눠 쓴다 — 제목이 빠지는 자리에 본문이 들어선다. */
       display: grid;
@@ -266,9 +270,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       max-height: calc(100vh - 220px);
       object-fit: contain;
     }
-    /* 자르는 자리 — 위 38% 가 카드 세 장, 그 아래가 온톨로지 판이다. */
+    /* 자르는 자리 — 위 31% 가 카드 세 장과 그 이름표까지다.
+       캔버스에 그려 행마다 브랜드색 화소를 세어 보니 이름표 알약이 29.7% 에서
+       끝난다. 거기서 한 뼘 아래를 끊어 이름표가 윗장에 함께 들어가게 했다. */
     #platform .pf-art-top {
-      clip-path: inset(0 0 62% 0);
+      clip-path: inset(0 0 69% 0);
       opacity: var(--pf-in, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
     }
@@ -276,7 +282,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       position: absolute;
       left: 0; top: 0;
       width: 100%; height: 100%;
-      clip-path: inset(38% 0 0 0);
+      clip-path: inset(31% 0 0 0);
       opacity: var(--pf-in3, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in3, 0))));
     }
@@ -286,8 +292,17 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        따로 넘겨야 했는데, 접어 두면 한 화면에 들어온다. */
     /* 아코디언은 단 바닥에 붙는다 — 아랫변이 그래픽 아랫변과 같은 선에 선다.
        (단 높이는 그래픽이 정한다.) */
-    #platform .pf-acc { border-top: 1px solid #272B32; margin-top: auto; }
-    #platform .pf-item { border-bottom: 1px solid #272B32; }
+    /* 구분선은 디자인 시스템의 다크 뉴트럴을 따른다.
+       쉴 때는 ink-200(#353C44, 컨테이너 외곽선), 손이 닿으면 ink-300(#494F57,
+       버튼·입력의 affordance 선)으로 한 단 올린다. 줄 하나하나가 누르는 자리라
+       그 둘을 나눠 쓰는 게 맞다. 전에 쓰던 #272B32 는 스케일 밖 값이라 먹색
+       바탕에서 거의 묻혔다. */
+    /* ⚠️ flex: none — 칸이 flex 라 기본값(shrink: 1)이면 무대 높이에 눌려 줄들이
+       겹쳐 찌그러진다. 제목 줄과 같은 이유다. */
+    #platform .pf-acc { border-top: 1px solid #353C44; margin-top: auto; flex: none; }
+    #platform .pf-item { border-bottom: 1px solid #353C44; transition: border-color .2s ease; }
+    #platform .pf-item:hover,
+    #platform .pf-item.is-open { border-bottom-color: #494F57; }
     #platform .pf-q {
       width: 100%;
       display: flex;
