@@ -841,7 +841,8 @@
        좌우 화살표는 없앴다: 판이 둘뿐이라 둘 중 하나는 늘 비활성이었고,
        탭과 하는 일이 같은데 어디로 가는지는 탭만 말해 준다.
        넘김은 탭과 스와이프로 한다. */
-    #industries .sol-switch-row { display: flex; align-items: center; gap: 16px; margin-top: 48px; }
+    /* 제목 · 소제목이 가운데에 서므로 탭도 가운데에 세운다. */
+    #industries .sol-switch-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; }
     /* 밑줄 탭. 회색 알약 띠를 쓰지 않는다 — 카드 줄이 화면 끝까지 나가는 구성에서
        띠만 혼자 작은 섬처럼 떠 보였다. 밑줄은 카드 줄의 왼쪽 시작선과 축이 맞는다. */
     #industries .sol-tabs {
