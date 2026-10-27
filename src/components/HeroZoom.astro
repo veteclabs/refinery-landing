@@ -49,13 +49,12 @@
        자라는 몫(1600px * p)은 그대로 더한다. */
     max-height: calc(var(--hero-base-w) + 1600px * var(--hero-p, 0));
   }
-  /* 멈춰 있는 동안만 칸을 로고 심볼 모양으로 오려낸다.
-     ⚠️ 자라는 동안 쥐고 있으면 안 된다. 기본 크기가 이미 무대 높이에 닿아 있어
-        세로로는 더 못 커지고 가로로만 늘어나, 심볼이 옆으로 퍼진 다른 모양이 된다.
-        스크롤이 시작되는 즉시(is-growing, p > 0.02) 풀어 사각형으로 꽉 채운다. */
-  #hero:not(.is-growing) .hero-motion-placeholder {
+  /* 칸은 늘 오림틀을 쓴다. 틀 자체가 p 를 따라 자라 — 두 사각형이 서로 다가가며
+     커지다가 하나로 포개져 칸을 꽉 채운다(JS 의 shapeClip 이 좌표를 고쳐 넣는다).
+     ⚠️ 클래스로 틀을 껐다 켰다 하지 않는다. url() 클립은 보간되지 않아 그 순간
+        모양이 툭 끊긴다. 좌표를 움직이면 이어진 한 동작이 된다. */
+  .hero-motion-placeholder {
     clip-path: url(#rf-symbol-clip);
-    border-radius: 0;
     /* ⚠️ 면을 깔아야 모양이 보인다. 그래픽 자체가 거의 흰색이라 흰 바탕 위에서는
        오려낸 윤곽이 묻혀, 클립이 걸렸는데도 아무 모양도 안 보였다. */
     background: #E9EDF1;
@@ -71,9 +70,16 @@
     position: absolute;
     left: var(--hero-pad, 48px);
     right: var(--hero-pad, 48px);
-    top: 50%;
+    /* 무대 가운데보다 조금 위다 — 그래픽 윗면이 넓게 비어 보여 가운데에 두면
+       카피가 아래로 처져 보인다. */
+    top: 42%;
     transform: translateY(-50%);
     padding-top: 0;
+    /* 대제목 왼쪽을 다 자란 그래픽의 왼쪽 핀에 맞춘다. 핀은 그래픽 좌표에서 나오고
+       칸 폭에 비례하므로 패딩도 비율로 둔다 — px 로 박으면 화면마다 어긋난다.
+       1024 기준 자란 칸 977px · 핀 좌측이 칸 안쪽으로 111px 다. 패딩은 카피 폭(992)
+       기준이고 h1 자체 여백 2px 이 더 붙어, 11.0% 가 핀과 같은 자리다. */
+    padding-left: 11%;
     /* ⚠️ width:100%(global.css)를 푼다. absolute 에서 width 가 있으면 right 가 무시돼
        오른쪽이 화면 밖으로 넘친다(1024px 화면에서 소제목 끝이 1057 까지 갔다).
        auto 로 두면 left~right 가 폭을 정하고, 그 안에서 max-width 와 margin-inline:
@@ -158,6 +164,35 @@
         hero.style.setProperty('--hero-full-h', (sr.height - headerH - edge).toFixed(0) + 'px');
       }
 
+      /* 오림틀을 p 에 맞춰 고쳐 그린다.
+         로고 심볼은 둥근 사각형 둘이 대각으로 엇갈린 모양이다(620 기준 40~440 ·
+         180~580). 그 둘을 서로 끌어당기며 키워 t=1 에서 둘 다 0,0,1,1 이 되게 하면
+         심볼이 사각형으로 '자라서' 칸을 꽉 채운다 — 중간이 전부 이어진 모양이다.
+         ⚠️ 모서리는 px 로 일정하게 둔다. 비율(rx) 그대로 두면 칸이 커질수록 모서리도
+            커져 다른 모양이 된다. 칸이 정사각이 아닐 수 있으므로 rx · ry 를 따로 낸다. */
+      var CLIP_A = 0.06452, CLIP_B = 0.29032, CLIP_S = 0.64516;
+      var clipRects = d.querySelectorAll('#rf-symbol-clip rect');
+      function shapeClip(p) {
+        if (!clipRects.length || !boxEl) return;
+        var t = p / 0.85; if (t > 1) t = 1;
+        var size = CLIP_S + (1 - CLIP_S) * t;
+        var r = boxEl.getBoundingClientRect();
+        var radius = parseFloat(getComputedStyle(hero).getPropertyValue('--hero-base-w')) * 0.0968;
+        if (!(radius > 0)) radius = 58;
+        var rx = r.width ? Math.min(0.5, radius / r.width) : 0.0968;
+        var ry = r.height ? Math.min(0.5, radius / r.height) : 0.0968;
+        for (var i = 0; i < clipRects.length; i++) {
+          var o = (i === 0 ? CLIP_A : CLIP_B) * (1 - t);
+          var el = clipRects[i];
+          el.setAttribute('x', o.toFixed(5));
+          el.setAttribute('y', o.toFixed(5));
+          el.setAttribute('width', size.toFixed(5));
+          el.setAttribute('height', size.toFixed(5));
+          el.setAttribute('rx', rx.toFixed(5));
+          el.setAttribute('ry', ry.toFixed(5));
+        }
+      }
+
       function step() {
         ticking = false;
         /* 히어로 윗변이 화면 위로 올라간 거리 / 다 자라는 데 쓰는 길이.
@@ -171,10 +206,7 @@
         hero.style.setProperty('--hero-p', p.toFixed(4));
         // 다 자란 뒤에야 마커를 만질 수 있다.
         hero.classList.toggle('is-grown', p > 0.9);
-        /* 심볼 모양은 멈춰 있을 때만이다. 자라기 시작하면 바로 사각형으로 바꿔
-           칸을 꽉 채우며 커진다 — 세로가 이미 한계라 심볼을 쥔 채 커지면 가로로만
-           늘어나 모양이 망가진다. */
-        hero.classList.toggle('is-growing', p > 0.02);
+        shapeClip(p);
 
         // 히어로에 머무는 동안에는 헤더를 붙들어 둔다.
         root.classList.toggle('hero-nav-hold', passed > -1 && passed / run < 1.02);

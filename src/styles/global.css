@@ -310,7 +310,10 @@
       max-width: calc(var(--hero-base-w) + (100% - var(--hero-base-w)) * var(--hero-p, 0));
       margin-inline: auto;
       overflow: hidden;
-      border-radius: var(--radius);
+      /* 모서리는 로고 심볼과 같은 값이다 — 심볼은 620 기준 반경 60, 곧 폭의 9.68%.
+         멈춰 있을 때는 오림틀이 모양을 쥐지만, 자라면서 그 틀이 풀리는 순간
+         이 값이 그대로 이어져야 모서리가 갑자기 작아지지 않는다. */
+      border-radius: calc(var(--hero-base-w) * 0.0968);
     }
     /* 제목·소제목이 그래픽 위에 얹히므로 .vh 는 그 아래 층이다.
        ⚠️ 여기에 pointer-events: none 을 주면 안 된다. 그 값이 .vh-head 까지 내려가
