@@ -769,6 +769,9 @@
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%2376a6d7' stroke-width='1'%3E%3Cg stroke-opacity='.2' stroke-dasharray='2 6'%3E%3Cpath d='M24 0v120M48 0v120M72 0v120M96 0v120'/%3E%3Cpath d='M0 24h120M0 48h120M0 72h120M0 96h120'/%3E%3C/g%3E%3Cg stroke-opacity='.4' stroke-dasharray='4 6'%3E%3Cpath d='M.5 0v120M0 .5h120'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       background-size: 120px 120px;
+      /* 타일을 왼쪽 위가 아니라 가운데에서 깐다 — 제목이 가운데에 서므로 격자도
+         화면 중심을 기준으로 대칭이어야 눈금이 제목을 비껴가지 않는다. */
+      background-position: center;
       -webkit-mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, rgba(0,0,0,.78) 0%, rgba(0,0,0,.5) 26%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 100%);
               mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, rgba(0,0,0,.78) 0%, rgba(0,0,0,.5) 26%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 100%);
       pointer-events: none;
@@ -786,7 +789,10 @@
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M120 111.5v17M111.5 120h17' stroke='%2376a6d7' stroke-opacity='.5' stroke-width='1'/%3E%3C/svg%3E"),
         radial-gradient(circle, rgba(118,166,215,.28) 1px, rgba(118,166,215,0) 1.5px);
       background-size: 240px 240px, 120px 120px;
-      background-position: 0 0, 60px 60px;
+      /* 십자는 240px 타일 한가운데에, 점은 120px 타일 한가운데에 그려 두었다.
+         둘 다 center 로 깔면 화면 중심에 십자 하나가 정확히 놓이고, 점은 격자
+         칸 한가운데에 들어간다. */
+      background-position: center, center;
       -webkit-mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
               mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
       pointer-events: none;
@@ -925,6 +931,86 @@
     .industry-go svg { display: block; }
     a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
     @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
+
+    /* ── 솔루션 카드: 가로 아코디언 ─────────────────────────────────────────
+       카드를 세로 띠로 세워 두고, 손이 닿은 한 장만 펴진다. 줄 높이가 고정이라
+       펴고 접어도 아래 흐름이 밀리지 않는다 — 제목이 핀으로 한 화면을 쓰는
+       섹션이라 이게 중요하다.
+       ⚠️ 901px 아래는 손대지 않는다. 호버가 없는 기기에서는 접힌 띠가 영영 안
+          펴지므로, 좁은 폭에서는 기존 격자를 그대로 쓴다.
+       ⚠️ 펴는 신호는 호버다. 카드가 통째로 <a> 라 클릭은 이동이어야 한다. */
+    @media (min-width: 901px) and (hover: hover) {
+      #industries .industries-grid {
+        display: flex;
+        gap: 10px;
+        height: 440px;
+      }
+      #industries .industry-card {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 0;
+        background: #16202C;
+        transition: flex-grow .5s cubic-bezier(.22, 1, .36, 1);
+      }
+      /* 처음에는 첫 장이 펴져 있다. 줄 어딘가에 손이 닿으면 첫 장은 제자리로
+         돌아가고 닿은 장이 펴진다 — :has 없이 .industries-grid:hover 로 가른다. */
+      #industries .industry-card:first-child,
+      #industries .industry-card:hover { flex-grow: 4.2; }
+      #industries .industries-grid:hover .industry-card:first-child { flex-grow: 1; }
+      #industries .industries-grid:hover .industry-card:first-child:hover { flex-grow: 4.2; }
+
+      #industries .industry-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+        opacity: .5;
+        transform: scale(1.04);
+        transition: opacity .5s ease, transform .5s ease;
+      }
+      #industries .industry-card:first-child .industry-img,
+      #industries a.industry-card:hover .industry-img { opacity: 1; transform: none; }
+      #industries .industries-grid:hover .industry-card:first-child .industry-img { opacity: .5; transform: scale(1.04); }
+      #industries .industries-grid:hover .industry-card:first-child:hover .industry-img { opacity: 1; transform: none; }
+
+      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 띠 아래쪽 글자가 앉을 자리다. */
+      #industries .industry-card::before {
+        inset: 0;
+        aspect-ratio: auto;
+        background: linear-gradient(180deg,
+          rgba(10, 16, 22, 0) 30%,
+          rgba(10, 16, 22, .55) 62%,
+          rgba(10, 16, 22, .92) 100%);
+      }
+
+      #industries .industry-body {
+        position: absolute;
+        inset: auto 0 0 0;
+        flex: none;
+        background: none;
+        padding: 22px 24px 24px;
+      }
+      #industries .industry-name { color: #F6F8FA; font-size: 18px; }
+      /* 설명은 펴진 장에만 나온다. 접힌 띠는 이름만 이고 선다. */
+      #industries .industry-desc {
+        color: #C8CED5;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height .5s ease, opacity .35s ease;
+      }
+      #industries .industry-card:first-child .industry-desc,
+      #industries a.industry-card:hover .industry-desc { max-height: 5em; opacity: 1; }
+      #industries .industries-grid:hover .industry-card:first-child .industry-desc { max-height: 0; opacity: 0; }
+      #industries .industries-grid:hover .industry-card:first-child:hover .industry-desc { max-height: 5em; opacity: 1; }
+
+      #industries .industry-go { color: #C8CED5; opacity: 0; transition: opacity .35s ease, transform .2s ease, color .2s ease; }
+      #industries .industry-card:first-child .industry-go,
+      #industries a.industry-card:hover .industry-go { opacity: 1; }
+      #industries .industries-grid:hover .industry-card:first-child .industry-go { opacity: 0; }
+      #industries .industries-grid:hover .industry-card:first-child:hover .industry-go { opacity: 1; }
+    }
     /* 600~760px — 카드가 두 장씩 놓이는 구간만 세 줄 형식으로 둔다. 599px 아래는
        1열이라 카드가 넓어 소제목이 두 줄로 들어가므로 세 줄 높이를 강제하지 않는다.
        min-height 4.5em — line-height 1.5 의 세 줄. 두 줄짜리 카드도 높이와 화살표
