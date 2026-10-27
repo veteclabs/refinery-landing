@@ -290,37 +290,26 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       text-align: left;
       color: #EDEEF0;
     }
-    /* 라벨 칸은 폭을 고정한다 — 글자 수가 제각각이라(Connect ~ Automation)
-       그러지 않으면 제목의 왼쪽 시작선이 줄마다 어긋난다. */
+    /* 접혀 있을 때 보이는 건 라벨 하나뿐이다. 제목과 본문은 펼쳐야 나온다. */
     #platform .pf-tag {
-      flex: none;
-      width: 92px;
-      font-size: 12px;
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 1.2px;
       color: var(--accent);
     }
     #platform .pf-t {
-      flex: 1 1 auto;
-      min-width: 0;
+      margin: 0 0 8px;
       font-size: 18px;
       font-weight: 600;
       line-height: 1.4;
+      color: #EDEEF0;
       word-break: keep-all;
     }
-    /* 열림 표시는 + 에서 − 로. 세로획만 접는다. */
-    #platform .pf-mark { flex: none; position: relative; width: 14px; height: 14px; }
-    #platform .pf-mark::before,
-    #platform .pf-mark::after {
-      content: '';
-      position: absolute;
-      background: #959CA5;
-      transition: transform .3s ease, opacity .3s ease;
-    }
-    #platform .pf-mark::before { left: 0; top: 6px; width: 14px; height: 2px; }
-    #platform .pf-mark::after { left: 6px; top: 0; width: 2px; height: 14px; }
-    #platform .pf-item.is-open .pf-mark::after { transform: scaleY(0); opacity: 0; }
-    #platform .pf-item.is-open .pf-q { color: #FFFFFF; }
+    /* 열고 닫는 표시는 따로 두지 않는다 — 줄 사이 구분선만 남긴다.
+       열린 줄은 라벨이 밝아지는 것으로 알린다. */
+    #platform .pf-item.is-open .pf-tag { color: #9CC2E6; }
     /* ⚠️ 높이는 스크립트가 px 로 넣는다. max-height 로 어림잡으면 글 길이가
        제각각이라 닫히는 속도가 줄마다 달라진다. */
     #platform .pf-a {
@@ -330,7 +319,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     #platform .pf-a p {
       margin: 0 0 22px;
-      padding-left: 106px;
       font-size: 14px;
       line-height: 1.7;
       color: #959CA5;
@@ -358,10 +346,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         gap: 40px;
         margin-top: 40px;
       }
-      /* 라벨을 제목 위로 올린다 — 좁은 칸에서 92px 을 떼어 주면 제목이 너무 눌린다. */
-      #platform .pf-q { flex-wrap: wrap; gap: 4px 14px; }
-      #platform .pf-tag { width: auto; flex: 1 0 100%; }
-      #platform .pf-a p { padding-left: 0; }
+
       /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
       #platform .platform-graphic-wrap { cursor: grab; }
       #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
@@ -766,58 +751,65 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           <div class="pf-item is-open">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
               <span class="pf-tag" translate="no">Connect</span>
-              <span class="pf-t">산업 데이터 통합</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a0" role="region"><p>현장의 여러 설비와 시스템에 흩어진 데이터를 한곳에 모으는 첫 단계입니다.</p></div>
+            <div class="pf-a" id="pf-a0" role="region">
+              <h3 class="pf-t">산업 데이터 통합</h3>
+              <p>현장의 여러 설비와 시스템에 흩어진 데이터를 한곳에 모으는 첫 단계입니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a1">
               <span class="pf-tag" translate="no">Ontology</span>
-              <span class="pf-t">데이터에 의미를 입히는 구조</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a1" role="region"><p>흩어진 숫자와 기록 하나하나에 "무엇에 대한 데이터인지" 의미를 붙이는 과정입니다.</p></div>
+            <div class="pf-a" id="pf-a1" role="region">
+              <h3 class="pf-t">데이터에 의미를 입히는 구조</h3>
+              <p>흩어진 숫자와 기록 하나하나에 "무엇에 대한 데이터인지" 의미를 붙이는 과정입니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a2">
               <span class="pf-tag" translate="no">Workflow</span>
-              <span class="pf-t">대화로 설계하는 운영 절차</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a2" role="region"><p>승인이 필요한 상황과 자동 처리할 상황을 대화로 정해두는 과정입니다.</p></div>
+            <div class="pf-a" id="pf-a2" role="region">
+              <h3 class="pf-t">대화로 설계하는 운영 절차</h3>
+              <p>승인이 필요한 상황과 자동 처리할 상황을 대화로 정해두는 과정입니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a3">
               <span class="pf-tag" translate="no">Plate</span>
-              <span class="pf-t">현장을 한 화면에 담은 대시보드</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a3" role="region"><p>실시간 KPI ⁠· 현황 ⁠· 알람을 한 화면에서 확인할 수 있습니다.</p></div>
+            <div class="pf-a" id="pf-a3" role="region">
+              <h3 class="pf-t">현장을 한 화면에 담은 대시보드</h3>
+              <p>실시간 KPI ⁠· 현황 ⁠· 알람을 한 화면에서 확인할 수 있습니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a4">
               <span class="pf-tag" translate="no">Lens</span>
-              <span class="pf-t">원인을 찾고 미래를 그리는 분석</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a4" role="region"><p>시간에 따라 쌓인 데이터를 살펴보고 평소와 다른 부분을 찾아 원인을 짚어냅니다.</p></div>
+            <div class="pf-a" id="pf-a4" role="region">
+              <h3 class="pf-t">원인을 찾고 미래를 그리는 분석</h3>
+              <p>시간에 따라 쌓인 데이터를 살펴보고 평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a5">
               <span class="pf-tag" translate="no">AI Agent</span>
-              <span class="pf-t">질문 하나로 움직이는 현장</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a5" role="region"><p>궁금한 점을 물어보면 데이터를 근거로 답하고 다음 조치까지 제안합니다.</p></div>
+            <div class="pf-a" id="pf-a5" role="region">
+              <h3 class="pf-t">질문 하나로 움직이는 현장</h3>
+              <p>궁금한 점을 물어보면 데이터를 근거로 답하고 다음 조치까지 제안합니다.</p>
+            </div>
           </div>
           <div class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a6">
               <span class="pf-tag" translate="no">Automation</span>
-              <span class="pf-t">사람 없이도 돌아가는 현장</span>
-              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <div class="pf-a" id="pf-a6" role="region"><p>분석 결과가 보고서 ⁠· 알람 ⁠· 워크플로우 실행까지 사람 없이 자동으로 이어집니다.</p></div>
+            <div class="pf-a" id="pf-a6" role="region">
+              <h3 class="pf-t">사람 없이도 돌아가는 현장</h3>
+              <p>분석 결과가 보고서 ⁠· 알람 ⁠· 워크플로우 실행까지 사람 없이 자동으로 이어집니다.</p>
+            </div>
           </div>
         </div>
       </div>
