@@ -2,13 +2,12 @@
 /**
  * 히어로 바탕 모션 (시안).
  *
- * 무대 바탕에 캔버스를 한 장 깔고 마우스를 따라 두 가지를 함께 그린다.
- *   A 등고선 파문 — 지나간 자리에서 타원 링이 퍼지며 옅어진다(받침대 등고선 모티프).
- *   B 점 격자 밀림 — 커서 둘레의 점이 바깥으로 밀리고 조금 커진다(통합 섹션 점 패턴).
+ * 무대 바탕에 캔버스를 한 장 깔고 점 격자를 그린다. 커서 둘레의 점이 바깥으로
+ * 밀리고 조금 커지며 브랜드색으로 밝아진다(통합 섹션 점 패턴과 같은 모티프).
  *
  * ⚠️ 그래픽 칸보다 아래 층이다. .hero-stage > * 가 z-index 1 을 주므로 여기만 0 으로
  *    내린다 — 칸과 카피가 그 위에 그대로 얹힌다.
- * ⚠️ 포인터가 히어로 밖으로 나가면 rAF 를 멈춘다. 남은 링이 다 사라진 뒤에 멈춘다.
+ * ⚠️ 포인터가 히어로 밖으로 나가면 rAF 를 멈추고 캔버스를 비운다.
  */
 ---
 
@@ -41,8 +40,7 @@
     var ctx = cv.getContext('2d');
     var w = 0, h = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
     var mx = -999, my = -999, px = -999, py = -999;
-    var inside = false, raf = 0, tick = 0;
-    var rings = [];
+    var inside = false, raf = 0;
 
     function size() {
       var r = stage.getBoundingClientRect();
@@ -63,7 +61,7 @@
       if (!inside) { inside = true; start(); }
     }, { passive: true });
 
-    /* B — 점 격자. 커서에서 멀면 회색 점, 가까우면 밀려나며 브랜드색으로 밝아진다. */
+    /* 점 격자. 커서에서 멀면 회색 점, 가까우면 밀려나며 브랜드색으로 밝아진다. */
     function dots() {
       var step = 26, R = 110;
       for (var y = step / 2; y < h; y += step) {
@@ -83,32 +81,12 @@
       }
     }
 
-    /* A — 등고선 파문. 다섯 프레임마다 하나씩 남기고 퍼지며 사라진다. */
-    function contour() {
-      if (inside && tick % 5 === 0 && rings.length < 30) {
-        rings.push({ x: mx, y: my, r: 2, a: 1 });
-      }
-      ctx.lineWidth = 1;
-      for (var i = rings.length - 1; i >= 0; i--) {
-        var g = rings[i];
-        g.r += 0.9;
-        g.a -= 0.009;
-        if (g.a <= 0) { rings.splice(i, 1); continue; }
-        ctx.beginPath();
-        ctx.ellipse(g.x, g.y, g.r, g.r * 0.42, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(118,166,215,' + (g.a * 0.60).toFixed(3) + ')';
-        ctx.stroke();
-      }
-    }
-
     function frame() {
-      tick++;
       px += (mx - px) * 0.12;
       py += (my - py) * 0.12;
       ctx.clearRect(0, 0, w, h);
       dots();
-      contour();
-      if (inside || rings.length) raf = requestAnimationFrame(frame);
+      if (inside) raf = requestAnimationFrame(frame);
       else { raf = 0; ctx.clearRect(0, 0, w, h); }
     }
     function start() { if (!raf) raf = requestAnimationFrame(frame); }
