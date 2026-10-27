@@ -156,7 +156,7 @@
        ⚠️ --text-muted 토큰을 내리지 않는다 — 다크 섹션(#integrations)이 같은 토큰을
           쓰고 있어 전역으로 어둡게 하면 그쪽 대비가 무너진다. 그 섹션은 아래에서
           제 색(#959CA5)으로 덮는다. */
-    .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: 1.7; }
+    .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: 1.5; }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
     @media (max-width: 900px) {
       #security .section-header p br.mobile-br { display: none; }
@@ -418,7 +418,7 @@
       max-width: 9.4em;
       /* 제목·소제목은 내용 너비 왼쪽 끝에 세운다. */
       text-align: left;
-      font-weight: 500;
+      font-weight: 600;
       /* 제목 기준 행간 1.25~1.35 중 아래쪽. 두 줄짜리 큰 글자라 넓히면 두 줄이 멀어진다. */
       line-height: 1.25;
       padding: 0.1em 0;
@@ -459,7 +459,8 @@
       text-align: left;
       font-size: 16px;
       font-weight: 300;
-      line-height: 1.7;
+      /* 본문 기준 행간 1.5. */
+      line-height: 1.5;
       color: #5A6776;
       /* keep-all — 없으면 '품질, 에 / 너지,' 처럼 어절 중간에서 잘린다.
          CJK 에만 듣는 값이라 영문 소제목은 그대로다. */
