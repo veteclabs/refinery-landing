@@ -455,6 +455,17 @@
     /* 앞머리도 제목과 같은 굵기다(h1 의 600 을 그대로 받는다). .hero-title-lead 는
        굵기를 나누던 자리였고 지금은 그라데이션 stop 을 어디에 둘지 재는 기준으로
        남아 있다 — 이 span 의 오른쪽 끝이 먹색 구간(42%)의 근거다. */
+    /* 내용 너비 왼쪽 끝에 서는 범주 표시. 대제목은 그만큼 오른쪽으로 밀린다.
+       아래 끝은 대제목 · 소제목과 한 선에 선다(칸의 align-items: flex-end). */
+    #hero .hero-eyebrow {
+      flex: 0 0 auto;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      color: #3F76AE;
+      white-space: nowrap;
+    }
     /* 대제목을 받는 설명 두 줄. 줄 나눔은 문장 사이 <br> 하나만 두고 나머지는
        브라우저에 맡긴다 — 폭마다 <br> 를 박으면 실제 브라우저에서 어긋난다. */
     #hero .hero-sub {
