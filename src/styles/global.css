@@ -683,6 +683,9 @@
        24px 잔 눈금 + 120px 굵은 눈금 두 벌이다 — 한 벌만 쓰면 모눈종이가 아니라
        그냥 줄무늬로 읽힌다. 선은 브랜드 하늘색을 아주 묽게 탄 값이라 사진 카드
        뒤에서도 튀지 않는다.
+       ⚠️ 선은 이어 긋지 않고 토막으로 끊는다(stroke-dasharray). 끊는 자리가
+          눈금마다 와야 해서 linear-gradient 로는 못 그린다 — 한 칸을 그린
+          data URI SVG 를 타일로 깐다(외부 요청 없음).
        ⚠️ 마스크는 네 변 모두에서 흰 면으로 풀린다. 선이 화면 끝에 닿으면 잘린 자국이
           남고, 아래로 내려가면 사진 카드와 겹쳐 지저분해진다 — 제목 둘레에만 둔다. */
     #industries { background: #ffffff !important; position: relative; overflow: hidden; }
@@ -690,14 +693,10 @@
       content: "";
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(118,166,215,.3) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(118,166,215,.3) 1px, transparent 1px),
-        linear-gradient(to right, rgba(118,166,215,.14) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(118,166,215,.14) 1px, transparent 1px);
-      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
-      -webkit-mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.26) 58%, rgba(0,0,0,0) 100%);
-              mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.26) 58%, rgba(0,0,0,0) 100%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%2376a6d7' stroke-width='1'%3E%3Cg stroke-opacity='.2' stroke-dasharray='4 8'%3E%3Cpath d='M24 0v120M48 0v120M72 0v120M96 0v120'/%3E%3Cpath d='M0 24h120M0 48h120M0 72h120M0 96h120'/%3E%3C/g%3E%3Cg stroke-opacity='.4' stroke-dasharray='9 7'%3E%3Cpath d='M.5 0v120M0 .5h120'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      -webkit-mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, rgba(0,0,0,.78) 0%, rgba(0,0,0,.5) 26%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 62% 52% at 50% 32%, rgba(0,0,0,.78) 0%, rgba(0,0,0,.5) 26%, rgba(0,0,0,.2) 58%, rgba(0,0,0,0) 100%);
       pointer-events: none;
       z-index: 0;
     }
@@ -710,12 +709,12 @@
       position: absolute;
       inset: 0;
       background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M120 111.5v17M111.5 120h17' stroke='%2376a6d7' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
-        radial-gradient(circle, rgba(118,166,215,.5) 1px, rgba(118,166,215,0) 1.5px);
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M120 111.5v17M111.5 120h17' stroke='%2376a6d7' stroke-opacity='.5' stroke-width='1'/%3E%3C/svg%3E"),
+        radial-gradient(circle, rgba(118,166,215,.28) 1px, rgba(118,166,215,0) 1.5px);
       background-size: 240px 240px, 120px 120px;
       background-position: 0 0, 60px 60px;
-      -webkit-mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 100%);
-              mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, #000 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 58% 48% at 50% 32%, rgba(0,0,0,.7) 0%, rgba(0,0,0,.36) 30%, rgba(0,0,0,0) 100%);
       pointer-events: none;
       z-index: 0;
     }
