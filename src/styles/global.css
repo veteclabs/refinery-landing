@@ -327,7 +327,7 @@
       --hero-base-w: min(620px, 100vw - 96px, 100vh - 170px);
       /* 그래픽을 그리는 판의 폭. 칸(--hero-base-w)과 따로 간다 — 칸은 심볼 모양으로
          오려 낼 작은 창이고, 판이 좁아지면 그 안의 설비까지 같이 작아진다. */
-      --hero-art-w: min(1200px, 100vw - 96px);
+      --hero-art-w: min(1020px, 100vw - 96px);
       /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
@@ -934,91 +934,51 @@
     a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
     @media (max-width: 900px) { .industry-go { right: 20px; bottom: 20px; } }
 
-    /* ── 솔루션 카드: 가운데가 큰 캐러셀 ───────────────────────────────────
-       가운데 한 장이 크게 서고 양옆으로 두 장씩, 모두 다섯 장이 보인다.
-       화살표나 옆 장을 눌러 넘긴다. 줄은 내용 너비 안에 머문다.
-       ⚠️ 자리와 크기는 스크립트가 px 로 계산해 --sol-x / --sol-w / --sol-h 로 민다.
-          가운데에서 멀어질수록 폭도 높이도 한 단계씩 작아진다(34% · 19% · 12%).
-       ⚠️ 일곱 장을 돌려 쓴다. 가운데에서 세 칸 떨어진 장은 --sol-o: 0 으로
-          숨으므로, 끝에서 처음으로 건너뛰는 순간이 보이지 않는다.
-       ⚠️ 901px 아래에서는 손대지 않는다 — 좁은 폭은 기존 격자를 그대로 쓴다. */
+    /* ── 솔루션 카드: 스크롤로 옆으로 흐르는 띠 ───────────────────────────
+       카드는 모두 같은 크기다. 줄의 왼쪽 끝은 내용 너비에 맞추고 오른쪽은 화면
+       밖으로 흘린다 — 세로로 스크롤하는 동안 띠가 가로로 밀린다.
+       ⚠️ 901px 아래에서는 손대지 않는다. 좁은 폭은 기존 격자를 그대로 쓴다. */
     @media (min-width: 901px) {
-      /* 줄은 내용 너비 안에 머문다 — 카드 크기는 아래 스크립트가 줄 폭의 비율로
-         잡으므로, 폭이 바뀌어도 다섯 장이 같은 비율로 따라온다. */
+      /* 오른쪽만 화면 끝까지 뺀다. 왼쪽은 .container 의 패딩이 그대로 잡아 준다.
+         ⚠️ 끊는 자리는 .sol-viewport 다. 그 칸에 overflow: hidden 이 걸려 있어
+            흘러나간 카드를 잘라 준다 — 더 안쪽에서 빼면 칸이 먼저 자른다. */
+      #industries .sol-viewport { margin-right: calc(50% - 50vw); }
       #industries .industries-grid {
-        display: block;
-        position: relative;
+        display: flex;
+        gap: 16px;
         height: 460px;
-        overflow: hidden;
-      }
-      /* 양 끝 장은 흰 면으로 풀린다 — 줄이 내용 너비에 딱 맞아 가장자리에서 칼로
-         자른 듯 끊기는데, 그 자국을 덮고 '옆으로 더 있다'를 같이 말해 준다.
-         z-index 는 카드(최대 10)보다 위다. */
-      #industries .industries-grid::before,
-      #industries .industries-grid::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 14%;
-        z-index: 20;
-        pointer-events: none;
-      }
-      #industries .industries-grid::before {
-        left: 0;
-        background: linear-gradient(to right, #ffffff 8%, rgba(255, 255, 255, 0));
-      }
-      #industries .industries-grid::after {
-        right: 0;
-        background: linear-gradient(to left, #ffffff 8%, rgba(255, 255, 255, 0));
+        /* 스크롤 위치에 따라 스크립트가 민다. transition 은 두지 않는다 —
+           스크롤을 그대로 따라야 손에 붙는다. */
+        transform: translate3d(var(--sol-x, 0px), 0, 0);
+        will-change: transform;
       }
       #industries .industry-card {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: var(--sol-h, 70%);
-        width: var(--sol-w, 13vw);
-        /* -50% 둘은 제 폭·높이의 절반이다 — 크기가 변해도 늘 제 중심이 자리를 지킨다. */
-        transform: translate(calc(var(--sol-x, 0px) - 50%), -50%);
-        opacity: var(--sol-o, 1);
-        /* 겹쳐 놓고 그림자로 가른다 — 가운데 장이 가장 위에 서고, 멀어질수록
-           한 겹씩 뒤로 간다. 그림자가 없으면 겹친 자리에서 사진끼리 붙어
-           어디서 끊기는지 안 보인다. */
-        z-index: var(--sol-z, 1);
-        box-shadow: 0 18px 48px rgba(16, 32, 44, .32);
+        flex: 0 0 var(--sol-w, 400px);
+        height: 100%;
         border: 0;
         border-radius: var(--radius);
         background: #16202C;
-        transition: transform .55s cubic-bezier(.22, 1, .36, 1),
-                    width .55s cubic-bezier(.22, 1, .36, 1),
-                    height .55s cubic-bezier(.22, 1, .36, 1),
-                    opacity .4s ease;
+        box-shadow: 0 14px 36px rgba(16, 32, 44, .18);
       }
-      #industries .industry-card[aria-hidden="true"] { pointer-events: none; }
-
       #industries .industry-img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         aspect-ratio: auto;
-        opacity: .5;
-        transition: opacity .55s ease;
         transform: none;
       }
-      #industries .industry-card.is-center .industry-img { opacity: 1; }
-      #industries a.industry-card:hover .industry-img { transform: none; }
+      #industries a.industry-card:hover .industry-img { transform: scale(1.04); }
 
-      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 띠 아래쪽 글자가 앉을 자리다. */
+      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다. */
       #industries .industry-card::before {
         inset: 0;
         aspect-ratio: auto;
         background: linear-gradient(180deg,
-          rgba(10, 16, 22, 0) 30%,
-          rgba(10, 16, 22, .55) 62%,
+          rgba(10, 16, 22, 0) 32%,
+          rgba(10, 16, 22, .55) 64%,
           rgba(10, 16, 22, .92) 100%);
       }
-
       #industries .industry-body {
         position: absolute;
         inset: auto 0 0 0;
@@ -1027,62 +987,10 @@
         padding: 24px 26px 26px;
       }
       #industries .industry-name { color: #F6F8FA; font-size: 18px; }
-      /* 오른쪽에 선 장은 왼쪽 가장자리가 앞 장에 덮인다 — 글을 오른쪽으로 붙여
-         가려지지 않는 쪽에 세운다. 왼쪽 장은 오른쪽이 덮이지만 글이 이미 왼쪽에
-         있어 그대로 둔다. */
-      #industries .industry-card.is-right .industry-body { text-align: right; }
-
-      /* 겹친 자리를 흰 그라데이션으로 가른다. 뒤에 깔린 장이 제 몸에 그리므로
-         앞 장 위로는 넘어가지 않는다.
-         ⚠️ 시작점을 겹친 만큼(--sol-ov) 안으로 민다. 변에서 바로 시작하면 그
-            구간이 통째로 앞 장 밑이라 화면에는 꼬리만 비친다 — 처음에 그렇게
-            넣었다가 아무것도 안 보였다.
-         ⚠️ 가운데 장에는 걸지 않는다. 맨 위라 덮이는 변이 없다. */
-      #industries .industry-card.is-right::after,
-      #industries .industry-card.is-left::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 46%;
-        z-index: 4;
-        pointer-events: none;
-        border-radius: inherit;
-      }
-      #industries .industry-card.is-right::after {
-        left: var(--sol-ov, 38px);
-        background: linear-gradient(to right, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
-      }
-      #industries .industry-card.is-left::after {
-        right: var(--sol-ov, 38px);
-        background: linear-gradient(to left, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
-      }
-      /* 설명은 가운데 장에만 나온다. 옆 장은 이름만 이고 선다. */
-      #industries .industry-desc {
-        color: #C8CED5;
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height .5s ease, opacity .35s ease;
-      }
-      #industries .industry-card.is-center .industry-desc { max-height: 5em; opacity: 1; }
-      #industries .industry-go { color: #C8CED5; opacity: 0; transition: opacity .35s ease, transform .2s ease, color .2s ease; }
-      #industries .industry-card.is-center .industry-go { opacity: 1; }
+      #industries .industry-desc { color: #C8CED5; }
+      #industries .industry-go { color: #C8CED5; }
+      #industries a.industry-card:hover .industry-go { color: #F6F8FA; }
     }
-
-    /* 넘김 단추 — 탭 줄 오른쪽에 둔다. 사진 위에 얹으면 띠가 화면 끝까지 나가
-       가장자리에 붙어 눌리기 어렵고, 사진마다 밝기가 달라 보였다 안 보였다 한다. */
-    #industries .sol-nav { display: flex; gap: 8px; margin-left: auto; }
-    #industries .sol-arrow {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 40px; padding: 0;
-      border: 1px solid var(--border); border-radius: 50%;
-      background: #ffffff; color: #5A6776; cursor: pointer;
-      transition: color .2s ease, border-color .2s ease;
-    }
-    #industries .sol-arrow:hover { color: #16202C; border-color: #C8CED5; }
-    #industries .sol-arrow--prev svg { transform: rotate(180deg); }
-    @media (max-width: 900px) { #industries .sol-nav { display: none; } }
     /* 600~760px — 카드가 두 장씩 놓이는 구간만 세 줄 형식으로 둔다. 599px 아래는
        1열이라 카드가 넓어 소제목이 두 줄로 들어가므로 세 줄 높이를 강제하지 않는다.
        min-height 4.5em — line-height 1.5 의 세 줄. 두 줄짜리 카드도 높이와 화살표

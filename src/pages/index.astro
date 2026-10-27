@@ -1028,10 +1028,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="산업별 카드 보기">산업별</button>
         <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="과제별 카드 보기">과제별</button>
       </div>
-      <div class="sol-nav">
-        <button type="button" class="sol-arrow sol-arrow--prev" data-sol-prev aria-label="이전 산업 보기"><svg width="18" height="18" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></button>
-        <button type="button" class="sol-arrow" data-sol-next aria-label="다음 산업 보기"><svg width="18" height="18" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></button>
-      </div>
     </div>
     <div class="sol-viewport">
       <div class="sol-track">
@@ -1063,15 +1059,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 </section>
 
 <script is:inline>
-  /* 솔루션 카드 캐러셀 — 가운데 한 장이 크고, 양옆으로 두 장씩 다섯 장이 보인다.
-     ⚠️ 자리는 여기서 px 로 재서 민다. 큰 장 44% + 작은 장 14% × 4 = 100% 라
-        양 끝에 빈 자리가 생기지 않는다.
-     ⚠️ 일곱 장을 돌려 쓴다. 가운데에서 세 칸 떨어진 장은 숨으므로, 끝에서
-        처음으로 건너뛰는 순간이 보이지 않는다.
-     ⚠️ 옆 장을 누르면 그 장이 가운데로 온다(이동이 아니다). 가운데 장만 링크로
-        동작한다 — 카드가 통째로 <a> 라 둘을 가르지 않으면 눌렀을 때 뭐가 일어날지
-        알 수 없다.
-     ⚠️ 901px 아래는 이 코드가 손대지 않는다. 좁은 폭은 기존 격자다. */
+  /* 솔루션 카드 띠 — 세로로 스크롤하는 동안 가로로 밀린다.
+     ⚠️ 줄의 왼쪽 끝은 내용 너비에 맞춰 선 채로 시작하고, 다 밀리면 마지막 장의
+        오른쪽 변이 내용 너비의 오른쪽 끝에 선다. 그래서 미는 거리는
+        (띠 전체 폭 − 보이는 칸 폭 + 오른쪽 여백) 이다.
+     ⚠️ 구간은 줄의 위변이 화면 아래 90% 를 지날 때 시작해 아래변이 10% 를 지날
+        때 끝난다. 화면을 지나는 동안 고르게 밀린다.
+     ⚠️ 901px 아래는 손대지 않는다 — 좁은 폭은 기존 격자다. */
   (function () {
     var sec = document.getElementById('industries');
     if (!sec) return;
@@ -1079,92 +1073,42 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     if (!rails.length) return;
 
     function wide() { return window.matchMedia('(min-width: 901px)').matches; }
+    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    var cont = sec.querySelector('.container');
+    var PAD = cont ? (parseFloat(getComputedStyle(cont).paddingRight) || 0) : 0;
 
-    function layout(rail) {
-      var cards = rail.children, n = cards.length;
-      if (!n) return;
-      var active = +(rail.getAttribute('data-sol-active') || 0);
-      var W = rail.getBoundingClientRect().width;
-      if (!wide() || !W) {
-        for (var k = 0; k < n; k++) {
-          cards[k].style.cssText = '';
-          cards[k].classList.remove('is-center');
-          cards[k].removeAttribute('aria-hidden');
-        }
-        return;
-      }
-      /* 가운데에서 멀어질수록 한 단계씩 작아진다. 겹침까지 더한 가로 합이 줄 폭과
-         정확히 같다 — 0.46 + 0.19×2 + 0.136×2 + (-0.028)×4 = 1. 그래서 양 끝
-         장의 바깥변이 내용 너비의 좌우 끝에 딱 선다.
-         ⚠️ 가운데 장은 가로로 긴 네모다(줄 높이 460px 에 폭 0.46 → 1.33:1).
-            폭을 줄이면 정사각형에 가까워지므로, 합을 맞추려면 옆 장 쪽을 깎는다.
-         ⚠️ 겹침도 비율이어야 한다. px 로 박으면 폭이 바뀔 때 합이 1을 벗어나
-            양 끝이 들쭉날쭉해진다. */
-      var GAP = -W * 0.028;
-      var w = [W * 0.46, W * 0.19, W * 0.136];
-      var h = ['100%', '84%', '70%'];
-      /* 중심 사이 거리 — 제 반폭 + 틈 + 이웃 반폭을 차례로 쌓는다. */
-      var off = [0,
-                 w[0] / 2 + GAP + w[1] / 2,
-                 w[0] / 2 + GAP + w[1] + GAP + w[2] / 2,
-                 w[0] / 2 + GAP + w[1] + GAP + w[2] + GAP + w[2] / 2];
-      for (var i = 0; i < n; i++) {
-        var d = ((i - active) % n + n) % n;
-        if (d > n / 2) d -= n;
-        var a = Math.abs(d);
-        var x = (d > 0 ? 1 : -1) * off[Math.min(a, 3)];
-        var c = cards[i];
-        c.style.setProperty('--sol-x', x.toFixed(1) + 'px');
-        c.style.setProperty('--sol-w', w[Math.min(a, 2)].toFixed(1) + 'px');
-        c.style.setProperty('--sol-h', h[Math.min(a, 2)]);
-        c.style.setProperty('--sol-o', a > 2 ? '0' : '1');
-        c.style.setProperty('--sol-z', String(10 - a));
-        /* 앞 장에 덮인 폭 — 겹침 값 그대로다. 흰 가름선을 이만큼 안으로 민다. */
-        c.style.setProperty('--sol-ov', (-GAP).toFixed(1) + 'px');
-        c.classList.toggle('is-center', d === 0);
-        c.classList.toggle('is-right', d > 0);
-        c.classList.toggle('is-left', d < 0);
-        c.setAttribute('aria-hidden', a > 2 ? 'true' : 'false');
-        c.tabIndex = d === 0 ? 0 : -1;
+    function upd() {
+      var vh = window.innerHeight || 800;
+      for (var i = 0; i < rails.length; i++) {
+        var rail = rails[i];
+        if (!wide()) { rail.style.removeProperty('--sol-x'); continue; }
+        var box = rail.parentElement.getBoundingClientRect();   /* .sol-panel = 보이는 칸 */
+        var track = rail.scrollWidth;
+        /* 칸은 화면 오른쪽 끝까지 나가 있다. 내용 너비의 오른쪽 여백만큼 더 밀어야
+           마지막 장의 오른쪽 변이 화면 끝이 아니라 내용 너비 끝에 선다. */
+        var travel = track - box.width + PAD;
+        if (travel <= 0) { rail.style.setProperty('--sol-x', '0px'); continue; }
+        var r = rail.getBoundingClientRect();
+        var span = vh * 0.8 + r.height;
+        var p = clamp((vh * 0.9 - r.top) / span);
+        rail.style.setProperty('--sol-x', (-travel * p).toFixed(1) + 'px');
       }
     }
 
-    function go(rail, i) {
-      var n = rail.children.length;
-      rail.setAttribute('data-sol-active', ((i % n) + n) % n);
-      layout(rail);
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
     }
-
-    rails.forEach(function (rail) {
-      rail.setAttribute('data-sol-active', '0');
-      rail.addEventListener('click', function (e) {
-        if (!wide()) return;
-        var card = e.target.closest('.industry-card');
-        if (!card || !rail.contains(card)) return;
-        if (card.classList.contains('is-center')) return;   /* 가운데 장은 링크다 */
-        e.preventDefault();
-        go(rail, [].indexOf.call(rail.children, card));
-      });
-    });
-
-    function shown() {
-      var p = sec.querySelector('.sol-panel:not([data-off])');
-      return p ? p.querySelector('.industries-grid') : rails[0];
-    }
-    var prev = sec.querySelector('[data-sol-prev]');
-    var next = sec.querySelector('[data-sol-next]');
-    if (prev) prev.addEventListener('click', function () { var r = shown(); go(r, +r.getAttribute('data-sol-active') - 1); });
-    if (next) next.addEventListener('click', function () { var r = shown(); go(r, +r.getAttribute('data-sol-active') + 1); });
-
-    function all() { rails.forEach(layout); }
-    all();
-    requestAnimationFrame(all);
-    addEventListener('resize', all, { passive: true });
-    /* 탭을 눌러 판이 바뀌면 숨어 있던 쪽도 폭을 다시 재야 한다. */
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
     sec.addEventListener('click', function (e) {
-      if (e.target.closest('.sol-tab')) requestAnimationFrame(all);
+      if (e.target.closest('.sol-tab')) requestAnimationFrame(upd);
     });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+    upd();
+    requestAnimationFrame(upd);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(upd);
   })();
 </script>
 
@@ -1184,6 +1128,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    var cont = sec.querySelector('.container');
+    var PAD = cont ? (parseFloat(getComputedStyle(cont).paddingRight) || 0) : 0;
     function ease(t) { return t * t * (3 - 2 * t); }
 
     var ticking = false;
