@@ -192,13 +192,25 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
                   transform .9s cubic-bezier(.2, .7, .2, 1),
                   filter .9s cubic-bezier(.2, .7, .2, 1);
     }
-    /* 제목 줄은 대제목이 다 찍힌 뒤에 떠오른다 — 타자 스크립트가 .is-in 을 붙인다.
-       ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다. 스크립트가 못 돌면 그냥 보여야 한다. */
-    .rv-on #platform .pf-lead:not(.is-in) {
+    /* 두 단은 스크롤에 맞춰 차례로 뜬다 — 그래픽이 먼저, 제목 줄, 아코디언 순이다.
+       ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다(ScrollReveal 이 붙인다). 스크립트가
+          못 돌면 셋 다 그냥 보여야 한다.
+       ⚠️ 대제목의 낱말 교대와는 따로 간다. 대제목은 섹션 윗변에서 250px 인데
+          두 단은 806px 이라, 한 방아쇠로 묶으면 왼쪽 글이 화면 밖에서 먼저 떠 버린다. */
+    #platform .platform-graphic-wrap,
+    #platform .pf-lead,
+    #platform .pf-acc {
+      transition: opacity .7s cubic-bezier(.2, .7, .2, 1),
+                  transform .7s cubic-bezier(.2, .7, .2, 1);
+    }
+    .rv-on #platform .platform-split:not(.is-in) .platform-graphic-wrap,
+    .rv-on #platform .platform-split:not(.is-in) .pf-lead,
+    .rv-on #platform .platform-split:not(.is-in) .pf-acc {
       opacity: 0;
       transform: translateY(26px);
-      filter: blur(8px);
     }
+    #platform .platform-split.is-in .pf-lead { transition-delay: .3s; }
+    #platform .platform-split.is-in .pf-acc { transition-delay: .5s; }
 
     /* 대제목의 마지막 낱말이 바뀌다 멎는다. 「데이터에서 ___」의 빈칸이
        패턴 → 맥락 → 지식 → 지능 순으로 올라왔다 빠지고, 지능에서 선다 —
@@ -243,7 +255,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        선택자에 #platform 을 끼워 특이도로 이긴다. */
     .rv-on #platform .section-header:not(.rv-done) { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
-      .rv-on #platform .pf-lead:not(.is-in) { opacity: 1; transform: none; filter: none; }
+      .rv-on #platform .platform-split:not(.is-in) .platform-graphic-wrap,
+      .rv-on #platform .platform-split:not(.is-in) .pf-lead,
+      .rv-on #platform .platform-split:not(.is-in) .pf-acc {
+        opacity: 1; transform: none;
+      }
     }
     /* 제목 줄. 머리에서 떼어 왼쪽 단 맨 위로 옮겼다 — 왼쪽 맞춤이고 윗변이
        오른쪽 그래픽의 윗변과 같은 선에 선다(.platform-split 의 align-items: start).
@@ -594,6 +610,29 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
            그래픽 중심  = top0 + m + G/2
            어두운 면 중심 = (INK + H0 + m) / 2
          두 값을 같게 두면  m = INK + H0 - 2*top0 - G  이다. */
+      /* 두 단을 차례로 띄운다. 칸이 화면 아래 12% 선에 닿으면 .is-in 을 붙이고,
+         그래픽 → 제목 줄 → 아코디언 순서는 CSS 의 transition-delay 가 쥔다. */
+      function initPlatformReveal() {
+        var split = document.querySelector('#platform .platform-split');
+        if (!split) return;
+        function check() {
+          if (split.getBoundingClientRect().top < (window.innerHeight || 800) * 0.88) {
+            split.classList.add('is-in');
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+          }
+        }
+        var ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; check(); });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        check();
+      }
+
       function centerPlatformGraphic() {
         var sec = document.getElementById('platform');
         var split = sec && sec.querySelector('.platform-split');
@@ -614,7 +653,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         sec.style.setProperty('--pf-gtop', Math.round(m) + 'px');
       }
 
-      function initAll() { initPlatformAccordion(); initIntegrationsDrag(); centerPlatformGraphic();
+      function initAll() { initPlatformAccordion(); initIntegrationsDrag(); initPlatformReveal(); centerPlatformGraphic();
         /* 그래픽은 lazy 라 늦게 온다 — 높이가 잡힌 뒤 한 번 더 잰다. */
         var img = document.querySelector('#platform .platform-graphic-img');
         if (img && !img.complete) img.addEventListener('load', centerPlatformGraphic, { once: true });
@@ -782,21 +821,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockWidth);
         addEventListener('resize', lockWidth, { passive: true });
 
-        function showLead() {
-          var lead = document.querySelector('#platform .pf-lead');
-          if (lead) lead.classList.add('is-in');
-        }
-
         var started = false;
         function go() {
           if (started) return;
           started = true;
           removeEventListener('scroll', onScroll);
           removeEventListener('resize', onScroll);
-          if (reduce) { showLead(); return; }
+          if (reduce) return;
           for (var i = 0; i < bs.length; i++) bs[i].style.animationDelay = (i * STEP) + 'ms';
           h.classList.add('is-swapping');
-          setTimeout(showLead, (bs.length - 1) * STEP + 420);
         }
         /* ScrollReveal 과 같은 선(화면 아래 12%)에서 시작한다. */
         function onScroll() {
