@@ -1009,7 +1009,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 </section>
 
 <!-- INDUSTRIES -->
-<section id="industries" style="border-top:1px solid #E3E7EC;">
+<section id="industries">
   <div class="ind-pin">
     <div class="ind-stage">
       <div class="container">
@@ -1117,8 +1117,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var rp = ease(clamp((p - 0.48) / 0.48));
       for (var k = 0; k < rails.length; k++) {
         var rail = rails[k];
-        if (!wide()) { rail.style.removeProperty('--sol-x'); continue; }
+        if (!wide()) { rail.style.removeProperty('--sol-x'); rail.style.removeProperty('--sol-w'); continue; }
         var box = rail.parentElement.getBoundingClientRect();
+        /* 칸에 카드가 정수 개로 딱 들어가게 폭을 잡는다 — 멈춰 있을 때 오른쪽
+           끝에서 사진이 반 토막으로 잘리지 않는다. 400px 에 가장 가까운 장수를
+           고른다. */
+        var GAP = 16, TARGET = 400;
+        var n = Math.max(2, Math.round((box.width + GAP) / (TARGET + GAP)));
+        rail.style.setProperty('--sol-w', ((box.width - (n - 1) * GAP) / n).toFixed(2) + 'px');
         var travel = rail.scrollWidth - box.width + PAD;
         rail.style.setProperty('--sol-x', travel > 0 ? (-travel * rp).toFixed(1) + 'px' : '0px');
       }

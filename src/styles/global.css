@@ -629,6 +629,7 @@
           글자보다 높아 102% 자리의 빛이 글자 아래 여백에 떨어진다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
+      position: relative;
       /* ⚠️ 박스가 글자 아래까지 덮어야 한다. line-height:1 만 두면 박스가 글자 높이에
          딱 맞아 g · y 의 꼬리가 밖으로 나가는데, background-clip:text 는 박스 안에서만
          칠하므로 그 꼬리가 통째로 사라진다(영문 'one operating system' 에서 났다).
@@ -646,6 +647,20 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+    /* 글자 뒤에 까는 옅은 판.
+       ⚠️ 글자 그라데이션은 이 span 의 background 를 text 로 오려 쓰고 있어 그 자리에
+          바탕을 겹쳐 넣을 수 없다 — 따로 그린다. ::before 는 제 상자라 오림의
+          영향을 받지 않는다.
+       ⚠️ 아래를 0.3em 띄운다. 상자가 꼬리(g · y)까지 덮으려고 0.25em 더 길기 때문에,
+          0 으로 두면 판이 글자보다 한참 아래까지 내려간다. */
+    #hero h1 .hero-title-accent::before {
+      content: "";
+      position: absolute;
+      inset: 0.05em -0.14em 0.3em -0.14em;
+      background: rgba(118, 166, 215, .18);
+      border-radius: 8px;
+      z-index: -1;
     }
     /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
        넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
@@ -971,6 +986,8 @@
         transform: translate3d(var(--sol-x, 0px), 0, 0);
         will-change: transform;
       }
+      /* 폭은 스크립트가 잰다 — 보이는 칸에 카드가 딱 떨어지게 넣어, 멈춰 있을 때
+         오른쪽 끝에서 사진이 잘리지 않는다. */
       #industries .industry-card {
         flex: 0 0 var(--sol-w, 400px);
         height: 100%;
