@@ -2,13 +2,16 @@
 /**
  * 히어로 바탕 모션 (시안).
  *
- * 무대 바탕에 캔버스를 한 장 깔고 점 격자를 그린다. 커서 둘레의 점이 커서 쪽으로
- * 모이며 조금 커지고 브랜드색으로 밝아진다 — '흩어진 현장을 하나로'와 같은 몸짓이다.
- * 점 패턴 자체는 통합 섹션의 모티프를 가져온 것이다.
+ * 무대 바탕에 캔버스를 한 장 깔고, 커서를 따라오는 빛을 그린다. 가운데에 번지는
+ * 빛무리가 있고 거기서 빛줄기 몇 가닥이 뻗어 천천히 돈다 — 흩어진 것을 한 점이
+ * 비추는 몸짓이다.
  *
+ * ⚠️ 바탕이 흰 면이라 'lighter'(가산) 합성을 쓰지 않는다. 더하면 흰색으로 빠져
+ *    아무것도 안 보인다. 빛은 브랜드색을 옅게 칠해 만든 '물든 자리'다.
+ * ⚠️ 커서를 즉시 따라가지 않는다. 감쇠 스프링으로 끌려와 조금 넘어섰다가 멎는다 —
+ *    빛에 무게가 있는 것처럼 보이게 하려는 것이다.
  * ⚠️ 그래픽 칸보다 아래 층이다. .hero-stage > * 가 z-index 1 을 주므로 여기만 0 으로
  *    내린다 — 칸과 카피가 그 위에 그대로 얹힌다.
- * ⚠️ 포인터가 히어로 밖으로 나가면 rAF 를 멈추고 캔버스를 비운다.
  */
 ---
 
@@ -40,8 +43,24 @@
 
     var ctx = cv.getContext('2d');
     var w = 0, h = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
-    var mx = -999, my = -999, px = -999, py = -999;
-    var inside = false, raf = 0;
+    var mx = -9999, my = -9999, px = -9999, py = -9999, vx = 0, vy = 0;
+    var inside = false, raf = 0, lit = 0;
+    var TAU = Math.PI * 2;
+
+    /* 커서 스프링. PULL 이 작을수록 무겁게 끌려오고, DAMP 가 남는 속도를 깎아 멎게 한다. */
+    var C_PULL = 0.055, C_DAMP = 0.84;
+    /* 빛무리 반지름. 줄기는 그 바깥까지 뻗는다. */
+    var CORE = 290;
+
+    /* 빛줄기. 각자 제 각도·길이·폭·도는 속도를 들고 있어, 다 같이 돌지 않는다.
+       가닥 수를 늘리면 바퀴처럼 보인다 — 다섯이 성긴 쪽이 빛에 가깝다. */
+    var RAYS = [
+      { a: 0.00, len: 2.10, wide: 0.26, spin:  0.00021, alpha: 0.20 },
+      { a: 1.32, len: 1.55, wide: 0.17, spin: -0.00014, alpha: 0.16 },
+      { a: 2.55, len: 2.45, wide: 0.11, spin:  0.00009, alpha: 0.13 },
+      { a: 3.90, len: 1.80, wide: 0.30, spin: -0.00024, alpha: 0.18 },
+      { a: 5.20, len: 2.25, wide: 0.14, spin:  0.00016, alpha: 0.15 }
+    ];
 
     function size() {
       var r = stage.getBoundingClientRect();
@@ -59,48 +78,69 @@
       var r = stage.getBoundingClientRect();
       mx = e.clientX - r.left;
       my = e.clientY - r.top;
+      /* 처음 들어온 자리에서는 끌려올 거리가 없어야 한다 — 화면 밖에서 날아오지 않게. */
+      if (px < -9000) { px = mx; py = my; }
       if (!inside) { inside = true; start(); }
     }, { passive: true });
 
-    /* 점 격자. 커서 둘레(R)에 드는 점만 그린다. 가까운 점일수록 커서 한 점으로
-       바싹 모이고 크고 진해진다 — '흩어진 것이 하나로'를 몸짓으로 옮긴 것이다.
-       그 바깥은 아무것도 그리지 않아 바탕은 비어 있다. */
-    function dots() {
-      /* R 은 점이 반응하는 반지름이다 — 넓힐수록 더 많은 점이 한꺼번에 끌려온다. */
-      var step = 11, R = 280;
-      /* 격자가 촘촘해 전부 훑으면 한 프레임에 수천 번을 돈다. 커서 둘레만 돈다. */
-      var half = step / 2;
-      var y0 = Math.max(half, Math.floor((py - R - half) / step) * step + half);
-      var x0 = Math.max(half, Math.floor((px - R - half) / step) * step + half);
-      var yEnd = Math.min(h, py + R), xEnd = Math.min(w, px + R);
-      for (var y = y0; y < yEnd; y += step) {
-        for (var x = x0; x < xEnd; x += step) {
-          var dx = x - px, dy = y - py;
-          var d = Math.sqrt(dx * dx + dy * dy);
-          var k = inside && d < R ? 1 - d / R : 0;
-          /* 커서가 닿는 점만 그린다 — 바탕 전체에 점을 깔지 않는다. */
-          if (!k) continue;
-          /* 커서 쪽으로 끌어당긴다. k 를 두 번 곱해 — 거리에 비례한 몫을 다시 k 로
-             깎아 — 가까운 점일수록 급격히 붙고 가장자리는 거의 제자리에 남는다.
-             0.98 은 거의 한 점에 포개지되 아주 조금 틈을 두는 값이다. */
-          var pull = k * k * 0.98;
-          ctx.beginPath();
-          ctx.arc(x - dx * pull, y - dy * pull, 0.55 + k * 0.75, 0, Math.PI * 2);
-          /* 가장자리 0.12 에서 커서 바로 옆 0.45 까지. 바탕이 밝은 면이라
-             이보다 진하면 글자 뒤에서 어른거린다. */
-          ctx.fillStyle = 'rgba(118,166,215,' + (0.12 + k * 0.33).toFixed(3) + ')';
-          ctx.fill();
-        }
-      }
+    /* 빛줄기 한 가닥. 뿌리에서 폭이 좁고 끝으로 갈수록 벌어지는 쐐기를 그리고,
+       그 안을 뿌리에서 끝으로 빠지는 그라데이션으로 칠한다. */
+    function ray(r, t, fade) {
+      var a = r.a + t * r.spin;
+      var len = CORE * r.len;
+      var ex = px + Math.cos(a) * len, ey = py + Math.sin(a) * len;
+      var half = r.wide / 2;
+      var g = ctx.createLinearGradient(px, py, ex, ey);
+      var al = r.alpha * fade;
+      g.addColorStop(0.00, 'rgba(118,166,215,' + (al * 0.95).toFixed(4) + ')');
+      g.addColorStop(0.32, 'rgba(118,166,215,' + (al * 0.55).toFixed(4) + ')');
+      g.addColorStop(0.70, 'rgba(150,186,225,' + (al * 0.20).toFixed(4) + ')');
+      g.addColorStop(1.00, 'rgba(190,212,236,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      /* arc 로 끝을 둥글게 닫는다 — 직선 두 개로 닫으면 끝이 각져 종이처럼 보인다. */
+      ctx.arc(px, py, len, a - half, a + half);
+      ctx.closePath();
+      ctx.fill();
     }
 
-    function frame() {
-      px += (mx - px) * 0.12;
-      py += (my - py) * 0.12;
+    function paint(t, fade) {
       ctx.clearRect(0, 0, w, h);
-      dots();
-      if (inside) raf = requestAnimationFrame(frame);
-      else { raf = 0; ctx.clearRect(0, 0, w, h); }
+      if (fade <= 0.001) return;
+
+      /* 가운데 빛무리. 두 겹으로 둬야 중심이 단단하고 가장자리가 길게 빠진다. */
+      var g = ctx.createRadialGradient(px, py, 0, px, py, CORE);
+      g.addColorStop(0.00, 'rgba(118,166,215,' + (0.30 * fade).toFixed(4) + ')');
+      g.addColorStop(0.28, 'rgba(118,166,215,' + (0.18 * fade).toFixed(4) + ')');
+      g.addColorStop(0.62, 'rgba(150,186,225,' + (0.08 * fade).toFixed(4) + ')');
+      g.addColorStop(1.00, 'rgba(190,212,236,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(px - CORE, py - CORE, CORE * 2, CORE * 2);
+
+      for (var i = 0; i < RAYS.length; i++) ray(RAYS[i], t, fade);
+
+      /* 심지. 아주 작고 진한 점 하나가 있어야 빛이 어디서 나오는지 읽힌다. */
+      var c = ctx.createRadialGradient(px, py, 0, px, py, 46);
+      c.addColorStop(0.00, 'rgba(63,118,174,' + (0.42 * fade).toFixed(4) + ')');
+      c.addColorStop(1.00, 'rgba(63,118,174,0)');
+      ctx.fillStyle = c;
+      ctx.beginPath();
+      ctx.arc(px, py, 46, 0, TAU);
+      ctx.fill();
+    }
+
+    function frame(t) {
+      if (inside) {
+        vx += (mx - px) * C_PULL; vy += (my - py) * C_PULL;
+        vx *= C_DAMP; vy *= C_DAMP;
+        px += vx; py += vy;
+      }
+      /* 손을 떼면 꺼지듯 잦아든다 — 툭 사라지지 않게. */
+      lit += ((inside ? 1 : 0) - lit) * 0.06;
+      paint(t, lit);
+      if (inside || lit > 0.004) raf = requestAnimationFrame(frame);
+      else { raf = 0; lit = 0; ctx.clearRect(0, 0, w, h); }
     }
     function start() { if (!raf) raf = requestAnimationFrame(frame); }
   })();

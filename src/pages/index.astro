@@ -149,18 +149,45 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- PLATFORM -->
 <section id="platform"
-         style="background:radial-gradient(ellipse 180% 1500px at 50% 1500px,#16202C 0%,#16202C 52.00%,#1A2634 52.80%,#1F2C3C 53.60%,#233244 54.40%,#28394C 55.20%,#2D3F54 56.00%,#31465D 56.80%,#364D65 57.60%,#3B546E 58.40%,#405B77 59.20%,#456280 60.00%,#4A6989 60.80%,#4F7092 61.60%,#55779B 62.40%,#5A7FA5 63.20%,#5F86AE 64.00%,#658EB8 64.80%,#6A95C2 65.60%,#709DCB 66.40%,#75A5D5 67.20%,#7FACDA 68.00%,#8AB3DD 68.80%,#94B9E0 69.60%,#9DBFE3 70.40%,#A5C5E6 71.20%,#ADCAE8 72.00%,#B5CFEA 72.80%,#BCD4ED 73.60%,#C3D8EE 74.40%,#C9DCF0 75.20%,#CEE0F2 76.00%,#D4E3F3 76.80%,#D9E6F5 77.60%,#DDE9F6 78.40%,#E1ECF7 79.20%,#E5EEF8 80.00%,#E8F0F9 80.80%,#EBF2FA 81.60%,#EEF4FB 82.40%,#F0F6FB 83.20%,#F3F7FC 84.00%,#F5F8FC 84.80%,#F6F9FD 85.60%,#F8FAFD 86.40%,#F9FBFD 87.20%,#FAFCFE 88.00%,#FBFDFE 88.80%,#FCFDFE 89.60%,#FDFEFE 90.40%,#FDFEFF 91.20%,#FEFEFF 92.00%,#FEFFFF 93.60%,#FFFFFF 94.40%) #16202C;">
+         style="background:radial-gradient(ellipse 180% 1500px at 50% 1500px,#16202C 0%,#16202C 54.93%,#1B2736 55.73%,#212F3F 56.53%,#273749 57.33%,#2C3F54 58.13%,#32475E 58.93%,#385069 59.73%,#3E5874 60.53%,#45617F 61.33%,#4B6A8A 62.13%,#517395 62.93%,#587CA1 63.73%,#5E85AD 64.53%,#658EB9 65.33%,#6C98C5 66.13%,#73A1D1 66.93%,#7DAAD9 67.73%,#8AB3DD 68.53%,#96BBE1 69.33%,#A1C2E4 70.13%,#ABC8E7 70.93%,#B4CEEA 71.73%,#BCD4ED 72.53%,#C4D9EF 73.33%,#CBDDF1 74.13%,#D1E2F3 74.93%,#D7E5F4 75.73%,#DCE9F6 76.53%,#E1ECF7 77.33%,#E5EEF8 78.13%,#E9F1F9 78.93%,#ECF3FA 79.73%,#EFF5FB 80.53%,#F2F6FC 81.33%,#F4F8FC 82.13%,#F6F9FD 82.93%,#F8FAFD 83.73%,#F9FBFD 84.53%,#FAFCFE 85.33%,#FBFDFE 86.13%,#FCFDFE 86.93%,#FDFEFE 87.73%,#FDFEFF 88.53%,#FEFEFF 89.33%,#FEFFFF 90.93%,#FFFFFF 91.73%) #16202C;">
   <style is:global>
     /* 히어로와 맞닿는 면이라 다른 섹션(130px)보다 위를 더 띄운다.
        ⚠️ 이 값이 바뀌면 배경 그라데이션의 자리값도 같이 움직여야 한다 —
           머리 글줄의 y 가 통째로 밀린다. */
-    #platform { padding-top: 200px; }
+    #platform { padding-top: 250px; }
+
+    /* 머리 두 줄은 아래에서 떠오르며 초점이 맞는다. 대제목이 먼저, 제목이 뒤따른다.
+       ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다 — ScrollReveal 스크립트가 못 돌면
+          글이 그냥 보여야 한다. 기본값으로 숨겨 두지 않는 이유다. */
+    #platform .section-lead-ko,
+    #platform .section-header-row p {
+      transition: opacity .9s cubic-bezier(.2, .7, .2, 1),
+                  transform .9s cubic-bezier(.2, .7, .2, 1),
+                  filter .9s cubic-bezier(.2, .7, .2, 1);
+    }
+    .rv-on #platform .section-header:not(.rv-in) .section-lead-ko,
+    .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
+      opacity: 0;
+      transform: translateY(26px);
+      filter: blur(8px);
+    }
+    #platform .section-header.rv-in .section-header-row p { transition-delay: .2s; }
+    /* ⚠️ 머리 상자 자체의 등장은 끈다. ScrollReveal 이 .section-header 를 통째로
+       올리는데, 그대로 두면 두 줄이 상자와 함께 한 번, 제 몫으로 또 한 번 움직인다.
+       선택자에 #platform 을 끼워 특이도로 이긴다. */
+    .rv-on #platform .section-header:not(.rv-done) { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .rv-on #platform .section-header:not(.rv-in) .section-lead-ko,
+      .rv-on #platform .section-header:not(.rv-in) .section-header-row p {
+        opacity: 1; transform: none; filter: none;
+      }
+    }
     /* 제목 자리로 올라온 문구다 — 소제목이 아니라 제목 활자로 세운다.
        (국문 대제목 '데이터에서 지능으로' 는 그 위에 60px 로 따로 선다.) */
     /* ⚠️ 선택자를 한 겹 더 쥔다. 아래 '#platform .section-header p' 와 특이도가
        같아 나중에 선언된 그쪽 색(#959CA5)이 이겼다. */
     #platform .section-header .section-header-row p {
-      font-size: clamp(28px, 4vw, 45px);
+      font-size: clamp(28px, 4vw, 40px);
       font-weight: 600;
       letter-spacing: -0.8px;
       line-height: 1.3;
@@ -684,7 +711,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <div class="section-header">
       <h2 class="section-lead-ko">데이터에서 지능으로</h2>
       <div class="section-header-row">
-        <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다.</p>
+        <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
       </div>
     </div>
 
@@ -755,6 +782,32 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- INDUSTRIES -->
 <section id="industries" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
+  <style is:global>
+    /* 머리를 가운데로 세운다. 칸이 flex(space-between)라 text-align 만으로는
+       글 상자가 좌우로 갈라진 채 남는다 — 세로로 쌓고 가운데에 모은다. */
+    #industries .section-header-row {
+      flex-direction: column;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 24px;
+    }
+    #industries .section-header-row h2 {
+      font-size: 65px;
+      text-align: center;
+      max-width: none;
+      margin-bottom: 0;
+    }
+    /* ⚠️ max-width 를 푼다. 공통값 360px 이 남아 있으면 40px 글자가 줄마다 감긴다. */
+    #industries .section-header-row p {
+      font-size: 40px;
+      text-align: center;
+      max-width: none;
+    }
+    @media (max-width: 900px) {
+      #industries .section-header-row h2 { font-size: clamp(32px, 7vw, 65px); }
+      #industries .section-header-row p { font-size: clamp(20px, 4.4vw, 40px); }
+    }
+  </style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
