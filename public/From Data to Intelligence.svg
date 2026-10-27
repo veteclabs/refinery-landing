@@ -15,7 +15,7 @@
       }
 
       .cls-11, .cls-14, .cls-15, .cls-16 {
-        fill: #17191e;
+        fill: #16202c;
       }
 
       .cls-11, .cls-3 {
@@ -438,7 +438,7 @@
       <feComposite in="SourceGraphic"/>
     </filter>
     <linearGradient id="_무제_그라디언트_245" data-name="무제 그라디언트 245" x1="567.63" y1="663.18" x2="588.44" y2="624.02" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#17191e"/>
+      <stop offset="0" stop-color="#16202c"/>
       <stop offset=".3" stop-color="#3f76ae"/>
       <stop offset=".77" stop-color="#6295c8"/>
       <stop offset="1" stop-color="#76a6d7"/>
@@ -457,7 +457,7 @@
     <linearGradient id="_무제_그라디언트_245-13" data-name="무제 그라디언트 245" x1="661.83" y1="610.09" x2="636.37" y2="612.79" xlink:href="#_무제_그라디언트_245"/>
     <linearGradient id="_무제_그라디언트_245-14" data-name="무제 그라디언트 245" x1="676.2" y1="630.93" x2="631.94" y2="608.89" xlink:href="#_무제_그라디언트_245"/>
     <linearGradient id="_무제_그라디언트_258" data-name="무제 그라디언트 258" x1="564.26" y1="536.39" x2="585.07" y2="497.23" gradientTransform="translate(1196.7 1081.88) rotate(-180)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#17191e"/>
+      <stop offset="0" stop-color="#16202c"/>
       <stop offset=".3" stop-color="#3f76ae"/>
       <stop offset=".77" stop-color="#6295c8"/>
       <stop offset="1" stop-color="#76a6d7"/>

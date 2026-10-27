@@ -149,8 +149,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- PLATFORM -->
 <section id="platform"
-         style="background:radial-gradient(ellipse 180% 1500px at 50% 1500px,#16202C 0%,#16202C 58.67%,#1B2735 59.47%,#202E3E 60.27%,#253547 61.07%,#2B3D51 61.87%,#30445A 62.67%,#364C64 63.47%,#3B546E 64.27%,#415C79 65.07%,#476483 65.87%,#4D6C8D 66.67%,#537598 67.47%,#597DA3 68.27%,#5F86AE 69.07%,#658EB9 69.87%,#6B97C4 70.67%,#72A0CF 71.47%,#7AA9D8 72.27%,#85B0DC 73.07%,#8FB7DF 73.87%,#99BDE2 74.67%,#A3C3E5 75.47%,#ABC9E8 76.27%,#B3CEEA 77.07%,#BBD3EC 77.87%,#C2D7EE 78.67%,#C8DCF0 79.47%,#CFE0F2 80.27%,#D4E3F3 81.07%,#D9E7F5 81.87%,#DEEAF6 82.67%,#E2EDF7 83.47%,#E6EFF8 84.27%,#EAF1F9 85.07%,#EDF3FA 85.87%,#F0F5FB 86.67%,#F2F7FC 87.47%,#F5F8FC 88.27%,#F7FAFD 89.07%,#F8FBFD 89.87%,#FAFCFE 90.67%,#FBFCFE 91.47%,#FCFDFE 92.27%,#FDFEFE 93.07%,#FEFEFF 93.87%,#FEFFFF 95.47%,#FFFFFF 96.27%) #16202C;">
+         style="background:radial-gradient(ellipse 180% 1500px at 50% 1500px,#16202C 0%,#16202C 52.00%,#1A2634 52.80%,#1F2C3C 53.60%,#233244 54.40%,#28394C 55.20%,#2D3F54 56.00%,#31465D 56.80%,#364D65 57.60%,#3B546E 58.40%,#405B77 59.20%,#456280 60.00%,#4A6989 60.80%,#4F7092 61.60%,#55779B 62.40%,#5A7FA5 63.20%,#5F86AE 64.00%,#658EB8 64.80%,#6A95C2 65.60%,#709DCB 66.40%,#75A5D5 67.20%,#7FACDA 68.00%,#8AB3DD 68.80%,#94B9E0 69.60%,#9DBFE3 70.40%,#A5C5E6 71.20%,#ADCAE8 72.00%,#B5CFEA 72.80%,#BCD4ED 73.60%,#C3D8EE 74.40%,#C9DCF0 75.20%,#CEE0F2 76.00%,#D4E3F3 76.80%,#D9E6F5 77.60%,#DDE9F6 78.40%,#E1ECF7 79.20%,#E5EEF8 80.00%,#E8F0F9 80.80%,#EBF2FA 81.60%,#EEF4FB 82.40%,#F0F6FB 83.20%,#F3F7FC 84.00%,#F5F8FC 84.80%,#F6F9FD 85.60%,#F8FAFD 86.40%,#F9FBFD 87.20%,#FAFCFE 88.00%,#FBFDFE 88.80%,#FCFDFE 89.60%,#FDFEFE 90.40%,#FDFEFF 91.20%,#FEFEFF 92.00%,#FEFFFF 93.60%,#FFFFFF 94.40%) #16202C;">
   <style is:global>
+    /* 히어로와 맞닿는 면이라 다른 섹션(130px)보다 위를 더 띄운다.
+       ⚠️ 이 값이 바뀌면 배경 그라데이션의 자리값도 같이 움직여야 한다 —
+          머리 글줄의 y 가 통째로 밀린다. */
+    #platform { padding-top: 200px; }
     /* 제목 자리로 올라온 문구다 — 소제목이 아니라 제목 활자로 세운다.
        (국문 대제목 '데이터에서 지능으로' 는 그 위에 60px 로 따로 선다.) */
     /* ⚠️ 선택자를 한 겹 더 쥔다. 아래 '#platform .section-header p' 와 특이도가
@@ -218,7 +222,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       height: 40px;
       border-radius: 50%;
       border: 1px solid #272B32;
-      background: #111316;
+      background: #16202C;
       color: #EDEEF0;
       display: flex;
       align-items: center;
@@ -234,7 +238,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     #platform .series-nav-btn:disabled {
       opacity: 0.35;
       cursor: default;
-      background: #111316;
+      background: #16202C;
       border-color: #272B32;
     }
     /* 쉐브론 화살표는 기하학적으로는 중앙이지만, 뾰족한 끝과 벌어진 두 선의 무게중심이
@@ -263,7 +267,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     #platform .series-card {
       flex: 0 0 auto;
-      background: #111316;
+      background: #16202C;
       border: 1px solid #272B32;
       border-radius: var(--radius);
       padding: 24px;
