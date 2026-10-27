@@ -182,64 +182,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           머리 글줄의 y 가 통째로 밀린다. */
     #platform { padding-top: 250px; }
 
-    /* 대제목과 제목 사이를 잇는 흐름. 그 간격(250px)을 margin 이 아니라 이 칸이
-       만든다 — margin 으로 두면 그 자리에 아무것도 놓을 수 없다.
-       ⚠️ flex 라 margin 상쇄가 없다. 값을 바꾸면 배경 그라데이션의 자리값도 같이 본다. */
-    #platform .section-header { display: flex; flex-direction: column; align-items: center; }
-    #platform .section-header .section-lead-ko { margin-bottom: 0; }
-    #platform .section-header-row { width: 100%; }
-    #platform .pf-flow {
-      position: relative;
-      flex: 0 0 250px;
-      width: 2px;
-      height: 250px;
-    }
-    /* 가는 선이 위에서 아래로 자란다. 대제목이 다 찍힌 뒤에 시작한다. */
-    #platform .pf-flow::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg,
-        rgba(118,166,215,0) 0%,
-        rgba(118,166,215,0.5) 16%,
-        rgba(118,166,215,0.5) 74%,
-        rgba(118,166,215,0) 100%);
-      transform: scaleY(0);
-      transform-origin: 50% 0;
-      transition: transform .8s cubic-bezier(.3, .7, .2, 1);
-    }
-    #platform .section-header.rv-in .pf-flow::before {
-      transform: scaleY(1);
-      transition-delay: .95s;
-    }
-    /* 선을 타고 내려가는 알갱이 셋. 「데이터 → 지능」을 눈으로 따라가게 한다. */
-    #platform .pf-flow i {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 6px;
-      height: 6px;
-      margin-left: -3px;
-      border-radius: 50%;
-      background: #76A6D7;
-      opacity: 0;
-    }
-    #platform .section-header.rv-in .pf-flow i {
-      animation: pf-drop 2.6s cubic-bezier(.45, 0, .55, 1) infinite;
-    }
-    #platform .section-header.rv-in .pf-flow i:nth-child(1) { animation-delay: 1.5s; }
-    #platform .section-header.rv-in .pf-flow i:nth-child(2) { animation-delay: 2.4s; }
-    #platform .section-header.rv-in .pf-flow i:nth-child(3) { animation-delay: 3.3s; }
-    @keyframes pf-drop {
-      0%   { transform: translateY(-10px) scale(.55); opacity: 0; }
-      14%  { opacity: 1; }
-      76%  { opacity: 1; }
-      100% { transform: translateY(248px) scale(.55); opacity: 0; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      #platform .pf-flow::before { transform: scaleY(1); transition: none; }
-      #platform .pf-flow i { display: none; }
-    }
 
     /* 머리 두 줄은 아래에서 떠오르며 초점이 맞는다. 대제목이 먼저, 제목이 뒤따른다.
        ⚠️ 숨기는 건 .rv-on 이 붙었을 때뿐이다 — ScrollReveal 스크립트가 못 돌면
@@ -311,13 +253,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     #platform .section-header p {
       color: #959CA5;
     }
-    /* 왼쪽은 카드 칸, 오른쪽은 그래픽. 그래픽(1200×1200 정사각형)이 폭만큼 높아져
-       행 높이를 정하고, 카드 칸은 그 높이 안에서 세로로 넘긴다. */
+    /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 반반으로 나눠 그래픽을 줄인다 —
+       전에는 왼쪽이 360px 고정이라 그래픽이 1176px 까지 커졌다. */
     #platform .platform-split {
       display: grid;
-      grid-template-columns: 360px minmax(0, 1fr);
-      gap: 64px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 80px;
       margin-top: 64px;
+      align-items: center;
     }
     #platform .platform-split__cards {
       display: flex;
@@ -328,123 +271,69 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     #platform .platform-graphic-img {
       margin-top: 0;
     }
-    #platform .series-nav-row {
+
+    /* 층을 하나씩 펼쳐 보는 글 목록. 카드로 쌓으면 일곱 장이 그래픽 높이를 넘겨
+       따로 넘겨야 했는데, 접어 두면 한 화면에 들어온다. */
+    #platform .pf-acc { border-top: 1px solid #272B32; }
+    #platform .pf-item { border-bottom: 1px solid #272B32; }
+    #platform .pf-q {
+      width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 24px;
-    }
-    #platform .series-progress {
-      width: 120px;
-      height: 3px;
-      border-radius: 2px;
-      background: #272B32;
-      overflow: hidden;
-    }
-    #platform .series-progress-fill {
-      height: 100%;
-      width: 20%;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: width .35s cubic-bezier(0.22,1,0.36,1);
-    }
-    #platform .series-nav-btns {
-      display: flex;
-      gap: 10px;
-    }
-    #platform .series-nav-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid #272B32;
-      background: #16202C;
-      color: #EDEEF0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 14px;
+      padding: 18px 0;
+      background: none;
+      border: 0;
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-      padding: 0;
-    }
-    #platform .series-nav-btn:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-    #platform .series-nav-btn:disabled {
-      opacity: 0.35;
-      cursor: default;
-      background: #16202C;
-      border-color: #272B32;
-    }
-    /* 쉐브론 화살표는 기하학적으로는 중앙이지만, 뾰족한 끝과 벌어진 두 선의 무게중심이
-       달라 눈으로 보면 한쪽으로 치우쳐 보인다 — 시각적으로 가운데처럼 보이도록 미세 보정 */
-    #platform .series-prev svg {
-      transform: translateY(-1px);
-    }
-    #platform .series-next svg {
-      transform: translateY(1px);
-    }
-    /* ⚠️ flex-basis 가 0 이라야 안의 카드가 칸 높이를 밀지 못한다. auto 로 두면
-       카드 7장 높이가 그대로 행 높이가 되어 그래픽이 따라 늘어난다. */
-    #platform .series-viewport {
-      flex: 1 1 0;
-      min-height: 0;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-    }
-    #platform .series-slider {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
-      will-change: transform;
-    }
-    #platform .series-card {
-      flex: 0 0 auto;
-      background: #16202C;
-      border: 1px solid #272B32;
-      border-radius: var(--radius);
-      padding: 24px;
-    }
-    #platform .series-icon {
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      margin-bottom: 80px;
-    }
-    #platform .series-icon svg {
-      width: 26px;
-      height: 26px;
-    }
-    #platform .series-icon i {
-      font-size: 26px;
-      line-height: 1;
-    }
-    #platform .series-card h3 {
-      font-size: 16px;
-      font-weight: 600;
+      font-family: inherit;
+      text-align: left;
       color: #EDEEF0;
-      margin: 0 0 10px;
-      line-height: 1.4;
     }
-    #platform .series-tagline {
+    /* 라벨 칸은 폭을 고정한다 — 글자 수가 제각각이라(Connect ~ Automation)
+       그러지 않으면 제목의 왼쪽 시작선이 줄마다 어긋난다. */
+    #platform .pf-tag {
+      flex: none;
+      width: 92px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--accent);
       letter-spacing: 1.2px;
-      margin-bottom: 8px;
+      color: var(--accent);
     }
-    #platform .series-card:has(.series-tagline) .series-icon {
-      margin-bottom: 52.8px;
-    }    #platform .series-desc {
-      font-size: 13px;
+    #platform .pf-t {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+    /* 열림 표시는 + 에서 − 로. 세로획만 접는다. */
+    #platform .pf-mark { flex: none; position: relative; width: 14px; height: 14px; }
+    #platform .pf-mark::before,
+    #platform .pf-mark::after {
+      content: '';
+      position: absolute;
+      background: #959CA5;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    #platform .pf-mark::before { left: 0; top: 6px; width: 14px; height: 2px; }
+    #platform .pf-mark::after { left: 6px; top: 0; width: 2px; height: 14px; }
+    #platform .pf-item.is-open .pf-mark::after { transform: scaleY(0); opacity: 0; }
+    #platform .pf-item.is-open .pf-q { color: #FFFFFF; }
+    /* ⚠️ 높이는 스크립트가 px 로 넣는다. max-height 로 어림잡으면 글 길이가
+       제각각이라 닫히는 속도가 줄마다 달라진다. */
+    #platform .pf-a {
+      height: 0;
+      overflow: hidden;
+      transition: height .35s cubic-bezier(.22, 1, .36, 1);
+    }
+    #platform .pf-a p {
+      margin: 0 0 22px;
+      padding-left: 106px;
+      font-size: 14px;
+      line-height: 1.7;
       color: #959CA5;
-      line-height: 1.65;
-      margin: 0;
+      word-break: keep-all;
     }
     @media (max-width: 900px) {
       #platform .platform-graphic-wrap {
@@ -462,31 +351,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         min-width: 680px;
         max-width: none;
       }
-      /* 두 단을 한 단으로 쌓는다. 카드 칸은 더 이상 그래픽 높이를 따라갈 수 없어
-         보이는 장수를 높이로 직접 정한다. */
+      /* 두 단을 한 단으로 쌓는다. */
       #platform .platform-split {
         grid-template-columns: 1fr;
         gap: 40px;
         margin-top: 40px;
       }
-      #platform .series-viewport {
-        flex: 0 0 auto;
-        height: 520px;
-      }
+      /* 라벨을 제목 위로 올린다 — 좁은 칸에서 92px 을 떼어 주면 제목이 너무 눌린다. */
+      #platform .pf-q { flex-wrap: wrap; gap: 4px 14px; }
+      #platform .pf-tag { width: auto; flex: 1 0 100%; }
+      #platform .pf-a p { padding-left: 0; }
       /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
       #platform .platform-graphic-wrap { cursor: grab; }
       #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
       /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
       #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
-      #platform .series-card {
-        padding: 20px;
-      }
-      #platform .series-icon {
-        margin-bottom: 56px;
-      }
-      #platform .series-card:has(.series-tagline) .series-icon {
-        margin-bottom: 40px;
-      }
     }
     /* #teams 미리보기 — 901~1280px에서도 세로로 나눈다.
        원래는 이미지 위에 제목·본문을 얹고, 왼쪽 28.5% 페이드가 글 배경 노릇을 했다.
@@ -662,56 +541,46 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         window.addEventListener('resize', updateFade);
         updateFade();
       }
-      function initSeriesSlider() {
-        var viewport = document.querySelector('#platform .series-viewport');
-        var slider = document.querySelector('#platform .series-slider');
-        var prevBtn = document.querySelector('#platform .series-prev');
-        var nextBtn = document.querySelector('#platform .series-next');
-        if (!viewport || !slider || !prevBtn || !nextBtn) return;
-        var index = 0;
-        /* 카드 높이는 글 길이에 따라 제각각이라 '한 칸'을 하나의 상수로 둘 수 없다.
-           첫 카드로부터의 실제 거리를 그때그때 잰다. transform 이 걸려 있어도 카드끼리의
-           거리는 그대로라 rect 차이로 구하면 맞다. */
-        function cards() { return slider.querySelectorAll('.series-card'); }
-        function cardTop(i) {
-          var cs = cards();
-          if (!cs.length) return 0;
-          if (i < 0) i = 0;
-          if (i > cs.length - 1) i = cs.length - 1;
-          return cs[i].getBoundingClientRect().top - cs[0].getBoundingClientRect().top;
+      /* 플랫폼 층 아코디언. 한 번에 하나만 연다. */
+      function initPlatformAccordion() {
+        var acc = document.querySelector('#platform .pf-acc');
+        if (acc) {
+          var items = acc.querySelectorAll('.pf-item');
+          /* ⚠️ 높이를 px 로 직접 넣는다. max-height 로 어림잡으면 글 길이가 제각각이라
+             닫히는 속도가 줄마다 달라지고, auto 는 애초에 전이가 걸리지 않는다. */
+          function setOpen(it, open) {
+            var panel = it.querySelector('.pf-a');
+            var btn = it.querySelector('.pf-q');
+            it.classList.toggle('is-open', open);
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            panel.style.height = open ? panel.scrollHeight + 'px' : '0px';
+          }
+          for (var i = 0; i < items.length; i++) {
+            (function (it) {
+              it.querySelector('.pf-q').addEventListener('click', function () {
+                var willOpen = !it.classList.contains('is-open');
+                for (var j = 0; j < items.length; j++) setOpen(items[j], false);
+                if (willOpen) setOpen(it, true);
+              });
+            })(items[i]);
+            setOpen(items[i], items[i].classList.contains('is-open'));
+          }
+          /* 폭이 바뀌면 글이 다시 감겨 높이가 달라진다 — 열려 있는 칸만 다시 잰다. */
+          window.addEventListener('resize', function () {
+            for (var k = 0; k < items.length; k++) {
+              if (items[k].classList.contains('is-open')) {
+                var pn = items[k].querySelector('.pf-a');
+                pn.style.height = 'auto';
+                pn.style.height = pn.scrollHeight + 'px';
+              }
+            }
+          }, { passive: true });
         }
-        function maxOffset() {
-          return Math.max(0, slider.scrollHeight - viewport.clientHeight);
-        }
-        // 마지막 카드가 칸 바닥에 닿는 첫 자리까지만 넘긴다 — 그 뒤로는 빈 자리만 남는다.
-        function maxIndex() {
-          var cs = cards(), mo = maxOffset();
-          for (var i = 0; i < cs.length; i++) if (cardTop(i) >= mo - 1) return i;
-          return Math.max(0, cs.length - 1);
-        }
-        function update() {
-          var mi = maxIndex();
-          if (index > mi) index = mi;
-          if (index < 0) index = 0;
-          /* 마지막 자리에서는 칸 바닥에 붙인다. 카드 높이가 제각각이라 마지막 카드의
-             윗변까지 가는 것만으로는 아랫단이 칸 밖에 남는다(실측 53.6px). */
-          var offset = (index >= mi) ? maxOffset() : Math.min(cardTop(index), maxOffset());
-          slider.style.transform = 'translateY(-' + offset + 'px)';
-          prevBtn.disabled = index <= 0;
-          nextBtn.disabled = index >= mi;
-          var fill = document.querySelector('#platform .series-progress-fill');
-          if (fill) { var pct = mi > 0 ? ((index / mi) * 80 + 20) : 100; fill.style.width = pct + '%'; }
-        }
-        prevBtn.addEventListener('click', function() { index -= 1; update(); });
-        nextBtn.addEventListener('click', function() { index += 1; update(); });
 
         var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
         if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
-
-        window.addEventListener('resize', update);
-        update();
       }
-      function initAll() { initSeriesSlider(); initIntegrationsDrag(); }
+      function initAll() { initPlatformAccordion(); initIntegrationsDrag(); }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAll);
       } else {
@@ -819,7 +688,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   <div class="container">
     <div class="section-header">
       <h2 class="section-lead-ko">데이터에서 지능으로</h2>
-      <div class="pf-flow" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="section-header-row">
         <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다</p>
       </div>
@@ -893,59 +761,62 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
     <div class="platform-split">
       <div class="platform-split__cards">
-        <div class="series-viewport">
-          <div class="series-slider">
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="산업 데이터 통합"><i class="ph ph-share-network"></i></div>
-            <h3>산업 데이터 통합</h3>
-            <p class="series-desc">현장의 여러 설비와 시스템에 흩어진 데이터를<br>한곳에 모으는 첫 단계입니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="온톨로지"><i class="ph ph-tree-structure"></i></div>
-            <div class="series-tagline">Ontology</div>
-            <h3>데이터에 의미를 입히는 구조</h3>
-            <p class="series-desc">흩어진 숫자와 기록 하나하나에 "무엇에 대한<br>데이터인지" 의미를 붙이는 과정입니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="워크플로우"><i class="ph ph-git-branch"></i></div>
-            <div class="series-tagline">Workflow</div>
-            <h3>대화로 설계하는 운영 절차</h3>
-            <p class="series-desc">승인이 필요한 상황과 자동 처리할 상황을<br>대화로 정해두는 과정입니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
-            <div class="series-tagline">Plate</div>
-            <h3>현장을 한 화면에 담은 대시보드</h3>
-            <p class="series-desc">실시간 KPI ⁠· 현황 ⁠· 알람을<br>한 화면에서 확인할 수 있습니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
-            <div class="series-tagline">Lens</div>
-            <h3>원인을 찾고 미래를 그리는 분석</h3>
-            <p class="series-desc">시간에 따라 쌓인 데이터를 살펴보고<br>평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
-            <div class="series-tagline">AI Agent</div>
-            <h3>질문 하나로 움직이는 현장</h3>
-            <p class="series-desc">궁금한 점을 물어보면 데이터를 근거로 답하고<br>다음 조치까지 제안합니다.</p>
-          </div>
-          <div class="series-card">
-            <div class="series-icon" role="img" aria-label="자동화"><i class="ph ph-robot"></i></div>
-            <h3>자동화, 사람 없이도 돌아가는 현장</h3>
-            <p class="series-desc">분석 결과가 보고서 ⁠· 알람 ⁠· 워크플로우 실행까지<br>사람 없이 자동으로 이어집니다.</p>
-          </div>
-          </div>
-        </div>
-        <div class="series-nav-row">
-          <div class="series-progress"><div class="series-progress-fill"></div></div>
-          <div class="series-nav-btns">
-            <button type="button" class="series-nav-btn series-prev" aria-label="이전 카드">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="pf-acc">
+          <div class="pf-item is-open">
+            <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
+              <span class="pf-tag" translate="no">Connect</span>
+              <span class="pf-t">산업 데이터 통합</span>
+              <span class="pf-mark" aria-hidden="true"></span>
             </button>
-            <button type="button" class="series-nav-btn series-next" aria-label="다음 카드">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="pf-a" id="pf-a0" role="region"><p>현장의 여러 설비와 시스템에 흩어진 데이터를 한곳에 모으는 첫 단계입니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a1">
+              <span class="pf-tag" translate="no">Ontology</span>
+              <span class="pf-t">데이터에 의미를 입히는 구조</span>
+              <span class="pf-mark" aria-hidden="true"></span>
             </button>
+            <div class="pf-a" id="pf-a1" role="region"><p>흩어진 숫자와 기록 하나하나에 "무엇에 대한 데이터인지" 의미를 붙이는 과정입니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a2">
+              <span class="pf-tag" translate="no">Workflow</span>
+              <span class="pf-t">대화로 설계하는 운영 절차</span>
+              <span class="pf-mark" aria-hidden="true"></span>
+            </button>
+            <div class="pf-a" id="pf-a2" role="region"><p>승인이 필요한 상황과 자동 처리할 상황을 대화로 정해두는 과정입니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a3">
+              <span class="pf-tag" translate="no">Plate</span>
+              <span class="pf-t">현장을 한 화면에 담은 대시보드</span>
+              <span class="pf-mark" aria-hidden="true"></span>
+            </button>
+            <div class="pf-a" id="pf-a3" role="region"><p>실시간 KPI ⁠· 현황 ⁠· 알람을 한 화면에서 확인할 수 있습니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a4">
+              <span class="pf-tag" translate="no">Lens</span>
+              <span class="pf-t">원인을 찾고 미래를 그리는 분석</span>
+              <span class="pf-mark" aria-hidden="true"></span>
+            </button>
+            <div class="pf-a" id="pf-a4" role="region"><p>시간에 따라 쌓인 데이터를 살펴보고 평소와 다른 부분을 찾아 원인을 짚어냅니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a5">
+              <span class="pf-tag" translate="no">AI Agent</span>
+              <span class="pf-t">질문 하나로 움직이는 현장</span>
+              <span class="pf-mark" aria-hidden="true"></span>
+            </button>
+            <div class="pf-a" id="pf-a5" role="region"><p>궁금한 점을 물어보면 데이터를 근거로 답하고 다음 조치까지 제안합니다.</p></div>
+          </div>
+          <div class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a6">
+              <span class="pf-tag" translate="no">Automation</span>
+              <span class="pf-t">사람 없이도 돌아가는 현장</span>
+              <span class="pf-mark" aria-hidden="true"></span>
+            </button>
+            <div class="pf-a" id="pf-a6" role="region"><p>분석 결과가 보고서 ⁠· 알람 ⁠· 워크플로우 실행까지 사람 없이 자동으로 이어집니다.</p></div>
           </div>
         </div>
       </div>
