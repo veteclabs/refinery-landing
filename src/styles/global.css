@@ -524,9 +524,15 @@
           글자보다 높아 102% 자리의 빛이 글자 아래 여백에 떨어진다. */
     #hero h1 .hero-title-accent {
       display: inline-block;
+      /* ⚠️ 박스가 글자 아래까지 덮어야 한다. line-height:1 만 두면 박스가 글자 높이에
+         딱 맞아 g · y 의 꼬리가 밖으로 나가는데, background-clip:text 는 박스 안에서만
+         칠하므로 그 꼬리가 통째로 사라진다(영문 'one operating system' 에서 났다).
+         0.25em 을 더해 박스를 h1 의 줄 높이(1.25)와 같게 맞춘다 — 줄 간격은 그대로다. */
       line-height: 1;
+      padding-bottom: 0.25em;
+      /* 중심 82% 는 박스가 1em 이던 때의 102% 와 같은 자리다(1.02 / 1.25). */
       background: radial-gradient(
-        circle 1.2em at 60% 102%,
+        circle 1.2em at 60% 82%,
         #76A6D7 0%,
         #4A7FA8 38%,
         #24354A 72%,
