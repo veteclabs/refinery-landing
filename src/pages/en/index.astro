@@ -999,9 +999,7 @@ const jsonLd = [orgSchema, websiteSchema];
          </div>
        </div>
       </div>
-    </div>
-  </div>
-  <div class="container">
+      <div class="container">
     <p class="sol-sub"><span translate="no">Refinery</span> Industrial AI OS learns and solves<br>the unique challenges of each industry.</p>
     <div class="sol-switch-row">
       <div class="sol-tabs" role="tablist">
@@ -1036,46 +1034,61 @@ const jsonLd = [orgSchema, websiteSchema];
      </div>
    </div>
  </div>
+    </div>
+  </div>
 </section>
 
 <script is:inline>
-  /* 솔루션 카드 띠 — 세로로 스크롤하는 동안 가로로 밀린다.
-     ⚠️ 줄의 왼쪽 끝은 내용 너비에 맞춰 선 채로 시작하고, 다 밀리면 마지막 장의
-        오른쪽 변이 내용 너비의 오른쪽 끝에 선다. 그래서 미는 거리는
-        (띠 전체 폭 − 보이는 칸 폭 + 오른쪽 여백) 이다.
-     ⚠️ 구간은 줄의 위변이 화면 아래 90% 를 지날 때 시작해 아래변이 10% 를 지날
-        때 끝난다. 화면을 지나는 동안 고르게 밀린다.
-     ⚠️ 901px 아래는 손대지 않는다 — 좁은 폭은 기존 격자다. */
+  /* 솔루션 무대 — 제목 · 소제목 · 사진이 한 화면에 멈춰 선 채로, 스크롤이 지나는
+     동안 글자에 색이 차고 소제목이 떠오르고 사진 띠가 옆으로 흐른다.
+     ⚠️ 진행도는 핀 상자가 화면을 지나간 비율이다(무대가 붙어 있는 동안 0→1).
+     ⚠️ 띠를 미는 거리는 띠 폭 − 칸 폭 + 내용 너비 오른쪽 여백이다 — 다 밀리면
+        마지막 장의 오른쪽 변이 화면 끝이 아니라 내용 너비 끝에 선다.
+     ⚠️ 동작 줄이기를 켠 환경에서는 손대지 않는다. CSS 기본값이 '다 보이는 상태'라
+        제목도 소제목도 그대로 서고, 띠만 왼쪽 끝에 멈춘다.
+     ⚠️ 901px 아래는 띠를 밀지 않는다 — 좁은 폭은 기존 격자다. */
   (function () {
     var sec = document.getElementById('industries');
     if (!sec) return;
+    var pin = sec.querySelector('.ind-pin');
+    var lines = sec.querySelectorAll('.sol-title .sol-line');
     var rails = [].slice.call(sec.querySelectorAll('.industries-grid'));
-    if (!rails.length) return;
+    if (!pin || !lines.length) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    function wide() { return window.matchMedia('(min-width: 901px)').matches; }
-    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     var cont = sec.querySelector('.container');
     var PAD = cont ? (parseFloat(getComputedStyle(cont).paddingRight) || 0) : 0;
+    function wide() { return window.matchMedia('(min-width: 901px)').matches; }
+    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function ease(t) { return t * t * (3 - 2 * t); }
 
+    var ticking = false;
     function upd() {
-      var vh = window.innerHeight || 800;
-      for (var i = 0; i < rails.length; i++) {
-        var rail = rails[i];
+      var span = pin.offsetHeight - (window.innerHeight || 800);
+      var p = span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+
+      /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다. */
+      for (var i = 0; i < lines.length; i++) {
+        var q = ease(clamp((p - 0.03 - i * 0.08) / 0.17));
+        lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
+        /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
+        lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
+      }
+
+      /* 2) 소제목부터 아래가 떠오른다. */
+      sec.style.setProperty('--ind-body', ease(clamp((p - 0.30) / 0.14)).toFixed(3));
+
+      /* 3) 사진 띠가 옆으로 흐른다. */
+      var rp = ease(clamp((p - 0.48) / 0.48));
+      for (var k = 0; k < rails.length; k++) {
+        var rail = rails[k];
         if (!wide()) { rail.style.removeProperty('--sol-x'); continue; }
-        var box = rail.parentElement.getBoundingClientRect();   /* .sol-panel = 보이는 칸 */
-        var track = rail.scrollWidth;
-        /* 칸은 화면 오른쪽 끝까지 나가 있다. 내용 너비의 오른쪽 여백만큼 더 밀어야
-           마지막 장의 오른쪽 변이 화면 끝이 아니라 내용 너비 끝에 선다. */
-        var travel = track - box.width + PAD;
-        if (travel <= 0) { rail.style.setProperty('--sol-x', '0px'); continue; }
-        var r = rail.getBoundingClientRect();
-        var span = vh * 0.8 + r.height;
-        var p = clamp((vh * 0.9 - r.top) / span);
-        rail.style.setProperty('--sol-x', (-travel * p).toFixed(1) + 'px');
+        var box = rail.parentElement.getBoundingClientRect();
+        var travel = rail.scrollWidth - box.width + PAD;
+        rail.style.setProperty('--sol-x', travel > 0 ? (-travel * rp).toFixed(1) + 'px' : '0px');
       }
     }
 
-    var ticking = false;
     function onScroll() {
       if (ticking) return;
       ticking = true;
@@ -1091,50 +1104,6 @@ const jsonLd = [orgSchema, websiteSchema];
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(upd);
   })();
 </script>
-
-
-<script is:inline>
-  /* 솔루션 머리글 — 핀 무대를 지나는 동안 글자에 색이 차고 소제목이 떠오른다.
-     ⚠️ 칠은 CSS 가 한다(background-clip: text). 여기서는 줄마다 --sol-fill 만 민다.
-     ⚠️ 줄마다 조금씩 늦춰 윗줄이 먼저 차게 한다 — 한꺼번에 차면 번쩍이는 느낌이다.
-     ⚠️ 동작 줄이기를 켠 환경에서는 아예 손대지 않는다. CSS 기본값이 100% 라
-        그대로 다 찬 채 선다. */
-  (function () {
-    var sec = document.getElementById('industries');
-    if (!sec) return;
-    var pin = sec.querySelector('.ind-pin');
-    var lines = sec.querySelectorAll('.sol-title .sol-line');
-    if (!pin || !lines.length) return;
-    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-    var cont = sec.querySelector('.container');
-    var PAD = cont ? (parseFloat(getComputedStyle(cont).paddingRight) || 0) : 0;
-    function ease(t) { return t * t * (3 - 2 * t); }
-
-    var ticking = false;
-    function upd() {
-      /* 진행도는 핀 상자가 화면을 지나간 비율이다 — 무대가 붙어 있는 동안 0→1. */
-      var span = pin.offsetHeight - (window.innerHeight || 800);
-      var p = span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
-      for (var i = 0; i < lines.length; i++) {
-        var q = ease(clamp((p - 0.05 - i * 0.12) / 0.26));
-        lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
-        /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
-        lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
-      }
-    }
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; upd(); });
-    }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll, { passive: true });
-    upd();
-  })();
-</script>
-
 
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#ffffff;border-top:1px solid #E3E7EC;">
