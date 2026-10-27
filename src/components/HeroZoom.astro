@@ -70,10 +70,10 @@
     position: absolute;
     left: var(--hero-pad, 48px);
     right: var(--hero-pad, 48px);
-    /* 멈춰 있을 때는 화면 수직 한가운데(50%)에 서고, 그래픽이 자라는 동안 위로
-       올라가 34% 에서 멎는다. 그래픽이 아래부터 차올라 오므로 카피가 제자리에
-       있으면 설비에 묻힌다. */
-    top: calc(50% - 26% * var(--hero-p, 0));
+    /* 세로 자리는 JS(placeCopy)가 잡는다 — 그래픽 칸 윗변에서 늘 --hero-copy-gap
+       만큼 아래다. 칸 높이가 스크롤마다 바뀌어 CSS 로는 그 윗변을 집을 수 없다.
+       아래 값은 스크립트가 못 도는 경우의 자리다. */
+    top: 50%;
     transform: translateY(-50%);
     padding-top: 0;
     /* ⚠️ width:100%(global.css)를 푼다. absolute 에서 width 가 있으면 right 가 무시돼
@@ -192,6 +192,20 @@
         }
       }
 
+      /* 카피를 그래픽 칸 윗변에서 COPY_GAP 만큼 아래에 세운다.
+         칸은 자라면서 높이도 윗변도 바뀌는데 CSS 로는 그 윗변을 집을 수 없어
+         (flex 가 정하는 값이다) 여기서 재어 넣는다. */
+      var COPY_GAP = 100;
+      function placeCopy() {
+        if (!copy || !boxEl) return;
+        var par = copy.offsetParent || hero;
+        var pr = par.getBoundingClientRect();
+        var br = boxEl.getBoundingClientRect();
+        if (!br.height) return;
+        copy.style.top = (br.top - pr.top + COPY_GAP).toFixed(1) + 'px';
+        copy.style.transform = 'none';
+      }
+
       /* 그래픽 배율을 판 크기에 다시 맞춘다.
          vetec-hero 의 fit() 은 resize 에만 돌아서, 스크롤로 판이 커지는 동안에는
          옛 배율이 그대로 남아 그림이 칸을 다 못 채운다. 같은 식(cover)을 쓴다. */
@@ -218,6 +232,7 @@
         hero.classList.toggle('is-grown', p > 0.9);
         shapeClip(p);
         refit();
+        placeCopy();
 
         // 히어로에 머무는 동안에는 헤더를 붙들어 둔다.
         root.classList.toggle('hero-nav-hold', passed > -1 && passed / run < 1.02);
