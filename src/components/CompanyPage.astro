@@ -593,7 +593,7 @@ const alternates = [
      막은 예지보전 히어로(.uc-hero-bg::after)와 같은 값이다 —
      위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
   .cmp-story-bg {
-    position: relative; overflow: hidden; background: #111316;
+    position: relative; overflow: hidden; background: #191F27;
     /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
        높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
     /* 사진(3840x2160)이 가로에 맞춰 들어가는 높이를 섹션 높이로 삼는다.
@@ -606,7 +606,7 @@ const alternates = [
        가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
     display: flex; flex-direction: column; justify-content: flex-start;
   }
-  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
+  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#191F27)만 남는다. */
   /* ⚠️ 1420px 아래에서는 비율을 풀어야 한다. 내용이 상하 여백 포함 800px을
      차지하는데 16:9로는 그만한 높이가 안 나와(1280px에서 712px) 카드가
      섹션 밖으로 넘친다. 비율을 풀면 높이를 내용이 정하고 여백 130px이
@@ -728,7 +728,7 @@ const alternates = [
      글자가 잠깐 보이지 않으므로 어두운 면을 미리 깔아 둔다. */
   .cmp-cta-bg {
     position: relative; overflow: hidden;
-    padding: 95px 0; text-align: left; background: #0c1015;
+    padding: 95px 0; text-align: left; background: #191F27;
   }
   .cmp-cta-bg-img {
     /* ⚠️ min-width로 배율을 세로 기준에 묶는다.
@@ -802,7 +802,7 @@ const alternates = [
     display: grid; justify-items: center; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
-    background: rgba(17, 19, 22, 0.40);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 40% */
+    background: rgba(17, 19, 22, 0.40);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #191F27) · 40% */
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
     /* 카드는 내용(440x220)에 상하좌우 50px씩 더한 크기다.

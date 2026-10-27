@@ -309,7 +309,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     /* 구분선은 디자인 시스템의 다크 뉴트럴을 따른다.
        쉴 때는 ink-200(#353C44, 컨테이너 외곽선), 손이 닿으면 ink-300(#494F57,
        버튼·입력의 affordance 선)으로 한 단 올린다. 줄 하나하나가 누르는 자리라
-       그 둘을 나눠 쓰는 게 맞다. 전에 쓰던 #272B32 는 스케일 밖 값이라 먹색
+       그 둘을 나눠 쓰는 게 맞다. 전에 쓰던 #292F37 는 스케일 밖 값이라 먹색
        바탕에서 거의 묻혔다. */
     /* ⚠️ flex: none — 칸이 flex 라 기본값(shrink: 1)이면 무대 높이에 눌려 줄들이
        겹쳐 찌그러진다. 제목 줄과 같은 이유다. */
@@ -372,7 +372,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       font-weight: 300;
       /* 본문 행간은 1.5 가 기본이다. */
       line-height: 1.5;
-      color: #7E8A98;
+      color: #A4ADB8;
       word-break: keep-all;
     }
     @media (max-width: 900px) {
@@ -1167,7 +1167,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 </section>
 
 <!-- INTEGRATIONS -->
-<section id="integrations" style="background:#111316;border-top:1px solid #E3E7EC;">
+<section id="integrations" style="background:#191F27;border-top:1px solid #E3E7EC;">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -1177,22 +1177,22 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     </div>
     <style is:global>
       .int-node-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;margin-top:94px;}
-      .rfn-node{position:relative;width:100%;min-width:0;background:#191D22;border:1px solid #272B32;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);overflow:hidden;font-family:"Roboto","Pretendard",-apple-system,sans-serif;transition:box-shadow .15s ease;}
-      .rfn-node:hover{box-shadow:0 0 0 2px #272B32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);}
-      .rfn-node-head{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;background:#1E2228;border-bottom:1px solid #272B32;}
+      .rfn-node{position:relative;width:100%;min-width:0;background:#191F27;border:1px solid #292F37;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);overflow:hidden;font-family:"Roboto","Pretendard",-apple-system,sans-serif;transition:box-shadow .15s ease;}
+      .rfn-node:hover{box-shadow:0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);}
+      .rfn-node-head{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;background:#191F27;border-bottom:1px solid #292F37;}
       .rfn-node-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#3F76AE;color:#ffffff;}
       .rfn-node-ic .ph{font-size:14px;}
       .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#F6F8FA;}
-      .rfn-node-grip{flex:none;display:inline-flex;color:#424850;cursor:grab;}
-      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #272B32;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#757C85;}
+      .rfn-node-grip{flex:none;display:inline-flex;color:#3A4856;cursor:grab;}
+      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#7E858F;}
       .rfn-node-colhead span:last-child{text-align:right;}
-      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #272B32;font-size:13px;}
+      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #292F37;font-size:13px;}
       .rfn-node-col:last-child{border-bottom:0;}
       .rfn-node[data-pl-node="cloud"] .rfn-node-col:last-child,
-      .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #272B32;}
-      .rfn-node-col-name{display:flex;align-items:center;gap:6px;min-width:0;color:#C0C4CA;}
+      .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #292F37;}
+      .rfn-node-col-name{display:flex;align-items:center;gap:6px;min-width:0;color:#C8CED5;}
       .rfn-node-col-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#878E97;white-space:nowrap;text-align:right;}      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
+      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#7E8A98;white-space:nowrap;text-align:right;}      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
       .rfn-key .ph{font-size:12px;}      .rfn-key.conn{color:#3FB255;}
       .rfn-key.cloud{color:#3B7FD4;}
       .rfn-key.sys{color:#9579C2;}
@@ -1235,10 +1235,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       .int-node-grid{position:relative;z-index:1;}
       .int-flow-connector{position:relative;height:90px;}
       .int-flow-svg-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0;}
-      .int-flow-svg-layer path{fill:none;stroke:#424850;stroke-width:1;}
-      .int-flow-svg-layer circle{fill:#424850;}
+      .int-flow-svg-layer path{fill:none;stroke:#3A4856;stroke-width:1;}
+      .int-flow-svg-layer circle{fill:#3A4856;}
       .int-flow-svg-layer path.int-flow-glow{fill:none;stroke-width:2;stroke-linecap:round;}
-      .int-refinery-outer{position:relative;z-index:1;width:164px;margin:0 auto;padding:7px;background:#1E2228;border:1px solid #32373F;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.35);}
+      .int-refinery-outer{position:relative;z-index:1;width:164px;margin:0 auto;padding:7px;background:#191F27;border:1px solid #353C44;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.35);}
       .int-refinery-pill{display:flex;align-items:center;justify-content:center;gap:8px;width:150px;height:50px;margin:0 auto;background:#0B0E14;border-radius:8px;}
       .int-refinery-pill img{height:25px;width:auto;filter:brightness(0) invert(1);}
     </style>
@@ -1773,7 +1773,7 @@ function switchDash(btn, src, key) {
   .cd-progress-track{width:100%;height:4px;background:var(--border,#E3E7EC);border-radius:999px;overflow:hidden;}
   .cd-progress-fill{height:100%;background:var(--accent,#76A6D7);border-radius:999px;transition:width .3s ease;}
   .cd-back{flex:none;padding:14px 20px;background:transparent;border:1px solid var(--border,#E3E7EC);border-radius:8px;color:#555;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;}
-  .cd-back:hover{background:#f4f4f5;}
+  .cd-back:hover{background:#EFF2F5;}
   .cd-success{display:none;text-align:center;padding:80px 0;}
   .cd-success.show{display:block;}
   .cd-success i{font-size:48px;color:var(--accent,#76A6D7);}
@@ -1807,7 +1807,7 @@ function switchDash(btn, src, key) {
   .cd-select-options.is-open{display:block;}
   .cd-select-options li{padding:10px 12px; border-radius:6px; font-size:14px; color:#111; cursor:pointer;}
   .cd-select-options li.is-active{background:#EEF4FB; color:var(--accent,#76A6D7); font-weight:600;}
-  .cd-select-options li:hover{background:#F3F6FA;}
+  .cd-select-options li:hover{background:#F6F8FA;}
 
   @media (max-width: 720px){
     #contactDrawerPanel{width:100vw;min-width:0;}

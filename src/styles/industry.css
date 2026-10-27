@@ -2,10 +2,10 @@
 :root {
   --bg: #ffffff;
   --bg-soft: #f6f8fa;
-  --bg-dark: #111316;
-  --bg-card: #f4f4f5;
+  --bg-dark: #191F27;
+  --bg-card: #EFF2F5;
   --border: #e3e7ec;
-  --border2: #d4d4d8;
+  --border2: #C8CED5;
   --text: #16202c;
   --text-muted: #7e8a98;
   --accent: #76a6d7;
@@ -36,7 +36,7 @@ img { max-width: 100%; height: auto; }
   background: var(--text); color: #fff; border-radius: 8px;
   font-size: 15px; font-weight: 600; transition: background .2s, transform .2s;
 }
-.ind-btn-primary:hover { background: #0b1219; transform: translateY(-1px); }
+.ind-btn-primary:hover { background: #191F27; transform: translateY(-1px); }
 .ind-btn-lg { padding: 14px 30px; font-size: 16px; }
 .ind-btn-ghost { display: inline-flex; align-items: center; padding: 12px 8px; color: var(--text-muted); font-size: 15px; font-weight: 500; transition: color .2s; }
 .ind-btn-ghost:hover { color: var(--accent-ink); }
@@ -82,13 +82,13 @@ img { max-width: 100%; height: auto; }
 .ind-usecase dd.ind-outcome { color: var(--text); font-weight: 550; }
 
 /* ARCHITECTURE (dark) */
-.ind-dark { background: var(--bg-dark); border-bottom-color: #24282e; }
-.ind-head-light h2 { color: #eef1f4; }
-.ind-head-light p { color: #9aa4b0; }
+.ind-dark { background: var(--bg-dark); border-bottom-color: #292F37; }
+.ind-head-light h2 { color: #EFF2F5; }
+.ind-head-light p { color: #A0A8B3; }
 .ind-flow { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
-.ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191d22; border: 1px solid #272b32; border-radius: var(--radius); padding: 22px 20px; }
+.ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191F27; border: 1px solid #292F37; border-radius: var(--radius); padding: 22px 20px; }
 .ind-flow-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-.ind-flow-detail { font-size: 14.5px; color: #c8ccd1; line-height: 1.55; }
+.ind-flow-detail { font-size: 14.5px; color: #C8CED5; line-height: 1.55; }
 
 /* 점 배경 — 랜딩 통합 섹션(#integrations)과 같은 값이다.
    흰색 알파 .08 점을 24px 간격으로 깐다. 카드 값을 그 섹션에서 가져왔으므로
@@ -106,8 +106,8 @@ img { max-width: 100%; height: auto; }
 
 /* ── 솔루션 구조 — 판 위에 카드 넷을 놓고 선으로 잇는 도해.
    카드 값은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
-   (.rfn-node)에서 그대로 가져왔다 — 면 #191D22 · 테두리 #272B32 · 모서리 10px ·
-   그림자 · hover · 머리 띠(38px, #1E2228) · 배지(22px, 모서리 6px, #3F76AE) ·
+   (.rfn-node)에서 그대로 가져왔다 — 면 #191F27 · 테두리 #292F37 · 모서리 10px ·
+   그림자 · hover · 머리 띠(38px, #191F27) · 배지(22px, 모서리 6px, #3F76AE) ·
    이름(등폭 13px). 배치만 이 섹션의 것이다.
    공통 .ind-flow*는 다른 산업도 쓰므로 .ind-page에서만 덮는다. */
 /* 카드 높이를 서로 맞춘다(stretch). 본문 줄 수가 달라도 아랫변이 한 선에 온다. */
@@ -163,7 +163,7 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
-  background: #191d22; border: 1px solid #272b32; border-radius: 10px;
+  background: #191F27; border: 1px solid #292F37; border-radius: 10px;
   /* 안 여백 24px — 도입 효과 카드(.ind-page .ind-grid-3 .ind-card)와 같은 값. */
   padding: 24px; overflow: hidden;
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
@@ -171,7 +171,7 @@ img { max-width: 100%; height: auto; }
   text-align: left;
 }
 .ind-page .ind-flow-step:hover {
-  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
@@ -193,7 +193,7 @@ img { max-width: 100%; height: auto; }
   letter-spacing: -0.01em; text-transform: none;
   color: #F6F8FA; margin-bottom: 0;
 }
-/* 카드 일러스트 — 어두운 카드 면(#191D22)에 맞춰 그린 그림이라 배경을 따로
+/* 카드 일러스트 — 어두운 카드 면(#191F27)에 맞춰 그린 그림이라 배경을 따로
    깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
 .ind-page .ind-flow-img {
   display: block;
@@ -211,7 +211,7 @@ img { max-width: 100%; height: auto; }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
    담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
-   맞춰 옮겼다(그쪽 --bg-soft 자리에 #1E2228). */
+   맞춰 옮겼다(그쪽 --bg-soft 자리에 #191F27). */
 .ind-page .ind-flow-detail {
   list-style: none; margin: 0;
   padding: 0;
@@ -219,27 +219,27 @@ img { max-width: 100%; height: auto; }
 }
 /* 상자는 면만으로 선다. 카드 · 머리 띠에 이미 테두리가 있어 안쪽까지 두르면
    한 카드에 선이 세 겹이 된다. 참고한 플랫폼 개요 목록도 면만 쓴다.
-   면 #32373F는 카드 면(#191D22) 위에서 대비 1.41:1이다. 상자로는 또렷하게
+   면 #32373F는 카드 면(#191F27) 위에서 대비 1.41:1이다. 상자로는 또렷하게
    읽히면서, 아래 연동 시스템 칩보다는 한 발 물러난다.
    상자가 필요한 이유: 내용이 문장이 아니라 낱개 항목의 나열이라
    (발전 · 변전 설비 · 스마트미터) 경계가 없으면 두 항목이 한 덩어리로 읽힌다. */
 .ind-page .ind-flow-detail li {
-  background: #32373f; border: 0; border-radius: 8px;
+  background: #353C44; border: 0; border-radius: 8px;
   padding: 6px 10px;
   /* 14px — 이 상자는 읽는 글이 아니라 스캔하는 라벨이라(SCADA · 발전 ·
      ESG 리포트) 본문 15px을 그대로 쓸 이유가 없다. 노트와 같은 단계다.
      대비 기준은 그대로 4.5:1이다 — 18.66px 굵게 · 24px 보통 미만은 모두 같은
      구간이라 크기를 줄여도 대비 요구가 올라가지 않는다.
-     글자색은 --ink-800(#C0C4CA)이다. 상자 면(#32373F) 위에서 AA(4.5:1)를
-     지키는 가장 어두운 단계다 — 한 칸 더 내려간 --ink-700(#959CA5)은
+     글자색은 --ink-800(#C8CED5)이다. 상자 면(#353C44) 위에서 AA(4.5:1)를
+     지키는 가장 어두운 단계다 — 한 칸 더 내려간 --ink-700(#A0A8B3)은
      4.32:1로 미달이다. 카드 제목(#F6F8FA)보다 한 단계 눌러 위계를 만든다. */
-  font-size: 14px; line-height: 1.5; color: #c0c4ca;
+  font-size: 14px; line-height: 1.5; color: #C8CED5;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
    다른 종류의 카드처럼 보이는데, 평소에는 테두리만 하늘색이고 hover 링만
    색이 다르면 '같은 카드인데 이 칸이 우리'로 읽힌다.
-   다른 카드의 hover 링은 #272B32(랜딩 값)이고 여기만 accent다. */
+   다른 카드의 hover 링은 #292F37(랜딩 값)이고 여기만 accent다. */
 /* 평소에는 다른 카드와 똑같고, hover 링도 다른 카드와 같은 #272B32다.
    대신 하늘색 광을 한 겹 더 얹는다 — 링은 같은데 카드 둘레만 은은하게
    밝아져서, 색을 바꾸지 않고도 '이 칸이 우리'가 읽힌다.
@@ -247,13 +247,13 @@ img { max-width: 100%; height: auto; }
    퍼짐을 주면 카드 둘레부터 밝게 시작해 광이 닿는 범위가 넓어진다. */
 .ind-page .ind-flow-step.is-on:hover {
   box-shadow:
-    0 0 0 2px #272b32,
+    0 0 0 2px #292F37,
     0 0 42px 6px rgba(118, 166, 215, .20),
     0 2px 4px rgba(0,0,0,.35),
     0 1px 1px rgba(0,0,0,.25);
 }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
-   면은 카드 안 상자(#232830)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
+   면은 카드 안 상자(#292F37)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
 /* 노트 — 상자를 두르지 않고 글만 둔다. 흐름 카드 줄의 왼쪽 끝에 맞춰
    왼쪽 맞춤으로 세운다(줄과 같은 컨테이너 안이라 안 여백 0이면 저절로 맞는다). */
@@ -264,12 +264,12 @@ img { max-width: 100%; height: auto; }
   border: 0;
   border-radius: 0;
   padding: 0;
-  /* 글자색은 섹션 소제목과 같은 #959CA5다. 섹션 면(#111316) 위 대비 6.72:1
-     — AA를 넘기면서 위계가 제목(#F6F8FA) → 상자 글(#C0C4CA) → 주석 순으로
+  /* 글자색은 섹션 소제목과 같은 #959CA5다. 섹션 면(#191F27) 위 대비 6.72:1
+     — AA를 넘기면서 위계가 제목(#F6F8FA) → 상자 글(#C8CED5) → 주석 순으로
      선다. 제목과 같은 #F6F8FA을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
-  font-size: 13px; line-height: 1.5; color: #959ca5;
+  font-size: 13px; line-height: 1.5; color: #A0A8B3;
   text-align: left;
   word-break: keep-all;
 }
@@ -309,21 +309,21 @@ img { max-width: 100%; height: auto; }
   display: flex; align-items: center; justify-content: center;
   width: 35px; height: 35px;
   border-radius: 50%;
-  /* 안쪽 원 35px #32373F, 그 밑에 55px 원(면 #1E2228 · 테두리 1px #272B32).
-     테두리는 네모 카드와 같은 값이고 면만 카드(#191D22)보다 한 톤 밝다.
+  /* 안쪽 원 35px #353C44, 그 밑에 55px 원(면 #191F27 · 테두리 1px #292F37).
+     테두리는 네모 카드와 같은 값이고 면만 카드(#191F27)보다 한 톤 밝다.
      두 원 모두 box-shadow spread로 그린다(모서리가 50%라 원으로 퍼진다).
      10px은 면(35 + 10*2 = 55px), 11px은 그 바깥 1px 테두리다 — 뒤에 적은 그림자가 더 바깥에
      깔리므로 순서를 이렇게 둔다. 별도 요소나 ::after는 이 요소가 z-index로
      쌓임 맥락을 만들어 작은 원 뒤로 못 보낸다. */
-  background: #32373f; border: 0;
-  box-shadow: 0 0 0 10px #1e2228, 0 0 0 11px #272b32;
+  background: #353C44; border: 0;
+  box-shadow: 0 0 0 10px #191F27, 0 0 0 11px #292F37;
   /* 화살표는 카드 제목과 같은 #F6F8FA이다. */
   color: #F6F8FA;
   font-size: 0;
 }
 .ind-page .ind-flow-arrow .ph { font-size: 14px; line-height: 1; }
-.ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
-.ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
+.ind-flow-arrow { display: flex; align-items: center; color: #494F57; font-size: 20px; }
+.ind-flow-note { margin-top: 24px; font-size: 14px; color: #A0A8B3; max-width: 68ch; }
 
 /* INTEGRATIONS */
 .ind-systems { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -383,9 +383,9 @@ img { max-width: 100%; height: auto; }
 /* ───────── 배경 사진 히어로 — 예지보전(.uc-hero-bg)과 같은 구성 ─────────
    hero.image를 지정한 산업에만 붙는다. 절대배치 사진 + 어두운 스크림 + 흰 글자.
    사진이 도착하기 전에는 공통 .ind-hero의 밝은 회색(#F6F8FA)이 깔려 그 위 흰 글자가
-   안 보이고 화면이 한 번 번쩍인다. 스크림과 같은 색(#111316)을 밑판으로 깔아
+   안 보이고 화면이 한 번 번쩍인다. 스크림과 같은 색(#191F27)을 밑판으로 깔아
    첫 페인트부터 어두운 면이 되게 한다 — 사진은 그 뒤에 얹히므로 색이 바뀌는 순간이 없다. */
-.ind-hero-bg { position: relative; overflow: hidden; background: #111316; border-bottom: none; }
+.ind-hero-bg { position: relative; overflow: hidden; background: #191F27; border-bottom: none; }
 .ind-hero-bg-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
@@ -554,7 +554,7 @@ img { max-width: 100%; height: auto; }
   text-align: left;
   /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
      흰 배경이면 글자가 잠깐 보이지 않는다. */
-  background: #0c1015;
+  background: #191F27;
 }
 /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 섹션이 사진보다 훨씬 납작해
    object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록 사진이
@@ -612,7 +612,7 @@ img { max-width: 100%; height: auto; }
      반대로 명도를 올리면 명암 차가 벌어져 윤곽이 오히려 강해진다(1.4에서 5.80). */
   filter: grayscale(1) brightness(.75);
   /* 흑백이라 색이 튀지 않으므로 불투명도를 올려도 배경이 앞으로 나오지 않는다.
-     카드 면색(#191D22)이 섹션(#111316)보다 밝아 카드 경계는 유지된다. */
+     카드 면색(#191F27)이 섹션(#191F27)보다 밝아 카드 경계는 유지된다. */
   /* 카드 면이 #191D22일 때는 .2에서 배경(0.0172)이 카드(0.0120)보다 밝아
      카드가 파인 구멍처럼 읽혔다. 카드를 #272B32로 올린 뒤로는 여유가 생겼다.
      말풍선을 불투명으로 묶은 뒤 .10에서 .16으로 올렸다 - 사진 밝기가 24.5에서
@@ -643,18 +643,18 @@ img { max-width: 100%; height: auto; }
 /* ───────── 어두운 과제 섹션 (challenges.dark 지정 시)
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
    카드 면이 섹션 면과 같아서 1px 테두리만으로 구분되는 것이 그 섹션의 특징이다. */
-.ind-soft-dark { background: #111316; border-bottom-color: #24282e; }
-/* 카드 면색 #272B32. #191D22(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가
+.ind-soft-dark { background: #191F27; border-bottom-color: #292F37; }
+/* 카드 면색 #292F37. #191F27(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가
    같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
-.ind-soft-dark .ind-card { background: #272b32; border: 1px solid #32373f; }
+.ind-soft-dark .ind-card { background: #292F37; border: 1px solid #353C44; }
 /* 말풍선만 반투명 — 뒤의 현장 사진이 옅게 비친다. */
 /* 말풍선 면은 불투명 #272B32다. 반투명(.7)이면 배경 사진이 밝아질 때 말풍선
    면도 같이 밝아져, 사진만 올리고 말풍선은 제자리인 구조가 된다. 불투명으로
    묶으면 사진과 말풍선을 따로 조절할 수 있다 - 사진 .10→.16으로 올렸는데도
    말풍선 구분 대비가 1.14:1에서 1.20:1로 오히려 좋아졌다. */
-.ind-soft-dark .ind-grid-bubble .ind-card { background: #272b32; }
+.ind-soft-dark .ind-grid-bubble .ind-card { background: #292F37; }
 .ind-soft-dark .ind-card h3 { color: #F6F8FA; }
-.ind-soft-dark .ind-card p { color: #959ca5; }
+.ind-soft-dark .ind-card p { color: #A0A8B3; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
    (.rfn-node)와 같은 값이다. */
 .ind-soft-dark .ind-card {
@@ -736,8 +736,8 @@ img { max-width: 100%; height: auto; }
   border-right-color: var(--bg);
 }
 /* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #272b32; }
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #272b32; }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #292F37; }
+.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #292F37; }
 
 /* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
    본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
@@ -771,7 +771,7 @@ img { max-width: 100%; height: auto; }
 }
 /* 어두운 면에서는 그 섹션 값을 쓴다. */
 .ind-soft-dark .ind-avatar {
-  background: #424850; border: 0; color: #878e97;
+  background: #3A4856; border: 0; color: #7E8A98;
 }
 
 
@@ -841,7 +841,7 @@ img { max-width: 100%; height: auto; }
 /* 어두운 면 위 소제목은 랜딩 다크 섹션(#platform · #integrations)과 같은
    #959CA5다. 밝은 면 소제목은 이미 --text-muted(#7E8A98)로 랜딩과 같다.
    base(.ind-head-light p)는 11개 파일이 함께 쓰므로 .ind-page로만 좁힌다. */
-.ind-page .ind-head-light p { color: #959ca5; }
+.ind-page .ind-head-light p { color: #A0A8B3; }
 /* 솔루션 구조 소제목은 한 줄로 둔다. 400px에서는 437px이 필요해 두 줄이 됐다.
    이 섹션만 460px으로 올린다 — 공통값을 건드리면 다른 섹션 소제목 줄바꿈이
    함께 달라진다. */
@@ -1092,20 +1092,20 @@ img { max-width: 100%; height: auto; }
    칩은 같은 섹션의 흐름 카드와 같은 면·테두리를 써서 한 화면으로 읽힌다. */
 /* 연동 시스템은 판 위에 얹는다. 흐름 2단계(연동)가 실제로 무엇과 연결되는지를
    묶어 보여 주는 자리라, 칩이 배경에 흩어지지 않고 한 덩어리로 읽힌다.
-   면은 섹션(#111316)보다 한 톤 밝은 #14181F에 푸른 기를 아주 옅게 얹는다. */
-/* 연동 시스템 블록 — 흐름 카드 넷과 같은 값이다(면 #191D22 · 테두리 #272B32 ·
+   면은 섹션(#191F27)보다 한 톤 밝은 #14181F에 푸른 기를 아주 옅게 얹는다. */
+/* 연동 시스템 블록 — 흐름 카드 넷과 같은 값이다(면 #191F27 · 테두리 #292F37 ·
    모서리 10px · 그림자 · hover 링). 같은 섹션 안에서 같은 종류의 상자로 읽힌다. */
 .ind-page .ind-systems-block {
   margin-top: 64px;
-  background: #191d22;
-  border: 1px solid #272b32;
+  background: #191F27;
+  border: 1px solid #292F37;
   border-radius: 10px;
   padding: 24px;
   box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
 }
 .ind-page .ind-systems-block:hover {
-  box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
 }
 /* 제목 · 소제목 한 줄 — 섹션 머리(.ind-page .ind-head)와 같은 배치다.
    제목은 왼쪽, 소제목은 오른쪽 끝에 붙는다. 좁아지면 소제목이 아래로 내려간다. */
@@ -1119,24 +1119,24 @@ img { max-width: 100%; height: auto; }
   color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
-  margin: 0; font-size: 15px; line-height: 1.5; color: #959ca5;
+  margin: 0; font-size: 15px; line-height: 1.5; color: #A0A8B3;
   text-align: right;
 }
 /* 연동 시스템 칩 — 흐름 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
-   면 #32373F · 테두리 없음 · 모서리 8px · 안 여백 6px 10px · 14px #C0C4CA.
+   면 #353C44 · 테두리 없음 · 모서리 8px · 안 여백 6px 10px · 14px #C8CED5.
    섹션 안에서 '항목 하나'를 담는 상자가 한 종류로 통일된다. */
 .ind-dark .ind-system {
-  background: #32373f; border: 0; border-radius: 8px;
+  background: #353C44; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  font-size: 14px; font-weight: 400; line-height: 1.5; color: #c0c4ca;
+  font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
 }
-.ind-dark .ind-systems-note { color: #9aa4b0; }
+.ind-dark .ind-systems-note { color: #A0A8B3; }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
    놓이고, 상자 없이 별표 + 13px #959CA5로 왼쪽 끝에 선다. */
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  font-size: 13px; line-height: 1.5; color: #959ca5;
+  font-size: 13px; line-height: 1.5; color: #A0A8B3;
   text-align: left;
   word-break: keep-all;
 }
@@ -1334,7 +1334,7 @@ img { max-width: 100%; height: auto; }
 .ind-uc-panel dl > div { align-items: start; }
 /* 이름은 내용보다 2px 작은 13px이다. 줄높이는 내용과 같은 22.5px으로 못박아
    글자 크기가 달라도 도형 높이와 첫 줄 윗선이 어긋나지 않는다.
-   이름은 알약 도형을 두른다. 면 #EFF2F5에 글자 #5F6873 — 대비 5.03:1이다.
+   이름은 알약 도형을 두른다. 면 #EFF2F5에 글자 #5A6776 — 대비 5.03:1이다.
    본문색 #7E8A98을 그대로 쓰면 대비가 3.13:1로 AA(4.5:1)에 못 미친다.
    13px은 큰 글자 기준(18.66px 굵게 · 24px)에 들지 않아 3:1로 완화되지도
    않는다. 두 단계 어둡게 잡아 기준을 넘긴다.
@@ -1360,7 +1360,7 @@ img { max-width: 100%; height: auto; }
   padding: 2px 10px 0;
   border-radius: 999px;
   background: #eff2f5;
-  font-size: 13px; font-weight: 600; color: #5f6873;
+  font-size: 13px; font-weight: 600; color: #5A6776;
   line-height: 20.5px;
   transition: background-color .18s;
 }

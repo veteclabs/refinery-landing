@@ -461,7 +461,7 @@ const jsonLd = [
     word-break: keep-all;
   }
   .uc-faq-icon {
-    font-size: 14px; color: var(--text-dim, #8a94a3);
+    font-size: 14px; color: var(--text-dim, #7E8A98);
     flex-shrink: 0; margin-left: 12px; transition: transform .2s;
     -webkit-text-stroke: 0.3px currentColor;
   }
@@ -470,7 +470,7 @@ const jsonLd = [
      DOM에 그대로 남아 FAQPage 스키마·크롤링에는 영향이 없다. */
   .uc-faq-a {
     /* 같은 카드의 소제목(.uc-case-desc)과 같은 15px / 1.5. */
-    font-size: 15px; line-height: 1.5; color: var(--text-muted, #5b6472);
+    font-size: 15px; line-height: 1.5; color: var(--text-muted, #5A6776);
     overflow: hidden; max-height: 0; padding: 0 4px; opacity: 0;
     transition: max-height .4s cubic-bezier(.22,1,.36,1), padding .3s ease, opacity .3s ease;
     word-break: keep-all;
@@ -596,13 +596,13 @@ const jsonLd = [
   .uc-case--img:hover .uc-case-label { color: #fff; }
   .uc-case--img:hover .uc-case-img { transform: scale(1.04); }
 
-  .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
+  .uc-related { margin-top: 26px; font-size: 15px; color: #494F57; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 
   /* 템플릿 강조 밴드 — 전력관리·전력품질·공장 에너지관리도 같이 쓰는 공용 스타일이다.
      페이지별로 바꿀 땐 아래 .uc-redesigned 스코프에서 덮을 것. */
   .uc-template {
-    margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
+    margin-top: 24px; background: #EFF2F5; border: 1px solid #E3E7EC; border-radius: 14px;
     padding: 24px 26px;
   }
   /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
@@ -664,9 +664,9 @@ const jsonLd = [
      사진 위에서 글이 읽히도록 어두운 스크림을 덮고 텍스트를 흰색 계열로 바꾼다. */
   /* 사진이 도착하기 전에는 공통 .ind-hero의 밝은 회색(#F6F8FA)이 깔려,
      그 위 흰 글자가 안 보이고 화면이 한 번 번쩍였다.
-     스크림과 같은 색(#111316)을 밑판으로 깔아 첫 페인트부터 어두운 면이 되게 한다 —
+     스크림과 같은 색(#191F27)을 밑판으로 깔아 첫 페인트부터 어두운 면이 되게 한다 —
      사진은 그 뒤에 얹히므로 색이 바뀌는 순간이 없다. */
-  .uc-hero-bg { position: relative; overflow: hidden; background: #111316; }
+  .uc-hero-bg { position: relative; overflow: hidden; background: #191F27; }
   .uc-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover;
@@ -676,7 +676,7 @@ const jsonLd = [
     pointer-events: none; user-select: none;
   }
   /* 스크림 — 좌측(글이 놓이는 쪽)을 더 진하게 해 대비를 확보한다 */
-  /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #111316.
+  /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #191F27.
      위 80% → 아래 50%로, 태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
   .uc-hero-bg::after {
     content: ''; position: absolute; inset: 0;
@@ -844,7 +844,7 @@ const jsonLd = [
   .uc-template-figure { margin: 0; }
   .uc-template-figure img {
     display: block; width: 100%; height: auto;
-    border: 1px solid #cfe0f0; border-radius: 12px; background: #fff;
+    border: 1px solid #E3E7EC; border-radius: 12px; background: #fff;
   }
   @media (max-width: 900px) {
     .uc-template--split { grid-template-columns: 1fr; gap: 24px; }
@@ -893,7 +893,7 @@ const jsonLd = [
     font-size: 15px;
     font-weight: 400;
     background: transparent;
-    color: #111111;
+    color: #191F27;
     border: 1px solid rgba(17, 17, 17, 0.6);
     border-radius: 6px;
     transition: all .2s;
@@ -950,15 +950,15 @@ const jsonLd = [
 
   /* ───────────────────────────────────────────────────────────
      'Refinery는 이렇게 풉니다' 섹션을 랜딩 'From Data to Intelligence'(#platform)와
-     같은 구성으로. 실측값: 섹션·카드 면 #111316, 카드 테두리 #272B32,
-     제목 #F6F8FA, 설명 #959CA5, 아이콘 accent.
+     같은 구성으로. 실측값: 섹션·카드 면 #191F27, 카드 테두리 #292F37,
+     제목 #F6F8FA, 설명 #A0A8B3, 아이콘 accent.
      카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
      이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
      ─────────────────────────────────────────────────────────── */
-  .uc-redesigned .ind-soft { background: #111316; }
+  .uc-redesigned .ind-soft { background: #191F27; }
   .uc-redesigned .ind-soft .ind-head h2 { color: #F6F8FA; }
   .uc-redesigned .ind-soft .ind-card {
-    background: #111316; border: 1px solid #272b32;
+    background: #191F27; border: 1px solid #292F37;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
@@ -970,13 +970,13 @@ const jsonLd = [
   }
   .uc-redesigned .ind-soft .ind-card:hover,
   .uc-redesigned .uc-template:hover {
-    box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+    box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   }
   .uc-redesigned .ind-soft .ind-card h3 { color: #F6F8FA; }
-  .uc-redesigned .ind-soft .ind-card p { color: #959ca5; }
+  .uc-redesigned .ind-soft .ind-card p { color: #A0A8B3; }
 
   /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
-  /* 밴드가 섹션 배경(#111316)과 같은 색이라 1px 테두리로만 구분됐다.
+  /* 밴드가 섹션 배경(#191F27)과 같은 색이라 1px 테두리로만 구분됐다.
      오른쪽에서 배어 나오는 하늘색 글로우로 '여기부터 다른 이야기'를 표시한다.
      장식 이미지가 있는 쪽과 방향을 맞춰 빛이 한 곳에서 오는 것처럼 보이게 한다.
      글이 있는 왼쪽은 원래의 #111316이라 대비가 손상되지 않는다. */
@@ -1029,11 +1029,11 @@ const jsonLd = [
         rgba(118,166,215,.06) 40%,
         rgba(118,166,215,.02) 58%,
         rgba(118,166,215,0) 74%),
-      #111316;
-    border: 1px solid #272b32;
+      #191F27;
+    border: 1px solid #292F37;
   }
   .uc-redesigned .uc-template h3 { color: #F6F8FA; }
-  .uc-redesigned .uc-template p { color: #959ca5; }
+  .uc-redesigned .uc-template p { color: #A0A8B3; }
   .uc-redesigned .uc-template-list li { color: #F6F8FA; }
   .uc-redesigned .uc-template-list li i { color: #76a6d7; }
 
@@ -1144,7 +1144,7 @@ const jsonLd = [
     text-align: left;
     /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
        흰 배경이면 글자가 잠깐 보이지 않는다(이미지의 글자 자리 색과 같은 톤). */
-    background: #0c1015;
+    background: #191F27;
   }
   .uc-cta-bg-img {
     /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와

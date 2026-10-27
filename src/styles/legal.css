@@ -624,7 +624,7 @@ html { scroll-behavior: smooth; }
   background: var(--bg-soft);
   font-size: 14px;
   line-height: 1.7;
-  color: #3A4654;
+  color: #3A4856;
 }
 /* 본문 링크(.legal-body a)와 같은 모양 — 고지 상자가 .legal-body 밖이라 따로 준다. */
 .legal-lang-notice a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }

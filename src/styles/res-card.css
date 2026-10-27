@@ -154,7 +154,7 @@
   .blog-list .res-thumb:not(.is-empty) .res-cover-kind { color: #fff; }
   /* 표지 글자 — 종류(태그라인)와 한 줄 요약을 이미지 왼쪽 위에 얹는다.
      이미지가 어두운 쪽이 왼쪽 위라 흰 글자가 가장 잘 읽히는 자리다.
-     이미지가 없는 카드(#eef2f6)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
+     이미지가 없는 카드(#EFF2F5)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
   .res-cover {
     position: absolute; inset: 0; z-index: 1;
     /* 위·왼쪽을 넓혀 글자를 모서리에서 떼어 놓는다(20/22 -> 28/30).
@@ -197,5 +197,5 @@
   .res-soon {
     position: absolute; top: 28px; left: 21px; right: auto;
     font-size: 11px; font-weight: 600; color: #7e8a98;
-    background: #eef1f4; border-radius: 999px; padding: 3px 9px;
+    background: #EFF2F5; border-radius: 999px; padding: 3px 9px;
   }

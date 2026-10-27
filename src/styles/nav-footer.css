@@ -73,7 +73,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
     }
 .nav-left { display: flex; align-items: center; }
 .nav-inner > .nav-actions { justify-self: end; }
-.nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
+.nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #191F27; display: flex; align-items: center; }
 /* 로고 높이. 심볼 두 갈래는 SVG 상 똑같이 80 단위이고 뷰박스 높이가 784 이라
    획 두께 = 높이 x 0.10204 다. 이 값이 픽셀에 떨어지지 않으면 두 갈래가 서로 다른
    소수 위치에 앉아 한쪽만 반 픽셀을 더 물고, 그래서 오른쪽이 굵어 보인다.
@@ -148,7 +148,7 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       font-weight: 500;
     }
 .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
-.btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
+.btn-primary:hover, .btn-primary:active { background: #EFF2F5; }
 /* 헤더 CTA 호버 — 면이 한 단 짙어진다(brand-600). nav 안쪽으로 한정한다 —
    랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
 nav .btn-primary:hover, nav .btn-primary:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
