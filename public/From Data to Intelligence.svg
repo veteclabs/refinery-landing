@@ -3,13 +3,17 @@
   <defs>
     <style>
 
-      [data-part] { transition: opacity .35s ease; }
+      [data-part] { transition: filter .35s ease; }
       /* 고르지 않은 쪽은 옅어지기만 한다 — 흐리거나 어둡게 하지 않는다.
-         ⚠️ 온톨로지 판의 불투명 바닥 두 장(cls-15·cls-16)에는 data-part 를 달지
-            않았다. 그 두 장이 아래 데이터 판을 가리는 덮개라, 같이 옅어지면
-            가려져 있던 파란 윗면이 통째로 드러나 그림이 전혀 달라진다. */
-      svg.rf-sel [data-part] { opacity: .32; }
-      svg.rf-sel [data-part].rf-on { opacity: 1; }
+         ⚠️ opacity 속성이 아니라 filter: opacity() 를 쓴다. 이 그림의 판들은
+            저마다 제 반투명 값을 들고 있는데(.cls-54 등), opacity 로 물리면
+            '고른 쪽은 1' 규칙이 그 값을 지워 버려 판이 불투명해지며 기본 모습보다
+            되레 밝아졌다. filter 는 제 값에 곱해지므로 고른 쪽은 기본 그대로다.
+         ⚠️ #16202c 로 꽉 찬 판(cls-15·cls-16)에는 data-part 를 달지 않는다.
+            아래 판을 가리는 덮개라, 같이 옅어지면 가려져 있던 면이 드러난다.
+            바탕색과 같아 눈에 안 띄므로 새로 묶을 때 빠뜨리기 쉽다. */
+      svg.rf-sel [data-part] { filter: opacity(.32); }
+      svg.rf-sel [data-part].rf-on { filter: none; }
       .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
         fill: none;
       }
@@ -489,7 +493,7 @@
   </defs>
   <g class="cls-48">
     <g id="_레이어_1" data-name="레이어 1">
-      <polygon data-part="data" class="cls-16" points="1003.79 922.05 601.35 1155.93 196.27 922.06 598.72 688.18 1003.79 922.05" />
+      <polygon class="cls-16" points="1003.79 922.05 601.35 1155.93 196.27 922.06 598.72 688.18 1003.79 922.05" />
       <g data-part="data">
         <polygon class="cls-68" points="1003.79 922.05 1003.73 945.99 601.28 1179.87 601.35 1155.93 1003.79 922.05" />
         <polygon class="cls-68" points="601.35 1155.93 601.28 1179.87 196.21 946 196.27 922.06 601.35 1155.93" />
