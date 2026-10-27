@@ -229,7 +229,7 @@
     #hero {
       /* 기본 모습 칸 폭. 높이(/2.95)도 그래픽 높이(*0.95)도 전부 이 값에서 나온다 —
          한 군데서 쥐어야 화면이 달라져도 보이는 구도가 같다. */
-      --hero-base-w: min(1200px, 100vw - 96px);
+      --hero-base-w: min(520px, 100vw - 96px);
       /* ⚠️ 공통 section 의 130px 패딩을 끈다. 전에는 #hero 가 제 padding 선언으로
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
@@ -405,7 +405,9 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
+      /* 칸이 그래픽보다 낮으므로 어디를 보여 줄지 골라야 한다 — 그래픽 세로 한가운데다. */
+      top: 50%;
+      transform: translateY(-50%);
       --vh-height: max(
         calc(var(--hero-base-w) * 0.747),
         calc(var(--hero-full-h, 0px) * var(--hero-p, 0))
