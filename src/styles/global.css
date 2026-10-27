@@ -454,6 +454,9 @@
       margin: 0;
       flex: 1 1 340px;
       min-width: 0;
+      /* 글은 왼쪽 정렬이다. 칸이 내용 너비 오른쪽에 놓일 뿐, 글줄까지 오른쪽으로
+         맞추지 않는다 — 한 번 오른쪽 정렬로 해 봤고 아니었다. */
+      text-align: left;
       font-size: 16px;
       font-weight: 300;
       line-height: 1.7;
