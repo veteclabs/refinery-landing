@@ -283,27 +283,24 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     #platform .platform-graphic-img {
       display: block;
       width: 100%;
+      /* <object> 는 <img> 와 달리 내부 비율로 높이를 잡지 않는다 — 직접 준다.
+         이 그림은 viewBox 가 1200×1200 인 정사각이다. */
+      aspect-ratio: 1 / 1;
       height: auto;
+      margin-bottom: -11.83%;
     }
-    /* 흐름에 있는 건 윗장뿐이다 — 상자 높이를 이 장이 정한다. */
-    #platform .pf-art-top { margin-bottom: -11.83%; }
-    /* 자르는 자리 — 위 31% 가 카드 세 장과 그 이름표까지다.
-       캔버스에 그려 행마다 브랜드색 화소를 세어 보니 이름표 알약이 29.7% 에서
-       끝난다. 거기서 한 뼘 아래를 끊어 이름표가 윗장에 함께 들어가게 했다. */
-    #platform .pf-art-top {
-      clip-path: inset(0 0 69% 0);
+    /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
+       이름표), 그 뒤 오림이 아래로 자라 온톨로지 판이 드러난다.
+       자르는 자리 31% 는 짐작이 아니다 — 캔버스에 그려 행마다 브랜드색 화소를
+       세어 보니 이름표 알약이 29.7% 에서 끝난다. 그 한 뼘 아래다.
+       ⚠️ 전에는 같은 그림을 두 장 겹쳐 썼다. 한 장이면 파일도 한 번만 받고,
+          나중에 요소 단위로 켜는 방식으로 갈아탈 때도 그대로 쓸 수 있다. */
+    #platform .pf-art {
+      clip-path: inset(0 0 var(--pf-clip, 69%) 0);
       opacity: var(--pf-in, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
+      pointer-events: none;
     }
-    #platform .pf-art-bot {
-      position: absolute;
-      left: 0; top: 0;
-      width: 100%; height: auto;
-      clip-path: inset(31% 0 0 0);
-      opacity: var(--pf-in3, 0);
-      transform: translateY(calc(36px * (1 - var(--pf-in3, 0))));
-    }
-    #platform .platform-graphic-wrap { opacity: 1; transform: none; }
 
     /* 층을 하나씩 펼쳐 보는 글 목록. 카드로 쌓으면 일곱 장이 그래픽 높이를 넘겨
        따로 넘겨야 했는데, 접어 두면 한 화면에 들어온다. */
@@ -316,10 +313,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        바탕에서 거의 묻혔다. */
     /* ⚠️ flex: none — 칸이 flex 라 기본값(shrink: 1)이면 무대 높이에 눌려 줄들이
        겹쳐 찌그러진다. 제목 줄과 같은 이유다. */
-    #platform .pf-acc { border-top: 1px solid #353C44; margin-top: auto; flex: none; }
-    #platform .pf-item { border-bottom: 1px solid #353C44; transition: border-color .2s ease; }
+    /* 선은 줄과 줄 사이에만 둔다 — 맨 위와 맨 아래는 긋지 않는다. */
+    #platform .pf-acc { margin-top: auto; flex: none; }
+    #platform .pf-item + .pf-item { border-top: 1px solid #353C44; transition: border-color .2s ease; }
+    /* 손이 닿은 줄은 제 위 선과 아래 줄의 위 선을 함께 올린다. */
     #platform .pf-item:hover,
-    #platform .pf-item.is-open { border-bottom-color: #494F57; }
+    #platform .pf-item.is-open { border-top-color: #494F57; }
+    #platform .pf-item:hover + .pf-item,
+    #platform .pf-item.is-open + .pf-item { border-top-color: #494F57; }
     #platform .pf-q {
       width: 100%;
       display: flex;
@@ -359,8 +360,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       transition: height .35s cubic-bezier(.22, 1, .36, 1);
     }
     #platform .pf-a p {
-      margin: 0 0 22px;
+      /* 아래 여백은 줄 위쪽 패딩(15px)과 같은 값이다 — 펼친 줄도 위아래가
+         같은 간격으로 보이게 한다. */
+      margin: 0 0 15px;
       font-size: 14px;
+      /* 굵기는 히어로 소제목과 같은 300 이다. */
+      font-weight: 300;
       /* 본문 행간은 1.5 가 기본이다. */
       line-height: 1.5;
       color: #959CA5;
@@ -839,7 +844,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
           var v3 = (p - V3_START) / (V3_END - V3_START);
           if (v3 < 0) v3 = 0; else if (v3 > 1) v3 = 1;
-          sec.style.setProperty('--pf-in3', ease(v3).toFixed(3));
+          /* 오림을 69% 에서 0% 로 줄이면 아래쪽이 드러난다. */
+          sec.style.setProperty('--pf-clip', (69 * (1 - ease(v3))).toFixed(2) + '%');
+          /* 무대가 가까워지면 그림을 받기 시작한다 — <object> 에는 lazy 가 없다. */
+          /* ⚠️ 그림은 이 스크립트보다 뒤에 있다 — 미리 잡아 두면 늘 null 이다.
+             필요해지는 시점에 그때 찾는다. */
+          if (p > 0.2) {
+            var art = sec.querySelector('.pf-art');
+            if (art && !art.getAttribute('data')) art.setAttribute('data', art.getAttribute('data-src'));
+          }
 
           var v2 = (p - V2_START) / (V2_END - V2_START);
           if (v2 < 0) v2 = 0; else if (v2 > 1) v2 = 1;
@@ -922,13 +935,19 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           </div>
         </div>
       </div>
-      {/* 같은 그림을 두 장 겹쳐 위아래로 잘라 쓴다. 위쪽 세 장(Plate · Lens · AI Agent)이
-          먼저 뜨고 아래 온톨로지 판이 뒤따른다 — 한 장짜리 SVG 라 안쪽 요소를 따로
-          움직일 수 없어서, 자르는 자리를 나눠 순서를 만든다.
-          ⚠️ 두 번째 장은 읽기 보조기기에서 감춘다. 같은 그림이 두 번 읽히지 않게. */}
+      {/* <object> 로 넣는다. <img> 는 SVG 를 한 장의 그림으로만 그려 바깥 CSS·JS 가
+          안으로 닿지 못한다 — 안쪽 요소를 집어서 켜려면 문서로 들어와야 한다.
+          ⚠️ 지금 파일에는 집을 이름이 없다(최상위 g 가 '_레이어_1' 하나뿐이고
+             나머지는 cls-* 자동 클래스다). 원본에서 그룹에 이름을 지어 주면
+             그때부터 요소 단위로 켜고 끌 수 있다. 그 전까지는 아래처럼 자르는
+             자리로 순서를 만든다.
+          ⚠️ <object> 에는 loading="lazy" 가 없다. 대신 무대가 가까워졌을 때
+             data 를 꽂아 늦게 받는다(아래 스크립트).
+          ⚠️ 그림이 클릭을 먹지 않게 pointer-events 를 끈다. */}
       <div class="platform-graphic-wrap">
-        <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img pf-art-top" loading="lazy" decoding="async">
-        <img src="/From%20Data%20to%20Intelligence.svg" alt="" aria-hidden="true" class="platform-graphic-img pf-art-bot" loading="lazy" decoding="async">
+        <object class="platform-graphic-img pf-art" type="image/svg+xml"
+                data-src="/From%20Data%20to%20Intelligence.svg"
+                aria-label="Refinery 플랫폼 아이소메트릭 다이어그램" role="img"></object>
       </div>
     </div>
   </div>
