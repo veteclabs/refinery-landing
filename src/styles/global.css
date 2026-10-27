@@ -391,14 +391,17 @@
       box-shadow: 0 18px 48px rgba(22, 32, 44, .12);
       gap: 0;
     }
-    /* 태그는 series-tagline 처럼 알약을 벗고 글자만 남긴다. */
-    #hero .hero-motion-placeholder .vh-card__top { height: auto; margin-bottom: 0; }
-    #hero .hero-motion-placeholder .vh-card__tag {
-      height: auto; padding: 0; border: 0; background: transparent;
-      font-size: 13px; font-weight: 600; letter-spacing: 1.2px;
+    /* 라벨 자리에는 글 대신 아이콘이 선다. 원본의 알약 틀을 벗긴다. */
+    #hero .hero-motion-placeholder .vh-card__top {
+      height: auto; margin-bottom: 0; padding: 0; border: 0; background: transparent;
+    }
+    #hero .hero-motion-placeholder .vh-card__ic {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
       /* 흰 면 위에서는 brand(#76A6D7)가 흐리다 — 한 단 짙은 brand-700 을 쓴다. */
       color: #3F76AE;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
     #hero .hero-motion-placeholder .vh-card__title {
       font-size: 20px; font-weight: 600; line-height: 1.4;

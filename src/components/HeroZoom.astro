@@ -84,11 +84,6 @@
   }
   /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
 
-  /* 마커(+ 원과 기둥)는 자라면서 생긴다. 멈춰 있을 때는 그래픽만 보인다.
-     p 0.25 까지는 음수라 0 으로 깎이고, 0.7 에서 다 보인다. */
-  .hero-motion-placeholder .vh-marker {
-    opacity: calc((var(--hero-p, 0) - 0.25) * 2.2);
-  }
   /* UI 슬라이스는 3D 를 쓰지 않는다 — 카드 글자가 평면으로 그려져야 선명하다.
      원본의 translateZ(1px) scale(0.99933) 은 scene 안에서 앞세우려던 값인데, 이제
      슬라이스가 scene 밖(무대 직속)이라 그 자리에 있을 이유도 없다. */
@@ -116,8 +111,18 @@
      그래픽을 가린다. is-grown 은 JS 가 p 를 보고 붙인다. */
   #hero:not(.is-grown) .hero-motion-placeholder .vh-head,
   #hero:not(.is-grown) .hero-motion-placeholder .vh-pin { pointer-events: none; }
+  /* 핀(+ 원과 기둥)은 그래픽이 다 자란 뒤에만 보인다. 작은 칸에서는 핀 하나가
+     그림의 상당 부분을 가리고, 심볼 오림틀 안에서 자리도 어긋나 보인다.
+     전에는 p 0.25~0.7 에 걸쳐 서서히 떠올랐는데, 자라는 내내 핀이 떠 있어
+     그래픽을 읽기 어려웠다 — is-grown(p > 0.9) 하나로 가른다.
+     ⚠️ 투명도는 .vh-marker(부모)에 건다. .vh-pin 쪽은 등장 애니메이션(vhPin)이
+        opacity 를 쥐고 있어 여기서 덮으면 그 애니메이션이 어긋난다. */
+  #hero .hero-motion-placeholder .vh-marker { transition: opacity .35s ease; }
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-marker { opacity: 0; }
+  /* 동작 줄이기에서는 칸이 처음부터 다 자란 모습이라(아래 분기에서 max-height 를
+     푼다) is-grown 이 안 붙어도 핀이 보여야 한다. 특이도를 맞춰 덮는다. */
   @media (prefers-reduced-motion: reduce) {
-    .hero-motion-placeholder .vh-marker { opacity: 1; }
+    #hero:not(.is-grown) .hero-motion-placeholder .vh-marker { opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-motion-placeholder { margin-top: 0; max-height: none; }

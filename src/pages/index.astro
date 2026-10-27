@@ -98,7 +98,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       문구는 src/data/heroMarkers.ts, 모양은 global.css 가 쥔다. */}
   {heroCards.ko.map((c) => (
     <template data-hero-card={c.id} data-hero-card-label={c.title}>
-      <div class="vh-card__top"><span class="vh-card__tag">{c.tag}</span></div>
+      <div class="vh-card__top"><i class={`ph ${c.icon} vh-card__ic`} aria-hidden="true"></i></div>
       <h3 class="vh-card__title">{c.title}</h3>
       <p class="vh-card__desc">{c.desc}</p>
     </template>
