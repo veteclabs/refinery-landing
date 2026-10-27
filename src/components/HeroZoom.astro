@@ -76,11 +76,6 @@
     top: calc(50% - 26% * var(--hero-p, 0));
     transform: translateY(-50%);
     padding-top: 0;
-    /* 대제목 왼쪽을 다 자란 그래픽의 왼쪽 핀에 맞춘다. 핀은 그래픽 좌표에서 나오고
-       칸 폭에 비례하므로 패딩도 비율로 둔다 — px 로 박으면 화면마다 어긋난다.
-       1024 기준 자란 칸 977px · 핀 좌측이 칸 안쪽으로 111px 다. 패딩은 카피 폭(992)
-       기준이고 h1 자체 여백 2px 이 더 붙어, 11.0% 가 핀과 같은 자리다. */
-    padding-left: 11%;
     /* ⚠️ width:100%(global.css)를 푼다. absolute 에서 width 가 있으면 right 가 무시돼
        오른쪽이 화면 밖으로 넘친다(1024px 화면에서 소제목 끝이 1057 까지 갔다).
        auto 로 두면 left~right 가 폭을 정하고, 그 안에서 max-width 와 margin-inline:
