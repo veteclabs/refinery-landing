@@ -254,9 +254,11 @@ const jsonLd = [orgSchema, websiteSchema];
           정사각이 아닌 그림으로 바꾸면 이 값을 다시 잡아야 한다.
        ⚠️ align-self: end — 줄 높이를 글 칸이 정할 때(영문은 제목이 두 줄로 감기는
           줄이 있다) 그래픽을 줄 바닥에 붙여야 두 아랫변이 만난다. */
+    /* ⚠️ overflow 를 자르지 않는다. 아래 margin-bottom: -7% 가 상자 바닥을 그림
+       안쪽으로 끌어올리므로, 자르면 그 7% 가 통째로 잘려 받침판이 사라진다.
+       상자는 아랫변을 맞추는 용도고, 그림은 그 아래로 넘쳐 그려져야 온전하다. */
     #platform .platform-graphic-wrap {
       position: relative;
-      overflow: hidden;
       align-self: end;
       width: 100%;
       /* 보이는 높이가 폭의 93% 라, 무대 안에 들어갈 폭의 상한은 그 역수배다. */
@@ -575,15 +577,52 @@ const jsonLd = [orgSchema, websiteSchema];
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
             panel.style.height = open ? panel.scrollHeight + 'px' : '0px';
           }
+
+          /* 고른 줄에 해당하는 그림 요소만 켠다.
+             ⚠️ <object> 안은 별도 문서라 바깥 CSS·JS 가 그냥은 닿지 않는다. 같은
+                도메인이라 contentDocument 로 들어갈 수 있고, 선택 규칙은 SVG 파일
+                안에 미리 심어 뒀다(svg.rf-sel [data-part]).
+             ⚠️ 그림이 늦게 오므로 load 를 기다린다. 이미 와 있으면 바로 쓴다. */
+          var artDoc = null;
+          function svgRoot() {
+            var o = document.querySelector('#platform .pf-art');
+            try { return o && o.contentDocument && o.contentDocument.querySelector('svg'); }
+            catch (e) { return null; }
+          }
+          function lightUp(it) {
+            var root = svgRoot();
+            if (!root) return;
+            var spec = it && it.getAttribute('data-part');
+            /* 'all' 은 한 부분이 아니라 그림 전체다 — 흐리게 하는 규칙 자체를 걷는다.
+               한 줄이 그림의 여러 덩어리를 가리킬 때는 쉼표로 적는다. */
+            var want = spec && spec !== 'all' ? spec.split(',') : null;
+            var all = root.querySelectorAll('[data-part]');
+            for (var i = 0; i < all.length; i++) {
+              var p = all[i].getAttribute('data-part');
+              all[i].classList.toggle('rf-on', !!want && want.indexOf(p) >= 0);
+            }
+            root.classList.toggle('rf-sel', !!want);
+          }
+          (function () {
+            var o = document.querySelector('#platform .pf-art');
+            if (!o) return;
+            o.addEventListener('load', function () {
+              var open = acc.querySelector('.pf-item.is-open');
+              if (open) lightUp(open);
+            });
+          })();
+
           for (var i = 0; i < items.length; i++) {
             (function (it) {
               it.querySelector('.pf-q').addEventListener('click', function () {
                 var willOpen = !it.classList.contains('is-open');
                 for (var j = 0; j < items.length; j++) setOpen(items[j], false);
-                if (willOpen) setOpen(it, true);
+                if (willOpen) { setOpen(it, true); lightUp(it); }
+                else lightUp(null);
               });
             })(items[i]);
             setOpen(items[i], items[i].classList.contains('is-open'));
+            if (items[i].classList.contains('is-open')) lightUp(items[i]);
           }
           /* 폭이 바뀌면 글이 다시 감겨 높이가 달라진다 — 열려 있는 칸만 다시 잰다.
              ⚠️ 첫 측정만으로는 모자란다. 글꼴이 늦게 오거나 칸 폭이 레이아웃 뒤에
@@ -864,7 +903,7 @@ const jsonLd = [orgSchema, websiteSchema];
       <div class="platform-split__cards">
         <p class="pf-lead">Field data is connected,<br>given meaning through an ontology,<br>and carried into AI-driven decisions</p>
         <div class="pf-acc">
-          <div class="pf-item is-open">
+          <div data-part="data" class="pf-item is-open">
             <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
               <span class="pf-t">Industrial data integration</span>
             </button>
@@ -872,7 +911,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>Gathering data scattered across your systems in one place is the first step.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="ontology,workflow" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a1">
               <span class="pf-t">Data with meaning attached</span>
             </button>
@@ -880,7 +919,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>Every scattered number and record is given meaning: what the data is about.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="workflow" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a2">
               <span class="pf-t">Operating procedures designed through conversation</span>
             </button>
@@ -888,7 +927,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>You set what needs approval, and what runs automatically.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="plate" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a3">
               <span class="pf-t">The field on one dashboard</span>
             </button>
@@ -896,7 +935,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>Real-time KPIs, status and alarms can all be checked on one screen.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="lens" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a4">
               <span class="pf-t">Analysis that finds causes and looks ahead</span>
             </button>
@@ -904,7 +943,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>It reviews data gathered over time to spot anomalies and find their cause.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="agent" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a5">
               <span class="pf-t">A field run by one question</span>
             </button>
@@ -912,7 +951,7 @@ const jsonLd = [orgSchema, websiteSchema];
               <p>Ask, and it answers from your data and suggests the next action.</p>
             </div>
           </div>
-          <div class="pf-item">
+          <div data-part="all" class="pf-item">
             <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a6">
               <span class="pf-t">A site that runs without people</span>
             </button>
@@ -943,11 +982,11 @@ const jsonLd = [orgSchema, websiteSchema];
 </section>
 
 <!-- INDUSTRIES -->
-<section id="industries" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
+<section id="industries" style="border-top:1px solid #E3E7EC;">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Whatever the industry or challenge,<br>a solution optimized for every field</h2>
+        <h2 class="sol-title"><span class="sol-line">Whatever the industry or challenge,</span><span class="sol-line">a solution optimized for every field</span></h2>
         <p><span translate="no">Refinery</span> Industrial AI OS learns and solves<br>the unique challenges of each industry.</p>
      </div>
    </div>
@@ -985,6 +1024,46 @@ const jsonLd = [orgSchema, websiteSchema];
    </div>
  </div>
 </section>
+
+<script is:inline>
+  /* 솔루션 제목 — 스크롤을 따라 글자에 제 색이 찬다.
+     ⚠️ 칠은 CSS 가 한다(background-clip: text). 여기서는 줄마다 --sol-fill 만 민다.
+     ⚠️ 줄마다 조금씩 늦춰 윗줄이 먼저 차게 한다 — 한꺼번에 차면 번쩍이는 느낌이다.
+     ⚠️ 동작 줄이기를 켠 환경에서는 아예 손대지 않는다. CSS 기본값이 100% 라
+        그대로 다 찬 채 선다. */
+  (function () {
+    var sec = document.getElementById('industries');
+    if (!sec) return;
+    var head = sec.querySelector('.section-header-row');
+    var lines = sec.querySelectorAll('.sol-title .sol-line');
+    if (!head || !lines.length) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ticking = false;
+    function upd() {
+      var vh = window.innerHeight || 800;
+      var top = head.getBoundingClientRect().top;
+      /* 머리글이 화면 아래 82% 에 닿을 때 차기 시작해, 44% 를 더 올라오면 다 찬다. */
+      var p = (vh * 0.82 - top) / (vh * 0.44);
+      if (p < 0) p = 0; else if (p > 1) p = 1;
+      for (var i = 0; i < lines.length; i++) {
+        var q = (p - i * 0.18) / 0.62;
+        if (q < 0) q = 0; else if (q > 1) q = 1;
+        q = q * q * (3 - 2 * q);
+        lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
+      }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    upd();
+  })();
+</script>
+
 
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#ffffff;border-top:1px solid #E3E7EC;">
