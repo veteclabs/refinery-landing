@@ -226,11 +226,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
 
     /* 본문은 제목이 빠지는 자리에 떠오르고, 다 뜬 뒤에는 무대가 붙어 있는 동안
-       그대로 멈춰 있다 — 아코디언은 그 상태에서 연다. */
-    #platform .pf-body {
+       그대로 멈춰 있다 — 아코디언은 그 상태에서 연다.
+       두 단은 따로 뜬다. 그래픽이 먼저(--pf-in), 왼쪽 글이 뒤따른다(--pf-in2). */
+    #platform .pf-body { pointer-events: var(--pf-pe, none); }
+    #platform .platform-graphic-wrap {
       opacity: var(--pf-in, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
-      pointer-events: var(--pf-pe, none);
+    }
+    #platform .platform-split__cards {
+      opacity: var(--pf-in2, 0);
+      transform: translateY(calc(36px * (1 - var(--pf-in2, 0))));
     }
 
     /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 그래픽이 이 섹션의 주인공이라
@@ -737,14 +742,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         }
         /* 섹션 진행도 하나로 세 가지를 몬다.
              0 ~ 45%  낱말이 한 칸씩 바뀐다
-            42 ~ 72%  배경이 어두워지고 제목이 빠지며 본문이 떠오른다
-            72 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
-           구간을 3% 겹쳐 둬야 마지막 낱말이 선 직후에 바로 어두워지기 시작한다. */
-        var W_END = 0.45, D_START = 0.42, D_END = 0.70;
+            46 ~ 60%  배경이 어두워지고 제목이 빠진다
+            58 ~ 74%  본문이 떠오른다
+            74 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
+           배경 구간은 짧게 둔다. 길게 끌면 흰 면과 먹색 사이의 회색이 오래 머물러
+           화면이 바래 보인다 — 한 번에 넘어가는 편이 낫다. */
+        var W_END = 0.45, D_START = 0.46, D_END = 0.60;
         /* 본문은 배경이 거의 다 어두워진 뒤에야 뜨기 시작한다.
            배경과 같은 구간에 묶으면, 아직 흰 면일 때 본문이 옅게 비쳐 보인다 —
            그래픽과 아코디언이 유령처럼 밑에 깔린 모습이 된다. */
-        var V_START = 0.60, V_END = 0.80;
+        var V_START = 0.58, V_END = 0.74;
+        /* 왼쪽 글은 그래픽보다 반 박자 늦는다 — 순서만 읽히면 된다. */
+        var V2_START = 0.615, V2_END = 0.775;
         function ease(t) { return t * t * (3 - 2 * t); }
         function upd() {
           /* 무대가 붙어 있는 동안 쓸 수 있는 스크롤 = 섹션 높이 - 화면 하나. */
@@ -776,8 +785,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           if (v < 0) v = 0; else if (v > 1) v = 1;
           v = ease(v);
           sec.style.setProperty('--pf-in', v.toFixed(3));
+
+          var v2 = (p - V2_START) / (V2_END - V2_START);
+          if (v2 < 0) v2 = 0; else if (v2 > 1) v2 = 1;
+          v2 = ease(v2);
+          sec.style.setProperty('--pf-in2', v2.toFixed(3));
           /* 다 뜨기 전에는 클릭을 받지 않는다 — 안 보이는 아코디언이 눌린다. */
-          sec.style.setProperty('--pf-pe', v > 0.9 ? 'auto' : 'none');
+          sec.style.setProperty('--pf-pe', v2 > 0.9 ? 'auto' : 'none');
         }
         var ticking = false;
         function onScroll() {
