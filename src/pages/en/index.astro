@@ -127,7 +127,35 @@ const jsonLd = [orgSchema, websiteSchema];
 
 <!-- PLATFORM -->
 <section id="platform"
-         style="background:radial-gradient(ellipse 180% 1500px at 50% 1500px,#16202C 0%,#16202C 54.93%,#1B2736 55.73%,#212F3F 56.53%,#273749 57.33%,#2C3F54 58.13%,#32475E 58.93%,#385069 59.73%,#3E5874 60.53%,#45617F 61.33%,#4B6A8A 62.13%,#517395 62.93%,#587CA1 63.73%,#5E85AD 64.53%,#658EB9 65.33%,#6C98C5 66.13%,#73A1D1 66.93%,#7DAAD9 67.73%,#8AB3DD 68.53%,#96BBE1 69.33%,#A1C2E4 70.13%,#ABC8E7 70.93%,#B4CEEA 71.73%,#BCD4ED 72.53%,#C4D9EF 73.33%,#CBDDF1 74.13%,#D1E2F3 74.93%,#D7E5F4 75.73%,#DCE9F6 76.53%,#E1ECF7 77.33%,#E5EEF8 78.13%,#E9F1F9 78.93%,#ECF3FA 79.73%,#EFF5FB 80.53%,#F2F6FC 81.33%,#F4F8FC 82.13%,#F6F9FD 82.93%,#F8FAFD 83.73%,#F9FBFD 84.53%,#FAFCFE 85.33%,#FBFDFE 86.13%,#FCFDFE 86.93%,#FDFEFE 87.73%,#FDFEFF 88.53%,#FEFEFF 89.33%,#FEFFFF 90.93%,#FFFFFF 91.73%) #16202C;">
+         style="background:radial-gradient(ellipse 180% 1500px at 50% calc(1500px + var(--pf-rise, 0px)),#16202C 0%,#16202C 54.93%,#1B2736 55.73%,#212F3F 56.53%,#273749 57.33%,#2C3F54 58.13%,#32475E 58.93%,#385069 59.73%,#3E5874 60.53%,#45617F 61.33%,#4B6A8A 62.13%,#517395 62.93%,#587CA1 63.73%,#5E85AD 64.53%,#658EB9 65.33%,#6C98C5 66.13%,#73A1D1 66.93%,#7DAAD9 67.73%,#8AB3DD 68.53%,#96BBE1 69.33%,#A1C2E4 70.13%,#ABC8E7 70.93%,#B4CEEA 71.73%,#BCD4ED 72.53%,#C4D9EF 73.33%,#CBDDF1 74.13%,#D1E2F3 74.93%,#D7E5F4 75.73%,#DCE9F6 76.53%,#E1ECF7 77.33%,#E5EEF8 78.13%,#E9F1F9 78.93%,#ECF3FA 79.73%,#EFF5FB 80.53%,#F2F6FC 81.33%,#F4F8FC 82.13%,#F6F9FD 82.93%,#F8FAFD 83.73%,#F9FBFD 84.53%,#FAFCFE 85.33%,#FBFDFE 86.13%,#FCFDFE 86.93%,#FDFEFE 87.73%,#FDFEFF 88.53%,#FEFEFF 89.33%,#FEFFFF 90.93%,#FFFFFF 91.73%) #16202C;">
+    <script is:inline>
+      /* 배경이 스크롤을 따라 차오른다.
+         그라데이션의 타원 중심을 --pf-rise 만큼 아래로 내렸다가 0 으로 되돌린다.
+         중심이 내려가 있으면 같은 자리가 더 희고, 0 이 되면 파랑과 어두운 면이
+         제자리까지 올라온다 — 색이 아래에서 차오르는 것으로 보인다.
+         ⚠️ 기본값은 0px 이다. 스크립트가 못 돌면 커밋된 그대로 선다.
+         ⚠️ 색 정지점은 건드리지 않는다. 중심 하나만 움직여야 띠가 안 생긴다. */
+      (function () {
+        var sec = document.getElementById('platform');
+        if (!sec) return;
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var RISE = 320, ticking = false;
+        function upd() {
+          ticking = false;
+          var r = sec.getBoundingClientRect();
+          var vh = window.innerHeight || 800;
+          /* 섹션 윗변이 화면 바닥에 닿을 때 0, 화면 위로 150px 올라갔을 때 1 */
+          var p = (vh - r.top) / (vh + 150);
+          if (p < 0) p = 0; else if (p > 1) p = 1;
+          sec.style.setProperty('--pf-rise', ((1 - p) * RISE).toFixed(1) + 'px');
+        }
+        function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+        upd();
+      })();
+    </script>
   <style is:global>
     /* 히어로와 맞닿는 면이라 다른 섹션(130px)보다 위를 더 띄운다.
        ⚠️ 이 값이 바뀌면 배경 그라데이션의 자리값도 같이 움직여야 한다. */
