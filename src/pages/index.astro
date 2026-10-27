@@ -326,12 +326,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       display: flex;
       align-items: center;
       gap: 14px;
-      /* 선과 글, 글과 글 사이를 모두 16px 로 보이게 맞춘 값이다.
+      /* 선과 글, 글과 글 사이를 모두 20px 로 보이게 맞춘 값이다.
          ⚠️ 상자 간격이 아니라 '보이는' 간격을 맞춘다. 글 상자는 행간의 남는 몫을
             위아래로 반씩 품고 있어(제목 2.4px · 본문 3.5px), 상자 간격을 똑같이
             15px 로 두면 눈에는 17.4 · 20.9 · 18.5px 로 들쑥날쑥해진다.
-            16 − 2.4 = 13.6 이 제목 위아래에 필요한 상자 간격이다. */
-      padding: 13.6px 0;
+            20 − 2.4 = 17.6 이 제목 위아래에 필요한 상자 간격이다. */
+      padding: 17.6px 0;
       background: none;
       border: 0;
       cursor: pointer;
@@ -355,8 +355,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        열린 줄은 제목이 밝아지는 것으로 알린다. */
     #platform .pf-item.is-open .pf-t { color: #F6F8FA; }
     /* 펼친 줄은 제목 아래에 본문이 붙으므로 두 반 행간이 겹친다 —
-       16 − 2.4 − 3.5 = 10.1 로 줄여야 그 사이도 16px 로 보인다. */
-    #platform .pf-item.is-open .pf-q { padding-bottom: 10.1px; }
+       20 − 2.4 − 3.5 = 14.1 로 줄여야 그 사이도 20px 로 보인다. */
+    #platform .pf-item.is-open .pf-q { padding-bottom: 14.1px; }
     /* ⚠️ 높이는 스크립트가 px 로 넣는다. max-height 로 어림잡으면 글 길이가
        제각각이라 닫히는 속도가 줄마다 달라진다. */
     #platform .pf-a {
@@ -365,8 +365,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       transition: height .35s cubic-bezier(.22, 1, .36, 1);
     }
     #platform .pf-a p {
-      /* 16 − 3.5(본문 반 행간) = 12.5 */
-      margin: 0 0 12.5px;
+      /* 20 − 3.5(본문 반 행간) = 16.5 */
+      margin: 0 0 16.5px;
       font-size: 14px;
       /* 굵기는 히어로 소제목과 같은 300 이다. */
       font-weight: 300;
