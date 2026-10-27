@@ -86,7 +86,9 @@
           var pull = k * k * 0.98;
           ctx.beginPath();
           ctx.arc(x - dx * pull, y - dy * pull, 0.55 + k * 0.75, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(118,166,215,' + (0.30 + k * 0.55).toFixed(3) + ')';
+          /* 가장자리 0.12 에서 커서 바로 옆 0.45 까지. 바탕이 밝은 면이라
+             이보다 진하면 글자 뒤에서 어른거린다. */
+          ctx.fillStyle = 'rgba(118,166,215,' + (0.12 + k * 0.33).toFixed(3) + ')';
           ctx.fill();
         }
       }
