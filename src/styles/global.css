@@ -419,7 +419,8 @@
       /* 제목·소제목은 내용 너비 왼쪽 끝에 세운다. */
       text-align: left;
       font-weight: 500;
-      line-height: 1.15;
+      /* 제목 기준 행간 1.25~1.35 중 아래쪽. 두 줄짜리 큰 글자라 넓히면 두 줄이 멀어진다. */
+      line-height: 1.25;
       padding: 0.1em 0;
       /* 사이트 공통 규칙대로 영문·숫자는 Roboto, 한글은 Pretendard 다.
          Roboto 에 한글 글리프가 없어 한글이 다음 자리인 Pretendard 로 떨어지는
