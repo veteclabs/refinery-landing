@@ -2,7 +2,7 @@
 // 영어 글 상세. 컬렉션 id가 'en/<slug>'라 접두사를 떼고 /en/blog/<slug>로 서빙한다(postSlug).
 import { render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
-import { getPosts, postSlug, relatedPosts } from '../../../utils/blog';
+import { getPosts, postSlug, readingMinutes, relatedPosts } from '../../../utils/blog';
 
 export async function getStaticPaths() {
   const posts = await getPosts('en');
@@ -15,6 +15,6 @@ export async function getStaticPaths() {
 const { post, related } = Astro.props;
 const { Content, headings } = await render(post);
 ---
-<BlogPost {...post.data} lang="en" slug={postSlug(post)} headings={headings} related={related}>
+<BlogPost {...post.data} lang="en" slug={postSlug(post)} headings={headings} related={related} minutes={readingMinutes(post.body, post.data.lang)}>
   <Content />
 </BlogPost>

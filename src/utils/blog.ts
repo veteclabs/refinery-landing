@@ -60,3 +60,17 @@ export const splitAt = (text: string, at?: string): [string, string] => {
   const cut = i + at.length;
   return [text.slice(0, cut), text.slice(cut).trimStart()];
 };
+
+/**
+ * 읽는 시간(분). 마크다운 기호 · 링크 주소를 걷어 낸 본문으로 센다.
+ * 한국어는 분당 500자(공백 제외), 영어는 분당 230낱말로 잡는다. 1분 아래는 1분이다.
+ */
+export const readingMinutes = (body: string | undefined, lang: Lang) => {
+  const text = (body ?? '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/[#>*_`|-]/g, ' ');
+  const n = lang === 'ko' ? text.replace(/\s/g, '').length / 500 : text.split(/\s+/).filter(Boolean).length / 230;
+  return Math.max(1, Math.round(n));
+};

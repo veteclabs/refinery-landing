@@ -362,3 +362,29 @@ img { max-width: 100%; height: auto; }
   .post-related { margin-top: 64px; padding-top: 48px; }
   .post-related-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* 링크 복사 — 날짜 줄 오른쪽 끝. 글자 버튼이라 줄 높이를 늘리지 않는다. */
+.post-meta { flex-wrap: wrap; }
+.post-copy {
+  display: inline-flex; align-items: center; gap: 5px; margin-left: auto;
+  padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; background: #fff;
+  font: inherit; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: color .15s, border-color .15s;
+}
+.post-copy:hover { color: var(--text); border-color: #C9D1DA; }
+.post-copy.is-done { color: #3F8F5F; border-color: rgba(63,143,95,.4); }
+.post-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 좁은 화면용 목차. 넓은 화면(오른쪽 여백 목차가 뜨는 1280px 이상)에서는 감춘다. */
+.post-toc-fold { margin: -16px 0 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-soft); }
+.post-toc-fold summary {
+  display: flex; align-items: center; gap: 8px; padding: 14px 18px; cursor: pointer; list-style: none;
+  font-size: 15px; font-weight: 600; color: var(--text);
+}
+.post-toc-fold summary::-webkit-details-marker { display: none; }
+.post-toc-fold summary span { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.post-toc-fold summary::after { content: ''; margin-left: auto; width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; rotate: 45deg; translate: 0 -2px; transition: rotate .15s; }
+.post-toc-fold[open] summary::after { rotate: -135deg; translate: 0 2px; }
+.post-toc-fold ol { padding: 0 18px 14px 36px; }
+.post-toc-fold li { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+.post-toc-fold a:hover { color: var(--text); }
+@media (min-width: 1280px) { .post-toc-fold { display: none; } }
