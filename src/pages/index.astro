@@ -1317,6 +1317,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   })();
 </script>
 
+<script is:inline>
+  /* 세로 스크롤바 폭을 px 로 재어 --sbw 에 넣는다. 바깥으로 빼는 자리
+     (.teams-split 의 margin-right)가 이 값을 쓴다 — CSS 만으로는 못 구한다. */
+  (function () {
+    function measure() {
+      document.documentElement.style.setProperty(
+        '--sbw', (window.innerWidth - document.documentElement.clientWidth) + 'px');
+    }
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+  })();
+</script>
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#F6F8FA;">
   <!-- 탭은 스크롤이 지나는 동안 저절로 넘어간다 — .teams-pin 이 스크롤 거리를
