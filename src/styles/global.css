@@ -695,6 +695,10 @@
       margin-right: calc(50% - 50vw);
     }
     .teams-rail, .teams-stage { min-width: 0; }
+    /* 상자는 캡처와 같은 비율(8:5)이고, 폭은 896px 로 묶는다. 화면 전체가
+       들어가야 해서 상자가 세로로 길어졌는데, 폭을 그대로 두면 무대 한 벌이
+       1440x900 창에 들어가지 않는다. 오른쪽 끝은 그대로 화면 밖으로 나간다. */
+    .teams-stage { justify-self: end; width: 100%; max-width: 896px; }
     /* 왼쪽 가는 선 위를 brand 색 막대가 한 칸씩 내려간다 — 스크롤이 여섯 중
        어디쯤 왔는지 탭이 함께 말해 준다. 줄마다 긋던 구분선은 걷는다. 선이
        여섯 개 있으면 막대가 그 중 하나로 읽혀 어디가 표시인지 흐려진다.
@@ -787,6 +791,8 @@
       .teams-split { grid-template-columns: 1fr; gap: 24px; margin-right: 0; }
       .teams-copy { margin-top: 0; }
       .teams-split .teams-preview { border-right: 1px solid var(--border); border-radius: var(--radius); }
+      /* 한 단으로 쌓이면 상자가 칸 폭을 그대로 쓴다 — 묶어 두던 값을 푼다. */
+      .teams-stage { max-width: none; }
       /* 세로로 나뉘면 무대가 한 화면에 들어가지 않는다 — 붙이지 않고 그냥 흐르게
          둔다. 스크립트도 무대의 position 이 sticky 가 아니면 손을 뗀다. */
       #teams { padding: 130px 0; }
