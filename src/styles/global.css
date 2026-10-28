@@ -20,6 +20,12 @@
       --hero-gap: 48px;
       /* 히어로 그래픽이 다 자랐을 때 화면 끝에 남기는 여백 */
       --hero-edge: 16px;
+      /* 세로 스크롤바 폭. 바깥으로 빼는 자리에서 쓴다 — calc(50% - 50vw) 만
+         쓰면 50vw 는 스크롤바를 포함하고 50% 는 빼므로 그 절반만큼 더 밀린다.
+         ⚠️ calc(100vw - 100%) 로 두면 안 된다. 사용자 정의 속성은 값이 아니라
+            글자를 넘기는 것이라, 쓰는 자리에서 100% 가 그 요소의 칸 기준으로
+            다시 풀린다(.teams-split 에서 48px 이 나왔다). 스크립트가 px 로 넣는다. */
+      --sbw: 0px;
     }
 
     html { scroll-behavior: smooth; }
@@ -692,7 +698,7 @@
       gap: 48px;
       align-items: center;
       margin-top: 60px;
-      margin-right: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw + var(--sbw) / 2);
     }
     .teams-rail, .teams-stage { min-width: 0; }
     /* 상자는 캡처와 같은 비율(8:5)이고, 잘리지 않는 선에서 가장 크게 둔다.
@@ -1138,20 +1144,18 @@
       #industries a.industry-card:hover .industry-img { transform: scale(1.04); }
 
       /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다.
-         값은 과제별 페이지 '함께 보면 좋은 과제' 카드(.uc-case--img)와 같다.
-         두 겹이다 — 위는 아래로 짙어지는 그라데이션, 아래는 사진 전체를 고르게
-         덮는 평평한 막이다. 막이 있어야 밝기가 제각각인 사진들이 한 계열로
-         묶인다. 한 상자에 배경 두 장으로 얹어 층을 더 만들지 않는다. */
+         아래로 짙어지는 그라데이션 한 겹뿐이다. 과제별 카드(.uc-case--img)는
+         사진 전체를 고르게 덮는 평평한 막(.25)을 한 겹 더 두는데, 여기서는
+         그 막이 사진을 통째로 눌러 흐리게 만들어 두지 않는다. 글이 앉는
+         아래쪽만 그라데이션으로 덮어도 흰 글자가 읽힌다. */
       #industries .industry-card::before {
         inset: 0;
         aspect-ratio: auto;
-        background:
-          linear-gradient(180deg,
-            rgba(17, 19, 22, 0) 0%,
-            rgba(17, 19, 22, .12) 28%,
-            rgba(17, 19, 22, .82) 52%,
-            rgba(17, 19, 22, 1) 100%),
-          rgba(17, 19, 22, .25);
+        background: linear-gradient(180deg,
+          rgba(17, 19, 22, 0) 0%,
+          rgba(17, 19, 22, .12) 28%,
+          rgba(17, 19, 22, .82) 52%,
+          rgba(17, 19, 22, 1) 100%);
       }
       #industries .industry-body {
         position: absolute;
