@@ -424,11 +424,18 @@ img { max-width: 100%; height: auto; }
      소제목       60ch(=643px) / 1.6 → 600px / 1.7
      버튼 줄 위   32px → 48px, 사이 10px → 16px
      버튼 굵기    600·500 → 400 (예지보전은 둘 다 400이다) */
-/* 아래 여백은 과제별 히어로(100px)보다 30px 넓다. 사진 하단 170px을 페이드로
-   흘리기 때문에, 같은 높이면 사진이 온전히 보이는 구간이 363px으로 과제별(534px)
-   보다 짧아진다. 30px을 돌려주면 393px이 된다.
-   버튼 아래 여백도 100px에서 130px이 된다. */
-.ind-hero-bg { padding: 180px 0 130px; }
+/* 히어로는 첫 화면을 통째로 쓴다. 위아래 여백은 그대로 두되 최소값으로만
+   쓰이고, 남는 높이는 글 위아래로 반씩 나뉜다 — 위 여백이 아래보다 50px 넓어
+   글 덩어리가 화면 한가운데보다 조금 아래에 선다. 머리에 고정 내비(70px)가
+   얹히므로 보이는 화면 기준으로는 그쪽이 가운데에 가깝다. */
+.ind-hero-bg {
+  padding: 180px 0 130px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ind-hero-bg > .ind-container { width: 100%; }
 .ind-hero-bg h1 {
   font-size: clamp(28px, 4vw, 45px); font-weight: 600;
   letter-spacing: -0.8px; line-height: 1.3;
