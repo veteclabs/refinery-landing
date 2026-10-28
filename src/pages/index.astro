@@ -330,9 +330,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       top: 28.083%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
-      /* 이름표 아홉이 한 값을 쓴다 — 그림 폭을 따라가고 753px 에서 10px 다.
-         ⚠️ 알약의 여백은 em 이라 글자를 내리면 알약도 같이 줄어든다. */
-      font-size: clamp(8px, 1.33cqw, 11px);
+      /* 알약 셋의 글자. 그림 폭을 따라가고 753px 에서 12px 다.
+         판 위에 눕는 여섯은 아래 .pf-label--iso 에서 10px 로 따로 준다. */
+      font-size: clamp(10px, 1.594cqw, 13px);
       font-weight: 600;
       letter-spacing: -0.1px;
       line-height: 1;
@@ -374,6 +374,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          조금 가늘게 읽히지만, 한 벌의 굵기를 하나로 두는 쪽을 택했다.
          흰 글자인 Ontology · Data 만 아래에서 300 으로 따로 내린다. */
       font-weight: 600;
+      /* 판 위에 눕는 여섯은 10px — 알약(12px)보다 한 단계 작다. */
+      font-size: clamp(8px, 1.33cqw, 11px);
       background: none;
       /* 알약이 아니다 — 위에서 준 고정 치수를 글자 길이에 맡기는 쪽으로 되돌린다. */
       display: block;
