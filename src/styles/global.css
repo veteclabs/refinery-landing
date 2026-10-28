@@ -1102,14 +1102,21 @@
       }
       #industries a.industry-card:hover .industry-img { transform: scale(1.04); }
 
-      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다. */
+      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다.
+         값은 과제별 페이지 '함께 보면 좋은 과제' 카드(.uc-case--img)와 같다.
+         두 겹이다 — 위는 아래로 짙어지는 그라데이션, 아래는 사진 전체를 고르게
+         덮는 평평한 막이다. 막이 있어야 밝기가 제각각인 사진들이 한 계열로
+         묶인다. 한 상자에 배경 두 장으로 얹어 층을 더 만들지 않는다. */
       #industries .industry-card::before {
         inset: 0;
         aspect-ratio: auto;
-        background: linear-gradient(180deg,
-          rgba(10, 16, 22, 0) 32%,
-          rgba(10, 16, 22, .55) 64%,
-          rgba(10, 16, 22, .92) 100%);
+        background:
+          linear-gradient(180deg,
+            rgba(17, 19, 22, 0) 0%,
+            rgba(17, 19, 22, .12) 28%,
+            rgba(17, 19, 22, .82) 52%,
+            rgba(17, 19, 22, 1) 100%),
+          rgba(17, 19, 22, .25);
       }
       #industries .industry-body {
         position: absolute;
