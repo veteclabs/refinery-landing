@@ -281,6 +281,48 @@ const jsonLd = [orgSchema, websiteSchema];
       height: auto;
       margin-bottom: -7%;
     }
+    /* 이름표는 SVG 밖 HTML 글자다. 그림 안에 path 로 굳어 있을 때는 그림이 줄어드는
+       만큼(1200 → 753, 0.627배) 글자도 줄어 화면에서 8.9px 밖에 안 됐다.
+       밖으로 빼면 크기를 따로 줄 수 있고, 배율이 바뀌어도 또렷하다.
+       ⚠️ 자리는 그림 상자(정사각) 기준의 % 다 — 그림이 커지고 작아져도 따라간다.
+          세로 28.083% 는 알약이 서 있던 자리(viewBox y 337 / 1200)다.
+       ⚠️ 알약도 SVG 에서 걷어 냈다. 글자만 키우면 원래 알약 폭을 넘친다. */
+    #platform .pf-labels {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      container-type: inline-size;
+      /* 그림과 같은 박자로 뜬다. */
+      opacity: var(--pf-in, 0);
+      transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
+    }
+    #platform .pf-label {
+      position: absolute;
+      left: var(--x);
+      top: 28.083%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      /* 그림 폭을 따라간다 — 753px 에서 14px 다. */
+      font-size: clamp(11px, 1.86cqw, 15px);
+      font-weight: 600;
+      letter-spacing: -0.1px;
+      line-height: 1;
+      color: #16202C;
+      background: #76A6D7;
+      border-radius: 999px;
+      padding: 0.62em 1.15em;
+      transition: opacity .35s ease, filter .35s ease;
+    }
+    /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
+    #platform .pf-labels.rf-sel .pf-label { opacity: .32; }
+    #platform .pf-labels.rf-sel .pf-label.rf-on {
+      opacity: 1;
+      filter: drop-shadow(0 0 11px rgba(118, 166, 215, .45));
+    }
+
     /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
        이름표), 그 뒤 오림이 아래로 자라 온톨로지 판이 드러난다.
        자르는 자리 31% 는 짐작이 아니다 — 캔버스에 그려 행마다 브랜드색 화소를
@@ -609,6 +651,13 @@ const jsonLd = [orgSchema, websiteSchema];
               all[i].classList.toggle('rf-on', !!want && want.indexOf(p) >= 0);
             }
             root.classList.toggle('rf-sel', !!want);
+            /* 이름표는 SVG 밖 HTML 이라 같은 규칙이 닿지 않는다 — 여기서 함께 켠다. */
+            var labels = document.querySelectorAll('#platform .pf-label');
+            for (var j = 0; j < labels.length; j++) {
+              labels[j].classList.toggle('rf-on', !!want && want.indexOf(labels[j].getAttribute('data-part')) >= 0);
+            }
+            var box = document.querySelector('#platform .pf-labels');
+            if (box) box.classList.toggle('rf-sel', !!want);
           }
           (function () {
             var o = document.querySelector('#platform .pf-art');
@@ -981,6 +1030,11 @@ const jsonLd = [orgSchema, websiteSchema];
         <object class="platform-graphic-img pf-art" type="image/svg+xml"
                 data-src="/From%20Data%20to%20Intelligence.svg"
                 aria-label="Refinery platform isometric diagram" role="img"></object>
+        <div class="pf-labels">
+          <span class="pf-label" data-part="plate" style="--x:16.167%">Refinery Plate</span>
+          <span class="pf-label" data-part="lens" style="--x:50%">Refinery Lens</span>
+          <span class="pf-label" data-part="agent" style="--x:83.833%">Refinery AI Agent</span>
+        </div>
       </div>
     </div>
   </div>
