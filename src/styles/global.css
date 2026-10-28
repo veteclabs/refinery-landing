@@ -1180,7 +1180,7 @@
         gap: 16px;
         /* 무대에 남는 자리를 따라간다 — 낮은 화면에서 줄이 무대 밖으로 밀리면
            뒷부분이 잘려 아예 안 보인다. */
-        height: min(460px, calc(100vh - 440px));
+        height: min(420px, calc(100vh - 440px));
         /* 스크롤 위치에 따라 스크립트가 민다. transition 은 두지 않는다 —
            스크롤을 그대로 따라야 손에 붙는다. */
         transform: translate3d(var(--sol-x, 0px), 0, 0);
