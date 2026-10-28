@@ -328,11 +328,12 @@ const jsonLd = [orgSchema, websiteSchema];
       justify-content: center;
       width: var(--w);
       height: 3.75cqw;
-      /* 글자를 2px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
+      /* 글자를 1px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
          아래 여백을 먹어 글자가 올라가 보인다 — 위 여백만큼 밀어 내린다.
          ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
-            가운데 정렬은 속 상자를 기준으로 하므로 실제로 내려가는 몫은 절반이다. */
-      padding: .333em 0 0;
+            가운데 정렬은 속 상자를 기준으로 하므로 실제로 내려가는 몫은 절반이다.
+            12px 글자에서 .167em = 2px 이고, 그 절반인 1px 이 내려간다. */
+      padding: .167em 0 0;
       transition: opacity .35s ease, filter .35s ease;
     }
     /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
