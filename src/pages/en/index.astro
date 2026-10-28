@@ -1313,6 +1313,7 @@ const jsonLd = [orgSchema, websiteSchema];
     <div class="teams-split">
       <div class="teams-rail">
         <div class="teams-menu-vertical">
+          <span class="teams-rail-fill" aria-hidden="true"></span>
       <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
       <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
@@ -1963,7 +1964,31 @@ function switchDash(btn, src, key, silent) {
     renderPreviewBody(bodyEl);
   }
   }
+  if (window.placeTeamsFill) placeTeamsFill();
 }
+
+/* 왼쪽 레일의 brand 막대를 고른 줄에 맞춘다. 줄 높이가 글꼴·폭에 따라 달라져
+   CSS 로는 못 박는다 — 고른 줄의 상자를 재어 top/height 를 넣는다.
+   위아래로 4px 씩 당겨 줄 사이에 숨 쉴 틈을 남긴다. */
+function placeTeamsFill() {
+  var rail = document.querySelector('#teams .teams-menu-vertical');
+  if (!rail) return;
+  var fill = rail.querySelector('.teams-rail-fill');
+  var on = rail.querySelector('.teams-tab-btn.active');
+  if (!fill || !on) return;
+  var r = rail.getBoundingClientRect(), b = on.getBoundingClientRect();
+  fill.style.top = (b.top - r.top + 4).toFixed(1) + 'px';
+  fill.style.height = Math.max(0, b.height - 8).toFixed(1) + 'px';
+}
+window.placeTeamsFill = placeTeamsFill;
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', placeTeamsFill);
+} else {
+  placeTeamsFill();
+}
+window.addEventListener('load', placeTeamsFill);
+window.addEventListener('resize', placeTeamsFill);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeamsFill);
 
 /* 탭은 스크롤이 지나는 동안 넘어간다. 무대가 붙어 있는 거리를 칸 수로 나눠
    활성 탭을 정하고, 단추를 누르면 그 칸의 가운데로 스크롤을 옮긴다 —

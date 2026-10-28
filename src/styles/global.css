@@ -695,20 +695,41 @@
       margin-right: calc(50% - 50vw);
     }
     .teams-rail, .teams-stage { min-width: 0; }
-    .teams-menu-vertical { display: flex; flex-direction: column; }
+    /* 왼쪽 가는 선 위를 brand 색 막대가 한 칸씩 내려간다 — 스크롤이 여섯 중
+       어디쯤 왔는지 탭이 함께 말해 준다. 줄마다 긋던 구분선은 걷는다. 선이
+       여섯 개 있으면 막대가 그 중 하나로 읽혀 어디가 표시인지 흐려진다.
+       막대 자리는 스크립트(placeTeamsFill)가 고른 줄의 상자를 재어 잡는다 —
+       줄 높이가 글꼴·폭에 따라 달라져 CSS 로는 못 박는다.
+       ⚠️ 1089px 이하에서는 탭이 가로 격자로 바뀐다(아래 페이지별 규칙).
+          그 폭에서는 선도 막대도 끈다. */
+    .teams-menu-vertical { display: flex; flex-direction: column; position: relative; }
+    .teams-rail-fill { display: none; }
+    @media (min-width: 1090px) {
+      .teams-menu-vertical { padding-left: 18px; }
+      .teams-menu-vertical::before {
+        content: '';
+        position: absolute; left: 0; top: 6px; bottom: 6px;
+        width: 2px; background: var(--border);
+      }
+      .teams-rail-fill {
+        display: block;
+        position: absolute; left: 0; width: 2px;
+        border-radius: 2px; background: var(--accent);
+        transition: top .25s ease, height .25s ease;
+      }
+    }
     /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 세로 줄 모양으로 바꾼다. */
     .teams-split .teams-tab-btn {
       flex: none;
       justify-content: flex-start;
       text-align: left;
-      padding: 14px 2px;
+      padding: 13px 0;
       border: 0;
-      border-bottom: 1px solid var(--border);
       border-radius: 0;
       box-shadow: none;
     }
-    .teams-split .teams-tab-btn:last-child { border-bottom: 0; }
-    .teams-split .teams-tab-btn.active { color: var(--accent); font-weight: 700; box-shadow: none; }
+    /* 고른 줄은 brand 색이 아니라 먹색이다 — 브랜드 색은 왼쪽 막대가 맡는다. */
+    .teams-split .teams-tab-btn.active { color: var(--text); font-weight: 600; box-shadow: none; }
     /* 글은 그림 위가 아니라 탭 아래에 선다 — 절대 배치와 안쪽 여백을 되돌린다. */
     .teams-copy { margin-top: 32px; }
     .teams-split .teams-preview-title-wrap,
