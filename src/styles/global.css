@@ -741,11 +741,14 @@
         transition: top .25s ease, height .25s ease;
       }
     }
-    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 세로 줄 모양으로 바꾼다. */
+    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 세로 줄 모양으로 바꾼다.
+       글자는 태그라인(.teams-preview-tagline)과 같은 12px 이다 — 둘 다
+       상자 옆에서 '지금 무엇'을 가리키는 표시라 급을 맞춘다. */
     .teams-split .teams-tab-btn {
       flex: none;
       justify-content: flex-start;
       text-align: left;
+      font-size: 12px;
       padding: 13px 0;
       border: 0;
       border-radius: 0;
