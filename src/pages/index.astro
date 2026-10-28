@@ -343,9 +343,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       filter: drop-shadow(0 0 11px rgba(118, 166, 215, .45));
     }
 
-    /* 판 위에 누운 이름표. 글자를 아이소메트릭 윗면에 얹는 행렬이다 —
-       x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°)로 간다.
-       원본 글자가 이 방향으로 기울어 있던 것을 재서 맞췄다(실측 −28°).
+    /* 판 위 · 판 가장자리의 이름표. 기울기는 두 가지다 — 원본 글자의 생김새를
+       재어 갈랐다.
+       ① 가장자리 이름표(Ontology · Unify · Refine · Collect · Data)는 세로획이
+          화면에서 '정확히 수직'이다('l' 의 bbox 폭이 1.1 뿐이었다). 눕힌 투영이
+          아니라 세로 전단이다 — skewY(-30deg). 밑줄은 −30° 로 눕고 글자는 선다.
+       ② 'Work flow' 만 판 바닥에 눕힌 투영이다(글자가 가로로 늘고 높이가 반으로
+          줄어 있다). 그쪽은 아래에서 행렬로 따로 준다.
        ⚠️ 선택자에 .pf-labels 를 한 겹 더 둔다. 기본 .pf-label 규칙과 특이도가 같으면
           뒤에 선언된 쪽이 이겨 top 과 transform 이 그대로 덮인다 — 이름표가 위쪽
           알약 줄에 가서 섰다. */
@@ -354,7 +358,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       background: none;
       padding: 0;
       border-radius: 0;
-      transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
+      transform: translate(-50%, -50%) skewY(-30deg);
     }
     #platform .pf-labels .pf-label--ont {
       color: #F6F8FA;
@@ -362,7 +366,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       font-weight: 500;
       letter-spacing: 0.02em;
     }
+    /* 판 바닥에 눕는 쪽 — x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°). */
     #platform .pf-labels .pf-label--wf {
+      transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
       color: #9DBBD9;
       font-size: clamp(8px, 1.33cqw, 11px);
       font-weight: 600;
@@ -376,6 +382,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           따라가게 했다. */
     #platform .pf-labels .pf-label--chip {
       color: #76A6D7;
+      /* 칩도 글자와 같이 눕는다 — 받침만 반듯하면 글자가 떠 보인다. */
       background: #16202C;
       font-size: clamp(8px, 1.33cqw, 11px);
       font-weight: 600;
