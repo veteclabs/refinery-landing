@@ -863,7 +863,11 @@
           data URI SVG 를 타일로 깐다(외부 요청 없음).
        ⚠️ 마스크는 네 변 모두에서 흰 면으로 풀린다. 선이 화면 끝에 닿으면 잘린 자국이
           남고, 아래로 내려가면 사진 카드와 겹쳐 지저분해진다 — 제목 둘레에만 둔다. */
-    #industries { background: #ffffff !important; position: relative; padding: 0 0 130px; }
+    /* 아래 여백이 84px 인 까닭 — 무대가 제목 · 소제목 · 탭 · 사진을 가운데로
+       모으느라 사진 띠 밑에 46px 이 남는다. 그 46 과 여기 84 를 더해야
+       눈에 보이는 간격이 다른 섹션과 같은 130px 이 된다.
+       (운영체제 섹션은 상자가 무대 밑변에 거의 붙어 남는 자리가 없어 130 이다.) */
+    #industries { background: #ffffff !important; position: relative; padding: 0 0 84px; }
     /* 제목은 한 화면을 통째로 쓰고 선다. 스크롤이 무대를 지나는 동안 글자에 색이
        차고 소제목이 떠오르며, 무대가 끝나면 탭과 카드가 이어진다.
        ⚠️ 섹션에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다. */
