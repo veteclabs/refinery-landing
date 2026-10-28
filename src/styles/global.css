@@ -695,22 +695,28 @@
     .teams-split {
       display: grid;
       grid-template-columns: 300px 1fr;
-      gap: 48px;
+      /* 32px 인 까닭 — 칸이 좁으면 상자가 폭에 걸려 세로로 자리가 남고,
+         그 남는 자리가 섹션 아래 여백에 더해져 솔루션(130)보다 벌어진다.
+         1440x900 에서 상자가 쓸 수 있는 높이는 653px, 그 1.6 배인 1044.8px
+         이 칸에 들어가야 남는 자리가 0 이 된다 — 틈을 32 로 줄이면 1045 다. */
+      gap: 32px;
       align-items: center;
       margin-top: 60px;
       margin-right: calc(50% - 50vw + var(--sbw) / 2);
     }
     .teams-rail, .teams-stage { min-width: 0; }
     /* 상자는 캡처와 같은 비율(8:5)이고, 잘리지 않는 선에서 가장 크게 둔다.
-       무대에서 상자가 쓸 수 있는 높이는 창 높이에서 고정 내비 여백(70) ·
-       제목(117) · 제목과의 틈(60) 을 뺀 만큼이다. 비율이 8:5 이므로 폭은
-       그 1.6 배다. 칸이 내주는 폭(왼쪽 칸 300 + 틈 48 을 뺀 나머지)보다
-       커지면 거기서 멈춘다 — width: 100% 가 그 몫을 한다.
-       ⚠️ 247px 은 위 세 값의 합이다. 제목 줄 수나 틈이 바뀌면 같이 고친다. */
+       무대에서 상자가 쓸 수 있는 높이는 창 높이에서 윗여백(200 = 내비 70 +
+       여백 130) · 제목(117) · 제목과의 틈(60) 을 뺀 만큼이다. 비율이 8:5
+       이므로 폭은 그 1.6 배다. 칸이 내주는 폭보다 커지면 거기서 멈춘다 —
+       width: 100% 가 그 몫을 한다.
+       ⚠️ 377px 은 위 세 값의 합이다. 윗여백 · 제목 줄 수 · 틈이 바뀌면
+          같이 고친다. 어긋나면 상자 아래에 자리가 남아 섹션 아래 여백이
+          그만큼 벌어진다. */
     .teams-stage {
       justify-self: end;
       width: 100%;
-      max-width: calc((100vh - 247px) * 1.6);
+      max-width: calc((100vh - 377px) * 1.6);
     }
     /* 왼쪽 가는 선 위를 brand 색 막대가 한 칸씩 내려간다 — 스크롤이 여섯 중
        어디쯤 왔는지 탭이 함께 말해 준다. 줄마다 긋던 구분선은 걷는다. 선이
@@ -752,11 +758,11 @@
     .teams-split .teams-preview-title-wrap,
     .teams-split .teams-preview-text { position: static; padding: 0; }
     .teams-split .teams-preview-text p { max-width: none; }
-    /* 오른쪽 끝이 화면 밖이므로 그쪽 테두리와 둥글기는 두지 않는다. */
+    /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다 — 잘려 나가는 곳이 없으므로
+       네 변 모두 테두리와 둥글기를 둔다. 상자가 통째로 보인다. */
     .teams-split .teams-preview {
       border: 1px solid var(--border);
-      border-right: 0;
-      border-radius: var(--radius) 0 0 var(--radius);
+      border-radius: var(--radius);
     }
     /* 그림 위에 글이 없어졌으니 가리던 막도 걷는다. */
     .teams-preview-decor { display: none; }
@@ -769,7 +775,7 @@
           어긋나면 마지막 탭이 끝까지 오지 않거나 빈 구간이 남는다.
        ⚠️ 섹션이나 무대에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다.
           오른쪽으로 빼낸 화면은 뷰포트 오른쪽 끝에 정확히 닿으므로 잘라낼 것도 없다. */
-    #teams { padding: 0 0 130px; }
+    #teams { padding: 130px 0 130px; }
     #teams .teams-pin {
       --teams-n: 6;
       --teams-step: 42vh;  /* 한 탭이 머무는 스크롤 거리 — 한 화면보다 짧게 둔다 */
@@ -779,8 +785,9 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      /* 고정 내비(70px)를 윗여백으로 비워 둔다 — 보이는 화면 기준으로 가운데다. */
-      padding-top: 70px;
+      /* 고정 내비(70px) + 그 아래 여백 130px. 제목이 내비에 붙지 않게 한다 —
+         70 만 두면 제목 윗변이 내비 밑변에 딱 닿는다. */
+      padding-top: 200px;
       display: flex;
       flex-direction: column;
       /* safe center — 한 벌이 무대보다 커지면 가운데가 아니라 위에서부터 쌓인다.
