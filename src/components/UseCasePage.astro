@@ -673,6 +673,10 @@ const jsonLd = [
      가운데에 가깝다. */
   .uc-hero-bg {
     position: relative; overflow: hidden; background: #191F27;
+    /* 공통 .ind-hero 의 밝은 밑선(#E3E7EC)을 끈다 — 산업 상세(.ind-hero-bg)와
+       같다. 히어로가 화면을 꽉 채우고부터는 그 선이 접힘선에 놓여, 어두운
+       사진 아래 밝은 실선 한 줄이 그어진 꼴이 된다. */
+    border-bottom: none;
     min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center;
   }
