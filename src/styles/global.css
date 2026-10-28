@@ -181,8 +181,8 @@
     @media (max-width: 720px) {
       .section-header .section-lead-ko { font-size: clamp(32px, 8vw, 60px); }
     }
-    /* 고정을 풀면서 흰 구간이 사라졌다 — 섹션 전체가 먹색이라 대제목도 밝게 쓴다. */
-    #platform .section-header .section-lead-ko { color: #F6F8FA; }
+    /* 대제목만 그라데이션의 흰 구간 위에 선다 — 그 아래 제목 줄부터는 어두운 면이다. */
+    #platform .section-header .section-lead-ko { color: #16202C; }
     /* 솔루션 섹션 제목은 #platform 의 대제목(.section-lead-ko)과 같은 활자로 세운다 —
        두 섹션이 잇달아 오므로 크기가 다르면 한쪽이 작아 보인다. */
     #industries .section-header-row h2 { font-size: 60px; }
