@@ -241,6 +241,23 @@
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }
+    /* 제목 아래 한 줄 — #platform 의 소제목(.pf-lead)과 같은 활자다. 두 섹션이
+       잇달아 오므로 크기 · 굵기 · 자간 · 행간을 그대로 가져온다.
+       다른 점은 둘뿐이다. 색은 밝은 면에 놓이므로 #F6F8FA 가 아니라 #16202C 고,
+       이 섹션은 제목이 가운데에 서므로 왼쪽이 아니라 가운데 정렬이다.
+       ⚠️ max-width 를 none 으로 되돌린다. 이 자리의 .section-header-row p 는
+          360px 인데, 그대로 두면 <br> 로 나눈 두 줄이 네 줄로 다시 감긴다. */
+    #industries .sol-lead {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      letter-spacing: -0.8px;
+      line-height: 1.35;
+      color: #16202C;
+      max-width: none;
+      margin: 0;
+      text-align: center;
+      word-break: keep-all;
+    }
     @media (prefers-reduced-motion: reduce) {
       #industries .sol-title .sol-line { --sol-fill: 100% !important; }
     }
