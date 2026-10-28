@@ -1279,6 +1279,10 @@ const jsonLd = [orgSchema, websiteSchema];
 
 <!-- FOR TEAMS -->
 <section id="teams" style="background:#F6F8FA;">
+  <!-- 탭은 스크롤이 지나는 동안 저절로 넘어간다 — .teams-pin 이 스크롤 거리를
+       만들고 그 안의 무대가 화면에 붙어 선다. -->
+  <div class="teams-pin">
+  <div class="teams-stage-sticky">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -1443,6 +1447,8 @@ behind the answer are given too.</p>
     })();
     </script>
  </div>
+  </div>
+  </div>
 </section>
 
 <!-- INTEGRATIONS -->
@@ -1911,8 +1917,9 @@ window.addEventListener('resize', function () {
   if (el) renderPreviewBody(el);
 });
 
-function switchDash(btn, src, key) {
-  if (typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
+function switchDash(btn, src, key, silent) {
+  // silent — 스크롤로 저절로 넘어간 경우다. 클릭으로 집계하지 않는다.
+  if (!silent && typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
   document.querySelectorAll('.teams-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   var img = document.getElementById('dash-image');
@@ -1937,6 +1944,62 @@ function switchDash(btn, src, key) {
   }
   }
 }
+
+/* 탭은 스크롤이 지나는 동안 넘어간다. 무대가 붙어 있는 거리를 칸 수로 나눠
+   활성 탭을 정하고, 단추를 누르면 그 칸의 가운데로 스크롤을 옮긴다 —
+   화면 상태의 근거를 스크롤 위치 하나로 두어 둘이 어긋나지 않게 한다.
+   ⚠️ 1280px 이하에서는 무대를 붙이지 않는다(세로로 나뉜다). CSS 의 경계를
+      다시 적지 않고 무대의 실제 position 을 보고 판단한다. */
+(function () {
+  var pin = document.querySelector('#teams .teams-pin');
+  var stick = document.querySelector('#teams .teams-stage-sticky');
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#teams .teams-tab-btn'));
+  if (!pin || !stick || btns.length < 2) return;
+
+  // 그림 경로와 키는 단추의 onclick 에 이미 적혀 있다 — 한 번만 뽑아 둔다.
+  var items = btns.map(function (b) {
+    var m = (b.getAttribute('onclick') || '').match(/switchDash\(this,\s*'([^']*)',\s*'([^']*)'\)/);
+    return { btn: b, src: m ? m[1] : '', key: m ? m[2] : '' };
+  });
+  var n = items.length;
+  var cur = 0;
+
+  function pinned() { return getComputedStyle(stick).position === 'sticky'; }
+  function travel() { return pin.offsetHeight - window.innerHeight; }
+
+  function update() {
+    if (!pinned()) return;
+    var t = travel();
+    if (t <= 0) return;
+    var p = -pin.getBoundingClientRect().top / t;
+    var i = Math.max(0, Math.min(n - 1, Math.floor(p * n)));
+    if (i === cur) return;
+    cur = i;
+    // 네 번째 인자 — 스크롤로 넘어간 것은 Mixpanel 에 클릭으로 적지 않는다.
+    switchDash(items[i].btn, items[i].src, items[i].key, true);
+  }
+
+  var queued = false;
+  window.addEventListener('scroll', function () {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; update(); });
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  items.forEach(function (it, i) {
+    it.btn.addEventListener('click', function () {
+      cur = i;  // 인라인 onclick 이 이미 화면을 바꿨다 — 다시 바꾸지 않는다
+      if (!pinned()) return;
+      var t = travel();
+      if (t <= 0) return;
+      var top = pin.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + (t / n) * (i + 0.5), behavior: 'smooth' });
+    });
+  });
+})();
+
 </script>
 <script is:inline>
   (function() {
