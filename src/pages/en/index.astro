@@ -128,48 +128,31 @@ const jsonLd = [orgSchema, websiteSchema];
 <!-- PLATFORM -->
 <section id="platform">
   <style is:global>
-    /* 섹션은 길이만 쥔다. 화면에 보이는 것은 그 안의 무대 하나다 —
-       320vh 중 100vh 가 무대이고, 남는 220vh 가 스크롤로 쓰는 몫이다.
-       (낱말 0~45% · 배경과 본문 45~72% · 그대로 멈춤 72~100%) */
-    #platform { height: 320vh; padding: 0; background: #151B23; }
+    /* 고정을 풀었다 — 섹션은 제 내용 높이만 쥐고 보통 흐름으로 지나간다.
+       ⚠️ 고정과 함께 셋이 사라졌다: 대제목 마지막 낱말이 한 칸씩 바뀌던 것 ·
+          흰 면에서 먹색으로 번지던 배경 · 그래픽과 글이 차례로 떠오르던 연출.
+          스크립트는 무대가 sticky 가 아니면 손을 떼고 마지막 상태로 세운다.
+       다시 붙이려면 여기와 .pf-stage 를 되돌린다 — 스크립트는 그대로다. */
+    #platform { height: auto; padding: 130px 0; background: #151B23; }
 
     #platform .pf-stage {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      /* 내비(fixed · 70px)가 무대 윗부분을 덮는다. 그만큼 위를 비워 두어야
-         '보이는 화면' 의 위아래 여백이 같아진다 — box-sizing 이 border-box 라
-         높이는 100vh 그대로다. */
-      padding-top: 70px;
-      /* ⚠️ 아래 여백은 그래픽이 줄 밖으로 흘러내린 만큼이다. 그림 상자는
-         margin-bottom: -7% 로 줄 바닥을 제 안쪽으로 끌어올려 아코디언과 아랫변을
-         맞추는데, 그 7% 가 줄 아래로 더 그려진다 — 줄만 가운데에 세우면 보이는
-         잉크는 위 78 / 아래 25 로 어긋난다(1440×900 실측). 같은 값을 아래 여백으로
-         돌려주면 51/51 로 맞는다. 7% 의 기준인 그림 폭은 아래 max-width 와 같은
-         식이라 화면 높이만 따라간다. */
-      padding-bottom: calc((100vh - 200px) * 0.0753);
-      overflow: hidden;
-      /* 제목과 본문이 같은 칸을 나눠 쓴다 — 제목이 빠지는 자리에 본문이 들어선다. */
-      display: grid;
-      grid-template-areas: "s";
-      align-items: center;
-      /* 흰 면에서 시작해 바닥에서 정확히 #151B23 에 닿는다 — 무대가 100vh 이고
-         타원 세로 반지름이 150vh 라, 바닥(y=100vh)이 33.33% 정지점이다.
-         스크롤하면 반지름이 커지며 먹색이 위로 번져 화면 전체를 덮는다.
-         ⚠️ 정지점이 % 라 화면 높이가 바뀌어도 비율이 그대로 따라간다. */
-      background: radial-gradient(ellipse var(--pf-rx, 180%) var(--pf-ry, 150vh) at 50% 150vh,#151B23 0%,#151B23 33.33%,#1D2A39 34.40%,#253547 35.47%,#2D4055 36.53%,#354C64 37.60%,#3E5772 38.67%,#466382 39.73%,#4F6F91 40.80%,#587CA1 41.87%,#6189B1 42.93%,#6A96C2 44.00%,#74A3D3 45.07%,#7EABDA 46.13%,#89B2DD 47.20%,#92B8E0 48.27%,#9BBEE3 49.33%,#A4C4E5 50.40%,#ABC9E8 51.47%,#B3CEEA 52.53%,#BAD2EC 53.60%,#C0D6EE 54.67%,#C6DAEF 55.73%,#CCDEF1 56.80%,#D1E1F2 57.87%,#D5E4F4 58.93%,#DAE7F5 60.00%,#DEE9F6 61.07%,#E1ECF7 62.13%,#E5EEF8 63.20%,#E8F0F9 64.27%,#EAF2FA 65.33%,#EDF3FA 66.40%,#EFF5FB 67.47%,#F1F6FB 68.53%,#F3F7FC 69.60%,#F5F8FC 70.67%,#F6F9FD 71.73%,#F8FAFD 72.80%,#F9FBFD 73.87%,#FAFCFE 74.93%,#FBFCFE 76.00%,#FBFDFE 77.07%,#FCFDFE 78.13%,#FDFDFE 79.20%,#FDFEFE 80.27%,#FDFEFF 81.33%,#FEFEFF 82.40%,#FEFFFF 84.53%,#FFFFFF 86.67%);
+      /* 연출에 쓰던 변수를 끝 값으로 못 박는다 — 스크립트가 손을 떼므로
+         여기서 정해 주지 않으면 본문이 투명한 채로 남는다. */
+      --pf-title: 1;
+      --pf-in: 1;
+      --pf-in2: 1;
+      --pf-clip: 0%;
+      --pf-pe: auto;
     }
-    #platform .pf-stage > * { grid-area: s; min-width: 0; }
+    #platform .pf-stage > * { min-width: 0; }
 
     #platform .section-header {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0;
-      /* 배경이 어두워지는 동안 같이 빠진다 — 먹색 글자라 그냥 두면 중간의
-         회색 구간에서 뭉개진다. */
-      opacity: var(--pf-title, 1);
+      /* 제목과 본문이 겹치던 한 칸 격자를 풀었으므로 사이를 벌린다. */
+      margin-bottom: 72px;
     }
     #platform .section-lead-ko { margin-bottom: 0; }
 
@@ -985,7 +968,18 @@ const jsonLd = [orgSchema, websiteSchema];
         /* 왼쪽 글은 그래픽이 다 뜬 뒤에 따라온다 — 순서만 읽히면 되니 간격은 짧다. */
         var V2_START = 0.625, V2_END = 0.715;
         function ease(t) { return t * t * (3 - 2 * t); }
+        var stage = sec.querySelector('.pf-stage');
+        /* 고정을 풀면(무대가 sticky 가 아니면) 스크롤에 묶을 것이 없다 —
+           마지막 낱말만 세우고 손을 뗀다. 본문을 띄우는 변수들은 CSS 가 끝 값으로
+           쥐고 있으므로 여기서 건드리지 않는다. */
+        function pinned() { return !!stage && getComputedStyle(stage).position === 'sticky'; }
+        function settle() {
+          show(bs.length - 1);
+          var art = sec.querySelector('.pf-art');
+          if (art && !art.getAttribute('data')) art.setAttribute('data', art.getAttribute('data-src'));
+        }
         function upd() {
+          if (!pinned()) { settle(); return; }
           /* 무대가 붙어 있는 동안 쓸 수 있는 스크롤 = 섹션 높이 - 화면 하나. */
           var span = sec.offsetHeight - (window.innerHeight || 800);
           if (span <= 0) { show(bs.length - 1); return; }
