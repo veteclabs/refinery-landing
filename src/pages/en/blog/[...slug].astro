@@ -1,25 +1,20 @@
 ---
-// 영어 글 상세. 컬렉션 id가 'en/<slug>'라 접두사를 떼고 /en/blog/<slug>로 서빙한다.
-import { getCollection, render } from 'astro:content';
+// 영어 글 상세. 컬렉션 id가 'en/<slug>'라 접두사를 떼고 /en/blog/<slug>로 서빙한다(postSlug).
+import { render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
-
-const strip = (id: string) => id.replace(/^en\//, '');
+import { getPosts, postSlug, readingMinutes, relatedPosts } from '../../../utils/blog';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'en')).sort(
-    (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
-  );
-  return posts.map((post, i) => ({
-    params: { slug: post.id.replace(/^en\//, '') },
-    props: {
-      post,
-    },
+  const posts = await getPosts('en');
+  return posts.map((post) => ({
+    params: { slug: postSlug(post) },
+    props: { post, related: relatedPosts(post, posts) },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { post, related } = Astro.props;
+const { Content, headings } = await render(post);
 ---
-<BlogPost {...post.data} lang="en" slug={strip(post.id)}>
+<BlogPost {...post.data} lang="en" slug={postSlug(post)} headings={headings} related={related} minutes={readingMinutes(post.body, post.data.lang)}>
   <Content />
 </BlogPost>

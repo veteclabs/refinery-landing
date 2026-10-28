@@ -1,0 +1,34 @@
+---
+/**
+ * 블로그 카드 한 장 — 표지 · 대제목 · 소제목 · 날짜 | 종류.
+ * 블로그 목록과 글 끝 「다른 글」이 함께 쓴다. 감싸는 쪽이 `.res-page.blog-list` 안이어야
+ * res-card.css · blog-card.css가 먹는다.
+ *
+ * data-cat · data-search는 목록의 종류 탭 · 검색이 읽는 값이다(BlogIndex.astro의 스크립트).
+ */
+import BlogThumb from './BlogThumb.astro';
+import { categorySlug, formatPostDate, postHref, splitAt, type Post } from '../utils/blog';
+
+interface Props { post: Post; sizes?: string }
+const {
+  post,
+  sizes = '(max-width: 860px) calc(100vw - 48px), (max-width: 1279px) calc((100vw - 132px) / 3), 383px',
+} = Astro.props;
+const d = post.data;
+const [head, tail] = splitAt(d.description, d.cardBreakAfter);
+const search = [d.title, d.description, d.category ?? '', ...d.tags].join(' ').toLowerCase();
+---
+<a class="ind-card res-card is-link" href={postHref(post)} data-cat={categorySlug(d.category)} data-search={search}>
+  <BlogThumb post={post} sizes={sizes} />
+  <h3>{d.title}</h3>
+  <p>{head}{tail && <><br />{' '}{tail}</>}</p>
+  <div class="blog-meta">
+    <time datetime={d.pubDate.toISOString()}>{formatPostDate(d.pubDate, d.lang)}</time>
+    {d.category && (
+      <>
+        <span class="blog-meta-bar" aria-hidden="true"></span>
+        <span>{d.category}</span>
+      </>
+    )}
+  </div>
+</a>

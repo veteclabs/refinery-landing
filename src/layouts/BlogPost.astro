@@ -7,6 +7,11 @@ import { formatDateKo } from '../utils/date';
 import { coverTone } from '../utils/cover-tone';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { blogBase, categorySlug, type Post } from '../utils/blog';
+import type { MarkdownHeading } from 'astro';
+import '../styles/res-card.css';
+import '../styles/blog-card.css';
 import '../styles/blog.css';
 
 export interface Props {
@@ -36,19 +41,29 @@ export interface Props {
   titleBreakAfter?: string | string[];
   slug: string;
   lang?: 'ko' | 'en';
+  /** 본문 제목들(render()가 준다). 목차에 h2만 쓴다. */
+  headings?: MarkdownHeading[];
+  /** 글 끝 「다른 글」(utils/blog.ts의 relatedPosts). */
+  related?: Post[];
+  /** 읽는 시간(분, utils/blog.ts의 readingMinutes). */
+  minutes?: number;
 }
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', category, ogImage, image, coverIcon, coverTexture, coverIconAt = 'corner', coverColor, coverTextColor, coverFoot,
   hideCoverKind = false, tags = [], titleBreakAfter, coverKindBreakAfter, slug,
-  lang = 'ko',
+  lang = 'ko', headings = [], related = [], minutes,
 } = Astro.props;
 
 // 글 UI 문구·날짜 형식·경로를 로케일별로.
 const T = {
-  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그' },
-  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog' },
+  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', blog: '블로그', toc: '목차', related: '다른 글', all: '전체 글 보기', min: (n: number) => `${n}분 분량`, copy: '링크 복사', copied: '복사했습니다' },
+  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', blog: 'Blog', toc: 'On this page', related: 'More posts', all: 'View all posts', min: (n: number) => `${n} min read`, copy: 'Copy link', copied: 'Copied' },
 }[lang];
+const catSlug = categorySlug(category);
+// 목차는 h2만 쓴다. 절이 셋보다 적은 글은 목차가 하는 일이 없어 달지 않는다.
+const toc = headings.filter((h) => h.depth === 2);
+const hasToc = toc.length >= 3;
 
 // 한국어는 '2026. 07. 31', 영어는 'July 31, 2026'. 목록 카드와 같은 함수를 쓴다.
 const fmt = (d: Date) =>
@@ -110,7 +125,7 @@ const jsonLd = {
 >
   <Nav />
   <main class="blog-main blog-main--post">
-    <div class="post-shell">
+    <div class:list={['post-shell', hasToc && 'has-toc']}>
 
       <article class="post">
         {/* 표지. 칸이 먼저 자리를 잡고 이미지가 그 안을 cover로 채운다 —
@@ -168,20 +183,108 @@ const jsonLd = {
           {/* 표지에 제목이 올라간 글도 여기 제목을 그대로 보인다. 표지의 글자는
               그림에 가깝고, 글의 대제목은 본문이 시작되는 자리를 알리는 역할이라
               둘은 하는 일이 다르다. (한때 중복으로 보고 감췄다가 되살렸다.) */}
+          {/* 위치 표시 — 블로그 / 글 종류. 종류는 목록의 그 탭으로 바로 간다(#insight 등). */}
+          <nav class="post-crumb" aria-label={lang === 'ko' ? '위치' : 'Breadcrumb'}>
+            <a href={T.base}>{T.blog}</a>
+            {category && <><span aria-hidden="true">/</span>{catSlug ? <a href={`${T.base}#${catSlug}`}>{category}</a> : <span>{category}</span>}</>}
+          </nav>
           <h1>{title}</h1>
           <p class="post-desc">{description}</p>
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
             {category && <><span class="post-bar" aria-hidden="true"></span><span>{category}</span></>}
+            {author && <><span class="post-bar" aria-hidden="true"></span><span>{author}</span></>}
+            {minutes && <><span class="post-bar" aria-hidden="true"></span><span>{T.min(minutes)}</span></>}
+            {/* 링크 복사 — 공유 대상을 고르게 하지 않고 주소만 복사한다(어느 메신저든 붙여 넣으면 된다). */}
+            <button type="button" class="post-copy" data-copied={T.copied} data-label={T.copy}>
+              <i class="ph ph-link" aria-hidden="true"></i><span>{T.copy}</span>
+            </button>
           </div>
+          {/* 태그는 목록의 검색으로 이어진다(#q=태그). */}
+          {tags.length > 0 && (
+            <ul class="post-tags">
+              {tags.map((tag) => <li><a href={`${T.base}#q=${encodeURIComponent(tag)}`}>#{tag}</a></li>)}
+            </ul>
+          )}
         </header>
+        {/* 좁은 화면용 목차 — 오른쪽 여백 목차가 뜨지 않는 폭(1280px 미만)에서 본문 위에 접어 둔다. */}
+        {hasToc && (
+          <details class="post-toc-fold">
+            <summary>{T.toc}<span>{toc.length}</span></summary>
+            <ol>
+              {toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            </ol>
+          </details>
+        )}
         <div class="post-body">
           <slot />
         </div>
 
       </article>
+
+      {/* 목차 — 넓은 화면에서만 본문 오른쪽 여백에 붙는다. 본문 기둥(820px)은 가운데 그대로다.
+          예전 왼쪽 목차는 본문을 오른쪽으로 밀어 걷었다(blog.css .post-shell 주석). */}
+      {hasToc && (
+        <aside class="post-toc" aria-label={T.toc}>
+          <div class="post-toc-inner">
+            <p class="post-toc-title">{T.toc}</p>
+            <ol>
+              {toc.map((h) => <li><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>)}
+            </ol>
+          </div>
+        </aside>
+      )}
     </div>
+
+    {/* 다른 글 — 같은 종류 먼저, 나머지는 최신순. 카드는 목록과 같은 컴포넌트다. */}
+    {related.length > 0 && (
+      <section class="post-related res-page blog-list">
+        <div class="post-related-head">
+          <h2>{T.related}</h2>
+          <a href={T.base}>{T.all}<span aria-hidden="true"> →</span></a>
+        </div>
+        <div class="post-related-grid">
+          {related.map((p) => <BlogCard post={p} />)}
+        </div>
+      </section>
+    )}
   </main>
 
   <Footer />
 </BaseLayout>
+
+<script>
+  // 링크 복사. 클립보드를 쓸 수 없는 환경(권한 거부 · http)에서는 조용히 넘어간다.
+  document.querySelectorAll<HTMLButtonElement>('.post-copy').forEach((btn) => {
+    const label = btn.querySelector('span')!;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.origin + location.pathname);
+        label.textContent = btn.dataset.copied || '';
+        btn.classList.add('is-done');
+        setTimeout(() => { label.textContent = btn.dataset.label || ''; btn.classList.remove('is-done'); }, 1800);
+      } catch { /* 복사 실패 — 주소창에서 직접 복사하면 된다 */ }
+    });
+  });
+
+  // 목차에서 지금 읽고 있는 절을 표시한다. 화면 위쪽 1/3을 지난 마지막 제목이 지금 절이다.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.post-toc a[data-toc]'));
+  if (links.length) {
+    const targets = links
+      .map((a) => document.getElementById(a.dataset.toc || ''))
+      .filter((el): el is HTMLElement => !!el);
+    const update = () => {
+      const line = window.innerHeight / 3;
+      let current = targets[0]?.id;
+      for (const el of targets) if (el.getBoundingClientRect().top <= line) current = el.id;
+      links.forEach((a) => a.classList.toggle('is-active', a.dataset.toc === current));
+    };
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { update(); ticking = false; });
+    }, { passive: true });
+    update();
+  }
+</script>
