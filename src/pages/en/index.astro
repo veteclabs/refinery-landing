@@ -298,6 +298,11 @@ const jsonLd = [orgSchema, websiteSchema];
       /* 그림과 같은 박자로 뜬다. */
       opacity: var(--pf-in, 0);
       transform: translateY(calc(36px * (1 - var(--pf-in, 0))));
+      /* 오림도 그림과 같이 받는다. 빠뜨리면 온톨로지 판이 드러나기 전에
+         판 위에 눕는 이름표(Ontology · Unify · Refine · Collect · Data ·
+         Work flow)만 빈 바탕에 먼저 떠 보인다.
+         ⚠️ 이 상자는 그림과 같은 폭의 정사각형이라 같은 비율이 같은 자리를 자른다. */
+      clip-path: inset(0 0 var(--pf-clip, 69%) 0);
     }
     #platform .pf-label {
       position: absolute;
