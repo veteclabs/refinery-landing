@@ -1240,24 +1240,28 @@
       #industries .industry-name { color: #F6F8FA; font-size: 24px; letter-spacing: -.4px; }
       /* 화살표는 카드 구석이 아니라 제목 바로 뒤에 선다. 평소에는 없고
          카드에 마우스를 올렸을 때만 뜬다.
-         ⚠️ 제목이 가운데 정렬이라, 화살표를 줄 안에 함께 두면 뜨고 질 때마다
-            제목이 좌우로 흔들린다. 이름만 감싸는 상자(.industry-head)를 두고
-            그 밖(left: 100%)에 절대 배치해 제목 폭을 건드리지 않는다.
-         ⚠️ 가장 긴 이름(영문 297px)이어도 카드 밖으로 나가지 않는다 —
-            가운데에서 148.6 + 10 + 28 = 186.6px, 카드 반폭은 225px 이다. */
-      #industries .industry-head { display: inline-block; position: relative; }
+         뜰 때는 이름과 화살표를 한 줄로 묶어 그 줄째로 가운데에 다시 세운다 —
+         이름이 왼쪽으로 19px((28 + 10) / 2) 밀리며 자리를 내준다.
+         ⚠️ 줄 폭을 늘였다 줄이는 자리는 margin-right 다. 평소에는 -38px 로
+            화살표를 줄 폭에서 빼 두어 이름만 가운데에 서고, 호버에 0 으로
+            풀면서 줄이 넓어진다. 폭(width)을 줄이면 28px 원이 찌그러진다.
+         ⚠️ 가장 긴 이름(영문 297px)이어도 넘치지 않는다 —
+            297.3 + 10 + 28 = 335.3px, 글 칸은 398.8px 이다. */
+      #industries .industry-head { display: inline-flex; align-items: center; }
       #industries .industry-go {
-        right: auto; bottom: auto;
-        left: 100%; top: 50%;
+        position: static;
+        flex: none;
         margin-left: 10px;
-        transform: translateY(-50%);
+        margin-right: -38px;
         opacity: 0;
-        transition: opacity .2s ease, transform .2s ease, color .2s ease;
+        transform: translateX(-6px);
+        transition: margin-right .25s ease, opacity .2s ease, transform .25s ease, color .2s ease;
         color: #C8CED5;
       }
       #industries a.industry-card:hover .industry-go {
+        margin-right: 0;
         opacity: 1;
-        transform: translateY(-50%) translateX(4px);
+        transform: none;
         color: #F6F8FA;
       }
     }
