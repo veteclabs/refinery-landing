@@ -742,26 +742,22 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-self: flex-end;
-        /* 밑줄을 끊지 않으려면 한 줄이어야 한다 — 두 줄로 감기면 윗줄과
-           아랫줄의 선이 따로 놀아 끊겨 보인다. flex-wrap 은 그대로 두되
-           틈을 한 줄에 들어가는 값으로 잡는다.
+        /* 여섯이 한 줄에 서야 제목 밑변과 나란해진다. 틈을 한 줄에
+           들어가는 값으로 잡고, 자리가 남으면 그만큼 벌어지되 줄 폭
+           360px 에서 멈춘다. 틈은 5px 에서 19px 사이로 움직인다.
            ⚠️ 칸 300px 에서 한 줄로 쓸 수 있는 틈의 한계는 6.6px(국문) ·
               5.4px(영문)이다. 더 넓히려면 칸을 넓혀야 하고 그만큼 상자가
               줄어든다. */
-        /* 밑줄을 끊지 않으려면 한 줄이어야 한다 — 두 줄로 감기면 윗줄과
-           아랫줄의 선이 따로 놀아 끊겨 보인다. 틈을 한 줄에 들어가는
-           값으로 잡고, 자리가 남으면 그만큼 벌어지되 줄 폭 360px 에서
-           멈춘다. 틈은 5px 에서 19px 사이로 움직인다. */
         column-gap: 5px;
         justify-content: space-between;
         max-width: 360px;
       }
-      /* 밑줄은 줄 전체에 하나로 긋고, 그 위를 brand 막대가 미끄러진다.
-         막대 자리는 placeTeamsFill 이 고른 칸의 상자를 재어 잡는다. */
-      .teams-menu-vertical { border-bottom: 1px solid var(--border); }
+      /* 깔린 선은 두지 않는다 — 고른 칸 아래에만 brand 막대가 선다.
+         막대 자리는 placeTeamsFill 이 고른 칸의 상자를 재어 잡고, 칸이
+         바뀌면 그 자리로 미끄러진다. */
       .teams-rail-fill {
         display: block;
-        position: absolute; bottom: -1px; height: 2px;
+        position: absolute; bottom: 0; height: 2px;
         border-radius: 2px; background: var(--accent);
         transition: left .25s ease, width .25s ease;
       }
