@@ -748,7 +748,13 @@
            ⚠️ 칸 300px 에서 한 줄로 쓸 수 있는 틈의 한계는 6.6px(국문) ·
               5.4px(영문)이다. 더 넓히려면 칸을 넓혀야 하고 그만큼 상자가
               줄어든다. */
-        column-gap: 20px;
+        /* 밑줄을 끊지 않으려면 한 줄이어야 한다 — 두 줄로 감기면 윗줄과
+           아랫줄의 선이 따로 놀아 끊겨 보인다. 틈을 한 줄에 들어가는
+           값으로 잡고, 자리가 남으면 그만큼 벌어지되 줄 폭 360px 에서
+           멈춘다. 틈은 5px 에서 19px 사이로 움직인다. */
+        column-gap: 5px;
+        justify-content: space-between;
+        max-width: 360px;
       }
       /* 밑줄은 줄 전체에 하나로 긋고, 그 위를 brand 막대가 미끄러진다.
          막대 자리는 placeTeamsFill 이 고른 칸의 상자를 재어 잡는다. */
@@ -763,7 +769,7 @@
     /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 세로 줄 모양으로 바꾼다.
        글자는 태그라인(.teams-preview-tagline)과 같은 12px 이다 — 둘 다
        상자 옆에서 '지금 무엇'을 가리키는 표시라 급을 맞춘다. */
-    .teams-split .teams-tab-btn {
+    #teams .teams-menu-vertical .teams-tab-btn {
       flex: none;
       justify-content: flex-start;
       text-align: left;
@@ -775,7 +781,7 @@
       box-shadow: none;
     }
     /* 고른 줄은 brand 색이 아니라 먹색이다 — 브랜드 색은 왼쪽 막대가 맡는다. */
-    .teams-split .teams-tab-btn.active { color: var(--text); font-weight: 600; box-shadow: none; }
+    #teams .teams-menu-vertical .teams-tab-btn.active { color: var(--text); font-weight: 600; box-shadow: none; }
 
     /* 글(태그라인 · 제목 · 본문)은 탭 아래가 아니라 상자의 세로 가운데에 선다.
        탭 줄은 상자 윗변에 맞춰 있으므로, 글만 따로 가운데로 보내려면 칸을
