@@ -4,6 +4,7 @@ import '../../styles/global.css';
 // 헤더·푸터는 한국어와 같은 공용 컴포넌트를 쓴다(라벨·IA는 src/i18n/nav.ts에서 로케일별로).
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import AgentAuthoring from '../../components/AgentAuthoring.astro';
 import { legal } from '../../data/legal';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
@@ -1089,6 +1090,9 @@ behind the answer are given too.</p>
     </script>
  </div>
 </section>
+
+<!-- AGENT AUTHORING (준비 중 · 샘플 UI) -->
+<AgentAuthoring lang="en" />
 
 <!-- INTEGRATIONS -->
 <section id="integrations" style="background:#111316;border-top:1px solid #E3E7EC;">
