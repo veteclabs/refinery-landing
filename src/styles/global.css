@@ -784,11 +784,11 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      /* 고정 내비(70px)만 비워 둔다. 여기에 130 을 더해 제목을 내비에서
-         떼면 그만큼 상자 높이를 뺏겨(1045x653 → 837x523), 상자를 지키려면
-         아래를 잘라야 한다. 셋 중 둘만 된다 — 지금은 상자 크기와
-         '자르지 않기'를 택했다. */
-      padding-top: 70px;
+      /* 고정 내비(70px) + 30px. 제목과 상자 사이 60px 에서 30 을 꺼내 위로
+         옮긴 것이라 상자 높이는 그대로다(70+117+60 = 100+117+30 = 247).
+         여기서 더 내리려면 상자를 줄이거나 아래를 잘라야 한다 — 창 하나를
+         내비 여백 · 제목 · 틈 · 상자가 나눠 쓰기 때문이다. */
+      padding-top: 100px;
       display: flex;
       flex-direction: column;
       /* safe center — 한 벌이 무대보다 커지면 가운데가 아니라 위에서부터 쌓인다.
@@ -799,6 +799,9 @@
       overflow: hidden;
     }
     #teams .teams-stage-sticky > .container { width: 100%; }
+    /* 제목과 상자 사이 — 위 여백으로 30 을 넘겨준 만큼 줄인다.
+       ⚠️ 무대 안에서만 줄인다. 1280px 이하 한 단 배치는 60 그대로다. */
+    #teams .teams-stage-sticky .teams-split { margin-top: 30px; }
     /* 무대 안에서는 margin 이 겹쳐지지 않는다 — 제목 아래 여백을 .teams-split 의
        margin-top 하나에 맡긴다. 그냥 두면 64 + 60 = 124px 로 벌어진다. */
     #teams .teams-stage-sticky .section-header { margin-bottom: 0; }
