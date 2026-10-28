@@ -688,10 +688,10 @@
       .industry-name { font-size: 16px !important; }
       .teams-preview-title-wrap h3 { font-size: 19px !important; }    }
     /* TEAMS TABS */
-    /* 화면 이미지는 오른쪽으로 화면 끝까지 나가고, 탭은 왼쪽에 세로로 선다.
-       ⚠️ 바깥으로 빼는 자리는 .teams-split 이다. 이 칸(.container)이 가운데
-          정렬이라 calc(50% - 50vw) 가 칸 오른쪽 끝에서 화면 오른쪽 끝까지의
-          거리다 — #industries 의 사진 띠와 같은 수법이다. */
+    /* 화면 이미지는 칸(.container) 안에 들어온다. 탭은 왼쪽에 세로로 선다.
+       전에는 margin-right: calc(50% - 50vw + var(--sbw)/2) 로 오른쪽 끝까지
+       빼냈는데, 상자가 네 변을 다 갖춘 카드가 되면서 화면 밖에 걸칠 까닭이
+       없어졌다. 빼내려면 그 줄을 되살리면 된다. */
     .teams-split {
       display: grid;
       grid-template-columns: 300px 1fr;
@@ -700,9 +700,10 @@
          1440x900 에서 상자가 쓸 수 있는 높이는 653px, 그 1.6 배인 1044.8px
          이 칸에 들어가야 남는 자리가 0 이 된다 — 틈을 32 로 줄이면 1045 다. */
       gap: 32px;
-      align-items: center;
+      /* 탭 줄의 윗변을 상자 윗변에 맞춘다 — 가운데로 모으면 '지금 어디'를
+         가리키는 막대가 상자 머리보다 아래에서 시작한다. */
+      align-items: start;
       margin-top: 60px;
-      margin-right: calc(50% - 50vw + var(--sbw) / 2);
     }
     .teams-rail, .teams-stage { min-width: 0; }
     /* 상자는 캡처와 같은 비율(8:5)이고, 잘리지 않는 선에서 가장 크게 둔다.
