@@ -343,6 +343,33 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       filter: drop-shadow(0 0 11px rgba(118, 166, 215, .45));
     }
 
+    /* 판 위에 누운 이름표. 글자를 아이소메트릭 윗면에 얹는 행렬이다 —
+       x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°)로 간다.
+       원본 글자가 이 방향으로 기울어 있던 것을 재서 맞췄다(실측 −28°).
+       ⚠️ 선택자에 .pf-labels 를 한 겹 더 둔다. 기본 .pf-label 규칙과 특이도가 같으면
+          뒤에 선언된 쪽이 이겨 top 과 transform 이 그대로 덮인다 — 이름표가 위쪽
+          알약 줄에 가서 섰다. */
+    #platform .pf-labels .pf-label--iso {
+      top: var(--y);
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
+    }
+    #platform .pf-labels .pf-label--ont {
+      color: #F6F8FA;
+      font-size: clamp(9px, 1.59cqw, 13px);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    #platform .pf-labels .pf-label--wf {
+      color: #9DBBD9;
+      font-size: clamp(8px, 1.33cqw, 11px);
+      font-weight: 600;
+      line-height: 1.1;
+      text-align: center;
+    }
+
     /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
        이름표), 그 뒤 오림이 아래로 자라 온톨로지 판이 드러난다.
        자르는 자리 31% 는 짐작이 아니다 — 캔버스에 그려 행마다 브랜드색 화소를
@@ -1054,6 +1081,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           <span class="pf-label" data-part="plate" style="--x:16.167%">Refinery Plate</span>
           <span class="pf-label" data-part="lens" style="--x:50%">Refinery Lens</span>
           <span class="pf-label" data-part="agent" style="--x:83.833%">Refinery AI Agent</span>
+          <span class="pf-label pf-label--iso pf-label--ont" data-part="ontology" style="--x:77.125%;--y:57.292%" translate="no">Refinery Ontology</span>
+          <span class="pf-label pf-label--iso pf-label--wf" data-part="workflow" style="--x:49.833%;--y:50.292%" translate="no">Work flow</span>
         </div>
       </div>
     </div>
