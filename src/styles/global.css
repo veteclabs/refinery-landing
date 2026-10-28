@@ -861,7 +861,11 @@
     .teams-split .teams-preview-tagline {
       display: inline-flex;
       align-items: center;
-      padding: 4px 11px;
+      /* 위아래가 1px 다르다 — 글자의 내림(g · y)이 아래 자리를 먹어 잉크가
+         알약 가운데보다 0.9px 내려앉는다. 위를 1px 늘려 눈으로 가운데에
+         오게 맞춘다. 오른쪽도 자간(0.6px)이 마지막 글자 뒤에 붙으므로
+         그만큼 덜 준다. */
+      padding: 5px 10.4px 3px 11px;
       border-radius: 999px;
       border: 1px solid rgba(118, 166, 215, .45);
       letter-spacing: .6px;
