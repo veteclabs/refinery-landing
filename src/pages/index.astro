@@ -461,12 +461,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        겹쳐 찌그러진다. 제목 줄과 같은 이유다. */
     /* 선은 줄과 줄 사이에만 둔다 — 맨 위와 맨 아래는 긋지 않는다. */
     #platform .pf-acc { margin-top: auto; flex: none; }
-    #platform .pf-item + .pf-item { border-top: 1px solid #22303F; transition: border-color .2s ease; }
+    #platform .pf-item + .pf-item { border-top: 1px solid #16202C; transition: border-color .2s ease; }
     /* 손이 닿은 줄은 제 위 선과 아래 줄의 위 선을 함께 올린다. */
     #platform .pf-item:hover,
-    #platform .pf-item.is-open { border-top-color: #3A4856; }
+    #platform .pf-item.is-open { border-top-color: #22303F; }
     #platform .pf-item:hover + .pf-item,
-    #platform .pf-item.is-open + .pf-item { border-top-color: #3A4856; }
+    #platform .pf-item.is-open + .pf-item { border-top-color: #22303F; }
     #platform .pf-q {
       width: 100%;
       display: flex;
@@ -1996,9 +1996,9 @@ function switchDash(btn, src, key, silent) {
   if (window.placeTeamsFill) placeTeamsFill();
 }
 
-/* 왼쪽 레일의 brand 막대를 고른 줄에 맞춘다. 줄 높이가 글꼴·폭에 따라 달라져
-   CSS 로는 못 박는다 — 고른 줄의 상자를 재어 top/height 를 넣는다.
-   위아래로 4px 씩 당겨 줄 사이에 숨 쉴 틈을 남긴다. */
+/* 탭 줄의 brand 막대를 고른 칸에 맞춘다. 글자 폭이 글꼴 · 언어에 따라
+   달라져 CSS 로는 못 박는다 — 고른 칸의 상자를 재어 left/width 를 넣는다.
+   줄이 두 줄로 나뉘어도 상자를 재므로 그대로 따라간다. */
 function placeTeamsFill() {
   var rail = document.querySelector('#teams .teams-menu-vertical');
   if (!rail) return;
@@ -2006,8 +2006,8 @@ function placeTeamsFill() {
   var on = rail.querySelector('.teams-tab-btn.active');
   if (!fill || !on) return;
   var r = rail.getBoundingClientRect(), b = on.getBoundingClientRect();
-  fill.style.top = (b.top - r.top + 4).toFixed(1) + 'px';
-  fill.style.height = Math.max(0, b.height - 8).toFixed(1) + 'px';
+  fill.style.left = (b.left - r.left).toFixed(1) + 'px';
+  fill.style.width = b.width.toFixed(1) + 'px';
 }
 window.placeTeamsFill = placeTeamsFill;
 if (document.readyState === 'loading') {
