@@ -1228,10 +1228,17 @@ const jsonLd = [orgSchema, websiteSchema];
         ((sr.top + pad + (sr.height - pad) / 2) - (tr.top + tr.height / 2)).toFixed(1) + 'px');
     }
 
+    /* 핀 상자가 화면을 지나간 비율(0→1)과, 거기서 뽑은 사진 띠의 진행도. */
+    function progress() {
+      var span = pin.offsetHeight - (window.innerHeight || 800);
+      return span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+    }
+    function railProgress(p) { return ease(clamp((p - 0.48) / 0.48)); }
+    var railOrigin = rails.map(function () { return 0; });
+
     var ticking = false;
     function upd() {
-      var span = pin.offsetHeight - (window.innerHeight || 800);
-      var p = span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+      var p = progress();
 
       /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다. */
       for (var i = 0; i < lines.length; i++) {
@@ -1245,7 +1252,7 @@ const jsonLd = [orgSchema, websiteSchema];
       sec.style.setProperty('--ind-body', ease(clamp((p - 0.30) / 0.14)).toFixed(3));
 
       /* 3) 사진 띠가 옆으로 흐른다. */
-      var rp = ease(clamp((p - 0.48) / 0.48));
+      var rp = railProgress(p);
       for (var k = 0; k < rails.length; k++) {
         var rail = rails[k];
         if (!wide()) { rail.style.removeProperty('--sol-x'); rail.style.removeProperty('--sol-w'); continue; }
@@ -1257,7 +1264,12 @@ const jsonLd = [orgSchema, websiteSchema];
         var n = Math.max(2, Math.round((box.width + GAP) / (TARGET + GAP)));
         rail.style.setProperty('--sol-w', ((box.width - (n - 1) * GAP) / n).toFixed(2) + 'px');
         var travel = rail.scrollWidth - box.width + PAD;
-        rail.style.setProperty('--sol-x', travel > 0 ? (-travel * rp).toFixed(1) + 'px' : '0px');
+        /* 띠마다 제 출발점이 있다. 탭을 바꾸기 전에는 0 이라 rp 를 그대로 쓰고,
+           바꾼 뒤에는 그 순간부터 남은 스크롤로 제 폭을 다 흐른다. */
+        if (rp <= 0) railOrigin[k] = 0;
+        var o = railOrigin[k];
+        var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
+        rail.style.setProperty('--sol-x', travel > 0 ? (-travel * local).toFixed(1) + 'px' : '0px');
       }
     }
 
@@ -1268,8 +1280,15 @@ const jsonLd = [orgSchema, websiteSchema];
     }
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+    /* 탭을 바꾸면 새로 나온 띠는 첫 장부터 다시 흐른다 — 숨어 있던 띠가 이미
+       절반쯤 밀린 채로 나타나면 앞쪽 사진을 못 보고 지나친다. 바꾼 순간의
+       진행도를 띠마다 적어 두고, 그 뒤로는 남은 스크롤에 제 폭을 나눠 쓴다.
+       두 띠에 모두 적는다 — 되돌아와도 똑같이 처음부터 보인다. */
     sec.addEventListener('click', function (e) {
-      if (e.target.closest('.sol-tab')) requestAnimationFrame(upd);
+      if (!e.target.closest('.sol-tab')) return;
+      var rp = railProgress(progress());
+      for (var k = 0; k < rails.length; k++) railOrigin[k] = rp;
+      requestAnimationFrame(upd);
     });
     measure();
     upd();
