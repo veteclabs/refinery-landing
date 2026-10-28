@@ -305,8 +305,9 @@ const jsonLd = [orgSchema, websiteSchema];
       top: 28.083%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
-      /* 그림 폭을 따라간다 — 753px 에서 14px 다. */
-      font-size: clamp(11px, 1.86cqw, 15px);
+      /* 이름표 아홉이 한 값을 쓴다 — 그림 폭을 따라가고 753px 에서 10px 다.
+         ⚠️ 알약의 여백은 em 이라 글자를 내리면 알약도 같이 줄어든다. */
+      font-size: clamp(8px, 1.33cqw, 11px);
       font-weight: 600;
       letter-spacing: -0.1px;
       line-height: 1;
@@ -347,17 +348,15 @@ const jsonLd = [orgSchema, websiteSchema];
     #platform .pf-labels .pf-label--ont {
       color: #F6F8FA;
       /* 흰 글자가 어두운 면 위에 있어 같은 굵기여도 번져 보인다 —
-         기울인 다른 이름표(700)보다 네 단계 낮춰야 눈높이가 맞는다.
+         기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
          ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
       font-weight: 300;
-      font-size: clamp(9px, 1.59cqw, 13px);
       letter-spacing: 0.02em;
     }
     /* 판 바닥에 눕는 쪽 — x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°). */
     #platform .pf-labels .pf-label--wf {
       transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
       color: #9DBBD9;
-      font-size: clamp(8px, 1.33cqw, 11px);
       /* 원본도 두 줄이다 — 줄 간격은 원본의 글자 중심 사이(12 단위)에서 나온 값이다. */
       line-height: 1.35;
       text-align: center;
@@ -377,17 +376,15 @@ const jsonLd = [orgSchema, websiteSchema];
       color: #76A6D7;
       /* 칩도 글자와 같이 눕는다 — 받침만 반듯하면 글자가 떠 보인다. */
       background: #16202C;
-      font-size: clamp(8px, 1.33cqw, 11px);
       padding: 0.45em 0.9em;
       border-radius: 999px;
     }
     #platform .pf-labels .pf-label--data {
       color: #F6F8FA;
       /* 흰 글자가 어두운 면 위에 있어 같은 굵기여도 번져 보인다 —
-         기울인 다른 이름표(700)보다 네 단계 낮춰야 눈높이가 맞는다.
+         기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
          ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
       font-weight: 300;
-      font-size: clamp(8px, 1.46cqw, 12px);
       letter-spacing: 0.02em;
     }
 
