@@ -335,10 +335,10 @@ const jsonLd = [orgSchema, websiteSchema];
           알약 줄에 가서 섰다. */
     #platform .pf-labels .pf-label--iso {
       top: var(--y);
-      /* 기울인 글자는 한 단계 굵게 간다. 선언을 600 으로 맞춰도 눈에는 가늘다 —
-         전단을 거치며 획이 흐려지고, 크기도 알약 이름표(14px)보다 작다.
-         같아 보이게 하는 값이지 같은 값이 아니다. */
-      font-weight: 700;
+      /* 알약 이름표와 같은 600 으로 맞춘다. 전단을 거치며 획이 흐려져 눈에는
+         조금 가늘게 읽히지만, 한 벌의 굵기를 하나로 두는 쪽을 택했다.
+         흰 글자인 Ontology · Data 만 아래에서 300 으로 따로 내린다. */
+      font-weight: 600;
       background: none;
       padding: 0;
       border-radius: 0;
