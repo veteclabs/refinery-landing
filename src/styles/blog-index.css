@@ -72,3 +72,20 @@
 @media (max-width: 900px) {
   .blog-list.res-page .ind-hero { padding-bottom: 32px; }
 }
+
+/* 대표 글 표지 안 글자를 칸 폭에 맞춰 키운다. 카드 표지(383px)는 px 고정값이라 680px 칸에서는
+   글자가 그대로 작게 남았다. 카드 383px 기준 값을 cqw로 옮긴 것이다 — 글 머리 표지(.post-cover)와 같은 비율.
+   (14px → 3.655cqw · 24px → 6.266cqw · 13px → 3.394cqw, 안여백 28/22/28/30px → 7.31/5.74/7.31/7.83cqw) */
+.blog-list .bi-feature .res-cover { padding: 7.31cqw 5.74cqw 7.31cqw 7.83cqw; gap: 2.09cqw; }
+.blog-list .bi-feature .res-cover-kind { font-size: 3.655cqw; }
+.blog-list .bi-feature .res-cover-line { font-size: 6.266cqw; }
+.blog-list .bi-feature .res-cover-foot { font-size: 3.394cqw; }
+
+/* RSS 구독 — 소개 문장 아래 작은 글자 링크. */
+.bi-rss { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color .15s; }
+.bi-rss:hover { color: var(--accent-ink); }
+.bi-rss i { font-size: 15px; }
+/* 검색 단축키 표시. 검색어가 들어가면 자리를 내준다. 터치 화면에는 키보드가 없어 감춘다. */
+.bi-kbd { flex: none; padding: 1px 6px; border: 1px solid var(--border); border-radius: 4px; font: inherit; font-size: 12px; line-height: 1.4; color: var(--text-muted); }
+.bi-search:focus-within .bi-kbd, .bi-search input:not(:placeholder-shown) + .bi-kbd { display: none; }
+@media (hover: none) { .bi-kbd { display: none; } }
