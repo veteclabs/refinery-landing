@@ -1296,11 +1296,152 @@
       to { opacity: 1; }
     }
     /* SECURITY */
-    .security-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 28px; }
-    .security-grid .sec-card:nth-child(1) { grid-column: 1 / 5; }
-    .security-grid .sec-card:nth-child(2) { grid-column: 5 / 11; }
-    .security-grid .sec-card:nth-child(3) { grid-column: 1 / 7; }
-    .security-grid .sec-card:nth-child(4) { grid-column: 7 / 11; }
+    /* 보안 섹션도 한 화면에 멈춰 선다 — 제목이 드러나고, 이어서 소제목과
+       카드 넷이 떠오른다.
+       ⚠️ 섹션에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다. */
+    #security { padding: 0; }
+    #security .sec-pin { height: 240vh; }
+    #security .sec-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      /* 고정 내비(70px)를 윗여백으로 비운다 — 보이는 화면 기준으로 가운데다. */
+      padding-top: 70px;
+      display: flex;
+      flex-direction: column;
+      /* safe center — 한 벌이 무대보다 커지면 위에서부터 쌓는다. */
+      justify-content: center;
+      justify-content: safe center;
+      overflow: hidden;
+    }
+    #security .sec-stage > .container { width: 100%; position: relative; z-index: 1; }
+
+    /* 바탕은 솔루션 섹션처럼 제목이 혼자 서 있는 동안에만 깔리고, 카드가
+       차오르면 걷힌다. 결은 다르다 — 그쪽이 도면 격자라면 여기는 탐지 화면이다.
+         · 아래층: 제목을 중심으로 번지는 동심원. 지키는 경계가 겹겹이라는 뜻이다.
+         · 위층: 그 위에 성긴 점 격자. 원만 두면 과녁처럼 읽혀 한 겹 흐린다.
+       ⚠️ 두 층 모두 방사형 마스크로 가장자리를 흐린다. 끝까지 그으면 바탕이
+          아니라 그림이 된다. */
+    #security .sec-stage::before,
+    #security .sec-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: calc(1 - var(--sec-body, 1));
+      pointer-events: none;
+      z-index: 0;
+    }
+    #security .sec-stage::before {
+      background-image:
+        /* 중심은 제목이 멈춰 서는 자리다 — 무대 높이의 53.9% 로 실측했다
+           (내비 70px 을 뺀 가운데). 원이 제목을 과녁처럼 감싼다. */
+        repeating-radial-gradient(circle at 50% 54%,
+          rgba(118,166,215,0) 0 63px,
+          rgba(118,166,215,.22) 63px 64px);
+      -webkit-mask-image: radial-gradient(ellipse 60% 54% at 50% 54%, rgba(0,0,0,.9) 0%, rgba(0,0,0,.45) 38%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 60% 54% at 50% 54%, rgba(0,0,0,.9) 0%, rgba(0,0,0,.45) 38%, rgba(0,0,0,0) 100%);
+    }
+    #security .sec-stage::after {
+      background-image:
+        radial-gradient(circle, rgba(118,166,215,.3) 1px, rgba(118,166,215,0) 1.5px);
+      background-size: 32px 32px;
+      background-position: center;
+      -webkit-mask-image: radial-gradient(ellipse 52% 46% at 50% 54%, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 34%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 52% 46% at 50% 54%, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 34%, rgba(0,0,0,0) 100%);
+    }
+    /* 처음에는 제목만 화면 가운데에 선다 — 머리글을 그만큼 내려 두었다가
+       아래가 차오르는 만큼 도로 올린다. 거리(--sec-lift)는 스크립트가 잰다. */
+    #security .section-header {
+      transform: translateY(calc(var(--sec-lift, 0px) * (1 - var(--sec-body, 1))));
+    }
+    #security .section-header p,
+    #security .security-grid {
+      opacity: var(--sec-body, 1);
+      transform: translateY(calc(28px * (1 - var(--sec-body, 1))));
+    }
+    /* 낮은 화면에서는 붙이지 않는다 — 한 벌이 773px(내비 70 + 글 494 + 여유)이라
+       그보다 낮으면 카드 아랫부분이 잘린다. 스크립트도 무대가 sticky 가 아니면
+       손을 뗀다. */
+    @media (max-height: 700px) {
+      #security { padding: 130px 0; }
+      #security .sec-pin { height: auto; }
+      #security .sec-stage { position: static; height: auto; padding-top: 0; display: block; }
+    }
+
+    /* 대제목 글자는 가려진 채로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이
+       드러난다. 솔루션 섹션과 같은 장치지만 결이 다르다 — 그쪽이 '도면에 먹을
+       올린다' 면 여기는 '가려진 것을 확인해 연다' 다.
+         · 아직 안 드러난 글자: 45° 빗금이 아니라 점 격자다. 글자가 망점으로
+           뭉개져 가려진 것처럼 읽힌다.
+         · 보조선: 치수 연장선이 아니라 네 모서리 괄호다. 검사기 조준틀처럼
+           줄을 집고, 글자가 드러나는 만큼 걷힌다.
+       ⚠️ background-clip: text 라 글자 자체에는 색이 없다(color: transparent).
+          그래서 드러난 값과 가려진 결을 한 배경에 같이 넣는다.
+          스크립트가 막히면 --sec-fill 이 없어 100% 로 선다. */
+    /* 대제목은 솔루션 섹션과 같은 활자·같은 배치다 — 두 섹션이 멀지 않으므로
+       크기나 정렬이 다르면 한쪽이 급이 낮아 보인다. */
+    #security .section-header-row h2 { font-size: 60px; }
+    #security .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    @media (max-width: 900px) {
+      #security .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
+    }
+    #security .sec-title .sec-line {
+      display: block;
+      position: relative;
+      /* 모서리 괄호가 글자 폭을 기준으로 서야 한다 — 칸 폭을 그대로 쓰면
+         괄호가 섹션 끝까지 벌어진다. */
+      width: fit-content;
+      margin-inline: auto;
+      background-image:
+        linear-gradient(to right,
+          #16202C 0 var(--sec-fill, 100%),
+          rgba(22,32,44,0) var(--sec-fill, 100%) 100%),
+        radial-gradient(circle at center, #C3CAD2 1px, rgba(195,202,210,0) 1.4px);
+      background-size: auto, 5px 5px;
+      -webkit-background-clip: text;
+              background-clip: text;
+      color: transparent;
+      /* 받침·꼬리가 잘리지 않게 칠할 칸을 조금 넓힌다. */
+      padding-bottom: .06em;
+    }
+    /* 네 모서리 괄호 — ::before 가 위 둘, ::after 가 아래 둘이다.
+       한 겹에 네 조각을 그라데이션 네 장으로 그린다(가로 14px · 세로 11px). */
+    #security .sec-title .sec-line::before,
+    #security .sec-title .sec-line::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: calc(100% + 22px);
+      height: 11px;
+      transform: translateX(-50%);
+      /* 스크립트가 미는 값. 없으면(동작 줄이기·스크립트 차단) 아예 안 그린다. */
+      opacity: var(--sec-guide, 0);
+      pointer-events: none;
+      background-repeat: no-repeat;
+      background-image:
+        linear-gradient(rgba(118,166,215,.75), rgba(118,166,215,.75)),
+        linear-gradient(rgba(118,166,215,.75), rgba(118,166,215,.75)),
+        linear-gradient(rgba(118,166,215,.75), rgba(118,166,215,.75)),
+        linear-gradient(rgba(118,166,215,.75), rgba(118,166,215,.75));
+      background-size: 14px 1px, 14px 1px, 1px 11px, 1px 11px;
+    }
+    #security .sec-title .sec-line::before {
+      top: .1em;
+      transform: translate(-50%, -100%);
+      background-position: left top, right top, left top, right top;
+    }
+    #security .sec-title .sec-line::after {
+      bottom: .16em;
+      transform: translate(-50%, 100%);
+      background-position: left bottom, right bottom, left bottom, right bottom;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #security .sec-title .sec-line { --sec-fill: 100% !important; }
+    }
+
+    /* 넷을 한 줄에 나란히 둔다. 전에는 10칸 격자에 4·6 / 6·4 로 나눠 두 줄이었는데,
+       한 줄로 세워야 섹션이 화면 하나에 들어간다. */
+    .security-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 28px; }
     /* 1열로 내리는 경계는 780px 이다. 아래 sec-br 로 끊어 둔 줄이 카드 안에 20px 이상
        여유를 두고 들어가야 한다 — 여유가 1~2px 이면 실제 브라우저의 글자 폭이 조금만
        달라도 넘쳐 한 줄이 더 생긴다. 국문만 보면 740px 이면 되지만(680px 1px ·
@@ -1329,9 +1470,8 @@
        어긋나는 순간 object-fit: contain 이 위아래에 빈 자리를 남겼다
        (1·4번 SVG 는 398x180, 2·3번은 606x180 이라 칸마다 비율이 다르다).
        cover 로 채우면 좌우 끝의 아이콘이 잘리므로 칸 쪽을 맞춘다. */
+    /* 넷이 같은 폭이라 그림 비율도 한 벌이다. 전에는 넓은 두 장만 606/180 이었다. */
     .sec-card-img { aspect-ratio: 398 / 180; overflow: hidden; position: relative; }
-    .security-grid .sec-card:nth-child(2) .sec-card-img,
-    .security-grid .sec-card:nth-child(3) .sec-card-img { aspect-ratio: 606 / 180; }
     .sec-card-img::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 50%, #ffffff 100%); pointer-events: none; }
     .sec-card-divider { display: none; }
     .sec-card-body { padding: 20px 24px 24px; }

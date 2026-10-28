@@ -1727,10 +1727,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- SECURITY -->
 <section id="security" style="background:#F6F8FA;">
+  <div class="sec-pin">
+  <div class="sec-stage">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>어떤 현장에서도<br>타협하지 않는 현장 보안 체계</h2>
+        <h2 class="sec-title"><span class="sec-line">어떤 현장에서도</span><span class="sec-line">타협하지 않는 현장 보안 체계</span></h2>
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>고객 데이터는 AI 모델 학습에 <br class="mobile-br">사용되지 않습니다.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>온프레미스로 배포하면 <br class="mobile-br">데이터가 사내를 벗어나지 않습니다.</p>
       </div>
     </div>
@@ -1757,7 +1759,93 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       </div>
     </div>
   </div>
+  </div>
+  </div>
 </section>
+
+<script is:inline>
+  /* 보안 무대 — 제목 · 소제목 · 카드 넷이 한 화면에 멈춰 선 채로, 스크롤이
+     지나는 동안 제목 글자가 왼쪽부터 드러나고 이어서 아래가 떠오른다.
+     솔루션 섹션과 같은 구조지만 변수 이름이 따로다(--sec-*).
+     ⚠️ 진행도는 핀 상자가 화면을 지나간 비율이다(무대가 붙어 있는 동안 0→1).
+     ⚠️ 무대가 sticky 가 아니면(낮은 화면 · 동작 줄이기) 손을 떼고 다 드러난
+        상태로 세운다. */
+  (function () {
+    var sec = document.getElementById('security');
+    if (!sec) return;
+    var pin = sec.querySelector('.sec-pin');
+    var stage = sec.querySelector('.sec-stage');
+    var lines = sec.querySelectorAll('.sec-title .sec-line');
+    if (!pin || !stage || !lines.length) return;
+
+    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function ease(t) { return t * t * (3 - 2 * t); }
+    function pinned() { return getComputedStyle(stage).position === 'sticky'; }
+
+    function settle() {
+      for (var i = 0; i < lines.length; i++) {
+        lines[i].style.setProperty('--sec-fill', '100%');
+        lines[i].style.setProperty('--sec-guide', '0');
+      }
+      sec.style.setProperty('--sec-body', '1');
+      sec.style.setProperty('--sec-lift', '0px');
+    }
+
+    /* 제목만 있을 때 화면 가운데에 서도록 머리글을 내릴 거리를 잰다.
+       ⚠️ 재기 전에 --sec-lift 를 0 으로 돌린다. 제가 건 translate 가 남아 있으면
+          그만큼 더해져 잴 때마다 값이 불어난다. */
+    function measure() {
+      if (!pinned()) return;
+      var hdr = sec.querySelector('.section-header');
+      var title = sec.querySelector('.sec-title');
+      if (!hdr || !title) return;
+      sec.style.setProperty('--sec-lift', '0px');
+      var pad = parseFloat(getComputedStyle(stage).paddingTop) || 0;
+      var sr = stage.getBoundingClientRect();
+      var tr = title.getBoundingClientRect();
+      sec.style.setProperty('--sec-lift',
+        ((sr.top + pad + (sr.height - pad) / 2) - (tr.top + tr.height / 2)).toFixed(1) + 'px');
+    }
+
+    function progress() {
+      var span = pin.offsetHeight - (window.innerHeight || 800);
+      return span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+    }
+
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function upd() {
+      if (reduce || !pinned()) { settle(); return; }
+      var p = progress();
+      /* 내릴 거리는 아래가 떠오르기 전까지만 쓰인다. 그 동안에는 매번 다시 잰다 —
+         한 번만 재면 카드 그림이 아직 안 뜬 상태의 높이로 잡혀 제목이 가운데에
+         서지 않는다(처음에 18px 이 나왔다, 맞는 값은 188px). */
+      if (p < 0.5) measure();
+      /* 1) 제목이 줄마다 늦춰 드러난다 — 윗줄이 먼저다. */
+      for (var i = 0; i < lines.length; i++) {
+        var q = ease(clamp((p - 0.03 - i * 0.08) / 0.17));
+        lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
+        /* 모서리 괄호는 글자가 드러나는 만큼 걷힌다. */
+        lines[i].style.setProperty('--sec-guide', (1 - q).toFixed(3));
+      }
+      /* 2) 소제목부터 아래가 떠오른다. */
+      sec.style.setProperty('--sec-body', ease(clamp((p - 0.34) / 0.16)).toFixed(3));
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+    measure();
+    upd();
+    requestAnimationFrame(function () { measure(); upd(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); upd(); });
+  })();
+</script>
 
 <!-- FAQ -->
 <section id="faq">
