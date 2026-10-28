@@ -334,7 +334,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       color: #16202C;
       background: #76A6D7;
       border-radius: 999px;
-      padding: 0.62em 1.15em;
+      /* 알약은 원본 SVG 의 rect 치수를 그대로 쓴다(1200 기준 높이 45, 폭은 낱개로
+         150.39 · 148.48 · 176.18 — cqw 로 옮겨 그림 폭을 따라간다).
+         ⚠️ 글자에 여백을 붙여 키우는 방식이 아니다. 글자 크기를 바꿔도 알약은
+            그대로 있어야 원본과 같은 자리를 차지한다. */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--w);
+      height: 3.75cqw;
+      padding: 0;
       transition: opacity .35s ease, filter .35s ease;
     }
     /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
@@ -361,6 +370,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          흰 글자인 Ontology · Data 만 아래에서 300 으로 따로 내린다. */
       font-weight: 600;
       background: none;
+      /* 알약이 아니다 — 위에서 준 고정 치수를 글자 길이에 맡기는 쪽으로 되돌린다. */
+      display: block;
+      width: auto;
+      height: auto;
       padding: 0;
       border-radius: 0;
       transform: translate(-50%, -50%) skewY(-30deg);
@@ -1116,9 +1129,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
                 data-src="/From%20Data%20to%20Intelligence.svg"
                 aria-label="Refinery 플랫폼 아이소메트릭 다이어그램" role="img"></object>
         <div class="pf-labels">
-          <span class="pf-label" data-part="plate" style="--x:16.167%">Refinery Plate</span>
-          <span class="pf-label" data-part="lens" style="--x:50%">Refinery Lens</span>
-          <span class="pf-label" data-part="agent" style="--x:83.833%">Refinery AI Agent</span>
+          <span class="pf-label" data-part="plate" style="--x:16.167%;--w:12.533cqw">Refinery Plate</span>
+          <span class="pf-label" data-part="lens" style="--x:50%;--w:12.373cqw">Refinery Lens</span>
+          <span class="pf-label" data-part="agent" style="--x:83.833%;--w:14.682cqw">Refinery AI Agent</span>
           <span class="pf-label pf-label--iso pf-label--ont" data-part="ontology" style="--x:77.125%;--y:57.292%" translate="no">Refinery Ontology</span>
           <span class="pf-label pf-label--iso pf-label--wf" data-part="workflow" style="--x:50.135%;--y:50.445%" translate="no">Work<br>flow</span>
           <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.833%;--y:69.125%" translate="no">Unify</span>
