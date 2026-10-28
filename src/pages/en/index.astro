@@ -361,6 +361,12 @@ const jsonLd = [orgSchema, websiteSchema];
       /* 원본도 두 줄이다 — 줄 간격은 원본의 글자 중심 사이(12 단위)에서 나온 값이다. */
       line-height: 1.35;
       text-align: center;
+      /* ⚠️ --x/--y 는 네모(칩 판) 한가운데가 아니다. 전단이 세로 거리를 가로로도
+            옮기기 때문에, 두 줄을 담은 상자의 한가운데를 네모 한가운데에 맞추면
+            정작 글자 덩어리는 왼쪽 위로 치우친다(윗줄은 왼쪽 위로, 아랫줄은
+            오른쪽 아래로 끌린 결과 두 줄의 글자 폭이 서로 다른 만큼 어긋난다).
+            그래서 상자를 네모 중심(600.03, 604.34)에서 오른쪽 아래로 그 어긋남만큼
+            밀어 둔다 — 880px 폭 · 글자 11px 기준 가로 1.59 · 세로 1.01 단위다. */
     }
 
     /* 판 가장자리의 작은 이름표 넷. 같은 아이소메트릭 행렬을 쓴다.
@@ -1097,7 +1103,7 @@ const jsonLd = [orgSchema, websiteSchema];
           <span class="pf-label" data-part="lens" style="--x:50%">Refinery Lens</span>
           <span class="pf-label" data-part="agent" style="--x:83.833%">Refinery AI Agent</span>
           <span class="pf-label pf-label--iso pf-label--ont" data-part="ontology" style="--x:77.125%;--y:57.292%" translate="no">Refinery Ontology</span>
-          <span class="pf-label pf-label--iso pf-label--wf" data-part="workflow" style="--x:49.833%;--y:50.292%" translate="no">Work<br>flow</span>
+          <span class="pf-label pf-label--iso pf-label--wf" data-part="workflow" style="--x:50.135%;--y:50.445%" translate="no">Work<br>flow</span>
           <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.833%;--y:69.125%" translate="no">Unify</span>
           <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.917%;--y:73.875%" translate="no">Refine</span>
           <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.917%;--y:78.875%" translate="no">Collect</span>
