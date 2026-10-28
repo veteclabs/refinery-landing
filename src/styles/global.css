@@ -241,21 +241,23 @@
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }
-    /* 제목 아래 한 줄 — #platform 의 소제목(.pf-lead)과 같은 활자다. 두 섹션이
-       잇달아 오므로 크기 · 굵기 · 자간 · 행간을 그대로 가져온다.
-       다른 점은 둘뿐이다. 색은 밝은 면에 놓이므로 #F6F8FA 가 아니라 #16202C 고,
-       이 섹션은 제목이 가운데에 서므로 왼쪽이 아니라 가운데 정렬이다.
+    /* 제목 아래 한 줄 — #teams 의 제목('현장 운영에 필요한 / 모든 기능을 담은
+       운영체제')과 같은 활자다. 전역 h2 값을 그대로 가져온다:
+       45px · 600 · 자간 -0.8px · 행간 1.3 · #16202C, 그리고 왼쪽 정렬.
+       ⚠️ 왼쪽 정렬이지만 상자는 가운데에 선다. 이 칸이 align-items: center 라
+          상자 폭이 글자 폭이고, text-align 은 <br> 로 나눈 두 줄이 서로 어떻게
+          서는지만 정한다 — 가운데로 모이지 않고 왼쪽 끝을 맞춘다.
        ⚠️ max-width 를 none 으로 되돌린다. 이 자리의 .section-header-row p 는
           360px 인데, 그대로 두면 <br> 로 나눈 두 줄이 네 줄로 다시 감긴다. */
     #industries .sol-lead {
-      font-size: clamp(22px, 3vw, 30px);
+      font-size: clamp(28px, 4vw, 45px);
       font-weight: 600;
       letter-spacing: -0.8px;
-      line-height: 1.35;
+      line-height: 1.3;
       color: #16202C;
       max-width: none;
       margin: 0;
-      text-align: center;
+      text-align: left;
       word-break: keep-all;
     }
     @media (prefers-reduced-motion: reduce) {
@@ -996,8 +998,13 @@
         display: flex;
         gap: 16px;
         /* 무대에 남는 자리를 따라간다 — 낮은 화면에서 줄이 무대 밖으로 밀리면
-           뒷부분이 잘려 아예 안 보인다. */
-        height: min(460px, calc(100vh - 440px));
+           뒷부분이 잘려 아예 안 보인다.
+           ⚠️ 빼는 값은 띠 위에 서는 것들의 높이다(무대 위 여백 · 제목 · 소제목 ·
+              탭 줄 · 사이 간격). 그 위를 건드리면 여기도 같이 봐야 한다.
+              띠 윗변은 스크롤 단계에 따라 오르내린다(제목 줄을 세우는 --ind-lift).
+              1440x900 에서 가장 낮게 선 자리가 487px 이라, 거기에 13px 을 더
+              두고 뺀다 — 경계에 딱 맞추면 실제 브라우저에서 한두 px 씩 어긋난다. */
+        height: min(460px, calc(100vh - 500px));
         /* 스크롤 위치에 따라 스크립트가 민다. transition 은 두지 않는다 —
            스크롤을 그대로 따라야 손에 붙는다. */
         transform: translate3d(var(--sol-x, 0px), 0, 0);
