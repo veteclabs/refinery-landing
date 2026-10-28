@@ -469,13 +469,13 @@ const jsonLd = [orgSchema, websiteSchema];
       font-weight: 500;
       /* 제목 행간은 1.25~1.35 가 기본이다. */
       line-height: 1.3;
-      color: #C8CED5;
+      color: #F6F8FA;
       transition: color .2s ease;
       word-break: keep-all;
     }
     /* 열고 닫는 표시는 따로 두지 않는다 — 줄 사이 구분선만 남긴다.
-       열린 줄은 제목이 밝아지는 것으로 알린다. */
-    #platform .pf-item.is-open .pf-t { color: #F6F8FA; }
+       제목 색은 열린 줄과 닫힌 줄이 같다(#F6F8FA). 어느 줄이 열렸는지는
+       아래 본문과 구분선(#494F57), 그리고 그림에서 켜지는 조각이 알린다. */
     /* 펼친 줄은 제목 아래에 본문이 붙으므로 두 반 행간이 겹친다 —
        20 − 2.4 − 3.5 = 14.1 로 줄여야 그 사이도 20px 로 보인다. */
     #platform .pf-item.is-open .pf-q { padding-bottom: 14.1px; }
