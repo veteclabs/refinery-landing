@@ -144,7 +144,7 @@
 
     section { padding: 130px 0; }
     section:not(#hero) { background: #ffffff; }
-    #integrations { background: #16202C !important; }
+    #integrations { background: #151B23 !important; }
     .container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
     h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: normal; line-height: 1.1; }
     h2 { font-size: clamp(28px, 4vw, 45px); font-weight: 600; letter-spacing: -0.8px; line-height: 1.3; margin-bottom: 16px; }
@@ -938,7 +938,7 @@
     #industries .sol-tab + .sol-tab { border-left: 1px solid var(--border2); }
     #industries .sol-tab:hover { color: var(--text); }
     #industries .sol-tab[aria-selected="true"] {
-      background: var(--text);
+      background: #151B23;
       color: #ffffff;
     }
     /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
@@ -1089,7 +1089,7 @@
         height: 100%;
         border: 0;
         border-radius: var(--radius);
-        background: #16202C;
+        background: #151B23;
         box-shadow: 0 14px 36px rgba(16, 32, 44, .18);
       }
       #industries .industry-img {
@@ -1147,13 +1147,13 @@
     /* FOR TEAMS */
     #teams { background: var(--bg-card); }
     /* INTEGRATIONS */
-    #integrations { position: relative; background: #16202C !important; overflow: hidden; }
+    #integrations { position: relative; background: #151B23 !important; overflow: hidden; }
     #integrations::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; z-index: 0; }
     #integrations::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; background:
-      radial-gradient(circle at top left, #16202C 0%, transparent 30%),
-      radial-gradient(circle at top right, #16202C 0%, transparent 30%),
-      radial-gradient(circle at bottom left, #16202C 0%, transparent 30%),
-      radial-gradient(circle at bottom right, #16202C 0%, transparent 30%); }
+      radial-gradient(circle at top left, #151B23 0%, transparent 30%),
+      radial-gradient(circle at top right, #151B23 0%, transparent 30%),
+      radial-gradient(circle at bottom left, #151B23 0%, transparent 30%),
+      radial-gradient(circle at bottom right, #151B23 0%, transparent 30%); }
     #integrations > * { position: relative; z-index: 1; }
     #integrations .section-header h2 { color: #F6F8FA; }
     #integrations .section-header p { color: #A0A8B3; }

@@ -131,7 +131,7 @@ const jsonLd = [orgSchema, websiteSchema];
     /* 섹션은 길이만 쥔다. 화면에 보이는 것은 그 안의 무대 하나다 —
        320vh 중 100vh 가 무대이고, 남는 220vh 가 스크롤로 쓰는 몫이다.
        (낱말 0~45% · 배경과 본문 45~72% · 그대로 멈춤 72~100%) */
-    #platform { height: 320vh; padding: 0; background: #16202C; }
+    #platform { height: 320vh; padding: 0; background: #151B23; }
 
     #platform .pf-stage {
       position: sticky;
@@ -153,11 +153,11 @@ const jsonLd = [orgSchema, websiteSchema];
       display: grid;
       grid-template-areas: "s";
       align-items: center;
-      /* 흰 면에서 시작해 바닥에서 정확히 #16202C 에 닿는다 — 무대가 100vh 이고
+      /* 흰 면에서 시작해 바닥에서 정확히 #151B23 에 닿는다 — 무대가 100vh 이고
          타원 세로 반지름이 150vh 라, 바닥(y=100vh)이 33.33% 정지점이다.
          스크롤하면 반지름이 커지며 먹색이 위로 번져 화면 전체를 덮는다.
          ⚠️ 정지점이 % 라 화면 높이가 바뀌어도 비율이 그대로 따라간다. */
-      background: radial-gradient(ellipse var(--pf-rx, 180%) var(--pf-ry, 150vh) at 50% 150vh,#16202C 0%,#16202C 33.33%,#1D2A39 34.40%,#253547 35.47%,#2D4055 36.53%,#354C64 37.60%,#3E5772 38.67%,#466382 39.73%,#4F6F91 40.80%,#587CA1 41.87%,#6189B1 42.93%,#6A96C2 44.00%,#74A3D3 45.07%,#7EABDA 46.13%,#89B2DD 47.20%,#92B8E0 48.27%,#9BBEE3 49.33%,#A4C4E5 50.40%,#ABC9E8 51.47%,#B3CEEA 52.53%,#BAD2EC 53.60%,#C0D6EE 54.67%,#C6DAEF 55.73%,#CCDEF1 56.80%,#D1E1F2 57.87%,#D5E4F4 58.93%,#DAE7F5 60.00%,#DEE9F6 61.07%,#E1ECF7 62.13%,#E5EEF8 63.20%,#E8F0F9 64.27%,#EAF2FA 65.33%,#EDF3FA 66.40%,#EFF5FB 67.47%,#F1F6FB 68.53%,#F3F7FC 69.60%,#F5F8FC 70.67%,#F6F9FD 71.73%,#F8FAFD 72.80%,#F9FBFD 73.87%,#FAFCFE 74.93%,#FBFCFE 76.00%,#FBFDFE 77.07%,#FCFDFE 78.13%,#FDFDFE 79.20%,#FDFEFE 80.27%,#FDFEFF 81.33%,#FEFEFF 82.40%,#FEFFFF 84.53%,#FFFFFF 86.67%);
+      background: radial-gradient(ellipse var(--pf-rx, 180%) var(--pf-ry, 150vh) at 50% 150vh,#151B23 0%,#151B23 33.33%,#1D2A39 34.40%,#253547 35.47%,#2D4055 36.53%,#354C64 37.60%,#3E5772 38.67%,#466382 39.73%,#4F6F91 40.80%,#587CA1 41.87%,#6189B1 42.93%,#6A96C2 44.00%,#74A3D3 45.07%,#7EABDA 46.13%,#89B2DD 47.20%,#92B8E0 48.27%,#9BBEE3 49.33%,#A4C4E5 50.40%,#ABC9E8 51.47%,#B3CEEA 52.53%,#BAD2EC 53.60%,#C0D6EE 54.67%,#C6DAEF 55.73%,#CCDEF1 56.80%,#D1E1F2 57.87%,#D5E4F4 58.93%,#DAE7F5 60.00%,#DEE9F6 61.07%,#E1ECF7 62.13%,#E5EEF8 63.20%,#E8F0F9 64.27%,#EAF2FA 65.33%,#EDF3FA 66.40%,#EFF5FB 67.47%,#F1F6FB 68.53%,#F3F7FC 69.60%,#F5F8FC 70.67%,#F6F9FD 71.73%,#F8FAFD 72.80%,#F9FBFD 73.87%,#FAFCFE 74.93%,#FBFCFE 76.00%,#FBFDFE 77.07%,#FCFDFE 78.13%,#FDFDFE 79.20%,#FDFEFE 80.27%,#FDFEFF 81.33%,#FEFEFF 82.40%,#FEFFFF 84.53%,#FFFFFF 86.67%);
     }
     #platform .pf-stage > * { grid-area: s; min-width: 0; }
 
@@ -253,7 +253,7 @@ const jsonLd = [orgSchema, websiteSchema];
        바탕과 거의 구분되지 않는 옅은 그림자라, 상자를 그대로 두면 아코디언 마지막
        선이 그만큼 아래로 내려가 보인다 — 그 아래를 잘라 낸다.
        ⚠️ 자르는 선을 88.17% 로 잡았다가 그림이 잘려 보였다. 캔버스에 그려 행마다
-          바탕색(#16202C)과의 차이를 재어 보니, 84~92% 구간에는 최대 차이 40~99 짜리
+          바탕색(#151B23)과의 차이를 재어 보니, 84~92% 구간에는 최대 차이 40~99 짜리
           실제 그림(받침판 아랫부분)이 있고 93% 부터가 최대 17 짜리 그림자다.
           93% 에서 끊어야 보이는 것을 자르지 않는다.
        ⚠️ 음수 % 마진은 '높이' 가 아니라 '폭' 을 기준으로 한다. 이 그림이 정사각
@@ -396,13 +396,13 @@ const jsonLd = [orgSchema, websiteSchema];
     }
 
     /* 판 가장자리의 작은 이름표 넷. 같은 아이소메트릭 행렬을 쓴다.
-       ⚠️ Unify · Refine · Collect 는 받치던 칩(#16202C)까지 SVG 에서 걷어 냈다.
+       ⚠️ Unify · Refine · Collect 는 받치던 칩(#151B23)까지 SVG 에서 걷어 냈다.
           글자만 키우면 칩(48×45)을 넘친다 — 칩도 HTML 로 다시 그려 글자 길이를
           따라가게 했다. */
     #platform .pf-labels .pf-label--chip {
       color: #76A6D7;
       /* 칩도 글자와 같이 눕는다 — 받침만 반듯하면 글자가 떠 보인다. */
-      background: #16202C;
+      background: #151B23;
       padding: 0.45em 0.9em;
       border-radius: 999px;
     }
@@ -1452,7 +1452,7 @@ behind the answer are given too.</p>
 </section>
 
 <!-- INTEGRATIONS -->
-<section id="integrations" style="background:#16202C;">
+<section id="integrations" style="background:#151B23;">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
