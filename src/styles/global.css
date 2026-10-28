@@ -734,26 +734,21 @@
     .teams-menu-vertical { display: flex; flex-direction: column; position: relative; }
     .teams-rail-fill { display: none; }
     @media (min-width: 1090px) {
+      /* 탭 줄은 제목 줄 오른쪽, 소제목이 있던 자리에 선다. 제목 줄이
+         space-between + align-items: flex-end 라 줄이 제목 밑변에 맞춰
+         오른쪽 끝에 붙는다. */
       .teams-menu-vertical {
-        position: absolute;
-        left: 0; right: 0;
-        /* 상자 밑변에 딱 붙이지 않고 조금 띄운다. */
-        bottom: 40px;
+        position: relative;
         flex-direction: row;
         flex-wrap: wrap;
+        align-self: flex-end;
         /* 밑줄을 끊지 않으려면 한 줄이어야 한다 — 두 줄로 감기면 윗줄과
            아랫줄의 선이 따로 놀아 끊겨 보인다. flex-wrap 은 그대로 두되
            틈을 한 줄에 들어가는 값으로 잡는다.
            ⚠️ 칸 300px 에서 한 줄로 쓸 수 있는 틈의 한계는 6.6px(국문) ·
               5.4px(영문)이다. 더 넓히려면 칸을 넓혀야 하고 그만큼 상자가
               줄어든다. */
-        column-gap: 5px;
-        /* 칸이 넓어지면 남는 만큼 탭 사이가 벌어지되, 줄 폭을 360px 에서
-           멈춘다. 칸을 다 쓰게 두면 창이 낮을 때 칸이 500px 을 넘어 탭이
-           50px 씩 떨어진다 — 여섯이 한 덩어리로 안 읽힌다.
-           틈은 5px(칸 300, 더 벌릴 자리 없음)에서 19px(줄 폭 360) 사이다. */
-        justify-content: space-between;
-        max-width: 360px;
+        column-gap: 20px;
       }
       /* 밑줄은 줄 전체에 하나로 긋고, 그 위를 brand 막대가 미끄러진다.
          막대 자리는 placeTeamsFill 이 고른 칸의 상자를 재어 잡는다. */
