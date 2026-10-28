@@ -1,0 +1,67 @@
+---
+/**
+ * 블로그 목록 카드의 표지 칸(.res-thumb). 목록 카드 · 대표 글 · 글 끝 「다른 글」이 함께 쓴다.
+ * 원래 blog/index.astro 안에 있던 마크업을 그대로 옮겼다. 스타일은 res-card.css · blog-card.css다.
+ *
+ * 표지 이미지가 없는 글은 빈 면(밑색)으로 남는다 — 칸이 자리를 늘 차지하므로 나중에 넣어도
+ * 배치가 흔들리지 않는다.
+ */
+import { Image } from 'astro:assets';
+import BrandMark from './BrandMark.astro';
+import { coverTone } from '../utils/cover-tone';
+import { splitAt, type Post } from '../utils/blog';
+
+interface Props {
+  post: Post;
+  /** <Image>의 sizes. 칸 폭이 쓰는 자리마다 달라 밖에서 준다. */
+  sizes: string;
+  /** 접힘선 위(대표 글)는 lazy를 걸지 않는다(LCP). */
+  eager?: boolean;
+}
+const { post, sizes, eager = false } = Astro.props;
+const d = post.data;
+---
+<div
+  class={d.image ? 'res-thumb' : 'res-thumb is-empty'}
+  data-tone={coverTone(d.coverColor)}
+  style={[
+    d.coverColor && `--cover-bg: ${d.coverColor}`,
+    d.coverTextColor && `--cover-fg: ${d.coverTextColor}`,
+  ].filter(Boolean).join('; ') || undefined}
+>
+  {d.image && (
+    <Image
+      src={d.image}
+      alt=""
+      widths={[383, 560, 766, 1104, 1440]}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  )}
+  {d.image && <BrandMark class="thumb-mark" />}
+  {/* 밑색 위에 깔리는 무늬. 표지 사진(image)과 달리 덮지 않고 섞인다. */}
+  {d.coverTexture && (
+    <img class="thumb-texture" src={d.coverTexture} alt="" aria-hidden="true" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  )}
+  {d.coverIcon && (
+    <img class:list={['thumb-icon', d.coverIconAt === 'center' && 'is-center']} src={d.coverIcon} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  )}
+  {d.tags[0] && !d.hideCoverKind && (
+    <div class="res-cover">
+      <span class="res-cover-kind">{(() => {
+        // 태그가 길면 지정한 지점에서 두 줄로 끊는다(영어 글).
+        const [a, b] = splitAt(d.tags[0], d.coverKindBreakAfter);
+        return <>#{a}{b && <><br />{b}</>}</>;
+      })()}</span>
+      {/* 표지 안 대제목. titleBreakAfter를 적은 글에만 나온다.
+          배열(세 줄용, 글 상세 표지 전용)이면 카드에서는 끊지 않는다 — 옮기기 전과 같은 모양이다. */}
+      {d.titleBreakAfter && (() => {
+        const at = Array.isArray(d.titleBreakAfter) ? undefined : d.titleBreakAfter;
+        const [a, b] = splitAt(d.title, at);
+        return <strong class="res-cover-line">{a}{b && <><br />{b}</>}</strong>;
+      })()}
+      {d.coverFoot && <span class="res-cover-foot">{d.coverFoot}</span>}
+    </div>
+  )}
+</div>

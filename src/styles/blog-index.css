@@ -1,0 +1,74 @@
+/* 블로그 목록에만 있는 것 — 종류 탭 · 검색 · 대표 글 · 종류별 섹션 머리.
+   카드 자체는 res-card.css · blog-card.css다. 한국어 · 영어 목록이 같은 파일을 쓴다.
+   ⚠️ 전역 CSS다 — 선택자는 모두 .blog-list 안이거나 .bi-* 다. */
+
+.blog-list .bi-lede { margin-top: 16px; font-size: 18px; line-height: 1.6; color: var(--text-muted); word-break: keep-all; }
+
+/* ── 종류 탭 + 검색 ── 히어로 바로 아래 한 줄. 아래 선이 탭의 밑줄과 맞닿는다. */
+.bi-bar { margin-top: 56px; border-bottom: 1px solid var(--border); scroll-margin-top: 70px; } /* 70px = 고정 내비 */
+.bi-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.bi-tabs { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; }
+.bi-tabs::-webkit-scrollbar { display: none; }
+.bi-tab {
+  display: inline-flex; align-items: baseline; gap: 6px; flex: none;
+  padding: 16px 0; font-size: 16px; font-weight: 500; color: var(--text-muted);
+  box-shadow: inset 0 -2px 0 transparent; transition: color .15s;
+}
+.bi-tab:hover { color: var(--text); }
+.bi-tab.is-active { color: var(--text); font-weight: 600; box-shadow: inset 0 -2px 0 var(--text); }
+.bi-tab-count { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.bi-tab:focus-visible, .bi-more:focus-visible, .bi-feature:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.bi-search {
+  display: flex; align-items: center; gap: 8px; flex: none; width: 240px; height: 40px;
+  padding: 0 14px; border: 1px solid var(--border); border-radius: 999px; background: #fff;
+  color: var(--text-muted); transition: border-color .15s;
+}
+.bi-search:focus-within { border-color: var(--accent); }
+.bi-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 14px; color: var(--text); }
+.bi-search input::placeholder { color: var(--text-muted); }
+.bi-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── 대표 글 ── 표지 왼쪽, 글 오른쪽. 카드와 같이 호버 반응은 두지 않는다(blog-card.css). */
+.bi-featured { padding-top: 56px; }
+.bi-feature { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.blog-list .bi-feature .res-thumb { margin: 0; border-radius: var(--radius); }
+.bi-feature-body { min-width: 0; word-break: keep-all; overflow-wrap: break-word; }
+.bi-feature-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; color: var(--text-muted); }
+.bi-pill { padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-ink); font-size: 12px; font-weight: 600; line-height: 1.3; }
+.bi-feature h2 { margin: 16px 0 12px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.6px; line-height: 1.35; color: var(--text); text-wrap: balance; }
+.bi-feature p { font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+.bi-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; list-style: none; }
+.bi-tags li { padding: 4px 10px; border-radius: 999px; background: #F1F4F7; color: #4A5868; font-size: 13px; line-height: 1.4; }
+
+/* ── 종류별 섹션 ── 01 · 02 · 03 번호를 제목 위에 얹는다. */
+.bi-overview, .bi-results { padding-bottom: 95px; border-bottom: 1px solid var(--border); }
+.bi-cat { padding-top: 95px; scroll-margin-top: 70px; }
+.bi-results { padding-top: 56px; }
+.bi-cat-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.bi-cat-head h2 { font-size: clamp(24px, 2.6vw, 30px); font-weight: 600; letter-spacing: -0.5px; line-height: 1.3; color: var(--text); }
+.bi-num { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; color: var(--accent-ink); }
+.bi-count { margin-left: 10px; font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--text-muted); vertical-align: middle; }
+.bi-more { flex: none; font-size: 15px; font-weight: 500; color: var(--text-muted); transition: color .15s; }
+.bi-more:hover { color: var(--text); }
+
+/* 결과 그리드는 모든 글을 미리 그려 두고 감춘다. 카드가 display:flex라 [hidden]만으로는 안 숨는다. */
+.blog-list .res-card[hidden] { display: none; }
+.bi-empty { padding: 24px 0 0; font-size: 16px; color: var(--text-muted); }
+.bi-empty a { display: inline-block; margin-top: 10px; font-weight: 600; color: var(--accent-ink); }
+
+@media (max-width: 900px) {
+  .blog-list .bi-lede { font-size: 16px; }
+  .bi-bar { margin-top: 0; }
+  /* 좁은 화면에서는 검색을 탭 위 한 줄로 올린다 — 탭은 가로로 밀어 본다. */
+  .bi-bar-inner { flex-direction: column-reverse; align-items: stretch; gap: 8px; }
+  .bi-search { width: 100%; }
+  .bi-featured { padding-top: 40px; }
+  .bi-feature { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .bi-cat { padding-top: 72px; }
+  .bi-overview, .bi-results { padding-bottom: 72px; }
+}
+/* 좁은 화면 히어로 아래 여백. 자료실 값(72px)을 그대로 두면 소개 문장과 검색 칸 사이가 비어 보인다. */
+@media (max-width: 900px) {
+  .blog-list.res-page .ind-hero { padding-bottom: 32px; }
+}

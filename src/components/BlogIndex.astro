@@ -1,0 +1,235 @@
+---
+/**
+ * 블로그 목록. 한국어(/blog)와 영어(/en/blog)가 같은 컴포넌트를 쓰고 문구만 다르다.
+ *
+ * 구조(2026-10 개편, sionic.ai/blog 구성을 참고했다):
+ *   히어로 → 종류 탭 + 검색 → 대표 글(최신 1편) → 종류별 섹션(01 인사이트 · 02 가이드 · 03 소식)
+ *   - 탭을 고르거나 검색어를 넣으면 대표 글 · 섹션을 감추고, 조건에 맞는 카드만 한 그리드로 보인다.
+ *   - 종류별 섹션은 대표 글을 뺀 나머지를 보인다. 같은 화면에 같은 글이 두 번 나오지 않게 한다.
+ *     섹션 머리의 숫자는 그 종류의 전체 글 수다(「전체 보기」가 그 수만큼 보인다).
+ *   - 탭 · 「전체 보기」는 #<종류> 링크다. 스크립트가 없으면 그 섹션으로 내려가기만 한다.
+ *     주소의 #insight · #q=<검색어> 로 바로 들어와도 같은 상태가 열린다(글 상세의 태그가 이 주소를 쓴다).
+ *
+ * 카드 · 표지 마크업은 BlogCard · BlogThumb에, 카드 스타일은 res-card.css · blog-card.css에 있다.
+ * 이 페이지에만 있는 것(탭 · 대표 글 · 섹션 머리)은 blog-index.css다.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import BlogCard from './BlogCard.astro';
+import BlogThumb from './BlogThumb.astro';
+import { CATEGORIES, categorySlug, formatPostDate, getPosts, postHref, type Lang } from '../utils/blog';
+import '../styles/industry.css';
+import '../styles/res-card.css';
+import '../styles/blog-card.css';
+import '../styles/blog-index.css';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ko = lang === 'ko';
+
+const t = ko
+  ? {
+      title: '블로그 | Refinery',
+      description: '산업 데이터 ⁠· AI 에이전트 ⁠· 현장 운영에 대한 Refinery의 인사이트와 제품 소식.',
+      canonical: '/blog',
+      h1: '블로그',
+      lede: '산업 데이터와 AI 에이전트, 현장 운영에 대한 인사이트와 제품 소식을 전합니다.',
+      all: '전체',
+      tabs: '글 종류',
+      search: '글 검색',
+      latest: '최신 글',
+      more: '전체 보기',
+      result: (q: string) => `‘${q}’ 검색 결과`,
+      empty: '찾는 글이 없습니다. 다른 낱말로 검색해 보세요.',
+      reset: '전체 글 보기',
+    }
+  : {
+      title: 'Blog | Refinery',
+      description: 'Refinery’s insight and product news on industrial data, AI agents and field operations.',
+      canonical: '/en/blog',
+      h1: 'Blog',
+      lede: 'Insight and product news on industrial data, AI agents and field operations.',
+      all: 'All',
+      tabs: 'Post types',
+      search: 'Search posts',
+      latest: 'Latest',
+      more: 'View all',
+      result: (q: string) => `Results for “${q}”`,
+      empty: 'No posts match. Try a different word.',
+      reset: 'Show all posts',
+    };
+
+const posts = await getPosts(lang);
+const [featured, ...rest] = posts;
+const groups = CATEGORIES.map((c) => ({
+  ...c,
+  name: c[lang],
+  total: posts.filter((p) => categorySlug(p.data.category) === c.slug).length,
+  items: rest.filter((p) => categorySlug(p.data.category) === c.slug),
+})).filter((g) => g.total > 0);
+
+// 결과 머리 문구는 스크립트가 만든다 — 종류 이름 · 문구를 data 속성으로 넘긴다.
+const labels = JSON.stringify({
+  cats: Object.fromEntries(groups.map((g) => [g.slug, g.name])),
+  result: t.result('{q}'),
+});
+---
+<BaseLayout title={t.title} description={t.description} canonical={t.canonical}>
+  <Nav />
+  <main class="ind res-page blog-list" id="blog-index" data-labels={labels}>
+    <section class="ind-hero">
+      <div class="ind-container">
+        <h1>{t.h1}</h1>
+        <p class="bi-lede">{t.lede}</p>
+      </div>
+    </section>
+
+    {/* 종류 탭 + 검색 */}
+    <div class="bi-bar">
+      <div class="ind-container bi-bar-inner">
+        <nav class="bi-tabs" aria-label={t.tabs}>
+          <a href={t.canonical} class="bi-tab is-active" data-filter="all" aria-current="true">{t.all}<span class="bi-tab-count">{posts.length}</span></a>
+          {groups.map((g) => (
+            <a href={`#${g.slug}`} class="bi-tab" data-filter={g.slug}>{g.name}<span class="bi-tab-count">{g.total}</span></a>
+          ))}
+        </nav>
+        <label class="bi-search">
+          <span class="bi-sr">{t.search}</span>
+          <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          <input type="search" placeholder={t.search} autocomplete="off" id="bi-q" />
+        </label>
+      </div>
+    </div>
+
+    <div class="bi-overview" id="bi-overview">
+      {/* 대표 글 — 최신 1편. 접힘선 위라 표지에 lazy를 걸지 않는다. */}
+      {featured && (
+        <section class="bi-featured" aria-label={t.latest}>
+          <div class="ind-container">
+            <a class="bi-feature" href={postHref(featured)}>
+              <BlogThumb post={featured} eager sizes="(max-width: 900px) calc(100vw - 48px), 680px" />
+              <div class="bi-feature-body">
+                <div class="bi-feature-meta">
+                  <span class="bi-pill">{t.latest}</span>
+                  {featured.data.category && <span>{featured.data.category}</span>}
+                  <span class="blog-meta-bar" aria-hidden="true"></span>
+                  <time datetime={featured.data.pubDate.toISOString()}>{formatPostDate(featured.data.pubDate, lang)}</time>
+                </div>
+                <h2>{featured.data.title}</h2>
+                <p>{featured.data.description}</p>
+                {featured.data.tags.length > 0 && (
+                  <ul class="bi-tags">{featured.data.tags.map((tag) => <li>#{tag}</li>)}</ul>
+                )}
+              </div>
+            </a>
+          </div>
+        </section>
+      )}
+
+      {/* 종류별 섹션 */}
+      {groups.map((g, i) => g.items.length > 0 && (
+        <section class="bi-cat" id={g.slug}>
+          <div class="ind-container">
+            <div class="bi-cat-head">
+              <h2><span class="bi-num">{String(i + 1).padStart(2, '0')}</span>{g.name}<span class="bi-count">{g.total}</span></h2>
+              <a class="bi-more" href={`#${g.slug}`} data-filter={g.slug}>{t.more}<span aria-hidden="true"> →</span></a>
+            </div>
+            <div class="ind-grid ind-grid-3">
+              {g.items.map((post) => <BlogCard post={post} />)}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    {/* 탭 · 검색 결과. 모든 글을 미리 그려 두고 스크립트가 조건에 맞지 않는 카드를 감춘다. */}
+    <section class="bi-results" id="bi-results" hidden>
+      <div class="ind-container">
+        <div class="bi-cat-head">
+          <h2 id="bi-results-title" aria-live="polite"></h2>
+        </div>
+        <div class="ind-grid ind-grid-3" id="bi-results-grid">
+          {posts.map((post) => <BlogCard post={post} />)}
+        </div>
+        <div class="bi-empty" id="bi-empty" hidden>
+          <p>{t.empty}</p>
+          <a href={t.canonical} data-filter="all">{t.reset}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const root = document.getElementById('blog-index');
+  if (root) {
+    const labels = JSON.parse(root.dataset.labels || '{}') as { cats: Record<string, string>; result: string };
+    const overview = document.getElementById('bi-overview')!;
+    const results = document.getElementById('bi-results')!;
+    const title = document.getElementById('bi-results-title')!;
+    const empty = document.getElementById('bi-empty')!;
+    const input = document.getElementById('bi-q') as HTMLInputElement;
+    const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('.bi-tab'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('#bi-results-grid .res-card'));
+    let cat = 'all';
+
+    const render = (updateHash = true) => {
+      const q = input.value.trim().toLowerCase();
+      const filtering = cat !== 'all' || q !== '';
+      overview.hidden = filtering;
+      results.hidden = !filtering;
+      tabs.forEach((tab) => {
+        const on = tab.dataset.filter === cat;
+        tab.classList.toggle('is-active', on);
+        if (on) tab.setAttribute('aria-current', 'true');
+        else tab.removeAttribute('aria-current');
+      });
+      if (filtering) {
+        let shown = 0;
+        cards.forEach((card) => {
+          const ok = (cat === 'all' || card.dataset.cat === cat) && (!q || (card.dataset.search || '').includes(q));
+          card.hidden = !ok;
+          if (ok) shown++;
+        });
+        const head = q ? labels.result.replace('{q}', input.value.trim()) : labels.cats[cat] || '';
+        title.innerHTML = '';
+        title.append(head);
+        const count = document.createElement('span');
+        count.className = 'bi-count';
+        count.textContent = String(shown);
+        title.append(count);
+        empty.hidden = shown > 0;
+      }
+      if (updateHash) {
+        const hash = q ? `#q=${encodeURIComponent(input.value.trim())}` : cat !== 'all' ? `#${cat}` : '';
+        history.replaceState(null, '', location.pathname + hash);
+      }
+    };
+
+    const fromHash = () => {
+      const h = decodeURIComponent(location.hash.slice(1));
+      if (h.startsWith('q=')) { cat = 'all'; input.value = h.slice(2); }
+      else if (h && labels.cats[h]) { cat = h; input.value = ''; }
+      else { cat = 'all'; input.value = ''; }
+      render(false);
+    };
+
+    root.addEventListener('click', (e) => {
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-filter]');
+      if (!link) return;
+      e.preventDefault();
+      cat = link.dataset.filter || 'all';
+      input.value = '';
+      render();
+      // 탭 줄이 화면 위로 지나가 있을 때만 끌어올린다(맨 위에서 누르면 그대로 둔다).
+      const bar = document.querySelector<HTMLElement>('.bi-bar');
+      if (bar && bar.getBoundingClientRect().top < 0) bar.scrollIntoView({ block: 'start' });
+    });
+    // 검색은 고른 종류 안에서 찾는다.
+    input.addEventListener('input', () => render());
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  }
+</script>
