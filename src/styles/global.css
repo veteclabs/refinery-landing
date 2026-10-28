@@ -808,7 +808,6 @@
     .teams-menu-horizontal { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; }
     .teams-tab-btn { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; padding: 18px 8px; border: none; border-right: 1px solid var(--border); box-sizing: border-box; border-radius: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; font-weight: 500; color: var(--text-muted); transition: background .15s, color .15s; white-space: nowrap; position: relative; box-shadow: inset 0 -3px 0 0 transparent; }
     .teams-tab-btn:last-child { border-right: none; }
-    .teams-tab-btn i { font-size: 16px; line-height: 1; flex: none; display: inline-flex; align-items: center; }
     .teams-tab-btn.active { background: transparent; color: var(--accent); font-weight: 700; box-shadow: inset 0 -3px 0 0 var(--accent); }
     @media (max-width: 900px) {
       .teams-menu-horizontal { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-right: -24px; border-radius: var(--radius) 0 0 0 !important; scroll-snap-type: x mandatory; }
