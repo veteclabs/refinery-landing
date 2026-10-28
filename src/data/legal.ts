@@ -83,6 +83,14 @@ const company = {
 export const legalReviewed = true;
 
 /**
+ * 이용약관 AI 조항(제12조의2 · 제13조의2) 초안 스위치.
+ * true인 동안 두 조항에 「법무 검토 전 초안」 표시가 붙는다. 법무 검토를 마치면 false로 바꾸고,
+ * 같은 커밋에서 effectiveDate·revisedDate와 revisions.terms를 갱신한다. 고객에게 불리한 변경이므로
+ * 제3조 제4항에 따라 적용일 30일 전부터 공지하고 고객에게 개별 통지해야 한다.
+ */
+export const aiTermsDraft = true;
+
+/**
  * 4개 문서 공통 시행일 (예: '2026-09-01')
  * 날짜는 언어와 무관하게 ISO로 적는다. 영어 페이지는 formatDate()로 `September 1, 2026`을 만든다.
  */
