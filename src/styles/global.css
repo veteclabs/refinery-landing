@@ -1234,7 +1234,7 @@
         background: none;
         padding: 24px 26px;
       }
-      #industries .industry-name { color: #F6F8FA; font-size: 26px; letter-spacing: -.4px; }
+      #industries .industry-name { color: #F6F8FA; font-size: 24px; letter-spacing: -.4px; }
       #industries .industry-go { color: #C8CED5; }
       #industries a.industry-card:hover .industry-go { color: #F6F8FA; }
     }
