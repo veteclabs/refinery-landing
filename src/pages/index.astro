@@ -1177,6 +1177,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="산업별 카드 보기">산업별</button>
         <button type="button" class="sol-tab" role="tab" aria-selected="false" data-sol-tab="1" aria-label="과제별 카드 보기">과제별</button>
       </div>
+      <div class="sol-nav">
+        <button type="button" class="sol-arrow" data-sol-prev aria-label="이전 카드 보기"><svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M406.15-253.85 180-480l226.15-226.15 42.16 43.38L295.54-510H780v60H295.54l152.77 152.77-42.16 43.38Z"/></svg></button>
+        <button type="button" class="sol-arrow" data-sol-next aria-label="다음 카드 보기"><svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></button>
+      </div>
     </div>
     <div class="sol-viewport">
       <div class="sol-track">
@@ -1204,6 +1208,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         </div>
       </div>
     </div>
+    <div class="sol-progress" aria-hidden="true"><span class="sol-progress-thumb"></span></div>
   </div>
     </div>
   </div>
@@ -1290,8 +1295,53 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var o = railOrigin[k];
         var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
         rail.style.setProperty('--sol-x', travel > 0 ? (-travel * local).toFixed(1) + 'px' : '0px');
+        /* 4) 보이는 띠에 맞춰 진행 표시와 앞뒤 버튼을 맞춘다. */
+        if (rail.parentElement && !rail.parentElement.hasAttribute('data-off')) {
+          var seen = travel > 0 ? box.width / (box.width + travel) : 1;
+          sec.style.setProperty('--sol-thumb', (seen * 100).toFixed(2));
+          sec.style.setProperty('--sol-pos', ((1 - seen) * local * 100).toFixed(2));
+          setArrow(prevBtn, local <= 0.001);
+          setArrow(nextBtn, local >= 0.999);
+          lastStep = travel > 0 ? (parseFloat(getComputedStyle(rail).getPropertyValue('--sol-w')) + 16) / travel : 0;
+          lastOrigin = o;
+        }
       }
     }
+
+    /* 앞뒤 버튼 — 띠를 직접 밀지 않고 페이지를 굴린다. 위치의 근거는 스크롤
+       하나뿐이라, 버튼이 따로 밀면 둘이 어긋난다.
+       한 장(--sol-w + 틈 16px)이 띠 전체에서 차지하는 비율 step 을 구하고,
+       지금 자리에서 그만큼 더하거나 뺀 지점으로 간다.
+       ⚠️ railProgress 가 ease(smoothstep)를 거치므로 그 역을 풀어야 한다.
+          smoothstep 의 역: t = 0.5 - sin(asin(1 - 2y) / 3). */
+    function unease(y) {
+      if (y <= 0) return 0;
+      if (y >= 1) return 1;
+      return 0.5 - Math.sin(Math.asin(1 - 2 * y) / 3);
+    }
+    function setArrow(btn, off) {
+      if (btn) btn.setAttribute('aria-disabled', off ? 'true' : 'false');
+    }
+    function step(dir) {
+      if (!lastStep) return;
+      var p = progress();
+      var rp = railProgress(p);
+      var o = lastOrigin;
+      var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
+      var target = clamp(local + dir * lastStep);
+      /* local 을 되돌려 rp 를 구하고, rp 에서 p 를 구한다. */
+      var rpTarget = o + target * (1 - o);
+      var pTarget = 0.48 + unease(clamp(rpTarget)) * 0.48;
+      var span = pin.offsetHeight - (window.innerHeight || 800);
+      if (span <= 0) return;
+      var top = pin.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.round(top + span * pTarget), behavior: 'smooth' });
+    }
+    var prevBtn = sec.querySelector('[data-sol-prev]');
+    var nextBtn = sec.querySelector('[data-sol-next]');
+    var lastStep = 0, lastOrigin = 0;
+    if (prevBtn) prevBtn.addEventListener('click', function () { step(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { step(1); });
 
     function onScroll() {
       if (ticking) return;

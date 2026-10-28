@@ -1059,6 +1059,68 @@
        옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
        grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
     #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 40px; }
+    /* 앞뒤 버튼 — 탭 줄 오른쪽 끝에 붙는다. 띠는 스크롤이 미는 것이지만
+       마우스만 쓰는 사람에게는 '내가 넘길 수 있다' 는 손잡이가 필요하다.
+       누르면 페이지를 한 장 몫만큼 굴린다(띠를 따로 밀지 않는다) —
+       위치의 근거는 스크롤 하나로 둔다.
+       ⚠️ 901px 아래에서는 띠가 아니라 격자라 감춘다. */
+    #industries .sol-nav { display: none; }
+    @media (min-width: 901px) {
+      #industries .sol-switch-row { position: relative; }
+      #industries .sol-nav {
+        display: flex;
+        gap: 8px;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+    #industries .sol-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: #ffffff;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease, opacity .2s ease;
+    }
+    #industries .sol-arrow:hover { color: var(--text); border-color: var(--border2); }
+    /* 끝에 닿으면 눌러도 갈 데가 없다 — 흐리게 두고 손을 못 대게 한다. */
+    #industries .sol-arrow[aria-disabled="true"] { opacity: .3; pointer-events: none; }
+    #industries .sol-arrow svg { display: block; }
+
+    /* 진행 표시 — 띠 아래 가는 줄. 스크롤바처럼 '보이는 몫' 만큼의 손잡이가
+       왼쪽에서 오른쪽으로 간다. 띠가 화면 밖으로 흘러 끝이 안 보이므로,
+       얼마나 남았는지는 이 줄로만 알 수 있다.
+       ⚠️ 줄은 내용 너비에 맞춘다(띠처럼 화면 끝까지 빼지 않는다) — 끝을 보여
+          주는 표시가 제 끝을 화면 밖에 두면 뜻이 없다. */
+    #industries .sol-progress { display: none; }
+    @media (min-width: 901px) {
+      #industries .sol-progress {
+        display: block;
+        position: relative;
+        height: 2px;
+        margin-top: 24px;
+        border-radius: 2px;
+        background: var(--border);
+        opacity: var(--ind-body, 1);
+      }
+      #industries .sol-progress-thumb {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(var(--sol-pos, 0) * 1%);
+        width: calc(var(--sol-thumb, 30) * 1%);
+        border-radius: 2px;
+        background: var(--accent);
+      }
+    }
     #industries .sol-track { display: grid; }
     #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
     /* 숨긴 판은 visibility로 접근성 트리와 탭 이동에서도 빠진다(opacity만으로는 안 빠진다). */
@@ -1396,7 +1458,9 @@
         linear-gradient(to right,
           #16202C 0 var(--sec-fill, 100%),
           rgba(22,32,44,0) var(--sec-fill, 100%) 100%),
-        radial-gradient(circle at center, #C3CAD2 1px, rgba(195,202,210,0) 1.4px);
+        /* 가려진 결의 색은 솔루션 대제목과 같은 한 쌍이다 — 바탕 #F6F8FA 에
+           점 #EFF2F5. 그쪽은 45° 빗금, 여기는 망점으로 쓴다. */
+        radial-gradient(circle at center, #EFF2F5 1px, #F6F8FA 1.4px);
       background-size: auto, 5px 5px;
       -webkit-background-clip: text;
               background-clip: text;
