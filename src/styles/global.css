@@ -546,7 +546,9 @@
       /* 머리 칸은 pointer-events: none 이다 — 카드만 되살린다. */
       pointer-events: auto;
       position: absolute;
-      top: 18px;
+      /* ⚠️ 18 에서 내린 값이다 — 카드 밑변이 모터 핀을 자르는 것을 피한다
+         (__art 쪽 주석 참고). */
+      top: 10px;
       left: 0;
       /* 폭은 소제목과 같다 — 둘 다 머리 칸 오른쪽 칸을 꽉 쓴다(칸 자체가
          minmax(0, 440px)이라 상한도 소제목과 같은 값이다).
@@ -595,12 +597,16 @@
     /* 윗자리 가로 띠 그래픽. 양옆 여백은 글(.hero-pin-card__body)과 같은 24px 이라
        카드 가운데에 선다 — 가장자리까지 꽉 채우면 글만 안으로 들어가 축이 어긋난다.
        440×120 으로 그렸지만 폭이 줄면 viewBox 가 같이 줄어 비율은 유지된다. */
-    /* 그래픽 자리는 네 변 여백이 같다 — 카드 위 24 · 좌우 24 · 그래픽과 제목
-       사이 24. 글 쪽 위 여백은 0 으로 둔다(여기 아래 여백이 그 몫을 한다). */
-    #hero .hero-pin-card__art { display: block; padding: 24px; }
+    /* 그래픽 자리는 네 변 여백이 같다 — 카드 위 16 · 좌우 16 · 그래픽과 제목
+       사이 16. 글 쪽 위 여백은 0 으로 둔다(여기 아래 여백이 그 몫을 한다).
+       ⚠️ 24 에서 16 으로 내린 값이다. 카드 밑변이 모터 핀을 44×22 만큼 가로질러
+          잘랐다(1600 · 1440 · 1280 모두 같은 값 — 카드와 핀이 같은 무대 비율로
+          움직인다). 카드 top 8px 과 여기 16px 을 합쳐 24px 을 걷어 핀 위로
+          10px 띄운다. 더 줄이면 그래픽이 틀에 닿는다. */
+    #hero .hero-pin-card__art { display: block; padding: 16px; }
     #hero .hero-pin-card__art[hidden] { display: none; }
     /* 크기는 HeroPinArt 의 .hpa 가 쥔다(컴포넌트와 한 벌이라 거기 둔다). */
-    #hero .hero-pin-card__body { padding: 0 24px 24px; }
+    #hero .hero-pin-card__body { padding: 0 16px 16px; }
     #hero .hero-pin-card__title {
       font-size: 20px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
