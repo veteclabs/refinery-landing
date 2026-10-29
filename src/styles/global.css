@@ -1389,18 +1389,23 @@
       overflow: hidden;
       margin-top: 28px;
     }
-    /* 두 장이 같은 칸을 쓰므로 둘 다 칸 높이로 늘어난다 → 100% 가 곧 틀 하나다.
+    /* 두 장이 같은 칸을 쓰므로 둘 다 칸 너비로 늘어난다 → 100% 가 곧 틀 하나다.
        ⚠️ 투명도로 겹쳐 넘기지 않는다. 흰 카드 둘이 반쯤 겹치면 그 동안 카드가
-          투명해져 바탕이 비친다. 밀어 올리면 늘 한 장만 보인다. */
+          투명해져 바탕이 비친다. 밀어 내면 늘 한 장만 보인다. */
     #security .sec-deck > .security-grid {
       grid-area: deck;
       margin-top: 0;
-      transform: translateY(var(--pgy, 0%));
+      transform: translateX(var(--pgx, 0%));
       /* 틀 밖에 선 장은 클릭을 받지 않는다. */
       pointer-events: var(--pg-pe, none);
     }
-    /* 스크립트가 돌기 전에도 둘째 장은 틀 아래에 서 있어야 한다. */
-    #security .sec-deck > .security-grid + .security-grid { --pgy: 100%; }
+    /* 오른쪽 칸은 한 박자 늦게 따라온다 — 두 칸이 한 덩어리로 지나가는 대신
+       항목이 하나씩 지나가는 것으로 읽힌다. 거리는 스크립트가 준다. */
+    #security .sec-deck > .security-grid > .sec-card:nth-child(2) {
+      transform: translateX(var(--cardx, 0px));
+    }
+    /* 스크립트가 돌기 전에도 둘째 장은 틀 오른쪽 밖에 서 있어야 한다. */
+    #security .sec-deck > .security-grid + .security-grid { --pgx: 100%; }
     /* 무대에 머리글 + 카드 한 줄이 선다. 280vh 중 180vh 가 모션에 쓰이는
        거리다 — 제목 · 소제목 · 첫 장 · 장 넘김까지 네 몫이라 90vh 로는 짧다. */
     #security .sec-pin { height: 280vh; }
@@ -1476,8 +1481,10 @@
       #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
       /* 포개 둔 두 장을 다시 위아래로 푼다 — 넘길 거리가 없으니 넷을 다 세운다. */
       #security .sec-deck { display: block; overflow: visible; }
-      #security .sec-deck > .security-grid { transform: none; pointer-events: auto; }
-      #security .sec-deck > .security-grid + .security-grid { --pgy: 0%; margin-top: 10px; }
+      #security .sec-deck > .security-grid,
+      #security .sec-deck > .security-grid > .sec-card { transform: none; }
+      #security .sec-deck > .security-grid { pointer-events: auto; }
+      #security .sec-deck > .security-grid + .security-grid { --pgx: 0%; margin-top: 10px; }
     }
 
     /* 대제목 글자는 가려진 채로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이
@@ -1593,8 +1600,10 @@
       #security .sec-pin { height: auto; }
       #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
       #security .sec-deck { display: block; overflow: visible; }
-      #security .sec-deck > .security-grid { transform: none; pointer-events: auto; }
-      #security .sec-deck > .security-grid + .security-grid { --pgy: 0%; margin-top: 16px; }
+      #security .sec-deck > .security-grid,
+      #security .sec-deck > .security-grid > .sec-card { transform: none; }
+      #security .sec-deck > .security-grid { pointer-events: auto; }
+      #security .sec-deck > .security-grid + .security-grid { --pgx: 0%; margin-top: 16px; }
     }
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     .sec-card-img img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
