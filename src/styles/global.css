@@ -251,42 +251,6 @@
       #industries .sol-title .sol-line { --sol-fill: 100% !important; }
     }
 
-    /* 제목이 다 드러나면 핵심 낱말 한 마디에만 히어로 대제목(.hero-title-accent)의
-       그라데이션이 켜진다 — 그 섹션이 무엇에 대한 것인지를 색으로 한 번 더 짚는다.
-       ⚠️ 글자는 두 겹이다. 아래층(낱말 자체)은 줄의 채움을 그대로 받고, 위층
-          (::after, content: attr(data-w))이 그라데이션을 쥐고 떠오른다.
-          background-clip: text 로 칠한 배경은 바꿔 끼우며 전환할 수 없어서,
-          같은 글자를 한 겹 더 얹고 그 겹의 투명도만 움직인다.
-       ⚠️ data-w 는 낱말과 같은 글자여야 한다 — 다르면 위아래 겹이 어긋난다. */
-    .hl-word {
-      position: relative;
-      display: inline-block;
-      font-weight: inherit;
-    }
-    .hl-word::after {
-      content: attr(data-w);
-      position: absolute;
-      left: 0;
-      top: 0;
-      /* 히어로 대제목과 같은 값이다 — 중심·반지름·네 정지점 모두. */
-      background: radial-gradient(
-        circle 1.2em at 60% 82%,
-        #76A6D7 0%,
-        #4A7FA8 38%,
-        #22303F 72%,
-        #16202C 100%
-      );
-      -webkit-background-clip: text;
-              background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-      opacity: var(--hl-on, 0);
-      transition: opacity .45s ease;
-      pointer-events: none;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hl-word::after { transition: none; opacity: 1; }
-    }
     @media (max-width: 900px) {
       #industries .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
     }

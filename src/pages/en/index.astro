@@ -1421,8 +1421,6 @@ const jsonLd = [orgSchema, websiteSchema];
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
         /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
         lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
-        /* 줄이 다 차면 그 줄의 핵심 낱말에 그라데이션을 켠다. */
-        lines[i].style.setProperty('--hl-on', q >= 1 ? '1' : '0');
       }
 
       /* 2) 소제목부터 아래가 떠오른다. */
@@ -1946,7 +1944,7 @@ ontology to infer causes and answer conversationally. The data sources behind th
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2 class="sec-title"><span class="sec-line">Wherever you operate,</span><span class="sec-line">an uncompromising</span><span class="sec-line"><b class="hl-word" data-w="security">security</b> framework</span></h2>
+        <h2 class="sec-title"><span class="sec-line">Wherever you operate,</span><span class="sec-line">an uncompromising</span><span class="sec-line">security framework</span></h2>
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is not used to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, data does not leave your company.</p>
      </div>
    </div>
@@ -2020,7 +2018,6 @@ ontology to infer causes and answer conversationally. The data sources behind th
       for (var i = 0; i < lines.length; i++) {
         lines[i].style.setProperty('--sec-fill', '100%');
         lines[i].style.setProperty('--sec-guide', '0');
-        lines[i].style.setProperty('--hl-on', '1');
       }
       sec.style.setProperty('--sec-body', '1');
       sec.style.setProperty('--sec-lift', '0px');
@@ -2083,7 +2080,6 @@ ontology to infer causes and answer conversationally. The data sources behind th
         lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
         /* 모서리 괄호는 글자가 드러나는 만큼 걷힌다. */
         lines[i].style.setProperty('--sec-guide', (1 - q).toFixed(3));
-        lines[i].style.setProperty('--hl-on', q >= 1 ? '1' : '0');
       }
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body',
