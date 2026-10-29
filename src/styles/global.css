@@ -523,10 +523,21 @@
       max-width: min(420px, 100%);
       box-sizing: border-box;
       padding: 22px 52px 24px 24px;
-      background: #ffffff;
-      border: 1px solid var(--border);
+      /* 유리면 — 그래픽 위에 얹히므로 통째로 가리지 않고 아래 결을 비친다.
+         ⚠️ 히어로 면이 밝아서 흰 유리는 묽게 두면 글이 바탕에 묻는다. 0.62 아래로
+            내리지 않는다 — 본문(#7E8A98)이 제목보다 먼저 흐려진다.
+         ⚠️ saturate 를 같이 건다. blur 만 걸면 비치는 하늘색이 바래 회색 유리가 된다. */
+      background: rgba(255, 255, 255, .62);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+              backdrop-filter: blur(20px) saturate(150%);
+      /* 흰 테두리는 밝은 면 위에서 사라진다 — 바깥에 먹 기운 1px 을 한 겹 더 둘러
+         카드의 윤곽을 남긴다(그림자가 아니라 선이라 가장자리가 또렷하다). */
+      border: 1px solid rgba(255, 255, 255, .7);
       border-radius: var(--radius);
-      box-shadow: 0 18px 48px rgba(22, 32, 44, .12);
+      box-shadow:
+        0 18px 48px rgba(22, 32, 44, .14),
+        0 0 0 1px rgba(22, 32, 44, .05),
+        inset 0 1px 0 rgba(255, 255, 255, .65);
       text-align: left;
       word-break: keep-all;
       overflow-wrap: break-word;
@@ -535,6 +546,10 @@
     @keyframes heroPinIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) {
       #hero .hero-pin-card { animation: none; }
+    }
+    /* 유리를 못 쓰는 브라우저에서는 흰 면으로 간다 — 묽은 흰색만 남으면 글이 묻는다. */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      #hero .hero-pin-card { background: #ffffff; border-color: var(--border); }
     }
     #hero .hero-pin-card__ic {
       display: block; font-size: 26px; line-height: 1;
@@ -556,7 +571,8 @@
       display: flex; align-items: center; justify-content: center; font-size: 16px;
       transition: background-color .2s ease, color .2s ease;
     }
-    #hero .hero-pin-card__close:hover { background: var(--bg-card); color: var(--text); }
+    /* 유리 위라 불투명 칩을 깔면 그 자리만 떠 보인다 — 먹을 옅게 얹는다. */
+    #hero .hero-pin-card__close:hover { background: rgba(22, 32, 44, .06); color: var(--text); }
     #hero .hero-pin-card__close:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
     #hero .hero-motion-placeholder .vh-card {
