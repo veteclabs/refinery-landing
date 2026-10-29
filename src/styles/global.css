@@ -464,6 +464,11 @@
        (#5A8FC5)을 쓰는데, 사이트의 하늘색은 어디서나 #76A6D7 한 값이다.
        ⚠️ vetec-hero.css 는 건드리지 않는다 — 그 파일이 읽는 변수에 넣는다. */
     #hero .hero-motion-placeholder > .vh { --vh-accent: #76A6D7; }
+    /* 고른 핀도 면은 비워 둔다 — 원래는 brand 색이 꽉 차고 + 가 흰색으로 뒤집혔다.
+       흰 면에 테두리·글자만 brand 로 두면 설비 그래픽 위에서 덜 무겁다.
+       + 가 × 로 도는 것은 그대로다(닫는 자리라는 표시). */
+    #hero .hero-motion-placeholder .vh-marker.is-pinned .vh-pin { color: var(--vh-accent); }
+    #hero .hero-motion-placeholder .vh-marker.is-pinned .vh-pin::before { background: #fff; }
     /* 한 핀을 고르면 나머지는 물러선다 — 지금 무엇을 보고 있는지가 핀 쪽에서도
        읽힌다. 클래스는 페이지의 핀 스크립트가 붙인다.
        ⚠️ 투명도로 지우지 않는다. 핀이 흐려지면 그래픽까지 비쳐 지저분하다 —
