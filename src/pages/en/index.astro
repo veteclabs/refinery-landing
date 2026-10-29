@@ -121,15 +121,32 @@ const jsonLd = [orgSchema, websiteSchema];
         var names = ['far-cut', 'mid', 'near', 'near-contour', 'near-glow', 'fg', 'fg-contour', 'fg-glow'];
         for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
       }
-      function light() {
-        if (lit) return;
-        lit = true;
+      function swap(from, to) {
         var imgs = hero.querySelectorAll('.vh-layer, .vh-static');
         for (var i = 0; i < imgs.length; i++) {
           var src = imgs[i].getAttribute('src') || '';
-          if (src.indexOf(FLAT) === 0) imgs[i].setAttribute('src', LIT + src.slice(FLAT.length));
+          if (src.indexOf(from) === 0) imgs[i].setAttribute('src', to + src.slice(from.length));
         }
       }
+      function light() { if (!lit) { lit = true; swap(FLAT, LIT); } }
+      function dim() { if (lit) { lit = false; swap(LIT, FLAT); } }
+
+      /* 갈아 끼우는 때는 '누른 순간'이 아니라 '확대가 다 된 뒤'다 — 확대되는 동안에는
+         예전 판이 서 있어야 '다 들여다보고 나니 켜진다' 로 읽힌다.
+         ⚠️ transitionend 로 확대 끝을 듣지 않는다. .vh-stage 의 transform 은 확대
+            말고도 스크롤 · 리사이즈로 바뀌므로, 엉뚱한 전환의 끝이 먼저 잡힌다 —
+            실측에서 600ms 짜리 확대가 320ms 에 켜졌다.
+         ⚠️ 대신 그 요소의 transition-duration 을 그때그때 읽어 쓴다. CSS 쪽 값을
+            고쳐도 따라오고, 동작 줄이기(transition: none)에서는 0 이라 바로 켜진다. */
+      var litT = 0;
+      function lightAfterZoom() {
+        if (lit) return;
+        clearTimeout(litT);
+        var stage = hero.querySelector('.vh-stage');
+        var d = stage ? parseFloat(getComputedStyle(stage).transitionDuration) * 1000 : 0;
+        litT = setTimeout(light, (d || 0) + 60);
+      }
+
       /* is-grown 은 HeroZoom 이 진행도를 보고 붙인다 — 그때 미리 받아 둔다. */
       if (window.MutationObserver) {
         if (hero.classList.contains('is-grown')) preloadLit();
@@ -151,6 +168,10 @@ const jsonLd = [orgSchema, websiteSchema];
       function hide() {
         card.hidden = true;
         if (layer) layer.classList.remove('is-on');
+        /* 핀을 풀면 그래픽도 예전 판으로 돌아간다 — 켜질 때와 달리 바로 끈다.
+           ⚠️ 확대가 끝나기 전에 풀 수도 있으므로 예약해 둔 켜기도 함께 취소한다. */
+        clearTimeout(litT);
+        dim();
         mark(null); open = null;
       }
       function show(id) {
@@ -177,7 +198,7 @@ const jsonLd = [orgSchema, websiteSchema];
           var m = pin.closest('.vh-marker');
           var id = m && m.getAttribute('data-id');
           if (!id) return;
-          light();
+          lightAfterZoom();
           if (open === id) hide(); else show(id);
           return;
         }
