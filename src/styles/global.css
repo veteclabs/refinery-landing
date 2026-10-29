@@ -581,10 +581,7 @@
        폭이 줄면 viewBox 가 같이 줄어 비율은 유지된다. */
     #hero .hero-pin-card__art { display: block; }
     #hero .hero-pin-card__art[hidden] { display: none; }
-    #hero .hero-pin-card__art svg {
-      display: block; width: 100%; height: auto;
-      /* 유리면 위에 얹히므로 그래픽 바탕은 비워 둔다 — 그림 자체가 선과 도형뿐이다. */
-    }
+    /* 크기는 HeroPinArt 의 .hpa 가 쥔다(컴포넌트와 한 벌이라 거기 둔다). */
     #hero .hero-pin-card__body { padding: 16px 24px 22px; }
     #hero .hero-pin-card__title {
       font-size: 20px; font-weight: 600; line-height: 1.4;
