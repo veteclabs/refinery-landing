@@ -1450,13 +1450,18 @@ const jsonLd = [orgSchema, websiteSchema];
       <div class="section-header-row">
         <h2>Everything your operations<br>need, in one OS</h2>
         <div class="teams-menu-vertical">
-          <span class="teams-rail-fill" aria-hidden="true"></span>
-      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')">AI Agent</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')">Plate</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')">Tile</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')">Pipeline Builder</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')">Ontology</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')">Calendar</button>
+          {/* Each slot is a shrunk shot of that screen — the same picture as the big one
+              below, so what you are looking at carries over by eye. The name sits on one
+              line underneath; switchDash takes it from the chosen slot's aria-label. */}
+          <div class="teams-thumbs">
+            <button class="teams-tab-btn active" aria-label="AI Agent" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><img src="/Solutions/thumbs/Solutions-02-ai-agent-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="Plate" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><img src="/Solutions/thumbs/Solutions-01-dashboard-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="Tile" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><img src="/Solutions/thumbs/Solutions-04-tile-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="Pipeline Builder" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><img src="/Solutions/thumbs/Solutions-05-pipeline-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="Ontology" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><img src="/Solutions/thumbs/Solutions-06-ontology-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="Calendar" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><img src="/Solutions/thumbs/Solutions-07-calendar-2-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+          </div>
+          <span class="teams-thumb-name" data-teams-name>AI Agent</span>
         </div>
      </div>
    </div>
@@ -2235,6 +2240,9 @@ function switchDash(btn, src, key, silent) {
   if (!silent && typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
   document.querySelectorAll('.teams-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  /* 고른 칸의 이름을 줄 아래에 남긴다 — 섬네일에는 글자가 없다. */
+  var nameEl = document.querySelector('[data-teams-name]');
+  if (nameEl) nameEl.textContent = btn.getAttribute('aria-label') || btn.textContent.trim();
   var img = document.getElementById('dash-image');
   window.needsRightCrop = NO_SCROLL_KEYS.indexOf(key) === -1;
   window.dashPanContent = DASH_PAN_MAP[key] || 0;

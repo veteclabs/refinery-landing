@@ -857,53 +857,56 @@
           되며, 막대는 줄이 바뀌어도 고른 칸을 따라간다(상자를 재므로).
        ⚠️ 1089px 이하에서는 탭이 가로 격자로 바뀐다(아래 페이지별 규칙).
           그 폭에서는 밑줄도 막대도 끈다. */
-    .teams-menu-vertical { display: flex; flex-direction: column; position: relative; }
+    /* 탭은 이름표가 아니라 그 화면의 축소 이미지다 — 바로 아래 큰 화면과 같은
+       그림이라 '지금 무엇을 보고 있는지'가 눈으로 이어진다. 이름은 줄 아래에
+       한 줄로 서고 고른 것만 남는다(switchDash 가 넣는다).
+       ⚠️ 막대(.teams-rail-fill)는 쓰지 않는다. 고른 칸은 색과 brand 테두리로
+          가르므로 막대까지 두면 표시가 둘이 된다. placeTeamsFill 은 막대를
+          못 찾으면 그냥 빠져나간다 — 스크립트는 그대로 둔다. */
+    .teams-menu-vertical { display: flex; flex-direction: column; gap: 9px; position: relative; }
     .teams-rail-fill { display: none; }
+    #teams .teams-thumbs { display: flex; flex-wrap: wrap; gap: 6px; }
     @media (min-width: 1090px) {
-      /* 탭 줄은 제목 줄 오른쪽, 소제목이 있던 자리에 선다. 제목 줄이
+      /* 줄은 제목 줄 오른쪽, 소제목이 있던 자리에 선다. 제목 줄이
          space-between + align-items: flex-end 라 줄이 제목 밑변에 맞춰
          오른쪽 끝에 붙는다. */
-      .teams-menu-vertical {
-        position: relative;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-self: flex-end;
-        /* 여섯이 한 줄에 서야 제목 밑변과 나란해진다. 줄은 글자 폭만큼만
-           차지하므로(shrink-to-fit) 틈을 벌리는 건 column-gap 뿐이다.
-           ⚠️ 한 줄을 지킬 수 있는 틈의 한계는 16.9px 이다 — 영문 라벨
-              여섯이 275.3px 이라 360px 에서 남는 84.7px 을 다섯으로
-              나눈 값이다(국문은 267.8px 이라 더 여유롭다). 14px 로 두어
-              15px 쯤 남긴다. 더 벌리려면 max-width 를 함께 올려야 한다. */
-        column-gap: 14px;
-        justify-content: space-between;
-        max-width: 360px;
-      }
-      /* 깔린 선은 두지 않는다 — 고른 칸 아래에만 brand 막대가 선다.
-         막대 자리는 placeTeamsFill 이 고른 칸의 상자를 재어 잡고, 칸이
-         바뀌면 그 자리로 미끄러진다. */
-      .teams-rail-fill {
-        display: block;
-        position: absolute; bottom: 0; height: 2px;
-        border-radius: 2px; background: var(--accent);
-        transition: left .25s ease, width .25s ease;
-      }
+      .teams-menu-vertical { align-self: flex-end; width: 360px; }
+      /* 여섯 × 52 + 틈 다섯 × 6 = 342px — 360px 안에 한 줄로 든다.
+         글자 폭에 매이지 않으므로 국·영문이 같은 자리에 선다(예전 글자 줄은
+         영문이 275.3px 이라 틈을 14px 로 묶어 둬야 했다). */
+      #teams .teams-thumbs { flex-wrap: nowrap; justify-content: space-between; }
     }
-    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 세로 줄 모양으로 바꾼다.
-       글자는 태그라인(.teams-preview-tagline)과 같은 12px 이다 — 둘 다
-       상자 옆에서 '지금 무엇'을 가리키는 표시라 급을 맞춘다. */
+    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 벗기고 섬네일 칸으로 바꾼다. */
     #teams .teams-menu-vertical .teams-tab-btn {
       flex: none;
-      justify-content: flex-start;
-      text-align: left;
-      font-size: 12px;
-      /* 줄 사이를 좁힌다 — 글자가 12px 라 13px 씩 두면 여섯 줄이 성기게 벌어진다. */
-      padding: 8px 0;
-      border: 0;
-      border-radius: 0;
+      width: 52px;
+      height: 33px;
+      padding: 0;
+      border: 1px solid var(--border2);
+      border-radius: 5px;
+      overflow: hidden;
+      background: #ffffff;
       box-shadow: none;
+      /* 안 고른 쪽은 색을 빼고 눕힌다 — 여섯이 다 또렷하면 어느 것을 보고
+         있는지가 가려진다. */
+      opacity: .5;
+      filter: grayscale(1);
+      transition: opacity .2s ease, filter .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
-    /* 고른 줄은 brand 색이 아니라 먹색이다 — 브랜드 색은 왼쪽 막대가 맡는다. */
-    #teams .teams-menu-vertical .teams-tab-btn.active { color: var(--text); font-weight: 600; box-shadow: none; }
+    #teams .teams-menu-vertical .teams-tab-btn img {
+      width: 100%; height: 100%; display: block;
+      object-fit: cover; object-position: left top;
+    }
+    #teams .teams-menu-vertical .teams-tab-btn:hover { opacity: .8; }
+    #teams .teams-menu-vertical .teams-tab-btn.active {
+      opacity: 1;
+      filter: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(118, 166, 215, .3);
+    }
+    /* 고른 것의 이름. 태그라인(.teams-preview-tagline)과 같은 12px 이다 —
+       둘 다 상자 옆에서 '지금 무엇'을 가리키는 표시라 급을 맞춘다. */
+    #teams .teams-thumb-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.4; }
 
     /* 글(태그라인 · 제목 · 본문)은 탭 아래가 아니라 상자의 세로 가운데에 선다.
        탭 줄은 상자 윗변에 맞춰 있으므로, 글만 따로 가운데로 보내려면 칸을

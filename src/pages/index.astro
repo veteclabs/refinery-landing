@@ -1469,13 +1469,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="section-header-row">
         <h2>현장 운영에 필요한<br>모든 기능을 담은 운영체제</h2>
         <div class="teams-menu-vertical">
-          <span class="teams-rail-fill" aria-hidden="true"></span>
-      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')">AI 에이전트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')">플레이트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')">타일</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')">파이프라인 빌더</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')">온톨로지</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')">캘린더</button>
+          {/* 칸마다 그 화면의 축소 이미지다 — 아래 큰 화면과 같은 그림이라 지금 무엇을
+              보고 있는지가 눈으로 이어진다. 이름은 줄 아래 한 줄에 서고, switchDash 가
+              고른 칸의 aria-label 에서 가져와 넣는다. */}
+          <div class="teams-thumbs">
+            <button class="teams-tab-btn active" aria-label="AI 에이전트" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><img src="/Solutions/thumbs/Solutions-02-ai-agent-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="플레이트" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><img src="/Solutions/thumbs/Solutions-01-dashboard-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="타일" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><img src="/Solutions/thumbs/Solutions-04-tile-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="파이프라인 빌더" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><img src="/Solutions/thumbs/Solutions-05-pipeline-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="온톨로지" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><img src="/Solutions/thumbs/Solutions-06-ontology-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn" aria-label="캘린더" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><img src="/Solutions/thumbs/Solutions-07-calendar-2-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+          </div>
+          <span class="teams-thumb-name" data-teams-name>AI 에이전트</span>
         </div>
       </div>
     </div>
@@ -2247,6 +2252,9 @@ function switchDash(btn, src, key, silent) {
   if (!silent && typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
   document.querySelectorAll('.teams-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  /* 고른 칸의 이름을 줄 아래에 남긴다 — 섬네일에는 글자가 없다. */
+  var nameEl = document.querySelector('[data-teams-name]');
+  if (nameEl) nameEl.textContent = btn.getAttribute('aria-label') || btn.textContent.trim();
   var img = document.getElementById('dash-image');
   window.needsRightCrop = NO_SCROLL_KEYS.indexOf(key) === -1;
   window.dashPanContent = DASH_PAN_MAP[key] || 0;
