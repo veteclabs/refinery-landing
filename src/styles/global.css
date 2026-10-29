@@ -1563,45 +1563,32 @@
        ⚠️ 두 장을 같은 격자 칸에 포개 둔다(absolute 가 아니다) — 그래야 칸
           높이가 둘 중 큰 쪽으로 잡혀 바뀔 때 아래가 들썩이지 않는다. */
     #security .sec-deck {
-      display: grid;
-      grid-template-areas: "deck";
-      /* 틀 밖으로 나간 장은 잘린다 — 넘김이 '그 자리에서 내용만 바뀌는' 것으로
-         읽히는 건 이 자르기 덕분이다. */
-      overflow: hidden;
+      display: block;
       margin-top: 28px;
     }
     /* 두 장이 같은 칸을 쓰므로 둘 다 칸 너비로 늘어난다 → 100% 가 곧 틀 하나다.
        ⚠️ 투명도로 겹쳐 넘기지 않는다. 흰 카드 둘이 반쯤 겹치면 그 동안 카드가
           투명해져 바탕이 비친다. 밀어 내면 늘 한 장만 보인다. */
-    #security .sec-deck > .security-grid {
-      grid-area: deck;
-      margin-top: 0;
-      transform: translateX(var(--pgx, 0%));
-      /* 틀 밖에 선 장은 클릭을 받지 않는다. */
-      pointer-events: var(--pg-pe, none);
-    }
-    /* 오른쪽 칸은 한 박자 늦게 따라온다 — 두 칸이 한 덩어리로 지나가는 대신
-       항목이 하나씩 지나가는 것으로 읽힌다. 거리는 스크립트가 준다. */
-    #security .sec-deck > .security-grid > .sec-card:nth-child(2) {
-      transform: translateX(var(--cardx, 0px));
-    }
-    /* 스크립트가 돌기 전에도 둘째 장은 틀 오른쪽 밖에 서 있어야 한다. */
-    #security .sec-deck > .security-grid + .security-grid { --pgx: 100%; }
+    #security .sec-deck > .security-grid { margin-top: 0; }
+    #security .sec-deck > .security-grid + .security-grid { margin-top: 10px; }
     /* 무대에 머리글 + 카드 한 줄이 선다. 280vh 중 180vh 가 모션에 쓰이는
        거리다 — 제목 · 소제목 · 첫 장 · 장 넘김까지 네 몫이라 90vh 로는 짧다. */
-    #security .sec-pin { height: 280vh; }
+    /* ⚠️ 무대를 화면에 붙이지 않는다(2026-10-29). 한 페이지에 고정 구간이 다섯이면
+       전체 18.4 화면 중 15.4(84%)가 '멈췄다 풀리는' 구간이 된다 — 다섯째인 보안에
+       오면 연출이 아니라 스크롤이 안 내려가는 것으로 읽힌다. 게다가 이 섹션은
+       끌려가며 읽는 이야기가 아니라 훑어서 찾는 사양표다.
+       제목 모션은 그대로다 — 스크립트가 무대가 sticky 가 아니면 진행도를 제목의
+       화면 위치에서 뽑는다. 카드는 넷이 두 줄로 한 번에 선다(넘김은 고정이 있어야
+       성립해서 함께 걷었다).
+       ⚠️ static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이 inset: 0 로
+          깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이 페이지 전체로 번진다. */
+    #security { padding: 130px 0; }
+    #security .sec-pin { height: auto; }
     #security .sec-stage {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      /* 고정 내비(70px)를 윗여백으로 비운다 — 보이는 화면 기준으로 가운데다. */
-      padding-top: 70px;
-      display: flex;
-      flex-direction: column;
-      /* safe center — 한 벌이 무대보다 커지면 위에서부터 쌓는다. */
-      justify-content: center;
-      justify-content: safe center;
-      overflow: hidden;
+      position: relative;
+      height: auto;
+      padding-top: 0;
+      display: block;
     }
     #security .sec-stage > .container { width: 100%; position: relative; z-index: 1; }
 
@@ -1653,20 +1640,6 @@
        여유를 두고 820px 아래에서만 붙이지 않는다. 그 아래에서도 모션은
        돈다 — 스크립트가 무대가 sticky 가 아니면 진행도를 제목의 화면
        위치에서 뽑는다. */
-    @media (max-height: 820px) {
-      #security { padding: 130px 0; }
-      #security .sec-pin { height: auto; }
-      /* static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이
-         inset: 0 로 깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이
-         페이지 전체로 번진다. 흐름에서의 자리는 static 과 같다. */
-      #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
-      /* 포개 둔 두 장을 다시 위아래로 푼다 — 넘길 거리가 없으니 넷을 다 세운다. */
-      #security .sec-deck { display: block; overflow: visible; }
-      #security .sec-deck > .security-grid,
-      #security .sec-deck > .security-grid > .sec-card { transform: none; }
-      #security .sec-deck > .security-grid { pointer-events: auto; }
-      #security .sec-deck > .security-grid + .security-grid { --pgx: 0%; margin-top: 10px; }
-    }
 
     /* 대제목 글자는 가려진 채로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이
        드러난다. 솔루션 섹션과 같은 장치지만 결이 다르다 — 그쪽이 '도면에 먹을
@@ -1774,17 +1747,9 @@
          데스크탑에서 두 줄이던 본문이 세 줄이 된다. */
       #security .sec-card-body p br.mobile-br { display: none; }
       .security-grid .sec-card { flex: 0 0 auto; width: 100%; grid-column: unset !important; display: flex; flex-direction: column; justify-content: flex-start; }
-      /* 1열에서는 넘기지 않는다 — 포갠 두 장을 위아래로 풀어 넷을 다 세운다.
-         ⚠️ 그러면 한 벌이 100vh 를 훌쩍 넘으므로 무대도 같이 푼다. 안 그러면
-            카드가 무대 안에 들어앉아 overflow: hidden 에 잘린다. */
-      #security { padding: 130px 0; }
-      #security .sec-pin { height: auto; }
-      #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
-      #security .sec-deck { display: block; overflow: visible; }
-      #security .sec-deck > .security-grid,
-      #security .sec-deck > .security-grid > .sec-card { transform: none; }
-      #security .sec-deck > .security-grid { pointer-events: auto; }
-      #security .sec-deck > .security-grid + .security-grid { --pgx: 0%; margin-top: 16px; }
+      /* 1열에서는 두 장 사이를 조금 더 띄운다 — 카드가 세로로 길어져서다.
+         무대를 푸는 일은 이제 기본값이라 여기서 따로 하지 않는다. */
+      #security .sec-deck > .security-grid + .security-grid { margin-top: 16px; }
     }
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     .sec-card-img img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }

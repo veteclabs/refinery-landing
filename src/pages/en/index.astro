@@ -1985,8 +1985,8 @@ ontology to infer causes and answer conversationally. The data sources behind th
 <script is:inline>
   /* 보안 무대 — 제목 · 소제목 · 카드 두 장이 한 화면에 멈춰 선 채로, 스크롤이
      지나는 동안 제목 글자가 왼쪽부터 드러나고 이어서 아래가 떠오른다. 다 뜬 뒤
-     스크롤이 더 지나면 카드 두 장이 옆으로 빠지고 그 자리에 다음 두 장이 든다 —
-     틀은 그대로고 내용만 바뀐다.
+     ⚠️ 무대를 화면에 붙이지 않는다 — 진행도는 제목이 화면을 올라오는 만큼이다.
+        한 페이지에 고정 구간이 다섯이면 스크롤이 계속 붙잡힌다.
      솔루션 섹션과 같은 구조지만 변수 이름이 따로다(--sec-*).
      ⚠️ 진행도는 핀 상자가 화면을 지나간 비율이다(무대가 붙어 있는 동안 0→1).
      ⚠️ 무대가 sticky 가 아니면(낮은 화면 · 동작 줄이기) 손을 떼고 다 드러난
@@ -1997,21 +1997,7 @@ ontology to infer causes and answer conversationally. The data sources behind th
     var pin = sec.querySelector('.sec-pin');
     var stage = sec.querySelector('.sec-stage');
     var lines = sec.querySelectorAll('.sec-title .sec-line');
-    var pages = sec.querySelectorAll('.sec-deck > .security-grid');
     if (!pin || !stage || !lines.length) return;
-
-    /* 한 장의 상태 — 틀 기준 자리(--pgx, 0% 가 제자리 · 100% 가 틀 바로 오른쪽),
-       오른쪽 칸이 더 가는 거리(--cardx), 클릭을 받는지.
-       투명도는 쓰지 않는다(CSS 쪽 설명 참고). */
-    function setPage(el, x, cardx, live) {
-      el.style.setProperty('--pgx', x.toFixed(2) + '%');
-      el.style.setProperty('--cardx', cardx.toFixed(1) + 'px');
-      el.style.setProperty('--pg-pe', live ? 'auto' : 'none');
-    }
-
-    function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function ease(t) { return t * t * (3 - 2 * t); }
-    function pinned() { return getComputedStyle(stage).position === 'sticky'; }
 
     function settle() {
       for (var i = 0; i < lines.length; i++) {
@@ -2020,9 +2006,6 @@ ontology to infer causes and answer conversationally. The data sources behind th
       }
       sec.style.setProperty('--sec-body', '1');
       sec.style.setProperty('--sec-lift', '0px');
-      /* 넘길 거리가 없는 화면에서는 두 장을 다 세운다 — CSS 가 포개기를 풀어
-         위아래로 놓으므로 넷이 그대로 보인다. */
-      for (var k = 0; k < pages.length; k++) setPage(pages[k], 0, 0, true);
     }
 
     /* 제목만 있을 때 화면 가운데에 서도록 머리글을 내릴 거리를 잰다.
@@ -2083,19 +2066,6 @@ ontology to infer causes and answer conversationally. The data sources behind th
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body',
         ease(clamp((p - (stuck ? 0.28 : 0.62)) / (stuck ? 0.15 : 0.30))).toFixed(3));
-      /* 3) 첫 장이 다 선 뒤, 그 자리에서 둘째 장으로 넘어간다.
-         ⚠️ 안 붙는 화면에서는 넘기지 않는다 — 넘길 거리가 없고, CSS 가 이미
-            두 장을 위아래로 풀어 놓았다. */
-      if (pages.length > 1) {
-        if (!stuck) { for (var j = 0; j < pages.length; j++) setPage(pages[j], 0, 0, true); }
-        else {
-          /* 나가는 장은 왼쪽으로 빠지고, 드는 장은 오른쪽에서 들어온다. 오른쪽
-             칸은 제 장보다 조금 더 가 한 박자 늦게 자리를 잡는다. */
-          var t = ease(clamp((p - 0.68) / 0.14));
-          setPage(pages[0], -100 * t, -56 * t, t < 0.5);
-          setPage(pages[1], 100 * (1 - t), 72 * (1 - t), t >= 0.5);
-        }
-      }
     }
 
     var ticking = false;
