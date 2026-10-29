@@ -1654,7 +1654,12 @@
     /* 대제목은 솔루션 섹션과 같은 활자·같은 배치다 — 두 섹션이 멀지 않으므로
        크기나 정렬이 다르면 한쪽이 급이 낮아 보인다. */
     #security .section-header-row h2 { font-size: 60px; }
-    #security .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    /* 제목 · 소제목 · 카드 사이를 한 값(28px)으로 둔다 — 셋이 같은 간격으로 쌓인다.
+       ⚠️ 소제목과 카드 사이는 머리글의 margin-bottom 과 덱의 margin-top 이 합쳐지는
+          자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
+          그 간격을 쥔다. */
+    #security .section-header-row { flex-direction: column; align-items: center; gap: 28px; text-align: center; }
+    #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
       #security .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
     }
