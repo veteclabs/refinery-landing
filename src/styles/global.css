@@ -594,16 +594,6 @@
     #hero .hero-pin-card__desc {
       font-size: 15px; line-height: 1.65; color: var(--text-muted); margin: 0;
     }
-    #hero .hero-pin-card__close {
-      position: absolute; top: 14px; right: 14px;
-      width: 28px; height: 28px; padding: 0; border: 0; border-radius: 6px;
-      background: transparent; color: var(--text-muted); cursor: pointer;
-      display: flex; align-items: center; justify-content: center; font-size: 16px;
-      transition: background-color .2s ease, color .2s ease;
-    }
-    /* 유리 위라 불투명 칩을 깔면 그 자리만 떠 보인다 — 먹을 옅게 얹는다. */
-    #hero .hero-pin-card__close:hover { background: rgba(22, 32, 44, .06); color: var(--text); }
-    #hero .hero-pin-card__close:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
     #hero .hero-motion-placeholder .vh-card {
       /* 핀 오른쪽에 두고 윗변을 핀 원의 윗변에 맞춘다. 좌표 원점은 .vh-head 이고
@@ -904,33 +894,33 @@
          영문이 275.3px 이라 틈을 14px 로 묶어 둬야 했다). */
       #teams .teams-thumbs { flex-wrap: nowrap; justify-content: space-between; }
     }
-    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 벗기고 섬네일 칸으로 바꾼다. */
+    /* 가로 탭바 시절의 칸 나눔 · 밑줄 표시를 벗기고 원형 숫자 칸으로 바꾼다.
+       칸에는 숫자만 둔다 — 이름은 줄 아래 한 줄에 고른 것만 선다.
+       ⚠️ 접근성 이름은 aria-label 이 쥔다. 숫자만 읽히면 무엇을 고르는지 모른다. */
     #teams .teams-menu-vertical .teams-tab-btn {
       flex: none;
-      width: 52px;
-      height: 33px;
+      width: 32px;
+      height: 32px;
       padding: 0;
       border: 1px solid var(--border2);
-      border-radius: 5px;
-      overflow: hidden;
+      border-radius: 50%;
       background: #ffffff;
       box-shadow: none;
-      /* 안 고른 쪽은 색을 빼고 눕힌다 — 여섯이 다 또렷하면 어느 것을 보고
-         있는지가 가려진다. */
-      opacity: .5;
-      filter: grayscale(1);
-      transition: opacity .2s ease, filter .2s ease, border-color .2s ease, box-shadow .2s ease;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease;
     }
-    #teams .teams-menu-vertical .teams-tab-btn img {
-      width: 100%; height: 100%; display: block;
-      object-fit: cover; object-position: left top;
-    }
-    #teams .teams-menu-vertical .teams-tab-btn:hover { opacity: .8; }
+    #teams .teams-menu-vertical .teams-tab-btn:hover { border-color: var(--text-muted); color: var(--text); }
     #teams .teams-menu-vertical .teams-tab-btn.active {
-      opacity: 1;
-      filter: none;
+      background: var(--accent);
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(118, 166, 215, .3);
+      color: #ffffff;
     }
     /* 고른 것의 이름. 태그라인(.teams-preview-tagline)과 같은 12px 이다 —
        둘 다 상자 옆에서 '지금 무엇'을 가리키는 표시라 급을 맞춘다. */
@@ -1122,19 +1112,66 @@
        아래가 차오르는 만큼 도로 올린다. 내리는 거리(--ind-lift)는 스크립트가
        잰다. 글 양이 바뀌거나 화면이 낮아지면 값이 달라져 CSS 로는 못 박는다. */
     #industries .ind-stage > .container {
-      transform: translateY(calc(var(--ind-lift, 0px) * (1 - var(--ind-body, 1))));
+      /* ⚠️ 기준이 --ind-body 가 아니라 --sol-pre 다. 사진 카드가 제목이 차는 동안
+         이미 떠 있어야 하므로, 무대는 그보다 먼저 제 모습을 잡아야 한다.
+         --ind-body 로 두면 카드가 뜨는 시점까지 무대가 내려가 있어 띠가 화면
+         아래로 밀려난다(한 장만 왼쪽 아래에 걸렸다). */
+      transform: translateY(calc(var(--ind-lift, 0px) * (1 - var(--sol-pre, 1))));
     }
-    /* 소제목부터 아래는 제목이 다 찬 뒤에 떠오른다. */
+    /* 소제목부터 아래는 제목이 다 찬 뒤에 떠오른다.
+       ⚠️ 투명도를 이 칸에 통째로 걸지 않는다. 사진 띠는 예외라서다 — 제목에 먹이
+          차는 동안 이미 흩어진 채로 떠 있어야 한다. 탭 줄만 따로 쥔다. */
     #industries .ind-stage > .container + .container {
-      opacity: var(--ind-body, 1);
-      transform: translateY(calc(var(--ind-lift, 0px) * (1 - var(--ind-body, 1))
-                                 + 28px * (1 - var(--ind-body, 1))));
+      transform: translateY(calc(var(--ind-lift, 0px) * (1 - var(--sol-pre, 1))
+                                 + 28px * (1 - var(--sol-pre, 1))));
+    }
+    #industries .sol-switch-row { opacity: var(--ind-body, 1); }
+    /* 사진 띠는 제목이 차기 시작할 때 벌써 떠 있다. */
+    #industries .sol-viewport { opacity: var(--sol-pre, 1); }
+
+    /* 제목에 먹이 차는 동안 사진 카드는 아직 줄을 서지 않았다 — 미리보기처럼
+       흩어져 떠 있다가, 스크롤이 지나며 제자리로 모여 한 줄이 된다.
+       --sol-scatter 가 1 이면 흩어진 상태, 0 이면 줄을 선 상태다.
+       ⚠️ 흩어지는 값은 카드마다 못 박는다(nth-child). 난수로 두면 새로 고칠 때마다
+          배치가 달라져 같은 화면을 두 번 볼 수 없다.
+       ⚠️ 먼저 줄여 놓고(scale .84) 그만큼 생긴 자리 안에서만 민다. 칸
+          (.sol-viewport)에 overflow: hidden 이 걸려 있어 더 밀면 위아래가 잘린다.
+       ⚠️ 띠를 옆으로 미는 transform 은 줄(.industries-grid)이 쥔다 — 카드 쪽과
+          겹쳐도 서로 덮어쓰지 않는다. */
+    #industries .industries-grid .industry-card {
+      transform:
+        translate3d(calc(var(--cx, 0px) * var(--sol-scatter, 0)),
+                    calc(var(--cy, 0px) * var(--sol-scatter, 0)), 0)
+        rotate(calc(var(--cr, 0deg) * var(--sol-scatter, 0)))
+        scale(calc(1 - .16 * var(--sol-scatter, 0)));
+      opacity: calc(1 - .4 * var(--sol-scatter, 0));
+    }
+    #industries .industries-grid .industry-card:nth-child(7n+1) { --cx: -30px; --cy:  26px; --cr: -4.5deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+2) { --cx:  18px; --cy: -24px; --cr:  3.5deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+3) { --cx: -14px; --cy:  18px; --cr:  5deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+4) { --cx:  26px; --cy:  28px; --cr: -3deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+5) { --cx: -22px; --cy: -20px; --cr:  4deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+6) { --cx:  12px; --cy:  24px; --cr: -5.5deg; }
+    #industries .industries-grid .industry-card:nth-child(7n+7) { --cx: -26px; --cy: -16px; --cr:  2.5deg; }
+    /* 흩어져 있는 동안에는 사진만 보인다 — 글이 기울어진 채로 겹치면 미리보기가
+       아니라 깨진 화면처럼 읽힌다. 줄을 서는 만큼 글이 올라온다. */
+    #industries .industries-grid .industry-card .industry-body {
+      /* ⚠️ 흩어짐보다 세 배 빨리 사라진다. 같은 속도로 두면 반쯤 흩어진 동안 글이
+         기울어진 채로 비쳐 읽히다 만다 — 음수가 되면 0 으로 잘리므로 scatter 가
+         0.34 만 넘어도 완전히 감춰진다. */
+      opacity: calc(1 - var(--sol-scatter, 0) * 3);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #industries .industries-grid .industry-card { transform: none; opacity: 1; }
+      #industries .industries-grid .industry-card .industry-body { opacity: 1; }
     }
 
     /* 도면 바탕은 제목이 다 차면 걷힌다 — 사진이 들어설 자리에 격자가 남아 있으면
        둘이 겹쳐 어수선하다. --ind-body 는 소제목부터 아래가 차오르는 값이다. */
+    /* 격자는 카드가 줄을 서는 만큼 걷힌다 — 흩어져 떠 있는 동안에는 그 뒤에
+       제도판처럼 깔려 있고, 카드가 제자리를 찾으면 사라진다. */
     #industries .ind-stage::before,
-    #industries .ind-stage::after { opacity: calc(1 - var(--ind-body, 1)); }
+    #industries .ind-stage::after { opacity: var(--sol-scatter, 0); }
     #industries .ind-stage::before {
       content: "";
       position: absolute;

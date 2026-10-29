@@ -68,7 +68,6 @@ const jsonLd = [orgSchema, websiteSchema];
           The box is left empty: the script below fills it from <template data-hero-card>. */}
       <div class="hero-pin-layer">
         <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
-          <button type="button" class="hero-pin-card__close" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
           <div class="hero-pin-card__art" aria-hidden="true"></div>
           <div class="hero-pin-card__body">
             <h3 class="hero-pin-card__title"></h3>
@@ -235,10 +234,9 @@ const jsonLd = [orgSchema, websiteSchema];
           if (open === id) hide(); else show(id);
           return;
         }
-        if (t.closest('.hero-pin-card')) {
-          if (t.closest('.hero-pin-card__close')) hide();
-          return;
-        }
+        /* 카드 안을 누르는 건 아무 일도 아니다 — 닫는 건 같은 핀을 다시 누르거나
+           바깥을 누르거나 Esc 다. */
+        if (t.closest('.hero-pin-card')) return;
         if (open) hide();
       });
       document.addEventListener('keydown', function (e) {
@@ -1418,6 +1416,13 @@ const jsonLd = [orgSchema, websiteSchema];
     function upd() {
       var p = progress();
 
+      /* 0) 사진 카드 — 제목에 먹이 차는 동안 미리보기처럼 흩어져 떠 있다가,
+         제자리로 모여 한 줄이 된다. 1 이 흩어진 상태, 0 이 줄을 선 상태다.
+         ⚠️ 다 모이는 자리(0.38)는 띠가 옆으로 흐르기 시작하는 자리(0.48)보다
+            앞이어야 한다. 겹치면 모이는 중에 띠가 밀려 어디를 보라는지 흐려진다. */
+      sec.style.setProperty('--sol-pre', ease(clamp((p - 0.02) / 0.12)).toFixed(3));
+      sec.style.setProperty('--sol-scatter', (1 - ease(clamp((p - 0.08) / 0.30))).toFixed(3));
+
       /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다. */
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - 0.03 - i * 0.08) / 0.17));
@@ -1552,12 +1557,12 @@ const jsonLd = [orgSchema, websiteSchema];
               below, so what you are looking at carries over by eye. The name sits on one
               line underneath; switchDash takes it from the chosen slot's aria-label. */}
           <div class="teams-thumbs">
-            <button class="teams-tab-btn active" aria-label="AI Agent" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><img src="/Solutions/thumbs/Solutions-02-ai-agent-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
-            <button class="teams-tab-btn" aria-label="Plate" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><img src="/Solutions/thumbs/Solutions-01-dashboard-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
-            <button class="teams-tab-btn" aria-label="Tile" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><img src="/Solutions/thumbs/Solutions-04-tile-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
-            <button class="teams-tab-btn" aria-label="Pipeline Builder" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><img src="/Solutions/thumbs/Solutions-05-pipeline-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
-            <button class="teams-tab-btn" aria-label="Ontology" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><img src="/Solutions/thumbs/Solutions-06-ontology-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
-            <button class="teams-tab-btn" aria-label="Calendar" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><img src="/Solutions/thumbs/Solutions-07-calendar-2-160.webp" alt="" width="160" height="100" loading="lazy" decoding="async"></button>
+            <button class="teams-tab-btn active" aria-label="AI Agent" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')">1</button>
+            <button class="teams-tab-btn" aria-label="Plate" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')">2</button>
+            <button class="teams-tab-btn" aria-label="Tile" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')">3</button>
+            <button class="teams-tab-btn" aria-label="Pipeline Builder" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')">4</button>
+            <button class="teams-tab-btn" aria-label="Ontology" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')">5</button>
+            <button class="teams-tab-btn" aria-label="Calendar" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')">6</button>
           </div>
           <span class="teams-thumb-name" data-teams-name>AI Agent</span>
         </div>
