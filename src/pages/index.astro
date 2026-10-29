@@ -79,6 +79,19 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <div class="container">
       <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
       <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
+      {/* 핀을 누르면 그 마커의 글이 여기 선다 — 소제목 바로 아래, 같은 왼쪽 끝이다.
+          머리 칸의 둘째 줄 · 오른쪽 칸을 쓰므로 자리가 소제목을 그대로 따라간다.
+          ⚠️ 칸 높이는 0 이고 카드는 그 안에 절대 배치한다. 그냥 두면 카드가 뜰 때
+             머리 칸이 커져 그래픽이 아래로 밀린다.
+          ⚠️ 안은 비워 둔다. 아래 스크립트가 <template data-hero-card> 에서 꺼내 채운다. */}
+      <div class="hero-pin-layer">
+        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
+          <button type="button" class="hero-pin-card__close" aria-label="닫기"><i class="ph ph-x" aria-hidden="true"></i></button>
+          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
+          <h3 class="hero-pin-card__title"></h3>
+          <p class="hero-pin-card__desc"></p>
+        </div>
+      </div>
     </div>
     <div class="hero-motion-placeholder">
       {/* VETEC 히어로 그래픽. 쓰는 법·옵션은 public/hero/README.md 가 쥔다 —
@@ -89,19 +102,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="베텍 산업현장 디지털 트윈">
         <img class="vh-static" src="/hero/assets-flat/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
       </section>
-    </div>
-    {/* 핀을 누르면 그 마커의 글이 여기 선다. 자리는 늘 같다 — 무대 왼쪽 아래,
-        카피와 같은 축이다. 핀이 그래픽 어디에 있든 글은 한자리에서 읽힌다.
-        ⚠️ 안은 비워 둔다. 아래 스크립트가 <template data-hero-card> 에서 꺼내 채운다. */}
-    <div class="hero-pin-layer">
-      <div class="hero-pin-inner">
-        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
-          <button type="button" class="hero-pin-card__close" aria-label="닫기"><i class="ph ph-x" aria-hidden="true"></i></button>
-          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
-          <h3 class="hero-pin-card__title"></h3>
-          <p class="hero-pin-card__desc"></p>
-        </div>
-      </div>
     </div>
   </div>
   
@@ -170,10 +170,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
         }
       }
-      var layer = card.closest('.hero-pin-layer');
       function hide() {
         card.hidden = true;
-        if (layer) layer.classList.remove('is-on');
         /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
         dim();
         mark(null); open = null;
@@ -189,7 +187,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         tt.textContent = h ? h.textContent : '';
         ds.textContent = p ? p.textContent : '';
         card.hidden = false;
-        if (layer) layer.classList.add('is-on');
         mark(id);
         open = id;
       }

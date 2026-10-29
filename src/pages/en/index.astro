@@ -59,6 +59,20 @@ const jsonLd = [orgSchema, websiteSchema];
     <div class="container">
       <h1><span class="hero-title-lead">Scattered sites,</span><br><span class="hero-title-accent">one operating system</span></h1>
       <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+      {/* Pressing a pin puts that marker's text here — right under the sub-copy, on the
+          same left edge. It takes the head grid's second row, right column, so the spot
+          follows the sub-copy on its own.
+          The cell is zero-height and the card is absolutely placed inside it: otherwise
+          the head grows when the card opens and pushes the graphic down.
+          The box is left empty: the script below fills it from <template data-hero-card>. */}
+      <div class="hero-pin-layer">
+        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
+          <button type="button" class="hero-pin-card__close" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
+          <h3 class="hero-pin-card__title"></h3>
+          <p class="hero-pin-card__desc"></p>
+        </div>
+      </div>
      </div>
     <div class="hero-motion-placeholder">
       {/* VETEC hero graphic — usage and options live in public/hero/README.md.
@@ -69,20 +83,6 @@ const jsonLd = [orgSchema, websiteSchema];
         data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="VETEC industrial site digital twin">
         <img class="vh-static" src="/hero/assets-flat/static.webp" alt="Digital twin graphic: an air compressor, air receiver tank and pump-motor skid on a site set in mountain terrain">
       </section>
-    </div>
-    {/* Pressing a pin puts that marker's text here. The spot never moves — bottom left of
-        the stage, on the same axis as the copy. Wherever the pin sits on the graphic, the
-        text reads from one place.
-        The box is left empty: the script below fills it from <template data-hero-card>. */}
-    <div class="hero-pin-layer">
-      <div class="hero-pin-inner">
-        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
-          <button type="button" class="hero-pin-card__close" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
-          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
-          <h3 class="hero-pin-card__title"></h3>
-          <p class="hero-pin-card__desc"></p>
-        </div>
-      </div>
     </div>
   </div>
   
@@ -151,10 +151,8 @@ const jsonLd = [orgSchema, websiteSchema];
           ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
         }
       }
-      var layer = card.closest('.hero-pin-layer');
       function hide() {
         card.hidden = true;
-        if (layer) layer.classList.remove('is-on');
         /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
         dim();
         mark(null); open = null;
@@ -170,7 +168,6 @@ const jsonLd = [orgSchema, websiteSchema];
         tt.textContent = h ? h.textContent : '';
         ds.textContent = p ? p.textContent : '';
         card.hidden = false;
-        if (layer) layer.classList.add('is-on');
         mark(id);
         open = id;
       }
