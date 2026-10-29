@@ -1270,7 +1270,6 @@
         border: 0;
         border-radius: var(--radius);
         background: #151B23;
-        box-shadow: 0 14px 36px rgba(16, 32, 44, .18);
       }
       #industries .industry-img {
         position: absolute;
