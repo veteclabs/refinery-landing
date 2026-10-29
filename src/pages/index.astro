@@ -1281,21 +1281,27 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var rp = railProgress(p);
       for (var k = 0; k < rails.length; k++) {
         var rail = rails[k];
-        if (!wide()) { rail.style.removeProperty('--sol-x'); rail.style.removeProperty('--sol-w'); continue; }
+        if (!wide()) { rail.style.removeProperty('--sol-x'); rail.style.removeProperty('--sol-y'); rail.style.removeProperty('--sol-w'); continue; }
         var box = rail.parentElement.getBoundingClientRect();
         /* 칸에 카드가 정수 개로 딱 들어가게 폭을 잡는다 — 멈춰 있을 때 오른쪽
            끝에서 사진이 반 토막으로 잘리지 않는다. 400px 에 가장 가까운 장수를
            고른다. */
         var GAP = 16, TARGET = 400;
         var n = Math.max(2, Math.round((box.width + GAP) / (TARGET + GAP)));
-        rail.style.setProperty('--sol-w', ((box.width - (n - 1) * GAP) / n).toFixed(2) + 'px');
+        /* 폭은 정수로 끊는다 — 소수점이 남으면 카드마다 세로 모서리가 반픽셀 위에
+           놓여, 사진과 흰 바탕이 섞인 회색 한 줄이 테두리처럼 보인다. */
+        rail.style.setProperty('--sol-w', Math.round((box.width - (n - 1) * GAP) / n) + 'px');
         var travel = rail.scrollWidth - box.width + PAD;
         /* 띠마다 제 출발점이 있다. 탭을 바꾸기 전에는 0 이라 rp 를 그대로 쓰고,
            바꾼 뒤에는 그 순간부터 남은 스크롤로 제 폭을 다 흐른다. */
         if (rp <= 0) railOrigin[k] = 0;
         var o = railOrigin[k];
         var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
-        rail.style.setProperty('--sol-x', travel > 0 ? (-travel * local).toFixed(1) + 'px' : '0px');
+        /* 미는 거리도 정수 자리에 붙인다. 칸의 왼쪽·위가 이미 소수점 위에 있으므로
+           그만큼을 함께 덜어, 카드의 네 모서리가 픽셀 경계에 떨어지게 한다. */
+        var baseX = travel > 0 ? -travel * local : 0;
+        rail.style.setProperty('--sol-x', (Math.round(box.left + baseX) - box.left).toFixed(3) + 'px');
+        rail.style.setProperty('--sol-y', (Math.round(box.top) - box.top).toFixed(3) + 'px');
         /* 4) 보이는 띠에 맞춰 앞뒤 버튼의 끝 상태와 한 장 몫을 잡는다. */
         if (rail.parentElement && !rail.parentElement.hasAttribute('data-off')) {
           setArrow(prevBtn, local <= 0.001);
