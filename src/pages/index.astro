@@ -1573,8 +1573,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <h2>현장 운영에 필요한<br>모든 기능을 담은 운영체제</h2>
         <div class="teams-menu-vertical">
           {/* 칸마다 그 화면의 축소 이미지다 — 아래 큰 화면과 같은 그림이라 지금 무엇을
-              보고 있는지가 눈으로 이어진다. 이름은 줄 아래 한 줄에 서고, switchDash 가
-              고른 칸의 aria-label 에서 가져와 넣는다. */}
+              보고 있는지가 눈으로 이어진다. 이름은 두지 않는다 — 고른 화면이
+              바로 아래에 크게 뜨고, 그 옆 태그라인이 무엇인지 말한다. */}
           <div class="teams-thumbs">
             <button class="teams-tab-btn active" aria-label="AI 에이전트" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')">1</button>
             <button class="teams-tab-btn" aria-label="플레이트" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')">2</button>
@@ -1583,7 +1583,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             <button class="teams-tab-btn" aria-label="온톨로지" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')">5</button>
             <button class="teams-tab-btn" aria-label="캘린더" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')">6</button>
           </div>
-          <span class="teams-thumb-name" data-teams-name>AI 에이전트</span>
         </div>
       </div>
     </div>
