@@ -1293,16 +1293,17 @@
       width: 34px;
       height: 34px;
       padding: 0;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border2);
       border-radius: 50%;
       background: #ffffff;
-      color: var(--text-muted);
+      color: var(--text);
       cursor: pointer;
-      transition: color .2s ease, border-color .2s ease, opacity .2s ease;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease;
     }
-    #industries .sol-arrow:hover { color: var(--text); border-color: var(--border2); }
-    /* 끝에 닿으면 눌러도 갈 데가 없다 — 흐리게 두고 손을 못 대게 한다. */
-    #industries .sol-arrow[aria-disabled="true"] { opacity: .3; pointer-events: none; }
+    #industries .sol-arrow:hover { color: #ffffff; border-color: var(--text); background: var(--text); }
+    /* 끝에 닿으면 눌러도 갈 데가 없다. 다만 둘은 늘 같은 색으로 둔다 — 한쪽만
+       흐려지면 두 단추가 다른 물건처럼 보인다. 손만 못 대게 한다. */
+    #industries .sol-arrow[aria-disabled="true"] { pointer-events: none; }
     #industries .sol-arrow svg { display: block; }
 
     #industries .sol-track { display: grid; }
