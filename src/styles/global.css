@@ -1376,12 +1376,34 @@
        카드 넷이 떠오른다.
        ⚠️ 섹션에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다. */
     #security { padding: 0 0 130px; }
-    /* 카드는 고정이 풀린 다음에 온다. 무대가 화면을 꽉 채우고 끝나므로
-       위 여백은 격자의 margin-top 하나로 충분하다. */
-    #security .sec-cards { margin-top: 0; }
-    /* 무대에는 머리글만 선다 — 카드는 밖이라 100vh 가 넉넉하다.
-       190vh 중 90vh 가 모션에 쓰이는 거리다. */
-    #security .sec-pin { height: 190vh; }
+    /* 카드는 두 장씩 같은 자리에 선다 — 한 장(두 칸)이 뜬 뒤 스크롤이 더
+       지나면 그 자리에 다음 두 칸이 든다. 넷을 한꺼번에 세우면 두 줄이라
+       100vh 를 넘지만, 두 칸짜리 한 줄은 머리글과 같이 서고도 남는다.
+       ⚠️ 두 장을 같은 격자 칸에 포개 둔다(absolute 가 아니다) — 그래야 칸
+          높이가 둘 중 큰 쪽으로 잡혀 바뀔 때 아래가 들썩이지 않는다. */
+    #security .sec-deck {
+      display: grid;
+      grid-template-areas: "deck";
+      /* 틀 밖으로 나간 장은 잘린다 — 넘김이 '그 자리에서 내용만 바뀌는' 것으로
+         읽히는 건 이 자르기 덕분이다. */
+      overflow: hidden;
+      margin-top: 28px;
+    }
+    /* 두 장이 같은 칸을 쓰므로 둘 다 칸 높이로 늘어난다 → 100% 가 곧 틀 하나다.
+       ⚠️ 투명도로 겹쳐 넘기지 않는다. 흰 카드 둘이 반쯤 겹치면 그 동안 카드가
+          투명해져 바탕이 비친다. 밀어 올리면 늘 한 장만 보인다. */
+    #security .sec-deck > .security-grid {
+      grid-area: deck;
+      margin-top: 0;
+      transform: translateY(var(--pgy, 0%));
+      /* 틀 밖에 선 장은 클릭을 받지 않는다. */
+      pointer-events: var(--pg-pe, none);
+    }
+    /* 스크립트가 돌기 전에도 둘째 장은 틀 아래에 서 있어야 한다. */
+    #security .sec-deck > .security-grid + .security-grid { --pgy: 100%; }
+    /* 무대에 머리글 + 카드 한 줄이 선다. 280vh 중 180vh 가 모션에 쓰이는
+       거리다 — 제목 · 소제목 · 첫 장 · 장 넘김까지 네 몫이라 90vh 로는 짧다. */
+    #security .sec-pin { height: 280vh; }
     #security .sec-stage {
       position: sticky;
       top: 0;
@@ -1436,21 +1458,26 @@
       transform: translateY(calc(var(--sec-lift, 0px) * (1 - var(--sec-body, 1))));
     }
     #security .section-header p,
-    #security .security-grid {
+    #security .sec-deck {
       opacity: var(--sec-body, 1);
       transform: translateY(calc(28px * (1 - var(--sec-body, 1))));
     }
-    /* 무대에 머리글만 두므로 한 벌이 303px(내비 70 + 머리글 233)이다.
-       여유를 두고 640px 아래에서만 붙이지 않는다. 그 아래에서도 모션은
+    /* 무대에 머리글 + 카드 한 줄이 서므로 한 벌이 756px 이다
+       (내비 70 + 머리글 233 + 간격 28 + 카드 389, 1600×1000 실측).
+       여유를 두고 820px 아래에서만 붙이지 않는다. 그 아래에서도 모션은
        돈다 — 스크립트가 무대가 sticky 가 아니면 진행도를 제목의 화면
        위치에서 뽑는다. */
-    @media (max-height: 640px) {
+    @media (max-height: 820px) {
       #security { padding: 130px 0; }
       #security .sec-pin { height: auto; }
       /* static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이
          inset: 0 로 깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이
          페이지 전체로 번진다. 흐름에서의 자리는 static 과 같다. */
       #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
+      /* 포개 둔 두 장을 다시 위아래로 푼다 — 넘길 거리가 없으니 넷을 다 세운다. */
+      #security .sec-deck { display: block; overflow: visible; }
+      #security .sec-deck > .security-grid { transform: none; pointer-events: auto; }
+      #security .sec-deck > .security-grid + .security-grid { --pgy: 0%; margin-top: 10px; }
     }
 
     /* 대제목 글자는 가려진 채로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이
@@ -1534,10 +1561,11 @@
     /* 10칸 격자에 4·6 / 6·4 로 나눠 두 줄로 둔다 — 칸 폭이 번갈아 달라
        네 장이 한 벌로 읽히면서도 줄마다 무게가 바뀐다. */
     .security-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 28px; }
-    .security-grid .sec-card:nth-child(1) { grid-column: 1 / 5; }
-    .security-grid .sec-card:nth-child(2) { grid-column: 5 / 11; }
-    .security-grid .sec-card:nth-child(3) { grid-column: 1 / 7; }
-    .security-grid .sec-card:nth-child(4) { grid-column: 7 / 11; }
+    /* 장마다 두 칸이다. 넓이는 예전 두 줄 그대로다 — 첫 장 4+6, 둘째 장 6+4. */
+    .security-grid.sec-pg-a .sec-card:nth-child(1) { grid-column: 1 / 5; }
+    .security-grid.sec-pg-a .sec-card:nth-child(2) { grid-column: 5 / 11; }
+    .security-grid.sec-pg-b .sec-card:nth-child(1) { grid-column: 1 / 7; }
+    .security-grid.sec-pg-b .sec-card:nth-child(2) { grid-column: 7 / 11; }
     /* 1열로 내리는 경계는 780px 이다. 아래 sec-br 로 끊어 둔 줄이 카드 안에 20px 이상
        여유를 두고 들어가야 한다 — 여유가 1~2px 이면 실제 브라우저의 글자 폭이 조금만
        달라도 넘쳐 한 줄이 더 생긴다. 국문만 보면 740px 이면 되지만(680px 1px ·
@@ -1558,6 +1586,15 @@
          데스크탑에서 두 줄이던 본문이 세 줄이 된다. */
       #security .sec-card-body p br.mobile-br { display: none; }
       .security-grid .sec-card { flex: 0 0 auto; width: 100%; grid-column: unset !important; display: flex; flex-direction: column; justify-content: flex-start; }
+      /* 1열에서는 넘기지 않는다 — 포갠 두 장을 위아래로 풀어 넷을 다 세운다.
+         ⚠️ 그러면 한 벌이 100vh 를 훌쩍 넘으므로 무대도 같이 푼다. 안 그러면
+            카드가 무대 안에 들어앉아 overflow: hidden 에 잘린다. */
+      #security { padding: 130px 0; }
+      #security .sec-pin { height: auto; }
+      #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
+      #security .sec-deck { display: block; overflow: visible; }
+      #security .sec-deck > .security-grid { transform: none; pointer-events: auto; }
+      #security .sec-deck > .security-grid + .security-grid { --pgy: 0%; margin-top: 16px; }
     }
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     .sec-card-img img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
@@ -1567,8 +1604,8 @@
        (1·4번 SVG 는 398x180, 2·3번은 606x180 이라 칸마다 비율이 다르다).
        cover 로 채우면 좌우 끝의 아이콘이 잘리므로 칸 쪽을 맞춘다. */
     .sec-card-img { aspect-ratio: 398 / 180; overflow: hidden; position: relative; }
-    .security-grid .sec-card:nth-child(2) .sec-card-img,
-    .security-grid .sec-card:nth-child(3) .sec-card-img { aspect-ratio: 606 / 180; }
+    .security-grid.sec-pg-a .sec-card:nth-child(2) .sec-card-img,
+    .security-grid.sec-pg-b .sec-card:nth-child(1) .sec-card-img { aspect-ratio: 606 / 180; }
     .sec-card-img::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 50%, #ffffff 100%); pointer-events: none; }
     .sec-card-divider { display: none; }
     .sec-card-body { padding: 20px 24px 24px; }
