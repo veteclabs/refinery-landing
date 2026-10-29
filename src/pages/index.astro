@@ -85,9 +85,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           마커 문구·좌표는 public/hero/vetec-hero.js 맨 위 MARKERS 다.
           .vh 는 기본으로 화면 높이를 차지하므로, 칸에 맞게 --vh-height 를 넘겨 쓴다
           (src/styles/global.css). 스크립트가 안 돌면 static 이 대신 보인다. */}
-      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets/"
+      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets-flat/"
         data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="베텍 산업현장 디지털 트윈">
-        <img class="vh-static" src="/hero/assets/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
+        <img class="vh-static" src="/hero/assets-flat/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
       </section>
     </div>
     {/* 핀을 누르면 그 마커의 글이 여기 선다. 자리는 늘 같다 — 무대 왼쪽 아래,
@@ -122,6 +122,43 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var tt = card.querySelector('.hero-pin-card__title');
       var ds = card.querySelector('.hero-pin-card__desc');
       var open = null;
+
+      /* 핀을 처음 누르면 그래픽이 한 벌 바뀐다 — 도면 같은 판(assets-flat)에서
+         빛을 계산한 판(assets)으로 간다. '들여다보니 현장이 켜진다' 는 뜻이다.
+         ⚠️ 무거운 판은 미리 받아 둔다. 핀은 그래픽이 다 자란 뒤(#hero.is-grown)에만
+            눌리므로, 그 클래스가 붙는 순간이 받아 둘 자리다 — 누를 때 받으면
+            2.3MB 를 기다리는 동안 아무 일도 안 일어난다.
+         ⚠️ 받아 둔 뒤 src 만 갈아 끼운다. 캐시에 있으므로 한 프레임에 바뀐다.
+            층마다 제 등장 애니메이션(.vh-fade · .vh-glow · .vh-flow)이 걸려 있어
+            겹쳐 띄우면 그 애니메이션이 서로 부딪힌다.
+         ⚠️ 한 번 바뀌면 그대로 둔다. 핀을 닫아도 되돌리지 않는다. */
+      var LIT = '/hero/assets/', FLAT = '/hero/assets-flat/';
+      var litReady = false, lit = false;
+      function preloadLit() {
+        if (litReady) return;
+        litReady = true;
+        var names = ['far-cut', 'mid', 'near', 'near-contour', 'near-glow', 'fg', 'fg-contour', 'fg-glow'];
+        for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
+      }
+      function light() {
+        if (lit) return;
+        lit = true;
+        var imgs = hero.querySelectorAll('.vh-layer, .vh-static');
+        for (var i = 0; i < imgs.length; i++) {
+          var src = imgs[i].getAttribute('src') || '';
+          if (src.indexOf(FLAT) === 0) imgs[i].setAttribute('src', LIT + src.slice(FLAT.length));
+        }
+      }
+      /* is-grown 은 HeroZoom 이 진행도를 보고 붙인다 — 그때 미리 받아 둔다. */
+      if (window.MutationObserver) {
+        if (hero.classList.contains('is-grown')) preloadLit();
+        else {
+          var mo = new MutationObserver(function () {
+            if (hero.classList.contains('is-grown')) { preloadLit(); mo.disconnect(); }
+          });
+          mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
+        }
+      } else { preloadLit(); }
 
       function mark(id) {
         var ms = hero.querySelectorAll('.vh-marker');
@@ -159,6 +196,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           var m = pin.closest('.vh-marker');
           var id = m && m.getAttribute('data-id');
           if (!id) return;
+          light();
           if (open === id) hide(); else show(id);
           return;
         }
