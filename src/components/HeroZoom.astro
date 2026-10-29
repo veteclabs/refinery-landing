@@ -321,15 +321,22 @@
         zoomedId = null;
       }
 
+      /* 확대는 한 박자 늦게 시작한다 — 핀을 누르면 그래픽이 먼저 갈리고(홈 페이지의
+         히어로 핀 스크립트가 바로 바꾼다), 그다음에 그 자리로 확대된다.
+         ⚠️ 예약해 둔 확대는 다음 클릭에서 지운다. 안 그러면 풀어 놓고도 뒤늦게
+            확대된다. */
+      var ZOOM_WAIT = 220, zoomT = 0;
       d.addEventListener('click', function (e) {
         var pin = e.target.closest && e.target.closest('#hero .vh-pin');
+        clearTimeout(zoomT);
         if (pin) {
           var id = pin.closest('.vh-marker').getAttribute('data-id');
           if (zoomedId === id) { zoomOut(); return; }
           /* 누를 때마다 다시 잰다. 핀은 vetec-hero.js 가 늦게 만들고 자리도 스크롤·
              리사이즈를 따라 바뀌므로, 확대 전인 '지금'을 기준으로 삼아야 정확하다. */
+          /* 재는 건 지금(확대 전 자리) 해 두고, 거는 것만 미룬다. */
           if (!zoomedId) measurePins();
-          zoomTo(id);
+          zoomT = setTimeout(function () { zoomTo(id); }, ZOOM_WAIT);
           return;
         }
         // 그래픽 바깥을 누르면 풀린다.
