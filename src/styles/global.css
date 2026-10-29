@@ -489,6 +489,24 @@
           애니메이션(.vh-flow)이 쉬지 않고 돌기 때문이다. 그 값을 바뀐 것으로 읽었다.
        ⚠️ 두 겹이 완전히 겹치므로 얹히는 쪽만 투명도를 움직이면 건너감이 된다. */
     #hero .hero-motion-placeholder .vh-lit-near {
+      /* 설비가 선 가운데 '띠' 만 남기고 오린다 — 좌우 언덕은 밑장 그대로 둔다.
+         타원이 아니라 네모다. 타원으로 두면 네 귀퉁이가 깎여 왼쪽 탱크와 오른쪽
+         스키드 끝이 밑장으로 남는다.
+         가로 · 세로 그라데이션 두 장을 교차(intersect)시켜 네모를 만든다.
+         ⚠️ 비율은 층 상자 기준이다. 1600×1000 에서 그 상자가 (-53, 104) 에
+            1706×960 으로 놓이고, 남길 구간은 화면 x 228~1261 · y 624~862 다
+            → 가로 16.5~77.0% · 세로 54.2~78.9%.
+         ⚠️ 네 변 모두 흐려 둔다. 딱 끊으면 오려 낸 자리가 선으로 드러난다.
+         ⚠️ -webkit-mask-composite 는 옛 이름이 따로다(source-in). 둘 다 적는다. */
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 13%, #000 18%, #000 75%, transparent 80%),
+        linear-gradient(to bottom, transparent 50%, #000 56%, #000 76%, transparent 82%);
+              mask-image:
+        linear-gradient(to right, transparent 13%, #000 18%, #000 75%, transparent 80%),
+        linear-gradient(to bottom, transparent 50%, #000 56%, #000 76%, transparent 82%);
+      -webkit-mask-composite: source-in;
+              mask-composite: intersect;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
       opacity: 0;
       animation: heroLitIn .42s ease forwards;
     }
