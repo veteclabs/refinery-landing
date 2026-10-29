@@ -503,11 +503,12 @@
     /* 한 핀을 고르면 나머지는 물러선다 — 지금 무엇을 보고 있는지가 핀 쪽에서도
        읽힌다. 클래스는 페이지의 핀 스크립트가 붙인다.
        ⚠️ 투명도로 지우지 않는다. 핀이 흐려지면 그래픽까지 비쳐 지저분하다 —
-          선과 글자의 색만 한 단 내린다(brand → ink-200 · ink-300). */
-    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin { color: #C8CED5; }
-    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin::before { border-color: #E3E7EC; }
-    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-stem { background: #E3E7EC; }
-    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-dot { border-color: #E3E7EC; }
+          색만 한 단 내린다. 회색이 아니라 하늘색 계열 안에서 고른다
+          (#76A6D7 → brand-300 #AFC9E6 · 테두리 brand-100 #DCE8F5). */
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin { color: #AFC9E6; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin::before { border-color: #DCE8F5; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-stem { background: #DCE8F5; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-dot { border-color: #DCE8F5; }
     #hero .hero-motion-placeholder .vh-marker .vh-pin,
     #hero .hero-motion-placeholder .vh-marker .vh-pin::before,
     #hero .hero-motion-placeholder .vh-marker .vh-stem,
@@ -515,21 +516,30 @@
       transition: color .25s ease, border-color .25s ease, background-color .25s ease;
     }
 
-    /* 판이 갈릴 때 잠깐 얹히는 사본. 애니메이션을 끄고 층은 다 드러난 자리로 굳힌다 —
-       .vh-fade · .vh-glow 는 기본 opacity 가 0 이라 애니메이션만 끄면 안 보인다. */
-    #hero .hero-motion-placeholder .vh-ghost {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity .42s ease;
+    /* 핀을 누르면 설비 자리에만 빛을 계산한 판이 한 겹 얹힌다.
+       ⚠️ 밑장(near.webp, 도면 판)은 그대로 둔다. 통째로 갈아 끼우면 그 한 장에 든
+          바닥 지형까지 같이 바뀌어 화면 폭 전체의 땅이 달라진다.
+       ⚠️ 오리는 틀은 아래 마스크다. 좌표는 층 상자(.vh-layer, 2016×1134) 기준이고,
+          설비 셋은 그 가운데 가로 띠에 모여 있다. 가장자리를 흐려 두어 오려 낸
+          자리가 선으로 드러나지 않게 한다.
+       ⚠️ 두 겹이 완전히 겹치므로 얹히는 쪽만 투명도를 움직이면 건너감이 된다. */
+    #hero .hero-motion-placeholder .vh-lit-near {
+      -webkit-mask-image: radial-gradient(ellipse 19% 8.5% at 50% 65%,
+        #000 0%, #000 62%, rgba(0,0,0,.55) 82%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse 19% 8.5% at 50% 65%,
+        #000 0%, #000 62%, rgba(0,0,0,.55) 82%, rgba(0,0,0,0) 100%);
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      opacity: 0;
+      animation: heroLitIn .42s ease forwards;
     }
-    #hero .hero-motion-placeholder .vh-ghost * { animation: none !important; }
-    #hero .hero-motion-placeholder .vh-ghost .vh-fade,
-    #hero .hero-motion-placeholder .vh-ghost .vh-contour,
-    #hero .hero-motion-placeholder .vh-ghost .vh-glow { opacity: 1 !important; }
+    #hero .hero-motion-placeholder .vh-lit-near.is-out {
+      animation: heroLitOut .42s ease forwards;
+    }
+    @keyframes heroLitIn { to { opacity: 1; } }
+    @keyframes heroLitOut { from { opacity: 1; } to { opacity: 0; } }
     @media (prefers-reduced-motion: reduce) {
-      #hero .hero-motion-placeholder .vh-ghost { transition: none; }
+      #hero .hero-motion-placeholder .vh-lit-near { animation: none; opacity: 1; }
+      #hero .hero-motion-placeholder .vh-lit-near.is-out { animation: none; opacity: 0; }
     }
 
     #hero .hero-pin-layer {
