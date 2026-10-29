@@ -90,9 +90,84 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <img class="vh-static" src="/hero/assets/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
       </section>
     </div>
+    {/* 핀을 누르면 그 마커의 글이 여기 선다. 자리는 늘 같다 — 무대 왼쪽 아래,
+        카피와 같은 축이다. 핀이 그래픽 어디에 있든 글은 한자리에서 읽힌다.
+        ⚠️ 안은 비워 둔다. 아래 스크립트가 <template data-hero-card> 에서 꺼내 채운다. */}
+    <div class="hero-pin-layer">
+      <div class="hero-pin-inner">
+        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
+          <button type="button" class="hero-pin-card__close" aria-label="닫기"><i class="ph ph-x" aria-hidden="true"></i></button>
+          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
+          <h3 class="hero-pin-card__title"></h3>
+          <p class="hero-pin-card__desc"></p>
+        </div>
+      </div>
+    </div>
   </div>
   
   <script is:inline src="/hero/vetec-hero.js" defer></script>
+  <script is:inline>
+    /* 히어로 핀 — 누르면 무대 왼쪽 아래 카드에 그 마커의 글이 선다.
+       ⚠️ 호버로는 열리지 않는다. 그래픽(public/hero/vetec-hero.js)에서 호버 · 포커스 ·
+          탭으로 카드를 열던 손잡이를 뺐고, 핀마다 나던 카드(.vh-card)는 CSS 로 숨겼다.
+       ⚠️ 핀은 그래픽이 나중에 만든다 — 지금 찾아 두면 늘 null 이다. document 에 한 번만
+          듣고(이벤트 위임) 누른 자리에서 마커를 거슬러 올라간다.
+       ⚠️ 열린 핀 표시는 그래픽의 is-pinned 를 그대로 쓴다(면이 차고 + 가 × 로 돈다).
+          그 클래스를 건드리는 쪽은 이제 여기뿐이다. */
+    (function () {
+      var hero = document.getElementById('hero');
+      var card = document.getElementById('heroPinCard');
+      if (!hero || !card) return;
+      var ic = card.querySelector('.hero-pin-card__ic');
+      var tt = card.querySelector('.hero-pin-card__title');
+      var ds = card.querySelector('.hero-pin-card__desc');
+      var open = null;
+
+      function mark(id) {
+        var ms = hero.querySelectorAll('.vh-marker');
+        for (var i = 0; i < ms.length; i++) {
+          ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
+        }
+      }
+      function hide() { card.hidden = true; mark(null); open = null; }
+      function show(id) {
+        var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
+        if (!tpl) return;
+        var ico = tpl.content.querySelector('.vh-card__ic');
+        var h = tpl.content.querySelector('.vh-card__title');
+        var p = tpl.content.querySelector('.vh-card__desc');
+        /* 아이콘은 Phosphor 클래스 이름이라 그대로 옮겨 붙인다 — 카드 전용 클래스만 바꾼다. */
+        ic.className = 'hero-pin-card__ic ' + (ico ? ico.className.replace(/\bvh-card__ic\b/, '').trim() : 'ph');
+        tt.textContent = h ? h.textContent : '';
+        ds.textContent = p ? p.textContent : '';
+        card.hidden = false;
+        mark(id);
+        open = id;
+      }
+
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var pin = t.closest('.vh-pin');
+        if (pin && hero.contains(pin)) {
+          var m = pin.closest('.vh-marker');
+          var id = m && m.getAttribute('data-id');
+          if (!id) return;
+          if (open === id) hide(); else show(id);
+          return;
+        }
+        if (t.closest('.hero-pin-card')) {
+          if (t.closest('.hero-pin-card__close')) hide();
+          return;
+        }
+        if (open) hide();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && open) hide();
+      });
+    })();
+  </script>
+
   {/* 마커 카드의 내용. 그래픽(public/hero/vetec-hero.js)은 핀 위치와 빈 카드 껍데기까지
       만들고, 그 안은 여기서 채운다 — 아래 스크립트가 data-id 를 맞춰 꽂는다.
       문구는 src/data/heroMarkers.ts, 모양은 global.css 가 쥔다. */}

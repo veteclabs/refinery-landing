@@ -240,41 +240,11 @@
       document.addEventListener('pointerleave', function () { inside = false; self.tx = 0; self.ty = 0; self.kick(); });
     }
 
-    // hover preview (mouse / trackpad only)
-    if (this.canHover) {
-      var heads = root.querySelectorAll('.vh-head');
-      for (var i = 0; i < heads.length; i++) {
-        (function (head) {
-          var id = head.parentNode.getAttribute('data-id');
-          head.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') self.hoverIn(id); });
-          head.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') self.hoverOut(); });
-        })(heads[i]);
-      }
-    }
-
-    // The card is shown on hover only. A mouse click does nothing.
-    // Keyboard: focusing a pin shows its card. Touch (no hover): a tap shows it, a tap elsewhere hides it.
-    root.addEventListener('focusin', function (e) {
-      var pin = e.target.closest && e.target.closest('.vh-pin');
-      if (pin) { self.preview = pin.closest('.vh-marker').getAttribute('data-id'); self.sync(); }
-    });
-    root.addEventListener('focusout', function (e) {
-      if (e.target.closest && e.target.closest('.vh-pin')) { self.preview = null; self.sync(); }
-    });
-    var lastType = 'mouse';
-    document.addEventListener('pointerdown', function (e) { lastType = e.pointerType || 'mouse'; }, true);
-    document.addEventListener('click', function (e) {
-      if (lastType === 'mouse') return;
-      var r = root.getBoundingClientRect(), x = e.clientX, y = e.clientY;
-      if (x < r.left || x > r.right || y < r.top || y > r.bottom) { self.close(false); return; }
-      var hit = null, ms = root.querySelectorAll('.vh-pin');
-      for (var i = 0; i < ms.length; i++) { var b = ms[i].getBoundingClientRect(); if (x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) hit = ms[i]; }
-      if (hit) { var id = hit.closest('.vh-marker').getAttribute('data-id'); self.preview = (self.preview === id ? null : id); self.pinned = null; self.sync(); }
-      else self.close(false);
-    });
-    root.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') self.close(false);
-    });
+    // Opening a card is not this script's business any more.
+    // Hover, focus and tap used to open the per-pin card (.vh-card). They no longer do:
+    // the page hides those shells and opens ONE panel at the hero's bottom-left when a pin
+    // is pressed, so the text always reads from the same spot. See the hero pin script in
+    // the page. hoverIn/hoverOut/toggle/close are left in place but nothing calls them.
   };
 
   function init() {

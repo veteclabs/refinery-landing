@@ -489,6 +489,76 @@
        3단 활자는 그대로이고, 면과 글자색만 밝은 쪽 값으로 바꾼다.
        원본 vetec-hero.css 는 건드리지 않는다. 그래픽을 새로 가져와도 이 설정이
        덮이지 않게 하려는 것이다. */
+    /* 핀을 누르면 뜨는 카드는 핀 옆이 아니라 늘 한자리다 — 무대 왼쪽 아래, 카피와
+       같은 축이다. 핀마다 나던 카드(.vh-card)는 쓰지 않으므로 숨긴다.
+       ⚠️ 지우지 말고 숨긴다. 그래픽(public/hero/vetec-hero.js)이 껍데기를 만들고
+          페이지가 그 안을 채우는 흐름은 그대로 두었다 — 핀의 접근성 이름이 거기서 나온다. */
+    #hero .hero-motion-placeholder .vh-card { display: none !important; }
+    /* 이제 누를 수 있는 단추다. 원본은 cursor: default 였다(호버로만 열렸으므로). */
+    #hero .hero-motion-placeholder .vh-pin { cursor: pointer; }
+
+    #hero .hero-pin-layer {
+      /* .hero-stage > * 가 relative 를 박으므로 여기서 덮는다(#hero 로 특이도를 올렸다).
+         bottom 은 무대의 패딩 안쪽 — 곧 그래픽 칸의 아랫변이다. */
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+      /* 카드만 누르게 한다. 층 전체가 클릭을 먹으면 그 아래 핀이 안 눌린다. */
+      pointer-events: none;
+    }
+    /* ⚠️ 카피(#hero .container)와 값이 같아야 한다 — 어긋나면 카드 왼쪽 끝이
+       대제목과 안 맞는다. 한쪽을 고치면 다른 쪽도 같이 고친다. */
+    #hero .hero-pin-inner {
+      max-width: calc(1600px - var(--hero-gap) * 2 - 200px);
+      margin-inline: auto;
+      padding-bottom: 28px;
+    }
+    #hero .hero-pin-card {
+      pointer-events: auto;
+      position: relative;
+      /* 글 길이만큼만 차지한다. 그래도 한 줄이 너무 길어지지 않게 위를 막는다. */
+      width: fit-content;
+      max-width: min(420px, 100%);
+      box-sizing: border-box;
+      padding: 22px 52px 24px 24px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 48px rgba(22, 32, 44, .12);
+      text-align: left;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      animation: heroPinIn .3s cubic-bezier(.2, .7, .2, 1);
+    }
+    @keyframes heroPinIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      #hero .hero-pin-card { animation: none; }
+    }
+    #hero .hero-pin-card__ic {
+      display: block; font-size: 26px; line-height: 1;
+      /* 하늘색은 면 밝기와 무관하게 브랜드 기본값 하나로 간다. */
+      color: #76A6D7; margin-bottom: 12px;
+    }
+    #hero .hero-pin-card__title {
+      font-size: 20px; font-weight: 600; line-height: 1.4;
+      letter-spacing: normal; color: var(--text); margin: 0 0 10px;
+    }
+    /* ⚠️ 클래스 하나로 #hero p(1,0,1)를 이긴다 — 안 그러면 본문이 히어로 소제목 크기가 된다. */
+    #hero .hero-pin-card__desc {
+      font-size: 15px; line-height: 1.65; color: var(--text-muted); margin: 0;
+    }
+    #hero .hero-pin-card__close {
+      position: absolute; top: 14px; right: 14px;
+      width: 28px; height: 28px; padding: 0; border: 0; border-radius: 6px;
+      background: transparent; color: var(--text-muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+      transition: background-color .2s ease, color .2s ease;
+    }
+    #hero .hero-pin-card__close:hover { background: var(--bg-card); color: var(--text); }
+    #hero .hero-pin-card__close:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
     #hero .hero-motion-placeholder .vh-card {
       /* 핀 오른쪽에 두고 윗변을 핀 원의 윗변에 맞춘다. 좌표 원점은 .vh-head 이고
          보이는 원은 .vh-pin::before 가 x -18~18 · y -36~0 에 그리므로, top -36 ·
