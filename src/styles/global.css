@@ -1443,7 +1443,10 @@
     @media (max-height: 1180px) {
       #security { padding: 130px 0; }
       #security .sec-pin { height: auto; }
-      #security .sec-stage { position: static; height: auto; padding-top: 0; display: block; }
+      /* static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이
+         inset: 0 로 깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이
+         페이지 전체로 번진다. 흐름에서의 자리는 static 과 같다. */
+      #security .sec-stage { position: relative; height: auto; padding-top: 0; display: block; }
     }
 
     /* 대제목 글자는 가려진 채로 먼저 깔려 있다가, 스크롤하면 왼쪽부터 제 색이
