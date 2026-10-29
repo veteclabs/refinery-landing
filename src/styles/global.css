@@ -495,17 +495,17 @@
          가로 · 세로 그라데이션 두 장을 교차(intersect)시켜 네모를 만든다.
          ⚠️ 비율은 층 상자 기준이다. 1600×1000 에서 그 상자가 (-53, 104) 에
             1706×960 으로 놓이고, 남길 구간은 화면 x 228~1261 · y 624~862 다
-            → 가로 21.5~75% · 세로 56.5~71% 를 남기고 네 변을 흐린다.
-            (처음 16.5~77 · 54.2~78.9 로 잡았더니 설비 왼쪽 비탈과 플랫폼 앞 땅이
-             띠에 걸려 조금 드러났다.)
+            → 가로 24~73.5% · 세로 58~69% 를 남기고 네 변을 흐린다.
+            (16.5~77 · 54.2~78.9 → 21.5~75 · 56.5~71 → 지금. 두 번 다 설비 둘레
+             비탈과 앞쪽 땅이 띠에 걸려 조금씩 드러났다.)
          ⚠️ 네 변 모두 흐려 둔다. 딱 끊으면 오려 낸 자리가 선으로 드러난다.
          ⚠️ -webkit-mask-composite 는 옛 이름이 따로다(source-in). 둘 다 적는다. */
       -webkit-mask-image:
-        linear-gradient(to right, transparent 16%, #000 21.5%, #000 75%, transparent 79%),
-        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 71%, transparent 76%);
+        linear-gradient(to right, transparent 19.5%, #000 24%, #000 73.5%, transparent 77%),
+        linear-gradient(to bottom, transparent 53.5%, #000 58%, #000 69%, transparent 73%);
               mask-image:
-        linear-gradient(to right, transparent 16%, #000 21.5%, #000 75%, transparent 79%),
-        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 71%, transparent 76%);
+        linear-gradient(to right, transparent 19.5%, #000 24%, #000 73.5%, transparent 77%),
+        linear-gradient(to bottom, transparent 53.5%, #000 58%, #000 69%, transparent 73%);
       -webkit-mask-composite: source-in;
               mask-composite: intersect;
       -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
