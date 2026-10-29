@@ -497,6 +497,23 @@
     /* 이제 누를 수 있는 단추다. 원본은 cursor: default 였다(호버로만 열렸으므로). */
     #hero .hero-motion-placeholder .vh-pin { cursor: pointer; }
 
+    /* 판이 갈릴 때 잠깐 얹히는 사본. 애니메이션을 끄고 층은 다 드러난 자리로 굳힌다 —
+       .vh-fade · .vh-glow 는 기본 opacity 가 0 이라 애니메이션만 끄면 안 보인다. */
+    #hero .hero-motion-placeholder .vh-ghost {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity .42s ease;
+    }
+    #hero .hero-motion-placeholder .vh-ghost * { animation: none !important; }
+    #hero .hero-motion-placeholder .vh-ghost .vh-fade,
+    #hero .hero-motion-placeholder .vh-ghost .vh-contour,
+    #hero .hero-motion-placeholder .vh-ghost .vh-glow { opacity: 1 !important; }
+    @media (prefers-reduced-motion: reduce) {
+      #hero .hero-motion-placeholder .vh-ghost { transition: none; }
+    }
+
     #hero .hero-pin-layer {
       /* 머리 칸(#hero .container)은 두 칸짜리 격자다 — 대제목이 왼쪽 윗칸, 소제목이
          오른쪽 윗칸이다. 카드는 그 아래 둘째 줄 · 오른쪽 칸에 둔다. 자리를 숫자로
@@ -516,20 +533,25 @@
       position: absolute;
       top: 18px;
       left: 0;
-      width: fit-content;
-      max-width: 100%;
+      /* 폭은 소제목과 같다 — 둘 다 머리 칸 오른쪽 칸을 꽉 쓴다(칸 자체가
+         minmax(0, 440px)이라 상한도 소제목과 같은 값이다).
+         ⚠️ fit-content 로 두면 카드마다 글 길이에 따라 폭이 달라져, 핀을 오갈 때
+            오른쪽 변이 들쭉날쭉한다. */
+      width: 100%;
       box-sizing: border-box;
       padding: 22px 52px 24px 24px;
       /* 유리면 — 그래픽 위에 얹히므로 통째로 가리지 않고 아래 결을 비친다.
-         ⚠️ 흐림을 세게 걸면 안 된다. 카드 뒤에 있는 것은 땅의 점 격자와 가느다란
-            등고선인데, 20px 로 뭉개니 둘 다 사라져 그냥 흰 종이가 됐다. 6px 이면
-            선이 선으로 남는다(요철 실측: 맨 바탕의 49% → 70%).
-         ⚠️ 흰 기운은 위아래로 나눈다. 위는 묽게(.28) 두어 유리답게 비치고, 글이
-            앉는 아래는 진하게(.60) 받쳐 본문(#7E8A98)이 결에 묻지 않게 한다.
+         카드가 바닥(거의 흰 땅)에서 소제목 아래(산등성이)로 옮겨 가며 뒤에 볼 것이
+         생겼다. 그만큼 흰 기운을 걷고 흐림도 낮춘다 — 전: .28→.60 · blur 6px.
+         ⚠️ 흐림을 세게 걸면 안 된다. 뭉개면 비칠 것이 사라져 그냥 흰 종이가 된다.
+            4px 이면 능선이 능선으로 남는다.
+         ⚠️ 흰 기운은 위아래로 나눈다. 위는 묽게(.16) 두어 유리답게 비치고, 글이
+            앉는 아래는 진하게(.52) 받쳐 본문(#7E8A98)이 결에 묻지 않게 한다.
+            아래를 더 걷으면 본문이 제목보다 먼저 흐려진다.
          ⚠️ saturate 를 같이 건다. blur 만 걸면 비치는 하늘색이 바래 회색 유리가 된다. */
-      background: linear-gradient(180deg, rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, .60) 100%);
-      -webkit-backdrop-filter: blur(6px) saturate(160%);
-              backdrop-filter: blur(6px) saturate(160%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .52) 100%);
+      -webkit-backdrop-filter: blur(4px) saturate(170%);
+              backdrop-filter: blur(4px) saturate(170%);
       /* 흰 테두리는 밝은 면 위에서 사라진다 — 바깥에 먹 기운 1px 을 한 겹 더 둘러
          카드의 윤곽을 남긴다(그림자가 아니라 선이라 가장자리가 또렷하다). */
       border: 1px solid rgba(255, 255, 255, .7);

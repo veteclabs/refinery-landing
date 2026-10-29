@@ -147,8 +147,44 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           if (src.indexOf(from) === 0) imgs[i].setAttribute('src', to + src.slice(from.length));
         }
       }
-      function light() { if (!lit) { lit = true; swap(FLAT, LIT); } }
-      function dim() { if (lit) { lit = false; swap(LIT, FLAT); } }
+      /* 판이 갈릴 때 한 박자 포갠다 — src 만 바꾸면 한 프레임에 탁 바뀐다.
+         ⚠️ 두 벌을 미리 겹쳐 두고 섞지는 않는다. 층마다 제 등장 애니메이션
+            (.vh-fade · .vh-glow · .vh-flow)이 걸려 있어 두 벌이 서로 부딪힌다.
+            대신 지금 무대를 통째로 복사해 위에 얹고(사본은 애니메이션을 끈다)
+            아래에서 src 를 갈아 끼운 뒤 사본만 걷어 낸다.
+         ⚠️ 사본은 무대 '안'에, 핀 층(.vh-slice--ui) 바로 앞에 넣는다. 무대 밖에
+            두면 핀이 사본에 덮여 전환 동안 사라진다.
+         ⚠️ 사본에서 핀 층과 흐르는 하이라이트(.vh-flow)는 뺀다. 앞은 두 벌이 겹쳐
+            보이고, 뒤는 멈춘 채 굳어 줄이 박힌다.
+         ⚠️ 사본에는 vh-stage 클래스를 주지 않는다 — 무대 안에 들어가므로 그 변형이
+            한 번 더 걸린다. */
+      var XF = 420, ghostT = 0;
+      function dropGhost() {
+        var g = hero.querySelector('.vh-ghost');
+        if (g && g.parentNode) g.parentNode.removeChild(g);
+      }
+      function swapSoft(from, to) {
+        var stage = hero.querySelector('.vh-stage');
+        var ui = stage && stage.querySelector('.vh-slice--ui');
+        if (!stage || !ui) { swap(from, to); return; }
+        clearTimeout(ghostT);
+        dropGhost();
+        var ghost = stage.cloneNode(true);
+        ghost.className = 'vh-ghost';
+        ghost.removeAttribute('id');
+        ghost.removeAttribute('style');
+        var drop = ghost.querySelectorAll('.vh-slice--ui, .vh-flow');
+        for (var i = 0; i < drop.length; i++) drop[i].parentNode.removeChild(drop[i]);
+        stage.insertBefore(ghost, ui);
+        swap(from, to);
+        /* 두 프레임을 기다려야 transition 이 걸린다 — 붙자마자 바꾸면 그냥 사라진다. */
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { ghost.style.opacity = '0'; });
+        });
+        ghostT = setTimeout(dropGhost, XF + 100);
+      }
+      function light() { if (!lit) { lit = true; swapSoft(FLAT, LIT); } }
+      function dim() { if (lit) { lit = false; swapSoft(LIT, FLAT); } }
 
       /* 순서가 있다 — 핀을 누르면 판이 먼저 갈리고, 한 박자 뒤에 그 자리로 확대된다.
          확대를 늦추는 쪽은 HeroZoom 이 쥔다(ZOOM_WAIT). 여기서는 바로 켠다. */
