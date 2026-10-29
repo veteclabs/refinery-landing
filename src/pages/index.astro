@@ -143,12 +143,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var names = ['near'];
         for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
       }
-      /* 바뀌는 것은 가운데 설비뿐이다.
-         ⚠️ near.webp 를 통째로 갈아 끼우면 안 된다. 그 한 장에 설비만 든 게 아니라
-            바닥 지형까지 들어 있어, 갈아 끼우면 화면 폭 전체의 땅이 같이 바뀐다
-            (차이 지도 실측: 아래쪽 전 폭에서 9~79).
-         ⚠️ 그래서 밑장은 도면 판 그대로 두고, 빛을 계산한 판을 설비 자리에만
-            오려 한 겹 얹는다. 오리는 틀은 CSS 의 .vh-lit-near 마스크다. */
+      /* 바뀌는 것은 가운데 설비 층(near.webp) 한 장뿐이다 — 산 · 능선 · 전경 지형과
+         땅에 그려진 윤곽선 · 빛줄기(near-contour · near-glow)는 도면 판 그대로다.
+         ⚠️ 밑장을 지우지 않고 그 위에 한 겹 얹는다. 두 겹이 겹쳐 있으므로 얹히는
+            쪽의 투명도만 움직이면 건너감이 되고, 되돌릴 때도 걷어 내기만 하면 된다. */
       function litLayer() { return hero.querySelector('.vh-lit-near'); }
       function baseNear() {
         var imgs = hero.querySelectorAll('.vh-layer');

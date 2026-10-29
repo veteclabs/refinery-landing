@@ -480,19 +480,15 @@
       transition: color .25s ease, border-color .25s ease, background-color .25s ease;
     }
 
-    /* 핀을 누르면 설비 자리에만 빛을 계산한 판이 한 겹 얹힌다.
-       ⚠️ 밑장(near.webp, 도면 판)은 그대로 둔다. 통째로 갈아 끼우면 그 한 장에 든
-          바닥 지형까지 같이 바뀌어 화면 폭 전체의 땅이 달라진다.
-       ⚠️ 오리는 틀은 아래 마스크다. 좌표는 층 상자(.vh-layer, 2016×1134) 기준이고,
-          설비 셋은 그 가운데 가로 띠에 모여 있다. 가장자리를 흐려 두어 오려 낸
-          자리가 선으로 드러나지 않게 한다.
+    /* 핀을 누르면 빛을 계산한 설비 층이 밑장 위에 한 겹 얹힌다.
+       ⚠️ 오려 쓰지 않는다. 한때 타원 마스크로 설비 자리만 남겼는데, 그러면 가운데
+          좁은 띠만 바뀌어 설비 양 끝과 받침이 도면 판 그대로 남는다 — 두 판이
+          한 그림 안에서 어긋나 보인다. near.webp 한 장을 통째로 얹는다.
+       ⚠️ 지형이 같이 바뀌어 보인다는 의심이 있었으나 아니다. 아무것도 누르지 않고
+          1.5초 간격으로 두 장을 찍어도 땅이 10~27 만큼 다르다 — 빛줄기가 흐르는
+          애니메이션(.vh-flow)이 쉬지 않고 돌기 때문이다. 그 값을 바뀐 것으로 읽었다.
        ⚠️ 두 겹이 완전히 겹치므로 얹히는 쪽만 투명도를 움직이면 건너감이 된다. */
     #hero .hero-motion-placeholder .vh-lit-near {
-      -webkit-mask-image: radial-gradient(ellipse 19% 8.5% at 50% 65%,
-        #000 0%, #000 62%, rgba(0,0,0,.55) 82%, rgba(0,0,0,0) 100%);
-              mask-image: radial-gradient(ellipse 19% 8.5% at 50% 65%,
-        #000 0%, #000 62%, rgba(0,0,0,.55) 82%, rgba(0,0,0,0) 100%);
-      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
       opacity: 0;
       animation: heroLitIn .42s ease forwards;
     }
