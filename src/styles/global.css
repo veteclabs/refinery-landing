@@ -1472,9 +1472,14 @@
         linear-gradient(to right,
           #16202C 0 var(--sec-fill, 100%),
           rgba(22,32,44,0) var(--sec-fill, 100%) 100%),
-        /* 가려진 결의 색은 솔루션 대제목과 같은 한 쌍이다 — 바탕 #F6F8FA 에
-           점 #EFF2F5. 그쪽은 45° 빗금, 여기는 망점으로 쓴다. */
-        radial-gradient(circle at center, #EFF2F5 1px, #F6F8FA 1.4px);
+        /* 결은 솔루션 대제목과 같은 어법이되 한 단 내려 쓴다 — 그쪽은 섹션
+           바탕이 #ffffff 라 #F6F8FA · #EFF2F5 한 쌍이 면 위에 떠오르지만,
+           여기는 섹션 바탕이 #F6F8FA 라 그 쌍을 그대로 쓰면 결의 밝은 쪽이
+           바탕과 같은 색이 되어 글자가 아예 안 보인다.
+           팔레트에서 각각 한 칸씩 내린 #EFF2F5 · #E3E7EC 를 쓴다 —
+           바탕과의 간격이 솔루션 쪽과 같아진다. 그쪽은 45° 빗금,
+           여기는 망점이다. */
+        radial-gradient(circle at center, #E3E7EC 1px, #EFF2F5 1.4px);
       background-size: auto, 5px 5px;
       -webkit-background-clip: text;
               background-clip: text;
