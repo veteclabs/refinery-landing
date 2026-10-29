@@ -138,7 +138,7 @@ const jsonLd = [orgSchema, websiteSchema];
         return null;
       }
       var dimT = 0;
-      function light() {
+      function light(id) {
         if (lit) return;
         clearTimeout(dimT);
         var old = litLayer();
@@ -150,7 +150,8 @@ const jsonLd = [orgSchema, websiteSchema];
         over.setAttribute('src', LIT + 'near.webp');
         over.setAttribute('aria-hidden', 'true');
         over.setAttribute('alt', '');
-        over.classList.add('vh-lit-near');
+        /* 구역은 핀마다 다르다 — CSS 가 .is-comp · .is-pump · .is-motor 로 오린다. */
+        over.classList.add('vh-lit-near', 'is-' + id);
         base.parentNode.insertBefore(over, base.nextSibling);
       }
       function dim() {
@@ -220,7 +221,7 @@ const jsonLd = [orgSchema, websiteSchema];
           var m = pin.closest('.vh-marker');
           var id = m && m.getAttribute('data-id');
           if (!id) return;
-          light();
+          light(id);
           if (open === id) hide(); else show(id);
           return;
         }

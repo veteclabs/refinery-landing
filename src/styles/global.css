@@ -489,29 +489,47 @@
           애니메이션(.vh-flow)이 쉬지 않고 돌기 때문이다. 그 값을 바뀐 것으로 읽었다.
        ⚠️ 두 겹이 완전히 겹치므로 얹히는 쪽만 투명도를 움직이면 건너감이 된다. */
     #hero .hero-motion-placeholder .vh-lit-near {
-      /* 설비가 선 가운데 '띠' 만 남기고 오린다 — 좌우 언덕은 밑장 그대로 둔다.
-         타원이 아니라 네모다. 타원으로 두면 네 귀퉁이가 깎여 왼쪽 탱크와 오른쪽
-         스키드 끝이 밑장으로 남는다.
-         가로 · 세로 그라데이션 두 장을 교차(intersect)시켜 네모를 만든다.
-         ⚠️ 비율은 층 상자 기준이다. 1600×1000 에서 그 상자가 (-53, 104) 에
-            1706×960 으로 놓이고, 남길 구간은 화면 x 228~1261 · y 624~862 다
-            → 가로 26~71.5% · 세로 56.5~74.5% 를 남기고 네 변을 흐린다.
-            아래는 가운데 설비가 선 받침 판까지 담는다.
-            (가로는 16.5 → 21.5 → 24 → 26% 로 세 번 좁혔다. 세로는 한때 58~69%
-             까지 줄였다가 설비 위아래가 잘려 56.5~71% 로 되돌렸다.)
+      /* 누른 핀의 자리만 남기고 오린다 — 나머지는 밑장(도면 판) 그대로 둔다.
+         핀 셋이 각자 제 구역을 맡는다.
+           comp  왼쪽 아래 지형과 그 위 탱크
+           pump  가운데 설비와 받침 판
+           motor 오른쪽 아래 지형과 그 위 스키드
+         ⚠️ 타원이 아니라 네모다. 타원으로 두면 네 귀퉁이가 깎여 설비 끝이 밑장으로
+            남는다. 가로 · 세로 그라데이션 두 장을 교차(intersect)시켜 만든다.
+         ⚠️ 비율은 층 상자(.vh-layer) 기준이다. 1600×1000 에서 그 상자가
+            (-53, 104) 에 1706×960 으로 놓인다 — 화면 x 는 (x+53)/1706,
+            y 는 (y-104)/960 이다.
          ⚠️ 네 변 모두 흐려 둔다. 딱 끊으면 오려 낸 자리가 선으로 드러난다.
          ⚠️ -webkit-mask-composite 는 옛 이름이 따로다(source-in). 둘 다 적는다. */
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-composite: source-in;
+              mask-composite: intersect;
+      opacity: 0;
+      animation: heroLitIn .42s ease forwards;
+    }
+    #hero .hero-motion-placeholder .vh-lit-near.is-comp {
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 4%, #000 9%, #000 36%, transparent 41%),
+        linear-gradient(to bottom, transparent 51%, #000 55.5%, #000 85%, transparent 89%);
+              mask-image:
+        linear-gradient(to right, transparent 4%, #000 9%, #000 36%, transparent 41%),
+        linear-gradient(to bottom, transparent 51%, #000 55.5%, #000 85%, transparent 89%);
+    }
+    #hero .hero-motion-placeholder .vh-lit-near.is-pump {
       -webkit-mask-image:
         linear-gradient(to right, transparent 21.5%, #000 26%, #000 71.5%, transparent 75%),
         linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 74.5%, transparent 78.5%);
               mask-image:
         linear-gradient(to right, transparent 21.5%, #000 26%, #000 71.5%, transparent 75%),
         linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 74.5%, transparent 78.5%);
-      -webkit-mask-composite: source-in;
-              mask-composite: intersect;
-      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-      opacity: 0;
-      animation: heroLitIn .42s ease forwards;
+    }
+    #hero .hero-motion-placeholder .vh-lit-near.is-motor {
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 59%, #000 63.5%, #000 94%, transparent 97%),
+        linear-gradient(to bottom, transparent 51%, #000 55.5%, #000 85%, transparent 89%);
+              mask-image:
+        linear-gradient(to right, transparent 59%, #000 63.5%, #000 94%, transparent 97%),
+        linear-gradient(to bottom, transparent 51%, #000 55.5%, #000 85%, transparent 89%);
     }
     #hero .hero-motion-placeholder .vh-lit-near.is-out {
       animation: heroLitOut .42s ease forwards;
@@ -586,12 +604,13 @@
     @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
       #hero .hero-pin-card { background: #ffffff; border-color: var(--border); }
     }
-    /* 윗자리 가로 띠 그래픽. 카드 폭(440px)에 440×120 으로 그려 1:1 이다 —
-       폭이 줄면 viewBox 가 같이 줄어 비율은 유지된다. */
-    #hero .hero-pin-card__art { display: block; }
+    /* 윗자리 가로 띠 그래픽. 양옆 여백은 글(.hero-pin-card__body)과 같은 24px 이라
+       카드 가운데에 선다 — 가장자리까지 꽉 채우면 글만 안으로 들어가 축이 어긋난다.
+       440×120 으로 그렸지만 폭이 줄면 viewBox 가 같이 줄어 비율은 유지된다. */
+    #hero .hero-pin-card__art { display: block; padding: 20px 24px 0; }
     #hero .hero-pin-card__art[hidden] { display: none; }
     /* 크기는 HeroPinArt 의 .hpa 가 쥔다(컴포넌트와 한 벌이라 거기 둔다). */
-    #hero .hero-pin-card__body { padding: 16px 24px 22px; }
+    #hero .hero-pin-card__body { padding: 14px 24px 22px; }
     #hero .hero-pin-card__title {
       font-size: 20px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;
