@@ -1435,10 +1435,12 @@
       opacity: var(--sec-body, 1);
       transform: translateY(calc(28px * (1 - var(--sec-body, 1))));
     }
-    /* 낮은 화면에서는 붙이지 않는다 — 한 벌이 773px(내비 70 + 글 494 + 여유)이라
-       그보다 낮으면 카드 아랫부분이 잘린다. 스크립트도 무대가 sticky 가 아니면
-       손을 뗀다. */
-    @media (max-height: 700px) {
+    /* 화면이 낮으면 붙이지 않는다 — 카드가 4·6 / 6·4 두 줄이라 한 벌이
+       1150px(내비 70 + 글 1080)이다. 그보다 낮은 화면에서 붙이면 아랫줄이
+       통째로 잘린다. 여유 30px 을 더해 1180px 을 경계로 둔다.
+       ⚠️ 실제 화면은 거의 다 이보다 낮으므로 지금 배치에서는 사실상 고정이
+          걸리지 않는다. 스크립트도 무대가 sticky 가 아니면 손을 뗀다. */
+    @media (max-height: 1180px) {
       #security { padding: 130px 0; }
       #security .sec-pin { height: auto; }
       #security .sec-stage { position: static; height: auto; padding-top: 0; display: block; }
@@ -1522,9 +1524,13 @@
       #security .sec-title .sec-line { --sec-fill: 100% !important; }
     }
 
-    /* 넷을 한 줄에 나란히 둔다. 전에는 10칸 격자에 4·6 / 6·4 로 나눠 두 줄이었는데,
-       한 줄로 세워야 섹션이 화면 하나에 들어간다. */
-    .security-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 28px; }
+    /* 10칸 격자에 4·6 / 6·4 로 나눠 두 줄로 둔다 — 칸 폭이 번갈아 달라
+       네 장이 한 벌로 읽히면서도 줄마다 무게가 바뀐다. */
+    .security-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 28px; }
+    .security-grid .sec-card:nth-child(1) { grid-column: 1 / 5; }
+    .security-grid .sec-card:nth-child(2) { grid-column: 5 / 11; }
+    .security-grid .sec-card:nth-child(3) { grid-column: 1 / 7; }
+    .security-grid .sec-card:nth-child(4) { grid-column: 7 / 11; }
     /* 1열로 내리는 경계는 780px 이다. 아래 sec-br 로 끊어 둔 줄이 카드 안에 20px 이상
        여유를 두고 들어가야 한다 — 여유가 1~2px 이면 실제 브라우저의 글자 폭이 조금만
        달라도 넘쳐 한 줄이 더 생긴다. 국문만 보면 740px 이면 되지만(680px 1px ·
@@ -1553,8 +1559,9 @@
        어긋나는 순간 object-fit: contain 이 위아래에 빈 자리를 남겼다
        (1·4번 SVG 는 398x180, 2·3번은 606x180 이라 칸마다 비율이 다르다).
        cover 로 채우면 좌우 끝의 아이콘이 잘리므로 칸 쪽을 맞춘다. */
-    /* 넷이 같은 폭이라 그림 비율도 한 벌이다. 전에는 넓은 두 장만 606/180 이었다. */
     .sec-card-img { aspect-ratio: 398 / 180; overflow: hidden; position: relative; }
+    .security-grid .sec-card:nth-child(2) .sec-card-img,
+    .security-grid .sec-card:nth-child(3) .sec-card-img { aspect-ratio: 606 / 180; }
     .sec-card-img::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 50%, #ffffff 100%); pointer-events: none; }
     .sec-card-divider { display: none; }
     .sec-card-body { padding: 20px 24px 24px; }
