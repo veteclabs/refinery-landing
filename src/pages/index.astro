@@ -1790,6 +1790,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>고객 데이터는 AI 모델 학습에 <br class="mobile-br">사용되지 않습니다.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>온프레미스로 배포하면 <br class="mobile-br">데이터가 사내를 벗어나지 않습니다.</p>
       </div>
     </div>
+  </div>
+  </div>
+  </div>
+  <!-- 카드는 무대 밖이다 — 두 줄이라 100vh 안에 못 들어가므로, 무대에는
+       머리글만 세우고 카드는 고정이 풀린 뒤 제 차례에 올라온다. -->
+  <div class="container sec-cards">
     <div class="security-grid">
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
@@ -1812,8 +1818,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         <div class="sec-card-body"><h3>감사 로그 &amp; RBAC</h3><p>모든 API 호출과 업무 처리 이력을 <br class="sec-br">안전하게 기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 <br class="sec-br sec-br-wide">최소 권한 원칙을 적용합니다.</p></div>
       </div>
     </div>
-  </div>
-  </div>
   </div>
 </section>
 
@@ -1891,10 +1895,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          서지 않는다(처음에 18px 이 나왔다, 맞는 값은 188px). */
       if (stuck && p < 0.5) measure();
       /* 1) 제목이 줄마다 늦춰 드러난다 — 윗줄이 먼저다. */
-      /* 붙여 둘 때는 240vh 를 쓰므로 창이 좁아도 되지만, 붙이지 않을 때는
-         대제목이 화면 하나를 지나는 동안 다 끝나야 한다 — 줄 간격과 창을
-         넓게 잡는다. */
-      var LEAD = stuck ? 0.03 : 0, STEP = stuck ? 0.08 : 0.14, SPAN = stuck ? 0.17 : 0.36;
+      /* 붙이든 아니든 같은 값을 쓴다 — 붙여 둘 때 쓰는 거리가 90vh 라
+         예전 240vh 때의 좁은 창(0.08 / 0.17)으로는 금세 다 차 버린다. */
+      var LEAD = 0, STEP = 0.14, SPAN = 0.36;
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - LEAD - i * STEP) / SPAN));
         lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
@@ -1904,7 +1907,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       }
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body',
-        ease(clamp((p - (stuck ? 0.34 : 0.62)) / (stuck ? 0.16 : 0.30))).toFixed(3));
+        ease(clamp((p - (stuck ? 0.56 : 0.62)) / 0.30)).toFixed(3));
     }
 
     var ticking = false;

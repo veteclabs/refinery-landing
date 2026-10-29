@@ -1775,6 +1775,12 @@ ontology to infer causes and answer conversationally. The data sources behind th
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is not used to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, data does not leave your company.</p>
      </div>
    </div>
+  </div>
+  </div>
+  </div>
+  <!-- 카드는 무대 밖이다 — 두 줄이라 100vh 안에 못 들어가므로, 무대에는
+       머리글만 세우고 카드는 고정이 풀린 뒤 제 차례에 올라온다. -->
+  <div class="container sec-cards">
     <div class="security-grid">
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
@@ -1797,8 +1803,6 @@ ontology to infer causes and answer conversationally. The data sources behind th
         <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record <br class="sec-br">is stored securely.<br>Role-based access control (RBAC) <br class="sec-br sec-br-wide">enforces least privilege.</p></div>
      </div>
    </div>
- </div>
- </div>
  </div>
 </section>
 
@@ -1876,10 +1880,9 @@ ontology to infer causes and answer conversationally. The data sources behind th
          서지 않는다(처음에 18px 이 나왔다, 맞는 값은 188px). */
       if (stuck && p < 0.5) measure();
       /* 1) 제목이 줄마다 늦춰 드러난다 — 윗줄이 먼저다. */
-      /* 붙여 둘 때는 240vh 를 쓰므로 창이 좁아도 되지만, 붙이지 않을 때는
-         대제목이 화면 하나를 지나는 동안 다 끝나야 한다 — 줄 간격과 창을
-         넓게 잡는다. */
-      var LEAD = stuck ? 0.03 : 0, STEP = stuck ? 0.08 : 0.14, SPAN = stuck ? 0.17 : 0.36;
+      /* 붙이든 아니든 같은 값을 쓴다 — 붙여 둘 때 쓰는 거리가 90vh 라
+         예전 240vh 때의 좁은 창(0.08 / 0.17)으로는 금세 다 차 버린다. */
+      var LEAD = 0, STEP = 0.14, SPAN = 0.36;
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - LEAD - i * STEP) / SPAN));
         lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
@@ -1889,7 +1892,7 @@ ontology to infer causes and answer conversationally. The data sources behind th
       }
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body',
-        ease(clamp((p - (stuck ? 0.34 : 0.62)) / (stuck ? 0.16 : 0.30))).toFixed(3));
+        ease(clamp((p - (stuck ? 0.56 : 0.62)) / 0.30)).toFixed(3));
     }
 
     var ticking = false;

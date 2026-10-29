@@ -1375,8 +1375,13 @@
     /* 보안 섹션도 한 화면에 멈춰 선다 — 제목이 드러나고, 이어서 소제목과
        카드 넷이 떠오른다.
        ⚠️ 섹션에 overflow: hidden 을 두면 안쪽 sticky 가 죽는다 — 두지 않는다. */
-    #security { padding: 0; }
-    #security .sec-pin { height: 240vh; }
+    #security { padding: 0 0 130px; }
+    /* 카드는 고정이 풀린 다음에 온다. 무대가 화면을 꽉 채우고 끝나므로
+       위 여백은 격자의 margin-top 하나로 충분하다. */
+    #security .sec-cards { margin-top: 0; }
+    /* 무대에는 머리글만 선다 — 카드는 밖이라 100vh 가 넉넉하다.
+       190vh 중 90vh 가 모션에 쓰이는 거리다. */
+    #security .sec-pin { height: 190vh; }
     #security .sec-stage {
       position: sticky;
       top: 0;
@@ -1435,12 +1440,11 @@
       opacity: var(--sec-body, 1);
       transform: translateY(calc(28px * (1 - var(--sec-body, 1))));
     }
-    /* 화면이 낮으면 붙이지 않는다 — 카드가 4·6 / 6·4 두 줄이라 한 벌이
-       1150px(내비 70 + 글 1080)이다. 그보다 낮은 화면에서 붙이면 아랫줄이
-       통째로 잘린다. 여유 30px 을 더해 1180px 을 경계로 둔다.
-       ⚠️ 실제 화면은 거의 다 이보다 낮으므로 지금 배치에서는 사실상 고정이
-          걸리지 않는다. 스크립트도 무대가 sticky 가 아니면 손을 뗀다. */
-    @media (max-height: 1180px) {
+    /* 무대에 머리글만 두므로 한 벌이 303px(내비 70 + 머리글 233)이다.
+       여유를 두고 640px 아래에서만 붙이지 않는다. 그 아래에서도 모션은
+       돈다 — 스크립트가 무대가 sticky 가 아니면 진행도를 제목의 화면
+       위치에서 뽑는다. */
+    @media (max-height: 640px) {
       #security { padding: 130px 0; }
       #security .sec-pin { height: auto; }
       /* static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이
