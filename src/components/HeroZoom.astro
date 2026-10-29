@@ -114,7 +114,7 @@
   /* 핀(+ 원과 기둥)은 그래픽이 다 자란 뒤에만 보인다. 작은 칸에서는 핀 하나가
      그림의 상당 부분을 가리고, 심볼 오림틀 안에서 자리도 어긋나 보인다.
      전에는 p 0.25~0.7 에 걸쳐 서서히 떠올랐는데, 자라는 내내 핀이 떠 있어
-     그래픽을 읽기 어려웠다 — is-grown(p > 0.9) 하나로 가른다.
+     그래픽을 읽기 어려웠다 — is-grown(p > 0.995, 다 자란 뒤) 하나로 가른다.
      ⚠️ 투명도는 .vh-marker(부모)에 건다. .vh-pin 쪽은 등장 애니메이션(vhPin)이
         opacity 를 쥐고 있어 여기서 덮으면 그 애니메이션이 어긋난다. */
   #hero .hero-motion-placeholder .vh-marker { transition: opacity .35s ease; }
@@ -234,7 +234,9 @@
         if (p > 1) p = 1;
         hero.style.setProperty('--hero-p', p.toFixed(4));
         // 다 자란 뒤에야 마커를 만질 수 있다.
-        hero.classList.toggle('is-grown', p > 0.9);
+        /* ⚠️ 다 자란 뒤에만 붙인다. 0.9 로 두었더니 그래픽이 아직 커지는 중에
+           핀이 먼저 떠서, 자리가 흔들리는 그림 위에 핀이 얹혀 보였다. */
+        hero.classList.toggle('is-grown', p > 0.995);
         shapeClip(p);
         refit();
         placeCopy();

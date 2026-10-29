@@ -496,6 +496,24 @@
     #hero .hero-motion-placeholder .vh-card { display: none !important; }
     /* 이제 누를 수 있는 단추다. 원본은 cursor: default 였다(호버로만 열렸으므로). */
     #hero .hero-motion-placeholder .vh-pin { cursor: pointer; }
+    /* 고른 핀의 색은 브랜드 기본값 하나로 간다. 원본은 한 단 어두운 brand-600
+       (#5A8FC5)을 쓰는데, 사이트의 하늘색은 어디서나 #76A6D7 한 값이다.
+       ⚠️ vetec-hero.css 는 건드리지 않는다 — 그 파일이 읽는 변수에 넣는다. */
+    #hero .hero-motion-placeholder > .vh { --vh-accent: #76A6D7; }
+    /* 한 핀을 고르면 나머지는 물러선다 — 지금 무엇을 보고 있는지가 핀 쪽에서도
+       읽힌다. 클래스는 페이지의 핀 스크립트가 붙인다.
+       ⚠️ 투명도로 지우지 않는다. 핀이 흐려지면 그래픽까지 비쳐 지저분하다 —
+          선과 글자의 색만 한 단 내린다(brand → ink-200 · ink-300). */
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin { color: #C8CED5; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-pin::before { border-color: #E3E7EC; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-stem { background: #E3E7EC; }
+    #hero.pin-open .hero-motion-placeholder .vh-marker:not(.is-pinned) .vh-dot { border-color: #E3E7EC; }
+    #hero .hero-motion-placeholder .vh-marker .vh-pin,
+    #hero .hero-motion-placeholder .vh-marker .vh-pin::before,
+    #hero .hero-motion-placeholder .vh-marker .vh-stem,
+    #hero .hero-motion-placeholder .vh-marker .vh-dot {
+      transition: color .25s ease, border-color .25s ease, background-color .25s ease;
+    }
 
     /* 판이 갈릴 때 잠깐 얹히는 사본. 애니메이션을 끄고 층은 다 드러난 자리로 굳힌다 —
        .vh-fade · .vh-glow 는 기본 opacity 가 0 이라 애니메이션만 끄면 안 보인다. */
