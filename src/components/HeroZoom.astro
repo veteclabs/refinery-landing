@@ -249,99 +249,10 @@
         requestAnimationFrame(step);
       }
 
-      /* ── 핀을 누르면 그 자리로 확대·이동한다 ────────────────────────────────
-         무대는 translate(x, y) scale(vh-s × art-scale) 로 그려진다. 핀의 '무대 로컬
-         오프셋'(배율을 걷어낸 값)을 미리 재 두면, 배율 Z 에서 그 점을 칸 한가운데로
-         보내는 이동량이 -오프셋 × vh-s × Z 로 떨어진다.
-         --hero-art-scale 에 Z 를 넣으므로 --vh-ui 가 그만큼 역보정한다 — 그래픽만
-         커지고 핀·카드는 1:1 크기로 남는다. */
-      var ZOOM_Z = 1.08;
-      var BASE_Y = 60;            // global.css 의 --hero-art-y 기본값
-      var pinAt = {};             // id → 무대 로컬 오프셋
-      var pinRoom = null;         // 확대로 생기는 여유 — 이동은 이 안에서만 한다
-      var zoomedId = null;
-
-      function stageScale() {
-        return parseFloat(getComputedStyle(vhEl).getPropertyValue('--vh-s')) || 1;
-      }
-
-      function measurePins() {
-        /* ⚠️ 확대 중에는 재지 않는다 — 기준이 '확대 전 자리'여야 한다.
-           핀은 vetec-hero.js 가 늦게 만들므로 여기서 한 번에 다 잡히지 않을 수 있다.
-           비어 있으면 첫 클릭 때 다시 잰다. */
-        if (!vhEl || zoomedId) return;
-        var S = stageScale();
-        /* ⚠️ 기준은 칸이 아니라 .vh 다. 무대는 .vh 한가운데에 정렬되는데, 자라기 전에는
-           .vh 가 칸보다 크고 칸 바닥에 붙어 있어 두 중심이 어긋난다 — 칸으로 재면
-           그만큼 틀어진 오프셋이 저장된다. */
-        var br = vhEl.getBoundingClientRect();
-        var bcx = (br.left + br.right) / 2, bcy = (br.top + br.bottom) / 2;
-        var ms = hero.querySelectorAll('.vh-marker');
-        for (var i = 0; i < ms.length; i++) {
-          var pin = ms[i].querySelector('.vh-pin');
-          if (!pin) continue;
-          var pr = pin.getBoundingClientRect();
-          pinAt[ms[i].getAttribute('data-id')] = {
-            x: ((pr.left + pr.right) / 2 - bcx) / S,
-            y: ((pr.top + pr.bottom) / 2 - bcy - BASE_Y) / S
-          };
-        }
-        /* 확대하면 그림이 Z 배로 커지고, 칸 밖으로 넘치는 만큼만 움직일 여유가 생긴다.
-           그 여유를 넘겨 밀면 반대쪽에 빈 바닥이 드러난다 — 가장자리 핀에서 특히 크게
-           난다(왼쪽 핀을 한가운데로 끌어오려면 그림을 폭의 1/3 넘게 밀어야 한다).
-           그래서 핀을 '한가운데로' 가 아니라 '여유가 허락하는 데까지' 보낸다. */
-        // 무대는 vetec-hero.js 가 늦게 만든다 — 캐시하지 않고 그때그때 찾는다.
-        var artEl = vhEl.querySelector('.vh-stage');
-        var sr = artEl ? artEl.getBoundingClientRect() : null;
-        pinRoom = sr ? { x: sr.width * (ZOOM_Z - 1) / 2, y: sr.height * (ZOOM_Z - 1) / 2 } : null;
-      }
-
-      function clampMove(v, max) {
-        return max && max > 0 ? Math.max(-max, Math.min(max, v)) : 0;
-      }
-
-      function zoomTo(id) {
-        var o = pinAt[id];
-        if (!o || !vhEl) return;
-        var S = stageScale();
-        // 기본 자리(0, BASE_Y)에서 얼마나 움직이는지로 바꿔 재고, 여유 안으로 자른다.
-        var dx = clampMove(-o.x * S * ZOOM_Z, pinRoom && pinRoom.x);
-        var dy = clampMove(-o.y * S * ZOOM_Z - BASE_Y, pinRoom && pinRoom.y);
-        vhEl.style.setProperty('--hero-art-scale', ZOOM_Z);
-        vhEl.style.setProperty('--hero-art-x', dx.toFixed(1) + 'px');
-        vhEl.style.setProperty('--hero-art-y', (BASE_Y + dy).toFixed(1) + 'px');
-        zoomedId = id;
-      }
-
-      function zoomOut() {
-        if (!vhEl) return;
-        vhEl.style.removeProperty('--hero-art-scale');
-        vhEl.style.removeProperty('--hero-art-x');
-        vhEl.style.removeProperty('--hero-art-y');
-        zoomedId = null;
-      }
-
-      /* 확대는 한 박자 늦게 시작한다 — 핀을 누르면 그래픽이 먼저 갈리고(홈 페이지의
-         히어로 핀 스크립트가 바로 바꾼다), 그다음에 그 자리로 확대된다.
-         ⚠️ 예약해 둔 확대는 다음 클릭에서 지운다. 안 그러면 풀어 놓고도 뒤늦게
-            확대된다. */
-      var ZOOM_WAIT = 220, zoomT = 0;
-      d.addEventListener('click', function (e) {
-        var pin = e.target.closest && e.target.closest('#hero .vh-pin');
-        clearTimeout(zoomT);
-        if (pin) {
-          var id = pin.closest('.vh-marker').getAttribute('data-id');
-          if (zoomedId === id) { zoomOut(); return; }
-          /* 누를 때마다 다시 잰다. 핀은 vetec-hero.js 가 늦게 만들고 자리도 스크롤·
-             리사이즈를 따라 바뀌므로, 확대 전인 '지금'을 기준으로 삼아야 정확하다. */
-          /* 재는 건 지금(확대 전 자리) 해 두고, 거는 것만 미룬다. */
-          if (!zoomedId) measurePins();
-          zoomT = setTimeout(function () { zoomTo(id); }, ZOOM_WAIT);
-          return;
-        }
-        // 그래픽 바깥을 누르면 풀린다.
-        if (zoomedId) zoomOut();
-      });
+      /* 핀을 눌러 그 자리로 확대하던 장치는 걷었다(2026-10-29). 핀을 누르면
+         그래픽 한 벌이 갈리는 것만 한다 — 그쪽은 홈 페이지의 히어로 핀
+         스크립트가 쥔다. 확대까지 겹치면 한 번 누를 때 일어나는 일이 둘이라
+         어느 쪽을 보라는 건지 흐려진다. */
 
       measure();
       step();

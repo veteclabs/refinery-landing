@@ -612,8 +612,9 @@
     .hero-motion-placeholder .vh-stage {
       transform: translate(var(--hero-art-x, 0px), var(--hero-art-y, 0px))
                  scale(calc(var(--vh-s, 1) * var(--hero-art-scale, 1)));
-      /* 핀을 눌러 그 자리로 확대·이동할 때 쓰는 전환. 기울기는 .vh-scene 이 따로
-         쥐고 있어 여기 transition 과 부딪히지 않는다. */
+      /* 무대 자리가 바뀔 때 쓰는 전환(리사이즈로 --vh-s 가 바뀌는 경우 등).
+         핀을 눌러 확대하던 장치는 걷었다 — 그때 쓰려고 둔 값이었다.
+         기울기는 .vh-scene 이 따로 쥐고 있어 여기 transition 과 부딪히지 않는다. */
       transition: transform .6s cubic-bezier(.2, .7, .2, 1);
     }
     @media (prefers-reduced-motion: reduce) {
