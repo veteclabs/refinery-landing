@@ -539,7 +539,11 @@
             오른쪽 변이 들쭉날쭉한다. */
       width: 100%;
       box-sizing: border-box;
-      padding: 22px 52px 24px 24px;
+      /* 안쪽 여백은 글 쪽(.hero-pin-card__body)이 쥔다 — 윗자리 그래픽은 카드
+         가장자리까지 꽉 차야 하므로 카드 자체에는 여백을 두지 않는다.
+         ⚠️ overflow: hidden 이 있어야 그래픽 윗모서리가 카드 반경에 맞춰 잘린다. */
+      padding: 0;
+      overflow: hidden;
       /* 유리면 — 그래픽 위에 얹히므로 통째로 가리지 않고 아래 결을 비친다.
          카드가 바닥(거의 흰 땅)에서 소제목 아래(산등성이)로 옮겨 가며 뒤에 볼 것이
          생겼다. 그만큼 흰 기운을 걷고 흐림도 낮춘다 — 전: .28→.60 · blur 6px.
@@ -573,11 +577,15 @@
     @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
       #hero .hero-pin-card { background: #ffffff; border-color: var(--border); }
     }
-    #hero .hero-pin-card__ic {
-      display: block; font-size: 26px; line-height: 1;
-      /* 하늘색은 면 밝기와 무관하게 브랜드 기본값 하나로 간다. */
-      color: #76A6D7; margin-bottom: 12px;
+    /* 윗자리 가로 띠 그래픽. 카드 폭(440px)에 440×120 으로 그려 1:1 이다 —
+       폭이 줄면 viewBox 가 같이 줄어 비율은 유지된다. */
+    #hero .hero-pin-card__art { display: block; }
+    #hero .hero-pin-card__art[hidden] { display: none; }
+    #hero .hero-pin-card__art svg {
+      display: block; width: 100%; height: auto;
+      /* 유리면 위에 얹히므로 그래픽 바탕은 비워 둔다 — 그림 자체가 선과 도형뿐이다. */
     }
+    #hero .hero-pin-card__body { padding: 16px 24px 22px; }
     #hero .hero-pin-card__title {
       font-size: 20px; font-weight: 600; line-height: 1.4;
       letter-spacing: normal; color: var(--text); margin: 0 0 10px;

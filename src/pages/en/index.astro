@@ -7,6 +7,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
+import HeroPinArt from '../../components/HeroPinArt.astro';
 import ScrollReveal from '../../components/ScrollReveal.astro';
 import HeroZoom from '../../components/HeroZoom.astro';
 
@@ -68,9 +69,11 @@ const jsonLd = [orgSchema, websiteSchema];
       <div class="hero-pin-layer">
         <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
           <button type="button" class="hero-pin-card__close" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
-          <i class="ph hero-pin-card__ic" aria-hidden="true"></i>
-          <h3 class="hero-pin-card__title"></h3>
-          <p class="hero-pin-card__desc"></p>
+          <div class="hero-pin-card__art" aria-hidden="true"></div>
+          <div class="hero-pin-card__body">
+            <h3 class="hero-pin-card__title"></h3>
+            <p class="hero-pin-card__desc"></p>
+          </div>
         </div>
       </div>
      </div>
@@ -86,6 +89,7 @@ const jsonLd = [orgSchema, websiteSchema];
     </div>
   </div>
   
+  <HeroPinArt />
   <script is:inline src="/hero/vetec-hero.js" defer></script>
   <script is:inline>
     /* 히어로 핀 — 누르면 무대 왼쪽 아래 카드에 그 마커의 글이 선다.
@@ -99,7 +103,7 @@ const jsonLd = [orgSchema, websiteSchema];
       var hero = document.getElementById('hero');
       var card = document.getElementById('heroPinCard');
       if (!hero || !card) return;
-      var ic = card.querySelector('.hero-pin-card__ic');
+      var art = card.querySelector('.hero-pin-card__art');
       var tt = card.querySelector('.hero-pin-card__title');
       var ds = card.querySelector('.hero-pin-card__desc');
       var open = null;
@@ -204,11 +208,14 @@ const jsonLd = [orgSchema, websiteSchema];
       function show(id) {
         var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
         if (!tpl) return;
-        var ico = tpl.content.querySelector('.vh-card__ic');
         var h = tpl.content.querySelector('.vh-card__title');
         var p = tpl.content.querySelector('.vh-card__desc');
-        /* 아이콘은 Phosphor 클래스 이름이라 그대로 옮겨 붙인다 — 카드 전용 클래스만 바꾼다. */
-        ic.className = 'hero-pin-card__ic ' + (ico ? ico.className.replace(/\bvh-card__ic\b/, '').trim() : 'ph');
+        /* 윗자리 그래픽은 HeroPinArt 가 둔 <template data-hero-art> 에서 꺼낸다 —
+           마커 id 로 찾는다. 없으면 그 자리를 비워 둔다(글만 선다). */
+        var atpl = document.querySelector('template[data-hero-art="' + id + '"]');
+        art.textContent = '';
+        if (atpl) art.appendChild(atpl.content.cloneNode(true));
+        art.hidden = !atpl;
         tt.textContent = h ? h.textContent : '';
         ds.textContent = p ? p.textContent : '';
         card.hidden = false;
