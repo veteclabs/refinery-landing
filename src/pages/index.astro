@@ -2036,8 +2036,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 <!-- FAQ -->
 <section id="faq">
   <div class="container">
-    <div class="section-header" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
-      <h2>도입 전에<br>자주 묻는 질문</h2>
+    <div class="faq-head" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
+      {/* 제목만 .section-header 다 — 다른 섹션 제목과 같은 등장을 받는다. */}
+      <div class="section-header">
+        <h2>도입 전에<br>자주 묻는 질문</h2>
+      </div>
       <div class="faq-list" style="max-width:none;margin:0;">
       <div class="faq-item"><div class="faq-q">도입까지 얼마나 걸리나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">PoC부터 전사 확장까지 현장 규모와 기존 시스템 복잡도에 따라 <br class="faq-br">달라집니다. <br>정확한 일정은 상담을 통해 안내드립니다.</div></div>
       <div class="faq-item"><div class="faq-q">보안은 어떻게 보장되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">전송 구간은 TLS 1.3, 저장 데이터는 <span style="white-space:nowrap">AES-256</span>으로 암호화하고, <br class="faq-keep">조직별 데이터 격리(PostgreSQL RLS)와 RBAC ⁠· 감사 로그를 <br class="faq-br">적용합니다. <br>온프레미스 배포 옵션도 제공하며, 이 경우 데이터가 <br class="faq-br">사내를 벗어나지 않습니다.</div></div>

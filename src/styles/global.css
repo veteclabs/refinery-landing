@@ -1821,17 +1821,22 @@
       #faq .faq-a.faq-long br.faq-br,
       #faq .faq-a.faq-long br.faq-keep { display: none; }
     }
-    #faq .section-header { margin-bottom: 50px; }
+    /* 머리글 칸(제목 + 질문 목록)은 .faq-head 다. 제목만 .section-header 로 두어
+       다른 섹션 제목과 같은 등장(ScrollReveal: 16px 떠오르며 밝아짐)을 받는다 —
+       통째로 .section-header 였을 때는 질문 목록까지 한 덩어리로 떠올라, 제목이
+       먼저 서고 질문이 따라오는 순서가 없었다. */
+    #faq .faq-head { margin-bottom: 50px; }
+    #faq .faq-head > .section-header { margin-bottom: 0; }
     /* FAQ 머리도 다른 섹션(.section-header-row)과 같은 폭에서 1열이 된다.
        여기는 제목 옆이 소제목이 아니라 질문 목록이라 구조가 grid 지만, 화면에서는
        같은 '제목 왼쪽 · 내용 오른쪽' 머리로 읽힌다. 900px 로 두었더니 다섯 섹션이
        세로로 내려간 뒤에도 FAQ 만 가로로 남아 1050~901px 구간에서 어긋났다.
        영문은 랜딩 경계가 1260px 이므로 거기에 맞춘다. */
     @media (max-width: 1200px) {
-      #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
+      #faq .faq-head { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     @media (max-width: 1260px) {
-      html[lang="en"] #faq .section-header { grid-template-columns: 1fr !important; gap: 24px !important; }
+      html[lang="en"] #faq .faq-head { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), padding 0.3s ease, opacity 0.3s ease; opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }

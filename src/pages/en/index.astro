@@ -2022,8 +2022,11 @@ ontology to infer causes and answer conversationally. The data sources behind th
 <!-- FAQ -->
 <section id="faq">
   <div class="container">
-    <div class="section-header" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
-      <h2>Before platform adoption,<br>frequently asked questions</h2>
+    <div class="faq-head" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
+      {/* The title alone is the .section-header — it gets the same entrance as every other section title. */}
+      <div class="section-header">
+        <h2>Before platform adoption,<br>frequently asked questions</h2>
+      </div>
       <div class="faq-list" style="max-width:none;margin:0;">
       <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">From a PoC to a company-wide rollout, <br class="faq-sm1">it depends on the scale of your operation <br class="faq-mid-br">and the complexity of your existing systems.<br>We’ll share an exact timeline through consultation.</div></div>
       <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is <br class="faq-sm2">encrypted with <span style="white-space:nowrap">AES-256</span>, <br class="faq-br2">with per-organization isolation <br class="faq-sm2">(PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="faq-sm2">in which case data does not leave your company.</div></div>
