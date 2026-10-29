@@ -22,9 +22,12 @@
   //    문구: src/data/heroMarkers.ts · 마크업: 홈 페이지의 <template data-hero-card>
   //    원본(운영 리포 public/hero/)을 새로 가져오면 이 패치를 다시 올려야 한다.
   var MARKERS = [
-    { id: 'comp',  x: 432,  y: 735, stem: 60, side: 'right' },
+    /* ⚠️ 좌표는 1920×1080 판 기준이다. 화면 좌표로는 x*0.888-52.7 · y*0.895+102.4 에
+       앵커 점이 찍힌다(1600×1000 실측). 핀을 옮길 때 이 식으로 되짚는다.
+       comp · motor 는 뒤쪽 설비 위로 옮겼다 — 전에는 맨땅을 가리켰다. */
+    { id: 'comp',  x: 589,  y: 757, stem: 60, side: 'right' },
     { id: 'pump',  x: 942,  y: 640, stem: 70, side: 'right' },
-    { id: 'motor', x: 1461, y: 754, stem: 60, side: 'right' }
+    { id: 'motor', x: 1354, y: 763, stem: 60, side: 'right' }
   ];
 
   var STAGE_W = 1920, STAGE_H = 1080;

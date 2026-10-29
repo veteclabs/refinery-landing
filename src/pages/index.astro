@@ -158,6 +158,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       }
       var dimT = 0;
       function light(id) {
+        /* 어느 핀을 눌러도 바뀌는 자리는 하나다 — 가운데 설비 띠.
+           핀마다 제 지형을 바꾸게 해 봤더니 한 화면에서 바뀌는 자리가 셋이라
+           어디를 보라는 건지 흐려졌다. */
         if (lit) return;
         clearTimeout(dimT);
         var old = litLayer();
@@ -169,8 +172,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         over.setAttribute('src', LIT + 'near.webp');
         over.setAttribute('aria-hidden', 'true');
         over.setAttribute('alt', '');
-        /* 구역은 핀마다 다르다 — CSS 가 .is-comp · .is-pump · .is-motor 로 오린다. */
-        over.classList.add('vh-lit-near', 'is-' + id);
+        over.classList.add('vh-lit-near');
         base.parentNode.insertBefore(over, base.nextSibling);
       }
       function dim() {
