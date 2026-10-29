@@ -1167,7 +1167,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="container">
     <div class="section-header">
           <div class="section-header-row">
-            <h2 class="sol-title"><span class="sol-line">산업도 과제도 가리지 않는</span><span class="sol-line">모든 현장에 최적화된 솔루션</span></h2>
+            <h2 class="sol-title"><span class="sol-line">산업도 과제도 가리지 않는</span><span class="sol-line">모든 현장에 최적화된 <b class="hl-word" data-w="솔루션">솔루션</b></span></h2>
           </div>
         </div>
       </div>
@@ -1208,7 +1208,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         </div>
       </div>
     </div>
-    <div class="sol-progress" aria-hidden="true"><span class="sol-progress-thumb"></span></div>
   </div>
     </div>
   </div>
@@ -1271,6 +1270,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
         /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
         lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
+        /* 줄이 다 차면 그 줄의 핵심 낱말에 그라데이션을 켠다. */
+        lines[i].style.setProperty('--hl-on', q >= 1 ? '1' : '0');
       }
 
       /* 2) 소제목부터 아래가 떠오른다. */
@@ -1295,11 +1296,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var o = railOrigin[k];
         var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
         rail.style.setProperty('--sol-x', travel > 0 ? (-travel * local).toFixed(1) + 'px' : '0px');
-        /* 4) 보이는 띠에 맞춰 진행 표시와 앞뒤 버튼을 맞춘다. */
+        /* 4) 보이는 띠에 맞춰 앞뒤 버튼의 끝 상태와 한 장 몫을 잡는다. */
         if (rail.parentElement && !rail.parentElement.hasAttribute('data-off')) {
-          var seen = travel > 0 ? box.width / (box.width + travel) : 1;
-          sec.style.setProperty('--sol-thumb', (seen * 100).toFixed(2));
-          sec.style.setProperty('--sol-pos', ((1 - seen) * local * 100).toFixed(2));
           setArrow(prevBtn, local <= 0.001);
           setArrow(nextBtn, local >= 0.999);
           lastStep = travel > 0 ? (parseFloat(getComputedStyle(rail).getPropertyValue('--sol-w')) + 16) / travel : 0;
@@ -1782,7 +1780,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2 class="sec-title"><span class="sec-line">어떤 현장에서도</span><span class="sec-line">타협하지 않는 현장 보안 체계</span></h2>
+        <h2 class="sec-title"><span class="sec-line">어떤 현장에서도</span><span class="sec-line">타협하지 않는 현장 <b class="hl-word" data-w="보안">보안</b> 체계</span></h2>
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>고객 데이터는 AI 모델 학습에 <br class="mobile-br">사용되지 않습니다.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>온프레미스로 배포하면 <br class="mobile-br">데이터가 사내를 벗어나지 않습니다.</p>
       </div>
     </div>
@@ -1836,6 +1834,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       for (var i = 0; i < lines.length; i++) {
         lines[i].style.setProperty('--sec-fill', '100%');
         lines[i].style.setProperty('--sec-guide', '0');
+        lines[i].style.setProperty('--hl-on', '1');
       }
       sec.style.setProperty('--sec-body', '1');
       sec.style.setProperty('--sec-lift', '0px');
@@ -1877,6 +1876,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
         /* 모서리 괄호는 글자가 드러나는 만큼 걷힌다. */
         lines[i].style.setProperty('--sec-guide', (1 - q).toFixed(3));
+        lines[i].style.setProperty('--hl-on', q >= 1 ? '1' : '0');
       }
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body', ease(clamp((p - 0.34) / 0.16)).toFixed(3));
