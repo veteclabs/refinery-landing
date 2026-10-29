@@ -110,7 +110,12 @@ const jsonLd = [orgSchema, websiteSchema];
           ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
         }
       }
-      function hide() { card.hidden = true; mark(null); open = null; }
+      var layer = card.closest('.hero-pin-layer');
+      function hide() {
+        card.hidden = true;
+        if (layer) layer.classList.remove('is-on');
+        mark(null); open = null;
+      }
       function show(id) {
         var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
         if (!tpl) return;
@@ -122,6 +127,7 @@ const jsonLd = [orgSchema, websiteSchema];
         tt.textContent = h ? h.textContent : '';
         ds.textContent = p ? p.textContent : '';
         card.hidden = false;
+        if (layer) layer.classList.add('is-on');
         mark(id);
         open = id;
       }
