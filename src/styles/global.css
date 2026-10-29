@@ -495,17 +495,18 @@
          가로 · 세로 그라데이션 두 장을 교차(intersect)시켜 네모를 만든다.
          ⚠️ 비율은 층 상자 기준이다. 1600×1000 에서 그 상자가 (-53, 104) 에
             1706×960 으로 놓이고, 남길 구간은 화면 x 228~1261 · y 624~862 다
-            → 가로 26~71.5% · 세로 56.5~71% 를 남기고 네 변을 흐린다.
+            → 가로 26~71.5% · 세로 56.5~74.5% 를 남기고 네 변을 흐린다.
+            아래는 가운데 설비가 선 받침 판까지 담는다.
             (가로는 16.5 → 21.5 → 24 → 26% 로 세 번 좁혔다. 세로는 한때 58~69%
              까지 줄였다가 설비 위아래가 잘려 56.5~71% 로 되돌렸다.)
          ⚠️ 네 변 모두 흐려 둔다. 딱 끊으면 오려 낸 자리가 선으로 드러난다.
          ⚠️ -webkit-mask-composite 는 옛 이름이 따로다(source-in). 둘 다 적는다. */
       -webkit-mask-image:
         linear-gradient(to right, transparent 21.5%, #000 26%, #000 71.5%, transparent 75%),
-        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 71%, transparent 76%);
+        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 74.5%, transparent 78.5%);
               mask-image:
         linear-gradient(to right, transparent 21.5%, #000 26%, #000 71.5%, transparent 75%),
-        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 71%, transparent 76%);
+        linear-gradient(to bottom, transparent 51%, #000 56.5%, #000 74.5%, transparent 78.5%);
       -webkit-mask-composite: source-in;
               mask-composite: intersect;
       -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
