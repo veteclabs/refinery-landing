@@ -1246,15 +1246,19 @@
       padding: 0;
       overflow: hidden;
     }
+    /* 세로 크기는 헤더의 .btn-primary 와 같다 — 글자 14px 에 줄높이 1.6(22.4px),
+       위아래 6px, 테두리는 바깥 .sol-tabs 가 1px 씩 가져 합이 36.4px 이다.
+       ⚠️ line-height 를 적지 않으면 button 의 normal(약 1.15)이 쓰여 4px 짧아진다. */
     #industries .sol-tab {
       font-family: inherit;
       font-size: 14px;
       font-weight: 400;
+      line-height: 1.6;
       color: var(--text-muted);
       background: #ffffff;
       border: 0;
       border-radius: 0;
-      padding: 8px 20px;
+      padding: 6px 20px;
       cursor: pointer;
       transition: background .2s, color .2s;
     }
@@ -1269,42 +1273,10 @@
        옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했다.
        grid로 겹치므로 판 높이는 둘 중 큰 쪽을 따라간다 — 전환 중 높이가 안 튄다. */
     #industries .sol-viewport { position: relative; overflow: hidden; margin-top: 40px; }
-    /* 앞뒤 버튼 — 탭 줄 오른쪽 끝에 붙는다. 띠는 스크롤이 미는 것이지만
-       마우스만 쓰는 사람에게는 '내가 넘길 수 있다' 는 손잡이가 필요하다.
-       누르면 페이지를 한 장 몫만큼 굴린다(띠를 따로 밀지 않는다) —
-       위치의 근거는 스크롤 하나로 둔다.
-       ⚠️ 901px 아래에서는 띠가 아니라 격자라 감춘다. */
-    #industries .sol-nav { display: none; }
-    @media (min-width: 901px) {
-      #industries .sol-switch-row { position: relative; }
-      #industries .sol-nav {
-        display: flex;
-        gap: 8px;
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-    #industries .sol-arrow {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      padding: 0;
-      border: 1px solid var(--border2);
-      border-radius: 50%;
-      background: #ffffff;
-      color: var(--text);
-      cursor: pointer;
-      transition: color .2s ease, border-color .2s ease, background-color .2s ease;
-    }
-    #industries .sol-arrow:hover { color: #ffffff; border-color: var(--text); background: var(--text); }
-    /* 끝에 닿으면 눌러도 갈 데가 없다. 다만 둘은 늘 같은 색으로 둔다 — 한쪽만
-       흐려지면 두 단추가 다른 물건처럼 보인다. 손만 못 대게 한다. */
-    #industries .sol-arrow[aria-disabled="true"] { pointer-events: none; }
-    #industries .sol-arrow svg { display: block; }
+    /* ⚠️ 앞뒤 버튼(.sol-nav · .sol-arrow)은 2026-10-29 에 뺐다. 띠를 직접 밀지
+       않고 페이지를 한 장 몫만큼 굴릴 뿐이라, 스크롤이 이미 하는 일을 한 번 더
+       내놓은 손잡이였다. 한 줄에 가운데 탭과 오른쪽 끝 원형 단추가 따로 떠
+       정리되지 않아 보였다 — 줄에는 탭 하나만 둔다. */
 
     #industries .sol-track { display: grid; }
     #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
