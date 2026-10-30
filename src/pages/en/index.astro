@@ -890,27 +890,43 @@ const jsonLd = [orgSchema, websiteSchema];
        ⚠️ 이 묶음은 스타일 블록 맨 끝에 둔다 — #platform .pf-stage 와 특정도가
           같아서 뒤에 와야 이긴다. */
     @media (max-width: 900px) {
-      #platform { height: auto; padding: 96px 0 160px; }
+      /* ⚠️ 윗여백은 섹션이 아니라 무대가 쥔다. 바탕 그라데이션이 무대에 그려지므로,
+         여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
+         세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
+         여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
+      #platform { height: auto; padding: 0 0 160px; }
       #platform .pf-stage {
         position: static;
         height: auto;
-        padding-top: 0;
+        padding-top: 96px;
         padding-bottom: 0;
         display: block;
       }
+      /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
+         대제목(먹색 글자)은 밝은 쪽에, 그 아래 흰 글자는 먹색 쪽에 서야 하는데
+         둘이 붙어 있으면 띠가 지나갈 거리가 40px 밖에 안 나와 뚝 끊겨 보인다. */
+      #platform .section-header { margin-bottom: 110px; }
     }
     /* 낮고 좁은 창도 같이 푼다 — 높이 700 이하에서 폭 1100 아래가 걸린다.
        1024x700 에서 아코디언 아랫변이 10px, 640 에서는 60~70px 화면 밖으로
        나갔다. 넓은 창은 같은 높이에서도 들어가므로(1600x640 정상) 폭을 함께 건다. */
     @media (max-height: 700px) and (max-width: 1100px) {
-      #platform { height: auto; padding: 96px 0 160px; }
+      /* ⚠️ 윗여백은 섹션이 아니라 무대가 쥔다. 바탕 그라데이션이 무대에 그려지므로,
+         여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
+         세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
+         여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
+      #platform { height: auto; padding: 0 0 160px; }
       #platform .pf-stage {
         position: static;
         height: auto;
-        padding-top: 0;
+        padding-top: 96px;
         padding-bottom: 0;
         display: block;
       }
+      /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
+         대제목(먹색 글자)은 밝은 쪽에, 그 아래 흰 글자는 먹색 쪽에 서야 하는데
+         둘이 붙어 있으면 띠가 지나갈 거리가 40px 밖에 안 나와 뚝 끊겨 보인다. */
+      #platform .section-header { margin-bottom: 110px; }
     }
 
     /* ⚠️ 무대를 풀면 그라데이션 geometry 가 어긋난다. 원래는 타원 중심이 50% 150vh ·
@@ -934,7 +950,7 @@ const jsonLd = [orgSchema, websiteSchema];
           #A4C4E5 30%, #7EABDA 40%, #6189B1 50%, #466382 62%,
           #354C64 72%, #253547 82%, #1D2A39 91%, #151B23 100%) !important;
         background-repeat: no-repeat !important;
-        background-size: 100% 260px !important;
+        background-size: 100% 300px !important;
         background-position: top center !important;
       }
     }
@@ -1319,11 +1335,18 @@ const jsonLd = [orgSchema, websiteSchema];
           if (!stagePinned() && (sec.offsetHeight - (window.innerHeight || 800)) <= 0) { show(bs.length - 1); }
           var p = progress();
 
-          var w = p / W_END;
-          if (w > 1) w = 1;
-          var n = Math.floor(w * bs.length);
-          if (n > bs.length - 1) n = bs.length - 1;
-          show(n);
+          /* 낱말 교대는 무대를 붙여 둘 때만 돈다. 좁은 폭에서는 쓸 거리가
+             1.4 화면뿐이라 넷이 순식간에 스쳐 글자만 덜컥거린다 — 마지막
+             낱말 하나로 세워 둔다(원문 그대로 「지능으로」다). */
+          if (!stagePinned()) {
+            show(bs.length - 1);
+          } else {
+            var w = p / W_END;
+            if (w > 1) w = 1;
+            var n = Math.floor(w * bs.length);
+            if (n > bs.length - 1) n = bs.length - 1;
+            show(n);
+          }
 
           var ds = stagePinned() ? D_START : D_START_FLOW;
           var de = stagePinned() ? D_END : D_END_FLOW;
