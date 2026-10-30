@@ -210,11 +210,38 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         /* 하나를 고르면 나머지 핀은 물러선다(CSS 의 #hero.pin-open). */
         hero.classList.toggle('pin-open', !!id);
       }
+      /* 카드가 덮는 자리에 선 핀은 감춘다. 카드는 머리글에 붙어 늘 같은 자리인데
+         (1600 기준 453~676) 핀은 화면 높이를 따라 오르내린다 — 창이 낮을수록
+         오른쪽 핀이 카드 안으로 들어와, 760 높이에서는 44×44 가 통째로 겹쳤다.
+         ⚠️ 고른 핀은 감추지 않는다 — CSS 가 카드 위로 올려 통째로 보이게 한다.
+         ⚠️ 창 크기와 스크롤에 따라 다시 재야 한다. 히어로가 자라는 동안에도
+            핀이 움직인다. */
+      function cover() {
+        var ms = hero.querySelectorAll('.vh-marker');
+        var cb = open ? card.getBoundingClientRect() : null;
+        for (var i = 0; i < ms.length; i++) {
+          var m = ms[i], pin = m.querySelector('.vh-pin');
+          if (!cb || !pin || m.classList.contains('is-pinned')) { m.classList.remove('is-covered'); continue; }
+          var b = pin.getBoundingClientRect();
+          m.classList.toggle('is-covered',
+            Math.min(cb.right, b.right) > Math.max(cb.left, b.left) &&
+            Math.min(cb.bottom, b.bottom) > Math.max(cb.top, b.top));
+        }
+      }
+      var coverT = false;
+      function coverSoon() {
+        if (coverT || !open) return;
+        coverT = true;
+        requestAnimationFrame(function () { coverT = false; cover(); });
+      }
+      addEventListener('scroll', coverSoon, { passive: true });
+      addEventListener('resize', coverSoon, { passive: true });
       function hide() {
         card.hidden = true;
         /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
         dim();
         mark(null); open = null;
+        cover();
       }
       function show(id) {
         var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
@@ -232,6 +259,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         card.hidden = false;
         mark(id);
         open = id;
+        /* open 이 정해진 뒤에 잰다 — mark() 안에서는 아직 비어 있다. */
+        cover();
       }
 
       document.addEventListener('click', function (e) {

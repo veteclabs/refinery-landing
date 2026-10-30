@@ -467,6 +467,18 @@
     /* 고른 핀도 면은 비워 둔다 — 원래는 brand 색이 꽉 차고 + 가 흰색으로 뒤집혔다.
        흰 면에 테두리·글자만 brand 로 두면 설비 그래픽 위에서 덜 무겁다.
        + 가 × 로 도는 것은 그대로다(닫는 자리라는 표시). */
+    /* 카드가 덮는 자리에 선 핀은 감춘다 — 유리 카드 밑변이 핀을 반으로 자르던
+       자리다. 카드는 머리글에 붙어 늘 같은 자리인데(1600 기준 453~676) 핀은
+       화면 높이를 따라 오르내린다 — 1600×760 에서 모터 핀 윗끝 530, 1160 에서
+       787 이다. 창이 낮을수록 오른쪽 핀이 카드 안으로 들어온다.
+       어느 핀이 걸리는지는 그때그때 달라지므로 JS 가 재서 .is-covered 를 붙인다.
+       ⚠️ 핀을 카드 위로 올릴 수는 없다. 머리글(.container z 2)과 그래픽
+          (.hero-motion-placeholder z 1)이 .hero-stage 에서 먼저 갈리고, 그 안의
+          .vh 가 isolation: isolate 로 또 닫는다 — 핀에 z-index 를 아무리 올려도
+          카드를 못 넘는다. 올리려면 그래픽 층이 대제목 위로 올라와야 한다.
+       ⚠️ 그래서 고른 핀은 감추지 않고 그대로 둔다. 핀 머리는 카드 뒤로 들어가고
+          줄기와 바닥 점만 카드 아래로 나와, 카드가 그 자리를 가리키는 꼴이 된다. */
+    #hero .hero-motion-placeholder .vh-marker.is-covered { opacity: 0; pointer-events: none; }
     #hero .hero-motion-placeholder .vh-marker.is-pinned .vh-pin { color: var(--vh-accent); }
     #hero .hero-motion-placeholder .vh-marker.is-pinned .vh-pin::before { background: #fff; }
     /* 한 핀을 고르면 나머지는 물러선다 — 지금 무엇을 보고 있는지가 핀 쪽에서도
@@ -484,6 +496,7 @@
     #hero .hero-motion-placeholder .vh-marker .vh-dot {
       transition: color .25s ease, border-color .25s ease, background-color .25s ease;
     }
+    #hero .hero-motion-placeholder .vh-marker { transition: opacity .25s ease; }
 
     /* 핀을 누르면 빛을 계산한 설비 층이 밑장 위에 한 겹 얹힌다.
        ⚠️ 오려 쓰지 않는다. 한때 타원 마스크로 설비 자리만 남겼는데, 그러면 가운데
