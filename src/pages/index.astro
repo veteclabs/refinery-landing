@@ -2354,18 +2354,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var p = progress();
       /* 머리글은 내리지 않는다 — 무대가 화면을 꽉 채우지 않으므로 가운데로
          끌어올 자리가 없다. --sec-lift 는 CSS 기본값 0px 를 그대로 쓴다. */
-      /* 1) 제목이 줄마다 늦춰 떠오른다 — 아래에서 올라오며 흐림이 걷힌다.
-         윗줄이 먼저다. 창은 제목이 화면을 올라오는 65vh 에 맞춘 값이다. */
-      var LEAD = 0, STEP = 0.14, SPAN = 0.36;
+      /* 단은 제목 줄 둘 → 소제목 → 카드 둘 순으로 0.04 씩 뒤로 간다. 한 단이
+         0 에서 1 까지 가는 길이는 0.30 이다.
+         ⚠️ 두 값은 운영체제 · 통합과 같다. 셋 다 무대를 붙이지 않고 같은 창
+            (1.00 → 0.35)을 쓰므로 이어지는 박자도 같아야 한다.
+            0.14 · 0.36 이던 때는 같은 창에서 혼자 2.5 배 길게 늘어졌다 —
+            창 900 에서 마지막 카드가 556px 자리에서야 끝났다(지금 246px). */
+      var STEP = 0.04, SPAN = 0.30;
+      function nth(n) { return ease(clamp((p - n * STEP) / SPAN)); }
+      /* 1) 제목이 줄마다 늦춰 떠오른다. 윗줄이 먼저다. */
       for (var i = 0; i < lines.length; i++) {
-        var q = ease(clamp((p - LEAD - i * STEP) / SPAN));
-        lines[i].style.setProperty('--sec-o', q.toFixed(3));
+        lines[i].style.setProperty('--sec-o', nth(i).toFixed(3));
       }
-      /* 2) 소제목부터 아래가 떠오른다. */
-      sec.style.setProperty('--sec-body', ease(clamp((p - 0.62) / 0.30)).toFixed(3));
+      /* 2) 소제목부터 아래가 떠오른다 — 제목 줄 다음 단이다. */
+      sec.style.setProperty('--sec-body', nth(lines.length).toFixed(3));
       /* 3) 카드는 소제목 뒤를 이어 한 장씩 늦춰 떠오른다. */
       for (var c = 0; c < cards.length; c++) {
-        cards[c].style.setProperty('--sec-c', ease(clamp((p - 0.66 - c * 0.05) / 0.24)).toFixed(3));
+        cards[c].style.setProperty('--sec-c', nth(lines.length + 1 + c).toFixed(3));
       }
     }
 
