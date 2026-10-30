@@ -1988,13 +1988,14 @@ the ontology finds the answer</h3>
     if (!sec) return;
     var stage = sec.querySelector('.sec-stage');
     var lines = sec.querySelectorAll('.sec-title .sec-line');
+    var cards = sec.querySelectorAll('.sec-card');
     if (!stage || !lines.length) return;
 
     function settle() {
       for (var i = 0; i < lines.length; i++) {
-        lines[i].style.setProperty('--sec-fill', '100%');
-        lines[i].style.setProperty('--sec-guide', '0');
+        lines[i].style.setProperty('--sec-o', '1');
       }
+      for (var c = 0; c < cards.length; c++) cards[c].style.setProperty('--sec-c', '1');
       sec.style.setProperty('--sec-body', '1');
       sec.style.setProperty('--sec-lift', '0px');
     }
@@ -2023,17 +2024,19 @@ the ontology finds the answer</h3>
       var p = progress();
       /* 머리글은 내리지 않는다 — 무대가 화면을 꽉 채우지 않으므로 가운데로
          끌어올 자리가 없다. --sec-lift 는 CSS 기본값 0px 를 그대로 쓴다. */
-      /* 1) 제목이 줄마다 늦춰 드러난다 — 윗줄이 먼저다.
-         창은 제목이 화면을 올라오는 65vh 에 맞춘 값이다. */
+      /* 1) 제목이 줄마다 늦춰 떠오른다 — 아래에서 올라오며 흐림이 걷힌다.
+         윗줄이 먼저다. 창은 제목이 화면을 올라오는 65vh 에 맞춘 값이다. */
       var LEAD = 0, STEP = 0.14, SPAN = 0.36;
       for (var i = 0; i < lines.length; i++) {
         var q = ease(clamp((p - LEAD - i * STEP) / SPAN));
-        lines[i].style.setProperty('--sec-fill', (q * 100).toFixed(1) + '%');
-        /* 모서리 괄호는 글자가 드러나는 만큼 걷힌다. */
-        lines[i].style.setProperty('--sec-guide', (1 - q).toFixed(3));
+        lines[i].style.setProperty('--sec-o', q.toFixed(3));
       }
       /* 2) 소제목부터 아래가 떠오른다. */
       sec.style.setProperty('--sec-body', ease(clamp((p - 0.62) / 0.30)).toFixed(3));
+      /* 3) 카드는 소제목 뒤를 이어 한 장씩 늦춰 떠오른다. */
+      for (var c = 0; c < cards.length; c++) {
+        cards[c].style.setProperty('--sec-c', ease(clamp((p - 0.66 - c * 0.05) / 0.24)).toFixed(3));
+      }
     }
 
     var ticking = false;
