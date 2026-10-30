@@ -1471,8 +1471,22 @@ const jsonLd = [orgSchema, websiteSchema];
 
     /* 핀 상자가 화면을 지나간 비율(0→1)과, 거기서 뽑은 사진 띠의 진행도. */
     function progress() {
-      var span = pin.offsetHeight - (window.innerHeight || 800);
-      return span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+      if (stagePinned()) {
+        var span = pin.offsetHeight - (window.innerHeight || 800);
+        return span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+      }
+      /* 무대를 붙이지 않는 폭(900 이하)에서는 핀 상자가 내용 높이뿐이라 그 거리로
+         재면 모션이 순식간에 끝난다. 대신 제목이 화면을 올라오는 만큼을 쓴다 —
+         1.4 화면이다(플랫폼 · 보안 섹션과 같은 방식). */
+      var title = sec.querySelector('.sol-title');
+      if (!title) return 1;
+      var vh = window.innerHeight || 800;
+      var from = vh * 1.05, to = vh * -0.35;
+      return from > to ? clamp((from - title.getBoundingClientRect().top) / (from - to)) : 1;
+    }
+    function stagePinned() {
+      var st = sec.querySelector('.ind-stage');
+      return !!st && getComputedStyle(st).position === 'sticky';
     }
     function railProgress(p) { return ease(clamp((p - 0.48) / 0.48)); }
     var railOrigin = rails.map(function () { return 0; });
@@ -1488,9 +1502,14 @@ const jsonLd = [orgSchema, websiteSchema];
       sec.style.setProperty('--sol-pre', ease(clamp((p - 0.02) / 0.12)).toFixed(3));
       sec.style.setProperty('--sol-scatter', (1 - ease(clamp((p - 0.08) / 0.30))).toFixed(3));
 
-      /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다. */
+      /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다.
+         ⚠️ 무대를 붙이지 않는 폭에서는 상수를 넓게 잡는다. 붙여 둘 때는 340vh 를
+            쓰므로 0.17 만으로도 한참이지만, 안 붙이면 1.4 화면이 전부라 같은 값을
+            쓰면 섹션에 들어서기도 전에 다 차 버린다(900 에서 내내 100% 였다). */
+      var stuck = stagePinned();
+      var F_LEAD = stuck ? 0.03 : 0.16, F_STEP = stuck ? 0.08 : 0.13, F_SPAN = stuck ? 0.17 : 0.30;
       for (var i = 0; i < lines.length; i++) {
-        var q = ease(clamp((p - 0.03 - i * 0.08) / 0.17));
+        var q = ease(clamp((p - F_LEAD - i * F_STEP) / F_SPAN));
         lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
         /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
         lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
