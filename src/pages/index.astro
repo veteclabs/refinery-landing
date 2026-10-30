@@ -835,7 +835,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         aspect-ratio: unset !important;
         display: flex !important; flex-direction: column !important;
         background: #F6F8FA;
-        border-radius: 0 0 var(--radius) var(--radius) !important;
+        /* ⚠️ 아래 두 귀퉁이만 둥글던 값이었다. 그때는 상자 위에 가로 탭바가 얹혀
+           있어 윗변이 탭바에 가려졌다. 탭바가 제목 줄의 동그란 탭으로 바뀌어
+           윗변이 드러났는데 값이 그대로라 위 두 귀퉁이가 각지게 남았다.
+           오른쪽은 화면 끝에 잘려 나가므로 왼쪽 둘만 둥글린다. */
+        border-radius: var(--radius) 0 0 var(--radius) !important;
       }
       .teams-preview-decor { display: none !important; }
       /* 좌우 32 → 20px. 이 구간에서 글 칸은 .teams-rail 의 min-width 300px 에
@@ -878,14 +882,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
       #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
     }
-    /* 카드 오른쪽 정렬은 900px 이하만 해당한다 — global.css 가 거기서만
-       margin-right:-24px 로 화면 끝까지 흘리기 때문이다. 가로 스크롤 시절
-       '더 있다'는 힌트였는데, 탭바가 줄바꿈으로 바뀌며 탭바만 컨테이너 안에서
-       끝나 오른쪽이 어긋났다. 모서리도 왼쪽만 둥글던 것을 양쪽으로 되돌린다. */
+    /* 바깥으로 빼는 일은 .teams-split 이 맡으므로 상자 자신의 margin 은 0 이다.
+       ⚠️ 둥글기는 위 묶음과 같은 까닭으로 왼쪽 둘만 둔다 — 오른쪽 변은 화면 끝에
+          잘려 나간다. 820 이하는 global.css 가 같은 값을 !important 로 덮는다. */
     @media (max-width: 900px) {
       #teams .teams-preview {
         margin-right: 0;
-        border-radius: 0 0 var(--radius) var(--radius) !important;
+        border-radius: var(--radius) 0 0 var(--radius) !important;
       }
     }
     @media (max-width: 520px) {
