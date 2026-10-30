@@ -1001,19 +1001,19 @@ const jsonLd = [orgSchema, websiteSchema];
       #platform .pf-stage {
         background-color: #151B23 !important;
         background-image: linear-gradient(180deg,
-          /* 위 — 흰 면은 짧게 끝낸다. 110px 안에 #9BBEE3 까지 내려가고, 거기서
-             제목 밑변까지는 거의 같은 하늘색으로 완만하게 간다. 제목이 768 에서
-             y176~232 · 390 에서 y176~218 이라 #90B6DF~#7DAAD9 위에 선다 —
-             대제목이 먹색(#16202C) 글자라 이보다 어두워지면 읽히지 않는다. */
-          #FFFFFF 0%, #F3F7FC 2.5%, #E1ECF7 5.5%, #CCDEF1 8.5%,
-          #B3CEEA 11.5%, #9BBEE3 15.7%, #92B8E0 24%, #7DAAD9 33.1%,
-          /* 가운데 — 제목 밑변을 지나면 바로 떨어진다. 158px 만에 #253547 이다. */
-          #6A96C2 36%, #587CA1 38.6%, #466382 42.9%, #354C64 48.6%,
-          #253547 55.7%,
-          /* 아래 — 먹색끼리의 꼬리. 여기서 끊으면 바탕과 띠 끝이 맞닿아 선이 보인다. */
-          #1D2A39 64.3%, #171E27 77.1%, #151B23 100%) !important;
+          /* 위 — 대제목 자리까지 흰 면이다. 제목이 768 에서 y176~232 · 390 에서
+             y176~218 이라 32~37.4% 에 선다 — #FFFFFF~#F3F8FC 위라 먹색 글자가
+             가장 또렷하다(15:1 안팎). 여기가 이 띠의 전제다. */
+          #FFFFFF 0%, #FFFFFF 32%, #F3F8FC 37.4%,
+          /* 가운데 — 제목을 지나면서 브랜드 하늘색(#76A6D7)을 짧게 지난다.
+             285~360px 사이, 75px 남짓이다. */
+          #DCE8F5 40%, #C2D8EE 43%, #A6C5E4 46%, #86B0DC 49%,
+          #76A6D7 51.6%, #6898C6 54%, #5A86B0 57%,
+          /* 아래 — 흰 세 줄 글(768 y424 · 390 y410)이 앉는 자리에서 먹색이 된다. */
+          #4C7196 60%, #3E5C7B 63%, #324A62 66%, #28394C 69%,
+          #1F2D3C 74%, #1A232E 82%, #151B23 100%) !important;
         background-repeat: no-repeat !important;
-        background-size: 100% 700px !important;
+        background-size: 100% 620px !important;
         background-position: top center !important;
       }
     }
