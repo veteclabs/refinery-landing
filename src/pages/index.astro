@@ -929,13 +929,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
          먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
          그 160 을 무대 안쪽으로 옮긴다. 그래픽 상자는 무대보다 30px 더 내려오므로
-         150 을 주면 그래픽 아래로 먹색이 120px 남는다. */
+         80 을 주면 그래픽 아래로 먹색이 50px 남는다.
+         ⚠️ 150(먹색 120px)은 너무 넓었다. 그래픽 자체가 아랫변까지 꽉 차지 않고
+            여백을 안고 있어, 상자 기준 50px 이면 눈에는 그보다 넓게 보인다. */
       #platform { height: auto; padding: 0; }
       #platform .pf-stage {
         position: static;
         height: auto;
         padding-top: 96px;
-        padding-bottom: 150px;
+        padding-bottom: 80px;
         display: block;
       }
       /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
@@ -955,13 +957,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
          먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
          그 160 을 무대 안쪽으로 옮긴다. 그래픽 상자는 무대보다 30px 더 내려오므로
-         150 을 주면 그래픽 아래로 먹색이 120px 남는다. */
+         80 을 주면 그래픽 아래로 먹색이 50px 남는다.
+         ⚠️ 150(먹색 120px)은 너무 넓었다. 그래픽 자체가 아랫변까지 꽉 차지 않고
+            여백을 안고 있어, 상자 기준 50px 이면 눈에는 그보다 넓게 보인다. */
       #platform { height: auto; padding: 0; }
       #platform .pf-stage {
         position: static;
         height: auto;
         padding-top: 96px;
-        padding-bottom: 150px;
+        padding-bottom: 80px;
         display: block;
       }
       /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
