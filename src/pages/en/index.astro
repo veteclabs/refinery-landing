@@ -1553,8 +1553,7 @@ the ontology finds the answer</h3>
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task and history data in the<br>
-ontology to infer causes and answer conversationally. The data sources behind the answer are given too.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally. The data sources behind the answer are given too.</p>
           </div>
         </div>
       </div>
@@ -2169,12 +2168,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question, and\nthe ontology finds the answer', 'The AI reasons over asset, task and history data in the\nontology to infer causes and answer conversationally. The data sources behind the answer are given too.', 'AI Agent'],
-  plate: ['The field, right now,\nin numbers', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status and anomaly signals on a single screen.', 'Plate'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more\npick the widget that fits your data.', 'Tile'],
-  pipeline: ['Draw the flow,\nand it runs', 'Connect nodes from source to result.\nThe diagram is the pipeline that runs, so nothing has to be written out again.', 'Pipeline Builder'],
-  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other field concepts as objects and relations.\nThis structure powers Plate and the AI agent.', 'Ontology'],
-  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection cycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar']
+  llm: ['Ask a question, and\nthe ontology finds the answer', 'The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally. The data sources behind the answer are given too.', 'AI Agent'],
+  plate: ['The field, right now,\nin numbers', 'Monitor key field metrics in real time. Check per-department and per-zone status and anomaly signals on a single screen.', 'Plate'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more pick the widget that fits your data.', 'Tile'],
+  pipeline: ['Draw the flow,\nand it runs', 'Connect nodes from source to result. The diagram is the pipeline that runs, so nothing has to be written out again.', 'Pipeline Builder'],
+  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other field concepts as objects and relations. This structure powers Plate and the AI agent.', 'Ontology'],
+  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection cycles and team tasks on one screen, so the operational rhythm never slips.', 'Calendar']
 };
 
 var NO_SCROLL_KEYS = ['llm','plate','tile','pipeline','ontology','calendar']; // 원래 스크롤이 없는 화면 - 우측 크롭 적용 안 함
