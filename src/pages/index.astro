@@ -772,8 +772,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       word-break: keep-all;
     }
     @media (max-width: 900px) {
+      /* ⚠️ 폭의 상한은 그림이 아니라 '칸' 이 쥔다. 이름표(.pf-labels)는 칸을
+         기준으로 자리를 잡는 absolute 상자이고(left · top 이 칸 폭의 %, 세로도
+         칸 폭에서 나오는 aspect-ratio: 1/1), 글자 크기도 칸의 cqw 를 쓴다.
+         상한을 그림에만 걸면 칸이 그림보다 넓어지는 구간(칸 681~852px, 폭 약
+         730~900)에서 이름표만 칸을 따라가 오른쪽 · 아래로 어긋난다 —
+         Work flow 가 판 가운데를 벗어나고 Unify · Refine · Collect 가 비탈
+         밖으로 밀려났다.
+         칸을 680 으로 묶고 가운데에 두면 칸 = 그림이라 셋(자리 · 세로 · cqw)이
+         한 기준을 쓴다. */
       #platform .platform-graphic-wrap {
-        margin: 40px 0 0;
+        margin: 40px auto 0;
+        max-width: 680px;
         padding: 0 0 6px;
         /* 옆으로 끌어 보던 칸이었다 — 이제 그림이 폭에 맞춰 줄므로 넘칠 일이 없다. */
         overflow: visible;
@@ -788,7 +798,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         margin-top: 0;
         width: 100%;
         min-width: 0;
-        max-width: 680px;
+        /* 상한은 칸이 쥔다(위) — 그림은 칸을 꽉 채운다. */
+        max-width: none;
         height: auto;
         /* ⚠️ margin-bottom: -7% 를 푼다. 붙여 둘 때는 무대 아래 여백이 그 7% 를
            받아 줬는데, 풀면서 padding-bottom 을 0 으로 두어 그림 아래 44px 이
