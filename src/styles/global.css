@@ -991,7 +991,10 @@
       background: var(--accent);
       border-color: var(--accent);
       color: #ffffff;
-      padding: 0 11px 0 8px;
+      /* 좌우를 같은 값으로 둔다 — 아이콘 왼쪽과 글자 오른쪽의 여백이 같아야
+         알약이 한쪽으로 쏠려 보이지 않는다. 8/11 이던 것을 14 로 올렸다.
+         아이콘과 글자 사이는 이 여백과 별개로 이름 쪽 margin-left 가 쥔다. */
+      padding: 0 14px;
     }
     #teams .teams-menu-vertical .teams-tab-btn.active .teams-tab-lbl {
       max-width: 160px;
