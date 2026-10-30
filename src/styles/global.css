@@ -1322,7 +1322,10 @@
         display: block;
         overflow: visible;
       }
-      #industries .ind-stage > .container { transform: none; }
+      /* ⚠️ 여기 있던 transform: none 은 걷었다. 아래쪽 #industries .ind-stage >
+         .container 의 translateY 와 같은 특정도인데 그쪽이 뒤라 늘 졌다 —
+         듣지 않는 규칙이 있는 쪽이 더 헷갈린다. 대신 스크립트의 measure() 가
+         무대를 붙이지 않을 때 --ind-lift 를 0 으로 두고 나간다. */
       /* 무대가 flex 일 때는 gap: 40px 이 제목과 탭 줄 사이를 벌렸는데, 풀면서
          display: block 이 되어 그 틈이 0 이 됐다 — 제목 밑변에 탭이 붙었다.
          탭 아래 사진까지의 틈(40px)과 같은 값으로 다시 준다. */
