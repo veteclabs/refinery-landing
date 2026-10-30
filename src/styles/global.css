@@ -26,6 +26,18 @@
             글자를 넘기는 것이라, 쓰는 자리에서 100% 가 그 요소의 칸 기준으로
             다시 풀린다(.teams-split 에서 48px 이 나왔다). 스크립트가 px 로 넣는다. */
       --sbw: 0px;
+      /* ── 상호작용 타이밍 두 가지 ──────────────────────────────────────────
+         --t-quick  색 · 테두리 · 바탕 · 투명도, 그리고 4~6px 짜리 작은 밀림.
+         --t-move   열고 닫히는 것, 크기 · 자리가 눈에 띄게 바뀌는 것.
+         ⚠️ 새 transition 을 쓸 때 초 · 곡선을 직접 적지 말고 둘 중 하나를 고른다.
+            2026-10-30 이전에는 .15 · .2 · .25 · .28 · .3 · .34 · .35 · .4 · .5 ·
+            .6 초에 곡선 다섯 종이 섞여 있었다. 쓰임이 같은데 값만 다른 자리가
+            대부분이었다.
+         ⚠️ 스크롤이 모는 등장(--pf-in · --sec-o 류)은 여기에 해당하지 않는다.
+            그쪽은 transition 이 아니라 진행도를 그대로 받으므로 거리(24px)와
+            가속(스크립트의 smoothstep)이 따로 정해져 있다. */
+      --t-quick: .2s ease;
+      --t-move: .35s cubic-bezier(.22, 1, .36, 1);
     }
 
     html { scroll-behavior: smooth; }
@@ -50,7 +62,7 @@
       height: var(--header-h);
       background: transparent;
       border-bottom: 1px solid transparent;
-      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), background .25s ease, border-color .25s ease;
+      transition: transform var(--t-move), background-color var(--t-quick), border-color var(--t-quick);
     }
     .nav-inner {
       max-width: 1600px; margin: 0 auto; height: 100%;
@@ -58,14 +70,14 @@
       padding: 0 48px;
     }
     .nav-left { display: flex; align-items: center; gap: 48px; }
-    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #191F27; display: flex; align-items: center; transition: color .25s ease; }
+    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #191F27; display: flex; align-items: center; transition: color var(--t-quick); }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
     .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
       /* 색은 디자인시스템 ink 스케일. #191F27·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
          테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
       background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
-      transition: all .2s;
+      transition: color var(--t-quick), background-color var(--t-quick), border-color var(--t-quick);
     }
 
     .mobile-br { display: none; }
@@ -513,9 +525,9 @@
     #hero .hero-motion-placeholder .vh-marker .vh-pin::before,
     #hero .hero-motion-placeholder .vh-marker .vh-stem,
     #hero .hero-motion-placeholder .vh-marker .vh-dot {
-      transition: color .25s ease, border-color .25s ease, background-color .25s ease;
+      transition: color var(--t-quick), border-color var(--t-quick), background-color var(--t-quick);
     }
-    #hero .hero-motion-placeholder .vh-marker { transition: opacity .25s ease; }
+    #hero .hero-motion-placeholder .vh-marker { transition: opacity var(--t-quick); }
 
     /* 핀을 누르면 빛을 계산한 설비 층이 밑장 위에 한 겹 얹힌다.
        ⚠️ 오려 쓰지 않는다. 한때 타원 마스크로 설비 자리만 남겼는데, 그러면 가운데
@@ -690,7 +702,10 @@
                  scale(calc(var(--vh-s, 1) * var(--hero-art-scale, 1)));
       /* 무대 자리가 바뀔 때 쓰는 전환(리사이즈로 --vh-s 가 바뀌는 경우 등).
          핀을 눌러 확대하던 장치는 걷었다 — 그때 쓰려고 둔 값이었다.
-         기울기는 .vh-scene 이 따로 쥐고 있어 여기 transition 과 부딪히지 않는다. */
+         기울기는 .vh-scene 이 따로 쥐고 있어 여기 transition 과 부딪히지 않는다.
+         ⚠️ 여기만 --t-move 를 쓰지 않는다. 눌러서 생기는 반응이 아니라 창 크기가
+            바뀔 때 무대가 새 자리를 찾아가는 움직임이고, 화면 절반을 차지하는
+            그래픽이라 .35s 로는 급하다. */
       transition: transform .6s cubic-bezier(.2, .7, .2, 1);
     }
     @media (prefers-reduced-motion: reduce) {
@@ -884,10 +899,10 @@
     .hero-demo-link {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 18px; font-weight: 400; color: #76A6D7;
-      transition: color .2s ease;
+      transition: color var(--t-quick);
     }
     .hero-demo-link:hover { color: #76A6D7; }
-    .hero-demo-link svg { transition: transform .2s ease; }
+    .hero-demo-link svg { transition: transform var(--t-quick); }
     .hero-demo-link:hover svg { transform: translateX(4px); }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     /* PLATFORM */
@@ -1003,8 +1018,8 @@
          놓여 아이콘이 왼쪽으로 8px 밀렸다(칸도 32 가 아니라 40 이 됐다).
          펼쳤을 때의 사이 간격은 이름 쪽 margin-left 가 쥔다. */
       gap: 0;
-      transition: color .2s ease, border-color .2s ease, background-color .2s ease,
-                  padding .28s cubic-bezier(.2,.7,.2,1);
+      transition: color var(--t-quick), border-color var(--t-quick),
+                  background-color var(--t-quick), padding var(--t-move);
     }
     #teams .teams-menu-vertical .teams-tab-btn i { flex: none; font-size: 16px; line-height: 1; }
     #teams .teams-menu-vertical .teams-tab-btn .teams-tab-lbl {
@@ -1012,8 +1027,8 @@
       margin-left: 0;
       opacity: 0;
       overflow: hidden;
-      transition: max-width .28s cubic-bezier(.2,.7,.2,1),
-                  margin-left .28s cubic-bezier(.2,.7,.2,1), opacity .18s ease;
+      transition: max-width var(--t-move), margin-left var(--t-move),
+                  opacity var(--t-quick);
     }
     #teams .teams-menu-vertical .teams-tab-btn:hover { border-color: var(--text-muted); color: var(--text); }
     #teams .teams-menu-vertical .teams-tab-btn.active {
@@ -1237,7 +1252,7 @@
       #teams .teams-thumbs { justify-content: flex-end; }
     }
     .teams-menu-horizontal { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; }
-    .teams-tab-btn { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; padding: 18px 8px; border: none; border-right: 1px solid var(--border); box-sizing: border-box; border-radius: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; font-weight: 500; color: var(--text-muted); transition: background .15s, color .15s; white-space: nowrap; position: relative; box-shadow: inset 0 -3px 0 0 transparent; }
+    .teams-tab-btn { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; padding: 18px 8px; border: none; border-right: 1px solid var(--border); box-sizing: border-box; border-radius: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; font-weight: 500; color: var(--text-muted); transition: background-color var(--t-quick), color var(--t-quick); white-space: nowrap; position: relative; box-shadow: inset 0 -3px 0 0 transparent; }
     .teams-tab-btn:last-child { border-right: none; }
     .teams-tab-btn.active { background: transparent; color: var(--accent); font-weight: 700; box-shadow: inset 0 -3px 0 0 var(--accent); }
     @media (max-width: 900px) {
@@ -1272,7 +1287,7 @@
          넓은 폭에는 원래 없던 처리라 좁은 폭도 같은 모습이 된다. */
     }
 
-    /* SOLUTIONS */    .s-tab { padding: 7px 14px; font-size: 13px; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); color: var(--text-muted); background: transparent; transition: all .2s; }
+    /* SOLUTIONS */    .s-tab { padding: 7px 14px; font-size: 13px; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); color: var(--text-muted); background: transparent; transition: color var(--t-quick), background-color var(--t-quick), border-color var(--t-quick); }
     .s-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
     /* INDUSTRIES */
     /* 바탕은 흰 면이고, 그 위에 도면 종이 격자를 얇게 깐다.
@@ -1489,7 +1504,7 @@
       border-radius: 0;
       padding: 6px 20px;
       cursor: pointer;
-      transition: background .2s, color .2s;
+      transition: background-color var(--t-quick), color var(--t-quick);
     }
     /* 가운데 선은 두 단추 사이에만 긋는다 — 바깥 테두리는 .sol-tabs 가 갖는다. */
     #industries .sol-tab + .sol-tab { border-left: 1px solid var(--border2); }
@@ -1508,7 +1523,7 @@
        정리되지 않아 보였다 — 줄에는 탭 하나만 둔다. */
 
     #industries .sol-track { display: grid; }
-    #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity .3s ease; }
+    #industries .sol-panel { grid-area: 1 / 1; min-width: 0; transition: opacity var(--t-quick); }
     /* 숨긴 판은 visibility로 접근성 트리와 탭 이동에서도 빠진다(opacity만으로는 안 빠진다). */
     #industries .sol-panel[data-off] { visibility: hidden; opacity: 0; pointer-events: none; }
     @media (prefers-reduced-motion: reduce) { #industries .sol-panel { transition: none; } }
@@ -1562,7 +1577,7 @@
       /* flex item 이라 flex: none 이 없으면 본문이 늘어날 때 사진이 눌린다. */
       display: block; flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9;
       object-fit: cover; background: #191F27;
-      transition: transform .3s ease;
+      transition: transform var(--t-move);
     }
     /* 사진 위 두 겹 — 과제별 페이지 카드(.uc-case--img)와 같은 값이다. 한 층에 겹쳐 깐다.
        위: 아래로 갈수록 짙어지는 그라데이션. 과제별과 같은 기울기를 쓰려면 기준 높이도
@@ -1611,7 +1626,7 @@
          이름 글씨보다는 흐려 글을 이기지 않는다.
          테두리와 화살촉이 함께 바뀌도록 둘 다 currentColor를 쓴다. */
       color: #A4ADB8;
-      transition: transform .2s ease, color .2s ease;
+      transition: transform var(--t-quick), color var(--t-quick);
     }
     .industry-go svg { display: block; }
     a.industry-card:hover .industry-go { transform: translateX(4px); color: #76A6D7; }
@@ -1708,7 +1723,7 @@
       margin-right: -38px;
       opacity: 0;
       transform: translateX(-6px);
-      transition: margin-right .25s ease, opacity .2s ease, transform .25s ease, color .2s ease;
+      transition: margin-right var(--t-quick), opacity var(--t-quick), transform var(--t-quick), color var(--t-quick);
       color: #C8CED5;
     }
     #industries a.industry-card:hover .industry-go {
@@ -1989,9 +2004,9 @@
     .faq-list { max-width: 700px; margin: 48px auto 0; }
     .faq-item { border-bottom: 1px solid var(--border); overflow: hidden; }
     .faq-item:last-child { border-bottom: none; }
-    .faq-q { padding: 20px 4px; font-size: 17px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: color .2s; }
+    .faq-q { padding: 20px 4px; font-size: 17px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: color var(--t-quick); }
     .faq-q:hover { color: inherit; }
-    .faq-q .faq-icon { font-size: 14px; color: var(--text-dim); flex-shrink: 0; margin-left: 12px; transition: transform .2s; -webkit-text-stroke: 0.3px currentColor; }
+    .faq-q .faq-icon { font-size: 14px; color: var(--text-dim); flex-shrink: 0; margin-left: 12px; transition: transform var(--t-quick); -webkit-text-stroke: 0.3px currentColor; }
     .faq-item.open .faq-icon { transform: rotate(180deg); }
     #teams .section-header { margin-bottom: 0; }
     /* keep-all 이 없으면 한글이 글자 단위로 끊긴다("안내드립니 / 다."). 아래에서
@@ -2070,7 +2085,7 @@
     @media (max-width: 1260px) {
       html[lang="en"] #faq .faq-head { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
-    .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), padding 0.3s ease, opacity 0.3s ease; opacity: 0; }
+    .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height var(--t-move), padding var(--t-move), opacity var(--t-move); opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
     #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
