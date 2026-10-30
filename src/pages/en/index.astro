@@ -176,11 +176,57 @@ const jsonLd = [orgSchema, websiteSchema];
             비어 있어 되돌이로 돌지 않는다. */
       if (window.MutationObserver) {
         var mo = new MutationObserver(function () {
-          if (hero.classList.contains('is-grown')) preloadLit();
+          if (hero.classList.contains('is-grown')) {
+            preloadLit();
+            /* 자라는 동안 배율이 계속 바뀐다 — 멈춘 뒤에 한 번 더 잰다. */
+            fitSoon(); setTimeout(fitPins, 180); setTimeout(fitPins, 520);
+          }
           else if (open) hide();
         });
         mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
         if (hero.classList.contains('is-grown')) preloadLit();
+      /* 좁은 폭에서는 장면이 칸보다 커서 좌우가 잘린다(820 에서 294px, 600 에서
+         404px). 그 바깥에 놓인 핀은 칸 밖으로 나가 반쪽만 보이거나 아예 안
+         보였다 — 핀을 통째로 안쪽으로 당겨 늘 칸 안에 서게 한다.
+         ⚠️ 핀 머리만 옮기지 않는다. 줄기와 바닥 점까지 같이 가야 '이 자리를
+            가리킨다' 가 유지된다. 어차피 원래 가리키던 설비는 잘려 나간 뒤다.
+         ⚠️ translate 로 민다 — .vh-marker 는 transform 을 쓰지 않지만, 그래픽
+            쪽이 나중에 쓰더라도 부딪히지 않는다.
+         ⚠️ 재기 전에 되돌린다. 제가 민 값이 남아 있으면 그만큼 또 밀린다. */
+      var FIT_PAD = 8;
+      function fitPins() {
+        var box = hero.querySelector('.hero-motion-placeholder');
+        if (!box) return;
+        var ms = hero.querySelectorAll('.vh-marker');
+        if (!ms.length) return;
+        for (var i = 0; i < ms.length; i++) ms[i].style.removeProperty('translate');
+        var bb = box.getBoundingClientRect();
+        /* ⚠️ 무대(.vh-stage)가 scale 을 걸고 있다 — 그 안에서 미는 값은 화면에서
+           그 배율만큼 줄어든다. 화면 기준으로 옮기고 싶은 거리를 배율로 나눈다.
+           이 보정 없이는 600 에서 143px 을 밀어도 핀이 여전히 칸 밖이었다. */
+        var sx = 1;
+        var st = hero.querySelector('.vh-stage');
+        if (st && window.DOMMatrixReadOnly) {
+          try { sx = new DOMMatrixReadOnly(getComputedStyle(st).transform).a || 1; } catch (e) { sx = 1; }
+        }
+        if (!sx) sx = 1;
+        for (var i = 0; i < ms.length; i++) {
+          var pin = ms[i].querySelector('.vh-pin');
+          if (!pin) continue;
+          var b = pin.getBoundingClientRect(), dx = 0;
+          if (b.left < bb.left + FIT_PAD) dx = (bb.left + FIT_PAD) - b.left;
+          else if (b.right > bb.right - FIT_PAD) dx = (bb.right - FIT_PAD) - b.right;
+          if (dx) ms[i].style.setProperty('translate', (dx / sx).toFixed(2) + 'px 0');
+        }
+      }
+      var fitT = false;
+      function fitSoon() {
+        if (fitT) return;
+        fitT = true;
+        requestAnimationFrame(function () { fitT = false; fitPins(); });
+      }
+      addEventListener('resize', fitSoon, { passive: true });
+      addEventListener('scroll', fitSoon, { passive: true });
       } else { preloadLit(); }
 
       function mark(id) {
