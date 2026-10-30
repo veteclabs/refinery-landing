@@ -761,6 +761,10 @@ const jsonLd = [orgSchema, websiteSchema];
         min-width: 0;
         max-width: 680px;
         height: auto;
+        /* ⚠️ margin-bottom: -7% 를 푼다. 붙여 둘 때는 무대 아래 여백이 그 7% 를
+           받아 줬는데, 풀면서 padding-bottom 을 0 으로 두어 그림 아래 44px 이
+           섹션 밖으로 나가 잘렸다(900 · 768 실측, 620 에서 34 · 430 에서 21). */
+        margin-bottom: 0;
       }
       /* 두 단을 한 단으로 쌓는다. */
       #platform .platform-split {
@@ -807,16 +811,9 @@ const jsonLd = [orgSchema, websiteSchema];
       #teams .teams-preview-title-wrap h3 { font-size: 28px; }
       .teams-preview-text p { max-width: none; }
       #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
-      #iframe-wrapper::before {
-        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
-        z-index: 2; pointer-events: none;
-      }
-      #iframe-wrapper::after {
-        content: ""; position: absolute; inset: 0;
-        background: linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0.85) 8%, rgba(246,248,250,0) 24%, rgba(246,248,250,0) 76%, rgba(246,248,250,0.85) 92%, #F6F8FA 100%);
-        z-index: 2; pointer-events: none;
-      }
+      /* ⚠️ 그림 위에 덮던 그라데이션 두 겹(위 띠 · 좌우 흐림)은 걷었다. 칸이
+         화면 끝까지 흐르던 시절의 값인데 지금은 상자가 제 테두리를 갖고 서므로,
+         그림이 양 끝에서 하얗게 바래 보였다. 1281px 위에는 원래 없던 처리다. */
     }
 
     /* #teams 탭 여섯 개는 이 섹션이 말하는 "everything"의 목록이다.
@@ -924,10 +921,13 @@ const jsonLd = [orgSchema, websiteSchema];
        원래 타원이 지나는 순서 그대로다. */
     @media (max-width: 900px), (max-height: 700px) and (max-width: 1100px) {
       #platform .pf-stage {
+        /* ⚠️ 어두워지는 구간을 위쪽에 몰아 둔다. 글이 앉는 자리(무대 높이의 10%
+           아래 전부)가 먹색이어야 흰 글자가 읽힌다 — 80% 에서야 먹색이 되게 두니
+           아코디언이 옅은 하늘색 위에 떠서 글이 묻혔다. */
         background: linear-gradient(180deg,
-          #FFFFFF 0%, #FAFCFE 6%, #EAF2FA 13%, #CCDEF1 20%,
-          #A4C4E5 27%, #7EABDA 34%, #6189B1 41%, #466382 49%,
-          #354C64 56%, #253547 64%, #1D2A39 71%, #151B23 80%, #151B23 100%) !important;
+          #FFFFFF 0%, #FAFCFE 2%, #EAF2FA 4%, #CCDEF1 6%,
+          #A4C4E5 8%, #7EABDA 10%, #6189B1 12%, #466382 14%,
+          #354C64 16%, #253547 18%, #1D2A39 20%, #151B23 23%, #151B23 100%) !important;
       }
     }
 </style>
@@ -1270,6 +1270,10 @@ const jsonLd = [orgSchema, websiteSchema];
            배경 구간은 짧게 둔다. 길게 끌면 흰 면과 먹색 사이의 회색이 오래 머물러
            화면이 바래 보인다 — 한 번에 넘어가는 편이 낫다. */
         var W_END = 0.45, D_START = 0.46, D_END = 0.60;
+        /* 무대를 붙이지 않는 폭에서는 더 일찍 어두워진다. 붙여 둘 때는 320vh 를
+           쓰므로 0.46 이 한참 뒤이지만, 안 붙이면 1.4 화면이 전부라 같은 값이면
+           섹션을 거의 다 지나도록 밝은 채로 있다. */
+        var D_START_FLOW = 0.20, D_END_FLOW = 0.40;
         /* 본문은 배경이 거의 다 어두워진 뒤에야 뜨기 시작한다.
            배경과 같은 구간에 묶으면, 아직 흰 면일 때 본문이 옅게 비쳐 보인다 —
            그래픽과 아코디언이 유령처럼 밑에 깔린 모습이 된다. */
@@ -1313,7 +1317,9 @@ const jsonLd = [orgSchema, websiteSchema];
           if (n > bs.length - 1) n = bs.length - 1;
           show(n);
 
-          var d = (p - D_START) / (D_END - D_START);
+          var ds = stagePinned() ? D_START : D_START_FLOW;
+          var de = stagePinned() ? D_END : D_END_FLOW;
+          var d = (p - ds) / (de - ds);
           if (d < 0) d = 0; else if (d > 1) d = 1;
           d = ease(d);
           /* 타원의 반지름을 키우면 먹색 구간이 위로 번져 화면 전체가 어두워진다.
