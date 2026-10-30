@@ -809,6 +809,20 @@
       word-break: keep-all;
       overflow-wrap: break-word;
     }
+    /* 좁은 폭에서는 한 칸으로 쌓는다 — 대제목 · 소제목 · 핀 카드가 모두 내용
+       왼쪽 선에서 시작해 위에서 아래로 선다.
+       ⚠️ 칸을 하나로 바꾸면 자식의 grid-area(1/1 · 2/2 · 3/2)가 없는 칸을 가리켜
+          암묵 칸이 생긴다 — 셋 다 1번 칸으로 다시 지정한다. */
+    @media (max-width: 900px) {
+      #hero .container {
+        grid-template-columns: minmax(0, 1fr);
+        justify-content: start;
+        gap: 20px 0;
+      }
+      #hero h1 { grid-area: 1 / 1; }
+      #hero .hero-sub { grid-area: 2 / 1; max-width: 100%; }
+      #hero .hero-pin-layer { grid-area: 3 / 1; }
+    }
     @media (max-width: 900px) {
       #hero .hero-sub { font-size: 15px; }
     }
