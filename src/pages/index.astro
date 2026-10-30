@@ -972,7 +972,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        안에 대제목이 들어가고, 세 줄 제목(무대 y 96 부터)은 거의 다 내려온 자리라
        먹색 위에 선다 — 흰 글자가 읽히려면 그래야 한다.
        ⚠️ % 로 주면 안 된다. 무대 높이가 내용만큼이라 같은 %가 폭마다 다른 자리를
-          가리켜, 세 줄 제목이 옅은 하늘색 위에 떴다. px 로 못 박는다. */
+          가리켜, 세 줄 제목이 옅은 하늘색 위에 떴다. px 로 못 박는다.
+       ⚠️ 300 → 460px. 같은 색 차이를 160px 더 긴 거리에 펴면 한 줄당 색 차가
+          줄어 띠가 덜 끊겨 보인다. 길이의 위아래 한계는 글자 대비가 쥔다 —
+          대제목(먹색) 밑변이 무대 y 162 까지 내려오니 460 에서 35% 자리(#92B8E0,
+          8:1)에 서고, 흰 세 줄 글 윗변이 y 284 라 62% 자리(#466382, 5.9:1)에
+          선다. 520 으로 늘리면 흰 글이 55%(#5C84AA)에 떠 4.4:1 로 AA 에 못
+          미친다 — 그래서 460 이 위 한계다. */
     @media (max-width: 900px), (max-height: 700px) and (max-width: 1100px) {
       #platform .pf-stage {
         background-color: #151B23 !important;
@@ -981,7 +987,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           #A4C4E5 30%, #7EABDA 40%, #6189B1 50%, #466382 62%,
           #354C64 72%, #253547 82%, #1D2A39 91%, #151B23 100%) !important;
         background-repeat: no-repeat !important;
-        background-size: 100% 300px !important;
+        background-size: 100% 460px !important;
         background-position: top center !important;
       }
     }
