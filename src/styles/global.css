@@ -892,10 +892,6 @@
       #hero h1 { font-size: min(36px, calc(13.2vw - 7px)); }
     }
 
-    @keyframes scrollBounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
-      50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
-    }
     .hero-demo-link {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 18px; font-weight: 400; color: #76A6D7;
@@ -1756,12 +1752,6 @@
     }
 
     #integrations > * { position: relative; z-index: 1; }
-    @keyframes flowLine { from { stroke-dashoffset: 100; }
-    to { stroke-dashoffset: 0; } }
-    @keyframes circleExpand {
-      from { r: 0; opacity: 0; }
-      to { opacity: 1; }
-    }
     /* SECURITY */
     /* 보안 섹션도 한 화면에 멈춰 선다 — 제목이 드러나고, 이어서 소제목과
        카드 넷이 떠오른다.
@@ -2105,11 +2095,6 @@
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
-
-    @keyframes layerFadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
 
     /* ── 좁은 폭 섹션 위아래 여백 ───────────────────────────────────────────
        네 섹션의 위아래 여백을 솔루션 섹션의 아래 여백(84px)과 같은 값으로 둔다.
