@@ -219,8 +219,12 @@
     }
     /* 줄마다 캡 하이트와 베이스라인에 제도 보조선을 긋고, 양 끝에 치수 연장선을
        세운다. 선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
-       ⚠️ 높이 값(.16em·.2em)은 Pretendard 의 캡 하이트·베이스라인에 눈으로 맞춘
-          값이다. 활자를 바꾸면 다시 봐야 한다. */
+       ⚠️ 높이 값(.114em·.246em)은 글자 먹과 선 사이를 실제로 재서 맞춘 값이다
+          (1600 · 60px). 눈으로 맞췄던 .16em·.2em 일 때는 윗선이 글자에 붙고
+          아랫선만 벌어져 있었다 — 위 1.0px · 아래 6.5px. 두 선을 함께 2.75px
+          (.0458em) 올려 위아래를 3.75px 로 맞춘 값이다.
+          ⚠️ 올리려면 ::before 의 top 은 줄이고 ::after 의 bottom 은 늘린다
+             (bottom 은 아래에서 잰 거리라 방향이 반대다). 활자를 바꾸면 다시 잰다. */
     #industries .sol-title .sol-line::before,
     #industries .sol-title .sol-line::after {
       content: "";
@@ -237,13 +241,13 @@
     }
     /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */
     #industries .sol-title .sol-line::before {
-      top: .16em;
+      top: .114em;
       border-bottom: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, -100%);
     }
     /* 베이스라인 — 점선은 윗변, 연장선이 아래로 뻗는다. */
     #industries .sol-title .sol-line::after {
-      bottom: .2em;
+      bottom: .246em;
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }
