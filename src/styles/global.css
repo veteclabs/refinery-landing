@@ -382,9 +382,18 @@
          카피의 폭이다 — .hero-motion-placeholder 와 같은 계산이다. */
       /* 내용 너비(1600px) 안쪽에서 좌우 100px 씩 더 들어온다 — 카피만의 여백이다.
          그래픽 칸은 이 여백을 쓰지 않는다. */
-      max-width: calc(1600px - var(--hero-gap) * 2 - 200px);
+      /* 되돌려 받는 좌우 여백만큼 칸도 넓힌다 — 안쪽 글 상자가 그대로여야 자라는
+         동안 글이 좌우로 흔들리지 않는다(넓히지 않으면 1600 에서 148 → 180 으로
+         32px 밀렸다). */
+      max-width: calc(1600px - var(--hero-gap) * 2 - 200px
+        + 2 * max(0px, var(--hero-gap) - var(--hero-pad)));
       margin-inline: auto;
-      padding: clamp(48px, 6.2vw, 100px) 0 0;
+      /* ⚠️ 좌우는 무대가 줄인 만큼 되돌려 받는다. 무대(.hero-stage)의 좌우 여백은
+         자라면서 48 → 16px 로 주는데(그래픽을 화면 끝까지 보내려는 값이다) 카피
+         칸이 그 안에 들어 있어 글까지 16px 까지 따라 나갔다 — 폭이 좁아 칸이
+         max-width 에 닿지 않는 화면에서는 글이 가장자리에 붙었다(1280 에서 16px).
+         무대가 가져간 만큼(48 - --hero-pad)을 여기서 더해 글은 늘 48px 에 선다. */
+      padding: clamp(48px, 6.2vw, 100px) max(0px, calc(var(--hero-gap) - var(--hero-pad))) 0;
       /* 그래픽이 자라 카피 자리까지 올라오므로 한 층 위에 둔다. */
       z-index: 2;
       pointer-events: none;
