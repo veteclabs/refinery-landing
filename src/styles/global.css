@@ -1603,61 +1603,66 @@
       }
       #industries a.industry-card:hover .industry-img { transform: scale(1.04); }
 
-      /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다.
-         아래로 짙어지는 그라데이션 한 겹뿐이다. 과제별 카드(.uc-case--img)는
-         사진 전체를 고르게 덮는 평평한 막(.25)을 한 겹 더 두는데, 여기서는
-         그 막이 사진을 통째로 눌러 흐리게 만들어 두지 않는다. 글이 앉는
-         아래쪽만 그라데이션으로 덮어도 흰 글자가 읽힌다. */
-      #industries .industry-card::before {
-        inset: 0;
-        aspect-ratio: auto;
-        background: linear-gradient(180deg,
-          rgba(17, 19, 22, 0) 0%,
-          rgba(17, 19, 22, .12) 28%,
-          rgba(17, 19, 22, .82) 52%,
-          rgba(17, 19, 22, 1) 100%);
-      }
-      /* 이름만 남았으므로 아래에 깔지 않고 사진 한가운데에 놓는다.
-         inset: 0 — 본문이 카드 전체를 덮어야 가운데가 카드의 가운데가 된다.
-         화살표는 이 상자 기준이라 그대로 카드 오른쪽 아래에 남는다. */
-      #industries .industry-body {
-        position: absolute;
-        inset: 0;
-        flex: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background: none;
-        padding: 24px 26px;
-      }
-      #industries .industry-name { color: #F6F8FA; font-size: 24px; letter-spacing: -.4px; }
-      /* 화살표는 카드 구석이 아니라 제목 바로 뒤에 선다. 평소에는 없고
-         카드에 마우스를 올렸을 때만 뜬다.
-         뜰 때는 이름과 화살표를 한 줄로 묶어 그 줄째로 가운데에 다시 세운다 —
-         이름이 왼쪽으로 19px((28 + 10) / 2) 밀리며 자리를 내준다.
-         ⚠️ 줄 폭을 늘였다 줄이는 자리는 margin-right 다. 평소에는 -38px 로
-            화살표를 줄 폭에서 빼 두어 이름만 가운데에 서고, 호버에 0 으로
-            풀면서 줄이 넓어진다. 폭(width)을 줄이면 28px 원이 찌그러진다.
-         ⚠️ 가장 긴 이름(영문 297px)이어도 넘치지 않는다 —
-            297.3 + 10 + 28 = 335.3px, 글 칸은 398.8px 이다. */
-      #industries .industry-head { display: inline-flex; align-items: center; }
-      #industries .industry-go {
-        position: static;
-        flex: none;
-        margin-left: 10px;
-        margin-right: -38px;
-        opacity: 0;
-        transform: translateX(-6px);
-        transition: margin-right .25s ease, opacity .2s ease, transform .25s ease, color .2s ease;
-        color: #C8CED5;
-      }
-      #industries a.industry-card:hover .industry-go {
-        margin-right: 0;
-        opacity: 1;
-        transform: none;
-        color: #F6F8FA;
-      }
+    }
+    /* ⚠️ 이 묶음은 901px 조건 밖이다. 카드의 생김새(사진 위 그라데이션 ·
+       가운데 흰 이름 · 호버 화살표)는 폭과 상관없이 같아야 한다 — 안에 두었을
+       때는 900 아래에서 사진 밑에 흰 띠가 깔리고 이름이 먹색으로, 화살표가
+       늘 보이는 다른 카드가 됐다. 가로 띠로 흐르게 하는 쪽(flex · transform)만
+       901 안에 남는다. */
+    /* 사진 위 덮개는 카드 전체 높이로 깐다 — 아래쪽 글자가 앉을 자리다.
+       아래로 짙어지는 그라데이션 한 겹뿐이다. 과제별 카드(.uc-case--img)는
+       사진 전체를 고르게 덮는 평평한 막(.25)을 한 겹 더 두는데, 여기서는
+       그 막이 사진을 통째로 눌러 흐리게 만들어 두지 않는다. 글이 앉는
+       아래쪽만 그라데이션으로 덮어도 흰 글자가 읽힌다. */
+    #industries .industry-card::before {
+      inset: 0;
+      aspect-ratio: auto;
+      background: linear-gradient(180deg,
+        rgba(17, 19, 22, 0) 0%,
+        rgba(17, 19, 22, .12) 28%,
+        rgba(17, 19, 22, .82) 52%,
+        rgba(17, 19, 22, 1) 100%);
+    }
+    /* 이름만 남았으므로 아래에 깔지 않고 사진 한가운데에 놓는다.
+       inset: 0 — 본문이 카드 전체를 덮어야 가운데가 카드의 가운데가 된다.
+       화살표는 이 상자 기준이라 그대로 카드 오른쪽 아래에 남는다. */
+    #industries .industry-body {
+      position: absolute;
+      inset: 0;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: none;
+      padding: 24px 26px;
+    }
+    #industries .industry-name { color: #F6F8FA; font-size: 24px; letter-spacing: -.4px; }
+    /* 화살표는 카드 구석이 아니라 제목 바로 뒤에 선다. 평소에는 없고
+       카드에 마우스를 올렸을 때만 뜬다.
+       뜰 때는 이름과 화살표를 한 줄로 묶어 그 줄째로 가운데에 다시 세운다 —
+       이름이 왼쪽으로 19px((28 + 10) / 2) 밀리며 자리를 내준다.
+       ⚠️ 줄 폭을 늘였다 줄이는 자리는 margin-right 다. 평소에는 -38px 로
+          화살표를 줄 폭에서 빼 두어 이름만 가운데에 서고, 호버에 0 으로
+          풀면서 줄이 넓어진다. 폭(width)을 줄이면 28px 원이 찌그러진다.
+       ⚠️ 가장 긴 이름(영문 297px)이어도 넘치지 않는다 —
+          297.3 + 10 + 28 = 335.3px, 글 칸은 398.8px 이다. */
+    #industries .industry-head { display: inline-flex; align-items: center; }
+    #industries .industry-go {
+      position: static;
+      flex: none;
+      margin-left: 10px;
+      margin-right: -38px;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: margin-right .25s ease, opacity .2s ease, transform .25s ease, color .2s ease;
+      color: #C8CED5;
+    }
+    #industries a.industry-card:hover .industry-go {
+      margin-right: 0;
+      opacity: 1;
+      transform: none;
+      color: #F6F8FA;
     }
     /* FOR TEAMS */
     #teams { background: var(--bg-card); }
