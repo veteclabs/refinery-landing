@@ -906,12 +906,17 @@ const jsonLd = [orgSchema, websiteSchema];
          여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
          세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
          여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
-      #platform { height: auto; padding: 0 0 160px; }
+      /* ⚠️ 아래 여백은 섹션이 아니라 무대가 쥔다. 좁은 폭에서 #platform 의 바탕은
+         흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
+         먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
+         그 160 을 무대 안쪽으로 옮긴다. 그래픽 상자는 무대보다 30px 더 내려오므로
+         150 을 주면 그래픽 아래로 먹색이 120px 남는다. */
+      #platform { height: auto; padding: 0; }
       #platform .pf-stage {
         position: static;
         height: auto;
         padding-top: 96px;
-        padding-bottom: 0;
+        padding-bottom: 150px;
         display: block;
       }
       /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
@@ -927,12 +932,17 @@ const jsonLd = [orgSchema, websiteSchema];
          여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
          세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
          여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
-      #platform { height: auto; padding: 0 0 160px; }
+      /* ⚠️ 아래 여백은 섹션이 아니라 무대가 쥔다. 좁은 폭에서 #platform 의 바탕은
+         흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
+         먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
+         그 160 을 무대 안쪽으로 옮긴다. 그래픽 상자는 무대보다 30px 더 내려오므로
+         150 을 주면 그래픽 아래로 먹색이 120px 남는다. */
+      #platform { height: auto; padding: 0; }
       #platform .pf-stage {
         position: static;
         height: auto;
         padding-top: 96px;
-        padding-bottom: 0;
+        padding-bottom: 150px;
         display: block;
       }
       /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
