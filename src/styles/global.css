@@ -1891,7 +1891,9 @@
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), padding 0.3s ease, opacity 0.3s ease; opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
-    #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
+    /* 위아래 여백이 곧 띠의 높이다 — 바탕 영상(1600x800)이 그만큼 덜 잘린다.
+       95px 일 때 띠가 396 이라 영상의 절반만 보였다. 150px 에서 506 이 된다. */
+    #cta { background: #ffffff; text-align: left; color: #000; padding: 150px 0; }
     /* 바탕 영상. 예전에는 같은 자리에 /img_login-bg.webp 한 장이 깔려 있었고
        자리 잡는 값은 그대로 물려받았다(오른쪽 아래를 기준으로 채운다).
        ⚠️ 글은 .container 가 z-index 1 로 위에 선다 — 여기에 z-index 를 주지 않는다.
