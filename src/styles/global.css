@@ -1207,6 +1207,25 @@
       }
       #teams .teams-stage-sticky .section-header { margin-bottom: 30px; }
     }
+    /* 821~1280 — 무대는 풀지만 이미지는 넓은 화면과 똑같이 화면 오른쪽 끝에
+       붙는다. 칸(.container)이 가운데 정렬이라 50% - 50vw 가 칸 오른쪽 끝에서
+       화면 오른쪽 끝까지의 거리이고, --sbw 의 절반을 되돌려 스크롤바 폭만큼
+       더 밀리는 것을 막는다(넓은 화면의 .teams-split 과 같은 식이다).
+       ⚠️ 820 이하는 세로로 쌓이며 .teams-stage 가 제 몫으로 끌어낸다(width +
+          margin-right). 거기까지 이 margin 을 주면 24px 을 두 번 빼 화면 밖으로
+          나간다 — 그래서 아래 한계를 821 로 못 박는다.
+       오른쪽 변은 화면에 잘려 나가므로 테두리와 둥글기를 뺀다. */
+    @media (min-width: 821px) and (max-width: 1280px) {
+      .teams-split { margin-right: calc(50% - 50vw + var(--sbw) / 2); }
+      #teams .teams-split .teams-preview {
+        border-right: 0;
+        border-radius: var(--radius) 0 0 var(--radius);
+      }
+      /* 1090 아래에서는 탭 줄이 제목 오른쪽에서 제목 아래로 내려온다. 내려와도
+         여섯은 오른쪽 끝에 모아 둔다 — 오른쪽으로 빠져나가는 이미지와 같은
+         쪽에 서야 제목 · 탭 · 이미지가 한 덩어리로 읽힌다. */
+      #teams .teams-thumbs { justify-content: flex-end; }
+    }
     .teams-menu-horizontal { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; }
     .teams-tab-btn { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; padding: 18px 8px; border: none; border-right: 1px solid var(--border); box-sizing: border-box; border-radius: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; font-weight: 500; color: var(--text-muted); transition: background .15s, color .15s; white-space: nowrap; position: relative; box-shadow: inset 0 -3px 0 0 transparent; }
     .teams-tab-btn:last-child { border-right: none; }
