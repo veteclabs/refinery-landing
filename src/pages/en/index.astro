@@ -2395,8 +2395,17 @@ the ontology finds the answer</h3>
 </section>
 
 <!-- CTA -->
-<section id="cta" style="position:relative;overflow:hidden;">
+<section id="cta" class="cta-video-demo" style="position:relative;overflow:hidden;">
   <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  {/* ⚠️ 예시로 얹어 본 배경 영상이다. 되돌릴 때는 이 블록과 아래 CSS 묶음,
+      public/cta/motion-style-d.mp4 를 함께 지운다.
+      바탕 이미지는 그대로 아래에 둔다 — 영상이 받아지기 전과 동작 줄이기를
+      켠 환경에서 그 그림이 그대로 보인다. */}
+  <video class="cta-bg-video" autoplay muted loop playsinline preload="metadata"
+         poster="/img_login-bg.webp" aria-hidden="true" tabindex="-1"
+         style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;user-select:none;">
+    <source src="/cta/motion-style-d.mp4" type="video/mp4" />
+  </video>
   <div class="container" style="position:relative;z-index:1;">
     <h2>Experience a new standard for<br>field operations with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
