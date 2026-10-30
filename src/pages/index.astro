@@ -1392,7 +1392,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           var k = 1 + 2.2 * d;
           sec.style.setProperty('--pf-ry', (150 * k).toFixed(1) + 'vh');
           sec.style.setProperty('--pf-rx', (180 * k).toFixed(0) + '%');
-          sec.style.setProperty('--pf-title', (1 - d).toFixed(3));
+          /* ⚠️ 대제목은 무대를 붙여 둘 때만 걷힌다. 붙여 두면 바탕이 어두워지는
+             동안 제목이 제자리에서 사라지는 연출이지만, 안 붙이면 제목이 화면에
+             그대로 있는 채로 꺼져 '보였다 사라지는' 것으로만 읽힌다.
+             안 붙일 때는 밝은 띠 위에 계속 서 있다가 스크롤을 따라 올라간다. */
+          sec.style.setProperty('--pf-title', stagePinned() ? (1 - d).toFixed(3) : '1');
 
           var v = (p - V_START) / (V_END - V_START);
           if (v < 0) v = 0; else if (v > 1) v = 1;
