@@ -2096,6 +2096,37 @@
     }
     @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
 
+    /* ── 운영체제 · 통합 등장 ───────────────────────────────────────────────
+       세 단이 0.04 씩 어긋나며 같은 거리(24px)를 올라온다. 값은 스크립트가
+       --rise1 · --rise2 · --rise3 으로 넣는다.
+       ⚠️ 기본값을 1 로 둔다 — 스크립트가 없거나 동작 줄이기를 켠 환경에서
+          그대로 다 보인다.
+       ⚠️ 24px 은 이 페이지 등장 거리의 공통값이다(플랫폼 · 솔루션 · 보안과 같다).
+       ⚠️ .teams-split 과 .int-node-grid 에 transform 이 붙는다. 둘 다 안쪽에
+          sticky 가 없고, 바깥으로 빼는 margin 과도 부딪히지 않는다 — 붙이고
+          나서 이미지 오른쪽 변이 화면 끝에 그대로 닿는지 재서 확인했다. */
+    #teams .section-header-row h2,
+    #integrations .section-header-row h2 {
+      opacity: var(--rise1, 1);
+      transform: translateY(calc(24px * (1 - var(--rise1, 1))));
+    }
+    #teams .teams-menu-vertical,
+    #integrations .int-node-grid {
+      opacity: var(--rise2, 1);
+      transform: translateY(calc(24px * (1 - var(--rise2, 1))));
+    }
+    #teams .teams-split,
+    #integrations .int-refinery-outer {
+      opacity: var(--rise3, 1);
+      transform: translateY(calc(24px * (1 - var(--rise3, 1))));
+    }
+    /* 통합의 소제목은 제목과 한 덩어리로 움직인다 — 머리글 줄이 가로로 서는
+       폭에서 둘이 따로 뜨면 줄이 흔들려 보인다. */
+    #integrations .section-header-row p {
+      opacity: var(--rise1, 1);
+      transform: translateY(calc(24px * (1 - var(--rise1, 1))));
+    }
+
     /* ── 좁은 폭 섹션 위아래 여백 ───────────────────────────────────────────
        네 섹션의 위아래 여백을 솔루션 섹션의 아래 여백(84px)과 같은 값으로 둔다.
        130px 이던 것을 내린 것이다 — 폭이 좁아지면 내용이 세로로 길어지는데

@@ -2630,6 +2630,55 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
 
 </script>
 
+
+<script is:inline>
+  /* 운영체제 · 통합 섹션의 등장. 이 둘만 아무 일도 일어나지 않아, 앞뒤(플랫폼 ·
+     솔루션 · 보안)와 리듬이 끊겼다.
+     어법은 새로 만들지 않는다 — 24px 아래에서 투명도와 함께, 스크롤 진행도로,
+     smoothstep, 세 단이 0.04 씩 어긋난다. 플랫폼 · 보안이 쓰는 그대로다.
+     ⚠️ 진행도는 대제목이 화면을 올라오는 만큼이다(1.00 → 0.35, 보안과 같은 값).
+        운영체제는 1281 이상에서 무대를 붙이는데, 붙는 동안은 제목이 제자리에
+        멈추므로 등장은 그 전에 이미 끝나 있다.
+     ⚠️ 질문 · CTA 에는 두지 않는다. 읽고 누르는 자리라 조용한 편이 낫고,
+        페이지 끝을 가라앉히는 것도 리듬이다. */
+  (function () {
+    var RF = window.RfMotion;
+    if (!RF) return;
+    var SECS = ['teams', 'integrations'];
+    var SPAN = 0.30, GAP = 0.04, STEPS = 3;
+    var els = SECS.map(function (id) {
+      var sec = document.getElementById(id);
+      if (!sec) return null;
+      return { sec: sec, title: sec.querySelector('.section-header-row h2') || sec.querySelector('h2') };
+    }).filter(Boolean);
+    if (!els.length) return;
+    function settle() {
+      els.forEach(function (g) {
+        for (var i = 1; i <= STEPS; i++) g.sec.style.setProperty('--rise' + i, '1');
+      });
+    }
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { settle(); return; }
+    function upd() {
+      els.forEach(function (g) {
+        var p = RF.rise(g.title, 1.00, 0.35);
+        for (var i = 0; i < STEPS; i++) {
+          var v = RF.ease(RF.clamp((p - i * GAP) / SPAN));
+          g.sec.style.setProperty('--rise' + (i + 1), v.toFixed(3));
+        }
+      });
+    }
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    upd();
+  })();
+</script>
+
 <!-- ============================================================
      CONTACT DRAWER — 로그인 페이지 우측 폼 패널과 동일한 비율(50% 폭, 전체 높이)의
      흰 배경 슬라이드오버 패널. "문의하기" 클릭 시 랜딩페이지 위에 오버레이로 뜬다.
