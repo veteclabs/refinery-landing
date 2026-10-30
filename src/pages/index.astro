@@ -586,15 +586,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       display: flex;
       align-items: center;
       justify-content: center;
-      /* ⚠️ 폭을 원본 rect(--w)에 못 박지 않는다. 글자는 clamp 의 10px 바닥에
-         걸려 더 안 줄어드는데 알약만 계속 줄어, 좁은 폭에서 좌우 여백이 음수가
-         됐다(430 에서 -6.9 · -10.5px). 넓은 폭에서도 rect 치수와 글자 폭이 서로
-         달라 셋의 여백이 9.1 · 9.4 · 8.1 로 제각각이었다.
-         글자에서 자라게 두고 좌우 여백을 한 값으로 준다 — 셋이 같아진다. */
-      width: auto;
-      padding-inline: max(7px, 1.2cqw);
+      width: var(--w);
       height: 3.75cqw;
-      min-height: 18px;
       /* 글자를 1px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
          아래 여백을 먹어 글자가 올라가 보인다 — 위 여백만큼 밀어 내린다.
          ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
@@ -945,24 +938,24 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        무대와 따로 놀아, 윗변이 가운데 색에서 잘려 흰 면과 파란 면이 선으로 맞붙는다.
        좁은 폭에서는 세로 그라데이션으로 바꿔 윗변을 흰색에서 시작한다 — 색 순서는
        원래 타원이 지나는 순서 그대로다. */
+    /* ⚠️ 바탕은 무대(.pf-stage)가 쥔다. #platform 에 걸어 봤더니 먹히지 않아
+       (다른 규칙이 흰색으로 덮는다) 그라데이션이 통째로 사라졌다.
+       맨 위 260px 에만 흰색 → 먹색 띠를 얹고 그 아래는 먹색 한 색이다. 그 260px
+       안에 대제목이 들어가고, 세 줄 제목(무대 y 96 부터)은 거의 다 내려온 자리라
+       먹색 위에 선다 — 흰 글자가 읽히려면 그래야 한다.
+       ⚠️ % 로 주면 안 된다. 무대 높이가 내용만큼이라 같은 %가 폭마다 다른 자리를
+          가리켜, 세 줄 제목이 옅은 하늘색 위에 떴다. px 로 못 박는다. */
     @media (max-width: 900px), (max-height: 700px) and (max-width: 1100px) {
-      /* 바탕은 섹션이 쥔다 — 먹색 한 겹 위에 맨 위 190px 에만 흰색 → 먹색 띠를
-         얹는다. 그 190px 안에 섹션 윗여백(96)과 대제목 「데이터에서 지능으로」가
-         들어가고, 그 아래 .pf-body(세 줄 제목 · 아코디언 · 그래픽)는 전부 먹색
-         위에 선다 — 흰 글자가 읽히려면 그래야 한다.
-         ⚠️ 무대(.pf-stage)에 그리면 안 된다. 무대 높이가 내용만큼이라 % 로 준
-            정지점이 글 자리와 따로 놀아, 세 줄 제목이 옅은 하늘색 위에 떴다. */
-      #platform {
-        background-color: #151B23;
+      #platform .pf-stage {
+        background-color: #151B23 !important;
         background-image: linear-gradient(180deg,
-          #FFFFFF 0%, #FAFCFE 8%, #EAF2FA 18%, #CCDEF1 28%,
-          #A4C4E5 40%, #7EABDA 50%, #6189B1 60%, #466382 70%,
-          #354C64 78%, #253547 86%, #1D2A39 93%, #151B23 100%);
-        background-repeat: no-repeat;
-        background-size: 100% 190px;
-        background-position: top center;
+          #FFFFFF 0%, #FAFCFE 5%, #EAF2FA 12%, #CCDEF1 20%,
+          #A4C4E5 30%, #7EABDA 40%, #6189B1 50%, #466382 62%,
+          #354C64 72%, #253547 82%, #1D2A39 91%, #151B23 100%) !important;
+        background-repeat: no-repeat !important;
+        background-size: 100% 260px !important;
+        background-position: top center !important;
       }
-      #platform .pf-stage { background: transparent !important; }
     }
 </style>
   <script is:inline>
