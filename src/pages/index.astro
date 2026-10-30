@@ -829,7 +829,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          한 단 줄여 234px 으로 두고 26px 을 남긴다. */
       #teams .teams-preview-title-wrap h3 { font-size: 28px; }
       .teams-preview-text p { max-width: none; }
-      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
+      /* ⚠️ 비율은 그림과 같은 8/5 다. 17/10(1.7)으로 두었더니 그림(1148x718,
+         1.599)보다 칸이 납작해 그림 아래가 27px 잘렸다(768 실측). */
+      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 8 / 5; order: 3; overflow: hidden !important; }
       /* ⚠️ 그림 위에 덮던 그라데이션 두 겹(위 띠 · 좌우 흐림)은 걷었다. 칸이
          화면 끝까지 흐르던 시절의 값인데 지금은 상자가 제 테두리를 갖고 서므로,
          그림이 양 끝에서 하얗게 바래 보였다. 1281px 위에는 원래 없던 처리다. */
