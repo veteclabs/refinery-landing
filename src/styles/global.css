@@ -967,6 +967,11 @@
       justify-content: center;
       overflow: hidden;
       white-space: nowrap;
+      /* ⚠️ 0 이어야 한다. 가로 탭바 시절의 .teams-tab-btn 이 gap: 8px 을 쥐고 있는데,
+         이름이 접혀 폭 0 이 되어도 그 틈은 남는다 — 아이콘 16 + 틈 8 = 24 가 가운데로
+         놓여 아이콘이 왼쪽으로 8px 밀렸다(칸도 32 가 아니라 40 이 됐다).
+         펼쳤을 때의 사이 간격은 이름 쪽 margin-left 가 쥔다. */
+      gap: 0;
       transition: color .2s ease, border-color .2s ease, background-color .2s ease,
                   padding .28s cubic-bezier(.2,.7,.2,1);
     }
@@ -1011,7 +1016,14 @@
     }
     .teams-split .teams-preview-title-wrap,
     .teams-split .teams-preview-text { position: static; padding: 0; }
-    .teams-split .teams-preview-text p { max-width: none; }
+    /* 360px — 글 칸(.teams-rail)은 남는 자리를 먹고 늘어나서 1440 에서 341 ·
+       1600 에서 475 · 1920 에서 635px 까지 벌어진다. 그대로 두면 창이 넓을수록
+       본문이 두 줄로 눕고 좁을수록 네 줄 · 다섯 줄로 길어졌다. 폭을 묶어 어느
+       창에서나 같은 모양으로 선다.
+       ⚠️ 값은 여섯 꼭지를 330 · 345 · 360 · 380 · 400 에서 재어 고른 것이다.
+          345~380 이 모두 같은 결과라 가운데를 잡았다. 국문은 캘린더만 두 줄
+          (문구가 한 문장 짧다), 영문은 여섯 모두 세 줄이다. */
+    .teams-split .teams-preview-text p { max-width: 360px; }
     /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다 — 잘려 나가는 곳이 없으므로
        네 변 모두 테두리와 둥글기를 둔다. 상자가 통째로 보인다. */
     .teams-split .teams-preview {
