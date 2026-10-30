@@ -22,7 +22,7 @@ const AI_NOTICE = {
   vetecCreditFlow:
     'To generate answers, your input is delivered to the AI model provider (Anthropic, United States) through the VETEC AI Gateway. VETEC does not store conversation content and records only usage (token count, model, and time).',
   customerKeyFlow:
-    'Your input is delivered directly to your company’s AI model provider account and does not pass through VETEC servers. Usage (token count and number of calls) is recorded only on your company’s server.',
+    'Your input is delivered directly to your company’s AI model provider account and does not pass through VETEC servers. VETEC does not receive conversation content. In the online operation mode, the status reports your company’s server sends to VETEC include the number of AI calls and token counts.',
   inputProhibition:
     'Do not enter personal information (such as names, contact details, or resident registration numbers), secrets (passwords or API keys), or contract or unit price information. Equipment data is included automatically, only to the extent needed for the answer.',
   humanReview:
@@ -47,12 +47,12 @@ const PATH_ROWS: { label: string; vetec: string; customer: string }[] = [
   {
     label: 'What VETEC stores',
     vetec: 'VETEC does not store conversation content. It keeps only usage (token count, model, time, installation, and organization) and access logs.',
-    customer: 'Nothing. VETEC receives nothing.',
+    customer: 'VETEC does not receive conversation content. In the online operation mode, it receives the number of AI calls and token counts included in status reports.',
   },
   {
     label: 'Retention period',
     vetec: 'Each usage record is kept for two years, after which only monthly totals by organization and installation are kept.',
-    customer: 'Usage (token count and number of calls) is recorded only on your company’s server.',
+    customer: 'Status reports are kept for 90 days. Per-call usage records stay only on your company’s server.',
   },
   {
     label: 'Charges',
