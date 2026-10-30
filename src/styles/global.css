@@ -1112,9 +1112,14 @@
     /* 무대 안에서는 margin 이 겹쳐지지 않는다 — 제목 아래 여백을 .teams-split 의
        margin-top 하나에 맡긴다. 그냥 두면 64 + 60 = 124px 로 벌어진다. */
     #teams .teams-stage-sticky .section-header { margin-bottom: 0; }
-    /* 붙이고 안 붙이고의 경계는 그대로 760px 이다. 넘치는 만큼은 상자
-       아랫부분이 잘려 보이면 된다(safe center + overflow: hidden). */
-    @media (max-height: 760px) {
+    /* 붙이고 안 붙이고의 경계는 660px 이다. 넘치는 만큼은 상자 아랫부분이 잘려
+       보이면 된다(safe center + overflow: hidden).
+       ⚠️ 760 → 660 으로 내렸다. 760 높이는 노트북에서 흔한데 거기서 무대를 풀면
+          스크롤로 탭이 안 넘어간다 — 스크립트가 sticky 가 아니면 손을 뗀다.
+          760 에서 넘치는 양은 가장 큰 폭(1600 · 1440)에서도 34px 뿐이라,
+          아랫부분이 그만큼 잘리는 쪽이 탭이 안 넘어가는 것보다 낫다.
+          640 까지 내려가면 1180 에서 76px 이라 그 아래로는 풀어 둔다. */
+    @media (max-height: 660px) {
       #teams { padding: 130px 0; }
       #teams .teams-pin { height: auto; }
       #teams .teams-stage-sticky {

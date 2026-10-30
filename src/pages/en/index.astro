@@ -902,6 +902,19 @@ const jsonLd = [orgSchema, websiteSchema];
         display: block;
       }
     }
+    /* 낮고 좁은 창도 같이 푼다 — 높이 700 이하에서 폭 1100 아래가 걸린다.
+       1024x700 에서 아코디언 아랫변이 10px, 640 에서는 60~70px 화면 밖으로
+       나갔다. 넓은 창은 같은 높이에서도 들어가므로(1600x640 정상) 폭을 함께 건다. */
+    @media (max-height: 700px) and (max-width: 1100px) {
+      #platform { height: auto; padding: 96px 0; }
+      #platform .pf-stage {
+        position: static;
+        height: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        display: block;
+      }
+    }
 </style>
   <script is:inline>
     (function() {
