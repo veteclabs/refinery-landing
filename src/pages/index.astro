@@ -346,6 +346,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        (낱말 0~45% · 배경과 본문 45~72% · 그대로 멈춤 72~100%) */
     #platform { height: 320vh; padding: 0; background: #151B23; }
 
+
     #platform .pf-stage {
       position: sticky;
       top: 0;
@@ -716,19 +717,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     @media (max-width: 900px) {
       #platform .platform-graphic-wrap {
-        margin: 40px -24px 0;
-        padding: 0 24px 6px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        margin: 40px 0 0;
+        padding: 0 0 6px;
+        /* 옆으로 끌어 보던 칸이었다 — 이제 그림이 폭에 맞춰 줄므로 넘칠 일이 없다. */
+        overflow: visible;
+        display: flex;
+        justify-content: center;
       }
       #platform .platform-graphic-wrap::-webkit-scrollbar { display: none; }
+      /* 폭에 맞춰 줄인다 — 예전에는 min-width: 680px 로 두고 칸을 옆으로 끌어
+         보게 했는데, 끌 수 있다는 걸 모르면 그림이 잘린 것으로만 보인다.
+         작아지더라도 한눈에 다 보이는 쪽을 택한다. */
       #platform .platform-graphic-img {
         margin-top: 0;
-        width: auto;
-        min-width: 680px;
-        max-width: none;
+        width: 100%;
+        min-width: 0;
+        max-width: 680px;
+        height: auto;
       }
       /* 두 단을 한 단으로 쌓는다. */
       #platform .platform-split {
@@ -737,9 +742,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         margin-top: 40px;
       }
 
-      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
-      #platform .platform-graphic-wrap { cursor: grab; }
-      #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
+      /* ⚠️ 끌어 보는 커서는 두지 않는다 — 넘치지 않으므로 끌 것이 없다. */
       /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
       #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
     }
@@ -856,7 +859,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       #teams .teams-preview-title-wrap h3,
       #teams .teams-preview-text p { max-width: 640px; }
     }
-  </style>
+      /* ⚠️ 900px 아래에서는 무대를 붙이지 않는다. 무대가 100vh 인데 그 안의 내용이
+       567px 넘쳐(900 실측), justify-content: center 가 넘친 만큼을 위아래로 똑같이
+       밀어내 제목이 화면 아래로 내려갔다. 고정을 풀고 흐르게 두면 제자리에 선다.
+       진행도는 스크립트가 '제목이 화면을 올라오는 만큼' 으로 바꿔 잡는다.
+       ⚠️ 이 묶음은 스타일 블록 맨 끝에 둔다 — #platform .pf-stage 와 특정도가
+          같아서 뒤에 와야 이긴다. */
+    @media (max-width: 900px) {
+      #platform { height: auto; padding: 96px 0; }
+      #platform .pf-stage {
+        position: static;
+        height: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        display: block;
+      }
+    }
+</style>
   <script is:inline>
     (function() {
       /* 좁은 폭에서는 가로 스크롤이 위치를 갖는데, 터치는 스와이프로 넘겨도 마우스로는
@@ -1207,12 +1226,31 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         /* 왼쪽 글은 그래픽이 다 뜬 뒤에 따라온다 — 순서만 읽히면 되니 간격은 짧다. */
         var V2_START = 0.625, V2_END = 0.715;
         function ease(t) { return t * t * (3 - 2 * t); }
+        /* 무대를 붙이지 않는 폭(900 이하)에서는 섹션 높이가 320vh 가 아니라
+           내용만큼이다 — 그 거리로 진행도를 잡으면 모션이 순식간에 끝난다.
+           대신 제목이 화면을 올라오는 만큼을 쓴다(보안 섹션과 같은 방식). */
+        function stagePinned() {
+          var st = sec.querySelector('.pf-stage');
+          return !!st && getComputedStyle(st).position === 'sticky';
+        }
+        function progress() {
+          if (stagePinned()) {
+            var span = sec.offsetHeight - (window.innerHeight || 800);
+            if (span <= 0) return 1;
+            return clamp01(-sec.getBoundingClientRect().top / span);
+          }
+          /* 제목이 아래에서 올라와 화면 위로 0.35 화면만큼 지나갈 때까지를 쓴다 —
+             1.4 화면(860 높이에서 1204px)이다. 0.8 화면으로 잡았더니 낱말 교대 ·
+             배경 어두워짐 · 그래픽 · 본문 넷이 600px 안에 몰려 순식간에 끝났다. */
+          var vh = window.innerHeight || 800;
+          var from = vh * 1.05, to = vh * -0.35;
+          if (from <= to) return 1;
+          return clamp01((from - h.getBoundingClientRect().top) / (from - to));
+        }
+        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
         function upd() {
-          /* 무대가 붙어 있는 동안 쓸 수 있는 스크롤 = 섹션 높이 - 화면 하나. */
-          var span = sec.offsetHeight - (window.innerHeight || 800);
-          if (span <= 0) { show(bs.length - 1); return; }
-          var p = -sec.getBoundingClientRect().top / span;
-          if (p < 0) p = 0; else if (p > 1) p = 1;
+          if (!stagePinned() && (sec.offsetHeight - (window.innerHeight || 800)) <= 0) { show(bs.length - 1); }
+          var p = progress();
 
           var w = p / W_END;
           if (w > 1) w = 1;
