@@ -586,8 +586,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       display: flex;
       align-items: center;
       justify-content: center;
-      width: var(--w);
+      /* ⚠️ 폭을 원본 rect(--w)에 못 박지 않는다. 글자는 clamp 의 10px 바닥에
+         걸려 더 안 줄어드는데 알약만 계속 줄어, 좁은 폭에서 좌우 여백이 음수가
+         됐다(430 에서 -6.9 · -10.5px). 넓은 폭에서도 rect 치수와 글자 폭이 서로
+         달라 셋의 여백이 9.1 · 9.4 · 8.1 로 제각각이었다.
+         글자에서 자라게 두고 좌우 여백을 한 값으로 준다 — 셋이 같아진다. */
+      width: auto;
+      padding-inline: max(7px, 1.2cqw);
       height: 3.75cqw;
+      min-height: 18px;
       /* 글자를 1px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
          아래 여백을 먹어 글자가 올라가 보인다 — 위 여백만큼 밀어 내린다.
          ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
@@ -909,7 +916,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 이 묶음은 스타일 블록 맨 끝에 둔다 — #platform .pf-stage 와 특정도가
           같아서 뒤에 와야 이긴다. */
     @media (max-width: 900px) {
-      #platform { height: auto; padding: 96px 0; }
+      #platform { height: auto; padding: 96px 0 160px; }
       #platform .pf-stage {
         position: static;
         height: auto;
@@ -922,7 +929,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        1024x700 에서 아코디언 아랫변이 10px, 640 에서는 60~70px 화면 밖으로
        나갔다. 넓은 창은 같은 높이에서도 들어가므로(1600x640 정상) 폭을 함께 건다. */
     @media (max-height: 700px) and (max-width: 1100px) {
-      #platform { height: auto; padding: 96px 0; }
+      #platform { height: auto; padding: 96px 0 160px; }
       #platform .pf-stage {
         position: static;
         height: auto;
@@ -939,15 +946,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        좁은 폭에서는 세로 그라데이션으로 바꿔 윗변을 흰색에서 시작한다 — 색 순서는
        원래 타원이 지나는 순서 그대로다. */
     @media (max-width: 900px), (max-height: 700px) and (max-width: 1100px) {
-      #platform .pf-stage {
-        /* ⚠️ 어두워지는 구간을 위쪽에 몰아 둔다. 글이 앉는 자리(무대 높이의 10%
-           아래 전부)가 먹색이어야 흰 글자가 읽힌다 — 80% 에서야 먹색이 되게 두니
-           아코디언이 옅은 하늘색 위에 떠서 글이 묻혔다. */
-        background: linear-gradient(180deg,
-          #FFFFFF 0%, #FAFCFE 2%, #EAF2FA 4%, #CCDEF1 6%,
-          #A4C4E5 8%, #7EABDA 10%, #6189B1 12%, #466382 14%,
-          #354C64 16%, #253547 18%, #1D2A39 20%, #151B23 23%, #151B23 100%) !important;
+      /* 바탕은 섹션이 쥔다 — 먹색 한 겹 위에 맨 위 190px 에만 흰색 → 먹색 띠를
+         얹는다. 그 190px 안에 섹션 윗여백(96)과 대제목 「데이터에서 지능으로」가
+         들어가고, 그 아래 .pf-body(세 줄 제목 · 아코디언 · 그래픽)는 전부 먹색
+         위에 선다 — 흰 글자가 읽히려면 그래야 한다.
+         ⚠️ 무대(.pf-stage)에 그리면 안 된다. 무대 높이가 내용만큼이라 % 로 준
+            정지점이 글 자리와 따로 놀아, 세 줄 제목이 옅은 하늘색 위에 떴다. */
+      #platform {
+        background-color: #151B23;
+        background-image: linear-gradient(180deg,
+          #FFFFFF 0%, #FAFCFE 8%, #EAF2FA 18%, #CCDEF1 28%,
+          #A4C4E5 40%, #7EABDA 50%, #6189B1 60%, #466382 70%,
+          #354C64 78%, #253547 86%, #1D2A39 93%, #151B23 100%);
+        background-repeat: no-repeat;
+        background-size: 100% 190px;
+        background-position: top center;
       }
+      #platform .pf-stage { background: transparent !important; }
     }
 </style>
   <script is:inline>
