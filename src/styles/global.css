@@ -1851,7 +1851,7 @@
        돈다 — 스크립트가 무대가 sticky 가 아니면 진행도를 제목의 화면
        위치에서 뽑는다. */
 
-    /* 대제목 모션은 아래 .sec-title .sec-line 에 있다 — 올라오며 흐림이 걷힌다.
+    /* 대제목 모션은 아래 .sec-title .sec-line 에 있다 — 줄마다 늦춰 떠오른다.
        ⚠️ 2026-10-30 이전에는 솔루션 제목과 같은 어법이었다(먹이 왼쪽부터 차오르고
           네 모서리 괄호가 걷히는 방식, --sec-fill · --sec-guide). 한 페이지에 같은
           모션이 두 번 나와 둘 다 흐려져 걷었다. */
@@ -1874,9 +1874,12 @@
     @media (max-width: 900px) {
       #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
     }
-    /* 제목은 아래에서 올라오며 흐림이 걷힌다 — 초점이 맞아 드는 모양이다.
-       ⚠️ 솔루션 대제목(먹이 차오르는 결 + 모서리 괄호)과 다른 어법으로 둔다.
-          같은 모션이 한 페이지에 두 번 나오면 둘 다 흐려진다. */
+    /* 제목은 줄마다 늦춰 아래에서 떠오른다 — 페이지의 다른 등장과 같은 어법이다.
+       ⚠️ blur(7px)가 걷히는 연출을 함께 걸었다가 2026-10-30 에 걷었다. 페이지에서
+          흐림을 쓰는 자리가 여기 하나뿐이라, 거리(24px)와 투명도를 통일해 놓고도
+          이 섹션만 다른 어법으로 남았다.
+       ⚠️ 솔루션 대제목(먹이 차오르는 결 + 모서리 괄호)과는 여전히 다른 어법이다 —
+          그쪽은 글자에 색이 차고, 이쪽은 줄이 떠오른다. */
     #security .sec-title .sec-line {
       display: block;
       color: var(--text);
@@ -1884,9 +1887,7 @@
       padding-bottom: .06em;
       opacity: var(--sec-o, 1);
       transform: translateY(calc((1 - var(--sec-o, 1)) * 24px));
-      filter: blur(calc((1 - var(--sec-o, 1)) * 7px));
-      /* 흐림이 걷히는 동안 합성 레이어가 따로 서도록 미리 알린다. */
-      will-change: opacity, transform, filter;
+      will-change: opacity, transform;
     }
     /* 카드도 소제목 뒤를 이어 한 장씩 늦춰 떠오른다. 값은 스크립트가 민다. */
     #security .sec-card {
@@ -1894,7 +1895,7 @@
       transform: translateY(calc((1 - var(--sec-c, 1)) * 24px));
     }
     @media (prefers-reduced-motion: reduce) {
-      #security .sec-title .sec-line { --sec-o: 1 !important; filter: none !important; }
+      #security .sec-title .sec-line { --sec-o: 1 !important; }
       #security .sec-card { --sec-c: 1 !important; }
     }
 
