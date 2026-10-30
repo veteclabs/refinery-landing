@@ -1610,11 +1610,11 @@
        (소제목 18px 에 줄높이 27px → 위아래로 4.5px 씩 남는다). 상자 간격을
        똑같이 28px 로 두었더니 눈에 보이는 틈은 대제목↔소제목 51px ·
        소제목↔카드 33.5px 로 17.5px 어긋났다(1600px 실측).
-       ⚠️ 두 값을 같게 맞추지 말 것. 보이는 틈 40px 에 맞춰 상자 간격을 각각
-          다르게 둔다 — 여기 34px · .section-header-row 쪽 17px. */
+       ⚠️ 두 값을 같게 맞추지 말 것. 보이는 틈 56px 에 맞춰 상자 간격을 각각
+          다르게 둔다 — 여기 50px · .section-header-row 쪽 33px. */
     #security .sec-deck {
       display: block;
-      margin-top: 34px;
+      margin-top: 50px;
     }
     /* 두 장이 같은 칸을 쓰므로 둘 다 칸 너비로 늘어난다 → 100% 가 곧 틀 하나다.
        ⚠️ 투명도로 겹쳐 넘기지 않는다. 흰 카드 둘이 반쯤 겹치면 그 동안 카드가
@@ -1708,7 +1708,7 @@
        ⚠️ 소제목과 카드 사이는 머리글의 margin-bottom 과 덱의 margin-top 이 합쳐지는
           자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
           그 간격을 쥔다. */
-    #security .section-header-row { flex-direction: column; align-items: center; gap: 17px; text-align: center; }
+    #security .section-header-row { flex-direction: column; align-items: center; gap: 33px; text-align: center; }
     #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
       #security .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
