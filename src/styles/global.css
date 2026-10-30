@@ -1854,6 +1854,13 @@
           자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
           그 간격을 쥔다. */
     #security .section-header-row { flex-direction: column; align-items: center; gap: 33px; text-align: center; }
+    /* ⚠️ 1200px 묶음의 .section-header-row > * { align-self: stretch } 가 여기까지
+       온다. 그러면 소제목(max-width: 680px)이 행 폭을 받되 680 에서 멈추는데,
+       교차축 시작점이 왼쪽이라 상자가 왼쪽에 붙는다 — 글은 그 상자 안에서
+       가운데라 화면 기준으로는 195px 왼쪽으로 치우쳤다(1212 실측).
+       이 섹션은 어느 폭에서나 가운데 정렬이므로 id 한 단을 올려 되돌린다.
+       margin-inline 도 함께 둔다 — stretch 가 아닌 폭에서도 같은 자리에 선다. */
+    #security .section-header-row > * { align-self: center; margin-inline: auto; }
     #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
       #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
