@@ -567,8 +567,18 @@ const jsonLd = [orgSchema, websiteSchema];
       display: flex;
       align-items: center;
       justify-content: center;
+      /* ⚠️ 글자에는 10px 바닥이 있는데(위 clamp) 알약에는 없어서, 칸이 좁아지면
+         글자는 그대로인 채 알약만 계속 줄어 모양이 달라졌다 — 넓은 화면에서는
+         글자 둘레가 넉넉한데 좁은 화면에서는 글자가 알약에 꽉 찼다.
+         바닥을 둘 다 같은 자리에 둔다: 글자가 10px 에 닿는 칸 폭은 627px 이고,
+         그때 높이는 3.75cqw = 23.5px 다.
+         ⚠️ 넓은 화면 값은 건드리지 않는다. width 는 그대로 --w 이고, 글자가
+            알약보다 넓어질 때만 min-width 가 받아 준다(평소에는 작동하지 않는다). */
       width: var(--w);
-      height: 3.75cqw;
+      min-width: fit-content;
+      padding-inline: max(6px, 0.9cqw);
+      box-sizing: border-box;
+      height: max(23.5px, 3.75cqw);
       /* 글자를 1px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
          아래 여백을 먹어 글자가 올라가 보인다 — 위 여백만큼 밀어 내린다.
          ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
@@ -1793,7 +1803,12 @@ the ontology finds the answer</h3>
         var w = wrapper.offsetWidth;
         var crop = (window.needsRightCrop === false) ? 0 : RIGHT_CROP;
         var pan = window.dashPanContent || 0; // 콘텐츠를 우측으로 밀어 보여주기 위한 좌측 크롭(px, 원본 1440 기준)
-        var isMobile = window.innerWidth <= 1280 /* 1280 이하는 세로 분리 레이아웃 — CSS와 같은 경계 */;
+        /* ⚠️ 좁은 폭에서도 데스크탑과 같은 식으로 잰다. 예전에는 1280 아래에서
+           왼쪽 세션 레일을 잘라 내고 본문만 확대했는데, 상자 비율이 그림과 달라
+           (17/10 대 8/5) 확대한 그림이 칸을 넘쳤다 — 캘린더처럼 원본이 2배인
+           캡처에서 특히 어긋나 보였다. 비율을 8/5 로 맞춘 지금은 잘라 낼 것이
+           없고, 넓은 화면과 같은 그림이 그대로 들어간다. */
+        var isMobile = false;
 
         if (isMobile) {
           // 모바일: 좌측 세션 레일을 실제로 잘라내고(pan + 모바일 전용 추가 크롭 포함) 본문 UI만 카드 폭에 꽉 차게 확대한다.
