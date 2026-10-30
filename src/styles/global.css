@@ -1117,14 +1117,12 @@
       .teams-split { grid-template-columns: 1fr; gap: 24px; margin-right: 0; }
       .teams-copy { margin-top: 0; }
       .teams-split .teams-preview { border-right: 1px solid var(--border); border-radius: var(--radius); }
-      /* 세로로 나뉘면 무대가 한 화면에 들어가지 않는다 — 붙이지 않고 그냥 흐르게
-         둔다. 스크립트도 무대의 position 이 sticky 가 아니면 손을 뗀다. */
-      #teams { padding: 130px 0; }
-      #teams .teams-pin { height: auto; }
-      #teams .teams-stage-sticky {
-        position: static; height: auto; padding-top: 0; display: block;
-      }
-      #teams .teams-stage-sticky .section-header { margin-bottom: 64px; }
+      /* ⚠️ 여기서 무대를 풀지 않는다. 예전에는 '세로로 나뉘면 한 화면에 안 들어
+         간다'고 보고 1280 아래를 통째로 흐르게 두었는데, 그 뒤로 배치가 바뀌어
+         지금은 한 벌이 236~693px 뿐이다(430~1180, 창 760·860 실측). 붙여 둘 수
+         있는데 풀어 두니 1280 아래에서는 스크롤로 탭이 넘어가지 않았다 —
+         스크립트가 position: sticky 가 아니면 손을 떼기 때문이다.
+         낮은 창(max-height: 760)은 위 묶음이 따로 풀어 준다. */
     }
     .teams-menu-horizontal { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; }
     .teams-tab-btn { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; padding: 18px 8px; border: none; border-right: 1px solid var(--border); box-sizing: border-box; border-radius: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; font-weight: 500; color: var(--text-muted); transition: background .15s, color .15s; white-space: nowrap; position: relative; box-shadow: inset 0 -3px 0 0 transparent; }
