@@ -241,13 +241,15 @@
     }
     /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */
     #industries .sol-title .sol-line::before {
-      top: .114em;
+      /* 자리는 스크립트가 배경 격자에 맞춰 넣는다(snapGuides). 못 넣었을 때 쓰는
+         값만 em 으로 남긴다 — 글자 가운데에 맞춘 값이다. */
+      top: var(--sol-g-top, .114em);
       border-bottom: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, -100%);
     }
     /* 베이스라인 — 점선은 윗변, 연장선이 아래로 뻗는다. */
     #industries .sol-title .sol-line::after {
-      bottom: .246em;
+      bottom: var(--sol-g-bot, .246em);
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }

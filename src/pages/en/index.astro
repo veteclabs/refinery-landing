@@ -1419,6 +1419,40 @@ const jsonLd = [orgSchema, websiteSchema];
     /* 제목만 있을 때 화면 가운데에 서도록 무대를 내릴 거리를 잰다.
        ⚠️ 재기 전에 --ind-lift 를 0 으로 돌린다. 제가 건 translate 가 남아 있으면
           그만큼 더해져 잴 때마다 값이 불어난다. */
+    /* 제도 보조선을 배경 격자에 올려 놓는다 — 선이 허공이 아니라 눈금 위에
+       얹혀야 '재고 그린' 것으로 읽힌다.
+       ⚠️ CSS 로는 못 한다. 격자(.ind-stage::before)가 background-position: center
+          라 타일 원점이 무대 높이에 따라 움직이는데, 제목이 내려오는 거리는 그와
+          다른 비율로 움직인다 — 창 높이마다 어긋난다. 그래서 여기서 잰다.
+       ⚠️ 글자 먹의 위아래는 상자가 아니라 비율로 잡는다(.177em · 1.052em).
+          1600 · 60px 에서 상자 437.4 에 먹 448.0~500.5 를 실측해 얻은 값이다.
+          어느 선을 고를지만 정하는 값이라 조금 어긋나도 결과는 같다.
+       ⚠️ 먹에서 최소 4px 은 떼고 고른다. 딱 붙은 선은 글자에 닿아 보인다. */
+    var TILE = [0.5, 24, 48, 72, 96], MIN_GAP = 4;
+    function snapGuides() {
+      var st = sec.querySelector('.ind-stage');
+      if (!st) return;
+      var sb = st.getBoundingClientRect();
+      var offY = ((sb.height / 2 - 60) % 120 + 120) % 120;
+      var ys = [];
+      for (var k = -2; k < Math.ceil(sb.height / 120) + 2; k++) {
+        for (var t = 0; t < TILE.length; t++) ys.push(sb.top + offY + TILE[t] + 120 * k);
+      }
+      ys.sort(function (a, b) { return a - b; });
+      for (var i = 0; i < lines.length; i++) {
+        var l = lines[i], b = l.getBoundingClientRect();
+        var fs = parseFloat(getComputedStyle(l).fontSize) || 60;
+        var inkTop = b.top + 0.177 * fs, inkBot = b.top + 1.052 * fs;
+        var gTop = null, gBot = null;
+        for (var j = 0; j < ys.length; j++) {
+          if (ys[j] <= inkTop - MIN_GAP) gTop = ys[j];
+          if (gBot === null && ys[j] >= inkBot + MIN_GAP) gBot = ys[j];
+        }
+        if (gTop === null || gBot === null) continue;
+        l.style.setProperty('--sol-g-top', (gTop - b.top).toFixed(2) + 'px');
+        l.style.setProperty('--sol-g-bot', (b.bottom - gBot).toFixed(2) + 'px');
+      }
+    }
     function measure() {
       var st = sec.querySelector('.ind-stage');
       var title = sec.querySelector('.sol-title');
@@ -1429,6 +1463,7 @@ const jsonLd = [orgSchema, websiteSchema];
       var tr = title.getBoundingClientRect();
       sec.style.setProperty('--ind-lift',
         ((sr.top + pad + (sr.height - pad) / 2) - (tr.top + tr.height / 2)).toFixed(1) + 'px');
+      snapGuides();
     }
 
     /* 핀 상자가 화면을 지나간 비율(0→1)과, 거기서 뽑은 사진 띠의 진행도. */
