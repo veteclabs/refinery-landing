@@ -1361,6 +1361,17 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var V3_START = 0.585, V3_END = 0.675;
         /* 왼쪽 글은 그래픽이 다 뜬 뒤에 따라온다 — 순서만 읽히면 되니 간격은 짧다. */
         var V2_START = 0.625, V2_END = 0.715;
+        /* 무대를 붙이지 않는 폭에서는 셋을 0.275 씩 앞으로 당긴다. 붙여 둘 때는
+           제목이 화면에 멈춰 선 채 그 자리에서 글이 뜨지만, 안 붙이면 글이 스크롤을
+           따라 올라오는 중에 뜬다 — 같은 값이면 글이 화면 아래에서 600px 을
+           투명한 채로 올라오다 화면 위쪽에 닿아서야 떴다(768 실측).
+           ⚠️ 셋의 간격(0.04)과 길이(0.09)는 그대로 둔다. 순서가 연출의 전부다.
+           ⚠️ 배경이 어두워진 뒤로 미룰 까닭이 여기엔 없다. 좁은 폭의 바탕은
+              스크롤과 무관한 고정 띠라(--pf-ry · --pf-rx 는 붙여 둘 때만 쓴다),
+              글이 앉는 자리는 이미 먹색이다(흰 글 대비 6.9:1 실측). */
+        var V_START_FLOW = 0.270, V_END_FLOW = 0.360;
+        var V3_START_FLOW = 0.310, V3_END_FLOW = 0.400;
+        var V2_START_FLOW = 0.350, V2_END_FLOW = 0.440;
         function ease(t) { return t * t * (3 - 2 * t); }
         /* 무대를 붙이지 않는 폭(900 이하)에서는 섹션 높이가 320vh 가 아니라
            내용만큼이다 — 그 거리로 진행도를 잡으면 모션이 순식간에 끝난다.
@@ -1420,12 +1431,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
              안 붙일 때는 밝은 띠 위에 계속 서 있다가 스크롤을 따라 올라간다. */
           sec.style.setProperty('--pf-title', stagePinned() ? (1 - d).toFixed(3) : '1');
 
-          var v = (p - V_START) / (V_END - V_START);
+          var vs = stagePinned() ? V_START : V_START_FLOW;
+          var ve = stagePinned() ? V_END : V_END_FLOW;
+          var v = (p - vs) / (ve - vs);
           if (v < 0) v = 0; else if (v > 1) v = 1;
           v = ease(v);
           sec.style.setProperty('--pf-in', v.toFixed(3));
 
-          var v3 = (p - V3_START) / (V3_END - V3_START);
+          var v3s = stagePinned() ? V3_START : V3_START_FLOW;
+          var v3e = stagePinned() ? V3_END : V3_END_FLOW;
+          var v3 = (p - v3s) / (v3e - v3s);
           if (v3 < 0) v3 = 0; else if (v3 > 1) v3 = 1;
           /* 오림을 69% 에서 0% 로 줄이면 아래쪽이 드러난다. */
           sec.style.setProperty('--pf-clip', (69 * (1 - ease(v3))).toFixed(2) + '%');
@@ -1437,7 +1452,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             if (art && !art.getAttribute('data')) art.setAttribute('data', art.getAttribute('data-src'));
           }
 
-          var v2 = (p - V2_START) / (V2_END - V2_START);
+          var v2s = stagePinned() ? V2_START : V2_START_FLOW;
+          var v2e = stagePinned() ? V2_END : V2_END_FLOW;
+          var v2 = (p - v2s) / (v2e - v2s);
           if (v2 < 0) v2 = 0; else if (v2 > 1) v2 = 1;
           v2 = ease(v2);
           sec.style.setProperty('--pf-in2', v2.toFixed(3));
