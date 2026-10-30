@@ -1957,17 +1957,22 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         /* 넘겨 볼 게 남은 쪽만 가장자리를 배경으로 흐린다. 카드가 뚝 끊긴 단면 대신
            녹아드는 모습이 되고, 흐림 자체가 '그쪽에 더 있다'는 신호가 된다.
            끝까지 민 쪽은 흐릴 게 없으므로 JS 가 클래스를 떼어 낸다. */
+        /* 오른쪽은 왼쪽보다 길고 세게 흐린다(120px · 중간에 0.45 를 한 번 꺾는다).
+           오른쪽은 '아직 더 있다'를 말해야 하는 쪽이라 신호가 눈에 띄어야 하고,
+           왼쪽은 이미 지나온 쪽이라 56px 로 얕게 둔다.
+           ⚠️ 중간 정지점은 끝에서 52px 자리다 — 거기서 벌써 55% 가 걷혀, 선형으로
+              길게만 늘린 것보다 가장자리가 빨리 배경에 녹는다. */
         #integrations .int-node-grid.fade-right {
-          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
-          mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
         }
         #integrations .int-node-grid.fade-left {
           -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
           mask-image: linear-gradient(to right, transparent 0, #000 56px);
         }
         #integrations .int-node-grid.fade-left.fade-right {
-          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
         }
       }
       @media (max-width: 1279px) {
