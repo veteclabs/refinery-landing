@@ -165,7 +165,9 @@
     /* 섹션 제목 위에 얹는 국문 대제목. 영문 제목과 같은 크기로 세워 둘을 한 덩어리로
        읽히게 한다 — 아래 .section-header p(소제목)와 섞이지 않게 선택자를 따로 둔다. */
     .section-header .section-lead-ko {
-      font-size: 60px;
+      /* 히어로 대제목과 같은 어법으로 폭을 따라 줄어든다 — 못 박아 두면
+         1280~900 에서 히어로만 작아져 둘의 급이 뒤집힌다. */
+      font-size: clamp(32px, 5.6vw, 60px);
       font-weight: 600;
       letter-spacing: -0.8px;
       line-height: 1.3;
@@ -179,13 +181,17 @@
       text-align: center;
     }
     @media (max-width: 720px) {
-      .section-header .section-lead-ko { font-size: clamp(32px, 8vw, 60px); }
+      .section-header .section-lead-ko { font-size: clamp(32px, 5.6vw, 60px); }
     }
     /* 대제목만 그라데이션의 흰 구간 위에 선다 — 그 아래 제목 줄부터는 어두운 면이다. */
     #platform .section-header .section-lead-ko { color: #16202C; }
     /* 솔루션 섹션 제목은 #platform 의 대제목(.section-lead-ko)과 같은 활자로 세운다 —
        두 섹션이 잇달아 오므로 크기가 다르면 한쪽이 작아 보인다. */
-    #industries .section-header-row h2 { font-size: 60px; }
+    /* 폭을 따라 계속 줄어든다 — 히어로 대제목(clamp(36px, 6vw, 64px))과 같은
+       어법이다. 60px 못 박고 900 아래에서만 clamp 를 걸었더니, 1280~900 에서는
+       히어로만 줄고 섹션 제목은 그대로여서 둘의 급이 뒤집혔다.
+       5.6vw 는 1071px 에서 60px 에 닿는 값이다. */
+    #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
     /* 소제목은 제목 오른쪽이 아니라 아래에 둔다 — 60px 제목 옆에 18px 글이 서면
        줄 끝이 서로 멀어 한 덩어리로 읽히지 않는다. 둘 다 가운데에 세운다. */
     #industries .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
@@ -256,7 +262,7 @@
     }
 
     @media (max-width: 900px) {
-      #industries .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
+      #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
     }
     .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: 1.5; }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
@@ -1039,9 +1045,21 @@
             적힌 줄이 있는데 flex 컨테이너에는 아무 일도 하지 않는다 — 그래서
             좁은 폭에서도 계속 옆으로 붙어 상자만 쥐어짜였다(500 에서 128x76,
             430 에서 58x35). 방향을 바꿔 쌓는다. */
+      /* 글은 내용 왼쪽 선(.container)에 맞춘다. 상자 안에 들어 있던 시절의
+         좌우 20px 이 남아 있어 대제목(24)보다 20px 들어가 44 에 서 있었다.
+         이제 글이 상자 밖이므로 그 여백은 쓰지 않는다. */
+      #teams .teams-preview-title-wrap,
+      #teams .teams-preview-text { padding-left: 0 !important; padding-right: 0 !important; }
+      /* 쌓는 차례는 상자 → 글이다. 무엇을 보여 주는 화면인지 먼저 보이고,
+         태그라인 · 제목 · 본문이 그 설명으로 아래에 붙는다. */
       .teams-split { flex-direction: column; }
-      .teams-rail { flex: 0 0 auto; min-width: 0; align-self: stretch; }
-      .teams-stage { width: 100%; }
+      .teams-rail { flex: 0 0 auto; min-width: 0; align-self: stretch; order: 2; }
+      /* 상자는 내용 왼쪽 선에서 시작해 오른쪽은 화면 끝까지 간다 — 내용 여백
+         (24px)만큼 밖으로 빼낸다. 오른쪽에 남는 자리가 없으므로 그쪽 모서리는
+         각지게 두고 왼쪽 아래만 둥글린다. */
+      .teams-stage { width: calc(100% + 24px); max-width: none; order: 1; margin-right: -24px; }
+      .teams-split .teams-preview { border-radius: 0 0 0 var(--radius) !important; border-right: 0 !important; }
+      .teams-copy { margin-top: 24px; }
     }
     .teams-split .teams-preview-title-wrap,
     .teams-split .teams-preview-text { position: static; padding: 0; }
@@ -1177,8 +1195,10 @@
     @media (max-width: 900px) {
       .teams-preview { aspect-ratio: unset !important; display: flex !important; flex-direction: column !important; background: #F6F8FA; margin-right: -24px; border-radius: 0 0 0 var(--radius) !important; }
       .teams-preview-decor { display: none !important; }
-      .teams-preview-title-wrap { position: static !important; padding: 20px 20px 0 !important; order: 1; margin-bottom: 14px; }
-      .teams-preview-text { position: static !important; padding: 0 20px 18px !important; margin-bottom: 22px; order: 2; }
+      /* 글은 내용 왼쪽 선에 맞춘다 — 상자 안에 들어 있던 시절의 좌우 20px 은
+         이제 글이 상자 밖이라 쓰지 않는다(대제목 24 · 글 44 로 어긋났었다). */
+      .teams-preview-title-wrap { position: static !important; padding: 20px 0 0 !important; order: 1; margin-bottom: 14px; }
+      .teams-preview-text { position: static !important; padding: 0 0 18px !important; margin-bottom: 22px; order: 2; }
       .teams-preview-text p { max-width: none; }
       #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
       #iframe-wrapper::before {
@@ -1744,7 +1764,7 @@
           모션이 두 번 나와 둘 다 흐려져 걷었다. */
     /* 대제목은 솔루션 섹션과 같은 활자·같은 배치다 — 두 섹션이 멀지 않으므로
        크기나 정렬이 다르면 한쪽이 급이 낮아 보인다. */
-    #security .section-header-row h2 { font-size: 60px; }
+    #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
     /* 제목 · 소제목 · 카드 사이를 한 값(28px)으로 둔다 — 셋이 같은 간격으로 쌓인다.
        ⚠️ 소제목과 카드 사이는 머리글의 margin-bottom 과 덱의 margin-top 이 합쳐지는
           자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
@@ -1752,7 +1772,7 @@
     #security .section-header-row { flex-direction: column; align-items: center; gap: 33px; text-align: center; }
     #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
-      #security .section-header-row h2 { font-size: clamp(32px, 8vw, 60px); }
+      #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
     }
     /* 제목은 아래에서 올라오며 흐림이 걷힌다 — 초점이 맞아 드는 모양이다.
        ⚠️ 솔루션 대제목(먹이 차오르는 결 + 모서리 괄호)과 다른 어법으로 둔다.
