@@ -1892,6 +1892,20 @@
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
     #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
+    /* 바탕 영상. 예전에는 같은 자리에 /img_login-bg.webp 한 장이 깔려 있었고
+       자리 잡는 값은 그대로 물려받았다(오른쪽 아래를 기준으로 채운다).
+       ⚠️ 글은 .container 가 z-index 1 로 위에 선다 — 여기에 z-index 를 주지 않는다.
+       ⚠️ 동작 줄이기에서는 멈춰 세운다(아래 미디어쿼리 + 인라인 스크립트). */
+    #cta .cta-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right bottom;
+      pointer-events: none;
+      user-select: none;
+    }
     #cta h2 { color: #fff; font-weight: 500; margin-bottom: 0; line-height: 1.35; }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
        면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */

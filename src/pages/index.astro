@@ -2103,7 +2103,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  {/* 바탕은 영상이다 — webm 을 먼저 두고 받지 못하는 브라우저가 mp4 로 간다.
+      poster 는 첫 프레임을 뽑은 것이라 영상이 뜨기 전·동작 줄이기에서 그대로 선다.
+      ⚠️ muted · playsinline 이 없으면 모바일에서 자동 재생이 막힌다. */}
+  <video class="cta-bg" autoplay muted loop playsinline preload="metadata"
+    poster="/cta/refinery-cta-poster.webp" aria-hidden="true" tabindex="-1">
+    <source src="/cta/refinery-cta-bg.webm" type="video/webm">
+    <source src="/cta/refinery-cta-bg.mp4" type="video/mp4">
+  </video>
   <div class="container" style="position:relative;z-index:1;">
     <h2 style="text-align:center;">지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
     <div class="hero-actions" style="display:flex;justify-content:center;margin-top:40px;">
@@ -2111,6 +2118,22 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     </div>
   </div>
 </section>
+<script is:inline>
+  /* 동작 줄이기에서는 CTA 바탕 영상을 세우고 poster 만 남긴다.
+     ⚠️ CSS 로는 영상을 못 세운다 — 여기서 재생을 끈다.
+     ⚠️ play() 는 거절될 수 있어(자동 재생 정책) 반드시 catch 한다. */
+  (function () {
+    var v = document.querySelector('#cta .cta-bg');
+    if (!v || !window.matchMedia) return;
+    var m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function sync() {
+      if (m.matches) { v.pause(); v.removeAttribute('autoplay'); }
+      else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    sync();
+    if (m.addEventListener) m.addEventListener('change', sync);
+  })();
+</script>
 
 </main>
 
