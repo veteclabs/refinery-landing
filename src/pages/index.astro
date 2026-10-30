@@ -598,15 +598,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       padding-inline: max(6px, 0.9cqw);
       box-sizing: border-box;
       height: max(23.5px, 3.75cqw);
-      /* 글자를 1px 내린다. 상자 한가운데에 세우면 'Refinery' 의 y 꼬리가
-         아래 여백을 먹어 글자가 올라가 보인다 — 위 여백만큼 밀어 내린다.
-         ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
-            가운데 정렬은 속 상자를 기준으로 하므로 실제로 내려가는 몫은 절반이다.
-            12px 글자에서 .167em = 2px 이고, 그 절반인 1px 이 내려간다. */
-      /* ⚠️ 단축형(padding)으로 쓰면 안 된다. 위에서 준 padding-inline 을 0 으로
-         덮어 알약이 글자에 딱 붙는다 — 좁은 폭에서 글자가 알약 밖으로 삐져나온
-         것처럼 보였다(540 아래에서 알약 폭 = 글자 폭). 세로만 따로 준다. */
-      padding-top: .167em;
+      /* ⚠️ 세로로 밀어 내리지 않는다. 예전에는 .167em 을 위에 줘 글자를 1px
+         내렸는데('Refinery' 의 y 꼬리가 아래를 먹어 올라가 보인다는 판단),
+         4배로 캡처해 잉크를 재 보니 거꾸로 1.6px 내려가 있었다 — 위 9.75 ·
+         아래 6.50px. 0 으로 두면 7.75 / 8.50 으로 거의 맞는다.
+         ⚠️ 단축형(padding)으로 쓰면 안 된다. 위에서 준 padding-inline 을 0 으로
+            덮어 알약이 글자에 딱 붙는다 — 좁은 폭에서 글자가 알약 밖으로
+            삐져나온 것처럼 보였다(540 아래에서 알약 폭 = 글자 폭). */
+      padding-top: 0;
       padding-bottom: 0;
       transition: opacity var(--t-quick), filter var(--t-quick);
     }
