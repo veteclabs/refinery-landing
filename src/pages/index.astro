@@ -603,7 +603,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          ⚠️ 높이가 border-box 라 padding-top 은 속 상자를 그만큼 줄인다.
             가운데 정렬은 속 상자를 기준으로 하므로 실제로 내려가는 몫은 절반이다.
             12px 글자에서 .167em = 2px 이고, 그 절반인 1px 이 내려간다. */
-      padding: .167em 0 0;
+      /* ⚠️ 단축형(padding)으로 쓰면 안 된다. 위에서 준 padding-inline 을 0 으로
+         덮어 알약이 글자에 딱 붙는다 — 좁은 폭에서 글자가 알약 밖으로 삐져나온
+         것처럼 보였다(540 아래에서 알약 폭 = 글자 폭). 세로만 따로 준다. */
+      padding-top: .167em;
+      padding-bottom: 0;
       transition: opacity .35s ease, filter .35s ease;
     }
     /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
