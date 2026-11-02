@@ -2736,11 +2736,13 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     var PROX = 170;          /* 빛무리 반지름 */
     var DOT = 1.2;           /* 점 반지름(기운 0) */
     var SWELL = 1.6;         /* 기운이 찼을 때 반지름 배수 */
-    var ALPHA = 0.80;        /* 기운 1(돔 꼭대기)일 때의 진하기 */
-    /* ⚠️ 점 색은 브랜드색(--accent)을 읽어 쓴다. 하드코딩하면 토큰이 바뀔 때 어긋난다.
-       ⚠️ 불투명한 #76A6D7(명도 0.3603)은 전에 쓰던 먹색 0.427(0.3480)보다 밝다 —
-          브랜드색으로는 그만한 무게가 안 나온다. 0.80 이 위쪽 한계에 가깝다. */
-    var DR = 118, DG = 166, DB = 215;
+    var ALPHA = 1;           /* 기운 1(돔 꼭대기)일 때의 진하기 */
+    /* ⚠️ 점 색은 브랜드 램프의 가장 옅은 단 --brand-100(#DCE8F5)이다. 아주 옅어서
+          불투명해도 흰 바탕 대비가 1.24:1 밖에 안 된다 — ALPHA 를 1 아래로 내리면
+          사라진다. 참고로 #76A6D7 은 2.08:1, 전에 쓰던 먹색은 2.64:1 이었다.
+       ⚠️ --brand-100 은 :root 가 아니라 vetec-hero.css 의 .vh 에 걸려 있다. 그래서
+          document.documentElement 가 아니라 .vh 에서 읽는다. 그 파일은 건드리지 않는다. */
+    var DR = 220, DG = 232, DB = 245;
     var STRENGTH = 0.55;     /* 미는 힘 */
     var STRETCH = 0.5;       /* 달릴 때 점이 늘어나는 정도 */
     var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
@@ -2781,7 +2783,8 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     }
 
     function readAccent() {
-      var v = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      var host = document.querySelector('.vh') || document.documentElement;
+      var v = getComputedStyle(host).getPropertyValue('--brand-100').trim();
       var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
       if (!m) return;
       var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
