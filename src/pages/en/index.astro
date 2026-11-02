@@ -2705,13 +2705,24 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
 
 <script is:inline>
   /* 히어로 바탕 점판 — 24px 격자의 점을 캔버스가 그린다.
-     포인터 둘레에서는 점이 바깥으로 밀리고 커지며, 빛을 받는 쪽이 짙어져
-     '점으로 만든 돔'이 솟아 보인다.
-     ⚠️ 돔 중심은 포인터를 바로 따라가지 않는다. 한 프레임에 9% 씩만 다가가
-        묵직하게 딸려온다. 멈추면 곧 따라붙고, 빠르게 움직이면 뒤처진다.
-     ⚠️ 그리는 좌표는 점판(sticky, 화면에 붙어 있다) 기준이다. 섹션 기준으로
-        잡으면 스크롤한 만큼 어긋난다.
-     ⚠️ 돌 일이 없으면 rAF 를 세운다 — 들어오면 다시 돈다. */
+     결은 reactbits.dev 히어로 배경(DotGrid)을 참고했다. 저쪽은 WebGL 인스턴싱이고
+     여기서는 2D 캔버스로 옮겼다 — 바탕 점을 그리지 않아 그릴 양이 적기 때문이다.
+     ⚠️ 묵직함은 '빛무리가 늦게 따라오는 것'이 아니라 '점이 끌려갔다 돌아오는 것'이다.
+        전에는 돔 중심을 한 프레임에 4.2% 씩만 옮겨 커서 뒤를 쫓게 했는데, 그러면
+        묵직한 게 아니라 고장 난 것처럼 보인다. 지금은 빛무리가 커서에 바로 붙고,
+        대신 점이 커서가 지나간 '방향으로' 밀렸다가 용수철로 제자리에 돌아온다.
+     ⚠️ 미는 힘은 커서까지의 거리가 아니라 커서의 속도에서 나온다 — 멈춰 있으면
+        힘이 0 이라 격자가 24px 그대로다. 간격이 흐트러지는 건 커서가 달릴 때뿐이다.
+     ⚠️ 점은 네 이웃과 묶여 있다(TEN). 밀린 자리가 옆으로 번져 천이 끌리듯 움직인다.
+        낱개로 튀면 가볍고, 묶여 있어야 묵직하다.
+     ⚠️ 바탕 점은 그리지 않는다 — 기운(e)이 임계값을 넘는 점만 그린다.
+     ⚠️ 격자 전체를 돌지 않는다. 커서 둘레와 '아직 움직이는 칸'만 창(win)으로 잡아
+        그 안에서만 물리를 풀고 그 자리만 지웠다 그린다. 1425x900 격자는 2280 칸인데
+        창은 400 칸 남짓이고, clearRect 도 1.28M px 가 아니라 23만 px 다.
+        창을 안 쓰면 소프트웨어 렌더에서 프레임이 100ms 까지 늘어진다.
+     ⚠️ 그리는 좌표는 점판(sticky, 화면에 붙어 있다) 기준이다. 섹션 기준으로 잡으면
+        스크롤한 만큼 어긋난다.
+     ⚠️ 가라앉으면 rAF 를 세운다 — 들어오면 다시 돈다. */
   (function () {
     var sec = document.getElementById('hero');
     if (!sec) return;
@@ -2720,18 +2731,49 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var ctx = cv.getContext('2d');
-    var GAP = 24;            /* 격자 간격 */
-    var R = 170;             /* 돔 반지름(px) */
-    var BASE_R = 1.0;        /* 평소 점 반지름 */
-    var BASE_A = 0;          /* 평소에는 점을 그리지 않는다 — 돔 안에서만 보인다 */
-    var EASE = 0.042;        /* 돔이 포인터를 따라가는 속도 — 작을수록 묵직하다 */
-    var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위에서) */
 
-    var w = 0, h = 0, dpr = 1;
-    var tx = -9999, ty = -9999;      /* 포인터 */
-    var cx = -9999, cy = -9999;      /* 돔 중심 — 포인터를 뒤따른다 */
-    var amt = 0, tAmt = 0;           /* 돔 세기 0~1 */
-    var running = false;
+    var GAP = 24;            /* 격자 간격 */
+    var PROX = 170;          /* 빛무리 반지름 */
+    var DOT = 1.2;           /* 점 반지름(기운 0) */
+    var SWELL = 1.6;         /* 기운이 찼을 때 반지름 배수 */
+    var ALPHA = 0.64;        /* 기운이 찼을 때 진하기 — 돔 꼭대기에서 0.40 쯤 */
+    var STRENGTH = 0.55;     /* 미는 힘 */
+    var STRETCH = 0.5;       /* 달릴 때 점이 늘어나는 정도 */
+    var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
+    var QUIET_S = 0.03, QUIET_V = 0.6;       /* 이만큼 아래면 멈춘 것으로 본다 */
+    var PAD = 10;            /* 점이 칸 밖으로 나가는 만큼(반지름 + 늘어남) */
+
+    /* 용수철 — 0.8초에 걸쳐 돌아온다(감쇠비 0.49) */
+    var DAMP = 0.49, OMG = 4 / (DAMP * 0.8);
+    var SPR = OMG * OMG, FRIC = 2 * DAMP * OMG;
+    /* 이웃과의 묶임 — 격자 한 칸을 기준으로 잡는다 */
+    var TEN = 360 * 360 / (GAP * GAP), TENV = Math.sqrt(TEN) * 0.06;
+    var FAST = Math.sqrt(SPR + 8 * TEN) + FRIC + 8 * TENV;   /* 가장 빠른 고유진동 */
+    var HSTEP = Math.min(1 / 120, 1.2 / FAST);               /* 쪼갠 걸음의 길이 */
+
+    var w = 0, h = 0, dpr = 1, cols = 0, rows = 0, n = 0, ox = 0, oy = 0;
+    var sx, sy, vx, vy, fx, fy;      /* 점의 치우침 · 속도 · 이번 프레임에 받는 힘 */
+    var pX = -9999, pY = -9999, pVX = 0, pVY = 0, pT = 0;
+    var inside = false, pres = 0, running = false, last = 0;
+    var wi0 = 0, wi1 = -1, wj0 = 0, wj1 = -1;        /* 다음 프레임으로 넘기는 창 — 아직 움직이는 칸 */
+    var ai0 = 0, ai1 = -1, aj0 = 0, aj1 = -1;        /* 이번 프레임에 실제로 푼 창 — 그리기도 이 창으로 한다 */
+    var dx0 = 0, dy0 = 0, dx1 = -1, dy1 = -1;        /* 지난 프레임에 그린 자리 */
+
+    function sstep(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); }
+    function smooth(x, a, b) { var t = (x - a) / (b - a); t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
+
+    function build() {
+      cols = Math.max(1, Math.floor(w / GAP) + 1);
+      rows = Math.max(1, Math.floor(h / GAP) + 1);
+      n = cols * rows;
+      ox = (w - (cols - 1) * GAP) / 2;
+      oy = (h - (rows - 1) * GAP) / 2;
+      sx = new Float32Array(n); sy = new Float32Array(n);
+      vx = new Float32Array(n); vy = new Float32Array(n);
+      fx = new Float32Array(n); fy = new Float32Array(n);
+      wi0 = 0; wi1 = -1; wj0 = 0; wj1 = -1;
+      dx0 = 0; dy0 = 0; dx1 = -1; dy1 = -1;
+    }
 
     function size() {
       var r = cv.getBoundingClientRect();
@@ -2739,72 +2781,170 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
       w = Math.round(r.width); h = Math.round(r.height);
       cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      draw();
+      ctx.lineCap = 'round';
+      build();
     }
 
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      if (amt <= 0.001) return;
-      /* ⚠️ 격자 전체를 돌지 않는다. 바탕 점이 보이지 않으므로 돔이 닿는 칸만
-         그리면 된다 — 1440x900 에서 2280 개가 200 개 남짓으로 준다. */
-      var x0 = GAP / 2, y0 = GAP / 2;
-      var gi0 = Math.floor((cx - R - x0) / GAP), gi1 = Math.ceil((cx + R - x0) / GAP);
-      var gj0 = Math.floor((cy - R - y0) / GAP), gj1 = Math.ceil((cy + R - y0) / GAP);
-      for (var j = gj0; j <= gj1; j++) {
-        var gy = y0 + j * GAP;
-        if (gy < -GAP || gy > h + GAP) continue;
-        for (var i = gi0; i <= gi1; i++) {
-          var gx = x0 + i * GAP;
-          if (gx < -GAP || gx > w + GAP) continue;
-          var px = gx, py = gy, rad = BASE_R, a = BASE_A;
-          {
-            var dx = gx - cx, dy = gy - cy;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < R) {
-              var u = dist / R;
-              var k = amt;
-              /* ⚠️ 점을 밀지 않는다. 격자 간격은 어디서나 24px 그대로다.
-                 예전에는 거리^0.62 로 밀어(돋보기 결) 가운데가 벌어지고 테두리가
-                 촘촘해졌는데, 간격이 자리마다 달라 보였다. 입체는 점의 크기와
-                 명암만으로 만든다 — 반구의 법선을 그대로 쓴다. */
-              var ux = dist > 0.001 ? dx / dist : 0, uy = dist > 0.001 ? dy / dist : 0;
-              /* 반구의 법선으로 명암을 준다 — 빛 받는 쪽이 짙고 큰 점이 된다. */
-              var nz = Math.sqrt(Math.max(0, 1 - u * u));
-              var lam = Math.max(0, ux * u * LX + uy * u * LY + nz * LZ);
-              var fall = 1 - u * u;
-              rad = BASE_R + (0.4 + 2.0 * lam) * fall * k;
-              a = BASE_A + (0.10 + 0.52 * lam) * fall * k;
+    function step(dt) {
+      /* 돌 창 — 커서 둘레에, 지난 프레임에 아직 움직이던 칸을 더한다 */
+      var i0 = wi0, i1 = wi1, j0 = wj0, j1 = wj1, i, j, k;
+      if (inside || pres > 0.001) {
+        var bi0 = Math.floor((pX - PROX - ox) / GAP) - 1, bi1 = Math.ceil((pX + PROX - ox) / GAP) + 1;
+        var bj0 = Math.floor((pY - PROX - oy) / GAP) - 1, bj1 = Math.ceil((pY + PROX - oy) / GAP) + 1;
+        if (i0 > i1) { i0 = bi0; i1 = bi1; j0 = bj0; j1 = bj1; }
+        else {
+          if (bi0 < i0) i0 = bi0; if (bi1 > i1) i1 = bi1;
+          if (bj0 < j0) j0 = bj0; if (bj1 > j1) j1 = bj1;
+        }
+      }
+      if (i0 > i1 || j0 > j1) { wi0 = 0; wi1 = -1; ai0 = 0; ai1 = -1; return false; }
+      if (i0 < 0) i0 = 0; if (i1 > cols - 1) i1 = cols - 1;
+      if (j0 < 0) j0 = 0; if (j1 > rows - 1) j1 = rows - 1;
+      ai0 = i0; ai1 = i1; aj0 = j0; aj1 = j1;
+
+      /* 커서가 미는 힘 — 프레임마다 한 번만 재고 쪼갠 걸음에서는 그대로 쓴다 */
+      var sp = Math.sqrt(pVX * pVX + pVY * pVY);
+      var push = (inside && pres > 0.001) ? 6500 * Math.tanh(sp / 900) * STRENGTH : 0;
+      var ux0 = sp > 0.001 ? pVX / sp : 0, uy0 = sp > 0.001 ? pVY / sp : 0;
+      for (j = j0; j <= j1; j++) {
+        for (i = i0; i <= i1; i++) {
+          k = j * cols + i;
+          if (push <= 0) { fx[k] = 0; fy[k] = 0; continue; }
+          var ax = ox + i * GAP + sx[k] - pX, ay = oy + j * GAP + sy[k] - pY;
+          var d = Math.sqrt(ax * ax + ay * ay);
+          if (d >= PROX) { fx[k] = 0; fy[k] = 0; continue; }
+          var g = sstep(1 - d / PROX) * push;
+          var rx = d > 0.001 ? ax / d : 0, ry = d > 0.001 ? ay / d : 0;
+          fx[k] = g * (ux0 + rx * 0.6);
+          fy[k] = g * (uy0 + ry * 0.6);
+        }
+      }
+
+      /* 고유진동이 빠른 만큼 걸음을 쪼갠다 — 안 쪼개면 용수철이 발산한다 */
+      var sub = Math.min(16, Math.max(1, Math.ceil(dt / HSTEP))), ht = dt / sub, s;
+      for (s = 0; s < sub; s++) {
+        for (j = j0; j <= j1; j++) {
+          for (i = i0; i <= i1; i++) {
+            k = j * cols + i;
+            var lx = -4 * sx[k], ly = -4 * sy[k], mx = -4 * vx[k], my = -4 * vy[k];
+            if (i > 0) { lx += sx[k - 1]; ly += sy[k - 1]; mx += vx[k - 1]; my += vy[k - 1]; }
+            if (i < cols - 1) { lx += sx[k + 1]; ly += sy[k + 1]; mx += vx[k + 1]; my += vy[k + 1]; }
+            if (j > 0) { lx += sx[k - cols]; ly += sy[k - cols]; mx += vx[k - cols]; my += vy[k - cols]; }
+            if (j < rows - 1) { lx += sx[k + cols]; ly += sy[k + cols]; mx += vx[k + cols]; my += vy[k + cols]; }
+            vx[k] += (fx[k] - SPR * sx[k] - FRIC * vx[k] + TEN * lx + TENV * mx) * ht;
+            vy[k] += (fy[k] - SPR * sy[k] - FRIC * vy[k] + TEN * ly + TENV * my) * ht;
+          }
+        }
+        for (j = j0; j <= j1; j++) {
+          for (i = i0; i <= i1; i++) { k = j * cols + i; sx[k] += vx[k] * ht; sy[k] += vy[k] * ht; }
+        }
+      }
+
+      /* 다음 프레임의 창 — 아직 움직이는 칸을 한 칸 넓혀 잡는다(파문이 번질 자리) */
+      var ni0 = 1e9, ni1 = -1e9, nj0 = 1e9, nj1 = -1e9;
+      for (j = j0; j <= j1; j++) {
+        for (i = i0; i <= i1; i++) {
+          k = j * cols + i;
+          if (sx[k] < QUIET_S && sx[k] > -QUIET_S && sy[k] < QUIET_S && sy[k] > -QUIET_S &&
+              vx[k] < QUIET_V && vx[k] > -QUIET_V && vy[k] < QUIET_V && vy[k] > -QUIET_V) continue;
+          if (i < ni0) ni0 = i; if (i > ni1) ni1 = i;
+          if (j < nj0) nj0 = j; if (j > nj1) nj1 = j;
+        }
+      }
+      if (ni1 < ni0) { wi0 = 0; wi1 = -1; wj0 = 0; wj1 = -1; }
+      else { wi0 = ni0 - 1; wi1 = ni1 + 1; wj0 = nj0 - 1; wj1 = nj1 + 1; }
+
+      var dec = 1 - Math.exp(-dt / 0.08);
+      pVX -= pVX * dec; pVY -= pVY * dec;
+      pres += ((inside ? 1 : 0) - pres) * (1 - Math.exp(-dt / 0.2));
+      return true;
+    }
+
+    function draw(i0, i1, j0, j1) {
+      /* 지난 프레임에 그린 자리와 이번에 그릴 자리만 지운다 */
+      if (dx1 > dx0) ctx.clearRect(dx0, dy0, dx1 - dx0, dy1 - dy0);
+      if (i0 > i1 || j0 > j1) { dx1 = -1; return; }
+      var x0 = ox + i0 * GAP - PAD, x1 = ox + i1 * GAP + PAD;
+      var y0 = oy + j0 * GAP - PAD, y1 = oy + j1 * GAP + PAD;
+      ctx.clearRect(x0, y0, x1 - x0, y1 - y0);
+      dx0 = x0; dy0 = y0; dx1 = x1; dy1 = y1;
+
+      var lit = pres > 0.001;
+      for (var j = j0; j <= j1; j++) {
+        var by = oy + j * GAP;
+        for (var i = i0; i <= i1; i++) {
+          var k = j * cols + i;
+          var px = ox + i * GAP + sx[k], py = by + sy[k];
+          var vk = Math.sqrt(vx[k] * vx[k] + vy[k] * vy[k]);
+          var dk = Math.sqrt(sx[k] * sx[k] + sy[k] * sy[k]);
+          /* 끌림에서 오는 기운 — 밀린 거리와 속도. 파문이 바깥으로 번진다 */
+          var e = vk / 420 * 0.85 + dk / (GAP * 2.2) * 0.35;
+          if (e > 1) e = 1;
+          /* 빛무리 — 반구의 법선으로 명암을 줘 점이 모인 자리가 돔으로 솟아 보인다 */
+          if (lit) {
+            var ax = px - pX, ay = py - pY;
+            var d = Math.sqrt(ax * ax + ay * ay);
+            if (d < PROX) {
+              var u = d / PROX;
+              var ux = d > 0.001 ? ax / d : 0, uy = d > 0.001 ? ay / d : 0;
+              var nz = Math.sqrt(1 - u * u);
+              var lam = ux * u * LX + uy * u * LY + nz * LZ;
+              if (lam < 0) lam = 0;
+              var dome = sstep(1 - u) * (0.18 + 0.82 * lam) * pres;
+              if (dome > e) e = dome;
             }
           }
-          if (a <= 0.004) continue;
-          ctx.beginPath();
-          ctx.arc(px, py, rad, 0, 6.2832);
-          ctx.fillStyle = 'rgba(22,32,44,' + a.toFixed(3) + ')';
-          ctx.fill();
+          if (e < 0.012) continue;
+          var rad = DOT * (1 + SWELL * e);
+          ctx.fillStyle = 'rgba(22,32,44,' + (ALPHA * e).toFixed(3) + ')';
+          /* 달리는 점은 가는 쪽으로 늘어난다 — 느릴 때는 격자 축에 붙는다 */
+          var half = vk * STRETCH * 0.02;
+          if (half > DOT * 3) half = DOT * 3;
+          if (half > 0.3) {
+            var an = Math.atan2(vy[k], vx[k]);
+            var axis = Math.round(an / 1.5707963) * 1.5707963;
+            an = axis + (an - axis) * smooth(vk, 8, 70);
+            var hx = Math.cos(an) * half, hy = Math.sin(an) * half;
+            ctx.strokeStyle = ctx.fillStyle;
+            ctx.lineWidth = rad * 2;
+            ctx.beginPath();
+            ctx.moveTo(px - hx, py - hy); ctx.lineTo(px + hx, py + hy);
+            ctx.stroke();
+          } else {
+            ctx.beginPath();
+            ctx.arc(px, py, rad, 0, 6.2832);
+            ctx.fill();
+          }
         }
       }
     }
 
-    function tick() {
-      cx += (tx - cx) * EASE;
-      cy += (ty - cy) * EASE;
-      amt += (tAmt - amt) * 0.07;
-      draw();
-      var settled = Math.abs(tx - cx) < 0.4 && Math.abs(ty - cy) < 0.4 && Math.abs(tAmt - amt) < 0.004;
-      if (settled && tAmt === 0) { amt = 0; draw(); running = false; return; }
+    function tick(ts) {
+      var dt = Math.min(0.05, (ts - last) / 1000 || 0);
+      last = ts;
+      step(dt);
+      /* ⚠️ 그리는 창은 '푼 창'(ai*)이지 '넘기는 창'(wi*)이 아니다. 넘기는 창은 아직
+         움직이는 칸만 담으므로, 커서가 멈추면 비어 버려 빛무리까지 지워진다. */
+      if (!inside && pres <= 0.002 && wi1 < wi0) { draw(0, -1, 0, -1); running = false; return; }
+      draw(ai0, ai1, aj0, aj1);
       requestAnimationFrame(tick);
     }
-    function kick() { if (!running) { running = true; requestAnimationFrame(tick); } }
+    function kick() { if (!running) { running = true; last = performance.now(); requestAnimationFrame(tick); } }
 
     sec.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse') return;
       var r = cv.getBoundingClientRect();
       var nx = e.clientX - r.left, ny = e.clientY - r.top;
-      if (tAmt === 0) { cx = nx; cy = ny; }   /* 처음 들어올 때는 그 자리에서 시작 */
-      tx = nx; ty = ny; tAmt = 1;
+      var t = e.timeStamp || performance.now();
+      if (inside && pT) {
+        var dts = Math.max(4, t - pT) / 1000;
+        pVX += ((nx - pX) / dts - pVX) * 0.6;
+        pVY += ((ny - pY) / dts - pVY) * 0.6;
+      } else { pVX = 0; pVY = 0; }
+      pX = nx; pY = ny; pT = t; inside = true;
       kick();
     }, { passive: true });
-    sec.addEventListener('pointerleave', function () { tAmt = 0; kick(); });
+    sec.addEventListener('pointerleave', function () { inside = false; pT = 0; kick(); });
 
     window.addEventListener('resize', size);
     if (document.readyState === 'complete') size();
