@@ -932,6 +932,22 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    /* 영문은 accent 가 'one operating system' 이라 60% 가 'operating' 과 'system' 사이에
+       떨어진다. 'operating' 의 가로 중앙은 상자의 41.67% 다 — 860 · 980 · 1100 · 1280 ·
+       1440 어느 폭에서나 같은 값이었다(글자 크기가 clamp 로 43~60px 을 오가도 글꼴 폭이
+       같은 비율로 줄기 때문이다). 세로 82% 는 그대로 둔다.
+       ⚠️ background 단축 속성으로 쓰면 안 된다. 그 속성이 background-clip 을 초기값으로
+          되돌리는데 이 규칙이 더 구체적이라 바로 위의 clip: text 를 이긴다 — 글자가
+          아니라 상자가 통째로 칠해진다. background-image 롱핸드로 쓴다. */
+    html[lang="en"] #hero h1 .hero-title-accent {
+      background-image: radial-gradient(
+        circle 1.2em at 41.67% 82%,
+        #76A6D7 0%,
+        #4A7FA8 38%,
+        #22303F 72%,
+        #16202C 100%
+      );
+    }
     /* accent 를 한 줄에 두는 게 제목의 디자인이다. 좁은 폭에서 accent 가 제목 폭을
        넘기면 'Refinery / 산업 AI / 운영체제' 처럼 3줄로 갈라진다(좌우에 자리는 남은 채).
        48px 기준 accent 필요폭은 'Industrial AI OS' 354px · '산업 AI 운영체제' 322px —
