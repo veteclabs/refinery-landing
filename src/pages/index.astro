@@ -2061,9 +2061,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       .rfn-node-ic .ph{font-size:14px;}
       .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#F6F8FA;}
       .rfn-node-grip{flex:none;display:inline-flex;color:#3A4856;cursor:grab;}
-      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:var(--ls-wide-sm);text-transform:uppercase;color:#7E858F;}
+      /* ⚠️ 표 줄 높이는 px 로 박아 둔다(13px x 1.6 = 20.8 · 11.5px x 1.6 = 18.4).
+         상속해 두면 body 행간을 건드릴 때마다 카드 높이가 따라 움직인다 —
+         2026-11-02 에 본문 행간을 1.6 에서 1.5 로 내렸더니 줄마다 1.3px 씩
+         줄어 카드가 229 에서 222px 이 됐고, 아래로 이어지는 회로 선과도
+         어긋났다. 빽빽한 표의 줄 높이는 본문 비율과 별개로 둔다. */
+      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;line-height:18.4px;letter-spacing:var(--ls-wide-sm);text-transform:uppercase;color:#7E858F;}
       .rfn-node-colhead span:last-child{text-align:right;}
-      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #292F37;font-size:13px;}
+      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #292F37;font-size:13px;line-height:20.8px;}
       .rfn-node-col:last-child{border-bottom:0;}
       .rfn-node[data-pl-node="cloud"] .rfn-node-col:last-child,
       .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #292F37;}
