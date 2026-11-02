@@ -2096,6 +2096,24 @@
       height: calc(100% + 36px) !important;
       object-position: right top !important;
     }
+    /* ⚠️ 1000 아래에서는 피사체가 글 밑으로 들어온다. 영상이 4:1 인데 그 폭에서
+       띠는 2:1 에 가까워 배율이 높이 쪽에 묶이고, 가로를 크게 잘라 내면서
+       오른쪽에 있던 로고가 왼쪽으로 끌려 온다 — 로고 왼쪽 변이 1600 에서
+       1045px 인데 768 에서 210 · 600 에서 56 · 430 에서는 화면 밖(-114)이다.
+       글이 서는 왼쪽만 어둡게 덮는다. 색은 영상 제 왼쪽 가장자리 색(#020406)
+       이라 덮개가 따로 보이지 않는다.
+       ⚠️ 1001 이상은 건드리지 않는다 — 거기서는 로고가 글에서 멀리 떨어져 있다. */
+    @media (max-width: 1000px) {
+      #cta::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(90deg,
+          rgba(2, 4, 6, .94) 0%, rgba(2, 4, 6, .9) 34%,
+          rgba(2, 4, 6, .62) 62%, rgba(2, 4, 6, .18) 84%, rgba(2, 4, 6, 0) 100%);
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       /* 동작 줄이기를 켜면 영상을 끄고 바탕 이미지만 남긴다. */
       #cta .cta-bg-video { display: none; }
