@@ -680,8 +680,11 @@ img { max-width: 100%; height: auto; }
   padding: 30px 34px;
   /* 아이콘과 글을 두 칸으로 묶는다 — 설명이 제목과 같은 선에서 시작한다. */
   display: grid; grid-template-columns: auto minmax(0, 1fr);
-  gap: 14px; align-items: start;
+  gap: 14px; align-items: baseline;
 }
+/* ⚠️ 항목이 홀수면 마지막 칸이 한 줄을 다 쓴다. 빈 자리를 남기면 격자 오른쪽
+   아래가 열려 상자가 안 닫힌다 — 자동차와 철강이 3개다. */
+.ind-grid-rule > .ind-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 @media (max-width: 860px) {
   .ind-grid-rule { grid-template-columns: 1fr; }
   .ind-grid-rule > .ind-card { padding: 26px 24px; }
@@ -691,33 +694,21 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-grid-rule > .ind-card {
   background: transparent; border-right-color: #353C44; border-bottom-color: #353C44;
 }
-.ind-avatar {
-  display: grid; place-items: center; flex: none;
-  /* 40px. 제목 한 줄(32px)보다 조금 크지만, 32px에서는 원이 제목에 눌려
-     말하는 사람 표시로 읽히지 않았다. 실루엣은 원 폭의 85%라 함께 커진다. */
-  width: 40px; height: 40px; border-radius: 50%;
-  /* 제목 줄상자(32px) 가운데에 원(40px) 가운데를 맞춘다. grid의 align-items:start
-     때문에 둘의 윗변이 붙어 중심이 4px 어긋나 있었다((32-40)/2 = -4). */
-  margin-top: -4px;
-  background: var(--bg-soft); border: 1px solid var(--border);
-  color: var(--text-muted);
+/* 번호 — 사람 아이콘 자리를 대신한다.
+   ⚠️ 폭을 못박는다. 두 자리 숫자라 폭이 거의 같지만, tabular-nums 가 없으면
+      글꼴에 따라 1 이 좁아 칸마다 글 시작선이 어긋난다.
+   ⚠️ 색은 ink-600(#5A6776)이다. 바탕 #F6F8FA 에서 5.42:1 로, 작은 글자 기준
+      4.5:1 을 넘긴다. --text-muted(3.30:1)와 --accent-ink(3.61:1)는 미달이다.
+   세로 맞춤은 칸이 align-items: baseline 으로 잡는다 — 글자 크기를 바꿔도
+   번호와 제목의 기준선이 함께 간다. */
+.ind-rule-num {
+  width: 30px; flex: none;
+  font-size: 15px; font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #5A6776;
 }
-/* 실루엣이 원 아래를 가득 채우고 어깨가 원 테두리에서 잘리게 한다.
-   원에 overflow:hidden, SVG는 원 폭의 85%로 아래에 붙인다. */
-.ind-avatar { overflow: hidden; }
-.ind-avatar-svg {
-  display: block; width: 85%; height: auto;
-  align-self: end; grid-row: 1; grid-column: 1;
-}
-/* 좁은 화면에서는 카드 폭이 좁아 60px 원이 글 자리를 크게 먹는다. */
-@media (max-width: 640px) {
-  .ind-avatar { width: 34px; height: 34px; margin-top: -1px; }
-  /* 34 - 1 + 17 = 50px이 중심이라 꼬리는 넓은 화면과 같은 43px이다. */
-}
-/* 어두운 면에서는 그 섹션 값을 쓴다. */
-.ind-soft-dark .ind-avatar {
-  background: #3A4856; border: 0; color: #7E8A98;
-}
+.ind-soft-dark .ind-rule-num { color: #7E8A98; }
 
 
 /* ═════════ 산업 페이지 전용 (.ind-page)
