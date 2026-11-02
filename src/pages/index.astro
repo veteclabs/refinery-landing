@@ -2748,10 +2748,15 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     var PROX = 170;          /* 빛무리 반지름 */
     var DOT = 1.2;           /* 점 반지름(기운 0) */
     var SWELL = 1.6;         /* 기운이 찼을 때 반지름 배수 */
-    var ALPHA = 0.64;        /* 기운이 찼을 때 진하기 — 돔 꼭대기에서 0.40 쯤 */
+    var ALPHA = 0.80;        /* 기운 1(돔 꼭대기)일 때의 진하기 */
+    /* ⚠️ 점 색은 브랜드색(--accent)을 읽어 쓴다. 하드코딩하면 토큰이 바뀔 때 어긋난다.
+       ⚠️ 불투명한 #76A6D7(명도 0.3603)은 전에 쓰던 먹색 0.427(0.3480)보다 밝다 —
+          브랜드색으로는 그만한 무게가 안 나온다. 0.80 이 위쪽 한계에 가깝다. */
+    var DR = 118, DG = 166, DB = 215;
     var STRENGTH = 0.55;     /* 미는 힘 */
     var STRETCH = 0.5;       /* 달릴 때 점이 늘어나는 정도 */
     var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
+    var DOME_K = 1 / (0.18 + 0.82 * LZ);     /* 돔 꼭대기의 기운을 1 로 맞춘다 */
     var QUIET_S = 0.03, QUIET_V = 0.6;       /* 이만큼 아래면 멈춘 것으로 본다 */
     var PAD = 10;            /* 점이 칸 밖으로 나가는 만큼(반지름 + 늘어남) */
 
@@ -2785,6 +2790,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
       fx = new Float32Array(n); fy = new Float32Array(n);
       wi0 = 0; wi1 = -1; wj0 = 0; wj1 = -1;
       dx0 = 0; dy0 = 0; dx1 = -1; dy1 = -1;
+    }
+
+    function readAccent() {
+      var v = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
+      if (!m) return;
+      var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
+      DR = parseInt(s.slice(0, 2), 16); DG = parseInt(s.slice(2, 4), 16); DB = parseInt(s.slice(4, 6), 16);
     }
 
     function size() {
@@ -2902,13 +2915,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
               var nz = Math.sqrt(1 - u * u);
               var lam = ux * u * LX + uy * u * LY + nz * LZ;
               if (lam < 0) lam = 0;
-              var dome = sstep(1 - u) * (0.18 + 0.82 * lam) * pres;
+              var dome = sstep(1 - u) * (0.18 + 0.82 * lam) * DOME_K * pres;
+              if (dome > 1) dome = 1;
               if (dome > e) e = dome;
             }
           }
           if (e < 0.012) continue;
           var rad = DOT * (1 + SWELL * e);
-          ctx.fillStyle = 'rgba(22,32,44,' + (ALPHA * e).toFixed(3) + ')';
+          ctx.fillStyle = 'rgba(' + DR + ',' + DG + ',' + DB + ',' + (ALPHA * e).toFixed(3) + ')';
           /* 달리는 점은 가는 쪽으로 늘어난다 — 느릴 때는 격자 축에 붙는다 */
           var half = vk * STRETCH * 0.02;
           if (half > DOT * 3) half = DOT * 3;
@@ -2959,6 +2973,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     sec.addEventListener('pointerleave', function () { inside = false; pT = 0; kick(); });
 
     window.addEventListener('resize', size);
+    readAccent();
     if (document.readyState === 'complete') size();
     else window.addEventListener('load', size);
     size();
