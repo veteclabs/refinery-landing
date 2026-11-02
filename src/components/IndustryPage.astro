@@ -73,12 +73,15 @@ const lines = (s: string) => s.split('\n');
         {(ind.hero.showBreadcrumb ?? true) && (
           <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
         )}
-        <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
-          {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
-          <span>{ind.hero.eyebrow}</span>
-        </p>
-        <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
-        {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
+        {/* 태그라인 · 대제목 · 소제목을 가로로 한 줄에 세운다. 버튼은 그 아래다. */}
+        <div class="ind-hero-row">
+          <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
+            {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
+            <span>{ind.hero.eyebrow}</span>
+          </p>
+          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
+          {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
+        </div>
         <div class="ind-hero-actions">
           <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
           {(ind.hero.showSecondary ?? true) && <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>}

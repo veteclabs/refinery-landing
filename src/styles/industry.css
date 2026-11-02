@@ -445,6 +445,27 @@ img { max-width: 100%; height: auto; }
   word-break: keep-all;
 }
 .ind-hero-bg .ind-lede { line-height: 1.7; max-width: 600px; }
+
+/* ───────── 히어로 한 줄 — 태그라인 · 대제목 · 소제목을 가로로 세운다.
+   ⚠️ 기준선으로 맞춘다(align-items: baseline). 18px 태그라인 · 45px 대제목 ·
+      18px 소제목이라 윗변으로 맞추면 글자 크기 차이만큼 어긋나 보인다.
+   ⚠️ flex 다. 여섯 산업은 소제목이 없는데, 3열 격자로 두면 빈 칸이 남아
+      대제목이 가운데에 끼인 채로 선다 — flex 면 대제목이 남은 자리를 받는다.
+   ⚠️ 세 칸의 margin 을 여기서 0 으로 되돌린다. 세로로 쌓던 때의 아래 · 위
+      여백(태그라인 14px · 소제목 20px)이 한 줄에서는 어긋남으로 보인다. */
+.ind-hero-bg .ind-hero-row {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 24px 48px;
+}
+.ind-hero-bg .ind-hero-row .ind-eyebrow { flex: 0 0 auto; margin-bottom: 0; }
+.ind-hero-bg .ind-hero-row h1 { flex: 1 1 520px; }
+.ind-hero-bg .ind-hero-row .ind-lede { flex: 1 1 400px; margin-top: 0; max-width: 520px; }
+/* 좁은 폭에서는 다시 세로로 쌓고 원래 여백을 돌려준다. */
+@media (max-width: 1100px) {
+  .ind-hero-bg .ind-hero-row { display: block; }
+  .ind-hero-bg .ind-hero-row .ind-eyebrow { margin-bottom: 14px; }
+  .ind-hero-bg .ind-hero-row .ind-lede { margin-top: 20px; max-width: 600px; }
+}
 .ind-hero-bg .ind-hero-actions { margin-top: 48px; gap: 16px; }
 /* 버튼 상자값도 예지보전과 맞춘다.
    공통값은 주 버튼 12px 24px / radius 8px / 테두리 없음, 보조 버튼은 테두리 없는
