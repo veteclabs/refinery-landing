@@ -2082,20 +2082,7 @@
     #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
     /* 배경 영상. 바탕 이미지(<img>) 위에 겹쳐 깔리고, 그 둘 위에 글이 선다.
        ⚠️ 섹션 세로 값은 영상과 무관하게 padding 95px 이 쥔다 — 영상은
-          object-fit: cover 로 그 칸을 채운다.
-       ⚠️ 칸보다 36px 크게 두고 윗변에 맞춘다. 그냥 cover 로 두면 영상(4:1)과
-          칸(4.04:1)의 비율이 거의 같아 세로로 남는 자리가 0~5px 뿐이라,
-          object-position 으로는 아래로 내릴 수가 없다. 키워서 아래를 잘라낸다.
-       ⚠️ 36px 인 까닭 — 로고가 다 뜨는 순간(4초)의 로고 세로 중심이 원본
-          2048x512 에서 y 238 이다. 칸을 36 키우면 배율이 0.844 가 되어 화면에서
-          y 201 에 서고, 띠 세로 중심(198)과 맞는다. 폭 1600~768 어디서나
-          높이 쪽 배율이 이기므로 같은 자리다.
-       ⚠️ 가로는 오른쪽에 맞춘다 — 잘려 나가는 쪽이 비어 있는 왼쪽이라 피사체가
-          그대로 남는다. */
-    #cta .cta-bg-video {
-      height: calc(100% + 36px) !important;
-      object-position: right top !important;
-    }
+          object-fit: cover 로 그 칸을 채운다. */
     @media (prefers-reduced-motion: reduce) {
       /* 동작 줄이기를 켜면 영상을 끄고 바탕 이미지만 남긴다. */
       #cta .cta-bg-video { display: none; }
