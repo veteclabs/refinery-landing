@@ -60,19 +60,6 @@ const lines = (s: string) => s.split('\n');
   <main class:list={['ind', 'ind-page', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
-      {ind.hero.image && (
-        <img
-          class="ind-hero-bg-img"
-          src={ind.hero.image.src}
-          alt=""
-          aria-hidden="true"
-          width={ind.hero.image.width}
-          height={ind.hero.image.height}
-          decoding="async"
-          fetchpriority="high"
-          style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
-        />
-      )}
       {ind.hero.overlay && (
         <img
           class="ind-hero-overlay"
@@ -99,6 +86,23 @@ const lines = (s: string) => s.split('\n');
           {(ind.hero.showSecondary ?? true) && <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>}
         </div>
       </div>
+      {/* 사진은 글 뒤가 아니라 글 아래에 선다. 글이 사진 위에 얹히지 않으므로
+          스크림도 없다 — 사진은 제 색 그대로 보인다. */}
+      {ind.hero.image && (
+        <div class="ind-hero-figure">
+          <img
+            class="ind-hero-figure-img"
+            src={ind.hero.image.src}
+            alt={ind.hero.image.alt}
+            aria-hidden={ind.hero.image.alt ? undefined : 'true'}
+            width={ind.hero.image.width}
+            height={ind.hero.image.height}
+            decoding="async"
+            fetchpriority="high"
+            style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
+          />
+        </div>
+      )}
     </section>
 
     <!-- CHALLENGES -->
