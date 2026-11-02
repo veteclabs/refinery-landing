@@ -2240,6 +2240,10 @@ the ontology finds the answer</h3>
         fireStep();
         window.intFlowTimer = setInterval(fireStep, stepMs);
       }
+      /* ⚠️ 등장 모션이 카드와 칩을 24px 내렸다 올린다. 선은 그 둘의 '화면
+         좌표'로 그리므로, 등장이 끝난 뒤 한 번 더 그려야 자리가 맞는다 —
+         밖에서 부를 수 있게 내놓는다(아래 등장 스크립트가 쓴다). */
+      window.intFlowDraw = draw;
       window.addEventListener('load', draw);
       window.addEventListener('resize', draw);
       if (document.readyState === 'complete') draw();
@@ -2666,9 +2670,18 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     function upd() {
       els.forEach(function (g) {
         var p = RF.rise(g.title, 1.00, 0.35);
+        var last = 1;
         for (var i = 0; i < STEPS; i++) {
           var v = RF.ease(RF.clamp((p - i * GAP) / SPAN));
           g.sec.style.setProperty('--rise' + (i + 1), v.toFixed(3));
+          if (v < last) last = v;
+        }
+        /* ⚠️ 통합 섹션의 회로 선은 카드 · 칩의 화면 좌표로 그린다. 등장이
+           그 둘을 24px 움직이므로, 다 선 뒤에 한 번 다시 그려야 선이 카드
+           아랫변에서 출발한다. 처음 1 에 닿을 때 한 번만 부른다. */
+        if (g.sec.id === 'integrations' && last >= 1 && !g.redrew && window.intFlowDraw) {
+          g.redrew = true;
+          window.intFlowDraw();
         }
       });
     }
