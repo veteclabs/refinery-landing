@@ -15,9 +15,8 @@ export const machineryEn: IndustryData = {
     // 30%로 낮추면 축이 제목 오른쪽으로 비켜간다(이동 여유 360px 중 54px).
     // 글자 대비도 13.37:1에서 14.06:1로 오른다. 15%는 대비가 더 높지만 축이
     // 위쪽에 잘려 구도가 답답해진다.
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Machinery & Plant',
+    eyebrow: 'Machinery &\nPlant',
     title: 'Large equipment and process,\ncontrolled together in real time',
   },
   challenges: {

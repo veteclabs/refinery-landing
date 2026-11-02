@@ -14,9 +14,8 @@ export const steelEn: IndustryData = {
     // 세로 초점. 공통값 45%에서는 밝은 시트 띠가 대제목 줄을 가로지른다.
     // 10%로 낮추면 띠가 제목 아래로 내려가고 압연 롤 구조가 위쪽에 들어온다
     // (이동 여유 387px 중 135px).
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Steel & Materials',
+    eyebrow: 'Steel &\nMaterials',
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {

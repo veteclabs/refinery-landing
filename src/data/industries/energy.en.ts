@@ -14,9 +14,8 @@ export const energyEn: IndustryData = {
     // 세로 초점. 공통값은 45%이고, 낮출수록 사진 위쪽이 보여 이미지가 아래로
     // 내려간 것처럼 된다. 이 사진은 세로 이동 여유가 387px이라 30%면 45%보다
     // 58px 아래다.
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Energy & Utilities',
+    eyebrow: 'Energy &\nUtilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence layer',
     lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },

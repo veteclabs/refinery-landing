@@ -12,9 +12,8 @@ export const food: IndustryData = {
     // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '식품 ⁠· 음료',
+    eyebrow: '식품 및\n음료',
     title: '설비 효율로 품질과 원가를\n동시에 관리합니다',
   },
   challenges: {

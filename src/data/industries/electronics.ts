@@ -14,9 +14,8 @@ export const electronics: IndustryData = {
     // 좌우를 436px씩 잘라 2629x1477로 만든 뒤 넣었다 — 여유가 246px이 된다.
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '전자 ⁠· 정밀',
+    eyebrow: '전자 및\n정밀',
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
   },
   challenges: {

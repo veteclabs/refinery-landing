@@ -16,9 +16,8 @@ export const chemicalsEn: IndustryData = {
     // 렌즈가 제목 위로 가고 슬라이드와 스테이지가 아래에 들어온다
     // (이동 여유 307px 중 92px). 이 지점이 글자 대비(11.72:1)와
     // 아래 이음새 어둡기 모두 가장 좋다 — 90% 위로는 이음새가 다시 밝아진다.
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: 'Chemicals & Materials',
+    eyebrow: 'Chemicals &\nMaterials',
     title: 'Continuous reactions and heat,\nunder precise control',
   },
   challenges: {
