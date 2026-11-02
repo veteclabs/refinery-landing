@@ -19,7 +19,6 @@ export const automotiveEn: IndustryData = {
     title: 'Process flow and quality consistency,\ncontrolled with data',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nautomotive sites',
     subtitle: 'Recurring problems across press, body, paint and assembly.',
     items: [

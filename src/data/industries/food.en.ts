@@ -20,7 +20,6 @@ export const foodEn: IndustryData = {
     title: 'Equipment efficiency that holds\nquality and cost at once',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nfood sites',
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     items: [

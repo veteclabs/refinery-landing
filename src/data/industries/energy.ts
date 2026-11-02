@@ -18,7 +18,6 @@ export const energy: IndustryData = {
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
   },
   challenges: {
-    dark: true,
     title: '에너지 현장의 문제',
     subtitle: '발전 ⁠· 송배전 ⁠· 유틸리티 현장에서 반복되는 문제입니다.',
     items: [

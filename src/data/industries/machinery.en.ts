@@ -21,7 +21,6 @@ export const machineryEn: IndustryData = {
     title: 'Large equipment and process,\ncontrolled together in real time',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nplant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     items: [

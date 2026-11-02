@@ -18,7 +18,6 @@ export const food: IndustryData = {
     title: '설비 효율로 품질과 원가를\n동시에 관리합니다',
   },
   challenges: {
-    dark: true,
     title: '식품 제조 현장의 문제',
     subtitle: '원료 투입 ⁠· 가공 ⁠· 포장 ⁠· 보관 공정에서 반복되는 문제입니다.',
     items: [

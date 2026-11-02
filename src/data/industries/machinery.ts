@@ -19,7 +19,6 @@ export const machinery: IndustryData = {
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
   },
   challenges: {
-    dark: true,
     title: '기계 설비 현장의 문제',
     subtitle: '24시간 연속 운전하는 대형 설비 현장에서 반복되는 문제입니다.',
     items: [

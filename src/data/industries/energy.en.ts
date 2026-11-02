@@ -20,7 +20,6 @@ export const energyEn: IndustryData = {
     title: 'Connecting distributed energy sites\ninto a single intelligence layer',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nenergy sites',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
     items: [

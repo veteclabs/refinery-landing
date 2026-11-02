@@ -20,7 +20,6 @@ export const electronics: IndustryData = {
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
   },
   challenges: {
-    dark: true,
     title: '전자 제조 현장의 문제',
     subtitle: '반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장에서 반복되는 문제입니다.',
     items: [

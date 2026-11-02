@@ -18,7 +18,6 @@ export const steel: IndustryData = {
     title: '소재 품질과 에너지 효율을\n함께 확보합니다',
   },
   challenges: {
-    dark: true,
     title: '철강 공정 현장의 문제',
     subtitle: '열처리 ⁠· 성형 ⁠· 코팅 공정에서 반복되는 문제입니다.',
     items: [

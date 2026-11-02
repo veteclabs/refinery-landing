@@ -17,7 +17,6 @@ export const automotive: IndustryData = {
     title: '설비 흐름과 품질 일관성을\n데이터로 제어합니다',
   },
   challenges: {
-    dark: true,
     title: '자동차 제조 현장의 문제',
     subtitle: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에서 반복되는 문제입니다.',
     items: [

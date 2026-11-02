@@ -22,7 +22,6 @@ export const electronicsEn: IndustryData = {
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nelectronics sites',
     subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
     items: [

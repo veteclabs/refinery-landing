@@ -20,7 +20,6 @@ export const chemicals: IndustryData = {
     title: '연속 반응 공정과 열에너지를\n정밀하게 제어합니다',
   },
   challenges: {
-    dark: true,
     title: '화학 공정 현장의 문제',
     subtitle: '연속 반응 ⁠· 열 기반 설비를 운영하는 현장에서 반복되는 문제입니다.',
     items: [

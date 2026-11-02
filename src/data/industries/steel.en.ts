@@ -20,7 +20,6 @@ export const steelEn: IndustryData = {
     title: 'Material quality and energy\nefficiency, secured together',
   },
   challenges: {
-    dark: true,
     title: 'Challenges on\nsteel sites',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     items: [
