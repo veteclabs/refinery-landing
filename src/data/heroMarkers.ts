@@ -49,7 +49,7 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
       title: 'From time series to AI judgement',
-      desc: 'Equipment, documents and history woven in — judged with evidence.',
+      desc: 'Equipment, documents and history woven together, judged with evidence.',
     },
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
