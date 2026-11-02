@@ -55,6 +55,12 @@ const jsonLd = [orgSchema, websiteSchema];
 <!-- HERO -->
 <main id="main">
 <section id="hero">
+  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다(::after).
+      ⚠️ sticky 로 둔다. 히어로는 250vh 라 그냥 깔면 스크롤을 따라 흘러가는데,
+         보는 사람은 늘 화면 안을 가리키므로 점판도 화면에 붙어 있어야 한다.
+      ⚠️ 무대(.hero-stage)보다 앞에 둔다. 둘 다 sticky 라 뒤에 오는 쪽이 위에
+         그려진다 — 점판이 글과 그래픽 아래로 간다. */}
+  <canvas class="hero-dots" aria-hidden="true"></canvas>
   <HeroZoom />
   <div class="hero-stage">
     <div class="container">
@@ -2694,6 +2700,116 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     upd();
+  })();
+</script>
+
+<script is:inline>
+  /* 히어로 바탕 점판 — 24px 격자의 점을 캔버스가 그린다.
+     포인터 둘레에서는 점이 바깥으로 밀리고 커지며, 빛을 받는 쪽이 짙어져
+     '점으로 만든 돔'이 솟아 보인다.
+     ⚠️ 돔 중심은 포인터를 바로 따라가지 않는다. 한 프레임에 9% 씩만 다가가
+        묵직하게 딸려온다. 멈추면 곧 따라붙고, 빠르게 움직이면 뒤처진다.
+     ⚠️ 그리는 좌표는 점판(sticky, 화면에 붙어 있다) 기준이다. 섹션 기준으로
+        잡으면 스크롤한 만큼 어긋난다.
+     ⚠️ 돌 일이 없으면 rAF 를 세운다 — 들어오면 다시 돈다. */
+  (function () {
+    var sec = document.getElementById('hero');
+    if (!sec) return;
+    var cv = sec.querySelector('canvas.hero-dots');
+    if (!cv || !cv.getContext) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = cv.getContext('2d');
+    var GAP = 24;            /* 격자 간격 */
+    var R = 170;             /* 돔 반지름(px) */
+    var BASE_R = 1.0;        /* 평소 점 반지름 */
+    var BASE_A = 0;          /* 평소에는 점을 그리지 않는다 — 돔 안에서만 보인다 */
+    var EASE = 0.042;        /* 돔이 포인터를 따라가는 속도 — 작을수록 묵직하다 */
+    var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위에서) */
+
+    var w = 0, h = 0, dpr = 1;
+    var tx = -9999, ty = -9999;      /* 포인터 */
+    var cx = -9999, cy = -9999;      /* 돔 중심 — 포인터를 뒤따른다 */
+    var amt = 0, tAmt = 0;           /* 돔 세기 0~1 */
+    var running = false;
+
+    function size() {
+      var r = cv.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = Math.round(r.width); h = Math.round(r.height);
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      if (amt <= 0.001) return;
+      /* ⚠️ 격자 전체를 돌지 않는다. 바탕 점이 보이지 않으므로 돔이 닿는 칸만
+         그리면 된다 — 1440x900 에서 2280 개가 200 개 남짓으로 준다. */
+      var x0 = GAP / 2, y0 = GAP / 2;
+      var gi0 = Math.floor((cx - R - x0) / GAP), gi1 = Math.ceil((cx + R - x0) / GAP);
+      var gj0 = Math.floor((cy - R - y0) / GAP), gj1 = Math.ceil((cy + R - y0) / GAP);
+      for (var j = gj0; j <= gj1; j++) {
+        var gy = y0 + j * GAP;
+        if (gy < -GAP || gy > h + GAP) continue;
+        for (var i = gi0; i <= gi1; i++) {
+          var gx = x0 + i * GAP;
+          if (gx < -GAP || gx > w + GAP) continue;
+          var px = gx, py = gy, rad = BASE_R, a = BASE_A;
+          {
+            var dx = gx - cx, dy = gy - cy;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < R) {
+              var u = dist / R;
+              var k = amt;
+              /* ⚠️ 점을 밀지 않는다. 격자 간격은 어디서나 24px 그대로다.
+                 예전에는 거리^0.62 로 밀어(돋보기 결) 가운데가 벌어지고 테두리가
+                 촘촘해졌는데, 간격이 자리마다 달라 보였다. 입체는 점의 크기와
+                 명암만으로 만든다 — 반구의 법선을 그대로 쓴다. */
+              var ux = dist > 0.001 ? dx / dist : 0, uy = dist > 0.001 ? dy / dist : 0;
+              /* 반구의 법선으로 명암을 준다 — 빛 받는 쪽이 짙고 큰 점이 된다. */
+              var nz = Math.sqrt(Math.max(0, 1 - u * u));
+              var lam = Math.max(0, ux * u * LX + uy * u * LY + nz * LZ);
+              var fall = 1 - u * u;
+              rad = BASE_R + (0.4 + 2.0 * lam) * fall * k;
+              a = BASE_A + (0.10 + 0.52 * lam) * fall * k;
+            }
+          }
+          if (a <= 0.004) continue;
+          ctx.beginPath();
+          ctx.arc(px, py, rad, 0, 6.2832);
+          ctx.fillStyle = 'rgba(22,32,44,' + a.toFixed(3) + ')';
+          ctx.fill();
+        }
+      }
+    }
+
+    function tick() {
+      cx += (tx - cx) * EASE;
+      cy += (ty - cy) * EASE;
+      amt += (tAmt - amt) * 0.07;
+      draw();
+      var settled = Math.abs(tx - cx) < 0.4 && Math.abs(ty - cy) < 0.4 && Math.abs(tAmt - amt) < 0.004;
+      if (settled && tAmt === 0) { amt = 0; draw(); running = false; return; }
+      requestAnimationFrame(tick);
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(tick); } }
+
+    sec.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      var r = cv.getBoundingClientRect();
+      var nx = e.clientX - r.left, ny = e.clientY - r.top;
+      if (tAmt === 0) { cx = nx; cy = ny; }   /* 처음 들어올 때는 그 자리에서 시작 */
+      tx = nx; ty = ny; tAmt = 1;
+      kick();
+    }, { passive: true });
+    sec.addEventListener('pointerleave', function () { tAmt = 0; kick(); });
+
+    window.addEventListener('resize', size);
+    if (document.readyState === 'complete') size();
+    else window.addEventListener('load', size);
+    size();
   })();
 </script>
 
