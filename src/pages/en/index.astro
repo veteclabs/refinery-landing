@@ -2737,14 +2737,15 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     var DOT = 0.9;           /* 점 반지름(기운 0) */
     var SWELL = 1.4;         /* 기운이 찼을 때 반지름 배수 — 꼭대기 2.16px */
     var ALPHA = 1;           /* 기운 1(돔 꼭대기)일 때의 진하기 */
-    /* ⚠️ 점 색은 브랜드색이 아니라 중립 회색(--border2 #C8CED5)이다. 히어로 뷰포트에는
+    /* ⚠️ 점 색은 브랜드색이 아니라 회색 램프의 --ink-400(#A4ADB8)이다. 히어로 뷰포트에는
           이미 브랜드색이 넷 있다 — 제품 그래픽(--vh-accent) · 눈썹 문구 · 데모 링크 ·
           배경 그라데이션. 배경 점판까지 같은 파랑이면 신호와 바탕이 한 색이 된다.
           참고한 reactbits 도 격자는 중립색(#3a3446)이고 색은 그 뒤 그라데이션에서 온다.
-       ⚠️ 옅어서 알파를 1 아래로 내릴 여유가 없다. 흰 바탕 대비 1.59:1 · 돔 안 밝기폭
-          1.49:1 이다(먹색 #16202C a=0.43 이면 2.66 · 2.35, #DCE8F5 면 1.24 · 1.20).
-          돔이 입체로 읽히는 건 점끼리의 밝기 차이라, 더 옅게 가면 평평해진다. */
-    var DR = 200, DG = 206, DB = 213;
+       ⚠️ --ink-400 은 nav-footer.css 의 :root 에 있다(global.css 가 아니다). 두 랜딩이
+          모두 Nav.astro 를 들여오므로 실린다.
+       ⚠️ 돔이 입체로 읽히는 건 점끼리의 밝기 차이다. 흰 바탕 대비 2.27:1 · 돔 안
+          밝기폭 2.04:1 — 앞서 쓰던 #C8CED5 는 1.59 · 1.49 로 평평했다. */
+    var DR = 164, DG = 173, DB = 184;
     var STRENGTH = 0.55;     /* 미는 힘 */
     var STRETCH = 0.5;       /* 달릴 때 점이 늘어나는 정도 */
     var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
@@ -2785,7 +2786,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     }
 
     function readAccent() {
-      var v = getComputedStyle(document.documentElement).getPropertyValue('--border2').trim();
+      var v = getComputedStyle(document.documentElement).getPropertyValue('--ink-400').trim();
       var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
       if (!m) return;
       var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
