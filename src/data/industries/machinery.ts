@@ -14,7 +14,7 @@ export const machinery: IndustryData = {
     // 글자 대비도 13.37:1에서 14.06:1로 오른다. 15%는 대비가 더 높지만 축이
     // 위쪽에 잘려 구도가 답답해진다.
     showBreadcrumb: false,
-    eyebrow: '기계 및\n플랜트',
+    eyebrow: '기계 및 플랜트',
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
   },
   challenges: {

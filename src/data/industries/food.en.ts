@@ -15,7 +15,7 @@ export const foodEn: IndustryData = {
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
     showBreadcrumb: false,
-    eyebrow: 'Food &\nBeverage',
+    eyebrow: 'Food & Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
   },
   challenges: {

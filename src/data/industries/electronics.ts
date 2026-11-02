@@ -15,7 +15,7 @@ export const electronics: IndustryData = {
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
     showBreadcrumb: false,
-    eyebrow: '전자 및\n정밀',
+    eyebrow: '전자 및 정밀',
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
   },
   challenges: {

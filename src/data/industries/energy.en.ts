@@ -15,7 +15,7 @@ export const energyEn: IndustryData = {
     // 내려간 것처럼 된다. 이 사진은 세로 이동 여유가 387px이라 30%면 45%보다
     // 58px 아래다.
     showBreadcrumb: false,
-    eyebrow: 'Energy &\nUtilities',
+    eyebrow: 'Energy & Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence layer',
     lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },

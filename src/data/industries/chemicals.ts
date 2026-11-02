@@ -15,7 +15,7 @@ export const chemicals: IndustryData = {
     // (이동 여유 307px 중 92px). 이 지점이 글자 대비(11.72:1)와
     // 아래 이음새 어둡기 모두 가장 좋다 — 90% 위로는 이음새가 다시 밝아진다.
     showBreadcrumb: false,
-    eyebrow: '화학 및\n소재',
+    eyebrow: '화학 및 소재',
     title: '연속 반응 공정과 열에너지를\n정밀하게 제어합니다',
   },
   challenges: {

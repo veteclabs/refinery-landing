@@ -17,7 +17,7 @@ export const electronicsEn: IndustryData = {
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
     showBreadcrumb: false,
-    eyebrow: 'Electronics &\nPrecision',
+    eyebrow: 'Electronics & Precision',
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
   },
   challenges: {

@@ -12,7 +12,7 @@ export const automotive: IndustryData = {
     // 세로 초점. 공통값 45%에서는 섀시가 대제목 줄에 걸린다. 30%로 낮춰
     // 사진 위쪽을 보이면 섀시가 제목 아래로 내려간다(이동 여유 239px 중 36px).
     showBreadcrumb: false,
-    eyebrow: '자동차 및\n모빌리티',
+    eyebrow: '자동차 및 모빌리티',
     title: '설비 흐름과 품질 일관성을\n데이터로 제어합니다',
   },
   challenges: {
