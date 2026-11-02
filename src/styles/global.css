@@ -2079,7 +2079,7 @@
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height var(--t-move), padding var(--t-move), opacity var(--t-move); opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
-    #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
+    #cta { background: #ffffff; text-align: center; color: #000; padding: 95px 0; }
     #cta h2 { color: #fff; font-weight: 500; margin-bottom: 0; line-height: 1.35; }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
        면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */
