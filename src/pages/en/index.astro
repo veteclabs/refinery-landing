@@ -2736,13 +2736,16 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     var PROX = 170;          /* 빛무리 반지름 */
     var DOT = 1.2;           /* 점 반지름(기운 0) */
     var SWELL = 1.6;         /* 기운이 찼을 때 반지름 배수 */
-    var ALPHA = 1;           /* 기운 1(돔 꼭대기)일 때의 진하기 */
-    /* ⚠️ 점 색은 브랜드 램프의 가장 옅은 단 --brand-100(#DCE8F5)이다. 아주 옅어서
-          불투명해도 흰 바탕 대비가 1.24:1 밖에 안 된다 — ALPHA 를 1 아래로 내리면
-          사라진다. 참고로 #76A6D7 은 2.08:1, 전에 쓰던 먹색은 2.64:1 이었다.
-       ⚠️ --brand-100 은 :root 가 아니라 vetec-hero.css 의 .vh 에 걸려 있다. 그래서
-          document.documentElement 가 아니라 .vh 에서 읽는다. 그 파일은 건드리지 않는다. */
-    var DR = 220, DG = 232, DB = 245;
+    var ALPHA = 0.43;        /* 기운 1(돔 꼭대기)일 때의 진하기 — 흰 바탕 대비 2.64:1 */
+    /* ⚠️ 점 색은 브랜드색이 아니라 먹색(--text)이다. 히어로 뷰포트에는 이미 브랜드색이
+          넷 있다 — 제품 그래픽(--vh-accent) · 눈썹 문구 · 데모 링크 · 배경 그라데이션.
+          배경 점판까지 같은 파랑이면 신호와 바탕이 한 색이 된다. 참고한 reactbits 도
+          격자는 중립색(#3a3446)이고 색은 그 뒤 그라데이션에서 온다.
+       ⚠️ 돔이 입체로 읽히려면 점끼리 밝기 차이가 있어야 한다. 돔 안 밝기폭이
+          먹색 2.35:1 · #76A6D7 1.88:1 · #DCE8F5 1.20:1 로, 옅을수록 평평해진다.
+          옅은 색일수록 알파 여유도 없어 끌림이 세졌을 때 진해질 자리가 남지 않는다.
+          히어로 안 옅은 회색 패널(#EFF2F5) 위 대비도 2.60 / 1.90 / 1.11:1 로 갈린다. */
+    var DR = 22, DG = 32, DB = 44;
     var STRENGTH = 0.55;     /* 미는 힘 */
     var STRETCH = 0.5;       /* 달릴 때 점이 늘어나는 정도 */
     var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
@@ -2783,8 +2786,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     }
 
     function readAccent() {
-      var host = document.querySelector('.vh') || document.documentElement;
-      var v = getComputedStyle(host).getPropertyValue('--brand-100').trim();
+      var v = getComputedStyle(document.documentElement).getPropertyValue('--text').trim();
       var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
       if (!m) return;
       var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
