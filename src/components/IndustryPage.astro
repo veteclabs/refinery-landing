@@ -124,7 +124,7 @@ const lines = (s: string) => s.split('\n');
               자연 감김에 맡기면 줄 끝에 접속사만 남는다. */}
           {ind.challenges.subtitle && <p>{lines(ind.challenges.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>}
         </header>
-        <div class="ind-grid ind-grid-2 ind-grid-bubble">
+        <div class="ind-grid-rule">
           {ind.challenges.items.map((c) => (
             <div class="ind-card">
               <span class="ind-avatar" aria-hidden="true">

@@ -644,12 +644,6 @@ img { max-width: 100%; height: auto; }
 /* 카드 면색 #292F37. #191F27(랜딩 .rfn-node 값)일 때는 배경 사진과 휘도가
    같아 카드가 앞으로 나오지 않았다 — 대비 1.00:1. */
 .ind-soft-dark .ind-card { background: #292F37; border: 1px solid #353C44; }
-/* 말풍선만 반투명 — 뒤의 현장 사진이 옅게 비친다. */
-/* 말풍선 면은 불투명 #272B32다. 반투명(.7)이면 배경 사진이 밝아질 때 말풍선
-   면도 같이 밝아져, 사진만 올리고 말풍선은 제자리인 구조가 된다. 불투명으로
-   묶으면 사진과 말풍선을 따로 조절할 수 있다 - 사진 .10→.16으로 올렸는데도
-   말풍선 구분 대비가 1.14:1에서 1.20:1로 오히려 좋아졌다. */
-.ind-soft-dark .ind-grid-bubble .ind-card { background: #292F37; }
 .ind-soft-dark .ind-card h3 { color: #F6F8FA; }
 .ind-soft-dark .ind-card p { color: #A0A8B3; }
 /* 그림자와 hover는 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -659,89 +653,43 @@ img { max-width: 100%; height: auto; }
   transition: box-shadow .15s ease;
 }
 
-/* ── 말풍선은 면과 그림자만으로 선다. 테두리 · hover는 걸지 않는다.
-   테두리(border)와 링(box-shadow)은 카드 상자에만 그려져 꼭지와 이음매가 생겼다.
-   그림자는 filter: drop-shadow로 건다 — box-shadow와 달리 가상 요소를 포함한
-   '그려진 결과'를 따라가므로 카드와 꼭지를 하나의 도형으로 감싼다.
-   내림값(12px)을 번짐(10px)보다 크게 잡아 그늘이 아래에만 남는다. 반대면
-   번짐이 내림값을 넘어서 위·좌·우로도 삐져나온다(10/22가 그랬다).
-   세기는 배경과 겨우 구분되는 정도로만 둔다 — 카드 밑동에서 배경이 3% 남짓
-   어두워지고 18px을 지나면 사라진다. */
-.ind-soft-dark .ind-grid-bubble .ind-card {
+
+/* ───────── 과제 섹션 — 선으로 나눈 칸
+   카드(면 + 테두리 + 둥근 모서리 + 그림자)를 걷고 선만 남긴다. 네 문제를 2x2 로
+   놓고 바깥 테두리와 칸 사이 선을 1px 로 긋는다 — 면이 없으므로 섹션 바탕
+   (--bg-soft)이 그대로 칸 바닥이 된다.
+   ⚠️ .ind-card 클래스는 그대로 쓴다. 제목 · 본문 글자값이 거기 붙어 있어 떼면
+      11개 페이지가 함께 쓰는 공통값을 여기서 다시 적어야 한다. 상자값만 덮는다.
+   ⚠️ 선은 바깥을 격자가(위 · 왼쪽), 안쪽을 칸이(오른쪽 · 아래) 맡는다. 칸마다
+      네 변을 다 그으면 맞닿는 자리가 2px 로 두꺼워진다.
+   ⚠️ 좁은 폭에서 1열이 돼도 규칙을 더 둘 필요가 없다 — 칸의 오른쪽 선이 격자
+      오른쪽 변이 되고 마지막 칸의 아래 선이 바닥이 된다. */
+.ind-grid-rule {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+.ind-grid-rule > .ind-card {
+  background: transparent;
   border: 0;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
   box-shadow: none;
-  filter: drop-shadow(0 12px 10px rgba(0, 0, 0, .22));
-}
-
-/* ───────── 과제 카드 — 말풍선
-   현장에서 나온 말처럼 읽히도록 카드를 말풍선으로 바꾼다.
-   한 줄에 한 장씩 4줄로 쌓고, 꼬리 방향은 위에서부터 좌·우·좌·우다.
-   2열 격자에서는 좌·우 꼬리가 같은 줄에서 서로를 마주 봐 대화가 아니라
-   한 쌍처럼 보였다.
-   모서리 둥글기는 다른 섹션 카드와 같은 --radius를 쓴다. */
-/* 대제목과의 사이는 예지보전 '푸는 방식' 섹션과 같은 64px이다.
-   .ind-head의 margin-bottom이 이미 64px이라 격자에 margin-top을 주지 않는다 —
-   인접 형제라 마진이 상쇄되므로 둘 중 큰 쪽만 남는다.
-   섹션 상단 여백(130px)에 맞춰 봤다가, 수치는 같은데 눈에는 더 넓어 보여
-   100px으로 줄였고, 지금은 예지보전 값에 맞춰 64px으로 둔다. */
-/* 말풍선이 오가는 칸은 880px이다. 말풍선 하나가 580px이므로 좌우로 300px씩
-   오간다(580 + 300 = 880). 1184px 그대로면 604px씩 벌어져 대화가 아니라
-   흩어진 조각으로 보인다.
-   대제목·소제목은 원래 칸(1280px)을 그대로 쓴다 — 이 규칙은 격자에만 걸린다.
-   칸은 오른쪽 끝에 붙인다. 짝수 말풍선이 소제목과 같은 선에서 끝난다.
-   말풍선 사이는 22px. 폭을 580px으로 줄이면서 28px이 헐거워져 함께 좁혔다.
-   예지보전 '읽는 데이터와 신호' 섹션 카드의 20px까지 내리지는 않는다 — 그
-   카드들은 4열로 나란히 서지만 말풍선은 좌우로 엇갈려 쌓여 더 좁아 보인다.
-   공통 .ind-grid의 18px을 덮는다. */
-.ind-grid-bubble {
-  gap: 22px;
-  grid-template-columns: 1fr;
-  max-width: 880px; margin-left: auto;
-}
-/* 폭은 580px 고정이다. %로 두면 화면이 넓어질수록 말풍선이 같이 늘어나
-   한 줄에 담기는 글이 길어진다 — 말풍선은 짧게 읽히는 편이 낫다.
-   min()으로 좁은 화면에서는 칸 폭을 넘지 않게 막는다.
-   max-width가 아니라 width로 못박는다 — justify-self를 준 카드는 격자에서
-   늘어나지 않고 내용 크기로 줄어들어 좌우 폭이 어긋난다. */
-/* 카드 안 여백 34px. 공통 .ind-card의 26px을 직접 고치면 11개 페이지가 함께
-   바뀌므로 여기서만 덮는다. */
-.ind-grid-bubble .ind-card { position: relative; width: min(580px, 100%); padding: 34px; }
-.ind-grid-bubble .ind-card:nth-child(odd) { justify-self: end; }
-/* 좁은 화면에서는 폭을 다 쓴다. 68%로 두면 글이 감길 자리가 없다. */
-@media (max-width: 860px) {
-  .ind-grid-bubble .ind-card { width: auto; }
-  .ind-grid-bubble .ind-card:nth-child(odd) { justify-self: stretch; }
-}
-
-/* 꼭지는 삼각형이다. 예전에는 45도 돌린 정사각형에 바깥 두 변만 테두리를 남겨
-   카드의 선과 잇는 방식이었는데, 윤곽을 filter가 합집합에 그리게 되면서
-   테두리를 맞출 필요가 없어졌다. 삼각형이 더 길고 뾰족하게 빠진다.
-   길이 18px · 높이 16px. 세로는 아바타 중심(카드 위 여백 34 - 올림 4 + 반지름 20
-   = 50px)에 맞춰 top 50 - 8 = 42px. */
-.ind-grid-bubble .ind-card::after {
-  content: ''; position: absolute; top: 42px;
-  width: 0; height: 0; border-style: solid; border-color: transparent;
-}
-/* 홀수 = 오른쪽 */
-.ind-grid-bubble .ind-card:nth-child(odd)::after {
-  right: -18px; border-width: 8px 0 8px 18px;
-  border-left-color: var(--bg);
-}
-/* 짝수 = 왼쪽 */
-.ind-grid-bubble .ind-card:nth-child(even)::after {
-  left: -18px; border-width: 8px 18px 8px 0;
-  border-right-color: var(--bg);
-}
-/* 어두운 면 꼭지 색. 윤곽은 카드의 filter가 합집합 바깥에 그려 준다. */
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(odd)::after { border-left-color: #292F37; }
-.ind-soft-dark .ind-grid-bubble .ind-card:nth-child(even)::after { border-right-color: #292F37; }
-
-/* 말풍선 앞 사람 아이콘 — 현장에서 나온 말이라는 표시다.
-   본문(제목+설명)을 한 칸으로 묶어 아이콘 오른쪽에 세운다.
-   설명이 제목 아래에서 어긋나지 않고 같은 선에서 시작한다. */
-.ind-grid-bubble .ind-card {
+  padding: 30px 34px;
+  /* 아이콘과 글을 두 칸으로 묶는다 — 설명이 제목과 같은 선에서 시작한다. */
   display: grid; grid-template-columns: auto minmax(0, 1fr);
   gap: 14px; align-items: start;
+}
+@media (max-width: 860px) {
+  .ind-grid-rule { grid-template-columns: 1fr; }
+  .ind-grid-rule > .ind-card { padding: 26px 24px; }
+}
+/* 어두운 면(challenges.dark)에서는 선 색만 바꾼다. */
+.ind-soft-dark .ind-grid-rule { border-top-color: #353C44; border-left-color: #353C44; }
+.ind-soft-dark .ind-grid-rule > .ind-card {
+  background: transparent; border-right-color: #353C44; border-bottom-color: #353C44;
 }
 .ind-avatar {
   display: grid; place-items: center; flex: none;
@@ -1065,7 +1013,7 @@ img { max-width: 100%; height: auto; }
   .ind-page .ind-grid-3 .ind-card p br { display: none; }
 }
 @media (max-width: 639px) {
-  .ind-grid-bubble .ind-card p br { display: none; }
+  .ind-grid-rule .ind-card p br { display: none; }
 }
 
 /* ── 도입 효과 카드 — 예지보전 '푸는 방식' 섹션 카드와 같은 구성.
@@ -1560,7 +1508,7 @@ img { max-width: 100%; height: auto; }
    차고 마지막 줄은 2~3단어라 고아도 생기지 않는다. balance는 제목처럼 짧은
    글을 위한 설정이고 본문에는 pretty가 맞다.
    한글에는 걸지 않는다. 수동 <br>가 있어 데스크톱에서는 아무 효과가 없다. */
-.ind-en .ind-grid-bubble .ind-card p { text-wrap: pretty; }
+.ind-en .ind-grid-rule .ind-card p { text-wrap: pretty; }
 .ind-en .ind-uc-panel dt { gap: 0; }
 
 @media (max-width: 640px) {
