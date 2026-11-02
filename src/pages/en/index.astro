@@ -482,8 +482,8 @@ const jsonLd = [orgSchema, websiteSchema];
       flex: none;
       font-size: clamp(22px, 3vw, 30px);
       font-weight: 600;
-      letter-spacing: -0.8px;
-      line-height: 1.35;
+      letter-spacing: var(--ls-tight);
+      line-height: var(--lh-title);
       color: #F6F8FA;
       max-width: none;
       margin: 0 0 40px;
@@ -589,8 +589,8 @@ const jsonLd = [orgSchema, websiteSchema];
          판 위에 눕는 여섯은 아래 .pf-label--iso 에서 10px 로 따로 준다. */
       font-size: clamp(10px, 1.594cqw, 13px);
       font-weight: 600;
-      letter-spacing: -0.1px;
-      line-height: 1;
+      letter-spacing: var(--ls-micro);
+      line-height: var(--lh-flat);
       color: #16202C;
       background: #76A6D7;
       border-radius: 999px;
@@ -664,7 +664,7 @@ const jsonLd = [orgSchema, websiteSchema];
          기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
          ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
       font-weight: 300;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--ls-wide-xs);
     }
     /* 판 바닥에 눕는 쪽 — x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°). */
     #platform .pf-labels .pf-label--wf {
@@ -701,7 +701,7 @@ const jsonLd = [orgSchema, websiteSchema];
          기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
          ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
       font-weight: 300;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--ls-wide-xs);
     }
 
     /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
@@ -760,7 +760,7 @@ const jsonLd = [orgSchema, websiteSchema];
       font-size: 16px;
       font-weight: 500;
       /* 제목 행간은 1.25~1.35 가 기본이다. */
-      line-height: 1.3;
+      line-height: var(--lh-title);
       color: #F6F8FA;
       transition: color var(--t-quick);
       word-break: keep-all;
@@ -785,7 +785,7 @@ const jsonLd = [orgSchema, websiteSchema];
       /* 굵기는 히어로 소제목과 같은 300 이다. */
       font-weight: 300;
       /* 본문 행간은 1.5 가 기본이다. */
-      line-height: 1.5;
+      line-height: var(--lh-caption);
       color: #A4ADB8;
       word-break: keep-all;
     }
@@ -2041,7 +2041,7 @@ the ontology finds the answer</h3>
       .rfn-node-ic .ph{font-size:14px;}
       .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#F6F8FA;}
       .rfn-node-grip{flex:none;display:inline-flex;color:#3A4856;cursor:grab;}
-      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#7E858F;}
+      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:var(--ls-wide-sm);text-transform:uppercase;color:#7E858F;}
       .rfn-node-colhead span:last-child{text-align:right;}
       .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #292F37;font-size:13px;}
       .rfn-node-col:last-child{border-bottom:0;}
@@ -2719,7 +2719,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
      524px 폭에서 "…guide you through a tailored / demo." → "…through a / tailored demo."
      <br>로 잡으면 그 폭에서만 맞는다. 보안 카드와 같은 방법이다.
      2단계 제목은 걸든 안 걸든 같다. 국문은 .cd-title을 따로 들고 있어 영향받지 않는다. */
-  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;text-wrap:pretty;}
+  .cd-title{font-size:36px;font-weight:600;letter-spacing:var(--ls-snug);line-height:1.35;margin-bottom:45px;color:#111;text-wrap:pretty;}
   .cd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
   .cd-form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
   .cd-form-group label{font-size:13px;font-weight:600;color:#111;}
