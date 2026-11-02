@@ -444,7 +444,10 @@ img { max-width: 100%; height: auto; }
   letter-spacing: -0.8px; line-height: 1.3;
   word-break: keep-all;
 }
-.ind-hero-bg .ind-lede { line-height: 1.7; max-width: 600px; }
+/* 행간 1.5 — 본문 기준값이다. 예전 1.7 은 예지보전 히어로를 따라가며 들어온
+   값인데, 메인 통합 섹션 소제목(18px / 27px = 1.5)과 어긋났다.
+   ⚠️ industry.css 는 global.css 를 들여오지 않아 --lh-body 를 쓸 수 없다. */
+.ind-hero-bg .ind-lede { line-height: 1.5; max-width: 600px; }
 
 /* ───────── 히어로 한 줄 — 태그라인 · 대제목 · 소제목을 가로로 세운다.
    ⚠️ 윗변으로 맞춘다(align-items: flex-start). 기준선 맞춤은 45px 대제목의
@@ -454,19 +457,30 @@ img { max-width: 100%; height: auto; }
    ⚠️ 세 칸의 margin 을 여기서 0 으로 되돌린다. 세로로 쌓던 때의 아래 · 위
       여백(태그라인 14px · 소제목 20px)이 한 줄에서는 어긋남으로 보인다. */
 .ind-hero-bg .ind-hero-row {
-  display: flex; flex-wrap: wrap; align-items: flex-start;
-  gap: 24px 48px;
+  /* ⚠️ flex 가 아니라 격자다. 소제목이 대제목 아랫줄에 서야 하는데 flex 한 줄로는
+     세로 자리를 따로 줄 수 없다. 두 줄 x 세 칸으로 두고 소제목만 둘째 줄에 놓는다.
+       1줄  태그라인 | 대제목  | (빈칸)
+       2줄  (빈칸)   | (빈칸)  | 소제목
+     ⚠️ 셋째 칸은 auto 다. 일곱 중 여섯은 소제목이 없는데 고정폭(minmax(0,520px))
+        으로 두면 글이 없어도 520px 을 물고 있어 대제목 칸이 그만큼 좁아진다.
+        auto 면 내용이 없을 때 0 이 되고, 있을 때는 소제목의 max-width 까지 자란다.
+     ⚠️ 줄 사이 간격은 0 이다 — 대제목이 끝나는 자리 바로 아래에서 시작해야 한다.
+        대제목의 줄상자(1.3)가 마지막 글줄 아래로 남기는 여백이 그 사이를 맡는다. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 48px; row-gap: 0;
 }
-/* 윗변을 맞추려면 각 칸의 첫 줄상자 높이가 달라도 글자 윗변이 같아야 한다.
-   세 칸 모두 줄 높이를 고정하지 않고 margin 만 0 으로 두면, 큰 글자(대제목)의
-   줄상자가 위로 더 자라 글자 윗변이 내려간다 — 그만큼 작은 글자 쪽을 내린다.
-   대제목 45px x (1.3 - 1) / 2 = 6.75px, 태그라인 18px x (1.5 - 1) / 2 = 4.5px
-   → 차이 2.25px 를 작은 글자에 준다. */
-.ind-hero-bg .ind-hero-row .ind-eyebrow,
-.ind-hero-bg .ind-hero-row .ind-lede { padding-top: 2px; }
-.ind-hero-bg .ind-hero-row .ind-eyebrow { flex: 0 0 auto; margin-bottom: 0; }
-.ind-hero-bg .ind-hero-row h1 { flex: 1 1 520px; }
-.ind-hero-bg .ind-hero-row .ind-lede { flex: 1 1 400px; margin-top: 0; max-width: 520px; }
+/* 태그라인만 윗변을 맞춘다. 큰 글자(대제목)의 줄상자가 위로 더 자라므로
+   그 차이(45px x .3 / 2 - 18px x .5 / 2 = 2.25px)를 작은 글자에 준다. */
+.ind-hero-bg .ind-hero-row .ind-eyebrow {
+  grid-column: 1; grid-row: 1; margin-bottom: 0; padding-top: 2px;
+}
+.ind-hero-bg .ind-hero-row h1 { grid-column: 2; grid-row: 1; }
+/* 가로 자리는 셋째 칸 그대로, 세로만 둘째 줄로 내린다. */
+.ind-hero-bg .ind-hero-row .ind-lede {
+  grid-column: 3; grid-row: 2; margin-top: 0; max-width: 520px;
+}
 /* 좁은 폭에서는 다시 세로로 쌓고 원래 여백을 돌려준다. */
 @media (max-width: 1100px) {
   .ind-hero-bg .ind-hero-row { display: block; }
@@ -775,7 +789,9 @@ img { max-width: 100%; height: auto; }
 /* 칸을 400px으로 잡는다. 랜딩 공통값은 360px인데 이 페이지 소제목이 388px이라
    그대로 두면 두 줄이 되고, 두 줄이 되면 오른쪽 끝이 들쭉날쭉해진다.
    글도 오른쪽에 맞춰 대제목과 반대편 끝에서 만나게 한다. */
-.ind-page .ind-head p { margin: 0; max-width: 400px; font-size: 18px; line-height: 1.7; text-align: right; }
+/* 행간 1.5 — 위 히어로 소제목과 같은 까닭이다. 이 선언은 과제뿐 아니라 산업
+   페이지의 모든 섹션 소제목에 걸린다. */
+.ind-page .ind-head p { margin: 0; max-width: 400px; font-size: 18px; line-height: 1.5; text-align: right; }
 
 /* 에너지·유틸리티 — 소제목이 제목 아래로 내려가는 폭을 세 머리 모두 800px 으로 맞춘다.
    자연 접힘에 맡겨 두면 머리마다 제각각이다 — 국문 680 / 580 / 480px ·
