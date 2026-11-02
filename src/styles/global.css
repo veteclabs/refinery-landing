@@ -2080,12 +2080,25 @@
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
     #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
-    /* 배경 영상. 바탕 이미지(<img>) 위에 겹쳐 깔리고, 그 둘 위에 글이 선다.
-       ⚠️ 섹션 세로 값은 영상과 무관하게 padding 95px 이 쥔다 — 영상은
-          object-fit: cover 로 그 칸을 채운다. */
+    /* ⚠️ 예시로 얹어 본 배경 영상이다. 되돌릴 때는 이 묶음과 index.astro 의
+       <video>, public/cta/motion-style-d.mp4 를 함께 지운다.
+       ⚠️ 이 파일은 '배경 판'이 아니라 CTA 띠 전체를 렌더한 것이다 — 문구와
+          단추까지 그림 안에 들어 있다. 그래서 띠를 영상 비율(1440x392)에
+          맞추고 HTML 문구는 가린다. 지금 상태로는 단추를 누를 수 없다. */
+    #cta.cta-video-demo { padding: 0; }
+    #cta.cta-video-demo .cta-bg-video {
+      position: static !important;
+      width: 100%; height: auto;
+      display: block;
+    }
+    #cta.cta-video-demo > img,
+    #cta.cta-video-demo .container { display: none; }
     @media (prefers-reduced-motion: reduce) {
-      /* 동작 줄이기를 켜면 영상을 끄고 바탕 이미지만 남긴다. */
-      #cta .cta-bg-video { display: none; }
+      /* 동작 줄이기를 켜면 영상을 끄고 바탕 이미지 · 문구를 되살린다. */
+      #cta.cta-video-demo { padding: 95px 0; }
+      #cta.cta-video-demo .cta-bg-video { display: none; }
+      #cta.cta-video-demo > img,
+      #cta.cta-video-demo .container { display: block; }
     }
     #cta h2 { color: #fff; font-weight: 500; margin-bottom: 0; line-height: 1.35; }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
