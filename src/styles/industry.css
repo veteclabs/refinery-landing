@@ -52,6 +52,12 @@ img { max-width: 100%; height: auto; }
 
 /* 섹션 공통 */
 .ind-section { padding: 84px 0; border-bottom: 1px solid var(--border); }
+/* 산업 페이지는 섹션 구분선을 쓰지 않는다 — 면 색과 여백만으로 나눈다.
+   ⚠️ .ind-page 가 아니라 .ind-industry 에 건다. .ind-page 는 필러 페이지
+      (/why-refinery)도 쓰므로 그쪽 구분선까지 같이 사라진다. */
+.ind-industry .ind-hero,
+.ind-industry .ind-section,
+.ind-industry .ind-cta { border-bottom: 0; }
 .ind-soft { background: var(--bg-soft); }
 .ind-head { max-width: 640px; margin-bottom: 44px; }
 .ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }

@@ -55,7 +55,9 @@ const lines = (s: string) => s.split('\n');
 ---
 <BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} alternates={alternates} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
-  <main class:list={['ind', 'ind-page', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
+  {/* ind-industry — 산업 페이지에만 거는 갈고리다. ind-page 는 필러 페이지
+      (/why-refinery)도 함께 쓰므로 그 쪽을 건드리지 않으려면 따로 필요하다. */}
+  <main class:list={['ind', 'ind-page', 'ind-industry', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
       {ind.hero.overlay && (
