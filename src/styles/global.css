@@ -470,6 +470,14 @@
       justify-content: space-between;
       gap: 0 32px;
     }
+    /* ⚠️ 글 블록은 되살린다. 칸 전체가 pointer-events: none 이면 마우스가 글자에 닿지
+       못해 히어로 카피를 긁어 복사할 수 없다(user-select 문제가 아니다 — 적중 판정이
+       .hero-stage 에서 멈춘다). 칸을 none 으로 둔 건 빈 자리가 그래픽의 핀 호버를
+       가로막지 않게 하려는 것이므로, 글자가 실제로 차지하는 상자만 돌려주면 된다.
+       1440 기준 대제목 61,251 414x170 · 소제목 925,421 440x103 이고 핀 레이어는
+       925,524 에서 시작한다 — 겹치지 않는다. */
+    #hero .container h1,
+    #hero .container .hero-sub,
     #hero .container a,
     #hero .container button { pointer-events: auto; }
     /* 그래픽이 들어가는 둥근 네모 칸. #hero 의 패딩이 남긴 자리를 통째로 채우므로
