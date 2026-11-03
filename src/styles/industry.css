@@ -1046,10 +1046,12 @@ img { max-width: 100%; height: auto; }
    ⚠️ 글자는 .ind-head-light 의 밝은 한 벌을 그대로 쓴다. 한때 윗변을 흰색으로
       열고 머리글을 그 위에 올린 적이 있어 색을 어둡게 되돌렸는데, 흰 면을
       걷으면서 함께 되돌렸다. */
-/* 위 여백을 섹션 공통값(130px)보다 넓게 둔다. 바로 위에서 히어로 사진이
-   #151B23 으로 풀려 내려오는데, 풀리자마자 제목이 나오면 숨 돌릴 자리가 없다.
-   240px 이면 사진이 다 녹은 뒤로 평평한 면이 한참 이어진다. */
-.ind-page .ind-challenges { padding-top: 240px; }
+/* 위아래 여백을 섹션 공통값(130px)보다 크게 둔다. 위는 히어로 사진이
+   #151B23 으로 풀려 내려오는 자리를 받아야 해서, 아래는 같은 크기로 닫아
+   어두운 띠가 가운데 서게 하려고다.
+   ⚠️ 섹션이 높아지면 배경 막의 퍼센트 정지점(18% / 34% / 85%)도 같이 늘어난다.
+      평평한 윗면이 그만큼 넓어진다. */
+.ind-page .ind-challenges { padding-top: 300px; padding-bottom: 300px; }
 /* 유즈케이스는 위아래를 같은 200px 로 연다. 위는 어두운 과제 섹션에서 흰 면으로
    바뀌는 자리라 거리가 필요하고, 아래도 같은 값으로 두어 섹션이 한가운데 선다. */
 .ind-page .ind-usecases { padding-top: 200px; padding-bottom: 200px; }
@@ -1468,8 +1470,9 @@ img { max-width: 100%; height: auto; }
   display: grid;
   /* ⚠️ 그림 칸을 고정폭(440px)으로 두면 안 된다. 왼쪽 고정 칸(360)까지 겹쳐
      1100 폭에서 글 칸이 61px 로 짜부라졌다. 비율로 나누고 그림에만 상한을 둔다. */
-  /* 왼쪽 글 · 오른쪽 그림. 글 칸을 조금 넓게 둔다. */
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  /* 왼쪽 글 · 오른쪽 그림. 그림 쪽을 넓게 둔다 — 글이 좁아져도 그림을 크게
+     보여 달라는 요청이다. 상한은 그림 원본 폭(560px)이다. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   grid-template-rows: auto;
   column-gap: 56px;
   align-items: start;
@@ -1486,7 +1489,7 @@ img { max-width: 100%; height: auto; }
 /* 그림 — 원본 4:3(1120x840). 폭을 칸에 맡기고 비율로 높이를 낸다. */
 .ind-uc-img {
   display: block;
-  width: 100%; max-width: 440px; height: auto;
+  width: 100%; max-width: 560px; height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   /* 둥글기는 사이트 공통값(--radius 12px)이다. */
