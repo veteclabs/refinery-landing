@@ -21,7 +21,7 @@ export const machineryEn: IndustryData = {
     lede: 'Data scattered across large equipment running around the clock and several energy sources is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From demand-matched air compressor control to HVAC inverter control and consolidated carbon monitoring.',
   },
   challenges: {
-    title: 'Challenges in machinery and plant',
+    title: 'What machinery and plant sites\nare up against',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,

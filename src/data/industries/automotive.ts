@@ -17,7 +17,7 @@ export const automotive: IndustryData = {
     lede: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에 흩어진 설비 ⁠· 에너지 데이터를 온톨로지로 연결하고, AI 에이전트가 이상 징후를 먼저 감지하고 원인을 설명합니다. 회전체 예지보전부터 라인별 전력 분석, 생산량 연계 원단위 관리까지.',
   },
   challenges: {
-    title: '자동차 및 모빌리티 현장의 문제',
+    title: '자동차 및 모빌리티\n현장이 겪는 일',
     subtitle: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,

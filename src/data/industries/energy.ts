@@ -18,7 +18,7 @@ export const energy: IndustryData = {
     lede: 'SCADA ⁠· EMS ⁠· 스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지.',
   },
   challenges: {
-    title: '에너지 및 유틸리티 현장의 문제',
+    title: '에너지 및 유틸리티\n현장이 겪는 일',
     subtitle: '발전 ⁠· 송배전 ⁠· 유틸리티 현장에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,

@@ -20,7 +20,7 @@ export const energyEn: IndustryData = {
     lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },
   challenges: {
-    title: 'Challenges in energy and utilities',
+    title: 'What energy and utility sites\nare up against',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
