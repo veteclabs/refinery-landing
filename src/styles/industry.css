@@ -966,12 +966,13 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-challenges .ind-head {
   flex-direction: column; align-items: center; justify-content: center;
   text-align: center; gap: 16px;
-  /* 소제목에서 칸까지의 거리. 130px 은 섹션 위 여백(.ind-page .ind-section 의
-     padding)과 같은 값으로, 섹션 윗변에서 제목까지와 짝을 이룬다. 선이 있던
-     자리라 padding 과 margin 으로 나뉘어 있었는데, 선을 걷으면서 한 값으로
-     합쳤다. */
+  /* 소제목에서 라벨까지의 거리.
+     ⚠️ 섹션 위 여백(130px)과 같은 값으로 두면 상자끼리는 맞지만 글자끼리는
+        어긋난다 — 라벨에 제 여백 16px 이 있어 글자가 그만큼 더 멀어진다.
+        110px 으로 내리면 '섹션 윗변 → 제목 글자'와 '소제목 글자 → 라벨 글자'가
+        둘 다 약 143px 로 맞는다. */
   padding-bottom: 0;
-  margin-bottom: 130px;
+  margin-bottom: 110px;
 }
 .ind-page .ind-challenges .ind-head p {
   flex: 0 1 auto; min-width: 0; max-width: 660px;
