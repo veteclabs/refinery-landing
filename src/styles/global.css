@@ -2167,7 +2167,11 @@
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height var(--t-move), padding var(--t-move), opacity var(--t-move); opacity: 0; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
-    #cta { background: #ffffff; text-align: center; color: #000; padding: 95px 0; }
+    /* 높이는 위아래 여백이 정한다(글 높이 200px + 여백 2배). 180px → 560px.
+       95px(390px)일 때는 1920x1080 영상이 cover 로 잘려 가로 1425px 기준
+       48.6% 만 보였다 — 모터가 위아래로 잘려 무엇인지 알아보기 어려웠다. */
+    #cta { background: #ffffff; text-align: center; color: #000; padding: 180px 0; }
+    @media (max-width: 900px) { #cta { padding: 110px 0; } }
     /* 스크림 — 배경 영상 위에 어두운 막을 깐다.
        ⚠️ 없으면 글자가 사라지는 자리가 생긴다. 모터의 하이라이트와 빛 번짐이
           순백(명도 1.000)이라 흰 글자와 1.00:1 이다 — 평균은 8~10:1 로 멀쩡해
