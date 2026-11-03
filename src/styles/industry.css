@@ -445,8 +445,11 @@ img { max-width: 100%; height: auto; }
   padding: 180px 0 0;
 }
 .ind-hero-bg > .ind-container { width: 100%; }
+/* ⚠️ 히어로 대제목은 섹션 제목(45px)보다 한 단 크다. 둘이 같으면 페이지의 h1 이
+   그 아래 h2 들과 같은 크기라 계층이 눌린다 — 랜딩이 히어로 60 / 섹션 45 로
+   두는 것과 같은 단이다. 1440 에서 60px 이 되도록 4.2vw 를 쓴다(4vw 면 57.6px).  */
 .ind-hero-bg h1 {
-  font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+  font-size: clamp(30px, 4.2vw, 60px); font-weight: 600;
   letter-spacing: -0.8px; line-height: 1.3;
   word-break: keep-all;
 }
@@ -482,7 +485,10 @@ img { max-width: 100%; height: auto; }
 .ind-hero-bg .ind-hero-row .ind-eyebrow {
   grid-column: 1 / -1; grid-row: 1; margin-bottom: 36px;
 }
-.ind-hero-bg .ind-hero-row h1 { grid-column: 1; grid-row: 2; }
+.ind-hero-bg .ind-hero-row h1 { grid-column: 1 / -1; grid-row: 2; }
+/* ⚠️ 대제목은 두 칸에 걸친다. 소제목은 아랫줄(3줄)에 있어 가로로 비켜 줄 까닭이
+   없는데, 같은 열을 쓰면 둘째 칸(소제목 폭 520px)만큼 대제목 칸이 깎인다.
+   1440 에서 761px 로 좁아져 영문 에너지 제목이 60px 에서 3줄로 터졌다. */
 /* 가로 자리는 오른쪽 칸 그대로, 세로만 셋째 줄로 내린다. */
 .ind-hero-bg .ind-hero-row .ind-lede {
   grid-column: 2; grid-row: 3; margin-top: 0; max-width: 520px;
