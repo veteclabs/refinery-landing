@@ -6,7 +6,9 @@
  * 60ms 씩 차례로 뜬다.
  *
  * ⚠️ 마크업은 건드리지 않는다. 선택자로 대상을 찾으므로 카드가 늘거나 줄어도
- *    이 파일만 본다. 홈(ko·en)에만 넣는 컴포넌트라 다른 페이지에는 영향이 없다.
+ *    이 파일만 본다. 이 컴포넌트를 넣은 페이지에만 걸린다 — 지금은 홈(ko·en)과
+ *    산업 페이지(IndustryPage)다. 선택자는 두 쪽 것이 한 줄에 섞여 있고, 서로
+ *    없는 쪽은 그냥 안 걸린다.
  *
  * ⚠️ 본문 맨 위에 놓는다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
  *    섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. 늦으면 보였다가
@@ -21,7 +23,15 @@
   .rv-on .series-card:not(.rv-done),
   .rv-on .industry-card:not(.rv-done),
   .rv-on .sec-card:not(.rv-done),
-  .rv-on .faq-item:not(.rv-done) {
+  .rv-on .faq-item:not(.rv-done),
+  /* ↓ 산업 페이지. ⚠️ 과제는 칸(.ind-card)이 아니라 격자(.ind-grid-rule) 통째로
+     띄운다 — 칸을 하나씩 띄우면 그 아래 깔린 선 색(격자 바닥)이 네모로 드러난다.
+     ⚠️ 히어로는 넣지 않는다. 첫 화면이라 숨겼다 띄울 까닭이 없다. */
+  .rv-on .ind-head:not(.rv-done),
+  .rv-on .ind-grid-rule:not(.rv-done),
+  .rv-on .ind-uc-shell:not(.rv-done),
+  .rv-on .ind-flow-step:not(.rv-done),
+  .rv-on .ind-benefits .ind-card:not(.rv-done) {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .55s cubic-bezier(.2, .7, .2, 1),
@@ -32,7 +42,12 @@
   .rv-on .series-card.rv-in:not(.rv-done),
   .rv-on .industry-card.rv-in:not(.rv-done),
   .rv-on .sec-card.rv-in:not(.rv-done),
-  .rv-on .faq-item.rv-in:not(.rv-done) {
+  .rv-on .faq-item.rv-in:not(.rv-done),
+  .rv-on .ind-head.rv-in:not(.rv-done),
+  .rv-on .ind-grid-rule.rv-in:not(.rv-done),
+  .rv-on .ind-uc-shell.rv-in:not(.rv-done),
+  .rv-on .ind-flow-step.rv-in:not(.rv-done),
+  .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done) {
     opacity: 1;
     transform: none;
   }
@@ -49,7 +64,9 @@
 
     function start() {
       clearTimeout(guard);
-      var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item';
+      var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
+              + ', .ind-head, .ind-grid-rule, .ind-uc-shell, .ind-flow-step'
+              + ', .ind-benefits .ind-card';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }
 

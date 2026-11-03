@@ -7,6 +7,7 @@ import Footer from './Footer.astro';
 import '../styles/industry.css';
 import type { IndustryData } from '../data/industries/types';
 import RfIcon from './RfIcon.astro';
+import ScrollReveal from './ScrollReveal.astro';
 
 interface Props {
   ind: IndustryData;
@@ -58,6 +59,9 @@ const lines = (s: string) => s.split('\n');
   {/* ind-industry — 산업 페이지에만 거는 갈고리다. ind-page 는 필러 페이지
       (/why-refinery)도 함께 쓰므로 그 쪽을 건드리지 않으려면 따로 필요하다. */}
   <main class:list={['ind', 'ind-page', 'ind-industry', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
+    {/* ⚠️ 본문 맨 위에 둔다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+        섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. */}
+    <ScrollReveal />
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
       {ind.hero.overlay && (
