@@ -924,7 +924,10 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-challenges .ind-head {
   flex-direction: column; align-items: center; justify-content: center;
   text-align: center; gap: 16px;
-  padding-bottom: 40px;
+  /* 소제목에서 가로선까지를 섹션 위 여백과 같은 130px 로 둔다
+     (.ind-page .ind-section 의 padding). 선 위아래가 아니라 섹션 윗변과
+     맞추는 값이라, 섹션 여백을 고치면 여기도 같이 고쳐야 한다. */
+  padding-bottom: 130px;
   margin-bottom: 64px;
   border-bottom: 1px solid #353C44;
 }
