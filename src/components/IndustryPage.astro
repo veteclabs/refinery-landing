@@ -217,7 +217,7 @@ const lines = (s: string) => s.split('\n');
              내용이 실제로 2차원이라 화면 낭독기도 "3행 접근" 식으로 짚어 준다.
              ⚠️ 제목 칸은 <th scope="row">다. 그래야 각 줄의 값이 어느 항목 것인지
                 낭독기가 잇는다. */
-          <div class="ind-uc-shell" data-uc-shell>
+          <div class="ind-uc-shell">
           {/* 왼쪽 칸 — 스크롤해도 제자리에 남는다(sticky). 오른쪽 목록만 흐른다. */}
           <div class="ind-uc-aside">
             <span class="ind-sec-label">{T.act}</span>
@@ -226,30 +226,13 @@ const lines = (s: string) => s.split('\n');
             {/* ⚠️ 소제목은 화면에 내지 않는다. 제목이 이미 'Refinery가 문제를 푸는
                 방법'이라 같은 말을 한 번 더 할 자리가 아니다. 데이터
                 (useCases.subtitle)는 열네 파일에 그대로 두었다. */}
-            {/* 항목 탭 — 지금 보는 항목에 표시가 옮겨 가고, 누르면 그리로 간다.
-                ⚠️ <nav> 에 이름을 준다. 페이지에 내비가 여럿이라 구분이 필요하다.
-                ⚠️ 스크립트가 없으면 그냥 앵커 링크 목록이다 — 눌러서 가는 일은 된다. */}
-            <nav class="ind-uc-tabs" aria-label={ind.useCases.title} data-uc-tabs>
-              {ind.useCases.items.map((u, i) => (
-                <a
-                  href={`#uc-${ind.slug}-${i + 1}`}
-                  class="ind-uc-tab"
-                  data-uc-tab={i}
-                  aria-current={i === 0 ? 'true' : undefined}
-                >
-                  <span class="ind-uc-tab-n">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="ind-uc-tab-t">{u.title}</span>
-                </a>
-              ))}
-            </nav>
           </div>
           <ol class="ind-uc-list">
             {ind.useCases.items.map((u, i) => (
-              <li class="ind-uc-item" id={`uc-${ind.slug}-${i + 1}`} data-uc-item={i}>
+              <li class="ind-uc-item" id={`uc-${ind.slug}-${i + 1}`}>
                 {/* 번호는 제 줄(1줄 1칸)에 둔다. 그래야 글과 그림이 둘째 줄에서
                     나란히 서고 그림 윗변이 제목 윗변과 맞는다 — 여백을 눈대중으로
                     맞추면 번호의 글자 크기가 바뀔 때마다 어긋난다. */}
-                <span class="ind-uc-n">{String(i + 1).padStart(2, '0')}</span>
                 <div class="ind-uc-text">
                   <h3>{u.title}</h3>
                   {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
@@ -391,58 +374,3 @@ const lines = (s: string) => s.split('\n');
   </main>
   <Footer />
 </BaseLayout>
-<script is:inline>
-  /* 유즈케이스 탭 — 지금 화면에 든 항목으로 표시를 옮긴다.
-     ⚠️ IntersectionObserver 를 쓰지 않는다. 항목이 화면보다 커서 둘이 동시에
-        걸치거나 하나도 '들어오지' 않는 구간이 생긴다 — 그때 표시가 꺼진다.
-        프레임마다 위치를 재서 '기준선을 지난 마지막 항목'을 고르면 늘 하나가 켜진다.
-     ⚠️ 기준선은 화면 위에서 40% 다. 항목이 화면 가운데쯤 왔을 때 표시가 바뀐다.
-     ⚠️ 스크립트가 없어도 탭은 앵커 링크라 눌러서 가는 일은 그대로 된다. */
-  (function () {
-    var shell = document.querySelector('[data-uc-shell]');
-    if (!shell) return;
-    var tabs = [].slice.call(shell.querySelectorAll('[data-uc-tab]'));
-    var items = [].slice.call(shell.querySelectorAll('[data-uc-item]'));
-    if (!tabs.length || tabs.length !== items.length) return;
-
-    var cur = -1;
-    function mark(i) {
-      if (i === cur) return;
-      cur = i;
-      for (var k = 0; k < tabs.length; k++) {
-        if (k === i) tabs[k].setAttribute('aria-current', 'true');
-        else tabs[k].removeAttribute('aria-current');
-      }
-    }
-    function sweep() {
-      var line = (window.innerHeight || 0) * 0.4;
-      var pick = 0;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].getBoundingClientRect().top <= line) pick = i;
-      }
-      mark(pick);
-    }
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; sweep(); });
-    }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll, { passive: true });
-    sweep();
-
-    /* 눌러서 갈 때는 고정 내비에 가리지 않도록 그만큼 띄워 세운다.
-       동작 줄이기를 켰으면 부드럽게 굴리지 않는다. */
-    var smooth = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
-    tabs.forEach(function (tab, i) {
-      tab.addEventListener('click', function (e) {
-        e.preventDefault();
-        var head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 70;
-        var y = items[i].getBoundingClientRect().top + window.scrollY - head - 32;
-        window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
-        mark(i);
-      });
-    });
-  })();
-</script>

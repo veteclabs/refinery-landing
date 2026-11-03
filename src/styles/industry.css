@@ -1400,43 +1400,12 @@ img { max-width: 100%; height: auto; }
   font-weight: 600; letter-spacing: -0.8px; line-height: 1.3;
   color: var(--text);
 }
-/* 항목 탭 — 세로로 쌓는다. 왼쪽 칸이 360px 라 가로로 늘어놓을 자리가 없다.
-   왼쪽 선이 지금 보는 항목을 가리킨다. */
-.ind-uc-tabs { margin-top: 32px; display: grid; }
-.ind-uc-tab {
-  display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px;
-  align-items: baseline;
-  padding: 11px 0 11px 16px;
-  border-left: 2px solid var(--border);
-  color: var(--text-muted);
-  transition: color var(--t-quick, .2s ease), border-color var(--t-quick, .2s ease);
-}
-.ind-uc-tab-n { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.ind-uc-tab-t { font-size: 14.5px; line-height: 1.45; }
-.ind-uc-tab:hover { color: var(--text); }
-.ind-uc-tab[aria-current='true'] {
-  border-left-color: var(--accent);
-  color: var(--text);
-}
-.ind-uc-tab[aria-current='true'] .ind-uc-tab-t { font-weight: 600; }
 @media (max-width: 1200px) {
   /* 좁은 폭에서는 고정하지 않는다 — 화면 높이가 모자라 글이 붙을 자리가 없다.
      탭은 가로로 눕히고 넘치면 밀어서 본다. */
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 32px; }
   .ind-uc-list { margin-top: 0; }
   .ind-uc-aside { position: static; }
-  .ind-uc-tabs {
-    margin-top: 24px;
-    grid-auto-flow: column; grid-auto-columns: max-content;
-    gap: 8px; overflow-x: auto; padding-bottom: 4px;
-    max-width: 100%;
-  }
-  .ind-uc-tab {
-    grid-template-columns: auto; gap: 2px;
-    padding: 8px 12px;
-    border-left: 0; border-bottom: 2px solid var(--border);
-  }
-  .ind-uc-tab[aria-current='true'] { border-bottom-color: var(--accent); }
 }
 /* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 28px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
@@ -1473,9 +1442,14 @@ img { max-width: 100%; height: auto; }
       아니라 글 안의 <span> 이다(크기 · 색을 따로 잡아야 한다). */
 /* ⚠️ margin-top 은 윗변 맞춤값이다. 아래 margin: 0 축약형보다 뒤에 와야 한다 —
    앞에 두면 축약형이 0 으로 덮는다(그렇게 넣었다가 고쳤다).
-   오른쪽 목록 윗변을 왼쪽 제목 윗변에 맞춘다. 왼쪽에는 제목 위에 칩('조치')이
-   한 줄 더 있어, 그대로 두면 오른쪽 첫 항목이 칩과 나란히 선다.
-   50px = 칩 34px(18px 글 + 위아래 7px + 테두리 2px) + 칩 아래 margin 16px.
+   맞추는 것은 '큰 글자끼리' 다 — 왼쪽 제목(45px)과 오른쪽 소제목(h3, 24px)의
+   윗변을 같게 둔다. 두 칸은 각각 [작은 라벨 → 큰 제목] 구조라, 왼쪽 칩과
+   오른쪽 번호가 위에 서고 그 아래 제목 둘이 같은 선에서 시작한다.
+   ⚠️ 목록 윗변을 제목 윗변에 맞췄던 적이 있는데(50px), 상자는 0px 로 맞아도
+      왼쪽은 45px 글자가 · 오른쪽은 15px 번호가 그 자리에서 시작해 눈에는
+      어긋나 보였다. 상자가 아니라 글자 크기를 보고 맞춘다.
+   50px = 칩 블록 높이(칩 34px + 아래 margin 16px). 오른쪽에는 항목 번호가
+   없어져 h3 가 목록 맨 위라, 칩 높이만큼 내리면 두 제목이 같은 선에 선다.
    ⚠️ 두 칸으로 서는 1200px 초과에서만 쓴다. 접히면 위아래로 놓이므로 0 이다. */
 .ind-uc-list {
   list-style: none;
@@ -1500,12 +1474,10 @@ img { max-width: 100%; height: auto; }
   padding: 44px 0;
   border-top: 1px solid var(--border);
 }
-.ind-uc-item > .ind-uc-n { grid-area: 1 / 2; }
 .ind-uc-item > .ind-uc-text { grid-area: 2 / 2; }
 .ind-uc-item > .ind-uc-img { grid-area: 2 / 1; }
 /* 그림이 없는 산업에서는 글이 칸을 다 쓴다. */
 .ind-uc-item:not(:has(.ind-uc-img)) { grid-template-columns: 1fr; }
-.ind-uc-item:not(:has(.ind-uc-img)) > .ind-uc-n { grid-area: 1 / 1; }
 .ind-uc-item:not(:has(.ind-uc-img)) > .ind-uc-text { grid-area: 2 / 1; }
 .ind-uc-item:first-child { border-top: 0; padding-top: 0; }
 .ind-uc-item:last-child { border-bottom: 0; }
@@ -1517,13 +1489,6 @@ img { max-width: 100%; height: auto; }
   object-fit: cover;
   /* 둥글기는 사이트 공통값(--radius 12px)이다. */
   border-radius: var(--radius);
-}
-.ind-uc-n {
-  display: block;
-  font-size: 15px; font-weight: 600;
-  color: #5A6776;
-  font-variant-numeric: tabular-nums;
-  margin-bottom: 10px;
 }
 .ind-uc-text h3 {
   margin: 0 0 16px;
@@ -1552,7 +1517,6 @@ img { max-width: 100%; height: auto; }
 .ind-en .ind-uc-dl > div { grid-template-columns: 86px minmax(0, 1fr); }
 @media (max-width: 900px) {
   .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 0; padding: 32px 0; }
-  .ind-uc-item > .ind-uc-n { grid-area: 1 / 1; }
   .ind-uc-item > .ind-uc-text { grid-area: 2 / 1; }
   .ind-uc-item > .ind-uc-img { grid-area: 3 / 1; margin-top: 20px; }
   .ind-uc-img { max-width: 480px; }
