@@ -831,13 +831,13 @@ img { max-width: 100%; height: auto; }
   display: flex; gap: 16px; padding-right: 16px;
   list-style: none; margin: 0;
 }
-/* 라벨 — 면색 #191F27 · 선 #353C44.
-   섹션 면이 #151B23 로 내려가면서 라벨도 한 단 내렸다. 랜딩 통합 섹션
-   (#integrations)의 면 #151B23 · 카드 #191F27 과 같은 짝이다. */
+/* 라벨 — 면색 #353C44 · 선도 같은 #353C44.
+   섹션 면(#151B23)에서 두 단 위다. 면과 같은 선색을 쓰므로 테두리는 보이지
+   않고 알약 덩어리만 남는다. */
 .ind-chal-pill {
   flex: none;
   padding: 15px 28px;
-  background: #191F27;
+  background: #353C44;
   border: 1px solid #353C44; border-radius: 999px;
   color: #EFF2F5;
   font-size: 17px; font-weight: 500; letter-spacing: -0.2px; line-height: 1.4;
