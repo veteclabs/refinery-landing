@@ -23,6 +23,8 @@ export const chemicalsEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nchemical sites',
     subtitle: 'Recurring problems where continuous reaction\nand heat-based equipment run.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'Several energy sources run at once',

@@ -20,6 +20,8 @@ export const automotiveEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nautomotive sites',
     subtitle: 'Recurring problems across press, body, paint and assembly.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'One process shakes the whole line',

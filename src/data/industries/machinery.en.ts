@@ -22,6 +22,8 @@ export const machineryEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nplant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'Several energy sources run at once',

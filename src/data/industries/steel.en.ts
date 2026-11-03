@@ -21,6 +21,8 @@ export const steelEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nsteel sites',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'Small process shifts decide quality',

@@ -19,6 +19,8 @@ export const steel: IndustryData = {
   challenges: {
     title: '철강 공정 현장의 문제',
     subtitle: '열처리 ⁠· 성형 ⁠· 코팅 공정에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: '공정 조건의 미세한 변화가 품질과 직결된다',

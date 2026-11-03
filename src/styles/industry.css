@@ -706,11 +706,12 @@ img { max-width: 100%; height: auto; }
 }
 .ind-section-bg > .ind-container { position: relative; z-index: 1; }
 
-/* 에너지 과제 섹션의 배경은 현장 사진이 아니라 디자인된 면(비단결)이다.
+/* 과제 섹션의 배경은 현장 사진이 아니라 디자인된 면(비단결)이다. 일곱 산업이
+   같은 한 장을 쓴다.
    위 규칙은 작업복 색을 죽이려고 흑백 · 투명도 .16 · 네 방향 마스크를 걸어 둔
    값이라, 그대로 쓰면 결이 거의 사라지고 섹션 면색만 남는다.
    면 전체를 제 색 · 제 밝기로 깐다 — 원본이 이미 #1E2630 쯤으로 어둡다. */
-.ind-energy .ind-challenges .ind-section-bg-img {
+.ind-challenges .ind-section-bg-img {
   inset: 0; width: 100%; height: 100%;
   filter: none; opacity: 1;
   -webkit-mask-image: none; mask-image: none;

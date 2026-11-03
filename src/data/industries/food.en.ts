@@ -21,6 +21,8 @@ export const foodEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nfood sites',
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'Thermal and refrigeration efficiency losses become cost',

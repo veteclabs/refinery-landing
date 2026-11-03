@@ -18,6 +18,8 @@ export const automotive: IndustryData = {
   challenges: {
     title: '자동차 제조 현장의 문제',
     subtitle: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: '한 공정의 이상이 라인 전체를 흔든다',

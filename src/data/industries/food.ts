@@ -19,6 +19,8 @@ export const food: IndustryData = {
   challenges: {
     title: '식품 제조 현장의 문제',
     subtitle: '원료 투입 ⁠· 가공 ⁠· 포장 ⁠· 보관 공정에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: '열 ⁠· 냉 설비 효율 저하가 곧 비용이 된다',

@@ -21,6 +21,8 @@ export const electronics: IndustryData = {
   challenges: {
     title: '전자 제조 현장의 문제',
     subtitle: '반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: '미세한 변화에도 설비가 반응한다',
