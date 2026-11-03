@@ -831,13 +831,15 @@ img { max-width: 100%; height: auto; }
   display: flex; gap: 16px; padding-right: 16px;
   list-style: none; margin: 0;
 }
-/* 라벨 — 면색 #2F353D 하나로만 선다. 테두리는 없다.
+/* 라벨 — 면색 #353C44 하나로만 선다. 테두리는 없다.
+   ⚠️ 램프 안의 값이다. 한때 #2F353D(#292F37 과 #353C44 사이)를 썼는데,
+      그 값은 사이트에서 여기만 쓰는 외톨이였다.
    ⚠️ 여백을 1px 씩 키운다(15/28 → 16/29). 테두리가 차지하던 1px 을 돌려받지
       않으면 알약이 가로세로 2px 씩 작아진다. */
 .ind-chal-pill {
   flex: none;
   padding: 16px 29px;
-  background: #2F353D;
+  background: #353C44;
   border: 0; border-radius: 999px;
   color: #EFF2F5;
   font-size: 17px; font-weight: 500; letter-spacing: -0.2px; line-height: 1.4;
