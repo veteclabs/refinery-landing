@@ -714,27 +714,10 @@ img { max-width: 100%; height: auto; }
 .ind-challenges .ind-section-bg-img {
   filter: none; opacity: 1;
   -webkit-mask-image: none; mask-image: none;
-  /* 내용 너비에 맞춘 상자다. 모서리는 히어로 사진(.ind-hero-figure)과 같은
-     var(--radius).
-     ⚠️ 폭은 .ind-container 의 기본값(1120px)이 아니라 산업 페이지가 덮어쓴 값을
-        따라야 한다 — .ind-page .ind-container 가 max-width 1600px · 좌우 여백
-        48px(900px 이하 24px)이다. 1120px 으로 잡았더니 1440px 화면에서 칸틀
-        (1329px)이 상자 밖으로 104px 씩 삐져나왔다.
-     면 전체를 덮던 때는 섹션이 화면 끝까지 어두운 띠였는데, 폭을 맞추면
-     밝은 쪽 면 위에 패널 하나가 떠 있는 모습이 된다. */
-  top: 0; bottom: 0; right: auto; height: 100%;
-  left: 50%; transform: translateX(-50%);
-  width: calc(min(1600px, 100%) - 96px);
-  border-radius: var(--radius);
+  /* 화면 너비를 꽉 채운다. 내용 너비(1600px 안쪽 · 좌우 48px)에 맞춰 둥근
+     상자로 띄워 본 적이 있는데, 다시 화면 끝까지 가는 띠로 되돌렸다. */
+  inset: 0; width: 100%; height: 100%;
 }
-@media (max-width: 900px) {
-  .ind-challenges .ind-section-bg-img { width: calc(min(1600px, 100%) - 48px); }
-}
-/* 섹션 면색을 지운다. 어두운 면은 이제 배경 상자가 들고 있다 — 남겨 두면
-   상자 밖까지 어두워 폭을 맞춘 뜻이 사라진다.
-   글자 · 칸 색은 .ind-soft-dark 의 밝은 한 벌을 그대로 쓴다. 모두 상자 안에
-   서기 때문이다. */
-.ind-challenges.ind-soft-dark { background: transparent; }
 
 /* ───────── 어두운 과제 섹션 (challenges.dark 지정 시)
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
@@ -798,58 +781,40 @@ img { max-width: 100%; height: auto; }
 .ind-soft-dark .ind-grid-rule { background: #353C44; border-color: #353C44; }
 .ind-soft-dark .ind-grid-rule > .ind-card { background: #191F27; }
 
-/* ───────── 배경 상자를 깐 과제 섹션 — 한 줄 네 칸 · 사이에 세로선만
-   칸 면과 바깥 테두리를 걷는다. 면을 깔면 뒤의 비단결 상자가 그만큼 가려진다.
-   ⚠️ 위의 틈 1px 기법을 여기서는 쓸 수 없다. 그 방식은 칸이 불투명해야 틈만
-      선으로 보이는데, 칸을 투명으로 두면 격자 바닥이 통째로 드러난다.
-      그래서 선은 칸의 왼쪽 테두리로 긋고, 줄 맨 앞 칸에서만 지운다.
-   ⚠️ 번호를 제목 옆이 아니라 위로 올린다. 네 칸으로 나누면 한 칸이 300px 아래라
-      옆에 두면 글 폭이 그만큼 깎인다. */
+/* ───────── 배경 위 과제 칸 — 한 줄 · 선 없이 여백으로만 나눈다
+   칸 면과 테두리를 걷는다. 면을 깔면 뒤의 비단결이 그만큼 가려진다.
+   칸 사이 세로선도 걷었다 — 머리글 아래 가로선 하나가 머리와 내용을 나누고,
+   칸끼리는 여백으로만 떨어진다.
+   ⚠️ 칸 수를 못박지 않는다. 산업마다 과제가 3개 또는 4개라 repeat(4) 로 두면
+      3개인 곳(자동차 · 철강)에서 넷째 자리가 빈 칸으로 남는다.
+      auto-flow: column 이면 있는 만큼만 한 줄에 고르게 나뉜다.
+   ⚠️ 번호를 제목 옆이 아니라 위로 올린다. 넷으로 나누면 한 칸이 1440px 에서
+      320px 아래라, 옆에 두면 글 폭이 그만큼 깎인다. */
 .ind-soft-dark .ind-grid-rule {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0; column-gap: 48px;
   background: transparent;
   border: 0; border-radius: 0; overflow: visible;
 }
 .ind-soft-dark .ind-grid-rule > .ind-card {
   background: transparent; box-shadow: none;
-  display: block;
-  padding: 2px 26px;
-  border-left: 1px solid #353C44;
+  display: block; border: 0; padding: 0;
 }
-.ind-soft-dark .ind-grid-rule > .ind-card:first-child { border-left: 0; padding-left: 0; }
-.ind-soft-dark .ind-grid-rule > .ind-card:last-child { padding-right: 0; }
 /* 홀수 항목이 한 줄을 다 쓰던 규칙은 여기서 끈다 — 틈이 없어 구멍이 생기지 않는다. */
 .ind-soft-dark .ind-grid-rule > .ind-card:last-child:nth-child(odd) { grid-column: auto; }
-.ind-soft-dark .ind-rule-num { display: block; margin-bottom: 14px; width: auto; }
 
-/* 네 칸이 좁아지면 두 칸 → 한 칸으로 접는다. 접힌 줄 사이는 가로선으로 잇는다. */
 @media (max-width: 1180px) {
-  .ind-soft-dark .ind-grid-rule { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 34px; }
-  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(2n+1) { border-left: 0; padding-left: 0; }
-  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(2n) { padding-right: 0; }
-  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(n+3) { border-top: 1px solid #353C44; padding-top: 34px; }
+  .ind-soft-dark .ind-grid-rule {
+    grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 40px; column-gap: 40px;
+  }
 }
 @media (max-width: 860px) {
-  .ind-soft-dark .ind-grid-rule { grid-template-columns: 1fr; row-gap: 30px; }
-  .ind-soft-dark .ind-grid-rule > .ind-card { border-left: 0; padding: 0; }
-  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(n+2) { border-top: 1px solid #353C44; padding-top: 30px; }
+  .ind-soft-dark .ind-grid-rule { grid-auto-flow: row; grid-template-columns: 1fr; row-gap: 32px; }
 }
-/* 번호 — 사람 아이콘 자리를 대신한다.
-   ⚠️ 폭을 못박는다. 두 자리 숫자라 폭이 거의 같지만, tabular-nums 가 없으면
-      글꼴에 따라 1 이 좁아 칸마다 글 시작선이 어긋난다.
-   ⚠️ 색은 ink-600(#5A6776)이다. 바탕 #F6F8FA 에서 5.42:1 로, 작은 글자 기준
-      4.5:1 을 넘긴다. --text-muted(3.30:1)와 --accent-ink(3.61:1)는 미달이다.
-   세로 맞춤은 칸이 align-items: baseline 으로 잡는다 — 글자 크기를 바꿔도
-   번호와 제목의 기준선이 함께 간다. */
-.ind-rule-num {
-  width: 30px; flex: none;
-  font-size: 15px; font-weight: 600;
-  letter-spacing: 0.02em;
-  font-variant-numeric: tabular-nums;
-  color: #5A6776;
-}
-.ind-soft-dark .ind-rule-num { color: #7E8A98; }
+
 
 /* ═════════ 산업 페이지 전용 (.ind-page)
    아래 값들은 예지보전(.uc-redesigned)과 맞춘 것이다. industry.css는 회사 소개·
@@ -941,17 +906,27 @@ img { max-width: 100%; height: auto; }
    철강 473 · 자동차 482 는 원래 한 줄이고, 전자·정밀과 화학은 <br> 로 줄을
    고정해 두 줄이다. */
 .ind-page .ind-challenges .ind-head p { flex: 1 1 0; min-width: 420px; max-width: 660px; }
-/* 문제 섹션 머리글만 가운데로 세운다. .ind-page .ind-head 는 제목을 왼쪽,
-   소제목을 오른쪽으로 벌리는 한 줄(flex row)인데, 여기서는 세로로 쌓아
-   둘 다 가운데에 둔다.
-   ⚠️ 위 줄의 flex: 1 1 0 · min-width 420px 을 함께 되돌려야 한다. 남는 자리를
-      채우라는 값이라 세로로 쌓은 뒤에도 소제목 칸이 머리 폭을 다 먹어, 글은
-      가운데여도 칸은 끝에서 끝까지 걸친다.
+/* 문제 섹션 머리글 — 가운데로 세운다.
+   .ind-page .ind-head 는 제목을 왼쪽, 소제목을 오른쪽으로 벌리는 한 줄
+   (flex row)인데, 여기서는 세로로 쌓아 둘 다 가운데에 둔다.
+   ⚠️ 소제목 칸의 flex: 1 1 0 · min-width 420px 을 함께 되돌려야 한다. 남는
+      자리를 채우라는 값이라, 세로로 쌓은 뒤에도 글만 가운데고 칸은 끝에서
+      끝까지 걸친다.
    ⚠️ 좁은 폭에서 산업별로 걸어 둔 text-align: left 보다 뒤에 적는다 — 특이도가
-      같아 순서로 이긴다. */
+      같아 순서로 이긴다.
+   머리와 내용은 가로선 하나로 나눈다(머리글 아래 테두리). 칸 사이 세로선은
+   없다.
+   ⚠️ 선 색은 --border(#E3E7EC)가 아니라 #353C44 다. 어두운 비단결 위라
+      밝은 선을 쓰면 혼자 튄다 — .ind-soft-dark 의 다른 선과 같은 값이다.
+   ⚠️ 글자는 .ind-head-light 의 밝은 한 벌을 그대로 쓴다. 한때 윗변을 흰색으로
+      열고 머리글을 그 위에 올린 적이 있어 색을 어둡게 되돌렸는데, 흰 면을
+      걷으면서 함께 되돌렸다. */
 .ind-page .ind-challenges .ind-head {
   flex-direction: column; align-items: center; justify-content: center;
   text-align: center; gap: 16px;
+  padding-bottom: 40px;
+  margin-bottom: 64px;
+  border-bottom: 1px solid #353C44;
 }
 .ind-page .ind-challenges .ind-head p {
   flex: 0 1 auto; min-width: 0; max-width: 660px;

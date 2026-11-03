@@ -37,11 +37,6 @@ export const automotive: IndustryData = {
         description:
           '전동화와 품질 기준 강화로 셋을 함께 봐야 하는데 데이터가 <br>각각의 시스템에 남아 이어지지 않습니다.',
       },
-      {
-        title: '생산 대비 효율을 따질 기준이 없다',
-        description:
-          '라인별 ⁠· 차종별로 생산량과 에너지 사용이 따로 집계돼 <br>어디가 비효율인지 같은 잣대로 비교하지 못합니다.',
-      },
     ],
   },
   useCases: {

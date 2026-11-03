@@ -40,11 +40,6 @@ export const steelEn: IndustryData = {
         description:
           'Energy is scattered across processes while high-temperature, high-power equipment runs together, making both over-consuming segments and peak demand hard to pin down.',
       },
-      {
-        title: 'Equipment status needs someone on site',
-        description:
-          'Cooling water and rotating equipment reveal their state only to someone standing there, and faults often surface after the stop.',
-      },
     ],
   },
   useCases: {

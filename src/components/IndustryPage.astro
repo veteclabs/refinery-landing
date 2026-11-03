@@ -136,13 +136,8 @@ const lines = (s: string) => s.split('\n');
           {ind.challenges.subtitle && <p>{lines(ind.challenges.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>}
         </header>
         <div class="ind-grid-rule">
-          {ind.challenges.items.map((c, i) => (
+          {ind.challenges.items.map((c) => (
             <div class="ind-card">
-              {/* 사람 아이콘 대신 번호를 둔다. 아이콘은 말풍선('현장에서 나온 말')의
-                  일부였는데 말풍선이 빠지면서 근거도 같이 사라졌다. 네 칸이 모두 같은
-                  실루엣이라 뜻도 담지 못했다.
-                  aria-hidden — 보기 위한 순서 표시다. 읽어 주면 '영 일'이 먼저 나온다. */}
-              <span class="ind-rule-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <div class="ind-card-body">
                 <h3>{c.title}</h3>
                 {/* 줄바꿈은 <br>로 명시한다. 마크업 안의 개행은 빌드 시 공백으로 합쳐진다. */}
