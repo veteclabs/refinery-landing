@@ -57,7 +57,7 @@ export const automotive: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n문제를 해결하는 방법',
+    title: 'Refinery가\n해결하는 방법',
     subtitle: '자동차 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [

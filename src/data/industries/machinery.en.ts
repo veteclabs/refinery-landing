@@ -66,7 +66,7 @@ export const machineryEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How Refinery\nsolves them',
+    title: 'How Refinery\nsolves it',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a plant site.',
     layout: 'table',
     items: [
