@@ -100,19 +100,23 @@ img { max-width: 100%; height: auto; }
    ⚠️ <p> 가 아니라 <span> 이다. 머리글의 p 는 소제목용 규칙(.ind-head p ·
       .ind-page .ind-challenges .ind-head p)을 여럿 달고 있어서, p 로 두면
       13px 로 적어도 18px 소제목 값에 눌려 소제목과 똑같아 보였다.
-   ⚠️ 제목과 경쟁하지 않게 13px 로 작게 둔다. 히어로 태그라인(20px/600)처럼
-      키우면 제목이 둘이 된다.
-   ⚠️ 색과 선은 면 밝기를 따른다 — 밝은 면 --text-muted / --border,
-      어두운 면 #A0A8B3 / #353C44. */
+   ⚠️ 18px/600 — 과제 섹션 소제목과 같은 크기다.
+   ⚠️ 색은 브랜드색인데 면 밝기에 따라 단계가 다르다. 어두운 면은 --accent
+      (#76A6D7)로 6.90:1 이고, 흰 면에서 같은 값을 쓰면 2.51:1 로 13px 기준
+      (4.5:1)에 한참 못 미친다 — 흰 면은 램프 두 단 아래 #3F76AE(4.76:1)를 쓴다.
+      (--accent-ink #4B86BF 는 3.84:1 로 역시 미달이라 쓰지 않았다.)
+   ⚠️ 선은 양쪽 다 브랜드색 45% 다. 꽉 찬 선을 쓰면 글자보다 테가 먼저 보인다. */
 .ind-sec-label {
   display: inline-block;
   margin: 0;
   padding: 7px 16px;
-  font-size: 13px; font-weight: 600; letter-spacing: .08em; line-height: 1;
-  color: var(--text-muted);
-  border: 1px solid var(--border); border-radius: 999px;
+  font-size: 18px; font-weight: 600; letter-spacing: .08em; line-height: 1;
+  color: #3F76AE;
+  /* 모서리는 사이트 공통값(--radius 12px)이다. 999px 짜리 완전한 원형은
+     이 페이지에서 .ind-badge 만 쓴다. */
+  border: 1px solid rgba(118, 166, 215, 0.45); border-radius: var(--radius);
 }
-.ind-head-light .ind-sec-label { color: #A0A8B3; border-color: #353C44; }
+.ind-head-light .ind-sec-label { color: var(--accent); }
 /* 과제 머리는 flex(column · gap 16px)라 간격을 gap 이 쥔다. */
 /* 유즈케이스 쪽은 블록이라 margin 으로 직접 준다. */
 .ind-uc-aside > .ind-sec-label { margin-bottom: 16px; }
@@ -905,8 +909,9 @@ img { max-width: 100%; height: auto; }
       명도 0.011~0.056 으로 다섯 배 흔들린다. 색을 고정하면 대비가 같이
       흔들린다 — #494F57 은 최악 1.20 ~ 최고 2.09:1 로 1.7배 출렁였고,
       #353C44 는 밝은 줄과 명도가 같아 1.00:1 로 사라지는 자리까지 있었다.
-      반투명은 뒤에 있는 것을 일정하게 들어 올려 어디서나 1.41~1.47:1 이다
-      (라벨이 지나는 자리 26,600개 지점 실측).
+      반투명은 뒤에 있는 것을 일정하게 들어 올려 어디서나 비슷한 대비를 낸다
+      (라벨이 지나는 자리 26,600개 지점 실측) — 8% 면 1.25~1.29:1,
+      12% 면 1.41~1.47:1, 16% 면 1.60~1.68:1 이다.
    ⚠️ 그림자로 대신할 수 없다. 배경이 이미 거의 검정이라 그림자를 깔 아래쪽
       여유가 없다 — 검정 40% 를 깔아도 배경 대비 1.18:1 로 그림자가 안 보인다.
    ⚠️ 여백을 1px 씩 키운다(15/28 → 16/29). 테두리가 차지하던 1px 을 돌려받지
@@ -914,8 +919,8 @@ img { max-width: 100%; height: auto; }
 .ind-chal-pill {
   flex: none;
   padding: 16px 29px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 0; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0; border-radius: var(--radius);
   color: #EFF2F5;
   font-size: 17px; font-weight: 500; letter-spacing: -0.2px; line-height: 1.4;
   white-space: nowrap;
