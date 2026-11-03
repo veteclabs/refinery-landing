@@ -969,10 +969,11 @@ img { max-width: 100%; height: auto; }
   /* 소제목에서 라벨까지의 거리.
      ⚠️ 섹션 위 여백(130px)과 같은 값으로 두면 상자끼리는 맞지만 글자끼리는
         어긋난다 — 라벨에 제 여백 16px 이 있어 글자가 그만큼 더 멀어진다.
-        110px 으로 내리면 '섹션 윗변 → 제목 글자'와 '소제목 글자 → 라벨 글자'가
-        둘 다 약 143px 로 맞는다. */
+        130px(섹션 위 여백) 에서는 글자끼리 약 20px 어긋났다. 80px 이면 글자
+        기준으로 약 100px 이 된다 — 섹션 윗변 → 제목(132px)보다 좁게, 머리글을
+        라벨 쪽에 붙여 한 덩어리로 읽히게 하는 값이다. */
   padding-bottom: 0;
-  margin-bottom: 110px;
+  margin-bottom: 80px;
 }
 .ind-page .ind-challenges .ind-head p {
   flex: 0 1 auto; min-width: 0; max-width: 660px;
