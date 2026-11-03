@@ -58,7 +58,7 @@ export const steel: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n문제를 푸는 방법',
+    title: 'Refinery가\n현장에서 하는 일',
     subtitle: '철강 ⁠· 소재 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [

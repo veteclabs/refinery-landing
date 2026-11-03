@@ -63,7 +63,7 @@ export const energy: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n문제를 푸는 방법',
+    title: 'Refinery가\n현장에서 하는 일',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾼다.
     // 둘째 줄 나눔만 <br>을 직접 써서 클래스를 단다 — 카드가 아래로 내려가는
     // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.

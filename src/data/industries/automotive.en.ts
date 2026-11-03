@@ -59,7 +59,7 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How Refinery\nsolves the problems',
+    title: 'What Refinery\ndoes on site',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an automotive site.',
     layout: 'table',
     items: [
