@@ -421,6 +421,28 @@ img { max-width: 100%; height: auto; }
   /* 아래 여백도 같이 닫는다 — 다 자라면 사진 아랫변이 다음 섹션(현장의 문제)
      윗변에 그대로 맞닿는다. 96px 을 남겨 두면 꽉 찬 사진 밑에 흰 띠가 생긴다. */
   padding: 0 calc(48px * (1 - var(--grow))) calc(96px * (1 - var(--grow)));
+  position: relative;
+}
+/* 사진 아랫부분을 다음 섹션 면색(#151B23)으로 흘려보낸다. 맞닿기만 하면 컬러
+   사진이 끝나고 평면색이 시작되는 칼선이 남는다.
+   ⚠️ mask 가 아니라 덮는 막이다. mask 로 지우면 뒤에 있는 히어로 면(흰색)이
+      비쳐 아래쪽이 하얘진다 — 녹여 넣을 색을 직접 칠해야 한다.
+   ⚠️ 상자 위치를 사진에 맞춘다. 좌우 · 아래 값이 .ind-hero-figure 의 padding 과
+      같은 식이라 사진이 자라면 막도 같이 따라간다.
+   ⚠️ opacity 를 --grow 로 묶는다. 기본 모습(둥근 모서리 · 흰 면 위)에서는
+      사진 밑에 검은 띠가 깔릴 이유가 없다. */
+.ind-hero-figure::after {
+  content: '';
+  position: absolute;
+  left: calc(48px * (1 - var(--grow)));
+  right: calc(48px * (1 - var(--grow)));
+  bottom: calc(96px * (1 - var(--grow)));
+  height: 160px;
+  background: linear-gradient(180deg, rgba(21, 27, 35, 0) 0, #151B23 100%);
+  border-bottom-left-radius: calc(var(--radius) * (1 - var(--grow)));
+  border-bottom-right-radius: calc(var(--radius) * (1 - var(--grow)));
+  opacity: var(--grow);
+  pointer-events: none;
 }
 .ind-hero-figure-img {
   display: block; width: 100%; height: auto;
@@ -433,6 +455,13 @@ img { max-width: 100%; height: auto; }
   .ind-hero-figure {
     margin-top: 48px;
     padding: 0 calc(24px * (1 - var(--grow))) calc(64px * (1 - var(--grow)));
+  }
+  /* 좁은 폭은 사진이 낮다(16/10). 160px 을 그대로 두면 절반을 덮는다. */
+  .ind-hero-figure::after {
+    left: calc(24px * (1 - var(--grow)));
+    right: calc(24px * (1 - var(--grow)));
+    bottom: calc(64px * (1 - var(--grow)));
+    height: 90px;
   }
   .ind-hero-figure-img { aspect-ratio: 16 / 10; }
 }
