@@ -1244,6 +1244,19 @@ img { max-width: 100%; height: auto; }
   font-size: 16px;
   letter-spacing: -0.01em;
 }
+/* 그림 칸 — 4:3 이다(원본 1120x840). 줄 높이를 그림이 끌고 가지 않도록 폭으로
+   못박고 비율로 높이를 낸다.
+   ⚠️ 모서리는 8px 다. 과제 격자의 12px 를 그대로 쓰면 135px 짜리 작은 그림에서
+      둥글기가 과해 보인다. */
+.ind-uc-ci { width: 188px; }
+.ind-uc-ci img {
+  display: block;
+  width: 100%; height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
 /* 성과 — 끝점이라 한 단 진하게 둔다. */
 .ind-uc-out { color: #5A6776; font-weight: 500; }
 /* 첫 칸과 마지막 칸은 바깥 여백을 뺀다 — 표가 글 왼쪽 선에 맞아 선다. */
@@ -1260,6 +1273,9 @@ img { max-width: 100%; height: auto; }
   .ind-uc-table tr { padding: 22px 0; border-bottom: 1px solid var(--border); }
   .ind-uc-table td, .ind-uc-table tbody th { padding: 0; border: 0; }
   .ind-uc-cn { font-size: 13px; margin-bottom: 4px; }
+  /* 그림은 제목 위에 눕는다 — 폭을 다 쓰되 비율은 그대로다. */
+  .ind-uc-ci { width: auto; margin-bottom: 14px; }
+  .ind-uc-ci img { max-width: 420px; }
   .ind-uc-ct { font-size: 18px; margin-bottom: 12px; }
   .ind-uc-table tbody td:not(.ind-uc-cn) { margin-top: 10px; }
   .ind-uc-table tbody td:not(.ind-uc-cn)::before {

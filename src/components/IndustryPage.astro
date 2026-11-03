@@ -37,6 +37,10 @@ const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${
 // 사진 위 어두운 스크림도 같이 빠졌다 — 기본값 없이 데이터가 지정한 경우에만 쓴다.
 const challengesBg = ind.challenges.backgroundImage;
 
+// 표에 그림 열을 세울지. 한 항목이라도 그림이 있으면 세운다 — 산업마다
+// 그림이 있기도 없기도 해서, 없는 산업에 빈 열을 남기지 않는다.
+const hasUcImage = ind.useCases.items.some((u) => !!u.image);
+
 // 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
 // 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
 const benefitCols = ind.benefits.items.length === 4 ? 4 : 3;
@@ -177,6 +181,7 @@ const lines = (s: string) => s.split('\n');
             <thead>
               <tr>
                 <th scope="col" class="ind-uc-cn"><span class="ind-sr">{T.number}</span></th>
+                {hasUcImage && <th scope="col" class="ind-uc-ci"></th>}
                 <th scope="col" class="ind-uc-ct"><span class="ind-sr">{T.useCase}</span></th>
                 <th scope="col">{T.problem}</th>
                 <th scope="col">{T.approach}</th>
@@ -187,6 +192,22 @@ const lines = (s: string) => s.split('\n');
               {ind.useCases.items.map((u, i) => (
                 <tr>
                   <td class="ind-uc-cn">{String(i + 1).padStart(2, '0')}</td>
+                  {hasUcImage && (
+                    <td class="ind-uc-ci">
+                      {/* alt 는 비운다 — 바로 옆 칸이 같은 줄의 이름(th scope="row")이라
+                          낭독기가 같은 말을 두 번 읽을 까닭이 없다. */}
+                      {u.image && (
+                        <img
+                          src={u.image.src}
+                          alt=""
+                          width={u.image.width}
+                          height={u.image.height}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                    </td>
+                  )}
                   <th scope="row" class="ind-uc-ct">{u.title}</th>
                   {/* data-label — 좁은 폭에서 표를 풀면 머리글이 사라지므로 ::before 로 되살린다. */}
                   <td data-label={T.problem}>{u.problem}</td>

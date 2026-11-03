@@ -11,6 +11,10 @@ export interface UseCase {
   problem: string;   // 산업 현장의 문제
   approach: string;  // Refinery의 접근
   outcome: string;   // 기대 성과
+  /** 표 왼쪽에 붙는 그림(선택). CLS 방지를 위해 width/height는 필수다.
+   *  alt는 비워 둔다 — 바로 옆 칸이 같은 줄의 이름(<th scope="row">)이라
+   *  낭독기가 같은 말을 두 번 읽지 않게 한다. */
+  image?: { src: string; width: number; height: number };
 }
 
 export interface Benefit {
