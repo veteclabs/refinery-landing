@@ -95,6 +95,27 @@ img { max-width: 100%; height: auto; }
    ⚠️ --bg-dark(#191F27)를 쓰지 않는다. 그 토큰은 이제 면이 아니라 카드 쪽 값이다. */
 .ind-dark { background: #151B23; border-bottom-color: #292F37; }
 .ind-head-light h2 { color: #EFF2F5; }
+/* 섹션 머리 위 라벨. 과제('진단')와 유즈케이스('조치') 두 곳만 쓴다 —
+   짝을 이루는 두 단어라 하나만 두면 뜻이 서지 않는다. 테두리만 있는 원형이다.
+   ⚠️ <p> 가 아니라 <span> 이다. 머리글의 p 는 소제목용 규칙(.ind-head p ·
+      .ind-page .ind-challenges .ind-head p)을 여럿 달고 있어서, p 로 두면
+      13px 로 적어도 18px 소제목 값에 눌려 소제목과 똑같아 보였다.
+   ⚠️ 제목과 경쟁하지 않게 13px 로 작게 둔다. 히어로 태그라인(20px/600)처럼
+      키우면 제목이 둘이 된다.
+   ⚠️ 색과 선은 면 밝기를 따른다 — 밝은 면 --text-muted / --border,
+      어두운 면 #A0A8B3 / #353C44. */
+.ind-sec-label {
+  display: inline-block;
+  margin: 0;
+  padding: 7px 16px;
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; line-height: 1;
+  color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 999px;
+}
+.ind-head-light .ind-sec-label { color: #A0A8B3; border-color: #353C44; }
+/* 과제 머리는 flex(column · gap 16px)라 간격을 gap 이 쥔다. */
+/* 유즈케이스 쪽은 블록이라 margin 으로 직접 준다. */
+.ind-uc-aside > .ind-sec-label { margin-bottom: 16px; }
 .ind-head-light p { color: #A0A8B3; }
 .ind-flow { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
 .ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191F27; border: 1px solid #292F37; border-radius: var(--radius); padding: 22px 20px; }
