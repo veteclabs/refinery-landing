@@ -251,7 +251,7 @@ const capabilityGroups = [
   /* 섹션 소제목은 예지보전에 대응하는 요소가 없다(거기는 태그라인을 쓴다).
      대신 랜딩 .section-header p(18px / 1.7)에 맞춘다 — 이 페이지 히어로
      소제목도 이미 그 값이라, 16px로 두면 한 페이지 안에서 두 크기가 섞인다. */
-  .wr-page .ind-head p { font-size: 18px; line-height: 1.7; }
+  .wr-page .ind-head p { font-size: 18px; line-height: 1.5; }
   @media (max-width: 900px) { .wr-page .ind-head p { font-size: 16px; } }
 
   /* ───────── 히어로 — 예지보전(.uc-hero-bg)과 같은 구성 ─────────
@@ -357,11 +357,11 @@ const capabilityGroups = [
 
   .wr-hero-bg > .ind-container { position: relative; z-index: 1; }
   /* 랜딩 .section-header p와 같은 값(18px / 1.7 / 600px)으로 맞춘다.
-     .ind-lede의 공통값은 line-height 1.6 · max-width 60ch(=643px)이라 미세하게 어긋났다.
+     .ind-lede의 공통값은 max-width 60ch(=643px)이라 폭이 미세하게 어긋났다(행간은 둘 다 1.5다).
      색만 다르다 — 여기는 어두운 배경 위다. */
   .wr-hero-bg .ind-lede {
     color: rgba(255,255,255,.82);
-    line-height: 1.7; max-width: 600px;
+    line-height: 1.5; max-width: 600px;
   }
   @media (max-width: 900px) {
     .wr-hero-bg .ind-lede { font-size: 16px; }
