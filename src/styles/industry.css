@@ -1504,9 +1504,21 @@ img { max-width: 100%; height: auto; }
       영문은 Problem · Approach · Outcome 으로 길이가 달라 글 시작선이 어긋난다. */
 .ind-uc-dl { margin: 0; display: grid; gap: 10px; max-width: 58ch; }
 .ind-uc-dl > div { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+/* 문제 · 접근 · 성과 — 면을 채운 알약 라벨.
+   ⚠️ justify-self: start 가 있어야 칸(56px) 을 다 채우지 않고 글자만큼만 선다.
+      격자 칸은 기본이 stretch 라, 없으면 알약이 칸 폭까지 늘어난다.
+   ⚠️ 글자색을 --text-muted(#7E8A98)에서 ink-600(#5A6776)으로 내린다. 면을
+      채우면서 바탕이 #EFF2F5 가 되는데, #7E8A98 은 그 위에서 2.9:1 로
+      작은 글자 기준(4.5:1)에 미달이다. #5A6776 은 5.11:1 이다.
+   ⚠️ 모서리는 사이트 공통값(--radius)이다. 999px 짜리 완전한 원형은 앞서
+      섹션 칩에서 한 번 썼다가 사이트 값으로 되돌린 적이 있다. */
 .ind-uc-dl dt {
-  font-size: 11.5px; font-weight: 700; letter-spacing: .08em;
-  color: var(--text-muted);
+  justify-self: start;
+  padding: 4px 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: .04em; line-height: 1.4;
+  color: #5A6776;
+  background: var(--bg-card);
+  border-radius: var(--radius);
 }
 .ind-uc-dl dd {
   margin: 0;
