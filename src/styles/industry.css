@@ -521,10 +521,9 @@ img { max-width: 100%; height: auto; }
 /* 태그라인 — 예지보전은 12px 대문자 eyebrow가 아니라 18px 문장체다.
    하늘색은 배경 밝기와 무관하게 브랜드 값 하나로 통일한다. */
 .ind-hero-bg .ind-eyebrow {
-  font-size: 19px; font-weight: 600; letter-spacing: -0.2px;
-  /* 태그라인은 소제목과 같은 색(--text-muted #7E8A98)이고 굵기는 대제목과 같은
-     600 이다 — 색은 소제목 쪽, 굵기는 대제목 쪽을 따른다. 크기만 둘 다와 다르다
-     (태그 19px · 소제목 18px · 대제목 54px).
+  font-size: 20px; font-weight: 400; letter-spacing: -0.2px;
+  /* 태그라인은 소제목과 색(--text-muted #7E8A98) · 굵기(400)가 같다 — 크기만
+     다르다(태그 20px · 소제목 18px). 대제목(54px / 600)과는 둘 다 다르다.
      ⚠️ 흰 면에서 3.51:1 이라 작은 글자 기준(4.5:1)에 모자란다. --text-muted 가
         라이트 면에서 AA 에 못 미치는 것은 알려진 건이다(CLAUDE.md). */
   text-transform: none; color: var(--text-muted); margin-bottom: 14px;
