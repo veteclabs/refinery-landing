@@ -489,7 +489,10 @@ img { max-width: 100%; height: auto; }
   column-gap: 48px; row-gap: 0;
 }
 .ind-hero-bg .ind-hero-row .ind-eyebrow {
-  grid-column: 1 / -1; grid-row: 1; margin-bottom: 36px;
+  /* 보이는 간격은 그대로 둔다. 행간 1.65 였을 때 글줄 사이가 44px 이었고(상자
+     36 + 글자 아래 여유 5 + 대제목 위 여유 3), 행간을 1 로 누르면 글자 상자가
+     줄 상자 아래로 2px 넘쳐 margin + 1 이 글줄 사이가 된다 — 43px 이면 44px. */
+  grid-column: 1 / -1; grid-row: 1; margin-bottom: 43px;
 }
 .ind-hero-bg .ind-hero-row h1 { grid-column: 1 / -1; grid-row: 2; }
 /* ⚠️ 대제목은 두 칸에 걸친다. 소제목은 아랫줄(3줄)에 있어 가로로 비켜 줄 까닭이
@@ -526,6 +529,10 @@ img { max-width: 100%; height: auto; }
      600 이다 — 20px / 600 으로 소제목(18px / 400)보다 조금 크고 굵다.
      ⚠️ 흰 면에서 3.51:1 이라 작은 글자 기준(4.5:1)에 모자란다. --text-muted 가
         라이트 면에서 AA 에 못 미치는 것은 알려진 건이다(CLAUDE.md). */
+  /* ⚠️ 한 줄짜리 라벨이라 행간을 1 로 눌러 상자를 글자에 맞춘다. 두지 않으면
+     .ind 의 본문 행간 1.65 를 물려받아 20px 글자가 33px 상자에 들어앉고,
+     글자 아래로 5px 이 남아 margin 이 실제 간격을 말하지 못한다. */
+  line-height: 1;
   text-transform: none; color: var(--text-muted); margin-bottom: 14px;
 }
 @media (max-width: 900px) {
