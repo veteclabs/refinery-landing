@@ -407,18 +407,33 @@ img { max-width: 100%; height: auto; }
       대비를 만들 막이 필요 없고, 사진은 제 색 그대로 보인다.
    ⚠️ 1920x1080 원본을 그대로 쓰면 1344px 폭에서 높이가 756px 이라 히어로가 통째로
       밀린다. aspect-ratio 로 띠를 잘라 쓴다(세로 초점은 hero.imagePosition). */
+/* 히어로 사진 — 처음에는 내용 너비(1600px 안쪽 · 좌우 48px)에 서 있다가,
+   스크롤을 내리면 화면 너비를 꽉 채우며 모서리가 펴진다.
+   ⚠️ --grow 는 아래 스크립트가 0 → 1 로 넣는다. 스크립트가 없거나 동작 줄이기를
+      켠 환경에서는 0 그대로라 기본 모습으로 선다.
+   ⚠️ max-width 의 100% 는 담는 상자(.ind-hero-bg, 화면 폭) 기준이다. 1600px 보다
+      넓은 화면에서도 꽉 차게 하려면 이 항이 있어야 한다. */
 .ind-hero-figure {
-  max-width: 1600px; margin: 72px auto 0; padding: 0 48px 96px;
+  --grow: 0;
+  width: 100%;
+  max-width: calc(1600px + (100% - 1600px) * var(--grow));
+  margin: 72px auto 0;
+  /* 아래 여백도 같이 닫는다 — 다 자라면 사진 아랫변이 다음 섹션(현장의 문제)
+     윗변에 그대로 맞닿는다. 96px 을 남겨 두면 꽉 찬 사진 밑에 흰 띠가 생긴다. */
+  padding: 0 calc(48px * (1 - var(--grow))) calc(96px * (1 - var(--grow)));
 }
 .ind-hero-figure-img {
   display: block; width: 100%; height: auto;
   aspect-ratio: 1920 / 720;
   object-fit: cover; object-position: center;
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius) * (1 - var(--grow)));
   pointer-events: none; user-select: none;
 }
 @media (max-width: 900px) {
-  .ind-hero-figure { margin-top: 48px; padding: 0 24px 64px; }
+  .ind-hero-figure {
+    margin-top: 48px;
+    padding: 0 calc(24px * (1 - var(--grow))) calc(64px * (1 - var(--grow)));
+  }
   .ind-hero-figure-img { aspect-ratio: 16 / 10; }
 }
 .ind-hero-bg > .ind-container { position: relative; z-index: 1; }
