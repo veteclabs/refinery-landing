@@ -20,7 +20,7 @@ export const electronics: IndustryData = {
     lede: '생산 설비 ⁠· 전력 ⁠· 미세환경에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 정전과 환경 이상을 먼저 감지하고 원인을 설명합니다. 최대 수요 전력 감시부터 UPS 연계 정전 알람, 온습도 실시간 관제까지.',
   },
   challenges: {
-    title: '전자 제조 현장의 문제',
+    title: '전자 및 정밀 현장의 문제',
     subtitle: '반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -65,7 +65,7 @@ export const electronics: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
+    title: 'Refinery가\n문제를 푸는 방법',
     subtitle: '전자 ⁠· 정밀 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [

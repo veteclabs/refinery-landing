@@ -20,7 +20,7 @@ export const steelEn: IndustryData = {
     lede: 'Data scattered across heat treatment, forming and coating is connected through an ontology, and an AI agent catches the shifts that move quality first and explains the cause. From target-power load control to heat-treatment temperature pattern analysis and vibration-based equipment monitoring.',
   },
   challenges: {
-    title: 'Challenges on\nsteel sites',
+    title: 'Challenges in steel and materials',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -60,7 +60,7 @@ export const steelEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
+    title: 'How Refinery\nsolves the problems',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a steel site.',
     layout: 'table',
     items: [
