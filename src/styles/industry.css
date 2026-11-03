@@ -712,10 +712,29 @@ img { max-width: 100%; height: auto; }
    값이라, 그대로 쓰면 결이 거의 사라지고 섹션 면색만 남는다.
    면 전체를 제 색 · 제 밝기로 깐다 — 원본이 이미 #1E2630 쯤으로 어둡다. */
 .ind-challenges .ind-section-bg-img {
-  inset: 0; width: 100%; height: 100%;
   filter: none; opacity: 1;
   -webkit-mask-image: none; mask-image: none;
+  /* 내용 너비에 맞춘 상자다. 모서리는 히어로 사진(.ind-hero-figure)과 같은
+     var(--radius).
+     ⚠️ 폭은 .ind-container 의 기본값(1120px)이 아니라 산업 페이지가 덮어쓴 값을
+        따라야 한다 — .ind-page .ind-container 가 max-width 1600px · 좌우 여백
+        48px(900px 이하 24px)이다. 1120px 으로 잡았더니 1440px 화면에서 칸틀
+        (1329px)이 상자 밖으로 104px 씩 삐져나왔다.
+     면 전체를 덮던 때는 섹션이 화면 끝까지 어두운 띠였는데, 폭을 맞추면
+     밝은 쪽 면 위에 패널 하나가 떠 있는 모습이 된다. */
+  top: 0; bottom: 0; right: auto; height: 100%;
+  left: 50%; transform: translateX(-50%);
+  width: calc(min(1600px, 100%) - 96px);
+  border-radius: var(--radius);
 }
+@media (max-width: 900px) {
+  .ind-challenges .ind-section-bg-img { width: calc(min(1600px, 100%) - 48px); }
+}
+/* 섹션 면색을 지운다. 어두운 면은 이제 배경 상자가 들고 있다 — 남겨 두면
+   상자 밖까지 어두워 폭을 맞춘 뜻이 사라진다.
+   글자 · 칸 색은 .ind-soft-dark 의 밝은 한 벌을 그대로 쓴다. 모두 상자 안에
+   서기 때문이다. */
+.ind-challenges.ind-soft-dark { background: transparent; }
 
 /* ───────── 어두운 과제 섹션 (challenges.dark 지정 시)
    예지보전 '푸는 방식' 섹션(.uc-redesigned .ind-soft)과 같은 값이다.
@@ -778,6 +797,44 @@ img { max-width: 100%; height: auto; }
 /* 어두운 면(challenges.dark)에서는 선 색과 칸 면만 바꾼다. */
 .ind-soft-dark .ind-grid-rule { background: #353C44; border-color: #353C44; }
 .ind-soft-dark .ind-grid-rule > .ind-card { background: #191F27; }
+
+/* ───────── 배경 상자를 깐 과제 섹션 — 한 줄 네 칸 · 사이에 세로선만
+   칸 면과 바깥 테두리를 걷는다. 면을 깔면 뒤의 비단결 상자가 그만큼 가려진다.
+   ⚠️ 위의 틈 1px 기법을 여기서는 쓸 수 없다. 그 방식은 칸이 불투명해야 틈만
+      선으로 보이는데, 칸을 투명으로 두면 격자 바닥이 통째로 드러난다.
+      그래서 선은 칸의 왼쪽 테두리로 긋고, 줄 맨 앞 칸에서만 지운다.
+   ⚠️ 번호를 제목 옆이 아니라 위로 올린다. 네 칸으로 나누면 한 칸이 300px 아래라
+      옆에 두면 글 폭이 그만큼 깎인다. */
+.ind-soft-dark .ind-grid-rule {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  background: transparent;
+  border: 0; border-radius: 0; overflow: visible;
+}
+.ind-soft-dark .ind-grid-rule > .ind-card {
+  background: transparent; box-shadow: none;
+  display: block;
+  padding: 2px 26px;
+  border-left: 1px solid #353C44;
+}
+.ind-soft-dark .ind-grid-rule > .ind-card:first-child { border-left: 0; padding-left: 0; }
+.ind-soft-dark .ind-grid-rule > .ind-card:last-child { padding-right: 0; }
+/* 홀수 항목이 한 줄을 다 쓰던 규칙은 여기서 끈다 — 틈이 없어 구멍이 생기지 않는다. */
+.ind-soft-dark .ind-grid-rule > .ind-card:last-child:nth-child(odd) { grid-column: auto; }
+.ind-soft-dark .ind-rule-num { display: block; margin-bottom: 14px; width: auto; }
+
+/* 네 칸이 좁아지면 두 칸 → 한 칸으로 접는다. 접힌 줄 사이는 가로선으로 잇는다. */
+@media (max-width: 1180px) {
+  .ind-soft-dark .ind-grid-rule { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 34px; }
+  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(2n+1) { border-left: 0; padding-left: 0; }
+  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(2n) { padding-right: 0; }
+  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(n+3) { border-top: 1px solid #353C44; padding-top: 34px; }
+}
+@media (max-width: 860px) {
+  .ind-soft-dark .ind-grid-rule { grid-template-columns: 1fr; row-gap: 30px; }
+  .ind-soft-dark .ind-grid-rule > .ind-card { border-left: 0; padding: 0; }
+  .ind-soft-dark .ind-grid-rule > .ind-card:nth-child(n+2) { border-top: 1px solid #353C44; padding-top: 30px; }
+}
 /* 번호 — 사람 아이콘 자리를 대신한다.
    ⚠️ 폭을 못박는다. 두 자리 숫자라 폭이 거의 같지만, tabular-nums 가 없으면
       글꼴에 따라 1 이 좁아 칸마다 글 시작선이 어긋난다.
