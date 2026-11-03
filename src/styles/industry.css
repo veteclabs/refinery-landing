@@ -941,6 +941,22 @@ img { max-width: 100%; height: auto; }
    철강 473 · 자동차 482 는 원래 한 줄이고, 전자·정밀과 화학은 <br> 로 줄을
    고정해 두 줄이다. */
 .ind-page .ind-challenges .ind-head p { flex: 1 1 0; min-width: 420px; max-width: 660px; }
+/* 문제 섹션 머리글만 가운데로 세운다. .ind-page .ind-head 는 제목을 왼쪽,
+   소제목을 오른쪽으로 벌리는 한 줄(flex row)인데, 여기서는 세로로 쌓아
+   둘 다 가운데에 둔다.
+   ⚠️ 위 줄의 flex: 1 1 0 · min-width 420px 을 함께 되돌려야 한다. 남는 자리를
+      채우라는 값이라 세로로 쌓은 뒤에도 소제목 칸이 머리 폭을 다 먹어, 글은
+      가운데여도 칸은 끝에서 끝까지 걸친다.
+   ⚠️ 좁은 폭에서 산업별로 걸어 둔 text-align: left 보다 뒤에 적는다 — 특이도가
+      같아 순서로 이긴다. */
+.ind-page .ind-challenges .ind-head {
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 16px;
+}
+.ind-page .ind-challenges .ind-head p {
+  flex: 0 1 auto; min-width: 0; max-width: 660px;
+  margin-top: 0; text-align: center;
+}
 /* 도입 효과 소제목도 한 줄로 둔다. 영문 'Benefits across operations, engineering
    and management.'가 468px이라 400px 칸에서는 두 줄이 됐다. 490px으로 올린다 —
    제목 'What you gain' 287px + gap 32px 과 합쳐도 머리 폭에 넉넉히 들어간다.
