@@ -36,6 +36,11 @@ export const automotiveEn: IndustryData = {
         description:
           'Electrification and tighter quality standards demand all three together, but the data sits in separate systems.',
       },
+      {
+        title: 'No common yardstick for output against energy',
+        description:
+          'Output and energy are tallied separately per line and model, so there is no shared basis for telling where efficiency drops.',
+      },
     ],
   },
   useCases: {

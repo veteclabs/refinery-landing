@@ -719,7 +719,11 @@ img { max-width: 100%; height: auto; }
   border-left: 1px solid var(--border);
 }
 .ind-grid-rule > .ind-card {
-  background: transparent;
+  /* 칸 면은 섹션 바탕보다 한 단 어둡다 — 램프에서 --bg-soft(#F6F8FA) 바로
+     아래 칸인 --bg-card(#EFF2F5)다. 선과 면이 함께 칸을 나눈다.
+     ⚠️ 아래 .ind-soft-dark 쪽은 transparent 를 그대로 둔다 — 어두운 면에서
+        밝은 칸이 되면 안 된다. */
+  background: var(--bg-card);
   border: 0;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
