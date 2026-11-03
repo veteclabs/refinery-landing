@@ -722,7 +722,6 @@ img { max-width: 100%; height: auto; }
   transition: box-shadow .15s ease;
 }
 
-
 /* ───────── 과제 섹션 — 선으로 나눈 칸
    카드(면 + 테두리 + 둥근 모서리 + 그림자)를 걷고 선만 남긴다. 네 문제를 2x2 로
    놓고 바깥 테두리와 칸 사이 선을 1px 로 긋는다 — 면이 없으므로 섹션 바탕
@@ -783,7 +782,6 @@ img { max-width: 100%; height: auto; }
   color: #5A6776;
 }
 .ind-soft-dark .ind-rule-num { color: #7E8A98; }
-
 
 /* ═════════ 산업 페이지 전용 (.ind-page)
    아래 값들은 예지보전(.uc-redesigned)과 맞춘 것이다. industry.css는 회사 소개·
@@ -963,7 +961,6 @@ img { max-width: 100%; height: auto; }
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
 
 /* 영문 자동차 — '연동 시스템' 카드 머리. 소제목이 아래로 내려가면 왼쪽 맞춤으로
    바꾼다. 제목 옆에 설 때는 오른쪽 끝에서 제목과 양 끝을 맞추는 것이 맞지만,
@@ -1168,252 +1165,116 @@ img { max-width: 100%; height: auto; }
 /* ───────── 유즈케이스 — 번호 레일 (useCases.layout: 'steps')
    번호 원을 왼쪽에 세로로 세우고 내용을 오른쪽에 둔다. 번호를 누르면 그 내용에만
    말풍선 상자가 생기고, 꼬리가 그 번호를 가리킨다. 내용은 처음부터 모두 보이므로
-   탭이 아니라 강조 선택이다.
+   표다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 같은 칸끼리 세로로 비교된다.
    플래그를 준 산업에만 붙는다 — 기존 .ind-usecase 목록은 그대로 둔다. */
-/* 큰 카드 — 다섯 줄 전체를 한 장 안에 담는다. 면은 도입 효과 섹션 배경과 같은
-   --bg-soft(#F6F8FA)다. 그래서 선택된 줄은 반대로 흰 면(--bg)으로 채운다 —
-   둘을 같은 색으로 두면 선택이 카드에 묻혀 아예 보이지 않는다.
-   내용은 카드 안에서 가운데로 모은다 — 카드 폭(1184px)을 다 쓰면 한 줄이
-   너무 길어져 문제 · 접근 · 성과가 눈으로 이어지지 않는다. */
+/* 소제목 + 표를 세로로 쌓는다. 면도 테두리도 두지 않는다 — 표의 가로줄이
+   이미 구조를 만들고 있어 바깥 상자를 더하면 선이 겹쳐 보인다. */
 .ind-uc-shell {
-  display: grid;
-  grid-template-columns: minmax(200px, 280px) 1fr;
-  column-gap: 48px;
-  align-items: start;
-  background: var(--bg-soft);
-  border-radius: var(--radius);
-  padding: 72px;
+  display: block;
 }
 /* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 28px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
    제목과 같은 값이다. 줄 나눔은 데이터의 개행을 lines()가 <br>로 바꿔 넣는다. */
 .ind-uc-lede {
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
-  color: var(--text);
+  margin-bottom: 48px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 640px;
   word-break: keep-all;
 }
-/* 형광펜 — 글자 아래 절반에만 #DCE8F5 띠를 깐다. 배경을 통째로 칠하면
-   글자가 면 안에 갇혀 라벨처럼 보인다. 그라데이션의 색 경계를 55% 지점에
-   딱 끊어 붓으로 그은 자국처럼 만든다. 글자색은 건드리지 않는다
-   (#16202C 대비 13.24:1). */
+/* 강조는 먹색 + 굵기다. 예전 형광펜(#DCE8F5 띠)은 28px 굵은 글씨에 맞춰 둔
+   것인데, 소제목이 18px 흐린 회색이 되면서 띠만 떠 보여 걷었다. */
 .ind-uc-lede mark {
-  background: linear-gradient(transparent 55%, #dce8f5 55%);
-  color: inherit;
-  padding: 0 2px;
-  margin: 0 -2px;
-}
-.ind-uc-steps {
-  --uc-dot: 50px;      /* 원 지름 */
-  --uc-gap: 14px;      /* 줄 사이 */
-  --uc-top: 11px;      /* 줄 위끝에서 원 위까지 — 원 중심이 제목 줄 중심에 오는 값 */
-  display: grid;
-  grid-template-columns: 68px 1fr;
-  column-gap: 28px;
-  row-gap: var(--uc-gap);
-  align-items: stretch;
-}
-/* 원은 제목 줄에 맞춘다. button은 기본으로 내용을 세로 가운데에 두므로
-   align-content: start로 위에 붙이고 --uc-top만큼 내린다.
-   내용 안 여백 20px + 제목 줄 중심 16px - 반지름 25px = 11px. */
-.ind-uc-dot {
-  position: relative;
-  display: grid;
-  align-content: start;
-  width: 68px;
-  padding: var(--uc-top) 0 0;
-  border: 0;
   background: none;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  -webkit-tap-highlight-color: transparent;
-}
-/* 원과 원을 잇는 선. 원에 딱 붙도록 두 토막으로 나눠 긋는다.
-   ::before는 줄 위끝에서 원 위까지(--uc-top), ::after는 원 아래에서 줄 아래끝 + 줄간격까지.
-   ::after가 줄간격을 메우고 다음 줄의 ::before가 이어받아 끊기지 않는다.
-   첫 원 위와 마지막 원 아래로는 긋지 않는다. */
-.ind-uc-dot::before,
-.ind-uc-dot::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  /* 두께 · 색 모두 원 테두리와 같다(3px · --accent). 1px 회색일 때는 선과
-     원이 서로 다른 요소처럼 끊겨 보였다. 굵기가 서로 다르면 같은 문제가
-     다시 생기므로 원과 늘 같은 값으로 둔다. */
-  width: 3px;
-  margin-left: -1.5px;
-  background: var(--accent);
-}
-.ind-uc-dot::before { top: 0; height: var(--uc-top); }
-.ind-uc-dot::after { top: calc(var(--uc-top) + var(--uc-dot)); bottom: calc(-1 * var(--uc-gap)); }
-.ind-uc-dot:first-of-type::before,
-.ind-uc-dot:last-of-type::after { display: none; }
-.ind-uc-dot-circle {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: var(--uc-dot);
-  height: var(--uc-dot);
-  margin: 0 auto;
-  border-radius: 50%;
-  /* 테두리와 글자 모두 하늘색(--accent, #76A6D7). 선택되면 같은 색 면으로
-     차고 글자만 흰색으로 뒤집힌다. 선 두께 3px — 1px은 하늘색이 옅어 선이
-     회색처럼 읽혔고, 2px에서는 선택 안 된 빈 원이 선택된 원에 비해 흐릿했다.
-     원이 50px이라 3px도 숫자를 누르지 않는다. */
-  border: 3px solid var(--accent);
-  background: var(--bg);
-  color: var(--accent);
-  /* 본문 서체 18px/600에 자간 -0.2px. 등폭 서체를 쓰지 않는다.
-     (예전에는 히어로 태그라인과 같은 값이었는데, 그쪽이 15px 로 내려가 갈라졌다.) */
-  font-size: 18px;
+  color: var(--text);
   font-weight: 600;
-  letter-spacing: -0.2px;
-  line-height: 1;
-  transition: background-color .18s, border-color .18s, color .18s;
 }
-.ind-uc-dot:hover .ind-uc-dot-circle { border-color: var(--accent); color: var(--accent-ink); }
-.ind-uc-dot:focus-visible { outline: none; }
-.ind-uc-dot:focus-visible .ind-uc-dot-circle { outline: 2px solid var(--accent-ink); outline-offset: 3px; }
-.ind-uc-dot[aria-pressed='true'] .ind-uc-dot-circle {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-/* 선택된 상자는 테두리 없이 면으로만 구분한다 — 큰 카드가 --bg-soft라
-   여기는 흰 면(--bg)이다. 안 여백과 투명 테두리를 늘 갖고 있어 선택이
-   옮겨 다녀도 글 위치가 흔들리지 않는다. 그림자는 걸지 않는다. */
-/* 상자를 눌러도 선택된다. 접근성 조작은 번호 버튼이 맡으므로 여기에는
-   탭 순서를 새로 만들지 않는다 — 다섯 칸이 두 번씩 잡히면 오히려 번거롭다. */
-.ind-uc-panel {
-  position: relative;
-  cursor: pointer;
-  padding: 20px 24px;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  transition: background-color .18s, border-color .18s, filter .18s;
-}
-.ind-uc-panel[data-active='true'] {
-  background: var(--bg);
-  /* 눌린 카드가 큰 카드 면에서 아주 살짝 떠 보이는 정도로만 둔다.
-     box-shadow가 아니라 filter: drop-shadow다 — box-shadow는 상자만 따라가
-     꼬리가 그림자 밖에 남고 이음매가 생긴다. drop-shadow는 가상 요소를 포함한
-     '그려진 결과'를 감싸므로 카드와 꼬리가 하나의 도형으로 그늘을 진다.
-     번짐은 box-shadow의 절반값이 비슷하게 보인다(16px → 8px). */
-  filter: drop-shadow(0 3px 8px rgba(16, 32, 44, .05));
-}
-/* 꼬리 — 상자 왼쪽에서 번호 쪽으로 나간다. 높이는 원 중심에 맞춘다
-   (상자 위끝 = 줄 위끝이므로 원과 같은 --uc-top + 반지름 자리다).
-   문제 섹션 말풍선과 같은 18x16px(border-width: 8px 18px 8px 0)이고, 그쪽처럼
-   면색 삼각형 한 장이다 — 상자에 테두리가 없으니 덧댈 선도 없다. */
-.ind-uc-panel::after {
-  content: '';
-  position: absolute;
-  top: calc(var(--uc-top) + var(--uc-dot) / 2);
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-color: transparent;
-  opacity: 0;
-  transform: translateY(-50%);
-  transition: opacity .18s;
-  pointer-events: none;
-}
-.ind-uc-panel::after { left: -18px; border-width: 8px 18px 8px 0; border-right-color: var(--bg); }
-.ind-uc-panel[data-active='true']::after { opacity: 1; }
-
-/* 글자값은 도입 효과 섹션 카드(.ind-page .ind-card)와 같다 —
-   제목 20px/600/줄높이 1.6/아래 5px, 본문 15px/줄높이 1.5/--text-muted.
-   그 카드에는 없는 것은 항목 이름(문제 · 접근 · 성과)뿐이다. */
-/* 제목 아래 15px — 도입 효과 카드와 같은 5px에서 10px 더 뒀다. 그 카드는 바로
-   문단이 오지만 여기는 알약이 붙은 세 줄이라 제목이 목록에 붙어 보였다. */
-.ind-uc-panel h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.6; margin-bottom: 15px; }
-/* 항목 사이 10px. 알약을 두르면서 기준이 글자가 아니라 도형이 됐다 —
-   6px일 때 알약과 알약이 6px 간격으로 붙어 세 개가 한 덩어리로 뭉쳤다.
-   글자만 있을 때는 줄높이 여백(위아래 7.5px씩)이 사이를 벌려 줬지만
-   도형은 그 여백을 덮어쓴다. */
-.ind-uc-panel dl { display: grid; gap: 10px; }
-.ind-uc-panel dl > div { display: grid; grid-template-columns: 62px 1fr; gap: 14px; }
-/* 항목 이름(문제 · 접근 · 성과)도 내용과 같은 값을 쓴다 — 15px / 줄높이 1.5 /
-   --text-muted. 굵기만 600으로 남겨 이름과 내용이 구분된다.
-   align-items를 baseline에서 start로 바꾼다 — 크기가 같아지면 첫 줄 밑선이
-   저절로 맞으므로 baseline이 필요 없고, 내용이 두 줄이 될 때 이름이 따라
-   내려가지 않는다. */
-.ind-uc-panel dl > div { align-items: start; }
-/* 이름은 내용보다 2px 작은 13px이다. 줄높이는 내용과 같은 22.5px으로 못박아
-   글자 크기가 달라도 도형 높이와 첫 줄 윗선이 어긋나지 않는다.
-   이름은 알약 도형을 두른다. 면 #EFF2F5에 글자 #5A6776 — 대비 5.03:1이다.
-   본문색 #7E8A98을 그대로 쓰면 대비가 3.13:1로 AA(4.5:1)에 못 미친다.
-   13px은 큰 글자 기준(18.66px 굵게 · 24px)에 들지 않아 3:1로 완화되지도
-   않는다. 두 단계 어둡게 잡아 기준을 넘긴다.
-   면이 카드 색과 다르므로 선택 여부와 무관하게 늘 보인다.
-   위아래 여백은 주지 않는다. 줄높이(22.5px)가 그대로 도형 높이가 되어
-   이름과 내용의 첫 줄 윗선이 어긋나지 않는다.
-   글자는 도형 안에서 가운데 정렬한다 — 세 이름의 글자 폭이 같지 않아
-   (문제 · 접근 · 성과) 왼쪽에 붙이면 도형 안에서 제각각으로 보인다.
-   가로 길이는 칸 폭(76px)이 정한다. 글자에 딱 맞추면 알약이라기보다
-   글자를 감싼 조각처럼 보여서, 좌우로 더 늘려 도형이 먼저 읽히게 했다. */
-.ind-uc-panel dt {
-  justify-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 낱자 사이만 벌린다. letter-spacing은 마지막 글자 뒤에도 자간을 남겨
-     가운데 정렬이 어긋나고, 그 여백을 세는 방식이 브라우저마다 달라
-     보정값(text-indent)이 한 브라우저에서만 맞는다. gap은 사이에만 들어간다. */
-  gap: .35em;
-  /* 위 2px은 세로 보정이다. 한글 글자는 줄 상자 안에서 위쪽에 놓여, 상자를
-     가운데 정렬해도 글자는 1.3~2.4px 떠 보인다. 줄높이를 그만큼 줄여
-     상자 높이(22.5px)는 유지한 채 글자만 내린다. */
-  padding: 2px 10px 0;
-  border-radius: 999px;
-  background: #eff2f5;
-  font-size: 13px; font-weight: 600; color: #5A6776;
-  line-height: 20.5px;
-  transition: background-color .18s;
-}
-.ind-uc-panel dd { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
 
 /* 안 여백은 상하좌우가 같다. 좁아질수록 값을 줄인다 — 48px을 그대로 두면
    375px에서 내용이 229px밖에 안 남아 글이 잘게 감긴다. */
 /* 900px 이하에서는 두 칸을 위아래로 쌓는다. 왼쪽 칸이 200px 밑으로 좁아지면
    소제목이 서너 글자씩 감겨 읽히지 않는다. */
 @media (max-width: 900px) {
-  .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; padding: 40px 32px; }
-  .ind-uc-lede { font-size: 24px; }
+  .ind-uc-lede { margin-bottom: 32px; font-size: 16px; }
 }
-/* 에너지·유틸리티 — 카드 안 글이 좁은 기둥에 눌리기 전에 두 칸을 위아래로 쌓는다.
-   기준은 흰 카드(.ind-uc-panel) 자체다. 오른쪽 칸(.ind-uc-steps)에는 번호 원 68px +
-   간격 28px 이 함께 들어 있어 칸으로 재면 96px 넓게 나온다 — 둘을 섞지 말 것.
-     카드 폭은 1300px 이상에서 616px 로 고정된다(컨테이너 max-width 1184 → 안쪽 1040,
-   거기서 소제목 칸 280 · gap 48 · 번호 96 을 뺀 값).
 
-   값은 비율이 아니라 **줄당 글자 수**로 정했다. 가장 긴 문장('접근' 줄) 실측 —
-     1300px  글폭 490   국문 1줄 37자 · 영문 2줄 58자
-     1200px  글폭 410   국문 2줄 31자 · 영문 2줄 46자     ← 여기까지 읽을 만하다
-     1150px  글폭 360   국문 2줄 28자 · 영문 3줄 38자     ← 영문이 3줄로 쪼개진다
-     1101px  글폭 311   국문 2줄 25자 · 영문 3줄 32자
-   통상 범위는 한국어 25~40자 · 영어 45~75자다. 영문이 먼저 무너지므로 영문이
-   2줄 46자를 지키는 마지막 지점인 1200px 을 경계로 둔다(카드 비율로는 87%).
+/* ───────── 유즈케이스 표
+   ⚠️ 진짜 <table>이다. 내용이 실제로 2차원이라 화면 낭독기가 "3행 접근" 식으로
+      짚어 준다. 제목 칸은 <th scope="row">라 각 줄의 값이 어느 항목 것인지 잇는다.
+   ⚠️ 줄 사이는 가로선 하나로만 나눈다. 세로선까지 그으면 칸이 스무 개로 쪼개져
+      격자가 내용보다 먼저 보인다. */
+.ind-uc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.ind-uc-table thead th {
+  text-align: left;
+  padding: 0 16px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+.ind-uc-table td,
+.ind-uc-table tbody th {
+  text-align: left;
+  vertical-align: top;
+  padding: 22px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+/* 번호 — 격자 칸과 같은 값이다(ink-600, tabular). */
+.ind-uc-cn {
+  width: 56px;
+  color: #5A6776;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+/* 항목 이름 — 이 줄에서 유일하게 먹색이다. */
+.ind-uc-ct {
+  width: 208px;
+  color: var(--text) !important;
+  font-weight: 650 !important;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+/* 성과 — 끝점이라 한 단 진하게 둔다. */
+.ind-uc-out { color: #5A6776; font-weight: 500; }
+/* 첫 칸과 마지막 칸은 바깥 여백을 뺀다 — 표가 글 왼쪽 선에 맞아 선다. */
+.ind-uc-table th:first-child,
+.ind-uc-table td:first-child { padding-left: 0; }
+.ind-uc-table th:last-child,
+.ind-uc-table td:last-child { padding-right: 0; }
+/* ⚠️ 좁은 폭에서는 표를 풀어 항목마다 블록으로 쌓는다. 가로 스크롤 상자에
+   가두면 오른쪽 두 열을 아무도 안 본다. 라벨은 ::before 로 되살린다. */
+@media (max-width: 900px) {
+  .ind-uc-table, .ind-uc-table tbody, .ind-uc-table tr,
+  .ind-uc-table td, .ind-uc-table tbody th { display: block; width: auto; }
+  .ind-uc-table thead { display: none; }
+  .ind-uc-table tr { padding: 22px 0; border-bottom: 1px solid var(--border); }
+  .ind-uc-table td, .ind-uc-table tbody th { padding: 0; border: 0; }
+  .ind-uc-cn { font-size: 13px; margin-bottom: 4px; }
+  .ind-uc-ct { font-size: 18px; margin-bottom: 12px; }
+  .ind-uc-table tbody td:not(.ind-uc-cn) { margin-top: 10px; }
+  .ind-uc-table tbody td:not(.ind-uc-cn)::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .08em;
+    color: var(--text-muted); margin-bottom: 3px;
+  }
+}
 
-   세로로 내려가면 글폭이 311 -> 638px 으로 두 배가 된다. 이 레이아웃에서는
-   가로를 오래 버티는 쪽이 오히려 읽기 나쁘다 — 경계를 늦추지 말 것.
-   padding 과 소제목 크기는 그대로 둔다 — 그건 900px 아래의 좁은 화면용 값이다. */
-@media (max-width: 1200px) {
-  .ind-page.ind-energy .ind-uc-shell,
-.ind-page.ind-electronics .ind-uc-shell,
-.ind-page.ind-automotive .ind-uc-shell { grid-template-columns: 1fr; row-gap: 28px; }
-  /* 세로로 내려가면 소제목 칸이 280px 에서 전체 폭으로 넓어진다. 좁은 칸에 맞춰
-     잡아 둔 둘째 줄 나눔이 더는 필요 없어 세 줄이 두 줄이 된다.
-     ('에너지 현장에서 / Refinery가 실제로 하는 일입니다.')
-     영문은 데이터가 원래 두 줄이라 해당 <br>이 없다. */
-  .ind-page.ind-energy .ind-uc-lede .uc-lede-br,
-.ind-page.ind-electronics .ind-uc-lede .uc-lede-br,
-.ind-page.ind-automotive .ind-uc-lede .uc-lede-br { display: none; }
+/* 화면에는 안 보이고 낭독기만 읽는 글. 표의 번호 · 항목 열 머리에 쓴다. */
+.ind-sr {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 
 /* 에너지·유틸리티 — 'Refinery' 칸이 세 줄이 되는 자리에서 '활용' 칸도 세 줄로 간다.
@@ -1561,9 +1422,6 @@ img { max-width: 100%; height: auto; }
      짧은 카드 넷이 한 줄로 붙어, 두 줄인 긴 카드 둘과 어긋난다. */
   .ind-page.ind-energy .ind-grid-3 .ind-card p br { display: inline; }
 }
-/* 영어 이름은 Problem · Approach · Outcome으로 길다. 낱자 간격을 없애고
-   칸을 넓혀야 알약 안에 들어간다(한국어는 두 글자 62px). */
-.ind-en .ind-uc-panel dl > div { grid-template-columns: 92px 1fr; }
 
 /* 영문 말풍선 글은 줄바꿈을 손으로 넣지 않는다 — 영어는 자연 줄바꿈이 잘 되고,
    한글처럼 <br>를 박으면 화면 폭이 바뀔 때마다 자리가 어긋난다.
@@ -1576,16 +1434,7 @@ img { max-width: 100%; height: auto; }
    글을 위한 설정이고 본문에는 pretty가 맞다.
    한글에는 걸지 않는다. 수동 <br>가 있어 데스크톱에서는 아무 효과가 없다. */
 .ind-en .ind-grid-rule .ind-card p { text-wrap: pretty; }
-.ind-en .ind-uc-panel dt { gap: 0; }
 
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 24px 20px; }
-  /* 꼬리(18px)가 원과 겹치지 않도록 열 간격을 24px로 둔다. */
-  /* 원이 44px이라 --uc-top도 다시 잡는다 — 안 여백 16px + 제목 줄 중심 16px
-     - 반지름 22px = 10px. */
-  .ind-uc-steps { --uc-dot: 44px; --uc-top: 10px; grid-template-columns: 48px 1fr; column-gap: 24px; }
-  .ind-uc-dot { width: 48px; }
-  .ind-uc-dot-circle { font-size: 17px; }
-  .ind-uc-panel { padding: 16px 18px; }
-  .ind-uc-panel dl > div { grid-template-columns: 58px 1fr; gap: 10px; }
 }

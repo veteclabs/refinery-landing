@@ -48,8 +48,8 @@ export const chemicalsEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a chemical site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a chemical site.',
+    layout: 'table',
     items: [
       {
         title: 'Unified electricity, LNG, steam and water monitoring',

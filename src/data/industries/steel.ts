@@ -44,8 +44,8 @@ export const steel: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '철강 ⁠· 소재 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    subtitle: '철강 ⁠· 소재 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '최대 수요 전력 감시 ⁠· 목표전력 부하 제어',

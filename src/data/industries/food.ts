@@ -44,8 +44,8 @@ export const food: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '식품 제조 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    subtitle: '식품 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '공기압축기 ⁠· 냉동기 전력 소비 ⁠· 운전 패턴 분석',

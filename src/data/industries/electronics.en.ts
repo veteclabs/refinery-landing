@@ -48,8 +48,8 @@ export const electronicsEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an electronics site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an electronics site.',
+    layout: 'table',
     items: [
       {
         title: 'Live peak demand monitoring and load control',

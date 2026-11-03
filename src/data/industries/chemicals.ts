@@ -46,8 +46,8 @@ export const chemicals: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '화학 공정 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    subtitle: '화학 공정 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도 통합 감시',

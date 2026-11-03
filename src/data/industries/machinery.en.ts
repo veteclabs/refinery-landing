@@ -47,8 +47,8 @@ export const machineryEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a plant site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a plant site.',
+    layout: 'table',
     items: [
       {
         title: 'Demand-based compressed air control and monitoring',

@@ -46,8 +46,8 @@ export const steelEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a steel site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a steel site.',
+    layout: 'table',
     items: [
       {
         title: 'Peak demand monitoring and target-based load control',

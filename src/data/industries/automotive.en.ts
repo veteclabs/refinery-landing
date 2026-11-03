@@ -45,8 +45,8 @@ export const automotiveEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an automotive site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an automotive site.',
+    layout: 'table',
     items: [
       {
         title: 'Vibration-based predictive maintenance for motors and rotating equipment',

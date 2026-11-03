@@ -46,8 +46,8 @@ export const electronics: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '전자 ⁠· 정밀 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
-    layout: 'steps',
+    subtitle: '전자 ⁠· 정밀 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '최대 수요 전력 실시간 감시 ⁠· 부하 제어',

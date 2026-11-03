@@ -74,9 +74,11 @@ export interface IndustryData {
   useCases: {
     title: string;
     subtitle?: string;
-    /** 'steps'면 좌측 번호 레일 + 우측 내용으로 그린다(번호를 누르면 그 내용에 상자).
-     *  지정하지 않으면 기존 카드 목록 그대로다 — 다른 산업 페이지는 건드리지 않는다. */
-    layout?: 'cards' | 'steps';
+    /** 'table'이면 표로 그린다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 같은 칸끼리
+     *  세로로 비교된다. 지정하지 않으면 카드 목록이다.
+     *  (예전에는 'steps'로 좌측 번호 레일 + 우측 패널을 그렸는데, 1~5번이 순서가
+     *   아니라 병렬 항목인데도 레일과 연결선이 '순차 단계'로 읽혀 걷었다.) */
+    layout?: 'cards' | 'table';
     items: UseCase[];
   };
   architecture: {

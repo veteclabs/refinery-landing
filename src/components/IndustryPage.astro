@@ -20,11 +20,13 @@ const T = {
     crumbAria: '위치', industries: 'Industries', industriesHref: '/#industries',
     contactHref: '/contact',
     problem: '문제', approach: '접근', outcome: '성과',
+    number: '번호', useCase: '하는 일',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
     contactHref: '/en/contact',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
+    number: 'No.', useCase: 'Use case',
   },
 }[lang];
 
@@ -158,44 +160,42 @@ const lines = (s: string) => s.split('\n');
           <h2>{ind.useCases.title}</h2>
           {/* steps 레이아웃에서는 소제목을 큰 카드 왼쪽 칸에서 낸다 —
               같은 문장을 머리와 카드에 두 번 두지 않는다. */}
-          {ind.useCases.subtitle && ind.useCases.layout !== 'steps' && <p>{ind.useCases.subtitle}</p>}
+          {ind.useCases.subtitle && ind.useCases.layout !== 'table' && <p>{ind.useCases.subtitle}</p>}
         </header>
-        {ind.useCases.layout === 'steps' ? (
-          /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
-             줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
+        {ind.useCases.layout === 'table' ? (
+          /* 표다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 진짜 <table>을 쓴다:
+             내용이 실제로 2차원이라 화면 낭독기도 "3행 접근" 식으로 짚어 준다.
+             ⚠️ 제목 칸은 <th scope="row">다. 그래야 각 줄의 값이 어느 항목 것인지
+                낭독기가 잇는다. */
           <div class="ind-uc-shell">
-          {/* 개행은 <br>로 바꿔서 낸다. 데이터가 <mark> 같은 강조를 품을 수 있어
-              set:html을 쓴다 — 값은 우리가 쓰는 문자열이라 외부 입력이 아니다. */}
+          {/* ⚠️ 줄 나눔은 브라우저에 맡긴다 — 박아 둔 <br>은 폭이 바뀌면 어긋난다.
+              데이터가 <mark> 강조를 품어 set:html을 쓴다(값은 우리가 쓰는 문자열이다). */}
           {ind.useCases.subtitle && (
-            <p class="ind-uc-lede" set:html={lines(ind.useCases.subtitle).join('<br>')} />
+            <p class="ind-uc-lede" set:html={ind.useCases.subtitle} />
           )}
-          <div class="ind-uc-steps" data-uc-steps>
-            {ind.useCases.items.map((u, i) => (
-              <>
-                <button
-                  type="button"
-                  class="ind-uc-dot"
-                  data-uc-dot={i}
-                  aria-pressed={i === 0 ? 'true' : 'false'}
-                  aria-label={`${i + 1}. ${u.title}`}
-                >
-                  <span class="ind-uc-dot-circle">{i + 1}</span>
-                </button>
-                <article class="ind-uc-panel" data-uc-panel={i} data-active={i === 0 ? 'true' : 'false'}>
-                  <h3>{u.title}</h3>
-                  <dl>
-                    {/* 한국어 이름은 두 글자라 낱자로 쪼개 flex gap으로 벌린다
-                        (letter-spacing은 마지막 글자 뒤에도 여백을 남겨 가운데 정렬이
-                        어긋난다). 영어는 Problem · Approach · Outcome처럼 길어
-                        낱자를 벌리면 알약을 넘치므로 그대로 둔다. */}
-                    <div><dt>{lang === 'ko' ? [...T.problem].map((c) => <span>{c}</span>) : T.problem}</dt><dd>{u.problem}</dd></div>
-                    <div><dt>{lang === 'ko' ? [...T.approach].map((c) => <span>{c}</span>) : T.approach}</dt><dd>{u.approach}</dd></div>
-                    <div><dt>{lang === 'ko' ? [...T.outcome].map((c) => <span>{c}</span>) : T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
-                  </dl>
-                </article>
-              </>
-            ))}
-          </div>
+          <table class="ind-uc-table">
+            <thead>
+              <tr>
+                <th scope="col" class="ind-uc-cn"><span class="ind-sr">{T.number}</span></th>
+                <th scope="col" class="ind-uc-ct"><span class="ind-sr">{T.useCase}</span></th>
+                <th scope="col">{T.problem}</th>
+                <th scope="col">{T.approach}</th>
+                <th scope="col">{T.outcome}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ind.useCases.items.map((u, i) => (
+                <tr>
+                  <td class="ind-uc-cn">{String(i + 1).padStart(2, '0')}</td>
+                  <th scope="row" class="ind-uc-ct">{u.title}</th>
+                  {/* data-label — 좁은 폭에서 표를 풀면 머리글이 사라지므로 ::before 로 되살린다. */}
+                  <td data-label={T.problem}>{u.problem}</td>
+                  <td data-label={T.approach}>{u.approach}</td>
+                  <td class="ind-uc-out" data-label={T.outcome}>{u.outcome}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           </div>
         ) : (
           <div class="ind-usecases">
@@ -312,31 +312,3 @@ const lines = (s: string) => s.split('\n');
   <Footer />
 </BaseLayout>
 
-<script>
-  /* 번호 레일 — 누른 번호의 내용에만 상자를 남긴다.
-     내용은 처음부터 다 보이므로 탭이 아니라 '강조 선택'이다(aria-pressed).
-     스크립트가 없어도 첫 항목에 상자가 있는 정적 화면으로 읽힌다. */
-  const rail = document.querySelector<HTMLElement>('[data-uc-steps]');
-  if (rail) {
-    const dots = [...rail.querySelectorAll<HTMLButtonElement>('[data-uc-dot]')];
-    const panels = [...rail.querySelectorAll<HTMLElement>('[data-uc-panel]')];
-    const select = (i: number) => {
-      dots.forEach((d, n) => d.setAttribute('aria-pressed', String(n === i)));
-      panels.forEach((p, n) => p.setAttribute('data-active', String(n === i)));
-    };
-    /* 상자를 눌러도 같은 항목이 선택된다. 번호가 작아 조준하기 번거롭다. */
-    panels.forEach((panel, i) => panel.addEventListener('click', () => select(i)));
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => select(i));
-      /* 위·아래 화살표로도 옮긴다. 세로로 늘어선 목록이라 좌우가 아니라 상하다. */
-      dot.addEventListener('keydown', (e) => {
-        const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
-        if (!step) return;
-        e.preventDefault();
-        const next = (i + step + dots.length) % dots.length;
-        dots[next].focus();
-        select(next);
-      });
-    });
-  }
-</script>

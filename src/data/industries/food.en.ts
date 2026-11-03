@@ -46,8 +46,8 @@ export const foodEn: IndustryData = {
   },
   useCases: {
     title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a food manufacturing site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a food manufacturing site.',
+    layout: 'table',
     items: [
       {
         title: 'Chiller and compressor power and operating pattern analysis',

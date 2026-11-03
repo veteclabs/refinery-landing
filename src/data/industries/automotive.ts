@@ -43,8 +43,8 @@ export const automotive: IndustryData = {
   },
   useCases: {
     title: '문제를 푸는 방법',
-    subtitle: '자동차 제조 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
-    layout: 'steps',
+    subtitle: '자동차 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '모터 ⁠· 회전체 진동 기반 예지보전',
