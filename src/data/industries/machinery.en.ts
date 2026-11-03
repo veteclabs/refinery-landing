@@ -18,6 +18,7 @@ export const machineryEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Machinery & Plant',
     title: 'Large equipment and process,\ncontrolled together in real time',
+    lede: 'Data scattered across large equipment running around the clock and several energy sources is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From demand-matched air compressor control to HVAC inverter control and consolidated carbon monitoring.',
   },
   challenges: {
     title: 'Challenges on\nplant sites',

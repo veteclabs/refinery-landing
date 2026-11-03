@@ -17,6 +17,7 @@ export const steelEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Steel & Materials',
     title: 'Material quality and energy\nefficiency, secured together',
+    lede: 'Data scattered across heat treatment, forming and coating is connected through an ontology, and an AI agent catches the shifts that move quality first and explains the cause. From target-power load control to heat-treatment temperature pattern analysis and vibration-based equipment monitoring.',
   },
   challenges: {
     title: 'Challenges on\nsteel sites',

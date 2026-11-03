@@ -17,6 +17,7 @@ export const foodEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Food & Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
+    lede: 'Data scattered across heating and cooling equipment, power, LNG and steam is connected through an ontology, and an AI agent catches efficiency loss first and explains the cause. From chiller operation tuning to per-batch energy intensity and replacement simulation for ageing equipment.',
   },
   challenges: {
     title: 'Challenges on\nfood sites',

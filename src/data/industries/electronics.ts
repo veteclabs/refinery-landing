@@ -17,6 +17,7 @@ export const electronics: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '전자 및 정밀',
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
+    lede: '생산 설비 ⁠· 전력 ⁠· 미세환경에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 정전과 환경 이상을 먼저 감지하고 원인을 설명합니다. 최대 수요 전력 감시부터 UPS 연계 정전 알람, 온습도 실시간 관제까지.',
   },
   challenges: {
     title: '전자 제조 현장의 문제',

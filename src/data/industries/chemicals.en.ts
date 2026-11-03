@@ -19,6 +19,7 @@ export const chemicalsEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Chemicals & Materials',
     title: 'Continuous reactions and heat,\nunder precise control',
+    lede: 'Data scattered across power, LNG, steam and water is connected through an ontology, and an AI agent catches process shifts first and explains the cause. From unified multi-source energy monitoring to boiler air-ratio control and consolidated greenhouse gas management.',
   },
   challenges: {
     title: 'Challenges on\nchemical sites',

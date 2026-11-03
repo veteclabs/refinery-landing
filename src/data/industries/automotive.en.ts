@@ -16,6 +16,7 @@ export const automotiveEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Automotive & Mobility',
     title: 'Process flow and quality consistency,\ncontrolled with data',
+    lede: 'Equipment and energy data scattered across press, body, paint and assembly lines is connected through an ontology, and an AI agent catches early signs first and explains the cause. From rotating-equipment predictive maintenance to per-line power analysis and output-linked energy intensity.',
   },
   challenges: {
     title: 'Challenges on\nautomotive sites',

@@ -19,6 +19,7 @@ export const electronicsEn: IndustryData = {
     showBreadcrumb: false,
     eyebrow: 'Electronics & Precision',
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
+    lede: 'Data scattered across production equipment, power and the microenvironment is connected through an ontology, and an AI agent catches outages and environmental drift first and explains the cause. From peak demand monitoring to UPS-linked outage alarms and real-time temperature and humidity control.',
   },
   challenges: {
     title: 'Challenges on\nelectronics sites',

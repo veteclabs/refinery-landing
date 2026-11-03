@@ -16,6 +16,7 @@ export const machinery: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '기계 및 플랜트',
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
+    lede: '24시간 돌아가는 대형 설비와 여러 에너지원에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 공기압축기 수요 제어부터 공조 인버터 제어, 탄소 배출량 통합 관제까지.',
   },
   challenges: {
     title: '기계 설비 현장의 문제',
