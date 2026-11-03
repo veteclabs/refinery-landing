@@ -1379,7 +1379,8 @@ img { max-width: 100%; height: auto; }
      ('문제를 해결하는 방법', 45px 에서 363px)이 3px 모자라 세 줄이 됐다.
      경계에 딱 맞추지 않고 여유를 둔 값이다. */
   grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
-  column-gap: 72px;
+  /* 제목 칸과 내용 사이. 72px 에서 넓혔다. */
+  column-gap: 120px;
   align-items: start;
 }
 .ind-uc-aside {
@@ -1467,18 +1468,19 @@ img { max-width: 100%; height: auto; }
   display: grid;
   /* ⚠️ 그림 칸을 고정폭(440px)으로 두면 안 된다. 왼쪽 고정 칸(360)까지 겹쳐
      1100 폭에서 글 칸이 61px 로 짜부라졌다. 비율로 나누고 그림에만 상한을 둔다. */
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  grid-template-rows: auto auto;
+  /* 왼쪽 글 · 오른쪽 그림. 글 칸을 조금 넓게 둔다. */
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-rows: auto;
   column-gap: 56px;
   align-items: start;
   padding: 44px 0;
   border-top: 1px solid var(--border);
 }
-.ind-uc-item > .ind-uc-text { grid-area: 2 / 2; }
-.ind-uc-item > .ind-uc-img { grid-area: 2 / 1; }
+.ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }
+.ind-uc-item > .ind-uc-img { grid-area: 1 / 2; }
 /* 그림이 없는 산업에서는 글이 칸을 다 쓴다. */
 .ind-uc-item:not(:has(.ind-uc-img)) { grid-template-columns: 1fr; }
-.ind-uc-item:not(:has(.ind-uc-img)) > .ind-uc-text { grid-area: 2 / 1; }
+.ind-uc-item:not(:has(.ind-uc-img)) > .ind-uc-text { grid-area: 1 / 1; }
 .ind-uc-item:first-child { border-top: 0; padding-top: 0; }
 .ind-uc-item:last-child { border-bottom: 0; }
 /* 그림 — 원본 4:3(1120x840). 폭을 칸에 맡기고 비율로 높이를 낸다. */
@@ -1516,9 +1518,9 @@ img { max-width: 100%; height: auto; }
 /* 영문 라벨은 길다 — 칸을 넓혀 글 시작선을 맞춘다. */
 .ind-en .ind-uc-dl > div { grid-template-columns: 86px minmax(0, 1fr); }
 @media (max-width: 900px) {
-  .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 0; padding: 32px 0; }
-  .ind-uc-item > .ind-uc-text { grid-area: 2 / 1; }
-  .ind-uc-item > .ind-uc-img { grid-area: 3 / 1; margin-top: 20px; }
+  .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 0; padding: 32px 0; }
+  .ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }
+  .ind-uc-item > .ind-uc-img { grid-area: 2 / 1; margin-top: 20px; }
   .ind-uc-img { max-width: 480px; }
   .ind-uc-text h3 { font-size: 20px; }
 }
