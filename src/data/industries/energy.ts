@@ -20,6 +20,8 @@ export const energy: IndustryData = {
   challenges: {
     title: '에너지 현장의 문제',
     subtitle: '발전 ⁠· 송배전 ⁠· 유틸리티 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: '데이터가 흩어져 있다',

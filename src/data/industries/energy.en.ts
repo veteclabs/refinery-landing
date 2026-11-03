@@ -22,6 +22,8 @@ export const energyEn: IndustryData = {
   challenges: {
     title: 'Challenges on\nenergy sites',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    dark: true,
     items: [
       {
         title: 'The data sits apart',
