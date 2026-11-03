@@ -831,13 +831,13 @@ img { max-width: 100%; height: auto; }
   display: flex; gap: 16px; padding-right: 16px;
   list-style: none; margin: 0;
 }
-/* 라벨 — 면색 #353C44 · 선도 같은 #353C44.
-   섹션 면(#151B23)에서 두 단 위다. 면과 같은 선색을 쓰므로 테두리는 보이지
-   않고 알약 덩어리만 남는다. */
+/* 라벨 — 면색 #2F353D · 선 #353C44.
+   섹션 면(#151B23) 위에 뜨는 값이다. 선이 면보다 한 단 위라 알약 가장자리에
+   얇은 테가 남는다. */
 .ind-chal-pill {
   flex: none;
   padding: 15px 28px;
-  background: #353C44;
+  background: #2F353D;
   border: 1px solid #353C44; border-radius: 999px;
   color: #EFF2F5;
   font-size: 17px; font-weight: 500; letter-spacing: -0.2px; line-height: 1.4;
