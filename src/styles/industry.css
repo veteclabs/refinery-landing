@@ -1050,9 +1050,9 @@ img { max-width: 100%; height: auto; }
    #151B23 으로 풀려 내려오는데, 풀리자마자 제목이 나오면 숨 돌릴 자리가 없다.
    240px 이면 사진이 다 녹은 뒤로 평평한 면이 한참 이어진다. */
 .ind-page .ind-challenges { padding-top: 240px; }
-/* 유즈케이스도 위를 넓게 연다. 바로 위가 어두운 과제 섹션이라 흰 면으로
-   바뀌는 자리에 숨 돌릴 거리가 필요하다. */
-.ind-page .ind-usecases { padding-top: 200px; }
+/* 유즈케이스는 위아래를 같은 200px 로 연다. 위는 어두운 과제 섹션에서 흰 면으로
+   바뀌는 자리라 거리가 필요하고, 아래도 같은 값으로 두어 섹션이 한가운데 선다. */
+.ind-page .ind-usecases { padding-top: 200px; padding-bottom: 200px; }
 .ind-page .ind-challenges .ind-head {
   flex-direction: column; align-items: center; justify-content: center;
   text-align: center; gap: 16px;
