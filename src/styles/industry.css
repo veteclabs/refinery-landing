@@ -509,9 +509,9 @@ img { max-width: 100%; height: auto; }
 /* 태그라인 — 예지보전은 12px 대문자 eyebrow가 아니라 18px 문장체다.
    하늘색은 배경 밝기와 무관하게 브랜드 값 하나로 통일한다. */
 .ind-hero-bg .ind-eyebrow {
-  font-size: 16px; font-weight: 600; letter-spacing: -0.2px;
+  font-size: 20px; font-weight: 400; letter-spacing: -0.2px;
   /* 태그라인은 대제목과 같은 색(--text #16202C)이다. 흰 면에서 15.45:1 이라
-     대비는 넉넉하다 — 크기(16px)와 굵기 차이로만 대제목과 구분된다. */
+     대비는 넉넉하다 — 크기(20px)와 굵기(400 대 600)로만 대제목과 구분된다. */
   text-transform: none; color: var(--text); margin-bottom: 14px;
 }
 @media (max-width: 900px) {
