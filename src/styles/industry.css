@@ -100,7 +100,8 @@ img { max-width: 100%; height: auto; }
    ⚠️ <p> 가 아니라 <span> 이다. 머리글의 p 는 소제목용 규칙(.ind-head p ·
       .ind-page .ind-challenges .ind-head p)을 여럿 달고 있어서, p 로 두면
       13px 로 적어도 18px 소제목 값에 눌려 소제목과 똑같아 보였다.
-   ⚠️ 18px/600 — 과제 섹션 소제목과 같은 크기다.
+   ⚠️ 18px/400 — 과제 섹션 소제목과 크기 · 굵기를 같이 맞춘다
+      (900px 이하에서는 소제목을 따라 16px 로 내려간다).
    ⚠️ 색은 브랜드색인데 면 밝기에 따라 단계가 다르다. 어두운 면은 --accent
       (#76A6D7)로 6.90:1 이고, 흰 면에서 같은 값을 쓰면 2.51:1 로 13px 기준
       (4.5:1)에 한참 못 미친다 — 흰 면은 램프 두 단 아래 #3F76AE(4.76:1)를 쓴다.
@@ -110,7 +111,7 @@ img { max-width: 100%; height: auto; }
   display: inline-block;
   margin: 0;
   padding: 7px 16px;
-  font-size: 18px; font-weight: 600; letter-spacing: .08em; line-height: 1;
+  font-size: 18px; font-weight: 400; letter-spacing: .08em; line-height: 1;
   color: #3F76AE;
   /* 모서리는 사이트 공통값(--radius 12px)이다. 999px 짜리 완전한 원형은
      이 페이지에서 .ind-badge 만 쓴다. */
@@ -1245,7 +1246,12 @@ img { max-width: 100%; height: auto; }
   /* 두 칸에서는 칸이 349~543px 로 넓어 나뉜 반쪽이 다시 감기지 않는다.
      위 1100px 공통 규칙이 푼 단락 나눔을 되살린다. */
   .ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline; }
-}@media (max-width: 900px) { .ind-page .ind-head p { font-size: 16px; } }
+}@media (max-width: 900px) {
+  .ind-page .ind-head p { font-size: 16px; }
+  /* 칩도 같은 자리에서 함께 내린다 — 소제목과 같은 크기로 두기로 한 값이라,
+     여기서 안 내리면 좁은 폭에서 칩만 18px 로 남아 소제목보다 커진다. */
+  .ind-sec-label { font-size: 16px; }
+}
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
    색은 배경마다 달라 그대로 둔다 — 예지보전의 #959CA5는 어두운 면 위 값이다. */
