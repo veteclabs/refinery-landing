@@ -2,7 +2,7 @@
 <defs><linearGradient id="fade0" x1="0" y1="210" x2="0" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F6F8FA" stop-opacity="0"/><stop offset="0.5" stop-color="#F6F8FA" stop-opacity="0.5"/><stop offset="1" stop-color="#F6F8FA" stop-opacity="1"/></linearGradient><clipPath id="card"><rect width="560" height="420" rx="12"/></clipPath></defs>
 <g clip-path="url(#card)">
 <rect x="0" y="0" width="560" height="420" rx="12" fill="#F6F8FA"/>
-<g transform="translate(-61.60 -45.76) scale(1.22)">
+<g transform="translate(0 14.00)"><g transform="translate(-61.60 -45.76) scale(1.22)">
 <rect x="70.5" y="112.5" width="419" height="194" rx="11.5" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1"/>
 <line x1="71" y1="153.5" x2="489" y2="153.5" stroke="#EFF2F5" stroke-width="1"/>
 <text x="87" y="138" font-family="Pretendard" font-size="14" font-weight="600" fill="#16202C">탄소 배출</text>
@@ -19,6 +19,6 @@
 <rect x="231" y="239.5" width="8" height="8" rx="4" fill="#7884D8"/>
 <text x="247" y="248" font-family="Roboto" font-size="12.5" font-weight="400" fill="#3A4856">Scope 1</text>
 <text x="449.48" y="248" font-family="Roboto" font-size="12.5" font-weight="600" fill="#16202C" font-variant-numeric="tabular-nums">25%</text></g>
-<rect x="0" y="210" width="560" height="210" fill="url(#fade0)"/>
+</g><rect x="0" y="210" width="560" height="210" fill="url(#fade0)"/>
 </g>
 </svg>

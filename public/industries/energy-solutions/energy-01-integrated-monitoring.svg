@@ -2,7 +2,7 @@
 <defs><linearGradient id="fade0" x1="0" y1="210" x2="0" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F6F8FA" stop-opacity="0"/><stop offset="0.5" stop-color="#F6F8FA" stop-opacity="0.5"/><stop offset="1" stop-color="#F6F8FA" stop-opacity="1"/></linearGradient><clipPath id="card"><rect width="560" height="420" rx="12"/></clipPath></defs>
 <g clip-path="url(#card)">
 <rect x="0" y="0" width="560" height="420" rx="12" fill="#F6F8FA"/>
-<g transform="translate(-14.035 -10.426) scale(1.05013)"><g transform="translate(-61.60 -45.76) scale(1.22)">
+<g transform="translate(0 13.50)"><g transform="translate(-61.60 -45.76) scale(1.22)">
 <g transform="translate(0 0) scale(1 1)">
     <path d="M160 148 V160 Q160 166 166 166 H274 Q280 166 280 172 V182" fill="none" stroke-width="1.5" stroke="#C8CED5"></path>
     <path d="M400 148 V160 Q400 166 394 166 H286 Q280 166 280 172 V182" fill="none" stroke-width="1.5" stroke="#C8CED5"></path>

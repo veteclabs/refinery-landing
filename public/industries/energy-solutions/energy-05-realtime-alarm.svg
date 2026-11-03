@@ -2,7 +2,7 @@
 <defs><linearGradient id="fade0" x1="0" y1="210" x2="0" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F6F8FA" stop-opacity="0"/><stop offset="0.5" stop-color="#F6F8FA" stop-opacity="0.5"/><stop offset="1" stop-color="#F6F8FA" stop-opacity="1"/></linearGradient><clipPath id="card"><rect width="560" height="420" rx="12"/></clipPath></defs>
 <g clip-path="url(#card)">
 <rect x="0" y="0" width="560" height="420" rx="12" fill="#F6F8FA"/>
-<g transform="translate(-61.60 -45.76) scale(1.22)">
+<g transform="translate(0 5.50)"><g transform="translate(-61.60 -45.76) scale(1.22)">
 <rect x="70.5" y="135.5" width="419" height="150" rx="11.5" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1"/>
 <line x1="71" y1="176.5" x2="489" y2="176.5" stroke="#EFF2F5" stroke-width="1"/>
 <text x="87" y="161" font-family="Pretendard" font-size="14" font-weight="600" fill="#16202C">실시간 알람</text>
@@ -16,6 +16,6 @@
 <text x="148.77" y="248.5" font-family="Pretendard" font-size="12.5" font-weight="400" fill="#22303F">예비 팬 전환</text>
 <rect x="391.53" y="230" width="68.47" height="28" rx="7" fill="#76A6D7"/>
 <text x="403.53" y="248" font-family="Pretendard" font-size="12" font-weight="600" fill="#FFFFFF">조치 실행</text></g>
-<rect x="0" y="210" width="560" height="210" fill="url(#fade0)"/>
+</g><rect x="0" y="210" width="560" height="210" fill="url(#fade0)"/>
 </g>
 </svg>

@@ -1051,7 +1051,7 @@ img { max-width: 100%; height: auto; }
    어두운 띠가 가운데 서게 하려고다.
    ⚠️ 섹션이 높아지면 배경 막의 퍼센트 정지점(18% / 34% / 85%)도 같이 늘어난다.
       평평한 윗면이 그만큼 넓어진다. */
-.ind-page .ind-challenges { padding-top: 300px; padding-bottom: 300px; }
+.ind-page .ind-challenges { padding-top: 200px; padding-bottom: 200px; }
 /* 유즈케이스는 위아래를 같은 200px 로 연다. 위는 어두운 과제 섹션에서 흰 면으로
    바뀌는 자리라 거리가 필요하고, 아래도 같은 값으로 두어 섹션이 한가운데 선다. */
 .ind-page .ind-usecases { padding-top: 200px; padding-bottom: 200px; }
@@ -1484,13 +1484,22 @@ img { max-width: 100%; height: auto; }
 /* 그림이 없는 산업에서는 글이 칸을 다 쓴다. */
 .ind-uc-item:not(:has(.ind-uc-img)) { grid-template-columns: 1fr; }
 .ind-uc-item:not(:has(.ind-uc-img)) > .ind-uc-text { grid-area: 1 / 1; }
-.ind-uc-item:first-child { border-top: 0; padding-top: 0; }
+/* 첫 항목도 윗선을 긋는다 — 그 선이 왼쪽 제목 윗변과 같은 자리에 와서
+   두 칸의 시작점을 잇는다. 목록 margin-top(50px)이 칩 높이를 받고 있어
+   선이 곧 제목 윗변이다.
+   ⚠️ 그래서 h3 는 선에서 padding-top(44px)만큼 내려온다. 제목 윗변과
+      나란하던 것은 선 쪽으로 옮겨 간 것이다. */
 .ind-uc-item:last-child { border-bottom: 0; }
-/* 그림 — 원본 4:3(1120x840). 폭을 칸에 맡기고 비율로 높이를 낸다. */
+/* 그림 — 원본은 560x420(4:3)인데 위아래가 비어 있다. 상자를 560x350 으로
+   낮추고 object-fit: cover 로 위아래 35px 씩 잘라 낸다.
+   ⚠️ 그래픽은 SVG 안에서 세로 가운데(210)에 맞춰 두었다. 가장 큰 03(피크
+      최적화)이 높이 245px 이므로 위아래 87.5px 까지는 잘라도 안 닿는다.
+   ⚠️ SVG 안 바탕 rect 의 둥근 모서리도 같이 잘리지만, 아래 border-radius 가
+      다시 둥글려 준다. */
 .ind-uc-img {
   display: block;
   width: 100%; max-width: 560px; height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 560 / 350;
   object-fit: cover;
   /* 둥글기는 사이트 공통값(--radius 12px)이다. */
   border-radius: var(--radius);
@@ -1536,7 +1545,7 @@ img { max-width: 100%; height: auto; }
   .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 0; padding: 32px 0; }
   .ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }
   .ind-uc-item > .ind-uc-img { grid-area: 2 / 1; margin-top: 20px; }
-  .ind-uc-img { max-width: 480px; }
+  .ind-uc-img { max-width: 480px; }  /* 비율은 넓은 폭과 같다 */
   .ind-uc-text h3 { font-size: 20px; }
 }
 

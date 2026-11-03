@@ -2,7 +2,7 @@
 <defs><linearGradient id="fade0" x1="0" y1="210" x2="0" y2="330" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F6F8FA" stop-opacity="0"/><stop offset="0.5" stop-color="#F6F8FA" stop-opacity="0.5"/><stop offset="1" stop-color="#F6F8FA" stop-opacity="1"/></linearGradient><clipPath id="card"><rect width="560" height="420" rx="12"/></clipPath></defs>
 <g clip-path="url(#card)">
 <rect x="0" y="0" width="560" height="420" rx="12" fill="#F6F8FA"/>
-<g transform="translate(-14.035 -10.476) scale(1.05013)"><g transform="translate(-61.60 -45.76) scale(1.22)">
+<g transform="translate(0 14.00)"><g transform="translate(-61.60 -45.76) scale(1.22)">
 <rect x="80.5" y="98.5" width="399" height="221" rx="11.5" fill="#FFFFFF" stroke="#E3E7EC" stroke-width="1"/>
 <line x1="81" y1="139.5" x2="479" y2="139.5" stroke="#EFF2F5" stroke-width="1"/>
 <text x="97" y="124" font-family="Pretendard" font-size="14" font-weight="600" fill="#16202C">피크 전력</text>
