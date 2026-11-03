@@ -18,7 +18,7 @@ export const energy: IndustryData = {
     lede: 'SCADA ⁠· EMS ⁠· 스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지.',
   },
   challenges: {
-    title: '에너지 및 유틸리티\n현장이 겪는 일',
+    title: '에너지 및 유틸리티\n현장이 겪는 문제',
     subtitle: '발전 ⁠· 송배전 ⁠· 유틸리티 현장에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -63,7 +63,7 @@ export const energy: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n현장에서 하는 일',
+    title: 'Refinery가\n문제를 해결하는 방법',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾼다.
     // 둘째 줄 나눔만 <br>을 직접 써서 클래스를 단다 — 카드가 아래로 내려가는
     // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.

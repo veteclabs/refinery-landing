@@ -20,7 +20,7 @@ export const foodEn: IndustryData = {
     lede: 'Data scattered across heating and cooling equipment, power, LNG and steam is connected through an ontology, and an AI agent catches efficiency loss first and explains the cause. From chiller operation tuning to per-batch energy intensity and replacement simulation for ageing equipment.',
   },
   challenges: {
-    title: 'What food and beverage sites\nare up against',
+    title: 'The problems on\nfood and beverage sites',
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -65,7 +65,7 @@ export const foodEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'What Refinery\ndoes on site',
+    title: 'How Refinery\nsolves them',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a food manufacturing site.',
     layout: 'table',
     items: [

@@ -21,7 +21,7 @@ export const machineryEn: IndustryData = {
     lede: 'Data scattered across large equipment running around the clock and several energy sources is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From demand-matched air compressor control to HVAC inverter control and consolidated carbon monitoring.',
   },
   challenges: {
-    title: 'What machinery and plant sites\nare up against',
+    title: 'The problems on\nmachinery and plant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -66,7 +66,7 @@ export const machineryEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'What Refinery\ndoes on site',
+    title: 'How Refinery\nsolves them',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a plant site.',
     layout: 'table',
     items: [

@@ -1375,7 +1375,10 @@ img { max-width: 100%; height: auto; }
       칸이 격자 높이만큼 늘어나 붙을 자리가 없다. */
 .ind-uc-shell {
   display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  /* 왼쪽 칸 400px — 360px 일 때 1440px 화면에서 제목 둘째 줄
+     ('문제를 해결하는 방법', 45px 에서 363px)이 3px 모자라 세 줄이 됐다.
+     경계에 딱 맞추지 않고 여유를 둔 값이다. */
+  grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
   column-gap: 72px;
   align-items: start;
 }
@@ -1420,6 +1423,7 @@ img { max-width: 100%; height: auto; }
   /* 좁은 폭에서는 고정하지 않는다 — 화면 높이가 모자라 글이 붙을 자리가 없다.
      탭은 가로로 눕히고 넘치면 밀어서 본다. */
   .ind-uc-shell { grid-template-columns: 1fr; row-gap: 32px; }
+  .ind-uc-list { margin-top: 0; }
   .ind-uc-aside { position: static; }
   .ind-uc-tabs {
     margin-top: 24px;
@@ -1467,9 +1471,16 @@ img { max-width: 100%; height: auto; }
       그림을 키울 자리도 안 난다.
    ⚠️ <ol> 이다. 번호가 매겨진 다섯 가지라 목록이 맞다 — 번호는 ::marker 가
       아니라 글 안의 <span> 이다(크기 · 색을 따로 잡아야 한다). */
+/* ⚠️ margin-top 은 윗변 맞춤값이다. 아래 margin: 0 축약형보다 뒤에 와야 한다 —
+   앞에 두면 축약형이 0 으로 덮는다(그렇게 넣었다가 고쳤다).
+   오른쪽 목록 윗변을 왼쪽 제목 윗변에 맞춘다. 왼쪽에는 제목 위에 칩('조치')이
+   한 줄 더 있어, 그대로 두면 오른쪽 첫 항목이 칩과 나란히 선다.
+   50px = 칩 34px(18px 글 + 위아래 7px + 테두리 2px) + 칩 아래 margin 16px.
+   ⚠️ 두 칸으로 서는 1200px 초과에서만 쓴다. 접히면 위아래로 놓이므로 0 이다. */
 .ind-uc-list {
   list-style: none;
   margin: 0; padding: 0;
+  margin-top: 50px;
   display: grid;
   gap: 0;
 }

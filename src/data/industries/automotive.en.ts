@@ -19,7 +19,7 @@ export const automotiveEn: IndustryData = {
     lede: 'Equipment and energy data scattered across press, body, paint and assembly lines is connected through an ontology, and an AI agent catches early signs first and explains the cause. From rotating-equipment predictive maintenance to per-line power analysis and output-linked energy intensity.',
   },
   challenges: {
-    title: 'What automotive and mobility sites\nare up against',
+    title: 'The problems on\nautomotive and mobility sites',
     subtitle: 'Recurring problems across press, body, paint and assembly.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -59,7 +59,7 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'What Refinery\ndoes on site',
+    title: 'How Refinery\nsolves them',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an automotive site.',
     layout: 'table',
     items: [

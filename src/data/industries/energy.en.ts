@@ -20,7 +20,7 @@ export const energyEn: IndustryData = {
     lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },
   challenges: {
-    title: 'What energy and utility sites\nare up against',
+    title: 'The problems on\nenergy and utility sites',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
@@ -65,7 +65,7 @@ export const energyEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'What Refinery\ndoes on site',
+    title: 'How Refinery\nsolves them',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾸고,
     // <mark>는 형광펜이다(한국어판과 같은 자리 — 브랜드와 '하는 일').
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an energy site.',
