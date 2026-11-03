@@ -73,6 +73,9 @@ export interface IndustryData {
     // 어두운 면(선택). 예지보전 '푸는 방식' 섹션과 같은 #111316이 된다 —
     // 카드도 같은 면색에 1px 테두리로만 구분한다.
     dark?: boolean;
+    /** 라벨 줄에 쓰는 짧은 문장들(선택). items 의 제목 · 설명에서 뽑는다.
+     *  주지 않으면 items 의 제목을 그대로 쓴다. */
+    labels?: string[];
     items: Challenge[];
   };
   useCases: {

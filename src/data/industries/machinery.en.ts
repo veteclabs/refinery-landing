@@ -25,6 +25,23 @@ export const machineryEn: IndustryData = {
     subtitle: 'Recurring problems where large equipment runs non-stop.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Several energy sources run at once',
+      'Compressed air, electricity, heating, cooling and HVAC all run',
+      'Where the energy goes never becomes clear',
+      'Equipment is tightly coupled',
+      'One machine carries through to the whole process',
+      'The plant cannot pause',
+      'Process conditions must still hold',
+      'No obvious moment to intervene',
+      'Aging, cost and rules arrive at once',
+      'Equipment keeps aging',
+      'Energy cost keeps rising',
+      'Equipment and energy must be seen as one',
+    ],
     items: [
       {
         title: 'Several energy sources run at once',

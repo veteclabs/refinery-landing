@@ -24,11 +24,11 @@
   .rv-on .industry-card:not(.rv-done),
   .rv-on .sec-card:not(.rv-done),
   .rv-on .faq-item:not(.rv-done),
-  /* ↓ 산업 페이지. ⚠️ 과제는 칸(.ind-card)이 아니라 격자(.ind-grid-rule) 통째로
+  /* ↓ 산업 페이지. ⚠️ 과제는 칸(.ind-card)이 아니라 격자(.ind-chal-rows) 통째로
      띄운다 — 칸을 하나씩 띄우면 그 아래 깔린 선 색(격자 바닥)이 네모로 드러난다.
      ⚠️ 히어로는 넣지 않는다. 첫 화면이라 숨겼다 띄울 까닭이 없다. */
   .rv-on .ind-head:not(.rv-done),
-  .rv-on .ind-grid-rule:not(.rv-done),
+  .rv-on .ind-chal-rows:not(.rv-done),
   .rv-on .ind-uc-shell:not(.rv-done),
   .rv-on .ind-flow-step:not(.rv-done),
   .rv-on .ind-benefits .ind-card:not(.rv-done) {
@@ -44,7 +44,7 @@
   .rv-on .sec-card.rv-in:not(.rv-done),
   .rv-on .faq-item.rv-in:not(.rv-done),
   .rv-on .ind-head.rv-in:not(.rv-done),
-  .rv-on .ind-grid-rule.rv-in:not(.rv-done),
+  .rv-on .ind-chal-rows.rv-in:not(.rv-done),
   .rv-on .ind-uc-shell.rv-in:not(.rv-done),
   .rv-on .ind-flow-step.rv-in:not(.rv-done),
   .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done) {
@@ -65,7 +65,7 @@
     function start() {
       clearTimeout(guard);
       var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
-              + ', .ind-head, .ind-grid-rule, .ind-uc-shell, .ind-flow-step'
+              + ', .ind-head, .ind-chal-rows, .ind-uc-shell, .ind-flow-step'
               + ', .ind-benefits .ind-card';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }

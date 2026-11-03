@@ -24,6 +24,23 @@ export const energyEn: IndustryData = {
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'The data sits apart',
+      'Seeing the whole picture at once is difficult',
+      'SCADA, EMS and billing hold separate records',
+      'Failures are known too late',
+      'Anomalies surface only after a stoppage',
+      'Little room to act preventively',
+      'ESG and regulatory reports are manual',
+      'Emissions figures are gathered by hand',
+      'Reporting takes time and invites error',
+      'Real-time response lags',
+      'Demand, tariffs and weather move faster than the response',
+      'Every judgment spans several screens',
+    ],
     items: [
       {
         title: 'The data sits apart',

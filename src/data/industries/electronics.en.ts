@@ -26,6 +26,23 @@ export const electronicsEn: IndustryData = {
     subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Equipment reacts to the smallest change',
+      'Sensitive to temperature shifts',
+      'Power quality leaves its mark on the process',
+      'A power outage becomes a defect',
+      'A momentary outage stops the line',
+      'Equipment anomalies turn into defective product',
+      'Operating factors are tangled together',
+      'Peak demand and UPS response sit side by side',
+      'Temperature, humidity and alarms run apart',
+      'Safety and fire systems are expected in the same structure',
+      'High-mix, low-volume production splits the lines',
+      'Process-level energy management gets harder',
+    ],
     items: [
       {
         title: 'Equipment reacts to the smallest change',

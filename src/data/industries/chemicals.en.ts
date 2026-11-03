@@ -26,6 +26,23 @@ export const chemicalsEn: IndustryData = {
     subtitle: 'Recurring problems where continuous reaction\nand heat-based equipment run.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Several energy sources run at once',
+      'Electricity, LNG, steam and water all feed the process',
+      'Each source is aggregated separately',
+      'The whole picture never forms',
+      'Small changes upset quality',
+      'Reactors, boilers and blowers run continuously',
+      'A slight change carries straight through',
+      'Process variables need precise control',
+      'Air-fuel ratio, temperature, pressure and flow at once',
+      'Going by feel cannot hold the optimum',
+      'Energy cost and carbon rules tighten together',
+      'Simple monitoring is no longer enough',
+    ],
     items: [
       {
         title: 'Several energy sources run at once',

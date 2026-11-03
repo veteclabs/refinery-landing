@@ -24,6 +24,23 @@ export const steelEn: IndustryData = {
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Small process shifts decide quality',
+      'Furnaces, compressed air and cooling water run continuously',
+      'A slight difference stays in the product',
+      'Heat treatment needs stability and energy control together',
+      'Temperature, hold time and cooling set the properties',
+      'Getting only one right will not reproduce the result',
+      'Energy flow is complex',
+      'Peaks come often',
+      'Energy is scattered across processes',
+      'High-temperature, high-power equipment runs together',
+      'Over-consuming segments are hard to pin down',
+      'Peak demand is hard to pin down',
+    ],
     items: [
       {
         title: 'Small process shifts decide quality',

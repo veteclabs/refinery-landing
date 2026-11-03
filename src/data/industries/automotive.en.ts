@@ -23,6 +23,23 @@ export const automotiveEn: IndustryData = {
     subtitle: 'Recurring problems across press, body, paint and assembly.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'One process shakes the whole line',
+      'Press, body, paint and assembly are coupled end to end',
+      'A single machine stops the whole line',
+      'High power and fine control at once',
+      'High-power equipment shares the line',
+      'Fine control runs on that same line',
+      'Tuning one side makes the other unstable',
+      'Equipment, energy and output stay apart',
+      'Electrification demands all three together',
+      'Quality standards keep tightening',
+      'The data sits in separate systems',
+      'Nothing connects across those systems',
+    ],
     items: [
       {
         title: 'One process shakes the whole line',

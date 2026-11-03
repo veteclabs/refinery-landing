@@ -24,6 +24,23 @@ export const foodEn: IndustryData = {
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
     dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Thermal and refrigeration losses become cost',
+      'Compressors, chillers and boilers carry the load',
+      'Efficiency loss turns into quality risk',
+      'A stoppage costs a great deal',
+      'Hygiene and quality rules are strict',
+      'One interruption is a large loss',
+      'Energy patterns shift batch to batch',
+      'A shift in output moves the energy profile',
+      'Cost, carbon and aging arrive together',
+      'Cost pressure does not let up',
+      'Carbon compliance is pressing',
+      'Equipment keeps aging',
+    ],
     items: [
       {
         title: 'Thermal and refrigeration efficiency losses become cost',
