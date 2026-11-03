@@ -37,9 +37,6 @@ const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${
 // 사진 위 어두운 스크림도 같이 빠졌다 — 기본값 없이 데이터가 지정한 경우에만 쓴다.
 const challengesBg = ind.challenges.backgroundImage;
 
-// 표에 그림 열을 세울지. 한 항목이라도 그림이 있으면 세운다 — 산업마다
-// 그림이 있기도 없기도 해서, 없는 산업에 빈 열을 남기지 않는다.
-const hasUcImage = ind.useCases.items.some((u) => !!u.image);
 
 // 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
 // 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
@@ -160,63 +157,78 @@ const lines = (s: string) => s.split('\n');
     <!-- USE CASES -->
     <section class="ind-section">
       <div class="ind-container">
-        <header class="ind-head">
-          <h2>{ind.useCases.title}</h2>
-          {/* steps 레이아웃에서는 소제목을 큰 카드 왼쪽 칸에서 낸다 —
-              같은 문장을 머리와 카드에 두 번 두지 않는다. */}
-          {ind.useCases.subtitle && ind.useCases.layout !== 'table' && <p>{ind.useCases.subtitle}</p>}
-        </header>
+        {/* table 레이아웃은 제목 · 소제목을 왼쪽 고정 칸(.ind-uc-aside)에서 낸다 —
+            같은 문장을 머리와 칸에 두 번 두지 않는다. */}
+        {ind.useCases.layout !== 'table' && (
+          <header class="ind-head">
+            <h2>{ind.useCases.title}</h2>
+            {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
+          </header>
+        )}
         {ind.useCases.layout === 'table' ? (
           /* 표다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 진짜 <table>을 쓴다:
              내용이 실제로 2차원이라 화면 낭독기도 "3행 접근" 식으로 짚어 준다.
              ⚠️ 제목 칸은 <th scope="row">다. 그래야 각 줄의 값이 어느 항목 것인지
                 낭독기가 잇는다. */
-          <div class="ind-uc-shell">
-          {/* ⚠️ 줄 나눔은 브라우저에 맡긴다 — 박아 둔 <br>은 폭이 바뀌면 어긋난다.
-              데이터가 <mark> 강조를 품어 set:html을 쓴다(값은 우리가 쓰는 문자열이다). */}
-          {ind.useCases.subtitle && (
-            <p class="ind-uc-lede" set:html={ind.useCases.subtitle} />
-          )}
-          <table class="ind-uc-table">
-            <thead>
-              <tr>
-                <th scope="col" class="ind-uc-cn"><span class="ind-sr">{T.number}</span></th>
-                {hasUcImage && <th scope="col" class="ind-uc-ci"></th>}
-                <th scope="col" class="ind-uc-ct"><span class="ind-sr">{T.useCase}</span></th>
-                <th scope="col">{T.problem}</th>
-                <th scope="col">{T.approach}</th>
-                <th scope="col">{T.outcome}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div class="ind-uc-shell" data-uc-shell>
+          {/* 왼쪽 칸 — 스크롤해도 제자리에 남는다(sticky). 오른쪽 목록만 흐른다. */}
+          <div class="ind-uc-aside">
+            <h2>{ind.useCases.title}</h2>
+            {/* ⚠️ 줄 나눔은 브라우저에 맡긴다 — 박아 둔 <br>은 폭이 바뀌면 어긋난다.
+                데이터가 <mark> 강조를 품어 set:html을 쓴다(값은 우리가 쓰는 문자열이다). */}
+            {ind.useCases.subtitle && (
+              <p class="ind-uc-lede" set:html={ind.useCases.subtitle} />
+            )}
+            {/* 항목 탭 — 지금 보는 항목에 표시가 옮겨 가고, 누르면 그리로 간다.
+                ⚠️ <nav> 에 이름을 준다. 페이지에 내비가 여럿이라 구분이 필요하다.
+                ⚠️ 스크립트가 없으면 그냥 앵커 링크 목록이다 — 눌러서 가는 일은 된다. */}
+            <nav class="ind-uc-tabs" aria-label={ind.useCases.title} data-uc-tabs>
               {ind.useCases.items.map((u, i) => (
-                <tr>
-                  <td class="ind-uc-cn">{String(i + 1).padStart(2, '0')}</td>
-                  {hasUcImage && (
-                    <td class="ind-uc-ci">
-                      {/* alt 는 비운다 — 바로 옆 칸이 같은 줄의 이름(th scope="row")이라
-                          낭독기가 같은 말을 두 번 읽을 까닭이 없다. */}
-                      {u.image && (
-                        <img
-                          src={u.image.src}
-                          alt=""
-                          width={u.image.width}
-                          height={u.image.height}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      )}
-                    </td>
-                  )}
-                  <th scope="row" class="ind-uc-ct">{u.title}</th>
-                  {/* data-label — 좁은 폭에서 표를 풀면 머리글이 사라지므로 ::before 로 되살린다. */}
-                  <td data-label={T.problem}>{u.problem}</td>
-                  <td data-label={T.approach}>{u.approach}</td>
-                  <td class="ind-uc-out" data-label={T.outcome}>{u.outcome}</td>
-                </tr>
+                <a
+                  href={`#uc-${ind.slug}-${i + 1}`}
+                  class="ind-uc-tab"
+                  data-uc-tab={i}
+                  aria-current={i === 0 ? 'true' : undefined}
+                >
+                  <span class="ind-uc-tab-n">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="ind-uc-tab-t">{u.title}</span>
+                </a>
               ))}
-            </tbody>
-          </table>
+            </nav>
+          </div>
+          <ol class="ind-uc-list">
+            {ind.useCases.items.map((u, i) => (
+              <li class="ind-uc-item" id={`uc-${ind.slug}-${i + 1}`} data-uc-item={i}>
+                {/* 번호는 제 줄(1줄 1칸)에 둔다. 그래야 글과 그림이 둘째 줄에서
+                    나란히 서고 그림 윗변이 제목 윗변과 맞는다 — 여백을 눈대중으로
+                    맞추면 번호의 글자 크기가 바뀔 때마다 어긋난다. */}
+                <span class="ind-uc-n">{String(i + 1).padStart(2, '0')}</span>
+                <div class="ind-uc-text">
+                  <h3>{u.title}</h3>
+                  {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
+                      세 문장은 데이터 그대로다. */}
+                  <dl class="ind-uc-dl">
+                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{T.outcome}</dt><dd class="ind-uc-out">{u.outcome}</dd></div>
+                  </dl>
+                </div>
+                {u.image && (
+                  /* alt 는 비운다 — 바로 옆이 같은 항목의 이름이라 낭독기가 같은 말을
+                     두 번 읽을 까닭이 없다. */
+                  <img
+                    class="ind-uc-img"
+                    src={u.image.src}
+                    alt=""
+                    width={u.image.width}
+                    height={u.image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </li>
+            ))}
+          </ol>
           </div>
         ) : (
           <div class="ind-usecases">
@@ -332,4 +344,58 @@ const lines = (s: string) => s.split('\n');
   </main>
   <Footer />
 </BaseLayout>
+<script is:inline>
+  /* 유즈케이스 탭 — 지금 화면에 든 항목으로 표시를 옮긴다.
+     ⚠️ IntersectionObserver 를 쓰지 않는다. 항목이 화면보다 커서 둘이 동시에
+        걸치거나 하나도 '들어오지' 않는 구간이 생긴다 — 그때 표시가 꺼진다.
+        프레임마다 위치를 재서 '기준선을 지난 마지막 항목'을 고르면 늘 하나가 켜진다.
+     ⚠️ 기준선은 화면 위에서 40% 다. 항목이 화면 가운데쯤 왔을 때 표시가 바뀐다.
+     ⚠️ 스크립트가 없어도 탭은 앵커 링크라 눌러서 가는 일은 그대로 된다. */
+  (function () {
+    var shell = document.querySelector('[data-uc-shell]');
+    if (!shell) return;
+    var tabs = [].slice.call(shell.querySelectorAll('[data-uc-tab]'));
+    var items = [].slice.call(shell.querySelectorAll('[data-uc-item]'));
+    if (!tabs.length || tabs.length !== items.length) return;
 
+    var cur = -1;
+    function mark(i) {
+      if (i === cur) return;
+      cur = i;
+      for (var k = 0; k < tabs.length; k++) {
+        if (k === i) tabs[k].setAttribute('aria-current', 'true');
+        else tabs[k].removeAttribute('aria-current');
+      }
+    }
+    function sweep() {
+      var line = (window.innerHeight || 0) * 0.4;
+      var pick = 0;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].getBoundingClientRect().top <= line) pick = i;
+      }
+      mark(pick);
+    }
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; sweep(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    sweep();
+
+    /* 눌러서 갈 때는 고정 내비에 가리지 않도록 그만큼 띄워 세운다.
+       동작 줄이기를 켰으면 부드럽게 굴리지 않는다. */
+    var smooth = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        var head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 70;
+        var y = items[i].getBoundingClientRect().top + window.scrollY - head - 32;
+        window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+        mark(i);
+      });
+    });
+  })();
+</script>
