@@ -23,7 +23,7 @@ export const machineryEn: IndustryData = {
   challenges: {
     title: 'The problems on\nmachinery and plant sites',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
-    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v2@2x.webp',
     dark: true,
     // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
     // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번

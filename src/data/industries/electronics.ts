@@ -22,7 +22,7 @@ export const electronics: IndustryData = {
   challenges: {
     title: '전자 및 정밀\n현장이 겪는 문제',
     subtitle: '반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장에서 반복되는 문제입니다.',
-    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v2@2x.webp',
     dark: true,
     // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
     // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
