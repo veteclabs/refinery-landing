@@ -315,3 +315,76 @@ img { max-width: 100%; height: auto; }
   .post-shell { grid-template-columns: 1fr; gap: 0; }
   .post-shell .post { max-width: 820px; margin: 0 auto; }
 }
+
+/* ── 2026-10 개편: 위치 표시 · 태그 · 목차 · 다른 글 (sionic.ai/blog 글 상세 구성을 참고) ── */
+
+/* 위치 표시 — 블로그 / 글 종류. 대제목 위 한 줄. */
+.post-crumb { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; color: var(--text-muted); }
+.post-crumb a { transition: color .15s; }
+.post-crumb a:hover { color: var(--text); }
+.post-crumb span[aria-hidden] { opacity: .5; }
+
+/* 태그 — 날짜 줄 아래. 누르면 목록 검색(#q=태그)으로 간다. */
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; list-style: none; }
+.post-tags a { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #F1F4F7; color: #4A5868; font-size: 13px; line-height: 1.4; transition: background .15s; }
+.post-tags a:hover { background: #E6EBF0; }
+
+/* 목차 — 본문 기둥(820px)은 가운데 그대로 두고 오른쪽 여백에만 붙인다.
+   폭은 그 여백(셸 절반 - 본문 절반 410 - 간격 32)을 넘지 않는다 — 헤더 오른쪽 선 밖으로 나가지 않게.
+   1280px 화면에서 150px, 넓어져도 200px까지다. 여백이 그보다 좁은 화면에서는 달지 않는다. */
+.post-toc { display: none; }
+@media (min-width: 1280px) {
+  .post-shell.has-toc { position: relative; }
+  .post-toc {
+    display: block; position: absolute; top: 110px; bottom: 0;   /* 110px = 표지 위 여백 */
+    left: calc(50% + 442px); width: min(200px, calc(50% - 442px));
+  }
+  .post-toc-inner { position: sticky; top: 110px; }
+}
+.post-toc-title { margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--text-muted); }
+.post-toc ol { list-style: none; border-left: 1px solid var(--border); }
+.post-toc li + li { margin-top: 4px; }
+.post-toc a {
+  display: block; margin-left: -1px; padding: 4px 0 4px 12px; border-left: 2px solid transparent;
+  font-size: 13px; line-height: 1.5; color: var(--text-muted); word-break: keep-all; transition: color .15s;
+}
+.post-toc a:hover { color: var(--text); }
+.post-toc a.is-active { color: var(--text); font-weight: 600; border-left-color: var(--text); }
+
+/* 다른 글 — 본문 아래, 목록과 같은 카드 세 장. 폭은 헤더와 같은 선(1184)이다. */
+.post-related { margin-top: 95px; padding-top: 64px; border-top: 1px solid var(--border); }
+.post-related-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.post-related-head h2 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 600; letter-spacing: -0.5px; line-height: 1.3; }
+.post-related-head a { flex: none; font-size: 15px; font-weight: 500; color: var(--text-muted); transition: color .15s; }
+.post-related-head a:hover { color: var(--text); }
+.post-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 18px; grid-auto-rows: 1fr; }
+@media (max-width: 860px) {
+  .post-related { margin-top: 64px; padding-top: 48px; }
+  .post-related-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 링크 복사 — 날짜 줄 오른쪽 끝. 글자 버튼이라 줄 높이를 늘리지 않는다. */
+.post-meta { flex-wrap: wrap; }
+.post-copy {
+  display: inline-flex; align-items: center; gap: 5px; margin-left: auto;
+  padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; background: #fff;
+  font: inherit; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: color .15s, border-color .15s;
+}
+.post-copy:hover { color: var(--text); border-color: #C9D1DA; }
+.post-copy.is-done { color: #3F8F5F; border-color: rgba(63,143,95,.4); }
+.post-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 좁은 화면용 목차. 넓은 화면(오른쪽 여백 목차가 뜨는 1280px 이상)에서는 감춘다. */
+.post-toc-fold { margin: -16px 0 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-soft); }
+.post-toc-fold summary {
+  display: flex; align-items: center; gap: 8px; padding: 14px 18px; cursor: pointer; list-style: none;
+  font-size: 15px; font-weight: 600; color: var(--text);
+}
+.post-toc-fold summary::-webkit-details-marker { display: none; }
+.post-toc-fold summary span { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.post-toc-fold summary::after { content: ''; margin-left: auto; width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; rotate: 45deg; translate: 0 -2px; transition: rotate .15s; }
+.post-toc-fold[open] summary::after { rotate: -135deg; translate: 0 2px; }
+.post-toc-fold ol { padding: 0 18px 14px 36px; }
+.post-toc-fold li { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+.post-toc-fold a:hover { color: var(--text); }
+@media (min-width: 1280px) { .post-toc-fold { display: none; } }
