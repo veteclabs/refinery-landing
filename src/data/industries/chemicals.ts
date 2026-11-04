@@ -22,7 +22,7 @@ export const chemicals: IndustryData = {
   challenges: {
     title: '화학 및 소재\n현장이 겪는 문제',
     subtitle: '연속 반응 ⁠· 열 기반 설비를 운영하는 현장에서 반복되는 문제입니다.',
-    backgroundImage: '/energy-solutions/energy-challenges-bg-silk@2x.webp',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal@2x.webp',
     dark: true,
     // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
     // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
