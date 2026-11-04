@@ -2227,7 +2227,9 @@
       font-weight: 300;
       letter-spacing: normal;
       line-height: var(--lh-body);
-      color: #F6F8FA;
+      /* 대제목이 흰색이라 소제목은 한 단 내린다. 토큰 --border2 와 같은 값인데
+         여기 쓰임은 테두리가 아니라 글자색이라 숫자로 적는다. */
+      color: #C8CED5;
       margin-bottom: 0;
       word-break: keep-all;
     }
