@@ -2213,7 +2213,9 @@
     /* 이 섹션은 히어로와 같은 두 단이다 — 위 워드마크가 대제목, 이 문장이
        소제목이다. 그래서 크기도 히어로의 두 값을 그대로 가져온다.
          워드마크(.cta-eyebrow)  <- #hero h1       clamp(36px, 5vw, 60px)
-         이 문장(#cta h2)        <- #hero .hero-sub 16px (900 이하 15px)
+         이 문장(#cta h2)        <- #hero .hero-sub 를 두 단 키운 18px
+                                   (900 이하 17px). 굵기 · 자간 · 행간은
+                                   히어로 소제목 그대로 300 / normal / --lh-body.
        h2 태그이지만 역할은 소제목이라 188행 h2 의 title 체계
        (clamp(28px, 4vw, 45px) · 600 · --ls-tight · --lh-title)를 통째로 덮는다.
        ⚠️ 색은 히어로를 따르지 않는다. 히어로 소제목은 흰 면 위 #5A6776 이고
@@ -2221,7 +2223,7 @@
        ⚠️ margin 은 맞추지 않는다. 아래 버튼 칸(.hero-actions)이
           margin-top: 40px 을 제 몫으로 쥐고 있어 같이 주면 두 번 붙는다. */
     #cta h2 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 300;
       letter-spacing: normal;
       line-height: var(--lh-body);
@@ -2229,7 +2231,7 @@
       margin-bottom: 0;
       word-break: keep-all;
     }
-    @media (max-width: 900px) { #cta h2 { font-size: 15px; } }
+    @media (max-width: 900px) { #cta h2 { font-size: 17px; } }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
        면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */
     #cta .btn-primary { color: #fff; border-color: transparent; padding: 9px 22px; font-size: 15px; }
@@ -2251,9 +2253,11 @@
             고정폭이라 타자 모션을 ch 단위로 셀 수 있었다. 지금은 글자 폭이
             제각각이라 스크립트가 줄 폭을 재서 넘긴다(아래 --cta-wm-w).
          ⚠️ 굵기 · 색은 히어로를 따르지 않는다. 히어로 제목은 600 인데 여기는
-            400 이다. 색은 #fff 그대로다. */
+            500 이다(JetBrains Mono 500 -> Roboto 400 -> 500 순으로 옮겨 온
+            값이다. 고정폭에서 비례폭으로 바꾸며 한 단 가벼워 보여 되올렸다).
+            색은 #fff 그대로다. */
       font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(36px, 5vw, 60px); font-weight: 400; line-height: 1.15;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 500; line-height: 1.15;
       color: #fff;
       margin: 0 0 24px;
     }
