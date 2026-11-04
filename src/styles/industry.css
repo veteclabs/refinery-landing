@@ -470,8 +470,14 @@ img { max-width: 100%; height: auto; }
   left: calc(48px * (1 - var(--grow)));
   right: calc(48px * (1 - var(--grow)));
   bottom: calc(96px * (1 - var(--grow)));
-  height: 160px;
-  background: linear-gradient(180deg, rgba(21, 27, 35, 0) 0, #151B23 100%);
+  /* 260px — 160px 에서 늘렸다. 과제 섹션 위 여백이 240px 에서 180px 로
+     줄면서 사진이 녹을 거리가 짧아졌다. 끝에서 급히 어두워지지 않게
+     가운데를 완만히 둔다(0 → 55% 에서 절반 → 100% 꽉). */
+  height: 260px;
+  background: linear-gradient(180deg,
+    rgba(21, 27, 35, 0) 0,
+    rgba(21, 27, 35, .5) 55%,
+    #151B23 100%);
   border-bottom-left-radius: calc(var(--radius) * (1 - var(--grow)));
   border-bottom-right-radius: calc(var(--radius) * (1 - var(--grow)));
   opacity: var(--grow);
@@ -493,7 +499,7 @@ img { max-width: 100%; height: auto; }
     left: calc(24px * (1 - var(--grow)));
     right: calc(24px * (1 - var(--grow)));
     bottom: calc(64px * (1 - var(--grow)));
-    height: 90px;
+    height: 140px;
   }
   .ind-hero-figure-img { aspect-ratio: 16 / 10; }
 }
