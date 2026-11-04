@@ -6,6 +6,8 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import type { IndustryData } from '../data/industries/types';
+import RfIcon from './RfIcon.astro';
+import ScrollReveal from './ScrollReveal.astro';
 
 interface Props {
   ind: IndustryData;
@@ -16,24 +18,29 @@ const { ind, lang = 'ko' } = Astro.props;
 const T = {
   ko: {
     crumbAria: '위치', industries: 'Industries', industriesHref: '/#industries',
-    cta: '데모 신청하기', contactHref: '/contact', secondary: '제품 살펴보기', secondaryHref: '/#teams',
+    contactHref: '/contact',
     problem: '문제', approach: '접근', outcome: '성과',
+    number: '번호', useCase: '하는 일',
+    // 두 섹션 머리 위 작은 라벨. 차례를 나타내는 두 자리 숫자다.
+    // ⚠️ 숫자라 ko/en 이 같다. 사전에 남겨 두는 건 자리를 한곳에서 쥐기 위해서다.
+    diagnose: '01', act: '02',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
-    cta: 'Request a demo', contactHref: '/en/contact', secondary: 'Explore the product', secondaryHref: '/en#teams',
+    contactHref: '/en/contact',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
+    number: 'No.', useCase: 'Use case',
+    diagnose: '01', act: '02',
   },
 }[lang];
 
 const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${ind.slug}`;
 
-// 문제 섹션 배경은 모든 산업이 같은 사진을 쓴다. 데이터 파일마다 같은 경로를
-// 적어 두면 한 장을 바꿀 때 7개 파일을 손대야 하므로 기본값을 여기에 둔다.
-// 산업별로 다른 사진을 쓰려면 데이터에서 challenges.backgroundImage로 덮는다.
-// (히어로 사진은 산업마다 다르므로 기본값을 두지 않는다.)
-const CHALLENGES_BG = '/industries/challenges-bg.webp';
-const challengesBg = ind.challenges.backgroundImage ?? CHALLENGES_BG;
+// 문제 섹션에는 배경 사진을 깔지 않는다. 전에는 모든 산업이 같은 사진
+// (/industries/challenges-bg.webp)을 기본값으로 받았는데, 면이 밝아지면서
+// 사진 위 어두운 스크림도 같이 빠졌다 — 기본값 없이 데이터가 지정한 경우에만 쓴다.
+const challengesBg = ind.challenges.backgroundImage;
+
 
 // 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
 // 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
@@ -56,22 +63,14 @@ const lines = (s: string) => s.split('\n');
 ---
 <BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} alternates={alternates} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
-  <main class:list={['ind', 'ind-page', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
+  {/* ind-industry — 산업 페이지에만 거는 갈고리다. ind-page 는 필러 페이지
+      (/why-refinery)도 함께 쓰므로 그 쪽을 건드리지 않으려면 따로 필요하다. */}
+  <main class:list={['ind', 'ind-page', 'ind-industry', `ind-${ind.slug}`, lang === 'en' && 'ind-en']}>
+    {/* ⚠️ 본문 맨 위에 둔다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+        섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. */}
+    <ScrollReveal />
     <!-- HERO -->
     <section class={ind.hero.dark || ind.hero.image ? 'ind-hero ind-hero-bg' : 'ind-hero'}>
-      {ind.hero.image && (
-        <img
-          class="ind-hero-bg-img"
-          src={ind.hero.image.src}
-          alt=""
-          aria-hidden="true"
-          width={ind.hero.image.width}
-          height={ind.hero.image.height}
-          decoding="async"
-          fetchpriority="high"
-          style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
-        />
-      )}
       {ind.hero.overlay && (
         <img
           class="ind-hero-overlay"
@@ -87,18 +86,67 @@ const lines = (s: string) => s.split('\n');
         {(ind.hero.showBreadcrumb ?? true) && (
           <nav class="ind-crumb" aria-label={T.crumbAria}><a href={T.industriesHref}>{T.industries}</a><span>›</span><span>{ind.name}</span></nav>
         )}
-        <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
-          {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
-          <span>{ind.hero.eyebrow}</span>
-        </p>
-        <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
-        {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
-        <div class="ind-hero-actions">
-          <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
-          {(ind.hero.showSecondary ?? true) && <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>}
+        {/* 태그라인 · 대제목 · 소제목을 가로로 한 줄에 세운다. 버튼은 그 아래다. */}
+        <div class="ind-hero-row">
+          <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
+            {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
+            {/* 태그라인도 개행을 <br>로 낸다 — 'A 및 / B' 두 줄이 기본이다. */}
+            <span>{lines(ind.hero.eyebrow).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</span>
+          </p>
+          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
+          {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         </div>
+        {/* 히어로에는 버튼을 두지 않는다. 전환은 페이지 맨 아래 CTA 섹션(ind-cta)이
+            받는다 — 거기에 같은 /contact 링크가 큰 버튼으로 있다. */}
       </div>
+      {/* 사진은 글 뒤가 아니라 글 아래에 선다. 글이 사진 위에 얹히지 않으므로
+          스크림도 없다 — 사진은 제 색 그대로 보인다. */}
+      {ind.hero.image && (
+        <div class="ind-hero-figure">
+          <img
+            class="ind-hero-figure-img"
+            src={ind.hero.image.src}
+            alt={ind.hero.image.alt}
+            aria-hidden={ind.hero.image.alt ? undefined : 'true'}
+            width={ind.hero.image.width}
+            height={ind.hero.image.height}
+            decoding="async"
+            fetchpriority="high"
+            style={ind.hero.imagePosition ? `object-position: ${ind.hero.imagePosition};` : undefined}
+          />
+        </div>
+      )}
     </section>
+    {ind.hero.image && (
+      <script is:inline>
+        {/* 히어로 사진 넓히기 — 스크롤을 내린 만큼 --grow 를 0 → 1 로 올린다.
+            ⚠️ 쓰는 값은 scrollY 다. 사진의 화면 안 위치로 재면 첫 화면에서
+               이미 절반쯤 자란 상태로 뜬다 — '기본 모습에서 스크롤할 때'가 아니다.
+            ⚠️ 360px 을 다 내리면 꽉 찬다. 내비(70px)가 사진 윗변에 닿을 즈음이다.
+            ⚠️ 동작 줄이기를 켠 사람에게는 손대지 않는다 — 기본 모습 그대로다. */}
+        (function () {
+          var fig = document.querySelector('.ind-hero-figure');
+          if (!fig) return;
+          if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var D = 360, last = -1, ticking = false;
+          function upd() {
+            var p = Math.min(1, Math.max(0, (window.scrollY || window.pageYOffset) / D));
+            p = Math.round(p * 1000) / 1000;
+            if (p === last) return;
+            last = p;
+            fig.style.setProperty('--grow', p);
+          }
+          function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(function () { ticking = false; upd(); });
+          }
+          addEventListener('scroll', onScroll, { passive: true });
+          addEventListener('resize', onScroll, { passive: true });
+          upd();
+        })();
+      </script>
+    )}
 
     <!-- CHALLENGES -->
     <section class:list={['ind-section', 'ind-soft', 'ind-challenges', challengesBg && 'ind-section-bg', ind.challenges.dark && 'ind-soft-dark']}>
@@ -114,81 +162,110 @@ const lines = (s: string) => s.split('\n');
       )}
       <div class="ind-container">
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
-          {/* 제목도 히어로처럼 개행을 <br>로 낸다. 영문은 제목이 길어 한 줄로 두면
-              소제목 자리를 밀어내 아래로 내려보낸다. */}
+          <span class="ind-sec-label">{T.diagnose}</span>
+          {/* 제목은 데이터의 개행을 <br>로 낸다. */}
           <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
-          {/* 소제목도 데이터의 개행을 <br>로 낸다. 영문은 두 줄이 되는 소제목이 있고,
-              자연 감김에 맡기면 줄 끝에 접속사만 남는다. */}
-          {ind.challenges.subtitle && <p>{lines(ind.challenges.subtitle).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>}
+          {/* ⚠️ 소제목은 화면에 내지 않는다. 라벨 줄이 같은 말을 더 구체적으로
+              하고 있어 한 번 더 쓸 자리가 아니다. 데이터(challenges.subtitle)는
+              열네 파일에 그대로 두었다 — 되살릴 때 다시 쓰면 된다. */}
         </header>
-        <div class="ind-grid ind-grid-2 ind-grid-bubble">
-          {ind.challenges.items.map((c) => (
-            <div class="ind-card">
-              <span class="ind-avatar" aria-hidden="true">
-                {/* 아이콘 폰트(Phosphor)에는 채움 두께가 따로 있어 스타일시트를 하나 더
-                    불러와야 한다. 아이콘 한 개 때문에 요청을 늘리지 않고 인라인 SVG로 그린다.
-                    어깨가 원 아래에서 잘리도록 원에 overflow:hidden을 건다. */}
-                <svg class="ind-avatar-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <circle cx="12" cy="8.2" r="4.2" />
-                  <path d="M12 13.6c-4.6 0-8.4 2.9-8.4 6.5V24h16.8v-3.9c0-3.6-3.8-6.5-8.4-6.5z" />
-                </svg>
-              </span>
-              <div class="ind-card-body">
-                <h3>{c.title}</h3>
-                {/* 줄바꿈은 <br>로 명시한다. 마크업 안의 개행은 빌드 시 공백으로 합쳐진다. */}
-                <p set:html={c.description}></p>
-              </div>
+        {/* 과제를 짧은 라벨로 묶어 두 줄로 흘린다. 윗줄은 오른쪽, 아랫줄은
+            왼쪽으로 간다(윗줄이 같은 애니메이션을 reverse 로 되돌린 쪽이다).
+            ⚠️ 문구는 challenges.labels 열두 개를 앞 절반 · 뒤 절반으로 나눠
+               쓴다. 한 벌(여섯 개)이 줄 폭보다 넓어야 흐르는 동안 같은 말이
+               두 번 보이지 않는다 — 라벨을 열두 개로 둔 까닭이다.
+            ⚠️ 같은 벌을 세 번 깐다. 트랙을 제 폭의 1/3(= 한 벌)만큼 밀면 끝
+               프레임이 첫 프레임과 같은 그림이라 이음매가 없다.
+            ⚠️ 낭독기에는 각 줄의 첫 벌만 남긴다 — 나머지는 같은 말의 사본이다.
+            labels 가 없으면 items 의 제목을 그대로 쓴다. */}
+        {(() => {
+          const labels = ind.challenges.labels ?? ind.challenges.items.map((c) => c.title);
+          const half = Math.ceil(labels.length / 2);
+          return (
+            <div class="ind-chal-rows">
+              {[0, 1].map((row) => (
+                <div class="ind-chal-marquee">
+                  <div class:list={['ind-chal-track', row === 0 && 'ind-chal-track-back']}>
+                    {[0, 1, 2].map((dup) => (
+                      <ul class="ind-chal-set" aria-hidden={dup > 0 ? 'true' : undefined}>
+                        {(row === 0 ? labels.slice(0, half) : labels.slice(half)).map((t) => (
+                          <li class="ind-chal-pill">{t}</li>
+                        ))}
+                      </ul>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          );
+        })()}
       </div>
     </section>
 
     <!-- USE CASES -->
-    <section class="ind-section">
+    <section class="ind-section ind-usecases">
       <div class="ind-container">
-        <header class="ind-head">
-          <h2>{ind.useCases.title}</h2>
-          {/* steps 레이아웃에서는 소제목을 큰 카드 왼쪽 칸에서 낸다 —
-              같은 문장을 머리와 카드에 두 번 두지 않는다. */}
-          {ind.useCases.subtitle && ind.useCases.layout !== 'steps' && <p>{ind.useCases.subtitle}</p>}
-        </header>
-        {ind.useCases.layout === 'steps' ? (
-          /* 번호 레일 + 내용. 번호와 내용이 한 줄씩 짝을 이루는 2열 격자라
-             줄 높이가 달라도 원과 내용의 윗선이 저절로 맞는다. */
+        {/* table 레이아웃은 제목 · 소제목을 왼쪽 고정 칸(.ind-uc-aside)에서 낸다 —
+            같은 문장을 머리와 칸에 두 번 두지 않는다. */}
+        {ind.useCases.layout !== 'table' && (
+          <header class="ind-head">
+            <h2>{ind.useCases.title}</h2>
+            {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
+          </header>
+        )}
+        {ind.useCases.layout === 'table' ? (
+          /* 표다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 진짜 <table>을 쓴다:
+             내용이 실제로 2차원이라 화면 낭독기도 "3행 접근" 식으로 짚어 준다.
+             ⚠️ 제목 칸은 <th scope="row">다. 그래야 각 줄의 값이 어느 항목 것인지
+                낭독기가 잇는다. */
           <div class="ind-uc-shell">
-          {/* 개행은 <br>로 바꿔서 낸다. 데이터가 <mark> 같은 강조를 품을 수 있어
-              set:html을 쓴다 — 값은 우리가 쓰는 문자열이라 외부 입력이 아니다. */}
-          {ind.useCases.subtitle && (
-            <p class="ind-uc-lede" set:html={lines(ind.useCases.subtitle).join('<br>')} />
-          )}
-          <div class="ind-uc-steps" data-uc-steps>
-            {ind.useCases.items.map((u, i) => (
-              <>
-                <button
-                  type="button"
-                  class="ind-uc-dot"
-                  data-uc-dot={i}
-                  aria-pressed={i === 0 ? 'true' : 'false'}
-                  aria-label={`${i + 1}. ${u.title}`}
-                >
-                  <span class="ind-uc-dot-circle">{i + 1}</span>
-                </button>
-                <article class="ind-uc-panel" data-uc-panel={i} data-active={i === 0 ? 'true' : 'false'}>
-                  <h3>{u.title}</h3>
-                  <dl>
-                    {/* 한국어 이름은 두 글자라 낱자로 쪼개 flex gap으로 벌린다
-                        (letter-spacing은 마지막 글자 뒤에도 여백을 남겨 가운데 정렬이
-                        어긋난다). 영어는 Problem · Approach · Outcome처럼 길어
-                        낱자를 벌리면 알약을 넘치므로 그대로 둔다. */}
-                    <div><dt>{lang === 'ko' ? [...T.problem].map((c) => <span>{c}</span>) : T.problem}</dt><dd>{u.problem}</dd></div>
-                    <div><dt>{lang === 'ko' ? [...T.approach].map((c) => <span>{c}</span>) : T.approach}</dt><dd>{u.approach}</dd></div>
-                    <div><dt>{lang === 'ko' ? [...T.outcome].map((c) => <span>{c}</span>) : T.outcome}</dt><dd class="ind-outcome">{u.outcome}</dd></div>
-                  </dl>
-                </article>
-              </>
-            ))}
+          {/* 왼쪽 칸 — 스크롤해도 제자리에 남는다(sticky). 오른쪽 목록만 흐른다. */}
+          <div class="ind-uc-aside">
+            <span class="ind-sec-label">{T.act}</span>
+            {/* 제목은 데이터의 개행을 <br>로 낸다 — 과제 섹션 제목과 같은 방식이다. */}
+            <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+            {/* ⚠️ 소제목은 화면에 내지 않는다. 제목이 이미 'Refinery가 문제를 푸는
+                방법'이라 같은 말을 한 번 더 할 자리가 아니다. 데이터
+                (useCases.subtitle)는 열네 파일에 그대로 두었다. */}
           </div>
+          <ol class="ind-uc-list">
+            {ind.useCases.items.map((u, i) => (
+              <li class="ind-uc-item" id={`uc-${ind.slug}-${i + 1}`}>
+                {/* 번호는 제 줄(1줄 1칸)에 둔다. 그래야 글과 그림이 둘째 줄에서
+                    나란히 서고 그림 윗변이 제목 윗변과 맞는다 — 여백을 눈대중으로
+                    맞추면 번호의 글자 크기가 바뀔 때마다 어긋난다. */}
+                <div class="ind-uc-text">
+                  <h3>{u.title}</h3>
+                  {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
+                      세 문장은 데이터 그대로다. */}
+                  <dl class="ind-uc-dl">
+                    <div><dt>{T.problem}</dt><dd>{u.problem}</dd></div>
+                    <div><dt>{T.approach}</dt><dd>{u.approach}</dd></div>
+                    <div><dt>{T.outcome}</dt><dd class="ind-uc-out">{u.outcome}</dd></div>
+                  </dl>
+                </div>
+                {u.image ? (
+                  /* alt 는 비운다 — 바로 옆이 같은 항목의 이름이라 낭독기가 같은 말을
+                     두 번 읽을 까닭이 없다. */
+                  <img
+                    class="ind-uc-img"
+                    src={u.image.src}
+                    alt=""
+                    width={u.image.width}
+                    height={u.image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  /* 그림이 아직 없는 산업은 빈 카드를 그 자리에 둔다 — 상자 크기 ·
+                     둥글기 · 격자 자리를 그림과 똑같이 쓰려고 .ind-uc-img 를 함께
+                     단다(격자 분기도 :has(.ind-uc-img) 로 보므로 두 칸이 유지된다).
+                     내용이 없으니 낭독기에서는 숨긴다. */
+                  <div class="ind-uc-img ind-uc-img-ph" aria-hidden="true"></div>
+                )}
+              </li>
+            ))}
+          </ol>
           </div>
         ) : (
           <div class="ind-usecases">
@@ -227,17 +304,14 @@ const lines = (s: string) => s.split('\n');
               {i > 0 && (
               <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
             )}
-              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
+              <div class:list={['ind-flow-step', 'rf-ic-host', s.highlight && 'is-on']}>
                 {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
                     말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
                     순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-                {s.image && (
-                <img class="ind-flow-img" src={s.image} alt="" aria-hidden="true"
-                     width="240" height="240" loading="lazy" decoding="async" />
-              )}
+                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
               {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
                   '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
               <ul class="ind-flow-detail">
@@ -247,7 +321,7 @@ const lines = (s: string) => s.split('\n');
             </>
           ))}
         </div>
-        {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
+        {ind.architecture.note && <p class="ind-flow-note" set:html={ind.architecture.note} />}
 
         {/* 연동 시스템 — 흐름 2단계(연동)가 실제로 무엇과 연결되는지다.
             따로 섹션을 두는 대신 흐름 바로 아래에 붙인다. */}
@@ -256,14 +330,14 @@ const lines = (s: string) => s.split('\n');
               제목이 왼쪽 · 소제목이 오른쪽 끝이다. */}
           <div class="ind-systems-head">
             <h3>{ind.integrations.title}</h3>
-            {ind.integrations.subtitle && <p class="ind-systems-sub">{ind.integrations.subtitle}</p>}
+            {ind.integrations.subtitle && <p class="ind-systems-sub" set:html={ind.integrations.subtitle} />}
           </div>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
-        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
+        {ind.integrations.note && <p class="ind-systems-note" set:html={ind.integrations.note} />}
       </div>
     </section>
 
@@ -305,34 +379,34 @@ const lines = (s: string) => s.split('\n');
       </div>
     </section>
   </main>
+  <script is:inline>
+    {/* 끝없이 도는 애니메이션은 화면에 있을 때만 돌린다.
+        지금 둘이다 — 과제 라벨 줄(.ind-chal-track, transform)과 솔루션 구조의
+        흐름 띠(.ind-flow, background-position).
+        ⚠️ 산업 페이지는 5,000px 가 넘는다. 그냥 두면 아래 섹션을 읽는 내내
+           보이지도 않는 것이 돈다. 특히 .ind-flow 는 background-position 을
+           움직여 합성기로 넘어가지 않고 프레임마다 다시 그린다.
+        ⚠️ 못 믿을 때는 '도는 쪽' 으로 둔다 — IntersectionObserver 가 없거나
+           콜백을 놓치면 지금처럼 계속 돌 뿐, 멈춘 채 굳지 않는다.
+        ⚠️ animation-play-state 는 멈춘 프레임에서 그대로 이어진다. 다시
+           보일 때 튀지 않는다.
+        ⚠️ 각 요소를 제가 관찰한다. 섹션을 관찰하면 선택자 짝을 따로 들고
+           있어야 하는데, 끝없이 도는 것이 늘어날 때마다 두 곳을 고치게 된다. */}
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      var nodes = document.querySelectorAll('.ind-chal-track, .ind-flow');
+      if (!nodes.length) return;
+      var io = new IntersectionObserver(function (es) {
+        for (var i = 0; i < es.length; i++) {
+          var el = es[i].target, on = es[i].isIntersecting;
+          /* .ind-flow 는 애니메이션이 ::after 에 있다 — 인라인 style 로는
+             닿지 않아 클래스로 끈다. 나머지는 제 자신이 돈다. */
+          if (el.classList.contains('ind-flow')) el.classList.toggle('is-paused', !on);
+          else el.style.animationPlayState = on ? '' : 'paused';
+        }
+      }, { rootMargin: '200px' });
+      for (var i = 0; i < nodes.length; i++) io.observe(nodes[i]);
+    })();
+  </script>
   <Footer />
 </BaseLayout>
-
-<script>
-  /* 번호 레일 — 누른 번호의 내용에만 상자를 남긴다.
-     내용은 처음부터 다 보이므로 탭이 아니라 '강조 선택'이다(aria-pressed).
-     스크립트가 없어도 첫 항목에 상자가 있는 정적 화면으로 읽힌다. */
-  const rail = document.querySelector<HTMLElement>('[data-uc-steps]');
-  if (rail) {
-    const dots = [...rail.querySelectorAll<HTMLButtonElement>('[data-uc-dot]')];
-    const panels = [...rail.querySelectorAll<HTMLElement>('[data-uc-panel]')];
-    const select = (i: number) => {
-      dots.forEach((d, n) => d.setAttribute('aria-pressed', String(n === i)));
-      panels.forEach((p, n) => p.setAttribute('data-active', String(n === i)));
-    };
-    /* 상자를 눌러도 같은 항목이 선택된다. 번호가 작아 조준하기 번거롭다. */
-    panels.forEach((panel, i) => panel.addEventListener('click', () => select(i)));
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => select(i));
-      /* 위·아래 화살표로도 옮긴다. 세로로 늘어선 목록이라 좌우가 아니라 상하다. */
-      dot.addEventListener('keydown', (e) => {
-        const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
-        if (!step) return;
-        e.preventDefault();
-        const next = (i + step + dots.length) % dots.length;
-        dots[next].focus();
-        select(next);
-      });
-    });
-  }
-</script>

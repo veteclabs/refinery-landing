@@ -8,22 +8,39 @@ export const chemicals: IndustryData = {
     '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도를 하나의 구조로 연결하고, AI 에이전트가 연소 효율과 배출량 이상 징후를 먼저 감지합니다. 화학 ⁠· 소재 ⁠· 제약 공정 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1172 },
+    image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 올리면 사진 아래쪽이 보여 이미지가 위로 올라간다.
     // 공통값 45%에서는 대물렌즈가 대제목 줄을 가로질렀다. 75%로 올리면
     // 렌즈가 제목 위로 가고 슬라이드와 스테이지가 아래에 들어온다
     // (이동 여유 307px 중 92px). 이 지점이 글자 대비(11.72:1)와
     // 아래 이음새 어둡기 모두 가장 좋다 — 90% 위로는 이음새가 다시 밝아진다.
-    imagePosition: 'center 75%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '화학 ⁠· 소재',
+    eyebrow: '화학 및 소재',
     title: '연속 반응 공정과 열에너지를\n정밀하게 제어합니다',
+    lede: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 공정 변화를 먼저 감지하고 원인을 설명합니다. 다중 에너지원 통합 감시부터 보일러 공기비 제어, 온실가스 통합 관리까지.',
   },
   challenges: {
-    dark: true,
-    title: '화학 공정 현장의 문제',
+    title: '지금 화학 및 소재 현장이\n겪는 문제입니다',
     subtitle: '연속 반응 ⁠· 열 기반 설비를 운영하는 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '다중 에너지원이 동시에 쓰인다',
+      '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도가 함께 들어간다',
+      '에너지원마다 따로 집계된다',
+      '전체 그림이 잡히지 않는다',
+      '작은 변화가 품질을 흔든다',
+      '반응기 ⁠· 보일러 ⁠· 송풍기가 연속 운전된다',
+      '공정 조건 변화가 곧장 결과로 남는다',
+      '공정 변수의 정밀 제어가 필수다',
+      '공기비 ⁠· 온도 ⁠· 압력 ⁠· 유량을 동시에 맞춰야 한다',
+      '사람의 감으로는 최적점을 유지하기 어렵다',
+      '에너지 비용과 탄소 규제가 함께 조인다',
+      '단순 모니터링으로는 모자란다',
+    ],
     items: [
       {
         title: '다중 에너지원이 동시에 쓰인다',
@@ -48,9 +65,9 @@ export const chemicals: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '화학 공정 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '화학 공정 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도 통합 감시',
@@ -94,10 +111,10 @@ export const chemicals: IndustryData = {
     title: '솔루션 구조',
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
-      { label: '현장', detail: '반응기 ⁠· 열매체 보일러 ⁠· 송풍기 ⁠· 압축기 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4–20 mA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: '활용', detail: '에너지 대시보드 ⁠· 목표 알람 ⁠· 배출량 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: '현장', detail: '반응기 ⁠· 열매체 보일러 ⁠· 송풍기 ⁠· 압축기 센서', icon: 'flow-site' },
+      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus ⁠· Serial ⁠· 4–20 mA', icon: 'flow-connect' },
+      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'flow-refinery', highlight: true },
+      { label: '활용', detail: '에너지 대시보드 ⁠· 목표 알람 ⁠· 배출량 리포트', icon: 'flow-use' },
     ],
     note: '기존 SCADA⁠/⁠FEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },

@@ -7,7 +7,7 @@
      내용이 헤더 로고보다 49px 안쪽에서 시작했다(로고 48 vs 본문 97).
      헤더와 같은 1280/48 박스로 바꿔 세로선을 하나로 만든다.
      .res-page 스코프라 이 컴포넌트를 쓰지 않는 다른 페이지에는 영향이 없다. */
-  .res-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  .res-page .ind-container { max-width: 1600px; padding: 0 48px; }
   @media (max-width: 900px) {
     .res-page .ind-container { padding: 0 24px; }
   }
@@ -154,7 +154,7 @@
   .blog-list .res-thumb:not(.is-empty) .res-cover-kind { color: #fff; }
   /* 표지 글자 — 종류(태그라인)와 한 줄 요약을 이미지 왼쪽 위에 얹는다.
      이미지가 어두운 쪽이 왼쪽 위라 흰 글자가 가장 잘 읽히는 자리다.
-     이미지가 없는 카드(#eef2f6)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
+     이미지가 없는 카드(#EFF2F5)에서도 읽히도록 위쪽에 어두운 그라데이션을 깐다. */
   .res-cover {
     position: absolute; inset: 0; z-index: 1;
     /* 위·왼쪽을 넓혀 글자를 모서리에서 떼어 놓는다(20/22 -> 28/30).
@@ -197,5 +197,5 @@
   .res-soon {
     position: absolute; top: 28px; left: 21px; right: auto;
     font-size: 11px; font-weight: 600; color: #7e8a98;
-    background: #eef1f4; border-radius: 999px; padding: 3px 9px;
+    background: #EFF2F5; border-radius: 999px; padding: 3px 9px;
   }

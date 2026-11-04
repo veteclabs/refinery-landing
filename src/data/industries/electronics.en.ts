@@ -10,22 +10,39 @@ export const electronicsEn: IndustryData = {
     'Connect power quality, UPS events, temperature, humidity and equipment alarms into one structure, and let an AI agent flag the risk of a line stop before it happens. Refinery for semiconductor, component and precision equipment manufacturing.',
   hero: {
     dark: true,
-    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1079 },
+    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1080 },
     // 원본(3500x1477)은 가로가 길어 히어로 상자와 비율이 거의 같았다. 그대로 쓰면
     // 세로 이동 여유가 38px뿐이라 초점을 0%까지 내려도 17px밖에 안 움직였다.
     // 좌우를 436px씩 잘라 2629x1477로 만든 뒤 넣었다 — 여유가 246px이 된다.
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
-    imagePosition: 'center 20%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Electronics & Precision',
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
+    lede: 'Data scattered across production equipment, power and the microenvironment is connected through an ontology, and an AI agent catches outages and environmental drift first and explains the cause. From peak demand monitoring to UPS-linked outage alarms and real-time temperature and humidity control.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nelectronics sites',
+    title: 'These are the problems on\nelectronics and precision sites today',
     subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Equipment reacts to the smallest change',
+      'Sensitive to temperature shifts',
+      'Power quality leaves its mark on the process',
+      'A power outage becomes a defect',
+      'A momentary outage stops the line',
+      'Equipment anomalies turn into defective product',
+      'Operating factors are tangled together',
+      'Peak demand and UPS response sit side by side',
+      'Temperature, humidity and alarms run apart',
+      'Safety and fire systems are expected in the same structure',
+      'High-mix, low-volume production splits the lines',
+      'Process-level energy management gets harder',
+    ],
     items: [
       {
         title: 'Equipment reacts to the smallest change',
@@ -50,9 +67,9 @@ export const electronicsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an electronics site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an electronics site.',
+    layout: 'table',
     items: [
       {
         title: 'Live peak demand monitoring and load control',
@@ -102,12 +119,12 @@ export const electronicsEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Switchgear ⁠· UPS ⁠· temperature and humidity ⁠· process tool sensors', icon: 'flow-site' },
+      { label: 'Connect', detail: 'MES ⁠· SCADA ⁠· UPS ⁠· demand controllers ⁠· Modbus ⁠· OPC UA', icon: 'flow-connect' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'flow-refinery', highlight: true },
+      { label: 'Use', detail: 'Power quality dashboard ⁠· outage alerts ⁠· environment monitoring', icon: 'flow-use' },
     ],
-    note: 'Where MES or SCADA already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: '<span class="note-s"><span class="note-s2">Where MES or SCADA already exists, a layer sits on top of it</span><span class="note-s2">and integrates bidirectionally rather than replacing it.</span></span><span class="note-s">Where none exists, collection is built from the ground up.</span>',
   },
   benefits: {
     title: 'What you gain',
@@ -147,9 +164,9 @@ export const electronicsEn: IndustryData = {
   },
   integrations: {
     title: 'Systems we connect to',
-    subtitle: 'The systems and protocols commonly used on electronics sites.',
+    subtitle: '<span class="note-s">The systems and protocols</span><span class="note-s">commonly used on electronics sites.</span>',
     systems: ['MES', 'SCADA', 'UPS', 'Demand controllers', 'Modbus', 'Modbus TCP⁠/⁠IP', 'OPC UA', 'ERP'],
-    note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
+    note: '<span class="note-s"><span class="note-s2">Systems not listed here can still be connected</span><span class="note-s2">over standard protocols and APIs.</span></span><span class="note-s">Get in touch and we will walk through it.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',

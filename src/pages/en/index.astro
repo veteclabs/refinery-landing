@@ -1,10 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/global.css';
+import '../../styles/vetec-hero.css';
 // 헤더·푸터는 한국어와 같은 공용 컴포넌트를 쓴다(라벨·IA는 src/i18n/nav.ts에서 로케일별로).
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { legal } from '../../data/legal';
+import { heroCards } from '../../data/heroMarkers';
+import HeroPinArt from '../../components/HeroPinArt.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
+import HeroZoom from '../../components/HeroZoom.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -50,225 +55,792 @@ const jsonLd = [orgSchema, websiteSchema];
 <!-- HERO -->
 <main id="main">
 <section id="hero">
-  <div class="container">
-    <div class="hero-row">
-      <div class="hero-text">
-        <h1><span translate="no">Refinery</span> <span class="hero-title-accent">Industrial AI OS</span></h1>
-        <p>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다(::after).
+      ⚠️ sticky 로 둔다. 히어로는 250vh 라 그냥 깔면 스크롤을 따라 흘러가는데,
+         보는 사람은 늘 화면 안을 가리키므로 점판도 화면에 붙어 있어야 한다.
+      ⚠️ 무대(.hero-stage)보다 앞에 둔다. 둘 다 sticky 라 뒤에 오는 쪽이 위에
+         그려진다 — 점판이 글과 그래픽 아래로 간다. */}
+  <canvas class="hero-dots" aria-hidden="true"></canvas>
+  <HeroZoom />
+  <div class="hero-stage">
+    <div class="container">
+      <h1><span class="hero-title-lead">Scattered sites,</span><br><span class="hero-title-accent">one operating system</span></h1>
+      <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+      {/* Pressing a pin puts that marker's text here — right under the sub-copy, on the
+          same left edge. It takes the head grid's second row, right column, so the spot
+          follows the sub-copy on its own.
+          The cell is zero-height and the card is absolutely placed inside it: otherwise
+          the head grows when the card opens and pushes the graphic down.
+          The box is left empty: the script below fills it from <template data-hero-card>. */}
+      <div class="hero-pin-layer">
+        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
+          <div class="hero-pin-card__art" aria-hidden="true"></div>
+          <div class="hero-pin-card__body">
+            <h3 class="hero-pin-card__title"></h3>
+            <p class="hero-pin-card__desc"></p>
+          </div>
+        </div>
+      </div>
      </div>
-      <div class="hero-actions">
-        <a href="/en/contact" class="hero-demo-link" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">
-          Request a demo
-          <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
-        </a>
-     </div>
-   </div>
     <div class="hero-motion-placeholder">
-      {/* 클릭 레이어. iframe의 pointer-events를 열면 사용자가 데모 내부 UI를
-          조작하게 되므로, 칸 위에 투명 버튼을 덮고 postMessage로만 제어한다. */}
-      <button type="button" id="hero-demo-toggle" class="hero-demo-toggle" aria-label="Play / pause demo" aria-pressed="false">
-        <span class="hero-demo-toggle-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
-       </span>
-      </button>
-      <iframe id="hero-agent-iframe" data-src="/agent-replay-demo-en" loading="lazy" title="Refinery AI agent demo" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
-       </div>
-
- </div>
+      {/* VETEC hero graphic — usage and options live in public/hero/README.md.
+          Marker copy and coordinates are in MARKERS at the top of public/hero/vetec-hero.js.
+          .vh defaults to viewport height, so global.css hands it a --vh-height that fits
+          the box. Without JS the static image shows instead. */}
+      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets-flat/"
+        data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="VETEC industrial site digital twin">
+        <img class="vh-static" src="/hero/assets-flat/static.webp" alt="Digital twin graphic: an air compressor, air receiver tank and pump-motor skid on a site set in mountain terrain">
+      </section>
+    </div>
+  </div>
   
+  <HeroPinArt />
+  <script is:inline src="/hero/vetec-hero.js" defer></script>
+  {/* ⚠️ 스크롤 등장의 공용 장치. 아래 섹션 스크립트들이 모두 이걸 쓴다 —
+      여기보다 뒤에 와야 한다. 예전에는 clamp · ease · stagePinned · '제목이
+      화면을 올라오는 만큼' 식이 섹션마다 복붙돼 있었다(각 3벌 · 2벌).
+      값은 그대로다 — 쓰는 쪽이 제 상수를 넘긴다. */}
   <script is:inline>
-    (function() {
-      // 데모 안의 무대(.stage)는 1320x840 고정이고 K = min(폭/1320, 높이/840)로 줄어든다.
-      // 예전엔 iframe이 1440x900이라 높이 쪽이 먼저 걸려(900/840 < 1440/1320) 무대 폭이
-      // 1414px에 그쳤고, 남는 13px씩이 데모 페이지 배경(#E9ECEF)으로 보였다.
-      // 높이를 비율보다 살짝 크게 잡아 K가 폭에서 정해지게 하면 무대가 폭을 정확히 채운다.
-      var STAGE_W = 1320, STAGE_H = 840;
-      var HERO_AGENT_W = 1440;
-      var HERO_AGENT_H = Math.ceil(HERO_AGENT_W * STAGE_H / STAGE_W) + 2;  // 918
-      function resizeHeroAgent() {
-        var wrapper = document.querySelector('.hero-motion-placeholder');
-        if (!wrapper) return;
-        var w = wrapper.offsetWidth;
-        var h = wrapper.offsetHeight;
-        // 폭 기준으로만 스케일링해 어느 폭에서나 데모 화면 전체가 그대로 보이게 한다.
-        // 예전에는 900px 이하에서 좌측 세션 레일(무대 252px)을 잘라 본문을 키웠는데,
-        // 화면이 잘려 보인다는 지적이 있어 걷었다. 대신 좁을수록 글씨가 작아진다.
-        var scale = w / HERO_AGENT_W;
-        var leftOffset = 0;
-        var scaledH = HERO_AGENT_H * scale;
-        // 세로로 남는 자투리는 가운데를 기준으로 잘라 낸다(칸에 overflow: hidden이 걸려 있다).
-        // Math.max(0, ...)이면 자투리가 아래에 배경으로 남는다.
-        var topOffset = (h - scaledH) / 2;
-        var iframe = document.getElementById('hero-agent-iframe');
-        if (iframe) {
-          iframe.style.width = HERO_AGENT_W + 'px';
-          iframe.style.height = HERO_AGENT_H + 'px';
-          iframe.style.transform = 'scale(' + scale + ')';
-          iframe.style.top = topOffset + 'px';
-          iframe.style.left = leftOffset + 'px';
+    window.RfMotion = {
+      /* 0~1 로 자른다. */
+      clamp: function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; },
+      /* smoothstep — 양 끝에서 기울기가 0 이라 시작과 끝이 매끄럽다.
+         페이지의 모든 스크롤 등장이 이 하나를 쓴다. */
+      ease: function (t) { return t * t * (3 - 2 * t); },
+      /* 무대를 화면에 붙여 두는 폭인가. position 을 직접 읽는다 — 미디어 쿼리
+         경계를 스크립트에 두 번 적지 않기 위해서다. */
+      pinned: function (el) { return !!el && getComputedStyle(el).position === 'sticky'; },
+      /* 무대를 붙이지 않을 때 쓰는 진행도 — 제목이 화면을 올라오는 만큼이다.
+         from · to 는 화면 높이의 배수이고, 쓰는 쪽이 제 값을 넘긴다
+         (플랫폼 · 솔루션 1.05 → -0.35, 보안 1.00 → 0.35). */
+      rise: function (el, from, to) {
+        if (!el) return 1;
+        var vh = window.innerHeight || 800;
+        var a = vh * from, b = vh * to;
+        if (a <= b) return 1;
+        return this.clamp((a - el.getBoundingClientRect().top) / (a - b));
+      }
+    };
+  </script>
+  <script is:inline>
+    /* 히어로 핀 — 누르면 무대 왼쪽 아래 카드에 그 마커의 글이 선다.
+       ⚠️ 호버로는 열리지 않는다. 그래픽(public/hero/vetec-hero.js)에서 호버 · 포커스 ·
+          탭으로 카드를 열던 손잡이를 뺐고, 핀마다 나던 카드(.vh-card)는 CSS 로 숨겼다.
+       ⚠️ 핀은 그래픽이 나중에 만든다 — 지금 찾아 두면 늘 null 이다. document 에 한 번만
+          듣고(이벤트 위임) 누른 자리에서 마커를 거슬러 올라간다.
+       ⚠️ 열린 핀 표시는 그래픽의 is-pinned 를 그대로 쓴다(면이 차고 + 가 × 로 돈다).
+          그 클래스를 건드리는 쪽은 이제 여기뿐이다. */
+    (function () {
+      var hero = document.getElementById('hero');
+      var card = document.getElementById('heroPinCard');
+      if (!hero || !card) return;
+      var art = card.querySelector('.hero-pin-card__art');
+      var tt = card.querySelector('.hero-pin-card__title');
+      var ds = card.querySelector('.hero-pin-card__desc');
+      var open = null;
+
+      /* 핀을 처음 누르면 그래픽이 한 벌 바뀐다 — 도면 같은 판(assets-flat)에서
+         빛을 계산한 판(assets)으로 간다. '들여다보니 현장이 켜진다' 는 뜻이다.
+         ⚠️ 무거운 판은 미리 받아 둔다. 핀은 그래픽이 다 자란 뒤(#hero.is-grown)에만
+            눌리므로, 그 클래스가 붙는 순간이 받아 둘 자리다 — 누를 때 받으면
+            2.3MB 를 기다리는 동안 아무 일도 안 일어난다.
+         ⚠️ 받아 둔 뒤 src 만 갈아 끼운다. 캐시에 있으므로 한 프레임에 바뀐다.
+            층마다 제 등장 애니메이션(.vh-fade · .vh-glow · .vh-flow)이 걸려 있어
+            겹쳐 띄우면 그 애니메이션이 서로 부딪힌다.
+         ⚠️ 한 번 바뀌면 그대로 둔다. 핀을 닫아도 되돌리지 않는다. */
+      var LIT = '/hero/assets/', FLAT = '/hero/assets-flat/';
+      var litReady = false, lit = false;
+      function preloadLit() {
+        if (litReady) return;
+        litReady = true;
+        var names = ['near'];
+        for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
+      }
+      /* 바뀌는 것은 가운데 설비 층(near.webp) 한 장뿐이다 — 산 · 능선 · 전경 지형과
+         땅에 그려진 윤곽선 · 빛줄기(near-contour · near-glow)는 도면 판 그대로다.
+         ⚠️ 밑장을 지우지 않고 그 위에 한 겹 얹는다. 두 겹이 겹쳐 있으므로 얹히는
+            쪽의 투명도만 움직이면 건너감이 되고, 되돌릴 때도 걷어 내기만 하면 된다. */
+      function litLayer() { return hero.querySelector('.vh-lit-near'); }
+      function baseNear() {
+        var imgs = hero.querySelectorAll('.vh-layer');
+        for (var i = 0; i < imgs.length; i++) {
+          var s = imgs[i].getAttribute('src') || '';
+          if (s.indexOf(FLAT) === 0 && /\/near\.webp$/.test(s) && !imgs[i].classList.contains('vh-lit-near')) return imgs[i];
+        }
+        return null;
+      }
+      var dimT = 0;
+      function light(id) {
+        /* 어느 핀을 눌러도 바뀌는 자리는 하나다 — 가운데 설비 띠.
+           핀마다 제 지형을 바꾸게 해 봤더니 한 화면에서 바뀌는 자리가 셋이라
+           어디를 보라는 건지 흐려졌다. */
+        if (lit) return;
+        clearTimeout(dimT);
+        var old = litLayer();
+        if (old && old.parentNode) old.parentNode.removeChild(old);
+        var base = baseNear();
+        if (!base) return;
+        lit = true;
+        var over = base.cloneNode(false);
+        over.setAttribute('src', LIT + 'near.webp');
+        over.setAttribute('aria-hidden', 'true');
+        over.setAttribute('alt', '');
+        over.classList.add('vh-lit-near');
+        base.parentNode.insertBefore(over, base.nextSibling);
+      }
+      function dim() {
+        if (!lit) return;
+        lit = false;
+        var over = litLayer();
+        if (!over) return;
+        over.classList.add('is-out');
+        clearTimeout(dimT);
+        dimT = setTimeout(function () {
+          var o = litLayer();
+          if (o && o.parentNode) o.parentNode.removeChild(o);
+        }, 460);
+      }
+
+      /* is-grown 은 HeroZoom 이 진행도를 보고 붙인다 — 그때 미리 받아 둔다.
+         ⚠️ 떨어질 때도 본다. 스크롤을 되올려 그래픽이 다시 작아지면 핀이 사라지는데,
+            카드만 남으면 무엇에 붙은 글인지 알 수 없다 — 같이 닫는다.
+         ⚠️ hide() 가 #hero 의 class 를 또 건드리지만(pin-open) 그때는 open 이 이미
+            비어 있어 되돌이로 돌지 않는다. */
+      if (window.MutationObserver) {
+        var mo = new MutationObserver(function () {
+          if (hero.classList.contains('is-grown')) {
+            preloadLit();
+            /* 자라는 동안 배율이 계속 바뀐다 — 멈춘 뒤에 한 번 더 잰다. */
+            fitSoon(); setTimeout(fitPins, 180); setTimeout(fitPins, 520);
+          }
+          else if (open) hide();
+        });
+        mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
+        if (hero.classList.contains('is-grown')) preloadLit();
+      /* 좁은 폭에서는 장면이 칸보다 커서 좌우가 잘린다(820 에서 294px, 600 에서
+         404px). 그 바깥에 놓인 핀은 칸 밖으로 나가 반쪽만 보이거나 아예 안
+         보였다 — 핀을 통째로 안쪽으로 당겨 늘 칸 안에 서게 한다.
+         ⚠️ 핀 머리만 옮기지 않는다. 줄기와 바닥 점까지 같이 가야 '이 자리를
+            가리킨다' 가 유지된다. 어차피 원래 가리키던 설비는 잘려 나간 뒤다.
+         ⚠️ translate 로 민다 — .vh-marker 는 transform 을 쓰지 않지만, 그래픽
+            쪽이 나중에 쓰더라도 부딪히지 않는다.
+         ⚠️ 재기 전에 되돌린다. 제가 민 값이 남아 있으면 그만큼 또 밀린다. */
+      var FIT_PAD = 8;
+      function fitPins() {
+        var box = hero.querySelector('.hero-motion-placeholder');
+        if (!box) return;
+        var ms = hero.querySelectorAll('.vh-marker');
+        if (!ms.length) return;
+        for (var i = 0; i < ms.length; i++) ms[i].style.removeProperty('translate');
+        var bb = box.getBoundingClientRect();
+        /* ⚠️ 무대(.vh-stage)가 scale 을 걸고 있다 — 그 안에서 미는 값은 화면에서
+           그 배율만큼 줄어든다. 화면 기준으로 옮기고 싶은 거리를 배율로 나눈다.
+           이 보정 없이는 600 에서 143px 을 밀어도 핀이 여전히 칸 밖이었다. */
+        var sx = 1;
+        var st = hero.querySelector('.vh-stage');
+        if (st && window.DOMMatrixReadOnly) {
+          try { sx = new DOMMatrixReadOnly(getComputedStyle(st).transform).a || 1; } catch (e) { sx = 1; }
+        }
+        if (!sx) sx = 1;
+        for (var i = 0; i < ms.length; i++) {
+          var pin = ms[i].querySelector('.vh-pin');
+          if (!pin) continue;
+          var b = pin.getBoundingClientRect(), dx = 0;
+          if (b.left < bb.left + FIT_PAD) dx = (bb.left + FIT_PAD) - b.left;
+          else if (b.right > bb.right - FIT_PAD) dx = (bb.right - FIT_PAD) - b.right;
+          if (dx) ms[i].style.setProperty('translate', (dx / sx).toFixed(2) + 'px 0');
         }
       }
-      /* 클릭으로 재생/일시정지. 상태는 데모가 refinery-hero-state로 돌려준다. */
-      function initHeroToggle() {
-        var btn = document.getElementById('hero-demo-toggle');
-        var frame = document.getElementById('hero-agent-iframe');
-        if (!btn || !frame) return;
-        btn.addEventListener('click', function () {
-          if (!frame.getAttribute('src')) return;   /* 아직 안 불러왔으면 무시 */
-          try { frame.contentWindow.postMessage({ type: 'refinery-hero-toggle' }, '*'); } catch (e) {}
-        });
-        window.addEventListener('message', function (e) {
-          if (!e.data || e.data.type !== 'refinery-hero-state') return;
-          btn.classList.toggle('is-paused', !!e.data.paused);
-          btn.setAttribute('aria-pressed', e.data.paused ? 'true' : 'false');
-        });
+      var fitT = false;
+      function fitSoon() {
+        if (fitT) return;
+        fitT = true;
+        requestAnimationFrame(function () { fitT = false; fitPins(); });
       }
-      window.addEventListener('load', initHeroToggle);
+      addEventListener('resize', fitSoon, { passive: true });
+      addEventListener('scroll', fitSoon, { passive: true });
+      } else { preloadLit(); }
 
-      window.resizeHeroAgent = resizeHeroAgent;
-      window.addEventListener('load', resizeHeroAgent);
-      window.addEventListener('resize', resizeHeroAgent);
-      document.addEventListener('DOMContentLoaded', resizeHeroAgent);
-
-      function loadHeroDemo() {
-        var f = document.getElementById('hero-agent-iframe');
-        if (f && !f.src && f.getAttribute('data-src')) {
-          f.addEventListener('load', resizeHeroAgent);
-          f.src = f.getAttribute('data-src');
+      function mark(id) {
+        var ms = hero.querySelectorAll('.vh-marker');
+        for (var i = 0; i < ms.length; i++) {
+          ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
+        }
+        /* 하나를 고르면 나머지 핀은 물러선다(CSS 의 #hero.pin-open). */
+        hero.classList.toggle('pin-open', !!id);
+      }
+      /* 카드가 덮는 자리에 선 핀은 감춘다. 카드는 머리글에 붙어 늘 같은 자리인데
+         (1600 기준 453~676) 핀은 화면 높이를 따라 오르내린다 — 창이 낮을수록
+         오른쪽 핀이 카드 안으로 들어와, 760 높이에서는 44×44 가 통째로 겹쳤다.
+         ⚠️ 고른 핀은 감추지 않는다 — CSS 가 카드 위로 올려 통째로 보이게 한다.
+         ⚠️ 창 크기와 스크롤에 따라 다시 재야 한다. 히어로가 자라는 동안에도
+            핀이 움직인다. */
+      function cover() {
+        var ms = hero.querySelectorAll('.vh-marker');
+        var cb = open ? card.getBoundingClientRect() : null;
+        for (var i = 0; i < ms.length; i++) {
+          var m = ms[i], pin = m.querySelector('.vh-pin');
+          if (!cb || !pin || m.classList.contains('is-pinned')) { m.classList.remove('is-covered'); continue; }
+          var b = pin.getBoundingClientRect();
+          m.classList.toggle('is-covered',
+            Math.min(cb.right, b.right) > Math.max(cb.left, b.left) &&
+            Math.min(cb.bottom, b.bottom) > Math.max(cb.top, b.top));
         }
       }
-      if ('requestIdleCallback' in window) {
-        window.addEventListener('load', function () { requestIdleCallback(loadHeroDemo, { timeout: 1500 }); });
-      } else {
-        window.addEventListener('load', function () { setTimeout(loadHeroDemo, 200); });
+      var coverT = false;
+      function coverSoon() {
+        if (coverT || !open) return;
+        coverT = true;
+        requestAnimationFrame(function () { coverT = false; cover(); });
+      }
+      addEventListener('scroll', coverSoon, { passive: true });
+      addEventListener('resize', coverSoon, { passive: true });
+      function hide() {
+        card.hidden = true;
+        /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
+        dim();
+        mark(null); open = null;
+        cover();
+      }
+      function show(id) {
+        var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
+        if (!tpl) return;
+        var h = tpl.content.querySelector('.vh-card__title');
+        var p = tpl.content.querySelector('.vh-card__desc');
+        /* 윗자리 그래픽은 HeroPinArt 가 둔 <template data-hero-art> 에서 꺼낸다 —
+           마커 id 로 찾는다. 없으면 그 자리를 비워 둔다(글만 선다). */
+        var atpl = document.querySelector('template[data-hero-art="' + id + '"]');
+        art.textContent = '';
+        if (atpl) art.appendChild(atpl.content.cloneNode(true));
+        art.hidden = !atpl;
+        tt.textContent = h ? h.textContent : '';
+        ds.textContent = p ? p.textContent : '';
+        card.hidden = false;
+        mark(id);
+        open = id;
+        /* open 이 정해진 뒤에 잰다 — mark() 안에서는 아직 비어 있다. */
+        cover();
       }
 
-      /* 히어로 데모가 재생 완료된 뒤 화면 밖으로 나갔다가 다시 들어오면
-         재생을 처음부터 다시 시작한다 (멈춰있는 화면처럼 보이지 않도록). */
-      function initHeroReplay() {
-        var heroSection = document.getElementById('hero');
-        var iframe = document.getElementById('hero-agent-iframe');
-        if (!heroSection || !iframe || !('IntersectionObserver' in window)) return;
-        var hasLeft = false;
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              if (hasLeft) {
-                hasLeft = false;
-                try {
-                  iframe.contentWindow.postMessage({ type: 'refinery-hero-replay' }, '*');
-                } catch (e) { /* 접근 불가 시 무시 */ }
-              }
-            } else {
-              hasLeft = true;
-            }
-          });
-        }, { threshold: 0.5 });
-        observer.observe(heroSection);
-      }
-      window.addEventListener('load', initHeroReplay);
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var pin = t.closest('.vh-pin');
+        if (pin && hero.contains(pin)) {
+          var m = pin.closest('.vh-marker');
+          var id = m && m.getAttribute('data-id');
+          if (!id) return;
+          light(id);
+          if (open === id) hide(); else show(id);
+          return;
+        }
+        /* 카드 안을 누르는 건 아무 일도 아니다 — 닫는 건 같은 핀을 다시 누르거나
+           바깥을 누르거나 Esc 다. */
+        if (t.closest('.hero-pin-card')) return;
+        if (open) hide();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && open) hide();
+      });
     })();
   </script>
+
+  {/* Marker card contents. The graphic (public/hero/vetec-hero.js) draws the pins and an
+      empty card shell; this fills it — the script below matches them by data-id.
+      Copy lives in src/data/heroMarkers.ts, styling in global.css. */}
+  {heroCards.en.map((c) => (
+    <template data-hero-card={c.id} data-hero-card-label={c.title}>
+      <div class="vh-card__top"><i class={`ph ${c.icon} vh-card__ic`} aria-hidden="true"></i></div>
+      <h3 class="vh-card__title">{c.title}</h3>
+      <p class="vh-card__desc">{c.desc}</p>
+    </template>
+  ))}
+  <script is:inline type="module">
+    (function () {
+      /* ⚠️ 그래픽 스크립트가 카드 껍데기를 만든 뒤에 돌아야 한다.
+         vetec-hero.js 는 defer 라 파싱이 끝난 뒤 실행되는데, 보통의 인라인 스크립트는
+         파싱 도중 즉시 실행된다 — 그때는 카드가 아직 없어 빈 상자만 남는다.
+         type="module" 이면 defer 와 같은 큐에 들어가 문서 순서대로 실행되고,
+         그래도 늦는 경우를 대비해 카드가 생길 때까지 DOM 을 지켜본다. */
+      function fill() {
+        var cards = document.querySelectorAll('#hero .vh-card');
+        if (!cards.length) return false;
+        var filled = 0;
+        for (var i = 0; i < cards.length; i++) {
+          var card = cards[i];
+          if (card.childElementCount) { filled++; continue; }
+          var marker = card.closest('.vh-marker');
+          if (!marker) continue;
+          var tpl = document.querySelector('template[data-hero-card="' + marker.getAttribute('data-id') + '"]');
+          if (!tpl) continue;
+          card.appendChild(tpl.content.cloneNode(true));
+          /* 핀과 카드의 접근성 이름도 문구에서 가져온다 — 그래픽은 더 이상 문구를 모른다. */
+          var label = tpl.getAttribute('data-hero-card-label') || '';
+          card.setAttribute('aria-label', label);
+          var pin = marker.querySelector('.vh-pin');
+          if (pin) pin.setAttribute('aria-label', label);
+          filled++;
+        }
+        return filled === cards.length;
+      }
+      if (fill()) return;
+      var hero = document.getElementById('hero');
+      if (!hero || !('MutationObserver' in window)) return;
+      var obs = new MutationObserver(function () { if (fill()) obs.disconnect(); });
+      obs.observe(hero, { childList: true, subtree: true });
+      /* 그래픽이 끝내 안 뜨는 경우까지 지켜보지는 않는다. */
+      setTimeout(function () { obs.disconnect(); }, 8000);
+    })();
+  </script>
+
   </section>
 
+<ScrollReveal />
+
 <!-- PLATFORM -->
-<section id="platform" style="background:#111316;border-top:1px solid #E3E7EC;">
+<section id="platform">
   <style is:global>
-    #platform .section-header p {
-      color: #959CA5;
+    /* 섹션은 길이만 쥔다. 화면에 보이는 것은 그 안의 무대 하나다 —
+       320vh 중 100vh 가 무대이고, 남는 220vh 가 스크롤로 쓰는 몫이다.
+       (낱말 0~45% · 배경과 본문 45~72% · 그대로 멈춤 72~100%) */
+    #platform { height: 320vh; padding: 0; background: #151B23; }
+
+
+    #platform .pf-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      /* 내비(fixed · 70px)가 무대 윗부분을 덮는다. 그만큼 위를 비워 두어야
+         '보이는 화면' 의 위아래 여백이 같아진다 — box-sizing 이 border-box 라
+         높이는 100vh 그대로다. */
+      padding-top: 70px;
+      /* ⚠️ 아래 여백은 그래픽이 줄 밖으로 흘러내린 만큼이다. 그림 상자는
+         margin-bottom: -7% 로 줄 바닥을 제 안쪽으로 끌어올려 아코디언과 아랫변을
+         맞추는데, 그 7% 가 줄 아래로 더 그려진다 — 줄만 가운데에 세우면 보이는
+         잉크는 위 78 / 아래 25 로 어긋난다(1440×900 실측). 같은 값을 아래 여백으로
+         돌려주면 51/51 로 맞는다. 7% 의 기준인 그림 폭은 아래 max-width 와 같은
+         식이라 화면 높이만 따라간다. */
+      padding-bottom: calc((100vh - 200px) * 0.0753);
+      overflow: hidden;
+      /* 제목과 본문이 같은 칸을 나눠 쓴다 — 제목이 빠지는 자리에 본문이 들어선다. */
+      display: grid;
+      grid-template-areas: "s";
+      align-items: center;
+      /* 흰 면에서 시작해 바닥에서 정확히 #151B23 에 닿는다 — 무대가 100vh 이고
+         타원 세로 반지름이 150vh 라, 바닥(y=100vh)이 33.33% 정지점이다.
+         스크롤하면 반지름이 커지며 먹색이 위로 번져 화면 전체를 덮는다.
+         ⚠️ 정지점이 % 라 화면 높이가 바뀌어도 비율이 그대로 따라간다. */
+      /* ⚠️ 정지점을 손으로 찍지 않는다. 색 차례와 양 끝(#151B23 33.33% ·
+         #FFFFFF 86.67%)은 그대로 두고, 그 사이를 지나는 '속도'만 다시 깔았다 —
+         양 끝 15% 에서 기울기가 0 이 되게 눕히는 곡선이다(가운데 70% 는 그대로).
+         ⚠️ 까닭 — 가운데가 평평한 먹색인데 거기서 램프가 갑자기 시작해 기울기가
+            그 한 줄에서 꺾였다. 화면에서는 호 모양 선으로 보인다(기울기 변화가
+            y≈664 한 곳에 0.1333 으로 몰렸다. 눕힌 뒤 0.1000 이 고르게 퍼진다).
+         ⚠️ 색은 한 톤도 바꾸지 않았다. 채도를 올리거나 남색을 경유시키는 안도
+            만들어 봤지만 브랜드색(#76A6D7)이 다른 파랑이 되어 접었다. */
+      background: radial-gradient(ellipse var(--pf-rx, 180%) var(--pf-ry, 150vh) at 50% 150vh,#151B23 0%,#151B23 33.33%,#151B24 33.69%,#161D26 34.13%,#171F29 34.49%,#19232E 34.93%,#1D2A39 35.64%,#223041 36.26%,#27374A 36.89%,#2D4055 37.6%,#354B63 38.4%,#3E5772 39.29%,#456281 40.09%,#4A6888 40.53%,#507193 41.24%,#618AB2 43.38%,#6A96C2 44.44%,#74A2D2 45.51%,#74A3D3 45.6%,#7EABDA 46.66%,#89B2DD 47.82%,#9BBEE3 49.95%,#A4C4E5 51.11%,#ABC9E8 52.27%,#B3CEEA 53.33%,#BAD2EC 54.4%,#C0D6EE 55.55%,#C6DAEF 56.62%,#CCDEF1 57.78%,#D1E1F2 58.84%,#D5E4F4 60%,#DAE7F5 61.07%,#DEE9F6 62.22%,#E1ECF7 63.38%,#E5EEF8 64.44%,#E7EFF9 65.16%,#EAF2FA 66.67%,#EDF3FA 67.82%,#EFF5FB 68.89%,#F1F6FB 69.96%,#F3F7FC 71.11%,#F5F8FC 72.27%,#F6F9FD 73.34%,#F8FAFD 74.49%,#F9FBFD 75.56%,#FAFCFE 76.62%,#FBFCFE 77.78%,#FBFDFE 78.94%,#FDFDFE 80.71%,#FDFEFE 81.6%,#FDFEFF 82.4%,#FEFEFF 83.29%,#FEFFFF 84.36%,#FFFFFF 86.67%,#FFFFFF 100%);
     }
-    /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 긴 줄(391px)이
-       다시 감겨 3줄이 됐다. 400px이면 2줄로 들어가고, 제목 옆 여유(1024px에서
-       522px)가 충분해 우측 배치도 그대로다. */
-    #platform .section-header-row p {
-      max-width: 400px;
+    #platform .pf-stage > * { grid-area: s; min-width: 0; }
+
+    #platform .section-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      /* 배경이 어두워지는 동안 같이 빠진다 — 먹색 글자라 그냥 두면 중간의
+         회색 구간에서 뭉개진다. */
+      opacity: var(--pf-title, 1);
+    }
+    #platform .section-lead-ko { margin-bottom: 0; }
+
+    /* 대제목의 마지막 낱말이 스크롤을 따라 한 칸씩 바뀐다.
+       패턴 → 맥락 → 지식 → 지능. 저절로 돌지 않고 스크롤한 만큼만 간다.
+       ⚠️ 마크업에는 완성된 한 줄(데이터에서 지능으로)만 둔다. 스크립트가 못 돌면
+          그 한 줄이 그대로 보여야 하고, 색인·번역도 원문을 읽어야 한다.
+          바뀌는 낱말은 data-swap 에 둔다. */
+    #platform .tw-swap {
+      display: inline-block;
+      position: relative;
+      vertical-align: top;
+      text-align: left;
+    }
+    #platform .tw-swap b {
+      display: block;
+      font-weight: inherit;
+      opacity: 0;
+      transform: translateY(70%);
+      transition: opacity var(--t-quick), transform var(--t-move);
+    }
+    /* 첫 낱말만 흐름에 남아 줄 높이를 잡는다. 나머지는 그 위에 겹쳐 둔다 —
+       흐름에 두면 네 줄이 되어 제목이 네 배로 높아진다. */
+    #platform .tw-swap b + b { position: absolute; left: 0; top: 0; width: 100%; }
+    #platform .tw-swap b.is-past { opacity: 0; transform: translateY(-70%); }
+    #platform .tw-swap b.is-now { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      #platform .tw-swap b { transition: none; }
     }
 
-    /* FAQ 4번 답변을 절 경계에서 끊는다. <br> 없이 두면 브라우저가
-       'and / integrates'처럼 접속사만 줄 끝에 남긴다.
-       1행 'Refinery tears nothing out … your existing systems'에 633px가 필요한데,
-       FAQ가 2열인 구간에서는 답변 폭이 그보다 좁아(1100px에서 617px) 1행이 다시
-       감겨 5줄이 된다 → 그 구간에서만 <br>를 걷는다.
-       900px 이하는 FAQ가 1열로 바뀌며 폭이 되레 넓어져(900px에서 837px) 그대로 둔다.
-       숨겨도 마크업에는 남아 번역기가 여기서 세그먼트를 끊지만, 절 경계라
-       'and integrates bidirectionally with them.'만으로도 뜻이 온전하다. */
-
-
-    /* FAQ 1번도 같은 이유로 절 경계에서 끊는다. <br> 없이 두면
-       'the complexity of your / existing systems.'처럼 두 낱말만 남는다.
-       1행 'From a PoC … the scale of your operation'에는 539px가 필요해
-       4번(633px)보다 여유가 있다 → 걷는 구간도 그만큼 좁다.
-       1024px 이상이면 답변 폭이 566px라 1행이 들어가고, 960px에서는 523px로
-       모자라 'operation'만 홀로 남는다. */
-    /* 좁은 폭에서는 절을 한 번 더 쪼갠다(faq-sm*). 중간 쪼갬(faq-mid-br · faq-wide-br ·
-       faq-br2)만으로는 앞쪽 행이 그대로 감겨 낱말이 홀로 남았다 — 480px 에서 2번이
-       "… encrypted with / AES-256," 로 끊겼다.
-       켜고 끄는 폭은 그 답변의 중간 쪼갬 줄이 한 줄에 들어가는 지점이다
-       (1번 615px · 2번 554px · 4번 708px). 900px 을 넘기면 FAQ 가 2열이 되며
-       답변 폭이 844 → 486px 로 되레 줄어 다시 켜고, 폭이 돌아오는 지점에서 끈다
-       (1번 1024px · 2번 950px · 4번 1150px).
-       좁은 쪼갬 자체는 423px 까지 들어간다(1번 411 · 2번 423 · 4번 409px).
-       중간 쪼갬은 이제 늘 켜 둔다 — 좁은 쪽은 faq-sm 이 맡는다. */
-    .faq-sm1, .faq-sm2, .faq-sm4 { display: inline; }
-    /* 2·4번은 넓은 쪽과 좁은 쪽이 서로 다른 자리에서 끊긴다 — 겹치는 자리가 하나뿐이라
-       (2번 "audit logs." · 4번 "with them.") 두 벌을 따로 두고 맞바꾼다.
-       좁은 쪽 줄 나눔은 줄 수를 줄이려고 다시 잡았다: 4번 8 → 6줄 · 2번 6 → 5줄.
-       넓은 쪽으로 넘어가는 폭은 그 벌의 가장 긴 줄 기준이다 — 2번은 셋째 문장이
-       679px 이라 755px(2열에서는 1220px)이고, 4번은 첫 줄 632px 이라 708px(1150px)이다.
-       절 경계마다 끊으면 줄 끝에 여백이 남아 줄이 늘어난다 — 줄을 채우되 그 자리를
-       <br> 로 고정해 폭이 바뀌어도 같은 모양이 나오게 했다. */
-    .faq-br2, .faq-wide-br { display: none; }
-    @media (min-width: 755px) { .faq-sm2 { display: none; } .faq-br2 { display: inline; } }
-    @media (min-width: 615px) { .faq-sm1 { display: none; } }
-    @media (min-width: 708px) { .faq-sm4 { display: none; } .faq-wide-br { display: inline; } }
-    @media (min-width: 900.02px) {
-      .faq-sm1, .faq-sm2, .faq-sm4 { display: inline; }
-      .faq-br2, .faq-wide-br { display: none; }
+    /* 제목 줄. 왼쪽 맞춤이고 아코디언 위에 선다.
+       ⚠️ flex: none — 칸이 flex 라 기본값(shrink: 1)이면 줄 높이가 눌려 세 줄이
+          한 줄 높이로 찌그러진다. 글자만 잘려 안 보인다. */
+    #platform .pf-lead {
+      flex: none;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      letter-spacing: var(--ls-tight);
+      line-height: var(--lh-title);
+      color: #F6F8FA;
+      max-width: none;
+      margin: 0 0 40px;
+      text-align: left;
+      word-break: keep-all;
     }
-    @media (min-width: 1220px) { .faq-sm2 { display: none; } .faq-br2 { display: inline; } }
-    @media (min-width: 1024px) { .faq-sm1 { display: none; } }
-    @media (min-width: 1150px) { .faq-sm4 { display: none; } .faq-wide-br { display: inline; } }
 
-    /* 2·5번도 같은 방식으로 절 경계에서 쪼갠다. 자리가 되는 폭에서는 문장 단락이
-       한 줄씩 들어가므로 끄고, 문장이 넘치는 폭에서만 켠다.
-       폭이 넓다고 늘 자리가 넉넉하지는 않다 — 900px 을 넘기면 FAQ 가 제목·리스트
-       2열이 되며 답변 폭이 844 → 486px 로 되레 줄어, 그 구간에서 다시 켜야 한다.
-       2번 셋째 문장 679px · 쪼갠 줄 347px → 1열 755px · 2열 1220px 에서 끈다.
-       5번 첫 문장 519px · 쪼갠 줄 298px → 1열 595px · 2열 1000px 에서 끈다.
-       경계는 min-width 로만 쌓는다. max-width 와 짝지으면 소수 폭에서 틈이 생긴다. */
-    .faq-br5 { display: inline; }
-    @media (min-width: 595px) { .faq-br5 { display: none; } }
-    @media (min-width: 900.02px) { .faq-br5 { display: inline; } }
-    @media (min-width: 1000px) { .faq-br5 { display: none; } }
+    /* 본문은 제목이 빠지는 자리에 떠오르고, 다 뜬 뒤에는 무대가 붙어 있는 동안
+       그대로 멈춰 있다 — 아코디언은 그 상태에서 연다.
+       두 단은 따로 뜬다. 그래픽이 먼저(--pf-in), 왼쪽 글이 뒤따른다(--pf-in2). */
+    #platform .pf-body { pointer-events: var(--pf-pe, none); }
+    #platform .platform-split__cards {
+      opacity: var(--pf-in2, 0);
+      transform: translateY(calc(24px * (1 - var(--pf-in2, 0))));
+    }
 
-    /* 보안 카드 본문의 낱말 고아는 <br>가 아니라 브라우저에 맡긴다.
-       손으로 <br>를 박으면 그 폭에서만 맞고 다른 폭에서 어긋난다(위 FAQ가 그 예다 —
-       <br> 하나에 브레이크포인트가 둘 붙었다). pretty는 앞줄을 최대한 채우고
-       마지막 줄만 조정해, 폭이 변해도 마지막 줄에 한 낱말만 남지 않는다.
-       1024px에서 'and AES-256 at / rest.'와 '(RBAC) enforces least / privilege.'가
-       각각 한 낱말을 남겼는데 둘 다 사라진다.
-       balance가 아니라 pretty다 — balance는 모든 줄을 고르게 나눠 짧은 제목용이고,
-       여러 줄 본문에서는 각 줄이 덜 차 카드끼리 들쭉날쭉해진다.
-       같은 판단이 src/styles/industry.css:1138 에 이미 적혀 있다.
-       국문에는 걸지 않는다 — 수동 <br>가 자리를 잡고 있어 효과가 없다. */
-    #security .sec-card-body p { text-wrap: pretty; }
+    /* 왼쪽은 글(아코디언), 오른쪽은 그래픽. 그래픽이 이 섹션의 주인공이라
+       더 넓게 가져간다 — 내용 너비 1600px 에서 글 582px · 그래픽 938px 이다.
+       반반(625/625)으로 나눠 보니 그래픽이 글에 밀렸다. */
+    #platform .platform-split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+      gap: 80px;
+      margin-top: 0;
+      /* 기본값(stretch)으로 둔다. 왼쪽 단이 그래픽 높이만큼 늘어나야 아코디언을
+         바닥에 붙일 수 있다 — start 로 두면 단 높이가 글 높이에 머문다.
+         제목 줄은 단의 첫 아이라 늘어나도 윗변 맞춤은 그대로다. */
+      align-items: stretch;
+    }
+    #platform .platform-split__cards {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+    }
+    #platform .platform-graphic-img {
+      margin-top: 0;
+    }
+    /* 무대가 화면 하나라 그래픽이 그 안에 들어가야 한다. 넓은 화면에서는 폭이,
+       낮은 화면에서는 높이가 먼저 걸린다 — 둘 중 작은 쪽을 따른다. */
+    /* 그림 상자의 아랫변과 그림이 '보이는' 아랫변이 다르다. SVG 아래쪽 7% 는
+       바탕과 거의 구분되지 않는 옅은 그림자라, 상자를 그대로 두면 아코디언 마지막
+       선이 그만큼 아래로 내려가 보인다 — 그 아래를 잘라 낸다.
+       ⚠️ 자르는 선을 88.17% 로 잡았다가 그림이 잘려 보였다. 캔버스에 그려 행마다
+          바탕색(#151B23)과의 차이를 재어 보니, 84~92% 구간에는 최대 차이 40~99 짜리
+          실제 그림(받침판 아랫부분)이 있고 93% 부터가 최대 17 짜리 그림자다.
+          93% 에서 끊어야 보이는 것을 자르지 않는다.
+       ⚠️ 음수 % 마진은 '높이' 가 아니라 '폭' 을 기준으로 한다. 이 그림이 정사각
+          (1200×1200)이고 width: 100% · height: auto 라 둘이 같아서 성립한다.
+          정사각이 아닌 그림으로 바꾸면 이 값을 다시 잡아야 한다.
+       ⚠️ align-self: end — 줄 높이를 글 칸이 정할 때(영문은 제목이 두 줄로 감기는
+          줄이 있다) 그래픽을 줄 바닥에 붙여야 두 아랫변이 만난다. */
+    /* ⚠️ overflow 를 자르지 않는다. 아래 margin-bottom: -7% 가 상자 바닥을 그림
+       안쪽으로 끌어올리므로, 자르면 그 7% 가 통째로 잘려 받침판이 사라진다.
+       상자는 아랫변을 맞추는 용도고, 그림은 그 아래로 넘쳐 그려져야 온전하다. */
+    #platform .platform-graphic-wrap {
+      position: relative;
+      align-self: end;
+      width: 100%;
+      /* 보이는 높이가 폭의 93% 라, 무대 안에 들어갈 폭의 상한은 그 역수배다. */
+      max-width: calc((100vh - 200px) * 1.075);
+      margin-inline: auto;
+    }
+    #platform .platform-graphic-img {
+      display: block;
+      width: 100%;
+      /* <object> 는 <img> 와 달리 내부 비율로 높이를 잡지 않는다 — 직접 준다.
+         이 그림은 viewBox 가 1200×1200 인 정사각이다. */
+      aspect-ratio: 1 / 1;
+      height: auto;
+      margin-bottom: -7%;
+    }
+    /* 이름표는 SVG 밖 HTML 글자다. 그림 안에 path 로 굳어 있을 때는 그림이 줄어드는
+       만큼(1200 → 753, 0.627배) 글자도 줄어 화면에서 8.9px 밖에 안 됐다.
+       밖으로 빼면 크기를 따로 줄 수 있고, 배율이 바뀌어도 또렷하다.
+       ⚠️ 자리는 그림 상자(정사각) 기준의 % 다 — 그림이 커지고 작아져도 따라간다.
+          세로 28.083% 는 알약이 서 있던 자리(viewBox y 337 / 1200)다.
+       ⚠️ 알약도 SVG 에서 걷어 냈다. 글자만 키우면 원래 알약 폭을 넘친다. */
+    #platform .pf-labels {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      pointer-events: none;
+      container-type: inline-size;
+      /* 그림과 같은 박자로 뜬다. */
+      opacity: var(--pf-in, 0);
+      transform: translateY(calc(24px * (1 - var(--pf-in, 0))));
+      /* 오림도 그림과 같이 받는다. 빠뜨리면 온톨로지 판이 드러나기 전에
+         판 위에 눕는 이름표(Ontology · Unify · Refine · Collect · Data ·
+         Work flow)만 빈 바탕에 먼저 떠 보인다.
+         ⚠️ 이 상자는 그림과 같은 폭의 정사각형이라 같은 비율이 같은 자리를 자른다. */
+      clip-path: inset(0 0 var(--pf-clip, 69%) 0);
+    }
+    #platform .pf-label {
+      position: absolute;
+      left: var(--x);
+      top: 28.083%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      /* 알약 셋의 글자. 그림 폭을 따라가고 753px 에서 12px 다.
+         판 위에 눕는 여섯은 아래 .pf-label--iso 에서 10px 로 따로 준다. */
+      font-size: clamp(10px, 1.594cqw, 13px);
+      font-weight: 600;
+      letter-spacing: var(--ls-micro);
+      line-height: var(--lh-flat);
+      color: #16202C;
+      background: #76A6D7;
+      border-radius: 999px;
+      /* 알약은 원본 SVG 의 rect 치수를 그대로 쓴다(1200 기준 높이 45, 폭은 낱개로
+         150.39 · 148.48 · 176.18 — cqw 로 옮겨 그림 폭을 따라간다).
+         ⚠️ 글자에 여백을 붙여 키우는 방식이 아니다. 글자 크기를 바꿔도 알약은
+            그대로 있어야 원본과 같은 자리를 차지한다. */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* ⚠️ 글자에는 10px 바닥이 있는데(위 clamp) 알약에는 없어서, 칸이 좁아지면
+         글자는 그대로인 채 알약만 계속 줄어 모양이 달라졌다 — 넓은 화면에서는
+         글자 둘레가 넉넉한데 좁은 화면에서는 글자가 알약에 꽉 찼다.
+         바닥을 둘 다 같은 자리에 둔다: 글자가 10px 에 닿는 칸 폭은 627px 이고,
+         그때 높이는 3.75cqw = 23.5px 다.
+         ⚠️ 넓은 화면 값은 건드리지 않는다. width 는 그대로 --w 이고, 글자가
+            알약보다 넓어질 때만 min-width 가 받아 준다(평소에는 작동하지 않는다). */
+      width: var(--w);
+      min-width: fit-content;
+      padding-inline: max(6px, 0.9cqw);
+      box-sizing: border-box;
+      height: max(23.5px, 3.75cqw);
+      /* ⚠️ 세로로 밀어 내리지 않는다. 예전에는 .167em 을 위에 줘 글자를 1px
+         내렸는데('Refinery' 의 y 꼬리가 아래를 먹어 올라가 보인다는 판단),
+         4배로 캡처해 잉크를 재 보니 거꾸로 1.6px 내려가 있었다 — 위 9.75 ·
+         아래 6.50px. 0 으로 두면 7.75 / 8.50 으로 거의 맞는다.
+         ⚠️ 단축형(padding)으로 쓰면 안 된다. 위에서 준 padding-inline 을 0 으로
+            덮어 알약이 글자에 딱 붙는다 — 좁은 폭에서 글자가 알약 밖으로
+            삐져나온 것처럼 보였다(540 아래에서 알약 폭 = 글자 폭). */
+      padding-top: 0;
+      padding-bottom: 0;
+      transition: opacity var(--t-quick), filter var(--t-quick);
+    }
+    /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
+    #platform .pf-labels.rf-sel .pf-label { opacity: .18; }
+    #platform .pf-labels.rf-sel .pf-label.rf-on {
+      opacity: 1;
+      filter: drop-shadow(0 0 11px rgba(118, 166, 215, .45));
+    }
 
-    /* 통합 · 보안 대제목은 소제목을 오른쪽에 두려고 손으로 3줄로 쪼갠 것이다(a320fe6).
-       .section-header-row 는 flex-wrap 이라, 대제목 폭 + gap 32px + 소제목 폭이
-       컨테이너를 넘으면 소제목이 아래로 내려간다. 내려가고 나면 대제목이 한 행을
-       통째로 쓰므로 쪼개 둘 이유가 없다 → 그 지점부터 <br>를 걷는다.
+    /* 판 위 · 판 가장자리의 이름표. 기울기는 두 가지다 — 원본 글자의 생김새를
+       재어 갈랐다.
+       ① 가장자리 이름표(Ontology · Unify · Refine · Collect · Data)는 세로획이
+          화면에서 '정확히 수직'이다('l' 의 bbox 폭이 1.1 뿐이었다). 눕힌 투영이
+          아니라 세로 전단이다 — skewY(-30deg). 밑줄은 −30° 로 눕고 글자는 선다.
+       ② 'Work flow' 만 판 바닥에 눕힌 투영이다(글자가 가로로 늘고 높이가 반으로
+          줄어 있다). 그쪽은 아래에서 행렬로 따로 준다.
+       ⚠️ 선택자에 .pf-labels 를 한 겹 더 둔다. 기본 .pf-label 규칙과 특이도가 같으면
+          뒤에 선언된 쪽이 이겨 top 과 transform 이 그대로 덮인다 — 이름표가 위쪽
+          알약 줄에 가서 섰다. */
+    #platform .pf-labels .pf-label--iso {
+      top: var(--y);
+      /* 알약 이름표와 같은 600 으로 맞춘다. 전단을 거치며 획이 흐려져 눈에는
+         조금 가늘게 읽히지만, 한 벌의 굵기를 하나로 두는 쪽을 택했다.
+         흰 글자인 Ontology · Data 만 아래에서 300 으로 따로 내린다. */
+      font-weight: 600;
+      /* 판 위에 눕는 여섯은 10px — 알약(12px)보다 한 단계 작다. */
+      font-size: clamp(8px, 1.33cqw, 11px);
+      background: none;
+      /* 알약이 아니다 — 위에서 준 고정 치수를 글자 길이에 맡기는 쪽으로 되돌린다. */
+      display: block;
+      width: auto;
+      height: auto;
+      padding: 0;
+      border-radius: 0;
+      transform: translate(-50%, -50%) skewY(-30deg);
+    }
+    #platform .pf-labels .pf-label--ont {
+      color: #F6F8FA;
+      /* 흰 글자가 어두운 면 위에 있어 같은 굵기여도 번져 보인다 —
+         기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
+         ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
+      font-weight: 300;
+      letter-spacing: var(--ls-wide-xs);
+    }
+    /* 판 바닥에 눕는 쪽 — x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°). */
+    #platform .pf-labels .pf-label--wf {
+      transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
+      color: #9DBBD9;
+      /* 원본도 두 줄이다. 원본의 글자 중심 사이는 12 단위인데, HTML 로 빼면서
+         글자가 원본보다 커져 같은 비율로는 두 줄이 벌어져 보였다 — 더 붙인다.
+         ⚠️ 중앙 보정값(--x/--y)은 이 값에 매이지 않는다. 행간이 바뀌면 두 줄이
+            중심을 사이에 두고 같은 만큼 멀어지므로 글자 덩어리의 중심은 그대로다. */
+      line-height: 1.1;
+      text-align: center;
+      /* ⚠️ --x/--y 는 네모(칩 판) 한가운데가 아니다. 전단이 세로 거리를 가로로도
+            옮기기 때문에, 두 줄을 담은 상자의 한가운데를 네모 한가운데에 맞추면
+            정작 글자 덩어리는 왼쪽 위로 치우친다(윗줄은 왼쪽 위로, 아랫줄은
+            오른쪽 아래로 끌린 결과 두 줄의 글자 폭이 서로 다른 만큼 어긋난다).
+            그래서 상자를 네모 중심(600.03, 604.34)에서 오른쪽 아래로 그 어긋남만큼
+            밀어 둔다 — 880px 폭 · 글자 11px 기준 가로 1.59 · 세로 1.01 단위다. */
+    }
 
-         통합  대제목 590px + 32 + 소제목 491px = 1113px  → 1221~1230px 사이에서 내려간다
-         보안  대제목 458px + 32 + 소제목 556px = 1046px  → 1151~1160px 사이에서 내려간다
+    /* 판 가장자리의 작은 이름표 넷. 같은 아이소메트릭 행렬을 쓴다.
+       ⚠️ Unify · Refine · Collect 는 받치던 칩(#151B23)까지 SVG 에서 걷어 냈다.
+          글자만 키우면 칩(48×45)을 넘친다 — 칩도 HTML 로 다시 그려 글자 길이를
+          따라가게 했다. */
+    #platform .pf-labels .pf-label--chip {
+      color: #76A6D7;
+      /* 칩도 글자와 같이 눕는다 — 받침만 반듯하면 글자가 떠 보인다. */
+      background: #151B23;
+      padding: 0.45em 0.9em;
+      border-radius: 999px;
+    }
+    #platform .pf-labels .pf-label--data {
+      color: #F6F8FA;
+      /* 흰 글자가 어두운 면 위에 있어 같은 굵기여도 번져 보인다 —
+         기울인 다른 이름표(600)보다 세 단계 낮춰야 눈높이가 맞는다.
+         ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
+      font-weight: 300;
+      letter-spacing: var(--ls-wide-xs);
+    }
 
-       경계가 달라 클래스를 나눴다. <br> 앞 공백은 필수다 —
-       숨겼을 때 'have,or'처럼 낱말이 붙는다(같은 날 FAQ에서 겪었다). */
-    /* 통합 섹션 제목의 줄 나눔은 어느 폭에서나 켜 둔다. 예전에는 1229px 아래에서
-       꺼서 자연 줄바꿈에 맡겼는데, 그러면 폭마다 끊기는 자리가 달라졌다.
-       세 행이 최장 390px(28px 글자)이라 제목 폭이 그만큼 되는 460px 까지 세 줄로
-       선다. 그 아래는 행이 감겨 네 줄이 된다. */
-    @media (max-width: 1159px) { .sec-hd-br { display: none; } }
+    /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
+       이름표), 그 뒤 오림이 아래로 자라 온톨로지 판이 드러난다.
+       자르는 자리 31% 는 짐작이 아니다 — 캔버스에 그려 행마다 브랜드색 화소를
+       세어 보니 이름표 알약이 29.7% 에서 끝난다. 그 한 뼘 아래다.
+       ⚠️ 전에는 같은 그림을 두 장 겹쳐 썼다. 한 장이면 파일도 한 번만 받고,
+          나중에 요소 단위로 켜는 방식으로 갈아탈 때도 그대로 쓸 수 있다. */
+    #platform .pf-art {
+      clip-path: inset(0 0 var(--pf-clip, 69%) 0);
+      opacity: var(--pf-in, 0);
+      transform: translateY(calc(24px * (1 - var(--pf-in, 0))));
+      pointer-events: none;
+    }
 
+    /* 층을 하나씩 펼쳐 보는 글 목록. 카드로 쌓으면 일곱 장이 그래픽 높이를 넘겨
+       따로 넘겨야 했는데, 접어 두면 한 화면에 들어온다. */
+    /* 아코디언은 단 바닥에 붙는다 — 아랫변이 그래픽 아랫변과 같은 선에 선다.
+       (단 높이는 그래픽이 정한다.) */
+    /* 구분선은 두 단이다 — 쉴 때 #22303F, 손이 닿거나 열린 줄은 #3A4856.
+       줄 하나하나가 누르는 자리라 그 둘을 나눠 쓴다. 제목 색이 일곱 줄 모두
+       같아진 뒤로는 이 선이 열린 줄을 알리는 거의 유일한 표시다 — 두 값의
+       차이를 좁히지 말 것. #22303F 는 그래픽 판 옆면과 같은 값이다. */
+    /* ⚠️ flex: none — 칸이 flex 라 기본값(shrink: 1)이면 무대 높이에 눌려 줄들이
+       겹쳐 찌그러진다. 제목 줄과 같은 이유다. */
+    /* 선은 줄과 줄 사이에만 둔다 — 맨 위와 맨 아래는 긋지 않는다. */
+    #platform .pf-acc { margin-top: auto; flex: none; }
+    #platform .pf-item + .pf-item { border-top: 1px solid #16202C; transition: border-color var(--t-quick); }
+    /* 손이 닿은 줄은 제 위 선과 아래 줄의 위 선을 함께 올린다. */
+    #platform .pf-item:hover,
+    #platform .pf-item.is-open { border-top-color: #22303F; }
+    #platform .pf-item:hover + .pf-item,
+    #platform .pf-item.is-open + .pf-item { border-top-color: #22303F; }
+    #platform .pf-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      /* 선과 글, 글과 글 사이를 모두 20px 로 보이게 맞춘 값이다.
+         ⚠️ 상자 간격이 아니라 '보이는' 간격을 맞춘다. 글 상자는 행간의 남는 몫을
+            위아래로 반씩 품고 있어(제목 2.4px · 본문 3.5px), 상자 간격을 똑같이
+            15px 로 두면 눈에는 17.4 · 20.9 · 18.5px 로 들쑥날쑥해진다.
+            20 − 2.4 = 17.6 이 제목 위아래에 필요한 상자 간격이다. */
+      padding: 17.6px 0;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      color: #F6F8FA;
+    }
+    /* 접혀 있을 때 보이는 건 제목이다. 본문은 펼쳐야 나온다. */
+    #platform .pf-t {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 16px;
+      font-weight: 500;
+      /* 제목 행간은 1.25~1.35 가 기본이다. */
+      line-height: var(--lh-title);
+      color: #F6F8FA;
+      transition: color var(--t-quick);
+      word-break: keep-all;
+    }
+    /* 열고 닫는 표시는 따로 두지 않는다 — 줄 사이 구분선만 남긴다.
+       제목 색은 열린 줄과 닫힌 줄이 같다(#F6F8FA). 어느 줄이 열렸는지는
+       아래 본문과 구분선(#3A4856), 그리고 그림에서 켜지는 조각이 알린다. */
+    /* 펼친 줄은 제목 아래에 본문이 붙으므로 두 반 행간이 겹친다 —
+       20 − 2.4 − 3.5 = 14.1 로 줄여야 그 사이도 20px 로 보인다. */
+    #platform .pf-item.is-open .pf-q { padding-bottom: 14.1px; }
+    /* ⚠️ 높이는 스크립트가 px 로 넣는다. max-height 로 어림잡으면 글 길이가
+       제각각이라 닫히는 속도가 줄마다 달라진다. */
+    #platform .pf-a {
+      height: 0;
+      overflow: hidden;
+      transition: height var(--t-move);
+    }
+    #platform .pf-a p {
+      /* 20 − 3.5(본문 반 행간) = 16.5 */
+      margin: 0 0 16.5px;
+      font-size: 14px;
+      /* 굵기는 히어로 소제목과 같은 300 이다. */
+      font-weight: 300;
+      /* 본문 행간은 1.5 가 기본이다. */
+      line-height: var(--lh-caption);
+      color: #A4ADB8;
+      word-break: keep-all;
+    }
+    @media (max-width: 900px) {
+      /* ⚠️ 폭의 상한은 그림이 아니라 '칸' 이 쥔다. 이름표(.pf-labels)는 칸을
+         기준으로 자리를 잡는 absolute 상자이고(left · top 이 칸 폭의 %, 세로도
+         칸 폭에서 나오는 aspect-ratio: 1/1), 글자 크기도 칸의 cqw 를 쓴다.
+         상한을 그림에만 걸면 칸이 그림보다 넓어지는 구간(칸 681~852px, 폭 약
+         730~900)에서 이름표만 칸을 따라가 오른쪽 · 아래로 어긋난다 —
+         Work flow 가 판 가운데를 벗어나고 Unify · Refine · Collect 가 비탈
+         밖으로 밀려났다.
+         칸을 680 으로 묶고 가운데에 두면 칸 = 그림이라 셋(자리 · 세로 · cqw)이
+         한 기준을 쓴다. */
+      #platform .platform-graphic-wrap {
+        margin: 40px auto 0;
+        max-width: 680px;
+        padding: 0 0 6px;
+        /* 옆으로 끌어 보던 칸이었다 — 이제 그림이 폭에 맞춰 줄므로 넘칠 일이 없다. */
+        overflow: visible;
+        display: flex;
+        justify-content: center;
+      }
+      #platform .platform-graphic-wrap::-webkit-scrollbar { display: none; }
+      /* 폭에 맞춰 줄인다 — 예전에는 min-width: 680px 로 두고 칸을 옆으로 끌어
+         보게 했는데, 끌 수 있다는 걸 모르면 그림이 잘린 것으로만 보인다.
+         작아지더라도 한눈에 다 보이는 쪽을 택한다. */
+      #platform .platform-graphic-img {
+        margin-top: 0;
+        width: 100%;
+        min-width: 0;
+        /* 상한은 칸이 쥔다(위) — 그림은 칸을 꽉 채운다. */
+        max-width: none;
+        height: auto;
+        /* ⚠️ margin-bottom: -7% 를 푼다. 붙여 둘 때는 무대 아래 여백이 그 7% 를
+           받아 줬는데, 풀면서 padding-bottom 을 0 으로 두어 그림 아래 44px 이
+           섹션 밖으로 나가 잘렸다(900 · 768 실측, 620 에서 34 · 430 에서 21). */
+        margin-bottom: 0;
+      }
+      /* 두 단을 한 단으로 쌓는다. */
+      #platform .platform-split {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 40px;
+      }
+
+      /* ⚠️ 끌어 보는 커서는 두지 않는다 — 넘치지 않으므로 끌 것이 없다. */
+      /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
+      #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
+    }
     /* #teams 미리보기 — 901~1280px에서도 세로로 나눈다.
        원래는 이미지 위에 제목·본문을 얹고, 왼쪽 28.5% 페이드가 글 배경 노릇을 했다.
        그런데 텍스트 박스는 <br>로 줄이 고정돼 352px로 붙박이인데 페이드는 폭의 %라
@@ -281,7 +853,39 @@ const jsonLd = [orgSchema, websiteSchema];
        900px 이하는 global.css 가 맡는다 — 거기 값은 화면 끝까지 붙이는 모바일용이라
        (margin-right:-24px 등) 여기서는 데스크톱 여백에 맞춘 값을 따로 쓴다.
        JS 쪽 resizeDash 의 모바일 판정도 같은 1280으로 맞춰야 이미지가 제자리에 온다.
-       국문도 같은 문제를 안고 있지만 global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
+       영문(en/index.astro)에도 같은 규칙이 있다 — global.css 가 공용이라 각 페이지에 따로 둔다. */
+    @media (min-width: 901px) and (max-width: 1280px) {
+      .teams-preview {
+        aspect-ratio: unset !important;
+        display: flex !important; flex-direction: column !important;
+        background: #F6F8FA;
+        /* ⚠️ 아래 두 귀퉁이만 둥글던 값이었다. 그때는 상자 위에 가로 탭바가 얹혀
+           있어 윗변이 탭바에 가려졌다. 탭바가 제목 줄의 동그란 탭으로 바뀌어
+           윗변이 드러났는데 값이 그대로라 위 두 귀퉁이가 각지게 남았다.
+           오른쪽은 화면 끝에 잘려 나가므로 왼쪽 둘만 둥글린다. */
+        border-radius: var(--radius) 0 0 var(--radius) !important;
+      }
+      .teams-preview-decor { display: none !important; }
+      /* 좌우 32 → 20px. 이 구간에서 글 칸은 .teams-rail 의 min-width 300px 에
+         묶이는데, 32px 씩 떼면 제목에 236px 밖에 안 남아 「질문하면 온톨로지가」
+         237px · 「현장의 지금 이 순간을」 251px 이 두 줄로 쪼개졌다(「가」 한 글자가
+         고아로 떨어졌다). 20px 이면 260px 이라 둘 다 한 줄로 선다.
+         ⚠️ 제목과 본문을 같은 값으로 둔다 — 한쪽만 줄이면 왼쪽 끝이 어긋난다. */
+      .teams-preview-title-wrap { position: static !important; padding: 28px 0 0 !important; order: 1; margin-bottom: 14px; }
+      .teams-preview-text { position: static !important; padding: 0 0 24px !important; order: 2; }
+      /* 30 → 28px. 20px 여백으로 칸이 260px 이 되어도 「현장의 지금 이 순간을」이
+         251px 이라 9px 밖에 안 남는다 — 글꼴이 대체되면 그 자리에서 넘어간다.
+         한 단 줄여 234px 으로 두고 26px 을 남긴다. */
+      #teams .teams-preview-title-wrap h3 { font-size: 28px; }
+      .teams-preview-text p { max-width: none; }
+      /* ⚠️ 비율은 그림과 같은 8/5 다. 17/10(1.7)으로 두었더니 그림(1148x718,
+         1.599)보다 칸이 납작해 그림 아래가 27px 잘렸다(768 실측). */
+      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 8 / 5; order: 3; overflow: hidden !important; }
+      /* ⚠️ 그림 위에 덮던 그라데이션 두 겹(위 띠 · 좌우 흐림)은 걷었다. 칸이
+         화면 끝까지 흐르던 시절의 값인데 지금은 상자가 제 테두리를 갖고 서므로,
+         그림이 양 끝에서 하얗게 바래 보였다. 1281px 위에는 원래 없던 처리다. */
+    }
+
     /* #teams 탭 여섯 개는 이 섹션이 말하는 "everything"의 목록이다.
        900px 이하에서 가로 스크롤(scroll-snap)로 넘기게 되어 있었는데, 880px에서
        네 개 반만 보인다 — 다 갖췄다는 주장을 정작 화면이 가린다. 줄로 나눠 다 보인다.
@@ -291,7 +895,7 @@ const jsonLd = [orgSchema, websiteSchema];
        3열은 바 폭 456px가 필요해 520px 아래에서는 2열로 내린다.
        테두리는 줄 끝에서 지우고 둘째 줄부터 위에 긋는데, 열 수가 바뀌면
        그 자리도 바뀌므로 nth-child 를 구간마다 다시 잡는다.
-       국문도 같은 구조다 — global.css 가 공용이라 국문 작업 때 함께 옮긴다. */
+       영문에도 같은 규칙이 있다 — global.css 가 공용이라 각 페이지에 따로 둔다. */
     @media (max-width: 1089px) {
       #teams .teams-menu-horizontal {
         flex-wrap: wrap; overflow-x: hidden; margin-right: 0;
@@ -302,14 +906,13 @@ const jsonLd = [orgSchema, websiteSchema];
       #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
       #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
     }
-    /* 카드 오른쪽 정렬은 900px 이하만 해당한다 — global.css 가 거기서만
-       margin-right:-24px 로 화면 끝까지 흘리기 때문이다. 가로 스크롤 시절
-       '더 있다'는 힌트였는데, 탭바가 줄바꿈으로 바뀌며 탭바만 컨테이너 안에서
-       끝나 오른쪽이 어긋났다. 모서리도 왼쪽만 둥글던 것을 양쪽으로 되돌린다. */
+    /* 바깥으로 빼는 일은 .teams-split 이 맡으므로 상자 자신의 margin 은 0 이다.
+       ⚠️ 둥글기는 위 묶음과 같은 까닭으로 왼쪽 둘만 둔다 — 오른쪽 변은 화면 끝에
+          잘려 나간다. 820 이하는 global.css 가 같은 값을 !important 로 덮는다. */
     @media (max-width: 900px) {
       #teams .teams-preview {
         margin-right: 0;
-        border-radius: 0 0 var(--radius) var(--radius) !important;
+        border-radius: var(--radius) 0 0 var(--radius) !important;
       }
     }
     @media (max-width: 520px) {
@@ -319,14 +922,6 @@ const jsonLd = [orgSchema, websiteSchema];
       #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
     }
 
-    /* 세로로 나뉘면 글이 미리보기 폭을 통째로 쓴다 — 오버레이 시절 좁은 왼쪽 칸에
-       맞춰 넣어 둔 줄바꿈은 여기서 짧은 줄만 만든다. 1280px 이하에서 본문만 걷는다.
-       제목은 두 줄 구성이 그 자체로 의도된 것이라 그대로 둔다.
-       탭을 바꾸면 JS가 teamsTextMap 의 \n 을 textContent 로 넣는데,
-       white-space:normal 이면 그 \n 도 공백이 되어 함께 풀린다.
-       <br> 앞 공백은 필수다 — Astro 가 <br> 뒤 개행을 지워서, 그냥 숨기면
-       'historydata'처럼 붙는다(같은 날 FAQ에서 겪었다). */
-    
     /* AI Agent 탭 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
        JS 가 이미지를 위로 밀어 자르면서 그 선이 미리보기 상단 10px 자리에 올라온다.
        기존 14px 페이드는 그 지점에서 이미 70% 투명해져 선을 못 가린다 —
@@ -342,10 +937,10 @@ const jsonLd = [orgSchema, websiteSchema];
         background: linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 60%, rgba(246,248,250,0) 100%);
       }
     }
-@media (max-width: 1280px) {
-      /* 줄 나눔은 renderPreviewBody 가 폭에 맞춰 <br> 로 다시 넣는다. 예전에는 여기서
-         <br> 를 숨겨 데스크탑 줄 나눔을 풀었는데, 그러면 숨은 자리의 공백까지 사라져
-         `conversationally.The` 처럼 붙었다(국문에는 없던 규칙). */
+    /* 세로로 나뉘면 글이 미리보기 폭을 통째로 쓴다. 좁은 칸(352px)에 맞춰 넣어 둔
+       teamsTextMap 의 \n 은 문장 중간을 끊으므로 공백으로 풀고(white-space:normal),
+       대신 JS 가 문장 끝마다 <br> 을 넣어 문장별로 단락을 나눈다. */
+    @media (max-width: 1280px) {
       #teams .teams-preview-text p { white-space: normal; }
     }
 
@@ -354,203 +949,153 @@ const jsonLd = [orgSchema, websiteSchema];
        15px 글자에서 70자 안팎이라 읽기 좋은 길이이고, 본문은 어느 폭에서나 2줄 위로 선다.
        (901~1280px 블록의 max-width:none 보다 #teams 를 붙인 이쪽이 이긴다) */
     @media (max-width: 1280px) {
-      #teams .teams-preview-title-wrap h3 { max-width: 640px; }
-      /* 본문만 740px — 두 줄 형태의 가장 긴 행이 AI Agent 탭의 725px 이다.
-         640px 이면 그 한 탭만 바로 감겨 세 줄로 떨어졌다. 나머지 다섯 탭은
-         498~561px 이라 이 값을 올려도 줄 나눔이 <br> 로 고정돼 있어 달라지지 않는다. */
-      #teams .teams-preview-text p { max-width: 740px; }
+      #teams .teams-preview-title-wrap h3,
+      #teams .teams-preview-text p { max-width: 640px; }
     }
-
-    @media (min-width: 901px) and (max-width: 1280px) {
-      .teams-preview {
-        aspect-ratio: unset !important;
-        display: flex !important; flex-direction: column !important;
-        background: #F6F8FA;
-        border-radius: 0 0 var(--radius) var(--radius) !important;
-      }
-      .teams-preview-decor { display: none !important; }
-      .teams-preview-title-wrap { position: static !important; padding: 28px 32px 0 !important; order: 1; margin-bottom: 14px; }
-      .teams-preview-text { position: static !important; padding: 0 32px 24px !important; order: 2; }
-      .teams-preview-text p { max-width: none; }
-      #iframe-wrapper { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 17/10; order: 3; overflow: hidden !important; }
-      #iframe-wrapper::before {
-        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
-        background: linear-gradient(to bottom, #F6F8FA 0%, rgba(246,248,250,0) 100%);
-        z-index: 2; pointer-events: none;
-      }
-      #iframe-wrapper::after {
-        content: ""; position: absolute; inset: 0;
-        background: linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0.85) 8%, rgba(246,248,250,0) 24%, rgba(246,248,250,0) 76%, rgba(246,248,250,0.85) 92%, #F6F8FA 100%);
-        z-index: 2; pointer-events: none;
-      }
-    }
-    #platform .platform-graphic-img {
-      margin-top: 64px;
-    }
-    #platform .series-nav-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 48px;
-    }
-    #platform .series-progress {
-      width: 120px;
-      height: 3px;
-      border-radius: 2px;
-      background: #272B32;
-      overflow: hidden;
-    }
-    #platform .series-progress-fill {
-      height: 100%;
-      width: 20%;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: width .35s cubic-bezier(0.22,1,0.36,1);
-    }
-    #platform .series-nav-btns {
-      display: flex;
-      gap: 10px;
-    }
-    #platform .series-nav-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid #272B32;
-      background: #111316;
-      color: #EDEEF0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-      padding: 0;
-    }
-    #platform .series-nav-btn:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-    #platform .series-nav-btn:disabled {
-      opacity: 0.35;
-      cursor: default;
-      background: #111316;
-      border-color: #272B32;
-    }
-    /* 쉐브론 화살표는 기하학적으로는 중앙이지만, 뾰족한 끝과 벌어진 두 선의 무게중심이
-       달라 눈으로 보면 한쪽으로 치우쳐 보인다 - 시각적으로 가운데처럼 보이도록 미세 보정 */
-    #platform .series-prev svg {
-      transform: translateX(-1px);
-    }
-    #platform .series-next svg {
-      transform: translateX(1px);
-    }
-    #platform .series-viewport {
-      overflow: hidden;
-      margin: 16px 0 0;
-      padding: 0 0 4px;
-    }
-    #platform .series-slider {
-      display: flex;
-      gap: 16px;
-      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
-      will-change: transform;
-    }
-    #platform .series-card {
-      flex: 0 0 300px;
-      background: #111316;
-      border: 1px solid #272B32;
-      border-radius: var(--radius);
-      padding: 24px;
-    }
-    #platform .series-icon {
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      margin-bottom: 80px;
-    }
-    #platform .series-icon svg {
-      width: 26px;
-      height: 26px;
-    }
-    #platform .series-icon i {
-      font-size: 26px;
-      line-height: 1;
-    }
-    #platform .series-card h3 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #EDEEF0;
-      margin: 0 0 10px;
-      line-height: 1.4;
-    }
-    #platform .series-tagline {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 1.2px;
-      margin-bottom: 8px;
-    }
-    #platform .series-card:has(.series-tagline) .series-icon {
-      margin-bottom: 52.8px;
-    }    #platform .series-desc {
-      font-size: 13px;
-      color: #959CA5;
-      line-height: 1.65;
-      margin: 0;
-    }
+      /* ⚠️ 900px 아래에서는 무대를 붙이지 않는다. 무대가 100vh 인데 그 안의 내용이
+       567px 넘쳐(900 실측), justify-content: center 가 넘친 만큼을 위아래로 똑같이
+       밀어내 제목이 화면 아래로 내려갔다. 고정을 풀고 흐르게 두면 제자리에 선다.
+       진행도는 스크립트가 '제목이 화면을 올라오는 만큼' 으로 바꿔 잡는다.
+       ⚠️ 이 묶음은 스타일 블록 맨 끝에 둔다 — #platform .pf-stage 와 특정도가
+          같아서 뒤에 와야 이긴다. */
     @media (max-width: 900px) {
-      #platform .platform-graphic-wrap {
-        margin: 40px -24px 0;
-        padding: 0 24px 6px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+      /* ⚠️ 윗여백은 섹션이 아니라 무대가 쥔다. 바탕 그라데이션이 무대에 그려지므로,
+         여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
+         세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
+         여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
+      /* ⚠️ 아래 여백은 섹션이 아니라 무대가 쥔다. 좁은 폭에서 #platform 의 바탕은
+         흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
+         먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
+         그 160 을 무대 안쪽으로 옮긴다.
+         ⚠️ 아래 값은 상자가 아니라 '보이는' 여백으로 잡는다. 그래픽은 아랫변까지
+            꽉 차지 않고 46px 쯤을 안고 있어, 상자 기준 값에 늘 46 이 더해져
+            보인다. 150 → 보이는 166px · 80 → 96px 둘 다 넓었다. 32 → 48px 다.
+         ⚠️ 위 여백(176px)은 대제목 위를 벌리는 값이다. 제목이 띠 안에서 어디에
+            서는지를 이 값이 정하므로, 바꾸면 아래 띠의 정지점도 같이 본다. */
+      #platform { height: auto; padding: 0; }
+      #platform .pf-stage {
+        position: static;
+        height: auto;
+        padding-top: 176px;
+        padding-bottom: 32px;
+        display: block;
       }
-      #platform .platform-graphic-wrap::-webkit-scrollbar { display: none; }
-      #platform .platform-graphic-img {
-        margin-top: 0;
-        width: auto;
-        min-width: 680px;
-        max-width: none;
+      /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
+         대제목(먹색 글자)은 밝은 쪽에, 그 아래 흰 글자는 먹색 쪽에 서야 하는데
+         둘이 붙어 있으면 띠가 지나갈 거리가 40px 밖에 안 나와 뚝 끊겨 보인다. */
+      /* 대제목 아래를 벌린다. 110 → 156px — 위 여백(176)과 함께 제목 한 줄을
+         넉넉한 자리에 세운다. 벌어진 만큼 그라데이션이 지나갈 거리도 늘어
+         제목 아래에서 먹색까지 더 부드럽게 내려간다. */
+      #platform .section-header { margin-bottom: 156px; }
+    }
+    /* 낮고 좁은 창도 같이 푼다 — 높이 700 이하에서 폭 1100 아래가 걸린다.
+       1024x700 에서 아코디언 아랫변이 10px, 640 에서는 60~70px 화면 밖으로
+       나갔다. 넓은 창은 같은 높이에서도 들어가므로(1600x640 정상) 폭을 함께 건다. */
+    @media (max-height: 700px) and (max-width: 1100px) {
+      /* ⚠️ 윗여백은 섹션이 아니라 무대가 쥔다. 바탕 그라데이션이 무대에 그려지므로,
+         여백이 섹션에 있으면 그만큼 띠가 아래에서 시작해 글 자리까지 내려온다 —
+         세 줄 제목이 옅은 하늘색 위에 떴다. 무대가 섹션 윗변에서 시작하면 띠가
+         여백 · 대제목을 지나 글이 앉기 전에 먹색에 닿는다. */
+      /* ⚠️ 아래 여백은 섹션이 아니라 무대가 쥔다. 좁은 폭에서 #platform 의 바탕은
+         흰색이고 먹색은 무대가 그린다 — 섹션에 160px 을 주면 그래픽 아래가 아니라
+         먹색 띠 '밖' 흰 자리가 넓어져, 그래픽은 여전히 먹색 아랫변에 닿아 보였다.
+         그 160 을 무대 안쪽으로 옮긴다.
+         ⚠️ 아래 값은 상자가 아니라 '보이는' 여백으로 잡는다. 그래픽은 아랫변까지
+            꽉 차지 않고 46px 쯤을 안고 있어, 상자 기준 값에 늘 46 이 더해져
+            보인다. 150 → 보이는 166px · 80 → 96px 둘 다 넓었다. 32 → 48px 다.
+         ⚠️ 위 여백(176px)은 대제목 위를 벌리는 값이다. 제목이 띠 안에서 어디에
+            서는지를 이 값이 정하므로, 바꾸면 아래 띠의 정지점도 같이 본다. */
+      #platform { height: auto; padding: 0; }
+      #platform .pf-stage {
+        position: static;
+        height: auto;
+        padding-top: 176px;
+        padding-bottom: 32px;
+        display: block;
       }
-      #platform .series-viewport {
-        margin: 16px 0 0;
-        padding: 0 0 4px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-      #platform .series-viewport::-webkit-scrollbar { display: none; }
-      /* 카드는 왼쪽 면에 맞춰 선다 — 중간에 걸친 자리에서 멈추지 않는다.
-         끄는 동안에는 스냅을 풀어야 손을 따라 매끄럽게 움직인다. */
-      #platform .series-viewport { scroll-snap-type: x mandatory; }
-      #platform .series-card { scroll-snap-align: start; }
-      #platform .series-viewport.is-dragging { scroll-snap-type: none; }
-      /* 마우스로도 끌 수 있다는 것을 커서로 알린다 */
-      #platform .series-viewport,
-      #platform .platform-graphic-wrap { cursor: grab; }
-      #platform .series-viewport.is-dragging,
-      #platform .platform-graphic-wrap.is-dragging { cursor: grabbing; user-select: none; }
-      /* 그래픽을 잡으면 브라우저 기본 이미지 끌기가 먼저 걸려 스크롤이 안 된다 */
-      #platform .platform-graphic-wrap img { -webkit-user-drag: none; user-select: none; }
+      /* 대제목과 아래 글 사이를 벌려 그라데이션이 지나갈 자리를 만든다.
+         대제목(먹색 글자)은 밝은 쪽에, 그 아래 흰 글자는 먹색 쪽에 서야 하는데
+         둘이 붙어 있으면 띠가 지나갈 거리가 40px 밖에 안 나와 뚝 끊겨 보인다. */
+      /* 대제목 아래를 벌린다. 110 → 156px — 위 여백(176)과 함께 제목 한 줄을
+         넉넉한 자리에 세운다. 벌어진 만큼 그라데이션이 지나갈 거리도 늘어
+         제목 아래에서 먹색까지 더 부드럽게 내려간다. */
+      #platform .section-header { margin-bottom: 156px; }
+    }
 
-      #platform .series-card {
-        flex: 0 0 80vw;
-        max-width: 300px;
-        padding: 20px;
-      }
-      #platform .series-icon {
-        margin-bottom: 56px;
-      }
-      #platform .series-card:has(.series-tagline) .series-icon {
-        margin-bottom: 40px;
+    /* ⚠️ 무대를 풀면 그라데이션 geometry 가 어긋난다. 원래는 타원 중심이 50% 150vh ·
+       반지름 150vh 라, 무대가 100vh 일 때 무대 윗변이 정확히 바깥 정지점(흰색)에
+       닿아 위 섹션과 이어졌다. 무대 높이가 내용만큼(1561px)으로 바뀌면 vh 기준이
+       무대와 따로 놀아, 윗변이 가운데 색에서 잘려 흰 면과 파란 면이 선으로 맞붙는다.
+       좁은 폭에서는 세로 그라데이션으로 바꿔 윗변을 흰색에서 시작한다 — 색 순서는
+       원래 타원이 지나는 순서 그대로다. */
+    /* ⚠️ 바탕은 무대(.pf-stage)가 쥔다. #platform 에 걸어 봤더니 먹히지 않아
+       (다른 규칙이 흰색으로 덮는다) 그라데이션이 통째로 사라졌다.
+       맨 위 260px 에만 흰색 → 먹색 띠를 얹고 그 아래는 먹색 한 색이다. 그 260px
+       안에 대제목이 들어가고, 세 줄 제목(무대 y 96 부터)은 거의 다 내려온 자리라
+       먹색 위에 선다 — 흰 글자가 읽히려면 그래야 한다.
+       ⚠️ % 로 주면 안 된다. 무대 높이가 내용만큼이라 같은 %가 폭마다 다른 자리를
+          가리켜, 세 줄 제목이 옅은 하늘색 위에 떴다. px 로 못 박는다.
+       ⚠️ 300 → 460 → 820px. 고르게 편 460 에서는 제목이 통째로 옅은 하늘색
+          위에 서서 어두운 쪽이 한참 아래에 있었다. 길이를 820 으로 늘리되 색을
+          고르게 펴지 않고 위아래로 나눈다 — 위 30%(246px)에서 제목 자리를 지나
+          #4F6F91 까지 내려가 제목 바로 아래에 어두운 쪽을 만들고, 나머지 70%
+          (574px)로 먹색까지 길게 끈다.
+          한계는 글자 대비가 쥔다. 대제목은 먹색(#16202C) 글자라 바탕이 더
+          어두워지면 읽히지 않는다 — 밑변 자리가 4.5:1 인 색이 #6189B1 이라
+          그보다 밝은 쪽(#7EABDA)에 세웠다. */
+    @media (max-width: 900px), (max-height: 700px) and (max-width: 1100px) {
+      #platform .pf-stage {
+        background-color: #151B23 !important;
+        /* ⚠️ 정지점을 손으로 찍지 않는다. 흰색 → 브랜드 하늘색(#76A6D7) → 먹색
+           한 줄기 길 위를 smootherstep 으로 지나는 곡선을 30~79% 구간에 깔고,
+           그 곡선을 1/3 색 차 안에서 따라가도록 정지점을 뽑았다.
+           ⚠️ smootherstep 인 까닭 — 양 끝에서 기울기가 0 이라 흰 면이 끝나는 자리와
+              먹색에 닿는 자리에 꺾인 데가 없다. 구간을 손으로 나누면 그 두 곳에
+              각이 생겨 띠가 거기서 끊겨 보인다(앞선 세 번이 그랬다).
+           ⚠️ 구간은 그대로다. 대제목(768 y176~232 · 390 y176~218)은 흰 면 위
+              16.4 · 15.6:1, 브랜드색은 y325 한 자리를 지나고, 흰 세 줄 글
+              (y424 · y410)은 먹색 위 14.2 · 12.3:1 이다.
+           ⚠️ 줄당 최대 색 차 2.06/255 — 더 부드럽게 하려면 구간을 늘리는 수밖에 없다. */
+        background-image: linear-gradient(180deg,
+          #FFFFFF 0%,
+          #FFFFFF 30.5%,
+          #FEFEFF 33.5%,
+          #FCFDFE 34.75%,
+          #FAFCFD 36%,
+          #F6F9FC 37.25%,
+          #F3F7FB 38.25%,
+          #EEF4FA 39.25%,
+          #E9F0F8 40.25%,
+          #E3ECF7 41.25%,
+          #DAE7F4 42.5%,
+          #D2E2F2 43.5%,
+          #C9DCEF 44.5%,
+          #C0D6EC 45.5%,
+          #B3CDE9 46.75%,
+          #99BDE1 49%,
+          #77A7D7 51.75%,
+          #75A5D6 52%,
+          #507091 58%,
+          #486481 59.5%,
+          #3F5872 61%,
+          #384D63 62.5%,
+          #314356 64%,
+          #2A3A4B 65.5%,
+          #253240 67%,
+          #222D3B 68%,
+          #1F2935 69%,
+          #1C2631 70%,
+          #1A232D 71%,
+          #171F28 73%,
+          #161C24 75.25%,
+          #151B23 78.25%,
+          #151B23 100%) !important;
+        background-repeat: no-repeat !important;
+        background-size: 100% 620px !important;
+        background-position: top center !important;
       }
     }
-  </style>
+</style>
   <script is:inline>
     (function() {
       /* 좁은 폭에서는 가로 스크롤이 위치를 갖는데, 터치는 스와이프로 넘겨도 마우스로는
@@ -620,97 +1165,95 @@ const jsonLd = [orgSchema, websiteSchema];
         window.addEventListener('resize', updateFade);
         updateFade();
       }
-      function initSeriesSlider() {
-        var viewport = document.querySelector('#platform .series-viewport');
-        var slider = document.querySelector('#platform .series-slider');
-        var prevBtn = document.querySelector('#platform .series-prev');
-        var nextBtn = document.querySelector('#platform .series-next');
-        if (!viewport || !slider || !prevBtn || !nextBtn) return;
-        var index = 0;
-        function cardStep() {
-          var card = slider.querySelector('.series-card');
-          if (!card) return 316;
-          var gap = parseFloat(getComputedStyle(slider).columnGap || 16);
-          return card.getBoundingClientRect().width + gap;
-        }
-        /* 좌우 잘리는 카드(peek)가 동일한 크기로 보이도록, 가운데 3장이 꽉 차고
-           남는 여백만큼을 뷰포트 좌우 패딩(peek)으로 분배한다.
-           단, 첫 카드는 좌측 끝에 정확히 붙고 마지막 카드는 우측 끝에 정확히 붙도록
-           경계(처음/끝)에서는 해당 방향 패딩을 0으로 만든다. */
-        function computePeek() {
-          var card = slider.querySelector('.series-card');
-          if (!card || window.innerWidth <= 900) return 0;
-          var gap = parseFloat(getComputedStyle(slider).columnGap || 16);
-          var cardWidth = card.getBoundingClientRect().width;
-          var vpWidth = viewport.getBoundingClientRect().width;
-          var targetCount = 3;
-          var peek = (vpWidth - targetCount * cardWidth - (targetCount - 1) * gap) / 2;
-          return peek < 16 ? 16 : peek;
-        }
-        function maxIndex(peek) {
-          var step = cardStep();
-          var maxScrollBase = Math.max(0, slider.scrollWidth - viewport.clientWidth);
-          return Math.ceil((peek + maxScrollBase) / step);
-        }
-        function isMobile() { return window.innerWidth <= 900; }
-        function updateMobileUI() {
-          var maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-          var scrollLeft = viewport.scrollLeft;
-          prevBtn.disabled = scrollLeft <= 2;
-          nextBtn.disabled = scrollLeft >= maxScroll - 2;
-          var fill = document.querySelector('#platform .series-progress-fill');
-          if (fill) {
-            var pct = maxScroll > 0 ? ((scrollLeft / maxScroll) * 80 + 20) : 100;
-            fill.style.width = pct + '%';
+      /* 플랫폼 층 아코디언. 한 번에 하나만 연다. */
+      function initPlatformAccordion() {
+        var acc = document.querySelector('#platform .pf-acc');
+        if (acc) {
+          var items = acc.querySelectorAll('.pf-item');
+          /* ⚠️ 높이를 px 로 직접 넣는다. max-height 로 어림잡으면 글 길이가 제각각이라
+             닫히는 속도가 줄마다 달라지고, auto 는 애초에 전이가 걸리지 않는다. */
+          function setOpen(it, open) {
+            var panel = it.querySelector('.pf-a');
+            var btn = it.querySelector('.pf-q');
+            it.classList.toggle('is-open', open);
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            panel.style.height = open ? panel.scrollHeight + 'px' : '0px';
           }
-        }
-        function update() {
-          // 모바일: 네이티브 가로 스크롤(스와이프)로 카드가 움직이므로,
-          // JS 트랜스폼 기반 위치 계산을 하지 않고 스크롤 위치 기준으로만 UI(진행바/버튼)를 갱신한다.
-          if (isMobile()) {
-            slider.style.transform = '';
-            viewport.style.paddingLeft = '';
-            viewport.style.paddingRight = '';
-            updateMobileUI();
-            return;
+
+          /* 고른 줄에 해당하는 그림 요소만 켠다.
+             ⚠️ <object> 안은 별도 문서라 바깥 CSS·JS 가 그냥은 닿지 않는다. 같은
+                도메인이라 contentDocument 로 들어갈 수 있고, 선택 규칙은 SVG 파일
+                안에 미리 심어 뒀다(svg.rf-sel [data-part]).
+             ⚠️ 그림이 늦게 오므로 load 를 기다린다. 이미 와 있으면 바로 쓴다. */
+          var artDoc = null;
+          function svgRoot() {
+            var o = document.querySelector('#platform .pf-art');
+            try { return o && o.contentDocument && o.contentDocument.querySelector('svg'); }
+            catch (e) { return null; }
           }
-          var peek = computePeek();
-          var mi = maxIndex(peek);
-          if (index > mi) index = mi;
-          if (index < 0) index = 0;
-          var padLeft = (index === 0) ? 0 : peek;
-          viewport.style.paddingLeft = padLeft + 'px';
-          viewport.style.paddingRight = peek + 'px';
-          var maxScrollBase = Math.max(0, slider.scrollWidth - viewport.clientWidth);
-          var offset = Math.min(index * cardStep(), padLeft + maxScrollBase);
-          slider.style.transform = 'translateX(-' + offset + 'px)';
-          prevBtn.disabled = index <= 0;
-          nextBtn.disabled = index >= mi;
-          var fill = document.querySelector('#platform .series-progress-fill');
-          if (fill) { var pct = mi > 0 ? ((index / mi) * 80 + 20) : 100; fill.style.width = pct + '%'; }
+          function lightUp(it) {
+            var root = svgRoot();
+            if (!root) return;
+            var spec = it && it.getAttribute('data-part');
+            /* 'all' 은 한 부분이 아니라 그림 전체다 — 흐리게 하는 규칙 자체를 걷는다.
+               한 줄이 그림의 여러 덩어리를 가리킬 때는 쉼표로 적는다. */
+            var want = spec && spec !== 'all' ? spec.split(',') : null;
+            var all = root.querySelectorAll('[data-part]');
+            for (var i = 0; i < all.length; i++) {
+              var p = all[i].getAttribute('data-part');
+              all[i].classList.toggle('rf-on', !!want && want.indexOf(p) >= 0);
+            }
+            root.classList.toggle('rf-sel', !!want);
+            /* 이름표는 SVG 밖 HTML 이라 같은 규칙이 닿지 않는다 — 여기서 함께 켠다. */
+            var labels = document.querySelectorAll('#platform .pf-label');
+            for (var j = 0; j < labels.length; j++) {
+              labels[j].classList.toggle('rf-on', !!want && want.indexOf(labels[j].getAttribute('data-part')) >= 0);
+            }
+            var box = document.querySelector('#platform .pf-labels');
+            if (box) box.classList.toggle('rf-sel', !!want);
+          }
+          (function () {
+            var o = document.querySelector('#platform .pf-art');
+            if (!o) return;
+            o.addEventListener('load', function () {
+              var open = acc.querySelector('.pf-item.is-open');
+              if (open) lightUp(open);
+            });
+          })();
+
+          for (var i = 0; i < items.length; i++) {
+            (function (it) {
+              it.querySelector('.pf-q').addEventListener('click', function () {
+                var willOpen = !it.classList.contains('is-open');
+                for (var j = 0; j < items.length; j++) setOpen(items[j], false);
+                if (willOpen) { setOpen(it, true); lightUp(it); }
+                else lightUp(null);
+              });
+            })(items[i]);
+            setOpen(items[i], items[i].classList.contains('is-open'));
+            if (items[i].classList.contains('is-open')) lightUp(items[i]);
+          }
+          /* 폭이 바뀌면 글이 다시 감겨 높이가 달라진다 — 열려 있는 칸만 다시 잰다.
+             ⚠️ 첫 측정만으로는 모자란다. 글꼴이 늦게 오거나 칸 폭이 레이아웃 뒤에
+                정해지면 처음 잰 높이가 한 줄만큼 모자라 본문이 잘린다. */
+          function remeasure() {
+            for (var k = 0; k < items.length; k++) {
+              if (items[k].classList.contains('is-open')) {
+                var pn = items[k].querySelector('.pf-a');
+                pn.style.height = 'auto';
+                pn.style.height = pn.scrollHeight + 'px';
+              }
+            }
+          }
+          requestAnimationFrame(remeasure);
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+          window.addEventListener('resize', remeasure, { passive: true });
         }
-        prevBtn.addEventListener('click', function() {
-          if (isMobile()) { viewport.scrollBy({ left: -cardStep(), behavior: 'smooth' }); return; }
-          index -= 1; update();
-        });
-        nextBtn.addEventListener('click', function() {
-          if (isMobile()) { viewport.scrollBy({ left: cardStep(), behavior: 'smooth' }); return; }
-          index += 1; update();
-        });
-        enableDragScroll(viewport, isNarrow);
+
         var graphicWrap = document.querySelector('#platform .platform-graphic-wrap');
         if (graphicWrap) enableDragScroll(graphicWrap, isNarrow);
-
-        window.addEventListener('resize', update);
-        var mobileScrollRaf = null;
-        viewport.addEventListener('scroll', function() {
-          if (!isMobile()) return;
-          if (mobileScrollRaf) return;
-          mobileScrollRaf = requestAnimationFrame(function() { mobileScrollRaf = null; updateMobileUI(); });
-        }, { passive: true });
-        update();
       }
-      function initAll() { initSeriesSlider(); initIntegrationsDrag(); }
+      function initAll() { initPlatformAccordion(); initIntegrationsDrag(); }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAll);
       } else {
@@ -718,13 +1261,14 @@ const jsonLd = [orgSchema, websiteSchema];
       }
     })();
   </script>
-  <!-- 솔루션 섹션 - 산업별 ⁠· 과제별 두 판을 옆으로 넘긴다.
+
+  <!-- 솔루션 섹션 — 산업별 ⁠· 과제별 두 판을 옆으로 넘긴다.
        위치는 뷰포트의 가로 스크롤이 갖는다(스크롤 스냅). 버튼은 scrollTo만 부르고,
        현재 판은 스크롤 위치에서 되읽는다 — 스와이프로 넘겨도 탭 ⁠· 버튼이 따라온다. -->
   <script is:inline>
     (function () {
       // 이 스크립트는 섹션 마크업보다 먼저 놓여 있다(플랫폼 슬라이더 바로 뒤).
-      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 - 문서가 다 그려진 뒤에 건다.
+      // 바로 실행하면 .sol-viewport가 아직 없어 조용히 빠져나간다 — 문서가 다 그려진 뒤에 건다.
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
       } else {
@@ -746,7 +1290,7 @@ const jsonLd = [orgSchema, websiteSchema];
         }
       }
 
-      // 판 전환 - 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
+      // 판 전환 — 두 판을 겹쳐 두고 서로 페이드로 교차시킨다(크로스페이드).
       // 옆으로 미는 방식은 카드 14장이 화면을 가로질러 지나가 산만했고,
       // 흐렸다가 다시 켜는 방식은 중간에 빈 순간이 생겼다. 교차는 둘 다 없다.
       function go(i) {
@@ -793,7 +1337,7 @@ const jsonLd = [orgSchema, websiteSchema];
         })(t);
       }
 
-      // 모바일 스와이프 - 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
+      // 모바일 스와이프 — 가로 스크롤러를 걷어냈으므로 제스처를 직접 받는다.
       // 손가락을 따라 밀지는 않고, 놓는 순간 같은 크로스페이드로 넘긴다.
       var sx = 0, sy = 0, tracking = false;
       vp.addEventListener('touchstart', function (e) {
@@ -814,83 +1358,308 @@ const jsonLd = [orgSchema, websiteSchema];
       }
     })();
   </script>
+  {/* 제목은 화면 하나를 통째로 쓰고 그 자리에 붙어 있는다(.section-header 가 sticky).
+      .pf-pin 이 남겨 둔 길이만큼 스크롤하는 동안 낱말이 하나씩 바뀐다. */}
+  {/* 무대 하나가 화면을 통째로 쓰고 섹션이 끝날 때까지 붙어 있는다.
+      제목과 본문이 같은 칸에 겹쳐 있어, 배경이 어두워지는 동안 제목이 빠지고
+      그 자리에 그래픽이 들어선다. 들어선 뒤에는 섹션이 끝날 때까지 그대로 멈춘다. */}
+  <div class="pf-stage">
+  <div class="section-header">
+    <h2 class="section-lead-ko" data-swap="Patterns,Context,Knowledge">From Data to Intelligence</h2>
+  </div>
+  <div class="pf-body">
   <div class="container">
-    <div class="section-header">
-      <div class="section-header-row">
-        <h2 style="color:#EDEEF0;">From Data<br>to Intelligence</h2>
-        <p>Field data is connected and, through an ontology,<br>given meaning that leads to AI-driven decisions.</p>
-     </div>
-   </div>
-    <div class="platform-graphic-wrap">
-      <img src="/From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
-   </div>
-    <div class="series-nav-row">
-      <div class="series-progress"><div class="series-progress-fill"></div></div>
-      <div class="series-nav-btns">
-        <button type="button" class="series-nav-btn series-prev" aria-label="Previous">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="series-nav-btn series-next" aria-label="Next">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-     </div>
-   </div>
-    <div class="series-viewport">
-      <div class="series-slider">
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
-        <h3>Industrial data integration</h3>
-        <p class="series-desc">Gathering data scattered across your systems in one place is the first step.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
-        <div class="series-tagline">Ontology</div>
-        <h3>Data with meaning attached</h3>
-        <p class="series-desc">Every scattered number and record is given meaning: what the data is about.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
-        <div class="series-tagline">Workflow</div>
-        <h3>Operating procedures designed through conversation</h3>
-        <p class="series-desc">You set what needs approval,<br>and what runs automatically.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
-        <div class="series-tagline">Plate</div>
-        <h3>The field on one dashboard</h3>
-        <p class="series-desc">Real-time KPIs, status and alarms<br>can all be checked on one screen.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
-        <div class="series-tagline">Lens</div>
-        <h3>Analysis that finds causes and looks ahead</h3>
-        <p class="series-desc">It reviews data gathered over time<br>to spot anomalies and find their cause.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
-        <div class="series-tagline">AI Agent</div>
-        <h3>A field run by one question</h3>
-        <p class="series-desc">Ask, and it answers from your data<br>and suggests the next action.</p>
-     </div>
-      <div class="series-card">
-        <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
-        <h3>Automation that runs the site without people</h3>
-        <p class="series-desc">Analysis flows into reports, alarms and workflow execution, with no manual steps.</p>
-     </div>
-     </div>
-   </div>
- </div>
+    <script is:inline>
+      /* 대제목의 마지막 낱말을 스크롤에 묶는다. 저절로 돌지 않고, 고정 칸(.pf-pin)이
+         화면 높이보다 긴 만큼을 낱말 수로 나눠 한 칸씩 넘긴다.
+         ⚠️ 마크업의 한 줄은 그대로 둔다 — 스크립트가 못 돌면 그 줄이 보여야 하고,
+            색인·번역도 원문을 읽는다. 여기서 마지막 낱말만 <b> 묶음으로 바꾼다.
+         ⚠️ 칸 폭을 가장 긴 낱말에 맞춰 고정한다. 제목이 가운데 정렬이라 폭이
+            낱말마다 달라지면 앞의 '데이터에서' 가 좌우로 흔들린다. */
+      (function () {
+        var h = document.querySelector('#platform .section-lead-ko');
+        var sec = document.getElementById('platform');
+        if (!h || !sec) return;
+
+        var full = h.textContent;
+        var sp = full.lastIndexOf(' ');
+        if (sp < 0) return;
+        var head = full.slice(0, sp + 1);
+        var last = full.slice(sp + 1);
+        var extra = (h.getAttribute('data-swap') || '').split(',').filter(Boolean);
+
+        var swap = document.createElement('span');
+        swap.className = 'tw-swap';
+        var words = extra.concat([last]);
+        var bs = [];
+        for (var i = 0; i < words.length; i++) {
+          var b = document.createElement('b');
+          b.textContent = words[i];
+          swap.appendChild(b);
+          bs.push(b);
+        }
+        h.textContent = head;
+        h.appendChild(swap);
+        /* 읽기 보조기기에는 완성된 한 줄만 준다. */
+        h.setAttribute('aria-label', full);
+        swap.setAttribute('aria-hidden', 'true');
+
+        function lockWidth() {
+          swap.style.width = 'auto';
+          var w = 0;
+          for (var i = 0; i < bs.length; i++) {
+            bs[i].style.position = 'static';
+            var bw = bs[i].getBoundingClientRect().width;
+            bs[i].style.position = '';
+            if (bw > w) w = bw;
+          }
+          swap.style.width = Math.ceil(w) + 'px';
+        }
+        lockWidth();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockWidth);
+
+        var idx = -1;
+        function show(n) {
+          if (n === idx) return;
+          idx = n;
+          for (var i = 0; i < bs.length; i++) {
+            bs[i].classList.toggle('is-now', i === n);
+            bs[i].classList.toggle('is-past', i < n);
+          }
+        }
+        /* 섹션 진행도 하나로 세 가지를 몬다.
+             0 ~ 45%  낱말이 한 칸씩 바뀐다
+            46 ~ 60%  배경이 어두워지고 제목이 빠진다
+            54 ~ 72%  카드 세 장 · 온톨로지 판 · 왼쪽 글 순으로 떠오른다
+            72 ~100%  그대로 멈춘다 — 아코디언을 여는 구간이다
+           배경 구간은 짧게 둔다. 길게 끌면 흰 면과 먹색 사이의 회색이 오래 머물러
+           화면이 바래 보인다 — 한 번에 넘어가는 편이 낫다. */
+        var W_END = 0.45, D_START = 0.46, D_END = 0.60;
+        /* 무대를 붙이지 않는 폭에서는 더 일찍 어두워진다. 붙여 둘 때는 320vh 를
+           쓰므로 0.46 이 한참 뒤이지만, 안 붙이면 1.4 화면이 전부라 같은 값이면
+           섹션을 거의 다 지나도록 밝은 채로 있다. */
+        var D_START_FLOW = 0.20, D_END_FLOW = 0.40;
+        /* 본문은 배경이 거의 다 어두워진 뒤에야 뜨기 시작한다.
+           배경과 같은 구간에 묶으면, 아직 흰 면일 때 본문이 옅게 비쳐 보인다 —
+           그래픽과 아코디언이 유령처럼 밑에 깔린 모습이 된다. */
+        /* 셋의 구간 길이를 0.09 로 똑같이 두고 0.04 씩 어긋나게 출발시킨다 —
+           뜨는 속도는 같고 순서만 생긴다. */
+        var V_START = 0.545, V_END = 0.635;
+        /* 아래 판은 카드 세 장보다 조금 늦는다. */
+        var V3_START = 0.585, V3_END = 0.675;
+        /* 왼쪽 글은 그래픽이 다 뜬 뒤에 따라온다 — 순서만 읽히면 되니 간격은 짧다. */
+        var V2_START = 0.625, V2_END = 0.715;
+        /* 무대를 붙이지 않는 폭에서는 셋을 0.275 씩 앞으로 당긴다. 붙여 둘 때는
+           제목이 화면에 멈춰 선 채 그 자리에서 글이 뜨지만, 안 붙이면 글이 스크롤을
+           따라 올라오는 중에 뜬다 — 같은 값이면 글이 화면 아래에서 600px 을
+           투명한 채로 올라오다 화면 위쪽에 닿아서야 떴다(768 실측).
+           ⚠️ 셋의 간격(0.04)과 길이(0.09)는 그대로 둔다. 순서가 연출의 전부다.
+           ⚠️ 배경이 어두워진 뒤로 미룰 까닭이 여기엔 없다. 좁은 폭의 바탕은
+              스크롤과 무관한 고정 띠라(--pf-ry · --pf-rx 는 붙여 둘 때만 쓴다),
+              글이 앉는 자리는 이미 먹색이다(흰 글 대비 6.9:1 실측). */
+        var V_START_FLOW = 0.270, V_END_FLOW = 0.360;
+        var V3_START_FLOW = 0.310, V3_END_FLOW = 0.400;
+        var V2_START_FLOW = 0.350, V2_END_FLOW = 0.440;
+        var RF = window.RfMotion;
+        var ease = RF.ease, clamp01 = RF.clamp;
+        /* 무대를 붙이지 않는 폭(900 이하)에서는 섹션 높이가 320vh 가 아니라
+           내용만큼이다 — 그 거리로 진행도를 잡으면 모션이 순식간에 끝난다.
+           대신 제목이 화면을 올라오는 만큼을 쓴다(보안 섹션과 같은 방식). */
+        function stagePinned() { return RF.pinned(sec.querySelector('.pf-stage')); }
+        function progress() {
+          if (stagePinned()) {
+            var span = sec.offsetHeight - (window.innerHeight || 800);
+            if (span <= 0) return 1;
+            return clamp01(-sec.getBoundingClientRect().top / span);
+          }
+          /* 제목이 아래에서 올라와 화면 위로 0.35 화면만큼 지나갈 때까지를 쓴다 —
+             1.4 화면(860 높이에서 1204px)이다. 0.8 화면으로 잡았더니 낱말 교대 ·
+             배경 어두워짐 · 그래픽 · 본문 넷이 600px 안에 몰려 순식간에 끝났다. */
+          return RF.rise(h, 1.05, -0.35);
+        }
+        function upd() {
+          if (!stagePinned() && (sec.offsetHeight - (window.innerHeight || 800)) <= 0) { show(bs.length - 1); }
+          var p = progress();
+
+          /* 낱말 교대는 무대를 붙여 둘 때만 돈다. 좁은 폭에서는 쓸 거리가
+             1.4 화면뿐이라 넷이 순식간에 스쳐 글자만 덜컥거린다 — 마지막
+             낱말 하나로 세워 둔다(원문 그대로 「지능으로」다). */
+          if (!stagePinned()) {
+            show(bs.length - 1);
+          } else {
+            var w = p / W_END;
+            if (w > 1) w = 1;
+            var n = Math.floor(w * bs.length);
+            if (n > bs.length - 1) n = bs.length - 1;
+            show(n);
+          }
+
+          var ds = stagePinned() ? D_START : D_START_FLOW;
+          var de = stagePinned() ? D_END : D_END_FLOW;
+          var d = (p - ds) / (de - ds);
+          if (d < 0) d = 0; else if (d > 1) d = 1;
+          d = ease(d);
+          /* 타원의 반지름을 키우면 먹색 구간이 위로 번져 화면 전체가 어두워진다.
+             ⚠️ 중심을 위로 끌어올리는 방법은 안 된다. 방사형은 중심에서의 '거리' 로
+                색을 고르므로, 중심이 무대 밖으로 나가면 그 아래가 도로 밝아진다.
+             ⚠️ 가로 · 세로를 같은 배수로 키운다. 세로만 늘리면 타원이 길쭉해져
+                좌우 모서리가 중심에서 멀어지며 또 밝아진다. */
+          var k = 1 + 2.2 * d;
+          sec.style.setProperty('--pf-ry', (150 * k).toFixed(1) + 'vh');
+          sec.style.setProperty('--pf-rx', (180 * k).toFixed(0) + '%');
+          /* ⚠️ 대제목은 무대를 붙여 둘 때만 걷힌다. 붙여 두면 바탕이 어두워지는
+             동안 제목이 제자리에서 사라지는 연출이지만, 안 붙이면 제목이 화면에
+             그대로 있는 채로 꺼져 '보였다 사라지는' 것으로만 읽힌다.
+             안 붙일 때는 밝은 띠 위에 계속 서 있다가 스크롤을 따라 올라간다. */
+          sec.style.setProperty('--pf-title', stagePinned() ? (1 - d).toFixed(3) : '1');
+
+          var vs = stagePinned() ? V_START : V_START_FLOW;
+          var ve = stagePinned() ? V_END : V_END_FLOW;
+          var v = (p - vs) / (ve - vs);
+          if (v < 0) v = 0; else if (v > 1) v = 1;
+          v = ease(v);
+          sec.style.setProperty('--pf-in', v.toFixed(3));
+
+          var v3s = stagePinned() ? V3_START : V3_START_FLOW;
+          var v3e = stagePinned() ? V3_END : V3_END_FLOW;
+          var v3 = (p - v3s) / (v3e - v3s);
+          if (v3 < 0) v3 = 0; else if (v3 > 1) v3 = 1;
+          /* 오림을 69% 에서 0% 로 줄이면 아래쪽이 드러난다. */
+          sec.style.setProperty('--pf-clip', (69 * (1 - ease(v3))).toFixed(2) + '%');
+          /* 무대가 가까워지면 그림을 받기 시작한다 — <object> 에는 lazy 가 없다. */
+          /* ⚠️ 그림은 이 스크립트보다 뒤에 있다 — 미리 잡아 두면 늘 null 이다.
+             필요해지는 시점에 그때 찾는다. */
+          if (p > 0.2) {
+            var art = sec.querySelector('.pf-art');
+            if (art && !art.getAttribute('data')) art.setAttribute('data', art.getAttribute('data-src'));
+          }
+
+          var v2s = stagePinned() ? V2_START : V2_START_FLOW;
+          var v2e = stagePinned() ? V2_END : V2_END_FLOW;
+          var v2 = (p - v2s) / (v2e - v2s);
+          if (v2 < 0) v2 = 0; else if (v2 > 1) v2 = 1;
+          v2 = ease(v2);
+          sec.style.setProperty('--pf-in2', v2.toFixed(3));
+          /* 다 뜨기 전에는 클릭을 받지 않는다 — 안 보이는 아코디언이 눌린다. */
+          sec.style.setProperty('--pf-pe', v2 > 0.9 ? 'auto' : 'none');
+        }
+        var ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; upd(); });
+        }
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', function () { lockWidth(); upd(); }, { passive: true });
+        upd();
+      })();
+    </script>
+
+    <div class="platform-split">
+      <div class="platform-split__cards">
+        <p class="pf-lead">Field data is connected,<br>given meaning through an ontology,<br>and carried into AI-driven decisions</p>
+        <div class="pf-acc">
+          <div data-part="data" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="true" aria-controls="pf-a0">
+              <span class="pf-t">Industrial data integration</span>
+            </button>
+            <div class="pf-a" id="pf-a0" role="region">
+              <p>Gathering data scattered across your systems in one place is the first step.</p>
+            </div>
+          </div>
+          <div data-part="ontology,workflow" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a1">
+              <span class="pf-t">Data with meaning attached</span>
+            </button>
+            <div class="pf-a" id="pf-a1" role="region">
+              <p>Every scattered number and record is given meaning: what the data is about.</p>
+            </div>
+          </div>
+          <div data-part="workflow" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a2">
+              <span class="pf-t">Operating procedures designed through conversation</span>
+            </button>
+            <div class="pf-a" id="pf-a2" role="region">
+              <p>You set what needs approval, and what runs automatically.</p>
+            </div>
+          </div>
+          <div data-part="plate" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a3">
+              <span class="pf-t">The field on one dashboard</span>
+            </button>
+            <div class="pf-a" id="pf-a3" role="region">
+              <p>Real-time KPIs, status and alarms can all be checked on one screen.</p>
+            </div>
+          </div>
+          <div data-part="lens" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a4">
+              <span class="pf-t">Analysis that finds causes and looks ahead</span>
+            </button>
+            <div class="pf-a" id="pf-a4" role="region">
+              <p>It reviews data gathered over time to spot anomalies and find their cause.</p>
+            </div>
+          </div>
+          <div data-part="agent" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a5">
+              <span class="pf-t">A field run by one question</span>
+            </button>
+            <div class="pf-a" id="pf-a5" role="region">
+              <p>Ask, and it answers from your data and suggests the next action.</p>
+            </div>
+          </div>
+          <div data-part="all" class="pf-item">
+            <button type="button" class="pf-q" aria-expanded="false" aria-controls="pf-a6">
+              <span class="pf-t">A site that runs without people</span>
+            </button>
+            <div class="pf-a" id="pf-a6" role="region">
+              <p>Analysis flows into reports, alarms and workflow execution, with no manual steps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <object> 로 넣는다. <img> 는 SVG 를 한 장의 그림으로만 그려 바깥 CSS·JS 가
+          안으로 닿지 못한다 — 안쪽 요소를 집어서 켜려면 문서로 들어와야 한다.
+          ⚠️ 지금 파일에는 집을 이름이 없다(최상위 g 가 '_레이어_1' 하나뿐이고
+             나머지는 cls-* 자동 클래스다). 원본에서 그룹에 이름을 지어 주면
+             그때부터 요소 단위로 켜고 끌 수 있다. 그 전까지는 아래처럼 자르는
+             자리로 순서를 만든다.
+          ⚠️ <object> 에는 loading="lazy" 가 없다. 대신 무대가 가까워졌을 때
+             data 를 꽂아 늦게 받는다(아래 스크립트).
+          ⚠️ 그림이 클릭을 먹지 않게 pointer-events 를 끈다. */}
+      <div class="platform-graphic-wrap">
+        <object class="platform-graphic-img pf-art" type="image/svg+xml"
+                data-src="/From%20Data%20to%20Intelligence.svg"
+                aria-label="Refinery platform isometric diagram" role="img"></object>
+        <div class="pf-labels">
+          <span class="pf-label" data-part="plate" style="--x:16.167%;--w:12.533cqw">Refinery Plate</span>
+          <span class="pf-label" data-part="lens" style="--x:50%;--w:12.373cqw">Refinery Lens</span>
+          <span class="pf-label" data-part="agent" style="--x:83.833%;--w:14.682cqw">Refinery AI Agent</span>
+          <span class="pf-label pf-label--iso pf-label--ont" data-part="ontology" style="--x:77.125%;--y:57.292%" translate="no">Refinery Ontology</span>
+          <span class="pf-label pf-label--iso pf-label--wf" data-part="workflow" style="--x:50.135%;--y:50.445%" translate="no">Work<br>flow</span>
+          <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.833%;--y:69.125%" translate="no">Unify</span>
+          <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.917%;--y:73.875%" translate="no">Refine</span>
+          <span class="pf-label pf-label--iso pf-label--chip" data-part="data" style="--x:66.917%;--y:78.875%" translate="no">Collect</span>
+          <span class="pf-label pf-label--iso pf-label--data" data-part="data" style="--x:81.375%;--y:79.208%" translate="no">Data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
 </section>
 
 <!-- INDUSTRIES -->
-<section id="industries" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
-  <div class="container">
+<section id="industries">
+  <div class="ind-pin">
+    <div class="ind-stage">
+      <div class="container">
     <div class="section-header">
-      <div class="section-header-row">
-        <h2>Whatever the industry or challenge,<br>a solution optimized for every field</h2>
-        <p><span translate="no">Refinery</span> Industrial AI OS learns and solves<br>the unique challenges of each industry.</p>
-     </div>
-   </div>
+          <div class="section-header-row">
+            <h2 class="sol-title"><span class="sol-line">Whatever the industry or challenge,</span><span class="sol-line">a solution optimized for every field</span></h2>
+         </div>
+       </div>
+      </div>
+      <div class="container">
     <div class="sol-switch-row">
       <div class="sol-tabs" role="tablist">
         <button type="button" class="sol-tab" role="tab" aria-selected="true" data-sol-tab="0" aria-label="Show industry cards">By industry</button>
@@ -901,81 +1670,243 @@ const jsonLd = [orgSchema, websiteSchema];
       <div class="sol-track">
         <div class="sol-panel">
       <div class="industries-grid">
-        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy & Utilities</span><span class="industry-desc">Unified control of distributed assets, <br>automated ESG reporting</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Automotive & Mobility</span><span class="industry-desc">Vibration-based predictive maintenance, <br>energy intensity by line</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" style="object-position:center 20%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Electronics & Precision</span><span class="industry-desc">Power quality and outage monitoring, <br>live microclimate control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 10%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Steel & Materials</span><span class="industry-desc">Steadier heat-treatment quality, <br>peak demand control</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="549" style="object-position:center 75%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Chemicals & Materials</span><span class="industry-desc">Utilities managed as one, <br>combustion efficiency and carbon</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="583" style="object-position:center 30%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Machinery & Plant</span><span class="industry-desc">Shared utilities run to demand, <br>energy intensity by process</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="600" style="object-position:center 15%" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Food & Beverage</span><span class="industry-desc">Refrigeration efficiency analysis, <br>quality temperature monitoring</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/industries/energy"><img class="industry-img" src="/industries/cards/energy-900.webp" srcset="/industries/cards/energy-480.webp 480w, /industries/cards/energy-900.webp 900w, /industries/cards/energy-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Energy & Utilities</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/automotive"><img class="industry-img" src="/industries/cards/automotive-900.webp" srcset="/industries/cards/automotive-480.webp 480w, /industries/cards/automotive-900.webp 900w, /industries/cards/automotive-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Automotive & Mobility</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/electronics"><img class="industry-img" src="/industries/cards/electronics-900.webp" srcset="/industries/cards/electronics-480.webp 480w, /industries/cards/electronics-900.webp 900w, /industries/cards/electronics-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Electronics & Precision</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/steel"><img class="industry-img" src="/industries/cards/steel-900.webp" srcset="/industries/cards/steel-480.webp 480w, /industries/cards/steel-900.webp 900w, /industries/cards/steel-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Steel & Materials</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/chemicals"><img class="industry-img" src="/industries/cards/chemicals-900.webp" srcset="/industries/cards/chemicals-480.webp 480w, /industries/cards/chemicals-900.webp 900w, /industries/cards/chemicals-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Chemicals & Materials</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/machinery"><img class="industry-img" src="/industries/cards/machinery-900.webp" srcset="/industries/cards/machinery-480.webp 480w, /industries/cards/machinery-900.webp 900w, /industries/cards/machinery-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Machinery & Plant</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/industries/food"><img class="industry-img" src="/industries/cards/food-900.webp" srcset="/industries/cards/food-480.webp 480w, /industries/cards/food-900.webp 900w, /industries/cards/food-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Food & Beverage</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
      </div>
        </div>
         <div class="sol-panel" data-off>
       <div class="industries-grid">
-        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Predictive maintenance</span><span class="industry-desc">Vibration sensors catch early signs, <br>act before failure</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Sensor monitoring</span><span class="industry-desc">Scattered sensors on one screen, <br>unusual combinations flagged</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power management</span><span class="industry-desc">Usage made visible by asset, <br>peaks and anomalies managed</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Power quality</span><span class="industry-desc">Sag, swell and harmonics watched, <br>events recorded automatically</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Factory energy management</span><span class="industry-desc">Electricity, gas, steam and water as one, <br>intensity against output</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Energy optimization</span><span class="industry-desc">Waste segments surfaced, <br>peaks cut and held down</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
-        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1280w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), (max-width: 1280px) calc((100vw - 114px) / 2), (max-width: 1376px) calc((100vw - 132px) / 3), 383px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-name">Quality prediction</span><span class="industry-desc">Process conditions joined to results, <br>defect causes traced</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></a>
+        <a class="industry-card" href="/en/use-cases/predictive-maintenance"><img class="industry-img" src="/use-cases/cards/sized/predictive-maintenance-900.webp" srcset="/use-cases/cards/sized/predictive-maintenance-480.webp 480w, /use-cases/cards/sized/predictive-maintenance-900.webp 900w, /use-cases/cards/sized/predictive-maintenance-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Predictive maintenance</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/sensor-monitoring"><img class="industry-img" src="/use-cases/cards/sized/sensor-monitoring-900.webp" srcset="/use-cases/cards/sized/sensor-monitoring-480.webp 480w, /use-cases/cards/sized/sensor-monitoring-900.webp 900w, /use-cases/cards/sized/sensor-monitoring-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Sensor monitoring</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-management"><img class="industry-img" src="/use-cases/cards/sized/power-management-900.webp" srcset="/use-cases/cards/sized/power-management-480.webp 480w, /use-cases/cards/sized/power-management-900.webp 900w, /use-cases/cards/sized/power-management-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Power management</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/power-quality"><img class="industry-img" src="/use-cases/cards/sized/power-quality-900.webp" srcset="/use-cases/cards/sized/power-quality-480.webp 480w, /use-cases/cards/sized/power-quality-900.webp 900w, /use-cases/cards/sized/power-quality-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Power quality</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/factory-energy"><img class="industry-img" src="/use-cases/cards/sized/factory-energy-900.webp" srcset="/use-cases/cards/sized/factory-energy-480.webp 480w, /use-cases/cards/sized/factory-energy-900.webp 900w, /use-cases/cards/sized/factory-energy-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Factory energy management</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/energy-optimization"><img class="industry-img" src="/use-cases/cards/sized/energy-optimization-900.webp" srcset="/use-cases/cards/sized/energy-optimization-480.webp 480w, /use-cases/cards/sized/energy-optimization-900.webp 900w, /use-cases/cards/sized/energy-optimization-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Energy optimization</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
+        <a class="industry-card" href="/en/use-cases/quality-prediction"><img class="industry-img" src="/use-cases/cards/sized/quality-prediction-900.webp" srcset="/use-cases/cards/sized/quality-prediction-480.webp 480w, /use-cases/cards/sized/quality-prediction-900.webp 900w, /use-cases/cards/sized/quality-prediction-1400.webp 1400w" sizes="(max-width: 599px) calc(100vw - 48px), (max-width: 900px) calc((100vw - 66px) / 2), 460px" width="900" height="506" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="industry-body"><span class="industry-head"><span class="industry-name">Quality prediction</span><span class="industry-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg></span></span></span></a>
      </div>
        </div>
      </div>
    </div>
  </div>
+    </div>
+  </div>
 </section>
 
+<script is:inline>
+  /* 솔루션 무대 — 제목 · 소제목 · 사진이 한 화면에 멈춰 선 채로, 스크롤이 지나는
+     동안 글자에 색이 차고 소제목이 떠오르고 사진 띠가 옆으로 흐른다.
+     ⚠️ 진행도는 핀 상자가 화면을 지나간 비율이다(무대가 붙어 있는 동안 0→1).
+     ⚠️ 띠를 미는 거리는 띠 폭 − 칸 폭 + 내용 너비 오른쪽 여백이다 — 다 밀리면
+        마지막 장의 오른쪽 변이 화면 끝이 아니라 내용 너비 끝에 선다.
+     ⚠️ 동작 줄이기를 켠 환경에서는 손대지 않는다. CSS 기본값이 '다 보이는 상태'라
+        제목도 소제목도 그대로 서고, 띠만 왼쪽 끝에 멈춘다.
+     ⚠️ 901px 아래는 띠를 밀지 않는다 — 좁은 폭은 기존 격자다. */
+  (function () {
+    var sec = document.getElementById('industries');
+    if (!sec) return;
+    var pin = sec.querySelector('.ind-pin');
+    var lines = sec.querySelectorAll('.sol-title .sol-line');
+    var rails = [].slice.call(sec.querySelectorAll('.industries-grid'));
+    if (!pin || !lines.length) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var cont = sec.querySelector('.container');
+    var PAD = cont ? (parseFloat(getComputedStyle(cont).paddingRight) || 0) : 0;
+    function wide() { return window.matchMedia('(min-width: 901px)').matches; }
+    var RF = window.RfMotion;
+    var clamp = RF.clamp, ease = RF.ease;
+
+    /* 제목만 있을 때 화면 가운데에 서도록 무대를 내릴 거리를 잰다.
+       ⚠️ 재기 전에 --ind-lift 를 0 으로 돌린다. 제가 건 translate 가 남아 있으면
+          그만큼 더해져 잴 때마다 값이 불어난다. */
+    function measure() {
+      var st = sec.querySelector('.ind-stage');
+      var title = sec.querySelector('.sol-title');
+      if (!st || !title) return;
+      sec.style.setProperty('--ind-lift', '0px');
+      /* ⚠️ 무대를 붙이지 않는 폭에서는 내릴 것이 없다. 무대가 내용만큼이라
+         '제목만 화면 가운데에 선다' 는 전제가 성립하지 않고, 내려 두면 제목이
+         섹션 위 여백보다 한참 아래(900 에서 536px)에서 시작한다.
+         CSS 쪽 transform: none 은 뒤에 오는 같은 특정도 규칙에 져서 듣지 않았다
+         — 값을 0 으로 두는 쪽이 어느 규칙이 이기든 같은 결과가 된다. */
+      if (!stagePinned()) return;
+      var pad = parseFloat(getComputedStyle(st).paddingTop) || 0;
+      var sr = st.getBoundingClientRect();
+      var tr = title.getBoundingClientRect();
+      sec.style.setProperty('--ind-lift',
+        ((sr.top + pad + (sr.height - pad) / 2) - (tr.top + tr.height / 2)).toFixed(1) + 'px');
+    }
+
+    /* 핀 상자가 화면을 지나간 비율(0→1)과, 거기서 뽑은 사진 띠의 진행도. */
+    function progress() {
+      if (stagePinned()) {
+        var span = pin.offsetHeight - (window.innerHeight || 800);
+        return span > 0 ? clamp(-pin.getBoundingClientRect().top / span) : 1;
+      }
+      /* 무대를 붙이지 않는 폭(900 이하)에서는 핀 상자가 내용 높이뿐이라 그 거리로
+         재면 모션이 순식간에 끝난다. 대신 제목이 화면을 올라오는 만큼을 쓴다 —
+         1.4 화면이다(플랫폼 · 보안 섹션과 같은 방식). */
+      return RF.rise(sec.querySelector('.sol-title'), 1.05, -0.35);
+    }
+    function stagePinned() { return RF.pinned(sec.querySelector('.ind-stage')); }
+    function railProgress(p) { return ease(clamp((p - 0.48) / 0.48)); }
+    var railOrigin = rails.map(function () { return 0; });
+
+    var ticking = false;
+    function upd() {
+      var p = progress();
+
+      /* 0) 사진 카드 — 제목에 먹이 차는 동안 미리보기처럼 흩어져 떠 있다가,
+         제자리로 모여 한 줄이 된다. 1 이 흩어진 상태, 0 이 줄을 선 상태다.
+         ⚠️ 다 모이는 자리(0.38)는 띠가 옆으로 흐르기 시작하는 자리(0.48)보다
+            앞이어야 한다. 겹치면 모이는 중에 띠가 밀려 어디를 보라는지 흐려진다. */
+      sec.style.setProperty('--sol-pre', ease(clamp((p - 0.02) / 0.12)).toFixed(3));
+      sec.style.setProperty('--sol-scatter', (1 - ease(clamp((p - 0.08) / 0.30))).toFixed(3));
+
+      /* 1) 제목에 먹이 찬다. 줄마다 늦춰 윗줄이 먼저 찬다.
+         ⚠️ 무대를 붙이지 않는 폭에서는 상수를 넓게 잡는다. 붙여 둘 때는 340vh 를
+            쓰므로 0.17 만으로도 한참이지만, 안 붙이면 1.4 화면이 전부라 같은 값을
+            쓰면 섹션에 들어서기도 전에 다 차 버린다(900 에서 내내 100% 였다). */
+      var stuck = stagePinned();
+      var F_LEAD = stuck ? 0.03 : 0.16, F_STEP = stuck ? 0.08 : 0.13, F_SPAN = stuck ? 0.17 : 0.30;
+      for (var i = 0; i < lines.length; i++) {
+        var q = ease(clamp((p - F_LEAD - i * F_STEP) / F_SPAN));
+        lines[i].style.setProperty('--sol-fill', (q * 100).toFixed(1) + '%');
+        /* 제도 보조선은 먹이 올라오는 만큼 걷힌다 — 다 차면 글자만 남는다. */
+        lines[i].style.setProperty('--sol-guide', (1 - q).toFixed(3));
+      }
+
+      /* 2) 소제목부터 아래가 떠오른다. */
+      sec.style.setProperty('--ind-body', ease(clamp((p - 0.30) / 0.14)).toFixed(3));
+
+      /* 3) 사진 띠가 옆으로 흐른다. */
+      var rp = railProgress(p);
+      for (var k = 0; k < rails.length; k++) {
+        var rail = rails[k];
+        if (!wide()) { rail.style.removeProperty('--sol-x'); rail.style.removeProperty('--sol-y'); rail.style.removeProperty('--sol-w'); continue; }
+        var box = rail.parentElement.getBoundingClientRect();
+        /* 칸에 카드가 정수 개로 딱 들어가게 폭을 잡는다 — 멈춰 있을 때 오른쪽
+           끝에서 사진이 반 토막으로 잘리지 않는다. 400px 에 가장 가까운 장수를
+           고른다. */
+        var GAP = 16, TARGET = 400;
+        var n = Math.max(2, Math.round((box.width + GAP) / (TARGET + GAP)));
+        /* 폭은 정수로 끊는다 — 소수점이 남으면 카드마다 세로 모서리가 반픽셀 위에
+           놓여, 사진과 흰 바탕이 섞인 회색 한 줄이 테두리처럼 보인다. */
+        rail.style.setProperty('--sol-w', Math.round((box.width - (n - 1) * GAP) / n) + 'px');
+        var travel = rail.scrollWidth - box.width + PAD;
+        /* 띠마다 제 출발점이 있다. 탭을 바꾸기 전에는 0 이라 rp 를 그대로 쓰고,
+           바꾼 뒤에는 그 순간부터 남은 스크롤로 제 폭을 다 흐른다. */
+        if (rp <= 0) railOrigin[k] = 0;
+        var o = railOrigin[k];
+        var local = o >= 1 ? 0 : clamp((rp - o) / (1 - o));
+        /* 미는 거리도 정수 자리에 붙인다. 칸의 왼쪽·위가 이미 소수점 위에 있으므로
+           그만큼을 함께 덜어, 카드의 네 모서리가 픽셀 경계에 떨어지게 한다. */
+        var baseX = travel > 0 ? -travel * local : 0;
+        rail.style.setProperty('--sol-x', (Math.round(box.left + baseX) - box.left).toFixed(3) + 'px');
+        rail.style.setProperty('--sol-y', (Math.round(box.top) - box.top).toFixed(3) + 'px');
+      }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+    /* 탭을 바꾸면 새로 나온 띠는 첫 장부터 다시 흐른다 — 숨어 있던 띠가 이미
+       절반쯤 밀린 채로 나타나면 앞쪽 사진을 못 보고 지나친다. 바꾼 순간의
+       진행도를 띠마다 적어 두고, 그 뒤로는 남은 스크롤에 제 폭을 나눠 쓴다.
+       두 띠에 모두 적는다 — 되돌아와도 똑같이 처음부터 보인다. */
+    sec.addEventListener('click', function (e) {
+      if (!e.target.closest('.sol-tab')) return;
+      var rp = railProgress(progress());
+      for (var k = 0; k < rails.length; k++) railOrigin[k] = rp;
+      requestAnimationFrame(upd);
+    });
+    measure();
+    upd();
+    requestAnimationFrame(function () { measure(); upd(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); upd(); });
+  })();
+</script>
+
+<script is:inline>
+  /* 세로 스크롤바 폭을 px 로 재어 --sbw 에 넣는다. 바깥으로 빼는 자리
+     (.teams-split 의 margin-right)가 이 값을 쓴다 — CSS 만으로는 못 구한다. */
+  (function () {
+    function measure() {
+      document.documentElement.style.setProperty(
+        '--sbw', (window.innerWidth - document.documentElement.clientWidth) + 'px');
+    }
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+  })();
+</script>
 <!-- FOR TEAMS -->
-<section id="teams" style="background:#ffffff;border-top:1px solid #E3E7EC;">
+<section id="teams" style="background:#EFF2F5;">
+  <!-- 탭은 스크롤이 지나는 동안 저절로 넘어간다 — .teams-pin 이 스크롤 거리를
+       만들고 그 안의 무대가 화면에 붙어 선다. -->
+  <div class="teams-pin">
+  <div class="teams-stage-sticky">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
         <h2>Everything your operations<br>need, in one OS</h2>
-        <p style="max-width:640px;">From collecting and visualizing data to making decisions,<br>every capability your operations need lives in one operating system.</p>
+        <div class="teams-menu-vertical">
+          {/* Each slot is a shrunk shot of that screen — the same picture as the big one
+              below, so what you are looking at carries over by eye. The name sits on one
+              No name line: the chosen screen shows right below, and its tagline says what it is. */}
+          <div class="teams-thumbs">
+            <button class="teams-tab-btn active" aria-label="AI Agent" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i><span class="teams-tab-lbl">AI Agent</span></button>
+            <button class="teams-tab-btn" aria-label="Plate" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-layout" aria-hidden="true"></i><span class="teams-tab-lbl">Plate</span></button>
+            <button class="teams-tab-btn" aria-label="Tile" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-squares-four" aria-hidden="true"></i><span class="teams-tab-lbl">Tile</span></button>
+            <button class="teams-tab-btn" aria-label="Pipeline Builder" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow" aria-hidden="true"></i><span class="teams-tab-lbl">Pipeline Builder</span></button>
+            <button class="teams-tab-btn" aria-label="Ontology" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-graph" aria-hidden="true"></i><span class="teams-tab-lbl">Ontology</span></button>
+            <button class="teams-tab-btn" aria-label="Calendar" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank" aria-hidden="true"></i><span class="teams-tab-lbl">Calendar</span></button>
+          </div>
+        </div>
      </div>
    </div>
-    <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, '/Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, '/Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
-   </div>
-    <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
-      <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
-      <div class="teams-preview-decor" style="position:absolute;top:0;left:0;right:0;height:110px;z-index:1;background:linear-gradient(to bottom, #F6F8FA 0%, #F6F8FA 80%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
-      <div class="teams-preview-decor" style="position:absolute;top:0;left:28.5%;bottom:0;width:15%;z-index:1;background:linear-gradient(to right, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
-      <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
-      <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
+    <div class="teams-split">
+      <div class="teams-rail">
+        <div class="teams-copy">
+          <div class="teams-preview-title-wrap">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
         {/* 본문과 같은 이유로 <br> 명시 - 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
         <h3 id="teamsPreviewTitle">Ask a question, and<br>
-the ontology finds the answer.</h3>
-     </div>
-      <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
+the ontology finds the answer</h3>
+          </div>
+          <div class="teams-preview-text" id="teamsPreviewTextBox">
         {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
             초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
             줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
-        <p id="teamsPreviewBody">The AI reasons over asset, task and history <br>
-data in the ontology to infer causes and <br>
-answer conversationally. The data sources <br>
-behind the answer are given too.</p>
-     </div>
-      <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
+        <p id="teamsPreviewBody">The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally. The data sources behind the answer are given too.</p>
+          </div>
+        </div>
+      </div>
+      <div class="teams-stage">
+        <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;overflow:hidden;position:relative;aspect-ratio:8/5;">
+        <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
         <img id="dash-image" src="/Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery solution dashboard preview">
-     </div>
-   </div>
+        </div>
+        </div>
+      </div>
+    </div>
     <script is:inline>
     (function() {
       var DASH_W = 1440; // 기본값(폴백) - 이미지 로드 전이거나 크기 정보를 못 가져올 때만 사용
       var DASH_H = 900;
       var RIGHT_CROP = 20; // 브라우저 기본 스크롤바가 우측 끝에 보이지 않도록 살짝 잘라냄 (스크롤 있는 화면만)
 
-      var MOBILE_RAIL_CROP = 244; // 좌측 세션 레일 폭(px, 원본 1440 기준) - 모바일에서는 실제로 잘라내 보여준다
+      // 캡처에서 이미 메뉴를 걷어 내 0 이다. 캘린더만 옛 캡처라 제 값을 쓴다.
+      var MOBILE_RAIL_CROP_MAP = { calendar: 244 };  // // 좌측 세션 레일 폭(px, 원본 1440 기준) - 모바일에서는 실제로 잘라내 보여준다
       // 모바일 전용 - 이미지를 아래로 내려 보여줌(카드 크기는 불변), 데스크탑 미적용
       // 파이프라인만 음수다. 캡처 상단의 'Schema · Snapshot Diff | develop |
       // flux-energy > grid_ops | Last sync …' 툴바 줄과 그 아래 Export / Apply Migration
@@ -992,7 +1923,7 @@ behind the answer are given too.</p>
       //   (130 은 '인터랙티브 데모' 줄까지, 160 은 창 머리 두 줄까지 들어온다).
       //   40 / 70 / 100 / 130 / 160 / 190 을 렌더해 비교한 뒤 그 사이로 잡았다.
       //   아래는 어느 값에서도 꽉 찬다(이미지가 래퍼보다 세로로 길다).
-      var MOBILE_EXTRA_TOP_MAP = { llm: 120, tile: 40, pipeline: 0, ontology: 40, calendar: 40 };
+      var MOBILE_EXTRA_TOP_MAP = { calendar: 40 };
       // 1281px 이상(데스크탑)용 세로 보정. 거기는 원래 top 이 0 고정이라 캡처 윗변이
       // 카드 윗변에 붙어 패널이 위로 쏠리고 아래가 비었다. 양수면 아래로 내려간다.
       //   산업 AI 운영체제(llm) 80 — 우측 툴바 줄이 하나 들어오고 패널이 조금 내려온다.
@@ -1000,7 +1931,7 @@ behind the answer are given too.</p>
       //   시작해 값만큼 늘어나므로 어느 값에서도 빈 공간이 생기지 않는다.
       //   값 1 당 화면 0.83px 이다(1440 기준 px × 2000/1440 × 배율 0.597).
       //   모바일 맵과 배율이 달라 같은 숫자라도 움직이는 양이 다르다 — 함께 바꾸지 말 것.
-      var DESKTOP_EXTRA_TOP_MAP = { llm: 80 };
+      var DESKTOP_EXTRA_TOP_MAP = {};
 
       function resizeDash() {
         var wrapper = document.getElementById('iframe-wrapper');
@@ -1015,12 +1946,17 @@ behind the answer are given too.</p>
         var w = wrapper.offsetWidth;
         var crop = (window.needsRightCrop === false) ? 0 : RIGHT_CROP;
         var pan = window.dashPanContent || 0; // 콘텐츠를 우측으로 밀어 보여주기 위한 좌측 크롭(px, 원본 1440 기준)
-        var isMobile = window.innerWidth <= 1280 /* 1280 이하는 세로 분리 레이아웃 — CSS와 같은 경계 */;
+        /* ⚠️ 좁은 폭에서도 데스크탑과 같은 식으로 잰다. 예전에는 1280 아래에서
+           왼쪽 세션 레일을 잘라 내고 본문만 확대했는데, 상자 비율이 그림과 달라
+           (17/10 대 8/5) 확대한 그림이 칸을 넘쳤다 — 캘린더처럼 원본이 2배인
+           캡처에서 특히 어긋나 보였다. 비율을 8/5 로 맞춘 지금은 잘라 낼 것이
+           없고, 넓은 화면과 같은 그림이 그대로 들어간다. */
+        var isMobile = false;
 
         if (isMobile) {
           // 모바일: 좌측 세션 레일을 실제로 잘라내고(pan + 모바일 전용 추가 크롭 포함) 본문 UI만 카드 폭에 꽉 차게 확대한다.
           var mobileExtraPan = MOBILE_EXTRA_PAN_MAP[window.dashKey] || 0;
-          var leftCropNatural = (MOBILE_RAIL_CROP + pan + mobileExtraPan) * unitScale;
+          var leftCropNatural = ((MOBILE_RAIL_CROP_MAP[window.dashKey] || 0) + pan + mobileExtraPan) * unitScale;
           var scale = w / (imgW - crop - leftCropNatural);
           var renderedH = imgH * scale;
           var wrapperH = wrapper.offsetHeight;
@@ -1088,10 +2024,12 @@ behind the answer are given too.</p>
     })();
     </script>
  </div>
+  </div>
+  </div>
 </section>
 
 <!-- INTEGRATIONS -->
-<section id="integrations" style="background:#111316;border-top:1px solid #E3E7EC;">
+<section id="integrations" style="background:#151B23;">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -1101,22 +2039,27 @@ behind the answer are given too.</p>
    </div>
     <style is:global>
       .int-node-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;margin-top:94px;}
-      .rfn-node{position:relative;width:100%;min-width:0;background:#191D22;border:1px solid #272B32;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);overflow:hidden;font-family:"Roboto","Pretendard",-apple-system,sans-serif;transition:box-shadow .15s ease;}
-      .rfn-node:hover{box-shadow:0 0 0 2px #272B32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);}
-      .rfn-node-head{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;background:#1E2228;border-bottom:1px solid #272B32;}
+      .rfn-node{position:relative;width:100%;min-width:0;background:#191F27;border:1px solid #292F37;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);overflow:hidden;font-family:"Roboto","Pretendard",-apple-system,sans-serif;transition:box-shadow .15s ease;}
+      .rfn-node:hover{box-shadow:0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);}
+      .rfn-node-head{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;background:#191F27;border-bottom:1px solid #292F37;}
       .rfn-node-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#3F76AE;color:#ffffff;}
       .rfn-node-ic .ph{font-size:14px;}
-      .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#EDEEF0;}
-      .rfn-node-grip{flex:none;display:inline-flex;color:#424850;cursor:grab;}
-      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #272B32;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#757C85;}
+      .rfn-node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:13px;font-weight:600;color:#F6F8FA;}
+      .rfn-node-grip{flex:none;display:inline-flex;color:#3A4856;cursor:grab;}
+      /* ⚠️ 표 줄 높이는 px 로 박아 둔다(13px x 1.6 = 20.8 · 11.5px x 1.6 = 18.4).
+         상속해 두면 body 행간을 건드릴 때마다 카드 높이가 따라 움직인다 —
+         2026-11-02 에 본문 행간을 1.6 에서 1.5 로 내렸더니 줄마다 1.3px 씩
+         줄어 카드가 229 에서 222px 이 됐고, 아래로 이어지는 회로 선과도
+         어긋났다. 빽빽한 표의 줄 높이는 본문 비율과 별개로 둔다. */
+      .rfn-node-grip .ph{font-size:13px;}      .rfn-node-colhead{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid #292F37;font-family:"Roboto","Pretendard",-apple-system,sans-serif;font-size:11.5px;line-height:18.4px;letter-spacing:var(--ls-wide-sm);text-transform:uppercase;color:#7E858F;}
       .rfn-node-colhead span:last-child{text-align:right;}
-      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #272B32;font-size:13px;}
+      .rfn-node-col{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #292F37;font-size:13px;line-height:20.8px;}
       .rfn-node-col:last-child{border-bottom:0;}
       .rfn-node[data-pl-node="cloud"] .rfn-node-col:last-child,
-      .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #272B32;}
-      .rfn-node-col-name{display:flex;align-items:center;gap:6px;min-width:0;color:#C0C4CA;}
+      .rfn-node[data-pl-node="bi_ai"] .rfn-node-col:last-child{border-bottom:1px solid #292F37;}
+      .rfn-node-col-name{display:flex;align-items:center;gap:6px;min-width:0;color:#C8CED5;}
       .rfn-node-col-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#878E97;white-space:nowrap;text-align:right;}      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
+      .rfn-node-col-type{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;font-size:12px;color:#7E8A98;white-space:nowrap;text-align:right;}      .rfn-key{flex:none;width:14px;display:inline-flex;justify-content:center;}
       .rfn-key .ph{font-size:12px;}      .rfn-key.conn{color:#3FB255;}
       .rfn-key.cloud{color:#3B7FD4;}
       .rfn-key.sys{color:#9579C2;}
@@ -1137,17 +2080,22 @@ behind the answer are given too.</p>
         /* 넘겨 볼 게 남은 쪽만 가장자리를 배경으로 흐린다. 카드가 뚝 끊긴 단면 대신
            녹아드는 모습이 되고, 흐림 자체가 '그쪽에 더 있다'는 신호가 된다.
            끝까지 민 쪽은 흐릴 게 없으므로 JS 가 클래스를 떼어 낸다. */
+        /* 오른쪽은 왼쪽보다 길고 세게 흐린다(120px · 중간에 0.45 를 한 번 꺾는다).
+           오른쪽은 '아직 더 있다'를 말해야 하는 쪽이라 신호가 눈에 띄어야 하고,
+           왼쪽은 이미 지나온 쪽이라 56px 로 얕게 둔다.
+           ⚠️ 중간 정지점은 끝에서 52px 자리다 — 거기서 벌써 55% 가 걷혀, 선형으로
+              길게만 늘린 것보다 가장자리가 빨리 배경에 녹는다. */
         #integrations .int-node-grid.fade-right {
-          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
-          mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
         }
         #integrations .int-node-grid.fade-left {
           -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
           mask-image: linear-gradient(to right, transparent 0, #000 56px);
         }
         #integrations .int-node-grid.fade-left.fade-right {
-          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 120px), rgba(0,0,0,.45) calc(100% - 52px), transparent 100%);
         }
       }
       @media (max-width: 1279px) {
@@ -1165,10 +2113,10 @@ behind the answer are given too.</p>
       .int-node-grid{position:relative;z-index:1;}
       .int-flow-connector{position:relative;height:90px;}
       .int-flow-svg-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0;}
-      .int-flow-svg-layer path{fill:none;stroke:#424850;stroke-width:1;}
-      .int-flow-svg-layer circle{fill:#424850;}
+      .int-flow-svg-layer path{fill:none;stroke:#3A4856;stroke-width:1;}
+      .int-flow-svg-layer circle{fill:#3A4856;}
       .int-flow-svg-layer path.int-flow-glow{fill:none;stroke-width:2;stroke-linecap:round;}
-      .int-refinery-outer{position:relative;z-index:1;width:164px;margin:0 auto;padding:7px;background:#1E2228;border:1px solid #32373F;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.35);}
+      .int-refinery-outer{position:relative;z-index:1;width:164px;margin:0 auto;padding:7px;background:#191F27;border:1px solid #353C44;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.35);}
       .int-refinery-pill{display:flex;align-items:center;justify-content:center;gap:8px;width:150px;height:50px;margin:0 auto;background:#0B0E14;border-radius:8px;}
       .int-refinery-pill img{height:25px;width:auto;filter:brightness(0) invert(1);}
     </style>
@@ -1298,6 +2246,10 @@ behind the answer are given too.</p>
         fireStep();
         window.intFlowTimer = setInterval(fireStep, stepMs);
       }
+      /* ⚠️ 등장 모션이 카드와 칩을 24px 내렸다 올린다. 선은 그 둘의 '화면
+         좌표'로 그리므로, 등장이 끝난 뒤 한 번 더 그려야 자리가 맞는다 —
+         밖에서 부를 수 있게 내놓는다(아래 등장 스크립트가 쓴다). */
+      window.intFlowDraw = draw;
       window.addEventListener('load', draw);
       window.addEventListener('resize', draw);
       if (document.readyState === 'complete') draw();
@@ -1319,15 +2271,22 @@ behind the answer are given too.</p>
 </section>
 
 <!-- SECURITY -->
-<section id="security" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
+<section id="security" style="background:#F6F8FA;">
+  <div class="sec-pin">
+  <div class="sec-stage">
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>Wherever you operate, <br class="sec-hd-br">an uncompromising <br class="sec-hd-br">security framework</h2>
+        <h2 class="sec-title"><span class="sec-line">Wherever you operate,</span><span class="sec-line">an uncompromising security framework</span></h2>
         <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is not used to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, data does not leave your company.</p>
      </div>
    </div>
-    <div class="security-grid">
+    <!-- 카드는 두 장씩 같은 자리에 선다 — 한 장이 뜬 뒤 스크롤이 더 지나면
+         그 자리에 다음 두 장이 든다. 넷을 한꺼번에 세우면 두 줄이라 100vh 를
+         넘는다. 두 장은 CSS 가 같은 격자 칸에 포개 두므로 마크업 순서가 곧
+         넘어가는 순서다. -->
+    <div class="sec-deck">
+      <div class="security-grid sec-pg-a">
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
@@ -1338,6 +2297,8 @@ behind the answer are given too.</p>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization’s data is fully isolated.<br>PostgreSQL RLS and network-level separation <br class="sec-br sec-br-narrow">block cross-tenant access.</p></div>
      </div>
+      </div>
+      <div class="security-grid sec-pg-b">
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="/Security-3.svg" alt="IT/OT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
@@ -1348,15 +2309,101 @@ behind the answer are given too.</p>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task record <br class="sec-br">is stored securely.<br>Role-based access control (RBAC) <br class="sec-br sec-br-wide">enforces least privilege.</p></div>
      </div>
-   </div>
- </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
 </section>
 
+<script is:inline>
+  /* 보안 무대 — 제목 · 소제목 · 카드 두 장이 한 화면에 멈춰 선 채로, 스크롤이
+     지나는 동안 제목 글자가 왼쪽부터 드러나고 이어서 아래가 떠오른다. 다 뜬 뒤
+     ⚠️ 무대를 화면에 붙이지 않는다 — 진행도는 제목이 화면을 올라오는 만큼이다.
+        한 페이지에 고정 구간이 다섯이면 스크롤이 계속 붙잡힌다.
+     솔루션 섹션과 같은 구조지만 변수 이름이 따로다(--sec-*).
+     ⚠️ 진행도는 핀 상자가 화면을 지나간 비율이다(무대가 붙어 있는 동안 0→1).
+     ⚠️ 무대가 sticky 가 아니면(낮은 화면 · 동작 줄이기) 손을 떼고 다 드러난
+        상태로 세운다. */
+  (function () {
+    var sec = document.getElementById('security');
+    if (!sec) return;
+    var stage = sec.querySelector('.sec-stage');
+    var lines = sec.querySelectorAll('.sec-title .sec-line');
+    var cards = sec.querySelectorAll('.sec-card');
+    if (!stage || !lines.length) return;
+
+    function settle() {
+      for (var i = 0; i < lines.length; i++) {
+        lines[i].style.setProperty('--sec-o', '1');
+      }
+      for (var c = 0; c < cards.length; c++) cards[c].style.setProperty('--sec-c', '1');
+      sec.style.setProperty('--sec-body', '1');
+      sec.style.setProperty('--sec-lift', '0px');
+    }
+
+    /* ⚠️ 이 두 벌은 이 IIFE 안에 따로 둔다. 같은 이름이 솔루션 스크립트에도
+       있지만 그쪽은 제 IIFE 안이라 여기서 못 쓴다 — 없이 두면 progress() 가
+       ReferenceError 로 죽어 제목 모션이 통째로 멈춘다. */
+    var RF = window.RfMotion;
+    var clamp = RF.clamp, ease = RF.ease;
+
+    function progress() {
+      /* 무대를 붙이지 않으므로 대제목이 화면을 올라오는 만큼을 진행도로 쓴다.
+         아래 끝 가까이(92%)에 닿으면 0, 화면 높이의 40% 자리까지 오면 1 이다.
+         그래서 모션은 섹션이 들어오는 동안 끝나고 그 뒤로는 그냥 스크롤된다. */
+      return RF.rise(sec.querySelector('.sec-title'), 1.00, 0.35);
+    }
+
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function upd() {
+      if (reduce) { settle(); return; }
+      var p = progress();
+      /* 머리글은 내리지 않는다 — 무대가 화면을 꽉 채우지 않으므로 가운데로
+         끌어올 자리가 없다. --sec-lift 는 CSS 기본값 0px 를 그대로 쓴다. */
+      /* 단은 제목 줄 둘 → 소제목 → 카드 둘 순으로 0.04 씩 뒤로 간다. 한 단이
+         0 에서 1 까지 가는 길이는 0.30 이다.
+         ⚠️ 두 값은 운영체제 · 통합과 같다. 셋 다 무대를 붙이지 않고 같은 창
+            (1.00 → 0.35)을 쓰므로 이어지는 박자도 같아야 한다.
+            0.14 · 0.36 이던 때는 같은 창에서 혼자 2.5 배 길게 늘어졌다 —
+            창 900 에서 마지막 카드가 556px 자리에서야 끝났다(지금 246px). */
+      var STEP = 0.04, SPAN = 0.30;
+      function nth(n) { return ease(clamp((p - n * STEP) / SPAN)); }
+      /* 1) 제목이 줄마다 늦춰 떠오른다. 윗줄이 먼저다. */
+      for (var i = 0; i < lines.length; i++) {
+        lines[i].style.setProperty('--sec-o', nth(i).toFixed(3));
+      }
+      /* 2) 소제목부터 아래가 떠오른다 — 제목 줄 다음 단이다. */
+      sec.style.setProperty('--sec-body', nth(lines.length).toFixed(3));
+      /* 3) 카드는 소제목 뒤를 이어 한 장씩 늦춰 떠오른다. */
+      for (var c = 0; c < cards.length; c++) {
+        cards[c].style.setProperty('--sec-c', nth(lines.length + 1 + c).toFixed(3));
+      }
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    upd();
+    requestAnimationFrame(upd);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(upd);
+  })();
+</script>
+
 <!-- FAQ -->
-<section id="faq" style="background:#ffffff;border-top:1px solid #E3E7EC;">
+<section id="faq">
   <div class="container">
-    <div class="section-header" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
-      <h2>Before platform adoption,<br>frequently asked questions</h2>
+    <div class="faq-head" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
+      {/* The title alone is the .section-header — it gets the same entrance as every other section title. */}
+      <div class="section-header">
+        <h2>Before platform adoption,<br>frequently asked questions</h2>
+      </div>
       <div class="faq-list" style="max-width:none;margin:0;">
       <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">From a PoC to a company-wide rollout, <br class="faq-sm1">it depends on the scale of your operation <br class="faq-mid-br">and the complexity of your existing systems.<br>We’ll share an exact timeline through consultation.</div></div>
       <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is <br class="faq-sm2">encrypted with <span style="white-space:nowrap">AES-256</span>, <br class="faq-br2">with per-organization isolation <br class="faq-sm2">(PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="faq-sm2">in which case data does not leave your company.</div></div>
@@ -1371,14 +2418,113 @@ behind the answer are given too.</p>
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="/img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  {/* 배경 영상 — 모터 디지털 트윈. 1920x1080 · 10초 · 소리 없음.
+      ⚠️ preload="none" 이다. 자동으로 받지 않고, 아래 스크립트가 동작 줄이기를
+         확인한 뒤에만 받아서 튼다. 끄고 있는 사람은 포스터 한 장(217KB)만 받는다.
+      ⚠️ poster 가 곧 정지 화면이라 따로 <img> 를 두지 않는다. 두 장을 겹치면
+         같은 그림을 두 번 받는다.
+      ⚠️ webm 을 mp4 보다 먼저 적는다 — 브라우저는 처음 트는 것을 고르는데
+         webm 이 1927KB 로 mp4(2124KB)보다 작다. */}
+  <video
+    class="cta-bg-video"
+    poster="/cta/cta-converge-poster.jpg"
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"
+    style="position:absolute;max-width:none;pointer-events:none;user-select:none;"
+  >
+    <source src="/cta/cta-converge.webm" type="video/webm" />
+    <source src="/cta/cta-converge.mp4" type="video/mp4" />
+  </video>
   <div class="container" style="position:relative;z-index:1;">
-    <h2>Experience a new standard for<br>field operations with Refinery today.</h2>
-    <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
+    {/* 두 줄짜리 워드마크. 줄마다 <span> 으로 싸 두어야 CSS 가 줄 단위로
+        폭을 늘리며 타자 모션을 낼 수 있다. 글자는 DOM 에 그대로 있으므로
+        스크립트가 안 돌아도 · 낭독기에서도 전문이 읽힌다. */}
+    <p class="cta-eyebrow" translate="no"><span class="cta-wm-l">Refinery</span><span class="cta-wm-l">Industrial AI OS</span></p>
+    <h2>Experience a new standard for field operations with Refinery today.</h2>
+    <div class="hero-actions" style="justify-content:center;margin-top:40px;">
       <a href="/en/contact" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">Request a demo</a>
    </div>
  </div>
 </section>
+<script is:inline>
+  /* CTA 배경 영상 — 받아서 트는 일은 여기서만 한다.
+     ⚠️ autoplay 속성을 쓰지 않는다. 그 속성은 동작 줄이기를 켠 사람에게도 영상을
+        받아 틀어 버린다. 여기서 먼저 물어보고, 끈 사람에게는 poster 한 장만 남긴다.
+     ⚠️ 화면에 들어올 때 받는다. CTA 는 페이지 맨 아래라 처음부터 받으면 위쪽
+        콘텐츠와 대역폭을 다툰다.
+     ⚠️ play() 는 거절될 수 있다(절전 모드 · 브라우저 정책). 거절돼도 poster 가
+        그대로 남으므로 따로 할 일이 없다 — 조용히 넘긴다. */
+  (function () {
+    var v = document.querySelector('#cta .cta-bg-video');
+    if (!v) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var start = function () {
+      v.preload = 'auto';
+      v.load();
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    if (!('IntersectionObserver' in window)) { start(); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(); }
+    }, { rootMargin: '200px' });
+    io.observe(v);
+  })();
+
+  /* CTA 워드마크 타자 모션.
+     ⚠️ 기본 상태에는 모션이 없다 — .is-typing 이 붙은 동안에만 폭이 늘어난다.
+        스크립트가 안 돌면 글자가 그냥 처음부터 다 보인다(깜빡임 없음).
+     ⚠️ CTA 는 페이지 맨 아래라 로드 때 돌리면 아무도 못 본다. 화면에 들어올 때
+        한 번만 켠다.
+     ⚠️ 동작 줄이기를 켠 사람에게는 켜지 않는다.
+     ⚠️ 글꼴이 고정폭이 아니라 ch 로 셀 수 없다. 클래스를 붙이기 전에 — 아직
+        글자가 다 보이는 동안 — 줄마다 제 폭을 재서 CSS 로 넘긴다. 재는 순서가
+        뒤집히면 폭이 0 으로 잡혀 글자가 영영 안 나온다.
+     ⚠️ 글꼴을 받기 전에 재면 대체 글꼴 폭이 잡힌다. document.fonts.ready 를
+        기다린 뒤에 잰다(없는 브라우저는 그냥 바로 잰다). */
+  (function () {
+    var w = document.querySelector('#cta .cta-eyebrow');
+    if (!w) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var lines = [].slice.call(w.querySelectorAll('.cta-wm-l'));
+    if (!lines.length) return;
+    var PER = 60;   /* 글자당 ms */
+    var GAP = 200;  /* 줄과 줄 사이 쉼 ms */
+    var start = function () {
+      var at = 0;
+      lines.forEach(function (el, i) {
+        var n = (el.textContent || '').length || 1;
+        var dur = n * PER;
+        el.style.setProperty('--cta-wm-w', el.scrollWidth + 'px');
+        el.style.animationDuration = i === 0
+          ? dur + 'ms, ' + dur + 'ms'
+          : dur + 'ms, 0s, 1060ms';
+        el.style.animationDelay = i === 0
+          ? at + 'ms, ' + at + 'ms'
+          : at + 'ms, ' + at + 'ms, ' + (at + dur) + 'ms';
+        el.style.animationTimingFunction = i === 0
+          ? 'steps(' + n + '), step-end'
+          : 'steps(' + n + '), step-end, step-end';
+        at += dur + GAP;
+      });
+      w.classList.add('is-typing');
+    };
+    var ready = function () {
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+      else start();
+    };
+    if (!('IntersectionObserver' in window)) { ready(); return; }
+    var io2 = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io2.disconnect(); ready(); }
+    }, { threshold: 0.25 });
+    io2.observe(w);
+  })();
+</script>
+
 
 </main>
 
@@ -1401,92 +2547,22 @@ behind the answer are given too.</p>
 </script>
 
 <script is:inline>
-function animateLayers() {
-  const delays = [0, 600, 1200];
-  ['layer-bg', 'layer-dashboard', 'layer-graph'].forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    setTimeout(() => {
-      el.style.animation = 'layerFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards';
-    }, delays[i]);
-  });
-}
-
-function resetLayers() {
-  ['layer-bg', 'layer-dashboard', 'layer-graph'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.animation = 'none';
-    el.style.opacity = '0';
-  });
-}
-
-const plateCard = document.getElementById('card-plate');
-let animated = false;
-
-const plateObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !animated) {
-      animated = true;
-      animateLayers();
-    } else if (!entry.isIntersecting && animated) {
-      animated = false;
-      resetLayers();
-    }
-  });
-}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-
-function animateOntLayers() {
-  ['ont-layer-1','ont-layer-2','ont-layer-3','ont-layer-4'].forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    setTimeout(() => {
-      el.style.animation = 'layerFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards';
-    }, i * 600);
-  });
-}
-
-function resetOntLayers() {
-  ['ont-layer-1','ont-layer-2','ont-layer-3','ont-layer-4'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.animation = 'none';
-    el.style.opacity = '0';
-  });
-}
-
-let ontAnimated = false;
-const ontObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !ontAnimated) {
-      ontAnimated = true;
-      animateOntLayers();
-    } else if (!entry.isIntersecting && ontAnimated) {
-      ontAnimated = false;
-      resetOntLayers();
-    }
-  });
-}, { threshold: 0.9 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (plateCard) plateObserver.observe(plateCard);
-  const ontCard = document.getElementById('card-ontology');
-  if (ontCard) ontObserver.observe(ontCard);
-});
-</script>
-<script is:inline>
 var teamsTextMap = {
-  llm: ['Ask a question, and\nthe ontology finds the answer.', 'The AI reasons over asset, task and history\ndata in the ontology to infer causes and\nanswer conversationally. The data sources\nbehind the answer are given too.', 'AI Agent', 'The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.', 'The AI reasons over asset, task and history data in the\nontology to infer causes and answer conversationally.\nThe data sources behind the answer are given too.'],
-  plate: ['The field, right now,\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status and anomaly signals on a single screen.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.'],
-  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.', 'Tile', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more\npick the widget that fits your data.', 'Number cards, gauges, time-series charts,\nheatmaps, spatial maps and more\npick the widget that fits your data.'],
-  pipeline: ['Structures change,\nthe trail remains.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.', 'Pipeline', 'Branch like Git to test schemas,\ncompare snapshots between two points, and visualize changes as an ERD.', 'Branch like Git to test schemas,\ncompare snapshots between two points,\nand visualize changes as an ERD.'],
-  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other\nfield concepts as objects and relations. This\nstructure powers Plate and the AI agent.', 'Ontology', 'Define assets, tasks, documents and other field concepts as objects and relations.\nThis structure powers Plate and the AI agent.', 'Define assets, tasks, documents and other field concepts\nas objects and relations.\nThis structure powers Plate and the AI agent.'],
-  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Calendar', 'Manage processing schedules, inspection cycles and team tasks on one screen,\nso the operational rhythm never slips.', 'Manage processing schedules, inspection\ncycles and team tasks on one screen,\nso the operational rhythm never slips.']
+  llm: ['Ask a question, and\nthe ontology finds the answer', 'The AI reasons over asset, task and history data in the ontology to infer causes and answer conversationally. The data sources behind the answer are given too.', 'AI Agent'],
+  plate: ['The field, right now,\nin numbers', 'Monitor key field metrics in real time. Check per-department and per-zone status and anomaly signals on a single screen.', 'Plate'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more pick the widget that fits your data.', 'Tile'],
+  pipeline: ['Draw the flow,\nand it runs', 'Connect nodes from source to result. The diagram is the pipeline that runs, so nothing has to be written out again.', 'Pipeline Builder'],
+  ontology: ['From field language\nto data language', 'Define assets, tasks, documents and other field concepts as objects and relations. This structure powers Plate and the AI agent.', 'Ontology'],
+  calendar: ['Schedules and work,\nin one place', 'Manage processing schedules, inspection cycles and team tasks on one screen, so the operational rhythm never slips.', 'Calendar']
 };
 
-var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 - 우측 크롭 적용 안 함
-var DASH_PAN_MAP = { llm: 70, plate: 180 }; // 화면별 좌측 크롭(px, 원본 1440 기준) - 데스크탑/모바일 공통, 콘텐츠를 우측으로 밀어 보여줌
-var MOBILE_EXTRA_PAN_MAP = { tile: 160, ontology: 160, calendar: 160 }; // 모바일 전용 추가 크롭(좌측 메뉴 잔상 가림) - 데스크탑에는 영향 없음
+var NO_SCROLL_KEYS = ['llm','plate','tile','pipeline','ontology','calendar']; // 원래 스크롤이 없는 화면 - 우측 크롭 적용 안 함
+var DASH_PAN_MAP = {};
+// 2026-10-28 화면을 다시 찍으며 앱에서 메뉴 둘을 접고, 남은 아이콘 띠 28px 은
+// 이미지에서 잘라 냈다. 그래서 캘린더 말고는 가릴 레일이 없다 — 아래 네 맵은
+// 캘린더 몫만 남긴다. 다시 레일이 있는 캡처로 바꾸면 값을 되살려야 한다.
+// // 화면별 좌측 크롭(px, 원본 1440 기준) - 데스크탑/모바일 공통, 콘텐츠를 우측으로 밀어 보여줌
+var MOBILE_EXTRA_PAN_MAP = { calendar: 160 }; // 모바일 전용 추가 크롭(좌측 메뉴 잔상 가림) - 데스크탑에는 영향 없음
 
 // 페이지 로드 시 기본으로 활성화된 탭(대시보드)도 위 설정이 바로 적용되도록 초기화
 window.needsRightCrop = NO_SCROLL_KEYS.indexOf('llm') === -1;
@@ -1556,10 +2632,14 @@ window.addEventListener('resize', function () {
   if (el) renderPreviewBody(el);
 });
 
-function switchDash(btn, src, key) {
-  if (typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
+function switchDash(btn, src, key, silent) {
+  // silent — 스크롤로 저절로 넘어간 경우다. 클릭으로 집계하지 않는다.
+  if (!silent && typeof mixpanel !== "undefined") mixpanel.track("Solutions Tab Click", { tab: key });
   document.querySelectorAll('.teams-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  /* 고른 칸의 이름을 줄 아래에 남긴다 — 섬네일에는 글자가 없다. */
+  var nameEl = document.querySelector('[data-teams-name]');
+  if (nameEl) nameEl.textContent = btn.getAttribute('aria-label') || btn.textContent.trim();
   var img = document.getElementById('dash-image');
   window.needsRightCrop = NO_SCROLL_KEYS.indexOf(key) === -1;
   window.dashPanContent = DASH_PAN_MAP[key] || 0;
@@ -1581,56 +2661,404 @@ function switchDash(btn, src, key) {
     renderPreviewBody(bodyEl);
   }
   }
+  if (window.placeTeamsFill) placeTeamsFill();
 }
-</script>
-<script is:inline>
-  (function() {
-    var slides = Array.prototype.slice.call(document.querySelectorAll('.ai-slide'));
-    var delays = [0, 600, 1200];
 
-    // 초기 상태: 모두 숨김
-    slides.forEach(function(s) {
-      s.style.opacity = '0';
-      s.style.transform = 'translateY(16px)';
-      s.style.transition = 'opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1)';
+/* 탭 줄의 brand 막대를 고른 칸에 맞춘다. 글자 폭이 글꼴 · 언어에 따라
+   달라져 CSS 로는 못 박는다 — 고른 칸의 상자를 재어 left/width 를 넣는다.
+   줄이 두 줄로 나뉘어도 상자를 재므로 그대로 따라간다. */
+function placeTeamsFill() {
+  var rail = document.querySelector('#teams .teams-menu-vertical');
+  if (!rail) return;
+  var fill = rail.querySelector('.teams-rail-fill');
+  var on = rail.querySelector('.teams-tab-btn.active');
+  if (!fill || !on) return;
+  var r = rail.getBoundingClientRect(), b = on.getBoundingClientRect();
+  fill.style.left = (b.left - r.left).toFixed(1) + 'px';
+  fill.style.width = b.width.toFixed(1) + 'px';
+}
+window.placeTeamsFill = placeTeamsFill;
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', placeTeamsFill);
+} else {
+  placeTeamsFill();
+}
+window.addEventListener('load', placeTeamsFill);
+window.addEventListener('resize', placeTeamsFill);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeamsFill);
+
+/* 탭은 스크롤이 지나는 동안 넘어간다. 무대가 붙어 있는 거리를 칸 수로 나눠
+   활성 탭을 정하고, 단추를 누르면 그 칸의 가운데로 스크롤을 옮긴다 —
+   화면 상태의 근거를 스크롤 위치 하나로 두어 둘이 어긋나지 않게 한다.
+   ⚠️ 1280px 이하에서는 무대를 붙이지 않는다(세로로 나뉜다). CSS 의 경계를
+      다시 적지 않고 무대의 실제 position 을 보고 판단한다. */
+(function () {
+  var pin = document.querySelector('#teams .teams-pin');
+  var stick = document.querySelector('#teams .teams-stage-sticky');
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#teams .teams-tab-btn'));
+  if (!pin || !stick || btns.length < 2) return;
+
+  // 그림 경로와 키는 단추의 onclick 에 이미 적혀 있다 — 한 번만 뽑아 둔다.
+  var items = btns.map(function (b) {
+    var m = (b.getAttribute('onclick') || '').match(/switchDash\(this,\s*'([^']*)',\s*'([^']*)'\)/);
+    return { btn: b, src: m ? m[1] : '', key: m ? m[2] : '' };
+  });
+  var n = items.length;
+  var cur = 0;
+
+  function pinned() { return getComputedStyle(stick).position === 'sticky'; }
+  function travel() { return pin.offsetHeight - window.innerHeight; }
+
+  function update() {
+    if (!pinned()) return;
+    var t = travel();
+    if (t <= 0) return;
+    var p = -pin.getBoundingClientRect().top / t;
+    var i = Math.max(0, Math.min(n - 1, Math.floor(p * n)));
+    if (i === cur) return;
+    cur = i;
+    // 네 번째 인자 — 스크롤로 넘어간 것은 Mixpanel 에 클릭으로 적지 않는다.
+    switchDash(items[i].btn, items[i].src, items[i].key, true);
+  }
+
+  var queued = false;
+  window.addEventListener('scroll', function () {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; update(); });
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  items.forEach(function (it, i) {
+    it.btn.addEventListener('click', function () {
+      cur = i;  // 인라인 onclick 이 이미 화면을 바꿨다 — 다시 바꾸지 않는다
+      if (!pinned()) return;
+      var t = travel();
+      if (t <= 0) return;
+      var top = pin.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + (t / n) * (i + 0.5), behavior: 'smooth' });
     });
+  });
+})();
 
-    function animateLayers() {
-      slides.forEach(function(s, i) {
-        setTimeout(function() {
-          s.style.opacity = '1';
-          s.style.transform = 'translateY(0)';
-        }, delays[i]);
+</script>
+
+
+<script is:inline>
+  /* 운영체제 · 통합 섹션의 등장. 이 둘만 아무 일도 일어나지 않아, 앞뒤(플랫폼 ·
+     솔루션 · 보안)와 리듬이 끊겼다.
+     어법은 새로 만들지 않는다 — 24px 아래에서 투명도와 함께, 스크롤 진행도로,
+     smoothstep, 세 단이 0.04 씩 어긋난다. 플랫폼 · 보안이 쓰는 그대로다.
+     ⚠️ 진행도는 대제목이 화면을 올라오는 만큼이다(1.00 → 0.35, 보안과 같은 값).
+        운영체제는 1281 이상에서 무대를 붙이는데, 붙는 동안은 제목이 제자리에
+        멈추므로 등장은 그 전에 이미 끝나 있다.
+     ⚠️ 질문 · CTA 에는 두지 않는다. 읽고 누르는 자리라 조용한 편이 낫고,
+        페이지 끝을 가라앉히는 것도 리듬이다. */
+  (function () {
+    var RF = window.RfMotion;
+    if (!RF) return;
+    var SECS = ['teams', 'integrations'];
+    var SPAN = 0.30, GAP = 0.04, STEPS = 3;
+    var els = SECS.map(function (id) {
+      var sec = document.getElementById(id);
+      if (!sec) return null;
+      return { sec: sec, title: sec.querySelector('.section-header-row h2') || sec.querySelector('h2') };
+    }).filter(Boolean);
+    if (!els.length) return;
+    function settle() {
+      els.forEach(function (g) {
+        for (var i = 1; i <= STEPS; i++) g.sec.style.setProperty('--rise' + i, '1');
       });
     }
-
-    function resetLayers() {
-      slides.forEach(function(s) {
-        s.style.transition = 'none';
-        s.style.opacity = '0';
-        s.style.transform = 'translateY(16px)';
-      });
-    }
-
-    var card = document.getElementById('card-intelligence');
-    var intAnimated = false;
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !intAnimated) {
-          intAnimated = true;
-          setTimeout(function() {
-            slides.forEach(function(s) {
-              s.style.transition = 'opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1)';
-            });
-            animateLayers();
-          }, 50);
-        } else if (!entry.isIntersecting && intAnimated) {
-          intAnimated = false;
-          resetLayers();
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { settle(); return; }
+    function upd() {
+      els.forEach(function (g) {
+        var p = RF.rise(g.title, 1.00, 0.35);
+        var last = 1;
+        for (var i = 0; i < STEPS; i++) {
+          var v = RF.ease(RF.clamp((p - i * GAP) / SPAN));
+          g.sec.style.setProperty('--rise' + (i + 1), v.toFixed(3));
+          if (v < last) last = v;
+        }
+        /* ⚠️ 통합 섹션의 회로 선은 카드 · 칩의 화면 좌표로 그린다. 등장이
+           그 둘을 24px 움직이므로, 다 선 뒤에 한 번 다시 그려야 선이 카드
+           아랫변에서 출발한다. 처음 1 에 닿을 때 한 번만 부른다. */
+        if (g.sec.id === 'integrations' && last >= 1 && !g.redrew && window.intFlowDraw) {
+          g.redrew = true;
+          window.intFlowDraw();
         }
       });
-    }, { threshold: 0.5 });
-    if (card) { window.addEventListener('load', function() { observer.observe(card); }); }
+    }
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; upd(); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    upd();
+  })();
+</script>
+
+<script is:inline>
+  /* 히어로 바탕 점판 — 24px 격자의 점을 캔버스가 그린다.
+     결은 reactbits.dev 히어로 배경(DotGrid)을 참고했다. 저쪽은 WebGL 인스턴싱이고
+     여기서는 2D 캔버스로 옮겼다 — 바탕 점을 그리지 않아 그릴 양이 적기 때문이다.
+     ⚠️ 묵직함은 '빛무리가 늦게 따라오는 것'이 아니라 '점이 끌려갔다 돌아오는 것'이다.
+        전에는 돔 중심을 한 프레임에 4.2% 씩만 옮겨 커서 뒤를 쫓게 했는데, 그러면
+        묵직한 게 아니라 고장 난 것처럼 보인다. 지금은 빛무리가 커서에 바로 붙고,
+        대신 점이 커서가 지나간 '방향으로' 밀렸다가 용수철로 제자리에 돌아온다.
+     ⚠️ 미는 힘은 커서까지의 거리가 아니라 커서의 속도에서 나온다 — 멈춰 있으면
+        힘이 0 이라 격자가 24px 그대로다. 간격이 흐트러지는 건 커서가 달릴 때뿐이다.
+     ⚠️ 점은 네 이웃과 묶여 있다(TEN). 밀린 자리가 옆으로 번져 천이 끌리듯 움직인다.
+        낱개로 튀면 가볍고, 묶여 있어야 묵직하다.
+     ⚠️ 바탕 점은 그리지 않는다 — 기운(e)이 임계값을 넘는 점만 그린다.
+     ⚠️ 격자 전체를 돌지 않는다. 커서 둘레와 '아직 움직이는 칸'만 창(win)으로 잡아
+        그 안에서만 물리를 풀고 그 자리만 지웠다 그린다. 1425x900 격자는 2280 칸인데
+        창은 400 칸 남짓이고, clearRect 도 1.28M px 가 아니라 23만 px 다.
+        창을 안 쓰면 소프트웨어 렌더에서 프레임이 100ms 까지 늘어진다.
+     ⚠️ 그리는 좌표는 점판(sticky, 화면에 붙어 있다) 기준이다. 섹션 기준으로 잡으면
+        스크롤한 만큼 어긋난다.
+     ⚠️ 가라앉으면 rAF 를 세운다 — 들어오면 다시 돈다. */
+  (function () {
+    var sec = document.getElementById('hero');
+    if (!sec) return;
+    var cv = sec.querySelector('canvas.hero-dots');
+    if (!cv || !cv.getContext) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = cv.getContext('2d');
+
+    var GAP = 24;            /* 격자 간격 */
+    var PROX = 260;          /* 빛무리 반지름 — 미는 힘이 닿는 범위도 같다 */
+    var DOT = 1.2;           /* 점 반지름(기운 0) */
+    var SWELL = 1.4;         /* 기운이 찼을 때 반지름 배수 — 꼭대기 2.88px */
+    var ALPHA = 1;           /* 기운 1(돔 꼭대기)일 때의 진하기 */
+    /* ⚠️ 점 색은 브랜드색이 아니라 회색 램프의 --ink-400(#A4ADB8)이다. 히어로 뷰포트에는
+          이미 브랜드색이 넷 있다 — 제품 그래픽(--vh-accent) · 눈썹 문구 · 데모 링크 ·
+          배경 그라데이션. 배경 점판까지 같은 파랑이면 신호와 바탕이 한 색이 된다.
+          참고한 reactbits 도 격자는 중립색(#3a3446)이고 색은 그 뒤 그라데이션에서 온다.
+       ⚠️ --ink-400 은 nav-footer.css 의 :root 에 있다(global.css 가 아니다). 두 랜딩이
+          모두 Nav.astro 를 들여오므로 실린다.
+       ⚠️ 돔이 입체로 읽히는 건 점끼리의 밝기 차이다. 흰 바탕 대비 2.27:1 · 돔 안
+          밝기폭 2.04:1 — 앞서 쓰던 #C8CED5 는 1.59 · 1.49 로 평평했다. */
+    var DR = 164, DG = 173, DB = 184;
+    var STRENGTH = 0.55;     /* 미는 힘 */
+    /* ⚠️ 달리는 점을 진행 방향으로 늘리는 처리(reactbits 의 stretch)는 걷어냈다. 둥근 끝으로
+          그리면 양 끝 머리가 '점 두 개가 겹친 것'으로 읽힌다. 비율이 2.25:1 이라 점이라기엔
+          길고 흐른 자국이라기엔 짧은 가장 나쁜 구간이었다. 저쪽은 3.22:1 에 어두운 바탕 ·
+          글로우라 자국으로 읽히지만, 여기 점은 5.76px 옅은 회색이라 그 효과가 안 난다. */
+    var LX = -0.45, LY = -0.72, LZ = 0.53;   /* 빛 방향(왼쪽 위) */
+    var DOME_K = 1 / (0.18 + 0.82 * LZ);     /* 돔 꼭대기의 기운을 1 로 맞춘다 */
+    var QUIET_S = 0.03, QUIET_V = 0.6;       /* 이만큼 아래면 멈춘 것으로 본다 */
+
+    /* 용수철 — 0.8초에 걸쳐 돌아온다(감쇠비 0.49) */
+    var DAMP = 0.49, OMG = 4 / (DAMP * 0.8);
+    var SPR = OMG * OMG, FRIC = 2 * DAMP * OMG;
+    /* 이웃과의 묶임 — 격자 한 칸을 기준으로 잡는다 */
+    var TEN = 360 * 360 / (GAP * GAP), TENV = Math.sqrt(TEN) * 0.06;
+    var FAST = Math.sqrt(SPR + 8 * TEN) + FRIC + 8 * TENV;   /* 가장 빠른 고유진동 */
+    var HSTEP = Math.min(1 / 120, 1.2 / FAST);               /* 쪼갠 걸음의 길이 */
+
+    var w = 0, h = 0, dpr = 1, cols = 0, rows = 0, n = 0, ox = 0, oy = 0;
+    var sx, sy, vx, vy, fx, fy;      /* 점의 치우침 · 속도 · 이번 프레임에 받는 힘 */
+    var pX = -9999, pY = -9999, pVX = 0, pVY = 0, pT = 0;
+    var inside = false, pres = 0, running = false, last = 0;
+    var wi0 = 0, wi1 = -1, wj0 = 0, wj1 = -1;        /* 다음 프레임으로 넘기는 창 — 아직 움직이는 칸 */
+    var ai0 = 0, ai1 = -1, aj0 = 0, aj1 = -1;        /* 이번 프레임에 실제로 푼 창 — 그리기도 이 창으로 한다 */
+    var dx0 = 0, dy0 = 0, dx1 = -1, dy1 = -1;        /* 지난 프레임에 점이 실제로 찍힌 범위 */
+
+    function sstep(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); }
+
+    function build() {
+      cols = Math.max(1, Math.floor(w / GAP) + 1);
+      rows = Math.max(1, Math.floor(h / GAP) + 1);
+      n = cols * rows;
+      ox = (w - (cols - 1) * GAP) / 2;
+      oy = (h - (rows - 1) * GAP) / 2;
+      sx = new Float32Array(n); sy = new Float32Array(n);
+      vx = new Float32Array(n); vy = new Float32Array(n);
+      fx = new Float32Array(n); fy = new Float32Array(n);
+      wi0 = 0; wi1 = -1; wj0 = 0; wj1 = -1;
+      dx0 = 0; dy0 = 0; dx1 = -1; dy1 = -1;
+    }
+
+    function readAccent() {
+      var v = getComputedStyle(document.documentElement).getPropertyValue('--ink-400').trim();
+      var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
+      if (!m) return;
+      var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
+      DR = parseInt(s.slice(0, 2), 16); DG = parseInt(s.slice(2, 4), 16); DB = parseInt(s.slice(4, 6), 16);
+    }
+
+    function size() {
+      var r = cv.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = Math.round(r.width); h = Math.round(r.height);
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    }
+
+    function step(dt) {
+      /* 돌 창 — 커서 둘레에, 지난 프레임에 아직 움직이던 칸을 더한다 */
+      var i0 = wi0, i1 = wi1, j0 = wj0, j1 = wj1, i, j, k;
+      if (inside || pres > 0.001) {
+        var bi0 = Math.floor((pX - PROX - ox) / GAP) - 1, bi1 = Math.ceil((pX + PROX - ox) / GAP) + 1;
+        var bj0 = Math.floor((pY - PROX - oy) / GAP) - 1, bj1 = Math.ceil((pY + PROX - oy) / GAP) + 1;
+        if (i0 > i1) { i0 = bi0; i1 = bi1; j0 = bj0; j1 = bj1; }
+        else {
+          if (bi0 < i0) i0 = bi0; if (bi1 > i1) i1 = bi1;
+          if (bj0 < j0) j0 = bj0; if (bj1 > j1) j1 = bj1;
+        }
+      }
+      if (i0 > i1 || j0 > j1) { wi0 = 0; wi1 = -1; ai0 = 0; ai1 = -1; return false; }
+      if (i0 < 0) i0 = 0; if (i1 > cols - 1) i1 = cols - 1;
+      if (j0 < 0) j0 = 0; if (j1 > rows - 1) j1 = rows - 1;
+      ai0 = i0; ai1 = i1; aj0 = j0; aj1 = j1;
+
+      /* 커서가 미는 힘 — 프레임마다 한 번만 재고 쪼갠 걸음에서는 그대로 쓴다 */
+      var sp = Math.sqrt(pVX * pVX + pVY * pVY);
+      var push = (inside && pres > 0.001) ? 6500 * Math.tanh(sp / 900) * STRENGTH : 0;
+      var ux0 = sp > 0.001 ? pVX / sp : 0, uy0 = sp > 0.001 ? pVY / sp : 0;
+      for (j = j0; j <= j1; j++) {
+        for (i = i0; i <= i1; i++) {
+          k = j * cols + i;
+          if (push <= 0) { fx[k] = 0; fy[k] = 0; continue; }
+          var ax = ox + i * GAP + sx[k] - pX, ay = oy + j * GAP + sy[k] - pY;
+          var d = Math.sqrt(ax * ax + ay * ay);
+          if (d >= PROX) { fx[k] = 0; fy[k] = 0; continue; }
+          var g = sstep(1 - d / PROX) * push;
+          var rx = d > 0.001 ? ax / d : 0, ry = d > 0.001 ? ay / d : 0;
+          fx[k] = g * (ux0 + rx * 0.6);
+          fy[k] = g * (uy0 + ry * 0.6);
+        }
+      }
+
+      /* 고유진동이 빠른 만큼 걸음을 쪼갠다 — 안 쪼개면 용수철이 발산한다 */
+      var sub = Math.min(16, Math.max(1, Math.ceil(dt / HSTEP))), ht = dt / sub, s;
+      for (s = 0; s < sub; s++) {
+        for (j = j0; j <= j1; j++) {
+          for (i = i0; i <= i1; i++) {
+            k = j * cols + i;
+            var lx = -4 * sx[k], ly = -4 * sy[k], mx = -4 * vx[k], my = -4 * vy[k];
+            if (i > 0) { lx += sx[k - 1]; ly += sy[k - 1]; mx += vx[k - 1]; my += vy[k - 1]; }
+            if (i < cols - 1) { lx += sx[k + 1]; ly += sy[k + 1]; mx += vx[k + 1]; my += vy[k + 1]; }
+            if (j > 0) { lx += sx[k - cols]; ly += sy[k - cols]; mx += vx[k - cols]; my += vy[k - cols]; }
+            if (j < rows - 1) { lx += sx[k + cols]; ly += sy[k + cols]; mx += vx[k + cols]; my += vy[k + cols]; }
+            vx[k] += (fx[k] - SPR * sx[k] - FRIC * vx[k] + TEN * lx + TENV * mx) * ht;
+            vy[k] += (fy[k] - SPR * sy[k] - FRIC * vy[k] + TEN * ly + TENV * my) * ht;
+          }
+        }
+        for (j = j0; j <= j1; j++) {
+          for (i = i0; i <= i1; i++) { k = j * cols + i; sx[k] += vx[k] * ht; sy[k] += vy[k] * ht; }
+        }
+      }
+
+      /* 다음 프레임의 창 — 아직 움직이는 칸을 한 칸 넓혀 잡는다(파문이 번질 자리) */
+      var ni0 = 1e9, ni1 = -1e9, nj0 = 1e9, nj1 = -1e9;
+      for (j = j0; j <= j1; j++) {
+        for (i = i0; i <= i1; i++) {
+          k = j * cols + i;
+          if (sx[k] < QUIET_S && sx[k] > -QUIET_S && sy[k] < QUIET_S && sy[k] > -QUIET_S &&
+              vx[k] < QUIET_V && vx[k] > -QUIET_V && vy[k] < QUIET_V && vy[k] > -QUIET_V) continue;
+          if (i < ni0) ni0 = i; if (i > ni1) ni1 = i;
+          if (j < nj0) nj0 = j; if (j > nj1) nj1 = j;
+        }
+      }
+      if (ni1 < ni0) { wi0 = 0; wi1 = -1; wj0 = 0; wj1 = -1; }
+      else { wi0 = ni0 - 1; wi1 = ni1 + 1; wj0 = nj0 - 1; wj1 = nj1 + 1; }
+
+      var dec = 1 - Math.exp(-dt / 0.08);
+      pVX -= pVX * dec; pVY -= pVY * dec;
+      pres += ((inside ? 1 : 0) - pres) * (1 - Math.exp(-dt / 0.2));
+      return true;
+    }
+
+    function draw(i0, i1, j0, j1) {
+      /* ⚠️ 지우는 자리는 '칸의 자리'가 아니라 '지난 프레임에 점이 실제로 찍힌 범위'다.
+         점은 커서에 밀려 제 칸에서 최대 34px(미는 힘 / 용수철 = 6500*0.55 / 104)까지
+         벗어나 그려진다. 칸 둘레에 여백만 두고 지우면 그만큼이 안 지워진 채 남아,
+         마우스를 왕복하면 남은 점과 새 점이 겹쳐 보인다. 그려 나가면서 범위를
+         직접 모은다 — 정확하고, clearRect 도 한 번이면 된다. */
+      if (dx1 > dx0) ctx.clearRect(dx0 - 1, dy0 - 1, dx1 - dx0 + 2, dy1 - dy0 + 2);
+      dx0 = 1e9; dy0 = 1e9; dx1 = -1e9; dy1 = -1e9;
+      if (i0 > i1 || j0 > j1) return;
+
+      var lit = pres > 0.001;
+      for (var j = j0; j <= j1; j++) {
+        var by = oy + j * GAP;
+        for (var i = i0; i <= i1; i++) {
+          var k = j * cols + i;
+          var px = ox + i * GAP + sx[k], py = by + sy[k];
+          var vk = Math.sqrt(vx[k] * vx[k] + vy[k] * vy[k]);
+          var dk = Math.sqrt(sx[k] * sx[k] + sy[k] * sy[k]);
+          /* 끌림에서 오는 기운 — 밀린 거리와 속도. 파문이 바깥으로 번진다 */
+          var e = vk / 420 * 0.85 + dk / (GAP * 2.2) * 0.35;
+          if (e > 1) e = 1;
+          /* 빛무리 — 반구의 법선으로 명암을 줘 점이 모인 자리가 돔으로 솟아 보인다 */
+          if (lit) {
+            var ax = px - pX, ay = py - pY;
+            var d = Math.sqrt(ax * ax + ay * ay);
+            if (d < PROX) {
+              var u = d / PROX;
+              var ux = d > 0.001 ? ax / d : 0, uy = d > 0.001 ? ay / d : 0;
+              var nz = Math.sqrt(1 - u * u);
+              var lam = ux * u * LX + uy * u * LY + nz * LZ;
+              if (lam < 0) lam = 0;
+              var dome = sstep(1 - u) * (0.18 + 0.82 * lam) * DOME_K * pres;
+              if (dome > 1) dome = 1;
+              if (dome > e) e = dome;
+            }
+          }
+          if (e < 0.012) continue;
+          var rad = DOT * (1 + SWELL * e);
+          ctx.fillStyle = 'rgba(' + DR + ',' + DG + ',' + DB + ',' + (ALPHA * e).toFixed(3) + ')';
+          if (px - rad < dx0) dx0 = px - rad;
+          if (px + rad > dx1) dx1 = px + rad;
+          if (py - rad < dy0) dy0 = py - rad;
+          if (py + rad > dy1) dy1 = py + rad;
+          ctx.beginPath();
+          ctx.arc(px, py, rad, 0, 6.2832);
+          ctx.fill();
+        }
+      }
+    }
+
+    function tick(ts) {
+      var dt = Math.min(0.05, (ts - last) / 1000 || 0);
+      last = ts;
+      step(dt);
+      /* ⚠️ 그리는 창은 '푼 창'(ai*)이지 '넘기는 창'(wi*)이 아니다. 넘기는 창은 아직
+         움직이는 칸만 담으므로, 커서가 멈추면 비어 버려 빛무리까지 지워진다. */
+      if (!inside && pres <= 0.002 && wi1 < wi0) { draw(0, -1, 0, -1); running = false; return; }
+      draw(ai0, ai1, aj0, aj1);
+      requestAnimationFrame(tick);
+    }
+    function kick() { if (!running) { running = true; last = performance.now(); requestAnimationFrame(tick); } }
+
+    sec.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      var r = cv.getBoundingClientRect();
+      var nx = e.clientX - r.left, ny = e.clientY - r.top;
+      var t = e.timeStamp || performance.now();
+      if (inside && pT) {
+        var dts = Math.max(4, t - pT) / 1000;
+        pVX += ((nx - pX) / dts - pVX) * 0.6;
+        pVY += ((ny - pY) / dts - pVY) * 0.6;
+      } else { pVX = 0; pVY = 0; }
+      pX = nx; pY = ny; pT = t; inside = true;
+      kick();
+    }, { passive: true });
+    sec.addEventListener('pointerleave', function () { inside = false; pT = 0; kick(); });
+
+    window.addEventListener('resize', size);
+    readAccent();
+    if (document.readyState === 'complete') size();
+    else window.addEventListener('load', size);
+    size();
   })();
 </script>
 
@@ -1643,7 +3071,7 @@ function switchDash(btn, src, key) {
     position:fixed;inset:0;z-index:1000;
     background:rgba(10,14,20,0.45);
     opacity:0;pointer-events:none;
-    transition:opacity .3s ease;
+    transition:opacity var(--t-quick);
   }
   #contactDrawerOverlay.open{opacity:1;pointer-events:auto;}
 
@@ -1653,7 +3081,7 @@ function switchDash(btn, src, key) {
     height:100vh;height:100dvh;
     background:#ffffff;
     transform:translateX(100%);
-    transition:transform .35s cubic-bezier(0.22,1,0.36,1), box-shadow .35s ease;
+    transition:transform var(--t-move), box-shadow var(--t-move);
     overflow-y:auto;
     display:flex;flex-direction:column;justify-content:center;
   }
@@ -1665,7 +3093,7 @@ function switchDash(btn, src, key) {
     display:flex;align-items:center;justify-content:center;
     background:transparent;border:none;
     color:#555;cursor:pointer;font-size:18px;
-    transition:background .2s;
+    transition:background-color var(--t-quick);
   }
   .cd-close:hover{background:#EFF2F5;}
 
@@ -1673,7 +3101,7 @@ function switchDash(btn, src, key) {
      524px 폭에서 "…guide you through a tailored / demo." → "…through a / tailored demo."
      <br>로 잡으면 그 폭에서만 맞는다. 보안 카드와 같은 방법이다.
      2단계 제목은 걸든 안 걸든 같다. 국문은 .cd-title을 따로 들고 있어 영향받지 않는다. */
-  .cd-title{font-size:36px;font-weight:600;letter-spacing:-0.5px;line-height:1.35;margin-bottom:45px;color:#111;text-wrap:pretty;}
+  .cd-title{font-size:36px;font-weight:600;letter-spacing:var(--ls-snug);line-height:1.35;margin-bottom:45px;color:#111;text-wrap:pretty;}
   .cd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
   .cd-form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
   .cd-form-group label{font-size:13px;font-weight:600;color:#111;}
@@ -1681,7 +3109,7 @@ function switchDash(btn, src, key) {
   .cd-form-group input,.cd-form-group select,.cd-form-group textarea{
     font-family:inherit;font-size:14px;color:#111;
     border:1px solid var(--border,#E3E7EC);border-radius:8px;padding:11px 14px;
-    background:#fff;transition:border-color .2s;width:100%;
+    background:#fff;transition:border-color var(--t-quick);width:100%;
   }
   .cd-form-group select{
     appearance:none;-webkit-appearance:none;-moz-appearance:none;
@@ -1699,16 +3127,16 @@ function switchDash(btn, src, key) {
   .cd-submit{
     width:100%;margin-top:8px;padding:14px 0;
     background:var(--accent,#76A6D7);color:#fff;border:none;border-radius:8px;
-    font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;
+    font-size:15px;font-weight:600;cursor:pointer;transition:opacity var(--t-quick);
   }
   .cd-submit:disabled{cursor:not-allowed;opacity:.5;}
   .cd-submit:hover:not(:disabled){background:#5A8FC5;}  .cd-step-actions{display:flex;flex-direction:column;gap:16px;margin-top:16px;}
   .cd-step-buttons{display:flex;gap:10px;width:100%;}
   .cd-step-buttons .cd-submit{flex:1;margin-top:0;}
   .cd-progress-track{width:100%;height:4px;background:var(--border,#E3E7EC);border-radius:999px;overflow:hidden;}
-  .cd-progress-fill{height:100%;background:var(--accent,#76A6D7);border-radius:999px;transition:width .3s ease;}
-  .cd-back{flex:none;padding:14px 20px;background:transparent;border:1px solid var(--border,#E3E7EC);border-radius:8px;color:#555;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;}
-  .cd-back:hover{background:#f4f4f5;}
+  .cd-progress-fill{height:100%;background:var(--accent,#76A6D7);border-radius:999px;transition:width var(--t-move);}
+  .cd-back{flex:none;padding:14px 20px;background:transparent;border:1px solid var(--border,#E3E7EC);border-radius:8px;color:#555;font-size:15px;font-weight:600;cursor:pointer;transition:background-color var(--t-quick);}
+  .cd-back:hover{background:#EFF2F5;}
   .cd-success{display:none;text-align:center;padding:80px 0;}
   .cd-success.show{display:block;}
   .cd-success i{font-size:48px;color:var(--accent,#76A6D7);}
@@ -1731,7 +3159,7 @@ function switchDash(btn, src, key) {
     background:#fff; cursor:pointer;
   }
   .cd-select-trigger.is-placeholder{color:#A4ADB8;}
-  .cd-select-trigger .cd-select-chevron{flex:none; transition:transform .2s ease; color:#7E8A98;}
+  .cd-select-trigger .cd-select-chevron{flex:none; transition:transform var(--t-quick); color:#7E8A98;}
   .cd-select-trigger.is-open .cd-select-chevron{transform:rotate(180deg);}
   .cd-select-options{
     position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:20;
@@ -1742,7 +3170,7 @@ function switchDash(btn, src, key) {
   .cd-select-options.is-open{display:block;}
   .cd-select-options li{padding:10px 12px; border-radius:6px; font-size:14px; color:#111; cursor:pointer;}
   .cd-select-options li.is-active{background:#EEF4FB; color:var(--accent,#76A6D7); font-weight:600;}
-  .cd-select-options li:hover{background:#F3F6FA;}
+  .cd-select-options li:hover{background:#F6F8FA;}
 
   @media (max-width: 720px){
     #contactDrawerPanel{width:100vw;min-width:0;}

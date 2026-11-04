@@ -8,21 +8,38 @@ export const machinery: IndustryData = {
     '공기압축기 ⁠· 공조 ⁠· 냉각 같은 공용 설비를 하나의 구조로 연결하고, AI 에이전트가 에너지 집중 구간을 찾아냅니다. 대형 설비 중심 기계 ⁠· 플랜트 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1243 },
+    image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 샤프트가 대제목 줄을 정통으로 가로지른다.
     // 30%로 낮추면 축이 제목 오른쪽으로 비켜간다(이동 여유 360px 중 54px).
     // 글자 대비도 13.37:1에서 14.06:1로 오른다. 15%는 대비가 더 높지만 축이
     // 위쪽에 잘려 구도가 답답해진다.
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '기계 ⁠· 플랜트',
+    eyebrow: '기계 및 플랜트',
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
+    lede: '24시간 돌아가는 대형 설비와 여러 에너지원에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 공기압축기 수요 제어부터 공조 인버터 제어, 탄소 배출량 통합 관제까지.',
   },
   challenges: {
-    dark: true,
-    title: '기계 설비 현장의 문제',
+    title: '지금 기계 및 플랜트 현장이\n겪는 문제입니다',
     subtitle: '24시간 연속 운전하는 대형 설비 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '여러 에너지원이 동시에 쓰인다',
+      '압축공기 ⁠· 전력 ⁠· 냉열 ⁠· 공조가 함께 돈다',
+      '어디에 얼마가 들어가는지 잡히지 않는다',
+      '설비 간 연계도가 높다',
+      '장비 하나의 이상이 전체 효율에 남는다',
+      '24시간 연속 운전을 지켜야 한다',
+      '정밀 조건을 함께 유지해야 한다',
+      '멈출 수 없어 손볼 시점을 잡기 어렵다',
+      '노후화 ⁠· 비용 ⁠· 규제가 한꺼번에 온다',
+      '설비 노후화가 진행된다',
+      '에너지 비용이 오른다',
+      '설비와 에너지를 한 체계로 봐야 한다',
+    ],
     items: [
       {
         title: '여러 에너지원이 동시에 쓰인다',
@@ -47,9 +64,9 @@ export const machinery: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '기계 ⁠· 플랜트 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '기계 ⁠· 플랜트 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '공기압축기 수요 맞춤 제어 ⁠· 상태 감시',
@@ -93,10 +110,10 @@ export const machinery: IndustryData = {
     title: '솔루션 구조',
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
-      { label: '현장', detail: '공기압축기 ⁠· 공조 ⁠· 냉각 설비 ⁠· 대형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: '활용', detail: '공용 설비 대시보드 ⁠· 원단위 리포트 ⁠· 배출량 관리', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: '현장', detail: '공기압축기 ⁠· 공조 ⁠· 냉각 설비 ⁠· 대형 장비 센서', icon: 'flow-site' },
+      { label: '연동', detail: 'FEMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'flow-connect' },
+      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'flow-refinery', highlight: true },
+      { label: '활용', detail: '공용 설비 대시보드 ⁠· 원단위 리포트 ⁠· 배출량 관리', icon: 'flow-use' },
     ],
     note: '기존 FEMS⁠/⁠SCADA가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },

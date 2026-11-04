@@ -15,6 +15,7 @@ const home = lang === 'en' ? '/en' : '/';
   <div class="nav-inner">
     <div class="nav-left">
       <a href={home} class="nav-logo" aria-label={ui.home}><img src="/logo_Refinery_symbol-text.svg" alt="Refinery"></a>
+    </div>
       <ul class="mm-menu">
         {menu.map((m) => (
           <li class={m.groups ? 'mm-item has-panel' : 'mm-item'}>
@@ -94,7 +95,6 @@ const home = lang === 'en' ? '/en' : '/';
           </li>
         ))}
       </ul>
-    </div>
     <div class="nav-actions">
       <LanguageSwitcher />
       <a href={ui.ctaHref} class="btn-primary">{ui.cta}</a>
@@ -106,18 +106,27 @@ const home = lang === 'en' ? '/en' : '/';
 
   <div class="mobile-nav-panel mm-mobile" id="mobileNavPanel">
     {menu.map((m) => (
-      <div class="mm-mobile-group">
-        <a href={m.href} class="mm-mobile-top">{m.label}</a>
-        {m.groups && (
-          <div class="mm-mobile-sub">
-            {m.groups.map((g) => g.items.map((it) => (
-              it.href
-                ? <a href={it.href}>{it.label}</a>
-                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
-            )))}
+      m.groups ? (
+        <details class="mm-mobile-group">
+          <summary class="mm-mobile-top">{m.label}</summary>
+          <div class:list={['mm-mobile-sub', m.groups.length > 1 && 'is-split']}>
+            {m.groups.map((g) => (
+              <div class="mm-mobile-col">
+                {m.groups!.length > 1 && g.title && <p class="mm-mobile-coltitle">{g.title}</p>}
+                {g.items.map((it) => (
+                  it.href
+                    ? <a href={it.href}>{it.label}</a>
+                    : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+                ))}
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </details>
+      ) : (
+        <div class="mm-mobile-group">
+          <a href={m.href} class="mm-mobile-top">{m.label}</a>
+        </div>
+      )
     ))}
     <a href={ui.ctaHref} class="mobile-nav-cta">{ui.cta}</a>
   </div>
@@ -157,6 +166,38 @@ const home = lang === 'en' ? '/en' : '/';
     nav.addEventListener('mouseleave', release);
     document.addEventListener('mousemove', function (e) {
       if (nav.classList.contains('is-shut') && !nav.contains(e.target)) release();
+    }, { passive: true });
+  })();
+
+  /* 아래로 내려가는 동안 헤더를 걷고, 위로 올리면 돌려놓는다.
+     메가메뉴는 위의 is-shut 이 스크롤과 함께 이미 닫으므로 따로 보지 않아도 된다. */
+  (function () {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var nav = document.querySelector('.mm-nav');
+    if (!nav) return;
+    var panel = document.getElementById('mobileNavPanel');
+    var last = window.scrollY || 0, ticking = false;
+
+    function step() {
+      ticking = false;
+      var y = window.scrollY || 0;
+      if (y < 0) y = 0;                       // 위쪽 고무줄 구간에서 방향이 뒤집힌다
+      var dy = y - last;
+      if (Math.abs(dy) < 6) return;           // 손떨림 정도로는 움직이지 않는다
+      last = y;
+      // 모바일 메뉴가 열려 있거나 헤더 안에 포커스가 있으면 걷지 않는다.
+      if ((panel && panel.classList.contains('open')) || nav.contains(document.activeElement)) {
+        nav.classList.remove('is-away');
+        return;
+      }
+      if (dy > 0 && y > nav.offsetHeight) nav.classList.add('is-away');
+      else if (dy < 0) nav.classList.remove('is-away');
+    }
+
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(step);
     }, { passive: true });
   })();
 </script>

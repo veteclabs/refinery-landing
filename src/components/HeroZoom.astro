@@ -1,0 +1,270 @@
+---
+/**
+ * 히어로 그래픽이 스크롤을 따라 자란다.
+ *
+ * 처음에는 카피 아래 칸에 담겨 있고, 히어로의 스크롤 구간을 내려가는 동안 위로
+ * 자라 카피를 덮으며 한 화면을 가득 채운다.
+ *
+ * 진행도(0~1)를 --hero-p 로 넘기고, 칸을 얼마나 끌어올릴지는 CSS 가 정한다.
+ * 레이아웃은 global.css 의 #hero · .hero-stage 가 쥔다.
+ */
+---
+
+{/* 로고 심볼(public/logo_Refinery_symbol.svg) 의 실루엣을 채운 오림틀.
+    심볼은 둥근 사각형 두 개가 대각으로 엇갈린 모양이고, 원본은 그 테두리만
+    남긴 꺾쇠 두 벌이다. 여기서는 속을 채운 쪽을 쓴다 — clipPath 안의 도형들은
+    합집합이 되므로 사각형 둘을 겹쳐 두면 그 실루엣이 그대로 나온다.
+    620 기준 좌표(40~440 · 180~580, 모서리 60)를 620 으로 나눠 0~1 로 바꿨다
+    (clipPathUnits="objectBoundingBox"). 칸이 정사각이어야 비율이 산다. */}
+<svg width="0" height="0" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <clipPath id="rf-symbol-clip" clipPathUnits="objectBoundingBox">
+      <rect x="0.06452" y="0.06452" width="0.64516" height="0.64516" rx="0.09677" ry="0.09677"/>
+      <rect x="0.29032" y="0.29032" width="0.64516" height="0.64516" rx="0.09677" ry="0.09677"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<style is:global>
+  /* 칸을 카피 높이(--hero-copy-h)만큼 위로 끌어올린다. .hero-stage 가 flex 라
+     칸은 margin 으로 줄어든 자리를 그대로 높이로 돌려받는다 — 위로 자라는 셈이다.
+     --hero-copy-h 는 카피가 실제로 차지한 높이이고 JS 가 재어 넣는다. */
+  .hero-motion-placeholder {
+    /* 멈춰 있을 때는 카피와 --hero-slot-gap 만큼 떨어져 있다가, 자라면서 그 틈까지
+       먹으며 카피 위로 올라선다. p 가 1 이면 -카피높이 로 전과 같은 자리다.
+       35px 은 대제목과 소제목 사이와 같은 값이다(#hero h1 의 margin-bottom —
+       소제목의 margin-top 18px 을 흡수한다). */
+    /* 카피가 absolute 로 떠 있어 칸이 무대의 유일한 흐름 아이템이다 — 무대의
+       justify-content: center 가 세로 가운데에 세운다. 카피도 가운데에 떠 있으므로
+       둘이 겹치고, 대제목과 소제목 사이로 그래픽이 보인다. */
+    margin-top: 0;
+    /* 멈춰 있을 때의 상한은 '칸 폭 나누기 2.95' 다. 그래픽 배율은 그대로 두고
+       보이는 창만 가로로 긴 띠로 잘라 쓰는 값이다(위쪽 하늘이 잘리고 받침대가 남는다).
+       ⚠️ vh 로 두지 않는다. 화면 비율마다 같은 폭에서도 띠 두께가 달라져, 넓고 낮은
+          화면에서는 납작하고 좁고 긴 화면에서는 두꺼워진다. 폭에 묶어야 어느 화면에서나
+          같은 모습이다 — 1024 에서 2.91 : 1, 1600 에서 2.92 : 1.
+       칸 폭 --hero-base-w 는 global.css 의 #hero 가 쥔다. 멈춰 있을 때는 정사각이다
+       — 로고 심볼이 정사각이라 그 비율이라야 오림틀이 안 늘어난다.
+       자라는 몫(1600px * p)은 그대로 더한다. */
+    max-height: calc(var(--hero-base-w) + 1600px * var(--hero-p, 0));
+  }
+  /* 칸은 늘 오림틀을 쓴다. 틀 자체가 p 를 따라 자라 — 두 사각형이 서로 다가가며
+     커지다가 하나로 포개져 칸을 꽉 채운다(JS 의 shapeClip 이 좌표를 고쳐 넣는다).
+     ⚠️ 클래스로 틀을 껐다 켰다 하지 않는다. url() 클립은 보간되지 않아 그 순간
+        모양이 툭 끊긴다. 좌표를 움직이면 이어진 한 동작이 된다. */
+  .hero-motion-placeholder {
+    clip-path: url(#rf-symbol-clip);
+    /* ⚠️ 면을 깔아야 모양이 보인다. 그래픽 자체가 거의 흰색이라 흰 바탕 위에서는
+       오려낸 윤곽이 묻혀, 클립이 걸렸는데도 아무 모양도 안 보였다. */
+    background: #E4E9EF;
+  }
+  /* 카피는 무대 세로 한가운데에 떠 있고 그래픽이 그 뒤로 지나간다.
+     ⚠️ absolute 라 흐름에서 빠진다. 그래야 칸이 무대의 유일한 아이템이 되어
+        justify-content: center 로 같은 가운데에 선다(겹친다).
+     ⚠️ left/right 에 --hero-pad 를 직접 준다. 0 으로 두면 글자가 화면 끝에 붙었다 —
+        무대가 sticky 여도 기준 상자가 그 패딩 안쪽으로 잡히지 않는다.
+        폭과 가운데 정렬은 .container 제 max-width · margin-inline 이 쥔다. */
+  #hero .hero-stage { justify-content: center; }
+  #hero .container {
+    position: absolute;
+    left: var(--hero-pad, 48px);
+    right: var(--hero-pad, 48px);
+    /* 세로 자리는 JS(placeCopy)가 잡는다 — 그래픽 칸 윗변에서 늘 --hero-copy-gap
+       만큼 아래다. 칸 높이가 스크롤마다 바뀌어 CSS 로는 그 윗변을 집을 수 없다.
+       아래 값은 스크립트가 못 도는 경우의 자리다. */
+    top: 50%;
+    transform: translateY(-50%);
+    padding-top: 0;
+    /* ⚠️ width:100%(global.css)를 푼다. absolute 에서 width 가 있으면 right 가 무시돼
+       오른쪽이 화면 밖으로 넘친다(1024px 화면에서 소제목 끝이 1057 까지 갔다).
+       auto 로 두면 left~right 가 폭을 정하고, 그 안에서 max-width 와 margin-inline:
+       auto 가 내용 너비를 가운데에 세운다. */
+    width: auto;
+  }
+  /* 카피는 옅어지지 않는다 — 다 자란 모습이 '그래픽 위에 카피가 얹힌' 전의 히어로다. */
+
+  /* UI 슬라이스는 3D 를 쓰지 않는다 — 카드 글자가 평면으로 그려져야 선명하다.
+     원본의 translateZ(1px) scale(0.99933) 은 scene 안에서 앞세우려던 값인데, 이제
+     슬라이스가 scene 밖(무대 직속)이라 그 자리에 있을 이유도 없다. */
+  .hero-motion-placeholder .vh-slice--ui {
+    transform: none;
+    transform-style: flat;
+  }
+
+  /* 헤더는 히어로에 머무는 동안 붙들어 둔다 — 그래픽이 커지는 사이 헤더까지 사라지면
+     화면이 한꺼번에 비는 것처럼 보인다. 클래스는 JS 가 진행도를 보고 <html> 에 붙이고,
+     Nav 제 스크롤 규칙(.is-away)을 지우지 않고 위에서 덮는 방식이다. */
+  html.hero-nav-hold .mm-nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* ⚠️ .vh-head 를 포인터가 닿는 요소로 되살린다. 원본 CSS 는 마커 레이어를 통째로
+     pointer-events: none 으로 두고 .vh-pin 만 auto 로 켜는데, 카드를 여는 리스너는
+     vetec-hero.js 가 .vh-head 에 건다(pointerenter). none 인 요소에는 포인터가
+     '들어왔다'는 판정 자체가 서지 않아 — 자식인 핀이 auto 라도 — 호버로 카드가
+     열리지 않았다. 합성 이벤트로는 열리는데 실제 마우스로는 안 열리던 원인이다. */
+  .hero-motion-placeholder .vh-head { pointer-events: auto; }
+  /* 다 자라기 전에는 핀을 누르거나 올릴 수 없다 — 흐릿하게 비치는 동안 카드가 뜨면
+     그래픽을 가린다. is-grown 은 JS 가 p 를 보고 붙인다. */
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-head,
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-pin { pointer-events: none; }
+  /* 핀(+ 원과 기둥)은 그래픽이 다 자란 뒤에만 보인다. 작은 칸에서는 핀 하나가
+     그림의 상당 부분을 가리고, 심볼 오림틀 안에서 자리도 어긋나 보인다.
+     전에는 p 0.25~0.7 에 걸쳐 서서히 떠올랐는데, 자라는 내내 핀이 떠 있어
+     그래픽을 읽기 어려웠다 — is-grown(p > 0.995, 다 자란 뒤) 하나로 가른다.
+     ⚠️ 투명도는 .vh-marker(부모)에 건다. .vh-pin 쪽은 등장 애니메이션(vhPin)이
+        opacity 를 쥐고 있어 여기서 덮으면 그 애니메이션이 어긋난다. */
+  #hero .hero-motion-placeholder .vh-marker { transition: opacity .35s ease; }
+  #hero:not(.is-grown) .hero-motion-placeholder .vh-marker { opacity: 0; }
+  /* 동작 줄이기에서는 칸이 처음부터 다 자란 모습이라(아래 분기에서 max-height 를
+     푼다) is-grown 이 안 붙어도 핀이 보여야 한다. 특이도를 맞춰 덮는다. */
+  @media (prefers-reduced-motion: reduce) {
+    #hero:not(.is-grown) .hero-motion-placeholder .vh-marker { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-motion-placeholder { margin-top: 0; max-height: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var d = document;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function start() {
+      var root = d.documentElement;
+      var hero = d.getElementById('hero');
+      var stage = hero && hero.querySelector('.hero-stage');
+      var copy = hero && hero.querySelector('.container');
+      if (!hero || !stage || !copy) return;
+      var boxEl = hero.querySelector('.hero-motion-placeholder');
+      var vhEl = hero.querySelector('.hero-motion-placeholder > .vh');
+
+      var ZOOM = 0.38;   // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
+      var run = 0, copyH = 0, ticking = false;
+
+      /* 구간 길이는 '히어로 전체 높이 - 무대 한 화면'이다. 이 만큼을 내려가는 동안
+         진행도가 0 에서 1 로 간다. 카피 높이는 margin 이 먹기 전의 값이라야 해서
+         --hero-p 를 0 으로 되돌린 뒤 잰다. */
+      function measure() {
+        hero.style.setProperty('--hero-p', '0');
+        copyH = copy.getBoundingClientRect().height;
+        hero.style.setProperty('--hero-copy-h', copyH + 'px');
+        var sr = stage.getBoundingClientRect();
+        run = hero.getBoundingClientRect().height - sr.height;
+        if (run < 1) run = 1;
+        /* 다 자란 자리에서 칸이 갖게 될 높이. 그래픽을 늘 이 높이로 그려 두면 칸이
+           낮은 동안에도 배율이 같아, 보이는 것이 다 자란 모습의 아랫부분이 된다.
+           무대 높이에서 헤더와 아래 여백(--hero-edge)을 뺀 값이다. */
+        var cs = getComputedStyle(hero);
+        var headerH = parseFloat(cs.getPropertyValue('--header-h')) || 70;
+        var edge = parseFloat(cs.getPropertyValue('--hero-edge')) || 16;
+        hero.style.setProperty('--hero-full-h', (sr.height - headerH - edge).toFixed(0) + 'px');
+      }
+
+      /* 오림틀을 p 에 맞춰 고쳐 그린다.
+         로고 심볼은 둥근 사각형 둘이 대각으로 엇갈린 모양이다(620 기준 40~440 ·
+         180~580). 그 둘을 서로 끌어당기며 키워 t=1 에서 둘 다 0,0,1,1 이 되게 하면
+         심볼이 사각형으로 '자라서' 칸을 꽉 채운다 — 중간이 전부 이어진 모양이다.
+         ⚠️ 모서리는 px 로 일정하게 둔다. 비율(rx) 그대로 두면 칸이 커질수록 모서리도
+            커져 다른 모양이 된다. 칸이 정사각이 아닐 수 있으므로 rx · ry 를 따로 낸다. */
+      var CLIP_A = 0.06452, CLIP_B = 0.29032, CLIP_S = 0.64516;
+      var clipRects = d.querySelectorAll('#rf-symbol-clip rect');
+      function shapeClip(p) {
+        if (!clipRects.length || !boxEl) return;
+        /* ⚠️ 일찍 끝내야 한다. 0.85 까지 끌었더니 자라는 구간 내내 두 사각형이
+           어긋난 채라 우상단 · 좌하단 모서리에 계단 자국이 남았다. 0.2 면 스크롤을
+           조금만 내려도 완전한 사각형이 되고, 남는 구간은 그 사각형이 커지는 데 쓴다. */
+        var t = p / 0.2; if (t > 1) t = 1;
+        var size = CLIP_S + (1 - CLIP_S) * t;
+        var r = boxEl.getBoundingClientRect();
+        var radius = parseFloat(getComputedStyle(hero).getPropertyValue('--hero-base-w')) * 0.0968;
+        if (!(radius > 0)) radius = 58;
+        var rx = r.width ? Math.min(0.5, radius / r.width) : 0.0968;
+        var ry = r.height ? Math.min(0.5, radius / r.height) : 0.0968;
+        for (var i = 0; i < clipRects.length; i++) {
+          var o = (i === 0 ? CLIP_A : CLIP_B) * (1 - t);
+          var el = clipRects[i];
+          el.setAttribute('x', o.toFixed(5));
+          el.setAttribute('y', o.toFixed(5));
+          el.setAttribute('width', size.toFixed(5));
+          el.setAttribute('height', size.toFixed(5));
+          el.setAttribute('rx', rx.toFixed(5));
+          el.setAttribute('ry', ry.toFixed(5));
+        }
+      }
+
+      /* 카피를 그래픽 칸 윗변에서 COPY_GAP 만큼 아래에 세운다.
+         칸은 자라면서 높이도 윗변도 바뀌는데 CSS 로는 그 윗변을 집을 수 없어
+         (flex 가 정하는 값이다) 여기서 재어 넣는다. */
+      var COPY_GAP = 100;
+      function placeCopy() {
+        if (!copy || !boxEl) return;
+        var par = copy.offsetParent || hero;
+        var pr = par.getBoundingClientRect();
+        var br = boxEl.getBoundingClientRect();
+        if (!br.height) return;
+        copy.style.top = (br.top - pr.top + COPY_GAP).toFixed(1) + 'px';
+        copy.style.transform = 'none';
+      }
+
+      /* 그래픽 배율을 판 크기에 다시 맞춘다.
+         vetec-hero 의 fit() 은 resize 에만 돌아서, 스크롤로 판이 커지는 동안에는
+         옛 배율이 그대로 남아 그림이 칸을 다 못 채운다. 같은 식(cover)을 쓴다. */
+      function refit() {
+        if (!vhEl) return;
+        var r = vhEl.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        var s = Math.max(r.width / 1920, r.height / 1080);
+        vhEl.style.setProperty('--vh-s', s.toFixed(4));
+      }
+
+      function step() {
+        ticking = false;
+        /* 히어로 윗변이 화면 위로 올라간 거리 / 다 자라는 데 쓰는 길이.
+           구간 전체가 아니라 앞쪽 ZOOM 만 쓴다 — 남는 뒤쪽이 '다 자란 모습'을
+           잠시 머무르게 하는 자리다. 구간을 다 쓰면 p 가 1 이 되는 순간 무대가
+           sticky 를 놓고 올라가 버려 꽉 찬 모습을 볼 틈이 없다. */
+        var passed = -hero.getBoundingClientRect().top;
+        var p = passed / (run * ZOOM);
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        hero.style.setProperty('--hero-p', p.toFixed(4));
+        // 다 자란 뒤에야 마커를 만질 수 있다.
+        /* ⚠️ 다 자란 뒤에만 붙인다. 0.9 로 두었더니 그래픽이 아직 커지는 중에
+           핀이 먼저 떠서, 자리가 흔들리는 그림 위에 핀이 얹혀 보였다. */
+        hero.classList.toggle('is-grown', p > 0.995);
+        shapeClip(p);
+        refit();
+        placeCopy();
+
+        // 히어로에 머무는 동안에는 헤더를 붙들어 둔다.
+        root.classList.toggle('hero-nav-hold', passed > -1 && passed / run < 1.02);
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(step);
+      }
+
+      /* 핀을 눌러 그 자리로 확대하던 장치는 걷었다(2026-10-29). 핀을 누르면
+         그래픽 한 벌이 갈리는 것만 한다 — 그쪽은 홈 페이지의 히어로 핀
+         스크립트가 쥔다. 확대까지 겹치면 한 번 누를 때 일어나는 일이 둘이라
+         어느 쪽을 보라는 건지 흐려진다. */
+
+      measure();
+      step();
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', function () { measure(); step(); }, { passive: true });
+      // 글꼴이 늦게 와서 카피 높이가 바뀌면 다시 잰다.
+      if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { measure(); step(); });
+    }
+
+    if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start);
+    else start();
+  })();
+</script>

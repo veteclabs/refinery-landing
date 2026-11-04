@@ -39,6 +39,9 @@ function devCleanUrls() {
   };
 }
 
+/** sitemap에서 뺄 경로(클린 URL). noindex 페이지를 sitemap에서 뺄 때 여기에 적는다. */
+const SITEMAP_EXCLUDE = new Set(['/ai-data', '/en/ai-data']);
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://refinery.kr',
@@ -57,7 +60,9 @@ export default defineConfig({
     inlineStylesheets: 'always',
   },
   integrations: [
-    sitemap(), // 모든 라우트를 포함한 sitemap 자동 생성
+    // 모든 라우트를 포함한 sitemap 자동 생성. 단, SITEMAP_EXCLUDE의 noindex 페이지는 뺀다 — sitemap에 실으면
+    // "색인해 달라"와 "색인하지 말라"가 엇갈린다. AI 데이터 처리 안내는 앱의 링크로만 여는 페이지다.
+    sitemap({ filter: (page) => !SITEMAP_EXCLUDE.has(new URL(page).pathname.replace(/(\.html|\/)$/, '')) }),
     devCleanUrls(), // dev 서버에서만 동작(빌드·배포 무영향)
   ],
 });

@@ -19,3 +19,18 @@ Thumbs.db
 
 # 이미지 원본(변환 전). 사이트가 참조하는 건 public/의 WebP다.
 이미지/
+
+# 아이콘 작업 폴더. 사이트가 쓰는 건 src/icons/의 SVG이고, 여기서 뽑아 복사한다.
+# PNG·WebP·테마 산출물(52MB)은 빼고 생성 스크립트만 남긴다 — 아이콘을 다시 뽑을 수 있어야 한다.
+refinery-icons/*
+!refinery-icons/source/
+!refinery-icons/README.md
+캡처/
+
+# 소개서에서 꺼낸 원본 JPEG(4.3MB). 사이트가 쓰는 건 변환된 public/ 의 WebP다.
+intro-deck/
+
+# 시안 작업 폴더에서 node_modules 는 본 폴더를 가리키는 심볼릭 링크다.
+# 끝에 / 가 붙은 패턴은 링크를 걸러내지 못해 따로 적는다.
+node_modules
+시안.md

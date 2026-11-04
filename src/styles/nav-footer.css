@@ -17,20 +17,31 @@
   --ink-50:  #F6F8FA;
 }
 
-.container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+/* 고정 헤더 높이. 히어로 · 드로어 · 모바일 패널이 모두 이 값을 기준으로 내려온다.
+   이 파일은 Nav/Footer 를 통해 모든 페이지에 실리므로 여기서 쥔다. */
+:root { --header-h: 70px; }
+
+.container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
 
 /* 헤더: 모든 페이지에서 고정 + 일관된 반투명 흰색 배경(스크롤 시 배경이 바뀌지 않도록) */
 .mm-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 70px;
+  height: var(--header-h);
   background: #ffffff;
-  border-bottom: 1px solid var(--ink-200);
+  transition: opacity .3s ease, visibility .3s;
 }
-/* 패널이 열려 있는 동안에는 헤더 아래 구분선을 지운다 —
-   헤더와 패널이 한 장의 흰 면으로 이어지고, 끝나는 자리는 패널 아래 선이 맡는다.
-   :has로 '패널이 열린 상태'만 골라낸다(로고만 스칠 때는 구분선이 그대로 있어야 한다). */
-.mm-nav:has(.mm-item.has-panel:hover),
-.mm-nav:has(.mm-item.has-panel:focus-within) { border-bottom-color: transparent; }
+/* 아래로 내려가는 동안에는 제자리에서 옅어져 사라지고, 위로 올리면 돌아온다
+   (클래스는 JS 가 건다).
+   ⚠️ 위로 걷는 transform 은 쓰지 않는다. 같은 0.3초에 70px 을 올리면 '위로 사라진다'로만
+      보이고 옅어지는 것이 묻힌다.
+   visibility 와 pointer-events 를 함께 끈다 — opacity 만으로는 투명해진 채 그대로 눌리고
+   읽기 도구에도 남는다.
+   움직임을 줄이는 설정에서는 걸지 않는다 — 헤더가 사라지는 것 자체가 움직임이다. */
+.mm-nav.is-away { opacity: 0; visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-nav { transition: none; }
+  .mm-nav.is-away { opacity: 1; visibility: visible; pointer-events: auto; }
+}
 
 /* 메가메뉴가 열리면 헤더 아래 화면을 덮어 뒤 내용을 물린다.
    .mm-nav 안에 두면 안 된다 — 헤더가 position: fixed라 그 안의
@@ -38,7 +49,7 @@
    z-index 90 — 헤더(100)보다 아래라 헤더와 그 안의 패널(60)은 막 위에 그대로 뜬다.
    pointer-events: none — 막이 클릭을 가로채지 않는다. */
 .mm-scrim {
-  position: fixed; inset: 70px 0 0; z-index: 90;
+  position: fixed; inset: var(--header-h) 0 0; z-index: 90;
   background: rgba(22, 32, 44, .42);  /* ink-900 #16202C */
   /* 흐림(blur)은 쓰지 않는다 — 톤만 한 단계 내린다. */
   opacity: 0; visibility: hidden; pointer-events: none;
@@ -50,30 +61,37 @@ body:has(.mm-item.has-panel:focus-within) .mm-scrim { opacity: 1; visibility: vi
 /* 패널이 열린 채로 스크롤하면 닫는다. :hover는 JS로 풀 수 없으므로
    헤더에 클래스를 걸어 눌러 두고, 마우스가 헤더를 벗어나면 푼다. */
 .mm-nav.is-shut .mm-panel { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; }
-.mm-nav.is-shut { border-bottom-color: var(--ink-200) !important; }
 .mm-nav.is-shut .mm-caret { transform: none !important; }
 body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden !important; }
 @media (prefers-reduced-motion: reduce) { .mm-scrim { transition: none; } }
+/* 로고 · 메뉴 · 우측 버튼의 3칸. 양 끝 칸을 1fr 로 같게 잡아야 가운데 칸이 헤더
+   한가운데에 선다 — space-between 으로는 로고와 버튼의 폭 차이만큼 메뉴가 밀린다. */
 .nav-inner {
-      max-width: 1280px; margin: 0 auto; height: 100%;
-      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1600px; margin: 0 auto; height: 100%;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
       padding: 0 48px;
     }
-.nav-left { display: flex; align-items: center; gap: 48px; }
-.nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
-/* 로고 높이는 29px이다. 30px에서는 심볼 두 갈래가 서로 다른 서브픽셀 위치에 앉아
-   한쪽만 반 픽셀 회색 테를 물고, 그 결과 오른쪽이 더 굵어 보였다(1x에서 3px 대 4px).
-   29px이면 획 두께가 3.00px 딱 떨어지고 상자도 20.00px에 앉아 1x·2x 모두 테가 없다.
-   실측으로 26~32px을 0.2px 간격으로 훑어 고른 값이다. */
-.nav-logo img { height: 29px; display: block; }
+.nav-left { display: flex; align-items: center; }
+.nav-inner > .nav-actions { justify-self: end; }
+.nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #191F27; display: flex; align-items: center; }
+/* 로고 높이. 심볼 두 갈래는 SVG 상 똑같이 80 단위이고 뷰박스 높이가 784 이라
+   획 두께 = 높이 x 0.10204 다. 이 값이 픽셀에 떨어지지 않으면 두 갈래가 서로 다른
+   소수 위치에 앉아 한쪽만 반 픽셀을 더 물고, 그래서 오른쪽이 굵어 보인다.
+   29~42px 사이에서 1x·2x 모두 안전한 높이는 세 개뿐이다 —
+     29.40px -> 획 3.00px  ← 지금. 29px 에서 올릴 수 있는 가장 가까운 값
+     34.30px -> 획 3.50px  (2x 에만 떨어진다)
+     39.20px -> 획 4.00px
+   30px 은 예전에 실측으로 걸러진 값이다(두 갈래가 3px 대 4px 로 갈렸다). */
+.nav-logo img { height: 29.4px; display: block; }
 /* 언어 토글과 문의하기는 성격이 다른 둘이다(상태 토글 vs 행동 버튼).
    12px에서는 높이 37px짜리 도형 두 개가 붙어 하나의 세그먼트 컨트롤처럼 읽혔다. */
 .nav-actions { display: flex; gap: 28px; align-items: center; }
 .btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
-         테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
-      background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
+      /* 면을 브랜드 색으로 채운 주 행동 버튼. 테두리는 같은 색으로 둬야
+         호버에서 색이 바뀔 때 높이가 흔들리지 않는다. */
+      background: #76A6D7; color: #ffffff; border: 1px solid #76A6D7; border-radius: 6px;
       transition: all .2s;
     }
 .nav-hamburger {
@@ -86,15 +104,19 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
     }
+    /* 버튼 박스는 KO/EN 과 중심이 정확히 같은데(실측 0.0px 차) 글리프가 em 박스 안에서
+       아래로 치우쳐 그려져, 세 줄이 글자보다 1px 내려앉아 보였다. 글리프만 올린다 —
+       버튼 박스를 건드리면 40px 터치 영역이 따라 움직인다. */
+    .nav-hamburger i { transform: translateY(-1px); }
 .mobile-nav-panel {
       display: none;
       flex-direction: column;
       position: fixed;
-      top: 70px; left: 0; right: 0;
+      top: var(--header-h); left: 0; right: 0;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       padding: 8px 24px 20px;
-      max-height: calc(100vh - 70px);
+      max-height: calc(100vh - var(--header-h));
       overflow-y: auto;
       box-shadow: 0 12px 24px rgba(10,14,20,0.10);
       z-index: 99;
@@ -118,17 +140,18 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
       /* 데스크톱 헤더의 .btn-primary와 같은 버튼이다 — 색도 같이 간다.
          color를 따로 적는 이유: 안 적으면 .mobile-nav-panel a의 ink-800을 물려받아
          같은 버튼인데 모바일만 글자색이 달라진다. */
-      color: #16202C;
-      border: 1px solid #5A6776;
+      background: #76A6D7;
+      color: #ffffff;
+      border: 1px solid #76A6D7;
       border-radius: 6px;
       padding: 12px;
       font-weight: 500;
     }
-.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
-.btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
-/* 헤더 문의하기 — 테두리만 있는 버튼. 호버에서 글자와 테두리가 하늘색이 된다(면은 그대로).
-   nav 안쪽으로 한정한다 — 랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
-nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+.mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
+.btn-primary:hover, .btn-primary:active { background: #EFF2F5; }
+/* 헤더 CTA 호버 — 면이 한 단 짙어진다(brand-600). nav 안쪽으로 한정한다 —
+   랜딩 본문의 같은 클래스 버튼은 그대로 둔다. */
+nav .btn-primary:hover, nav .btn-primary:active { background: #5A8FC5; color: #ffffff; border-color: #5A8FC5; }
 /* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
    (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
     상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
@@ -139,7 +162,7 @@ footer { padding: 60px 0 20px; overflow: hidden; }
    헤더 메가메뉴와 같은 축으로 둘로 나눈다. 두 열은 항목 이름이 길어 조금 넓게.
    브랜드 열은 2fr에서 1.6fr로 줄인다 — 태그라인 상한이 220px이라 남는 폭이었다. */
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1.2fr 1.2fr 1fr 1fr 1fr; gap: 24px; }
-.footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
+.footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: var(--lh-caption, 1.5); max-width: 220px; }
 /* 헤더 메가메뉴의 묶음 제목(.mm-col-title)과 같은 처리다 —
    같은 역할(열 이름)이므로 같은 크기·굵기·자간을 쓴다.
    링크와 같은 13px였을 때는 굵기로만 구분돼 제목과 항목이 대등해 보였다. */
@@ -243,7 +266,7 @@ button.mm-top { font-family: inherit; font-weight: inherit; line-height: inherit
    패널은 화면 폭을 채우지만 글은 페이지 본문과 같은 축에 선다. */
 /* 좌우 여백을 48이 아니라 38로 준다. 링크가 자체 padding 10px를 갖고 있어서
    38 + 10 = 48이 되어야 글자가 로고·본문과 같은 축에 선다. */
-.mm-panel-inner { max-width: 1280px; margin: 0 auto; padding: 40px 38px 64px; display: flex; gap: 72px; }
+.mm-panel-inner { max-width: 1600px; margin: 0 auto; padding: 40px 38px 64px; display: flex; gap: 72px; }
 /* 패널 바탕은 화면 폭을 채우되 글은 왼쪽 축에 모아 둔다.
    묶음이 둘 이상이면 사이에 세로선을 둔다(솔루션의 산업별 | 과제별).
    선은 두 번째 묶음부터 왼쪽에 붙이고, 그만큼 안쪽 여백을 더 준다. */
@@ -314,7 +337,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 .mm-card-label { min-width: 0; }
 /* 12px — 사이트 글자 크기를 11(라벨) · 12(보조 설명) · 13(푸터 링크) ·
    14(헤더 링크) · 15(본문)로 정수 한 줄에 맞춘다. */
-.mm-card-desc { font-size: 14px; line-height: 1.45; color: var(--ink-400); }
+.mm-card-desc { font-size: 14px; line-height: var(--lh-caption, 1.5); color: var(--ink-400); }
 .mm-card.is-soon .mm-card-desc { color: var(--ink-300); }
 /* 예정 항목은 테두리도 한 단계 옅게 — 눌리지 않는다는 걸 면·선·글리프가 함께 말한다. */
 .mm-card.is-soon .mm-card-ico { background: #ffffff; border-color: var(--ink-100); color: var(--ink-300); }
@@ -355,13 +378,15 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    좌우는 6px으로 같다. letter-spacing이 마지막 글자 뒤에 공백을 남기므로 잉크만 보면
    왼쪽이 조금 넓지만, 그 값을 보정해 잉크를 정확히 반씩 맞추면 글자가 오른쪽으로
    쏠려 보인다 — 눈은 자간이 만든 뒤 공백도 글자의 일부로 읽는다.
-   위아래는 건드리지 않는다 — line-height가 1이라 여백을 흔들어도 글자는 그대로 있고
-   상자만 바뀐다(2.5/3.5로 재봤을 때 잉크 위치가 0.03px밖에 안 움직였다). */
+   위아래는 3/2 다. align-items: center 가 가운데 두는 건 글자 '상자'인데, 글리프는 그
+   상자 안에서 baseline 위에 놓여 1px 떠 보였다(line-height 1 이라 상자가 글자 크기와
+   같다). 위를 1px 늘리고 아래를 1px 줄여 상자째 내린다 — 합이 5로 같아 배지 높이 15px
+   은 그대로다. 2/3 → -1.00px · 3/2 → 0.00px · 4/2 → +0.50px 을 재서 고른 값이다. */
 .mm-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 500; line-height: 1; letter-spacing: .06em;
+  font-size: 10px; font-weight: 500; line-height: var(--lh-flat, 1); letter-spacing: var(--ls-wide-sm, 0.6px);
   color: #5B9BD5; background: #DCE8F5;
-  padding: 2px 6px 3px 6px; border-radius: 999px;
+  padding: 3px 6px 2px 6px; border-radius: 999px;
 }
 
 /* 모바일 메가메뉴 */
@@ -374,6 +399,70 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 /* 항목을 묶음 제목보다 들여쓰지 않는다 — 12px 들여쓰기가 있으면 제목과 항목의
    왼쪽 축이 두 개가 되어 목록이 들쭉날쭉해 보인다. 층 구분은 글자 크기·굵기가 맡는다. */
 .mm-mobile-sub { display: flex; flex-direction: column; padding: 0 0 8px; }
+/* 상위 메뉴를 여닫이로 둔다 — 솔루션 · 리소스 · 회사 세 줄만 두고, 누르면 그
+   아래로 항목이 펼쳐진다. 평평하게 늘어놓으면 항목이 스물넷이라 패널이 화면을
+   세 배 넘겼다.
+   <details>/<summary>라 자바스크립트가 필요 없고, 키보드 · 보조기술도 기본으로
+   받는다. 패널을 닫는 스크립트는 a 만 보므로 summary 를 눌러도 닫히지 않는다. */
+.mobile-nav-panel summary.mm-mobile-top {
+  display: flex; align-items: center; justify-content: space-between;
+  list-style: none; cursor: pointer;
+}
+.mobile-nav-panel summary.mm-mobile-top::-webkit-details-marker { display: none; }
+/* 꺾쇠 — 7px 정사각형의 두 변만 남겨 돌린다. 열리면 위를 향한다. */
+.mobile-nav-panel summary.mm-mobile-top::after {
+  content: '';
+  width: 7px; height: 7px;
+  margin-right: 3px;
+  border-right: 1.5px solid var(--ink-400);
+  border-bottom: 1.5px solid var(--ink-400);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform .15s ease;
+}
+details.mm-mobile-group[open] > summary.mm-mobile-top::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-panel summary.mm-mobile-top::after { transition: none; }
+}
+
+/* 묶음이 둘 이상인 메뉴(솔루션 = 산업별 · 과제별)는 두 축을 좌우로 둔다.
+   큰 화면 메가메뉴와 같은 짜임이다 — 왼쪽이 산업별, 오른쪽이 과제별.
+   한 줄로 흘리면 솔루션 하나에 항목이 열넷 쌓여 패널이 화면을 넘겼다.
+   묶음 제목은 띄우지 않는다. 상위 '솔루션'이 제목 노릇을 하고, 두 축은 자리로
+   구분된다 — 제목을 넣으면 층이 셋이 되어 패널이 도로 길어진다.
+   묶음이 하나뿐인 메뉴(리소스 · 회사)는 지금처럼 한 줄로 흐른다. */
+.mm-mobile-sub.is-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 18px;
+}
+/* 두 축 사이 세로선 — 큰 화면 메가메뉴(.mm-col + .mm-col)와 같은 값이다.
+   선은 둘째 칸의 왼쪽 변에 그어지므로, 안쪽 여백을 바깥 간격과 같게 둬야
+   선이 두 칸 가운데에 선다(18 / 18). */
+.mm-mobile-sub.is-split .mm-mobile-col + .mm-mobile-col {
+  border-left: 1px solid var(--ink-200);
+  padding-left: 18px;
+}
+.mm-mobile-col { display: flex; flex-direction: column; min-width: 0; }
+/* 열 이름 — 큰 화면 메가메뉴의 .mm-col-title 과 같은 값이다(12px · 500 · 대문자 ·
+   ink-400). 같은 역할이므로 같은 처리를 쓴다. 묶음이 하나뿐인 메뉴(리소스 · 회사)는
+   제목이 상위 메뉴명과 겹치므로 띄우지 않는다. */
+.mm-mobile-coltitle {
+  margin: 8px 0 4px;
+  font-size: 12px; font-weight: 500; text-transform: uppercase;
+  color: var(--ink-400);
+}
+/* 아주 좁은 화면에서는 한 칸으로 돌린다 — 두 칸이면 글자 칸이 150px 밑으로
+   떨어져 '에너지 · 유틸리티' 같은 항목이 감긴다. */
+@media (max-width: 380px) {
+  .mm-mobile-sub.is-split { grid-template-columns: 1fr; }
+  /* 한 칸이 되면 세로선은 뜻이 없다 — 위아래로 놓인 두 축 사이에 선이 서 버린다. */
+  .mm-mobile-sub.is-split .mm-mobile-col + .mm-mobile-col {
+    border-left: none;
+    padding-left: 0;
+  }
+}
 .mm-mobile-sub a { font-size: 14.5px; color: var(--ink-700); padding: 7px 0; border: none !important; }
 .mm-mobile-sub .mm-soon { padding: 7px 0; font-size: 14.5px; }
 
@@ -381,12 +470,18 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
 @media (max-width: 980px) {
   .mm-menu { display: none; }
   .nav-hamburger { display: flex; }
+  /* 가운데 칸이 비므로 2칸으로 되돌린다 — 빈 칸이 남으면 로고가 왼쪽으로 치우친다. */
+  .nav-inner { grid-template-columns: auto auto; }
 }
 
-/* 모바일: 상단 문의하기 버튼 숨김(모바일 패널에 CTA 있음) + 스위처 여백 정리 */
-@media (max-width: 980px) {
-  .nav-actions .btn-primary { display: none; }
-  .nav-actions { gap: 10px; }
+/* 좁은 폭에서도 문의하기를 헤더 바에 남긴다 — 순서는 KO/EN · 문의하기 · 햄버거로,
+   마크업 순서 그대로다. 버튼 모양은 큰 화면과 같다 — 크기를 줄이면 같은 버튼인데
+   폭마다 다르게 보인다. 자리가 모자라면 사이 간격만 좁힌다. */
+/* 사이 간격도 큰 화면과 같은 28px 로 둔다. 360px 까지는 로고와 부딪히지 않는다
+   (틈 9px). 그 아래에서는 버튼 글자가 '문의하 / 기'로 잘리고 로고와 겹치므로
+   간격만 좁혀 막는다 — 버튼 모양은 그대로 둔다. */
+@media (max-width: 359px) {
+  .nav-actions { gap: 12px; }
 }
 
 /* 푸터 하단 법적 링크 바 */
@@ -401,7 +496,7 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
   .nav-inner,
   .mm-panel-inner,
   .mm-panel-foot ul {
-    margin-left: round(down, max(0px, calc((100% - 1280px) / 2)), 1px);
+    margin-left: round(down, max(0px, calc((100% - 1600px) / 2)), 1px);
     margin-right: auto;
   }
 }
@@ -415,9 +510,9 @@ a.mm-card:hover { background: var(--ink-50); color: var(--ink-900); }
    위아래 여백은 17/19다. 같은 값으로 두면 한글 글자가 1.5px 아래로 처져 보여
    실측(잉크 기준 상 22.5 / 하 21.0)만큼 위로 당겼다. 눈에 맞춘 값이다. */
 .mm-panel-foot { border-top: 1px solid var(--ink-200); background: var(--ink-50); }
-.mm-panel-foot ul { max-width: 1280px; margin: 0 auto; padding: 17px 50px 19px;
+.mm-panel-foot ul { max-width: 1600px; margin: 0 auto; padding: 17px 50px 19px;
   list-style: none; display: flex; flex-wrap: wrap; align-items: center; }
-.mm-panel-foot li { padding: 0 14px; line-height: 1.2; }
+.mm-panel-foot li { padding: 0 14px; line-height: var(--lh-flat, 1); }
 .mm-panel-foot li:first-child { padding-left: 0; }
 .mm-panel-foot li + li { border-left: 1px solid var(--ink-200); }
 .mm-panel-foot a,

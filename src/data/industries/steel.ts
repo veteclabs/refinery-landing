@@ -8,20 +8,37 @@ export const steel: IndustryData = {
     '열처리 온도 ⁠· 냉각 곡선 ⁠· 압축공기 ⁠· 피크 전력을 하나의 구조로 연결하고, AI 에이전트가 품질 편차의 원인을 추적합니다. 철강 ⁠· 비철금속 ⁠· 소재 코팅 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 밝은 시트 띠가 대제목 줄을 가로지른다.
     // 10%로 낮추면 띠가 제목 아래로 내려가고 압연 롤 구조가 위쪽에 들어온다
     // (이동 여유 387px 중 135px).
-    imagePosition: 'center 10%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '철강 ⁠· 소재',
+    eyebrow: '철강 및 소재',
     title: '소재 품질과 에너지 효율을\n함께 확보합니다',
+    lede: '열처리 ⁠· 성형 ⁠· 코팅 공정에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 품질을 흔드는 변화를 먼저 감지하고 원인을 설명합니다. 목표전력 부하 제어부터 열처리 온도 패턴 분석, 진동 기반 설비 감시까지.',
   },
   challenges: {
-    dark: true,
-    title: '철강 공정 현장의 문제',
+    title: '지금 철강 및 소재 현장이\n겪는 문제입니다',
     subtitle: '열처리 ⁠· 성형 ⁠· 코팅 공정에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '공정 조건의 미세한 변화가 품질과 직결된다',
+      '열처리로 ⁠· 압축공기 ⁠· 냉각수가 연속으로 돈다',
+      '작은 조건 차이가 제품에 그대로 남는다',
+      '열처리는 설비 안정성과 에너지 제어를 함께 요구한다',
+      '온도 ⁠· 유지 시간 ⁠· 냉각 조건이 소재 특성을 정한다',
+      '하나만 맞춰서는 재현되지 않는다',
+      '에너지 흐름이 복잡하다',
+      '피크가 자주 튄다',
+      '에너지가 공정마다 흩어져 흐른다',
+      '고온 ⁠· 대전력 설비가 겹쳐 돈다',
+      '과소비 구간을 짚기 어렵다',
+      '최대 수요를 잡기 어렵다',
+    ],
     items: [
       {
         title: '공정 조건의 미세한 변화가 품질과 직결된다',
@@ -41,9 +58,9 @@ export const steel: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '철강 ⁠· 소재 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '철강 ⁠· 소재 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '최대 수요 전력 감시 ⁠· 목표전력 부하 제어',
@@ -87,10 +104,10 @@ export const steel: IndustryData = {
     title: '솔루션 구조',
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
-      { label: '현장', detail: '열처리로 ⁠· 압축공기 ⁠· 냉각수 ⁠· 성형 장비 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: '활용', detail: '공정 대시보드 ⁠· 피크 알람 ⁠· 품질 이력', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: '현장', detail: '열처리로 ⁠· 압축공기 ⁠· 냉각수 ⁠· 성형 장비 센서', icon: 'flow-site' },
+      { label: '연동', detail: 'SCADA ⁠· PLC ⁠· FEMS ⁠· Modbus TCP ⁠· CAN ⁠· LTE-M', icon: 'flow-connect' },
+      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'flow-refinery', highlight: true },
+      { label: '활용', detail: '공정 대시보드 ⁠· 피크 알람 ⁠· 품질 이력', icon: 'flow-use' },
     ],
     note: '기존 PLC⁠/⁠FEMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },

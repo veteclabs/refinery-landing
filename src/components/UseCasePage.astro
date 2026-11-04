@@ -461,7 +461,7 @@ const jsonLd = [
     word-break: keep-all;
   }
   .uc-faq-icon {
-    font-size: 14px; color: var(--text-dim, #8a94a3);
+    font-size: 14px; color: var(--text-dim, #7E8A98);
     flex-shrink: 0; margin-left: 12px; transition: transform .2s;
     -webkit-text-stroke: 0.3px currentColor;
   }
@@ -470,7 +470,7 @@ const jsonLd = [
      DOM에 그대로 남아 FAQPage 스키마·크롤링에는 영향이 없다. */
   .uc-faq-a {
     /* 같은 카드의 소제목(.uc-case-desc)과 같은 15px / 1.5. */
-    font-size: 15px; line-height: 1.5; color: var(--text-muted, #5b6472);
+    font-size: 15px; line-height: 1.5; color: var(--text-muted, #5A6776);
     overflow: hidden; max-height: 0; padding: 0 4px; opacity: 0;
     transition: max-height .4s cubic-bezier(.22,1,.36,1), padding .3s ease, opacity .3s ease;
     word-break: keep-all;
@@ -596,13 +596,13 @@ const jsonLd = [
   .uc-case--img:hover .uc-case-label { color: #fff; }
   .uc-case--img:hover .uc-case-img { transform: scale(1.04); }
 
-  .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
+  .uc-related { margin-top: 26px; font-size: 15px; color: #494F57; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 
   /* 템플릿 강조 밴드 — 전력관리·전력품질·공장 에너지관리도 같이 쓰는 공용 스타일이다.
      페이지별로 바꿀 땐 아래 .uc-redesigned 스코프에서 덮을 것. */
   .uc-template {
-    margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
+    margin-top: 24px; background: #EFF2F5; border: 1px solid #E3E7EC; border-radius: 14px;
     padding: 24px 26px;
   }
   /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
@@ -664,38 +664,38 @@ const jsonLd = [
      사진 위에서 글이 읽히도록 어두운 스크림을 덮고 텍스트를 흰색 계열로 바꾼다. */
   /* 사진이 도착하기 전에는 공통 .ind-hero의 밝은 회색(#F6F8FA)이 깔려,
      그 위 흰 글자가 안 보이고 화면이 한 번 번쩍였다.
-     스크림과 같은 색(#111316)을 밑판으로 깔아 첫 페인트부터 어두운 면이 되게 한다 —
+     스크림과 같은 색(#191F27)을 밑판으로 깔아 첫 페인트부터 어두운 면이 되게 한다 —
      사진은 그 뒤에 얹히므로 색이 바뀌는 순간이 없다. */
-  .uc-hero-bg { position: relative; overflow: hidden; background: #111316; }
+  /* 히어로는 첫 화면을 통째로 쓴다 — 산업 상세(.ind-hero-bg)와 같은 구성이다.
+     위아래 여백(180 / 100)은 그대로 두되 최소값으로만 쓰이고, 남는 높이는 글
+     위아래로 나뉜다. 위가 80px 넓어 글 덩어리가 화면 한가운데보다 조금 아래에
+     서는데, 머리에 고정 내비(70px)가 얹히므로 보이는 화면 기준으로는 그쪽이
+     가운데에 가깝다. */
+  .uc-hero-bg {
+    position: relative; overflow: hidden; background: #191F27;
+    /* 공통 .ind-hero 의 밝은 밑선(#E3E7EC)을 끈다 — 산업 상세(.ind-hero-bg)와
+       같다. 히어로가 화면을 꽉 채우고부터는 그 선이 접힘선에 놓여, 어두운
+       사진 아래 밝은 실선 한 줄이 그어진 꼴이 된다. */
+    border-bottom: none;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+  }
   .uc-hero-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover;
-    /* 세로 초점. 값을 낮출수록 사진의 위쪽이 보여 이미지가 아래로 내려간 것처럼 된다
-       (0% = 위쪽 끝, 50% = 가운데, 100% = 아래쪽 끝). 섹션 크기·위치는 그대로다. */
-    object-position: center 45%;
+    /* 세로 초점은 가운데로 둔다. 사진이 모두 16:9 라 밴드와 비율이 같고, 장면도
+       가운데에 담겨 있다(0% = 위쪽 끝, 50% = 가운데, 100% = 아래쪽 끝). */
+    object-position: center;
     pointer-events: none; user-select: none;
   }
-  /* 사진마다 담긴 장면이 달라 초점은 페이지별로 조정한다. */
-  .uc-sensor-monitoring .uc-hero-bg-img { object-position: center 65%; }
-  .uc-power-management .uc-hero-bg-img { object-position: center 25%; }
-  .uc-power-quality .uc-hero-bg-img { object-position: center 16%; }
-  .uc-factory-energy .uc-hero-bg-img { object-position: center 0%; }
-  /* 장비가 화면 가운데를 차지해 대제목과 부딪힌다. 살짝 키우고 원점을 왼쪽 변에
-     두어 오른쪽으로만 늘린다 — 에너지 최적화와 같은 방식이다(이동 여유가 0이 된다). */
-  .uc-quality-prediction .uc-hero-bg-img { object-position: center 38%; transform: scale(1.1); transform-origin: left center; }
-  /* 배터리 기둥이 정중앙이라 대제목과 시선이 부딪힌다. 확대해 가로 여유를 만들고
-     원점을 왼쪽 변에 두어 오른쪽으로만 늘린다(=사진이 오른쪽으로 160px 밀린다).
-     translateX 대신 transform-origin을 쓴 이유: 이동 상한을 계산할 필요 없이
-     구조상 여유가 0이 된다. 세로는 object-position 하나로만 움직인다(0%=맨 아래). */
-  .uc-energy-optimization .uc-hero-bg-img { object-position: center 36%; transform: scale(1.225); transform-origin: left center; }
   /* 스크림 — 좌측(글이 놓이는 쪽)을 더 진하게 해 대비를 확보한다 */
-  /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #111316.
+  /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #191F27.
      위 80% → 아래 50%로, 태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
   .uc-hero-bg::after {
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(17,19,22,.8) 0%, rgba(17,19,22,.5) 100%);
   }
-  .uc-hero-bg > .ind-container { position: relative; z-index: 1; }
+  .uc-hero-bg > .ind-container { position: relative; z-index: 1; width: 100%; }
   .uc-hero-bg h1 { color: #fff; }
   .uc-hero-bg .ind-lede { color: rgba(255,255,255,.82); }
   .uc-hero-bg .ind-crumb, .uc-hero-bg .ind-crumb a { color: rgba(255,255,255,.7); }
@@ -740,7 +740,7 @@ const jsonLd = [
 
   /* 헤더(.nav-inner)와 같은 박스 — 좌측이 로고 선에 정확히 맞는다.
      nav-footer.css의 .nav-inner: max-width 1280 / padding 0 48px, 900px 이하에서 24px. */
-  .uc-container--nav { max-width: 1280px; padding: 0 48px; }
+  .uc-container--nav { max-width: 1600px; padding: 0 48px; }
   @media (max-width: 900px) {
     .uc-container--nav { padding: 0 24px; }
   }
@@ -857,7 +857,7 @@ const jsonLd = [
   .uc-template-figure { margin: 0; }
   .uc-template-figure img {
     display: block; width: 100%; height: auto;
-    border: 1px solid #cfe0f0; border-radius: 12px; background: #fff;
+    border: 1px solid #E3E7EC; border-radius: 12px; background: #fff;
   }
   @media (max-width: 900px) {
     .uc-template--split { grid-template-columns: 1fr; gap: 24px; }
@@ -871,7 +871,7 @@ const jsonLd = [
      .ind-section만 대상이라 히어로(.ind-hero, 이미 uc-container--nav)와 CTA(.ind-cta)는 제외된다.
      선택자가 .uc-narrow(2개)보다 구체적(3개)이라 좁은 폭 제약도 함께 풀린다. */
   .uc-redesigned .ind-section .ind-container {
-    max-width: 1280px;
+    max-width: 1600px;
     padding: 0 48px;
   }
   /* 섹션 위아래 여백을 랜딩 본문 섹션과 같은 130px으로. (공통값은 84px)
@@ -906,7 +906,7 @@ const jsonLd = [
     font-size: 15px;
     font-weight: 400;
     background: transparent;
-    color: #111111;
+    color: #191F27;
     border: 1px solid rgba(17, 17, 17, 0.6);
     border-radius: 6px;
     transition: all .2s;
@@ -963,15 +963,15 @@ const jsonLd = [
 
   /* ───────────────────────────────────────────────────────────
      'Refinery는 이렇게 풉니다' 섹션을 랜딩 'From Data to Intelligence'(#platform)와
-     같은 구성으로. 실측값: 섹션·카드 면 #111316, 카드 테두리 #272B32,
-     제목 #EDEEF0, 설명 #959CA5, 아이콘 accent.
+     같은 구성으로. 실측값: 섹션·카드 면 #191F27, 카드 테두리 #292F37,
+     제목 #F6F8FA, 설명 #A0A8B3, 아이콘 accent.
      카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
      이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
      ─────────────────────────────────────────────────────────── */
-  .uc-redesigned .ind-soft { background: #111316; }
-  .uc-redesigned .ind-soft .ind-head h2 { color: #edeef0; }
+  .uc-redesigned .ind-soft { background: #191F27; }
+  .uc-redesigned .ind-soft .ind-head h2 { color: #F6F8FA; }
   .uc-redesigned .ind-soft .ind-card {
-    background: #111316; border: 1px solid #272b32;
+    background: #191F27; border: 1px solid #292F37;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
@@ -983,13 +983,13 @@ const jsonLd = [
   }
   .uc-redesigned .ind-soft .ind-card:hover,
   .uc-redesigned .uc-template:hover {
-    box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+    box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   }
-  .uc-redesigned .ind-soft .ind-card h3 { color: #edeef0; }
-  .uc-redesigned .ind-soft .ind-card p { color: #959ca5; }
+  .uc-redesigned .ind-soft .ind-card h3 { color: #F6F8FA; }
+  .uc-redesigned .ind-soft .ind-card p { color: #A0A8B3; }
 
   /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
-  /* 밴드가 섹션 배경(#111316)과 같은 색이라 1px 테두리로만 구분됐다.
+  /* 밴드가 섹션 배경(#191F27)과 같은 색이라 1px 테두리로만 구분됐다.
      오른쪽에서 배어 나오는 하늘색 글로우로 '여기부터 다른 이야기'를 표시한다.
      장식 이미지가 있는 쪽과 방향을 맞춰 빛이 한 곳에서 오는 것처럼 보이게 한다.
      글이 있는 왼쪽은 원래의 #111316이라 대비가 손상되지 않는다. */
@@ -1042,12 +1042,12 @@ const jsonLd = [
         rgba(118,166,215,.06) 40%,
         rgba(118,166,215,.02) 58%,
         rgba(118,166,215,0) 74%),
-      #111316;
-    border: 1px solid #272b32;
+      #191F27;
+    border: 1px solid #292F37;
   }
-  .uc-redesigned .uc-template h3 { color: #edeef0; }
-  .uc-redesigned .uc-template p { color: #959ca5; }
-  .uc-redesigned .uc-template-list li { color: #edeef0; }
+  .uc-redesigned .uc-template h3 { color: #F6F8FA; }
+  .uc-redesigned .uc-template p { color: #A0A8B3; }
+  .uc-redesigned .uc-template-list li { color: #F6F8FA; }
   .uc-redesigned .uc-template-list li i { color: #76a6d7; }
 
   /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
@@ -1063,7 +1063,7 @@ const jsonLd = [
   }
   .uc-redesigned .uc-narrow { max-width: 820px; }
 
-  /* 제목 행 — 홈 히어로(.hero-row)와 같은 구조: 좌측 제목, 우측 끝 링크, 하단 정렬.
+  /* 제목 행 — 좌측 제목, 우측 끝 링크, 하단 정렬.
      .ind-head의 max-width(640px)를 풀어야 링크가 컨테이너 우측 끝까지 간다. */
   .uc-head-row {
     max-width: none;
@@ -1157,7 +1157,7 @@ const jsonLd = [
     text-align: left;
     /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
        흰 배경이면 글자가 잠깐 보이지 않는다(이미지의 글자 자리 색과 같은 톤). */
-    background: #0c1015;
+    background: #191F27;
   }
   .uc-cta-bg-img {
     /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와
@@ -1220,7 +1220,7 @@ const jsonLd = [
   }
   /* 본문 섹션과 같은 선(헤더 로고~버튼)에 맞춘다. */
   .uc-redesigned .uc-cta-bg .ind-container {
-    max-width: 1280px;
+    max-width: 1600px;
     padding: 0 48px;
   }
   @media (max-width: 900px) {

@@ -8,20 +8,37 @@ export const energy: IndustryData = {
     'SCADA ⁠· EMS ⁠· 미터에 흩어진 에너지 데이터를 하나로 연결하고, AI 에이전트가 이상을 먼저 감지하며 ESG 리포트를 자동화합니다. 발전 ⁠· 송배전 ⁠· 유틸리티 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값은 45%이고, 낮출수록 사진 위쪽이 보여 이미지가 아래로
     // 내려간 것처럼 된다. 이 사진은 세로 이동 여유가 387px이라 30%면 45%보다
     // 58px 아래다.
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '에너지 ⁠· 유틸리티',
+    eyebrow: '에너지 및 유틸리티',
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
+    lede: 'SCADA ⁠· EMS ⁠· 스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지.',
   },
   challenges: {
-    dark: true,
-    title: '에너지 현장의 문제',
+    title: '지금 에너지 및 유틸리티 현장이\n겪는 문제입니다',
     subtitle: '발전 ⁠· 송배전 ⁠· 유틸리티 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '데이터가 흩어져 있다',
+      '전체 현황을 한눈에 보기 어렵다',
+      'SCADA ⁠· EMS ⁠· 과금이 따로 집계된다',
+      '고장을 사후에 안다',
+      '정지 ⁠· 사고 뒤에야 이상이 드러난다',
+      '예방적 대응이 어렵다',
+      'ESG ⁠· 규제 리포트가 수작업이다',
+      '탄소 배출 집계를 사람이 취합한다',
+      '리포트에 시간이 걸리고 오류가 난다',
+      '실시간 대응이 늦다',
+      '수요 ⁠· 요금 ⁠· 기상 변동을 따라가지 못한다',
+      '판단에 여러 화면을 오간다',
+    ],
     items: [
       {
         title: '데이터가 흩어져 있다',
@@ -46,40 +63,49 @@ export const energy: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
+    title: '리파이너리가\n이렇게 해결합니다',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾼다.
-    subtitle: '에너지 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    // 둘째 줄 나눔만 <br>을 직접 써서 클래스를 단다 — 카드가 아래로 내려가는
+    // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.
+    // <br> 뒤 공백은 일부러 둔 것이다. 숨겼을 때 '실제로 하는'이 붙지 않게 하고,
+    // 보일 때는 줄 첫머리 공백이라 렌더링에 영향이 없다.
+    subtitle: '에너지 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '분산 설비 통합 관제',
         problem: 'SCADA ⁠· EMS ⁠· 미터 데이터가 분리되어 어려운 통합 현황 파악',
         approach: '현장 데이터를 온톨로지로 연결해 설비 ⁠· 계통 ⁠· 지점을 하나의 구조로 정의합니다.',
         outcome: '발전 ⁠· 송배전 ⁠· 소비 현황과 알람의 한 화면 실시간 관제',
+image: { src: '/industries/energy-solutions/energy-01-integrated-monitoring.svg', width: 560, height: 420 },
       },
       {
         title: '설비 예지보전',
         problem: '이상이 정지 ⁠· 사고로 번진 뒤에야 이뤄지는 대응',
         approach: '시계열 데이터에서 평소와 다른 패턴을 학습해 이상 징후를 조기에 포착합니다.',
         outcome: '고장 전 선제 대응으로 계획 외 정지와 다운타임 감소',
+image: { src: '/industries/energy-solutions/energy-02-predictive-maintenance.svg', width: 560, height: 420 },
       },
       {
         title: '에너지 효율 ⁠· 피크 최적화',
         problem: '소비 패턴이 보이지 않아 발생하는 낭비와 피크 요금',
         approach: '설비 ⁠· 구간별 소비를 분석하고, 요금 ⁠· 수요 신호에 따른 조정안을 제시합니다.',
         outcome: '피크 저감과 효율 개선으로 운영비 절감',
+image: { src: '/industries/energy-solutions/energy-03-peak-optimization.svg', width: 560, height: 420 },
       },
       {
         title: 'ESG ⁠· 탄소 리포트 자동화',
         problem: '수작업으로 이뤄지는 배출 ⁠· 소비 집계와 규제 리포트',
         approach: '현장 데이터에서 배출 ⁠· 소비 지표를 자동 집계하고 리포트를 생성합니다.',
         outcome: '출처까지 추적 가능한 규제 대응 리포트 자동 생성',
+image: { src: '/industries/energy-solutions/energy-04-esg-report.svg', width: 560, height: 420 },
       },
       {
         title: '실시간 이상 감지 ⁠· 알람',
         problem: '놓치거나 뒤늦게 인지하는 이상 신호',
         approach: 'AI 에이전트가 실시간 데이터에서 이상을 감지하고 원인과 조치를 함께 제안합니다.',
         outcome: '문제의 조기 인지와 근거 있는 다음 조치 확보',
+image: { src: '/industries/energy-solutions/energy-05-realtime-alarm.svg', width: 560, height: 420 },
       },
     ],
   },
@@ -87,12 +113,12 @@ export const energy: IndustryData = {
     title: '솔루션 구조',
     subtitle: '현장 데이터가 의미를 얻고 의사결정으로 이어지는 흐름입니다.',
     steps: [
-      { label: '현장', detail: '발전 ⁠· 변전 설비 ⁠· 스마트미터 ⁠· 센서', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: '연동', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC UA ⁠· DNP3 ⁠· IEC 61850', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: '활용', detail: '통합 대시보드 ⁠· 알람 ⁠· ESG 리포트', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: '현장', detail: '발전 ⁠· 변전 설비 ⁠· 스마트미터 ⁠· 센서', icon: 'flow-site' },
+      { label: '연동', detail: 'SCADA ⁠· EMS ⁠· Modbus ⁠· OPC UA ⁠· DNP3 ⁠· IEC 61850', icon: 'flow-connect' },
+      { label: 'Refinery', detail: '온톨로지 ⁠· AI 에이전트 ⁠· 룰⁠/⁠자동화', icon: 'flow-refinery', highlight: true },
+      { label: '활용', detail: '통합 대시보드 ⁠· 알람 ⁠· ESG 리포트', icon: 'flow-use' },
     ],
-    note: '기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
+    note: '<span class="note-s">기존 SCADA⁠/⁠EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고,</span><span class="note-s">없는 현장은 수집부터 새로 구축합니다.</span>',
   },
   benefits: {
     title: '도입 효과',
@@ -134,7 +160,7 @@ export const energy: IndustryData = {
     title: '연동 시스템',
     subtitle: '에너지 현장에서 흔히 쓰는 시스템 ⁠· 프로토콜과 연결됩니다.',
     systems: ['SCADA', 'EMS', '스마트미터 ⁠· AMI', 'Modbus', 'OPC UA', 'DNP3', 'IEC 61850', 'ERP'],
-    note: '목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다. 자세한 내용은 문의해 주세요.',
+    note: '<span class="note-s">목록에 없는 시스템도 표준 프로토콜 ⁠· API로 연동 가능합니다.</span><span class="note-s">자세한 내용은 문의해 주세요.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',

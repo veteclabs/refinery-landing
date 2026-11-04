@@ -10,21 +10,38 @@ export const machineryEn: IndustryData = {
     'Connect shared utilities such as compressed air, HVAC and cooling into one structure, and let an AI agent locate where the energy concentrates. Refinery for machinery and plant operations built on large equipment.',
   hero: {
     dark: true,
-    image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1243 },
+    image: { src: '/industries/machinery-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 샤프트가 대제목 줄을 정통으로 가로지른다.
     // 30%로 낮추면 축이 제목 오른쪽으로 비켜간다(이동 여유 360px 중 54px).
     // 글자 대비도 13.37:1에서 14.06:1로 오른다. 15%는 대비가 더 높지만 축이
     // 위쪽에 잘려 구도가 답답해진다.
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Machinery & Plant',
     title: 'Large equipment and process,\ncontrolled together in real time',
+    lede: 'Data scattered across large equipment running around the clock and several energy sources is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From demand-matched air compressor control to HVAC inverter control and consolidated carbon monitoring.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nplant sites',
+    title: 'These are the problems on\nmachinery and plant sites today',
     subtitle: 'Recurring problems where large equipment runs non-stop.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Several energy sources run at once',
+      'Compressed air, electricity, heating, cooling and HVAC all run',
+      'Where the energy goes never becomes clear',
+      'Equipment is tightly coupled',
+      'One machine carries through to the whole process',
+      'The plant cannot pause',
+      'Process conditions must still hold',
+      'No obvious moment to intervene',
+      'Aging, cost and rules arrive at once',
+      'Equipment keeps aging',
+      'Energy cost keeps rising',
+      'Equipment and energy must be seen as one',
+    ],
     items: [
       {
         title: 'Several energy sources run at once',
@@ -49,9 +66,9 @@ export const machineryEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a plant site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a plant site.',
+    layout: 'table',
     items: [
       {
         title: 'Demand-based compressed air control and monitoring',
@@ -95,10 +112,10 @@ export const machineryEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'Plant EMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Utility dashboard ⁠· energy intensity reports ⁠· emission management', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Air compressors ⁠· HVAC ⁠· cooling equipment ⁠· large machinery sensors', icon: 'flow-site' },
+      { label: 'Connect', detail: 'Plant EMS ⁠· SCADA ⁠· PLC ⁠· ERP ⁠· Modbus ⁠· BACnet', icon: 'flow-connect' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'flow-refinery', highlight: true },
+      { label: 'Use', detail: 'Utility dashboard ⁠· energy intensity reports ⁠· emission management', icon: 'flow-use' },
     ],
     note: 'Where a plant EMS or SCADA already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
   },

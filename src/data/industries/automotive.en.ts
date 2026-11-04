@@ -13,16 +13,33 @@ export const automotiveEn: IndustryData = {
     image: { src: '/industries/automotive-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 섀시가 대제목 줄에 걸린다. 30%로 낮춰
     // 사진 위쪽을 보이면 섀시가 제목 아래로 내려간다(이동 여유 239px 중 36px).
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Automotive & Mobility',
     title: 'Process flow and quality consistency,\ncontrolled with data',
+    lede: 'Equipment and energy data scattered across press, body, paint and assembly lines is connected through an ontology, and an AI agent catches early signs first and explains the cause. From rotating-equipment predictive maintenance to per-line power analysis and output-linked energy intensity.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nautomotive sites',
+    title: 'These are the problems on\nautomotive and mobility sites today',
     subtitle: 'Recurring problems across press, body, paint and assembly.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'One process shakes the whole line',
+      'Press, body, paint and assembly are coupled end to end',
+      'A single machine stops the whole line',
+      'High power and fine control at once',
+      'High-power equipment shares the line',
+      'Fine control runs on that same line',
+      'Tuning one side makes the other unstable',
+      'Equipment, energy and output stay apart',
+      'Electrification demands all three together',
+      'Quality standards keep tightening',
+      'The data sits in separate systems',
+      'Nothing connects across those systems',
+    ],
     items: [
       {
         title: 'One process shakes the whole line',
@@ -42,9 +59,9 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an automotive site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an automotive site.',
+    layout: 'table',
     items: [
       {
         title: 'Vibration-based predictive maintenance for motors and rotating equipment',
@@ -82,12 +99,12 @@ export const automotiveEn: IndustryData = {
     title: 'How it fits together',
     subtitle: 'How field data gains meaning and turns into a decision.',
     steps: [
-      { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'ph-broadcast', image: '/flow/site.webp' },
-      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC UA', icon: 'ph-plugs-connected', image: '/flow/connect.webp' },
-      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'ph-sparkle', highlight: true, image: '/flow/refinery.webp' },
-      { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'ph-monitor', image: '/flow/use.webp' },
+      { label: 'Site', detail: 'Presses ⁠· paint ⁠· assembly equipment ⁠· motors ⁠· vibration sensors', icon: 'flow-site' },
+      { label: 'Connect', detail: 'SCADA ⁠· PLC ⁠· MES ⁠· Modbus TCP⁠/⁠IP ⁠· RS-485 ⁠· OPC UA', icon: 'flow-connect' },
+      { label: 'Refinery', detail: 'Ontology ⁠· AI agent ⁠· rules and automation', icon: 'flow-refinery', highlight: true },
+      { label: 'Use', detail: 'Line dashboard ⁠· predictive maintenance alerts ⁠· quality traceability', icon: 'flow-use' },
     ],
-    note: 'Where MES or PLC already exists, a layer sits on top of it and integrates bidirectionally rather than replacing it. Where none exists, collection is built from the ground up.',
+    note: '<span class="note-s"><span class="note-s2">Where MES or PLC already exists, a layer sits on top of it</span><span class="note-s2">and integrates bidirectionally rather than replacing it.</span></span><span class="note-s">Where none exists, collection is built from the ground up.</span>',
   },
   benefits: {
     title: 'What you gain',
@@ -117,9 +134,9 @@ export const automotiveEn: IndustryData = {
   },
   integrations: {
     title: 'Systems we connect to',
-    subtitle: 'The systems and protocols commonly used on automotive sites.',
+    subtitle: '<span class="note-s">The systems and protocols</span><span class="note-s">commonly used on automotive sites.</span>',
     systems: ['SCADA', 'PLC', 'MES', 'ERP', 'Modbus TCP⁠/⁠IP', 'RS-485', 'OPC UA', 'LTE'],
-    note: 'Systems not listed here can still be connected over standard protocols and APIs. Get in touch and we will walk through it.',
+    note: '<span class="note-s"><span class="note-s2">Systems not listed here can still be connected</span><span class="note-s2">over standard protocols and APIs.</span></span><span class="note-s">Get in touch and we will walk through it.</span>',
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
