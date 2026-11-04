@@ -2210,21 +2210,26 @@
         rgba(10, 14, 20, .46) 62%,
         rgba(10, 14, 20, .30) 100%);
     }
-    /* 제목 — 플랫폼 섹션의 세 줄(#platform .pf-lead)과 같은 한 벌로 맞춘다.
-       크기 · 굵기 · 자간 · 행간 · 색 다섯 값이 그쪽과 같다. 188행 h2 의
-       clamp(28px, 4vw, 45px) 를 clamp(22px, 3vw, 30px) 로 덮는다.
-       ⚠️ margin 은 맞추지 않는다. pf-lead 는 0 0 40px 인데, 여기는 아래
-          버튼 칸(.hero-actions)이 margin-top: 40px 을 제 몫으로 쥐고 있어
-          같이 주면 여백이 두 번 붙는다. */
+    /* 이 섹션은 히어로와 같은 두 단이다 — 위 워드마크가 대제목, 이 문장이
+       소제목이다. 그래서 크기도 히어로의 두 값을 그대로 가져온다.
+         워드마크(.cta-eyebrow)  <- #hero h1       clamp(36px, 5vw, 60px)
+         이 문장(#cta h2)        <- #hero .hero-sub 16px (900 이하 15px)
+       h2 태그이지만 역할은 소제목이라 188행 h2 의 title 체계
+       (clamp(28px, 4vw, 45px) · 600 · --ls-tight · --lh-title)를 통째로 덮는다.
+       ⚠️ 색은 히어로를 따르지 않는다. 히어로 소제목은 흰 면 위 #5A6776 이고
+          여기는 영상 위라 밝은 쪽(#F6F8FA)을 쓴다.
+       ⚠️ margin 은 맞추지 않는다. 아래 버튼 칸(.hero-actions)이
+          margin-top: 40px 을 제 몫으로 쥐고 있어 같이 주면 두 번 붙는다. */
     #cta h2 {
-      font-size: clamp(22px, 3vw, 30px);
-      font-weight: 600;
-      letter-spacing: var(--ls-tight);
-      line-height: var(--lh-title);
+      font-size: 16px;
+      font-weight: 300;
+      letter-spacing: normal;
+      line-height: var(--lh-body);
       color: #F6F8FA;
       margin-bottom: 0;
       word-break: keep-all;
     }
+    @media (max-width: 900px) { #cta h2 { font-size: 15px; } }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
        면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */
     #cta .btn-primary { color: #fff; border-color: transparent; padding: 9px 22px; font-size: 15px; }
@@ -2239,14 +2244,15 @@
       /* 글꼴만 본문 한 벌(Roboto/Pretendard)에서 JetBrains Mono 로 바꾼다 —
          903행 코드 캡션이 쓰는 것과 같은 한 벌이다. BaseLayout 이 400/500/600 을
          이미 받아 두고 있어 따로 받을 것이 없다.
-         ⚠️ 이 줄은 아래 제목과 따로 간다. 한때 제목에 맞춰 둔 값이지만, 제목이
-            플랫폼 섹션 세 줄(#platform .pf-lead)로 내려갈 때 따라 내리지
-            않는다 — 45px / 500 / #fff 로 고정이다.
-         크기는 px 로 45 만 박으면 좁은 폭에서 이 줄만 그대로 남으므로 clamp 로
-         둔다. 자간은 기본값(normal)이라 적지 않는다 — 고정폭 글꼴이라 글자
-         사이가 이미 벌어져 있다. */
+         이 줄이 이 섹션의 대제목이다 — 크기는 히어로 제목(#hero h1, 807행)의
+         clamp(36px, 5vw, 60px) 을 그대로 쓴다. 아래 문장은 소제목이라 히어로
+         소제목 값(16px)으로 내려간다.
+         ⚠️ 굵기 · 색은 히어로를 따르지 않는다. 500 / #fff 그대로다 —
+            고정폭 글꼴이라 같은 굵기에서도 획이 더 굵게 보인다.
+         ⚠️ 자간은 기본값(normal)이라 적지 않는다. 고정폭이라 글자 사이가 이미
+            벌어져 있다. */
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: clamp(28px, 4vw, 45px); font-weight: 500; line-height: 1;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 500; line-height: 1;
       color: #fff;
       margin: 0 0 24px;
     }
