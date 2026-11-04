@@ -2233,8 +2233,11 @@
     }
     @media (max-width: 900px) { #cta h2 { font-size: 17px; } }
     /* 테두리는 지우되 선 자체는 남겨 투명하게 둔다 — border: 0 으로 없애면 호버에서
-       면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다. */
-    #cta .btn-primary { color: #fff; border-color: transparent; padding: 9px 22px; font-size: 15px; }
+       면이 생길 때 버튼이 2px 작아진다. 호버 색은 헤더 버튼과 같은 brand-600 이다.
+       크기는 95행 기본값(6/18 · 14px)에서 두 단 키운 값이다 — 9/22 · 15px 를
+       거쳐 13/30 · 17px 로 왔다. 이 섹션만 버튼 하나가 혼자 서 있어 기본
+       크기로는 영상 위에서 작아 보인다. */
+    #cta .btn-primary { color: #fff; border-color: transparent; padding: 13px 30px; font-size: 17px; }
     #cta .btn-primary:hover { background: #5A8FC5; border-color: #5A8FC5; }
     /* 제목 위 한 줄 — 제품 이름과 범주를 붙여 쓴 워드마크다.
        ⚠️ 한때 여기 있던 #cta p 규칙(16px · 흰색 75% · max-width 540 ·
