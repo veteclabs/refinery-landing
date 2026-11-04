@@ -2222,10 +2222,11 @@
        ⚠️ 자간을 벌린다(.06em). 이름 + 범주를 붙여 쓴 짧은 줄이라, 자간이
           없으면 제목과 같은 밀도로 보여 한 덩어리로 읽힌다. */
     #cta .cta-eyebrow {
-      /* 크기는 아래 제목과 같은 값을 쓴다 — 188행 h2 의 clamp 를 그대로 적는다.
-         px 로 45 만 박으면 좁은 폭에서 제목만 줄고 이 줄은 그대로 남는다. */
-      font-size: clamp(28px, 4vw, 45px); font-weight: 600; letter-spacing: .06em; line-height: 1;
-      color: rgba(255,255,255,0.72);
+      /* 크기 · 색 · 굵기는 아래 제목과 같은 값을 쓴다(2213행 #cta h2 와 188행 h2).
+         크기는 px 로 45 만 박으면 좁은 폭에서 제목만 줄고 이 줄은 그대로 남으므로
+         clamp 를 그대로 적는다. 자간만 제목과 다르다. */
+      font-size: clamp(28px, 4vw, 45px); font-weight: 500; letter-spacing: .06em; line-height: 1;
+      color: #fff;
       margin: 0 0 24px;
     }
     /* 푸터는 nav-footer.css(Footer 컴포넌트 소유)가 전부 담당한다. 여기에는 없다.
