@@ -2432,16 +2432,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  {/* 배경 영상 — 모터 디지털 트윈. 1920x1080 · 10초 · 소리 없음.
+  {/* 배경 영상 — 모여드는 결. 1600x900 · 12초 · 소리 없음.
       ⚠️ preload="none" 이다. 자동으로 받지 않고, 아래 스크립트가 동작 줄이기를
-         확인한 뒤에만 받아서 튼다. 끄고 있는 사람은 포스터 한 장(217KB)만 받는다.
+         확인한 뒤에만 받아서 튼다. 끄고 있는 사람은 포스터 한 장(62KB)만 받는다.
       ⚠️ poster 가 곧 정지 화면이라 따로 <img> 를 두지 않는다. 두 장을 겹치면
          같은 그림을 두 번 받는다.
       ⚠️ webm 을 mp4 보다 먼저 적는다 — 브라우저는 처음 트는 것을 고르는데
-         webm 이 1927KB 로 mp4(2124KB)보다 작다. */}
+         webm 이 223KB 로 mp4(770KB)보다 작다. */}
   <video
     class="cta-bg-video"
-    poster="/cta/motor-twin-poster.jpg"
+    poster="/cta/cta-converge-poster.jpg"
     muted
     loop
     playsinline
@@ -2450,11 +2450,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     tabindex="-1"
     style="position:absolute;max-width:none;pointer-events:none;user-select:none;"
   >
-    <source src="/cta/motor-twin-cta.webm" type="video/webm" />
-    <source src="/cta/motor-twin-cta.mp4" type="video/mp4" />
+    <source src="/cta/cta-converge.webm" type="video/webm" />
+    <source src="/cta/cta-converge.mp4" type="video/mp4" />
   </video>
   <div class="container" style="position:relative;z-index:1;">
-    <p class="cta-eyebrow">흩어진 현장을 하나의 운영체제로</p>
     <h2>지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
     <div class="hero-actions" style="justify-content:center;margin-top:40px;">
       <a href="/contact" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">데모 신청하기</a>
