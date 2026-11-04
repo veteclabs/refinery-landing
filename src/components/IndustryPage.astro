@@ -244,7 +244,7 @@ const lines = (s: string) => s.split('\n');
                     <div><dt>{T.outcome}</dt><dd class="ind-uc-out">{u.outcome}</dd></div>
                   </dl>
                 </div>
-                {u.image && (
+                {u.image ? (
                   /* alt 는 비운다 — 바로 옆이 같은 항목의 이름이라 낭독기가 같은 말을
                      두 번 읽을 까닭이 없다. */
                   <img
@@ -256,6 +256,12 @@ const lines = (s: string) => s.split('\n');
                     loading="lazy"
                     decoding="async"
                   />
+                ) : (
+                  /* 그림이 아직 없는 산업은 빈 카드를 그 자리에 둔다 — 상자 크기 ·
+                     둥글기 · 격자 자리를 그림과 똑같이 쓰려고 .ind-uc-img 를 함께
+                     단다(격자 분기도 :has(.ind-uc-img) 로 보므로 두 칸이 유지된다).
+                     내용이 없으니 낭독기에서는 숨긴다. */
+                  <div class="ind-uc-img ind-uc-img-ph" aria-hidden="true"></div>
                 )}
               </li>
             ))}

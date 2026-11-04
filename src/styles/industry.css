@@ -1492,6 +1492,10 @@ img { max-width: 100%; height: auto; }
   /* 둥글기는 사이트 공통값(--radius 12px)이다. */
   border-radius: var(--radius);
 }
+/* 그림이 아직 없는 자리 — 면만 둔 빈 카드다. 색은 디자인 시스템의 카드 면
+   (--bg-card)이고, 테두리도 글자도 두지 않는다. 그림이 들어오면 데이터에
+   image 를 적으면 되고 CSS 는 손대지 않는다. */
+.ind-uc-img-ph { background: var(--bg-card); }
 .ind-uc-text h3 {
   margin: 0 0 16px;
   font-size: 24px; font-weight: 650;
