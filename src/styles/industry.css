@@ -181,6 +181,10 @@ img { max-width: 100%; height: auto; }
   background-size: 280px 100%;
   animation: indFlowSweep 5.2s linear infinite;
 }
+/* 화면 밖에서는 멈춘다 — 아래 스크립트가 .is-paused 를 붙인다.
+   ⚠️ 가상 요소라 클래스로 끌 수밖에 없다. 요소에 인라인 style 을 줘도
+      ::after 의 애니메이션에는 닿지 않는다(그렇게 넣었다가 고쳤다). */
+.ind-page .ind-flow.is-paused::after { animation-play-state: paused; }
 @keyframes indFlowSweep {
   from { background-position-x: -280px; }
   to { background-position-x: calc(100% + 280px); }
