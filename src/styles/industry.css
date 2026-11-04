@@ -1507,7 +1507,14 @@ img { max-width: 100%; height: auto; }
    ⚠️ 라벨 칸은 고정폭이다. 국문은 두 글자(문제 · 접근 · 성과)라 저절로 맞지만
       영문은 Problem · Approach · Outcome 으로 길이가 달라 글 시작선이 어긋난다. */
 .ind-uc-dl { margin: 0; display: grid; gap: 10px; max-width: 58ch; }
-.ind-uc-dl > div { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+/* ⚠️ 라벨 칸(첫 값)은 알약 폭에 2px 만 더한 값이다. 알약은 justify-self: start
+   라 칸을 다 쓰지 않으므로, 칸이 넓으면 그 남은 자리가 gap 에 더해져 라벨과
+   문장 사이가 벌어진다 — 56px 일 때 알약 42px + 빈 14px + gap 14px 으로
+   눈에 보이는 빈틈이 28px 이었다. 44px 으로 좁혀 16px 이 됐다.
+   2px 여유는 글꼴 렌더링이 브라우저마다 1~2px 다르기 때문이다. 0 으로 맞추면
+   알약이 칸을 넘친다. 칸을 고정으로 두는 것은 세 줄의 문장 시작선을 맞추려는
+   것이다 — max-content 로 두면 줄마다 라벨 폭을 따라 들쭉날쭉해진다. */
+.ind-uc-dl > div { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: baseline; }
 /* 문제 · 접근 · 성과 — 면을 채운 알약 라벨.
    ⚠️ justify-self: start 가 있어야 칸(56px) 을 다 채우지 않고 글자만큼만 선다.
       격자 칸은 기본이 stretch 라, 없으면 알약이 칸 폭까지 늘어난다.
@@ -1531,8 +1538,10 @@ img { max-width: 100%; height: auto; }
 }
 /* 성과 — 끝점이라 한 단 진하게 둔다. */
 .ind-uc-out { color: #5A6776; font-weight: 500; }
-/* 영문 라벨은 길다 — 칸을 넓혀 글 시작선을 맞춘다. */
-.ind-en .ind-uc-dl > div { grid-template-columns: 86px minmax(0, 1fr); }
+/* 영문 라벨은 길다 — 칸을 넓혀 글 시작선을 맞춘다. 가장 긴 Approach 가
+   76px 이라 78px 이다(국문과 같은 2px 여유). Problem 69 · Outcome 72 는
+   그보다 짧아 그 줄만 빈틈이 몇 px 넓다 — 시작선을 맞추는 대가다. */
+.ind-en .ind-uc-dl > div { grid-template-columns: 78px minmax(0, 1fr); }
 @media (max-width: 900px) {
   .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 0; padding: 32px 0; }
   .ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }
