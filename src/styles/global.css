@@ -2258,9 +2258,12 @@
          ⚠️ 굵기 · 색은 히어로를 따르지 않는다. 히어로 제목은 600 인데 여기는
             500 이다(JetBrains Mono 500 -> Roboto 400 -> 500 순으로 옮겨 온
             값이다. 고정폭에서 비례폭으로 바꾸며 한 단 가벼워 보여 되올렸다).
-            색은 #fff 그대로다. */
+            색은 #fff 그대로다.
+         행간도 히어로 제목과 같은 --lh-display(1.25)다. 한때 1.15 를 직접
+         박아 두었는데 토큰에 없는 값이었다 — 가장 조밀한 것이 --lh-flat(1,
+         한 줄짜리 알약 · 탭)이고 그다음이 --lh-display 다. */
       font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(36px, 5vw, 60px); font-weight: 500; line-height: 1.15;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 500; line-height: var(--lh-display);
       color: #fff;
       margin: 0 0 24px;
     }
