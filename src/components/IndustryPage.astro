@@ -372,5 +372,26 @@ const lines = (s: string) => s.split('\n');
       </div>
     </section>
   </main>
+  <script is:inline>
+    {/* 과제 라벨 줄 — 섹션이 화면에 있을 때만 흐른다.
+        ⚠️ 산업 페이지는 5,000px 가 넘는다. 그냥 두면 아래 섹션을 읽는 내내
+           보이지도 않는 애니메이션이 돈다(실측 CPU 3.2%).
+        ⚠️ 못 믿을 때는 '도는 쪽' 으로 둔다 — IntersectionObserver 가 없거나
+           콜백을 놓치면 지금처럼 계속 돌 뿐, 멈춘 채 굳지 않는다.
+        ⚠️ animation-play-state 는 멈춘 프레임에서 그대로 이어진다. 다시
+           보일 때 튀지 않는다. */}
+    (function () {
+      var sec = document.querySelector('.ind-challenges');
+      if (!sec || !('IntersectionObserver' in window)) return;
+      var tracks = sec.querySelectorAll('.ind-chal-track');
+      if (!tracks.length) return;
+      new IntersectionObserver(function (es) {
+        var on = es[0].isIntersecting;
+        for (var i = 0; i < tracks.length; i++) {
+          tracks[i].style.animationPlayState = on ? '' : 'paused';
+        }
+      }, { rootMargin: '200px' }).observe(sec);
+    })();
+  </script>
   <Footer />
 </BaseLayout>
