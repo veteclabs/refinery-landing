@@ -2500,15 +2500,11 @@ the ontology finds the answer</h3>
         var n = (el.textContent || '').length || 1;
         var dur = n * PER;
         el.style.setProperty('--cta-wm-w', el.scrollWidth + 'px');
-        el.style.animationDuration = i === 0
-          ? dur + 'ms, ' + dur + 'ms'
-          : dur + 'ms, 0s, 1060ms';
-        el.style.animationDelay = i === 0
-          ? at + 'ms, ' + at + 'ms'
-          : at + 'ms, ' + at + 'ms, ' + (at + dur) + 'ms';
-        el.style.animationTimingFunction = i === 0
-          ? 'steps(' + n + '), step-end'
-          : 'steps(' + n + '), step-end, step-end';
+        /* 두 줄이 같은 한 쌍을 쓴다 — 타자와 커서가 같은 길이·같은 시작이라
+           커서는 그 줄이 쳐지는 동안만 서고 끝나는 순간 꺼진다. */
+        el.style.animationDuration = dur + 'ms, ' + dur + 'ms';
+        el.style.animationDelay = at + 'ms, ' + at + 'ms';
+        el.style.animationTimingFunction = 'steps(' + n + '), step-end';
         at += dur + GAP;
       });
       w.classList.add('is-typing');
