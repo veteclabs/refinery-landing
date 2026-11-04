@@ -2247,14 +2247,60 @@
          이 줄이 이 섹션의 대제목이다 — 크기는 히어로 제목(#hero h1, 807행)의
          clamp(36px, 5vw, 60px) 을 그대로 쓴다. 아래 문장은 소제목이라 히어로
          소제목 값(16px)으로 내려간다.
-         ⚠️ 굵기 · 색은 히어로를 따르지 않는다. 500 / #fff 그대로다 —
-            고정폭 글꼴이라 같은 굵기에서도 획이 더 굵게 보인다.
-         ⚠️ 자간은 기본값(normal)이라 적지 않는다. 고정폭이라 글자 사이가 이미
-            벌어져 있다. */
-      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: clamp(36px, 5vw, 60px); font-weight: 500; line-height: 1;
+         ⚠️ 글꼴은 본문 한 벌(Roboto)이다. 한때 JetBrains Mono 였는데, 그때는
+            고정폭이라 타자 모션을 ch 단위로 셀 수 있었다. 지금은 글자 폭이
+            제각각이라 스크립트가 줄 폭을 재서 넘긴다(아래 --cta-wm-w).
+         ⚠️ 굵기 · 색은 히어로를 따르지 않는다. 히어로 제목은 600 인데 여기는
+            400 이다. 색은 #fff 그대로다. */
+      font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 400; line-height: 1.15;
       color: #fff;
       margin: 0 0 24px;
+    }
+    /* 두 줄로 끊는다. 줄마다 제 상자를 가져야 타자 모션이 줄 단위로 돈다.
+       ⚠️ width: max-content 가 필요하다. block 기본값(auto)이면 상자가 내용
+          너비를 꽉 채워, 스크립트가 재는 scrollWidth 가 글자 폭이 아니라 칸
+          폭(1440 에서 1344px)으로 잡힌다 — 글자가 다 나온 뒤에도 커서가 칸
+          오른쪽 끝에 가서 선다. */
+    #cta .cta-wm-l { display: block; width: max-content; max-width: 100%; white-space: pre; }
+
+    /* ───── 타자 모션
+       폭을 0 에서 그 줄의 제 폭까지 steps() 로 늘린다.
+       ⚠️ 글꼴이 고정폭이 아니라 ch 로는 셀 수 없다. 스크립트가 줄마다 제 폭을
+          재서 --cta-wm-w 로 넘기고, 글자 수만큼의 steps() · 재생 시간도 함께
+          인라인으로 건다. 그래서 문구를 바꿔도 CSS 는 손댈 것이 없다.
+       ⚠️ 폭이 고르게 나뉘므로 글자 폭이 다른 만큼 한 칸에 한 글자가 딱 맞지는
+          않는다. 'i' 뒤에 'm' 이 오는 자리에서 반 글자가 먼저 보인다.
+       ⚠️ .is-typing 이 붙은 동안에만 돈다. 이 클래스는 CTA 가 화면에 들어올 때
+          스크립트가 한 번 붙인다 — 기본 상태는 글자가 다 보이는 정지 화면이라,
+          스크립트가 안 돌아도 · 낭독기에서도 전문이 그대로 남는다.
+       ⚠️ 커서는 border-right 다. 색을 step-end 로 끊어 켜고 끈다 — 기본 타이밍
+          함수로 두면 색이 서서히 번져 깜빡임이 뭉갠다.
+       ⚠️ 두 번째 줄은 animation 을 셋 건다. 뒤에 적은 것이 같은 속성을 이기므로
+          타자 -> 커서 켜기 -> 깜빡임 순서를 지킨다. */
+    #cta .is-typing .cta-wm-l {
+      width: 0; overflow: hidden;
+      border-right: .04em solid transparent;
+    }
+    #cta .is-typing .cta-wm-l:nth-child(1) {
+      animation-name: cta-type, cta-caret-off;
+      animation-fill-mode: forwards, forwards;
+    }
+    #cta .is-typing .cta-wm-l:nth-child(2) {
+      animation-name: cta-type, cta-caret-on, cta-blink;
+      animation-fill-mode: forwards, forwards, none;
+      animation-iteration-count: 1, 1, infinite;
+    }
+    @keyframes cta-type { to { width: var(--cta-wm-w, 100%) } }
+    @keyframes cta-caret-off { from { border-right-color: rgba(255,255,255,.85) }
+                               to   { border-right-color: transparent } }
+    @keyframes cta-caret-on  { to   { border-right-color: rgba(255,255,255,.85) } }
+    @keyframes cta-blink { 0% { border-right-color: rgba(255,255,255,.85) }
+                           50% { border-right-color: transparent } }
+    /* 동작 줄이기 — 스크립트가 클래스를 안 붙이지만, 이미 붙은 뒤 설정을 바꾼
+       경우까지 막는다. */
+    @media (prefers-reduced-motion: reduce) {
+      #cta .is-typing .cta-wm-l { width: auto; border-right-color: transparent; animation: none; }
     }
     /* 푸터는 nav-footer.css(Footer 컴포넌트 소유)가 전부 담당한다. 여기에는 없다.
        예전에는 /en 랜딩이 <footer>를 직접 써서 사본을 뒀고, 그 뒤 /en도 Footer 컴포넌트를

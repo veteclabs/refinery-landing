@@ -2454,8 +2454,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <source src="/cta/cta-converge.mp4" type="video/mp4" />
   </video>
   <div class="container" style="position:relative;z-index:1;">
-    <p class="cta-eyebrow">Refinery Industrial AI OS</p>
-    <h2>지금 바로 리파이너리를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
+    {/* 두 줄짜리 워드마크. 줄마다 <span> 으로 싸 두어야 CSS 가 줄 단위로
+        폭을 늘리며 타자 모션을 낼 수 있다. 글자는 DOM 에 그대로 있으므로
+        스크립트가 안 돌아도 · 낭독기에서도 전문이 읽힌다. */}
+    <p class="cta-eyebrow" translate="no"><span class="cta-wm-l">Refinery</span><span class="cta-wm-l">Industrial AI OS</span></p>
+    <h2>지금 바로 리파이너리를 통해 현장 운영의 새로운 기준을 경험해보세요.</h2>
     <div class="hero-actions" style="justify-content:center;margin-top:40px;">
       <a href="/contact" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">데모 신청하기</a>
     </div>
@@ -2484,6 +2487,55 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(); }
     }, { rootMargin: '200px' });
     io.observe(v);
+  })();
+
+  /* CTA 워드마크 타자 모션.
+     ⚠️ 기본 상태에는 모션이 없다 — .is-typing 이 붙은 동안에만 폭이 늘어난다.
+        스크립트가 안 돌면 글자가 그냥 처음부터 다 보인다(깜빡임 없음).
+     ⚠️ CTA 는 페이지 맨 아래라 로드 때 돌리면 아무도 못 본다. 화면에 들어올 때
+        한 번만 켠다.
+     ⚠️ 동작 줄이기를 켠 사람에게는 켜지 않는다.
+     ⚠️ 글꼴이 고정폭이 아니라 ch 로 셀 수 없다. 클래스를 붙이기 전에 — 아직
+        글자가 다 보이는 동안 — 줄마다 제 폭을 재서 CSS 로 넘긴다. 재는 순서가
+        뒤집히면 폭이 0 으로 잡혀 글자가 영영 안 나온다.
+     ⚠️ 글꼴을 받기 전에 재면 대체 글꼴 폭이 잡힌다. document.fonts.ready 를
+        기다린 뒤에 잰다(없는 브라우저는 그냥 바로 잰다). */
+  (function () {
+    var w = document.querySelector('#cta .cta-eyebrow');
+    if (!w) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var lines = [].slice.call(w.querySelectorAll('.cta-wm-l'));
+    if (!lines.length) return;
+    var PER = 60;   /* 글자당 ms */
+    var GAP = 200;  /* 줄과 줄 사이 쉼 ms */
+    var start = function () {
+      var at = 0;
+      lines.forEach(function (el, i) {
+        var n = (el.textContent || '').length || 1;
+        var dur = n * PER;
+        el.style.setProperty('--cta-wm-w', el.scrollWidth + 'px');
+        el.style.animationDuration = i === 0
+          ? dur + 'ms, ' + dur + 'ms'
+          : dur + 'ms, 0s, 1060ms';
+        el.style.animationDelay = i === 0
+          ? at + 'ms, ' + at + 'ms'
+          : at + 'ms, ' + at + 'ms, ' + (at + dur) + 'ms';
+        el.style.animationTimingFunction = i === 0
+          ? 'steps(' + n + '), step-end'
+          : 'steps(' + n + '), step-end, step-end';
+        at += dur + GAP;
+      });
+      w.classList.add('is-typing');
+    };
+    var ready = function () {
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+      else start();
+    };
+    if (!('IntersectionObserver' in window)) { ready(); return; }
+    var io2 = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { io2.disconnect(); ready(); }
+    }, { threshold: 0.25 });
+    io2.observe(w);
   })();
 </script>
 
