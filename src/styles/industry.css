@@ -456,33 +456,6 @@ img { max-width: 100%; height: auto; }
   padding: 0 calc(48px * (1 - var(--grow))) calc(96px * (1 - var(--grow)));
   position: relative;
 }
-/* 사진 아랫부분을 다음 섹션 면색(#151B23)으로 흘려보낸다. 맞닿기만 하면 컬러
-   사진이 끝나고 평면색이 시작되는 칼선이 남는다.
-   ⚠️ mask 가 아니라 덮는 막이다. mask 로 지우면 뒤에 있는 히어로 면(흰색)이
-      비쳐 아래쪽이 하얘진다 — 녹여 넣을 색을 직접 칠해야 한다.
-   ⚠️ 상자 위치를 사진에 맞춘다. 좌우 · 아래 값이 .ind-hero-figure 의 padding 과
-      같은 식이라 사진이 자라면 막도 같이 따라간다.
-   ⚠️ opacity 를 --grow 로 묶는다. 기본 모습(둥근 모서리 · 흰 면 위)에서는
-      사진 밑에 검은 띠가 깔릴 이유가 없다. */
-.ind-hero-figure::after {
-  content: '';
-  position: absolute;
-  left: calc(48px * (1 - var(--grow)));
-  right: calc(48px * (1 - var(--grow)));
-  bottom: calc(96px * (1 - var(--grow)));
-  /* 260px — 160px 에서 늘렸다. 과제 섹션 위 여백이 240px 에서 180px 로
-     줄면서 사진이 녹을 거리가 짧아졌다. 끝에서 급히 어두워지지 않게
-     가운데를 완만히 둔다(0 → 55% 에서 절반 → 100% 꽉). */
-  height: 260px;
-  background: linear-gradient(180deg,
-    rgba(21, 27, 35, 0) 0,
-    rgba(21, 27, 35, .5) 55%,
-    #151B23 100%);
-  border-bottom-left-radius: calc(var(--radius) * (1 - var(--grow)));
-  border-bottom-right-radius: calc(var(--radius) * (1 - var(--grow)));
-  opacity: var(--grow);
-  pointer-events: none;
-}
 .ind-hero-figure-img {
   display: block; width: 100%; height: auto;
   aspect-ratio: 1920 / 720;
@@ -493,13 +466,6 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 900px) {
   .ind-hero-figure {
     padding: 0 calc(24px * (1 - var(--grow))) calc(64px * (1 - var(--grow)));
-  }
-  /* 좁은 폭은 사진이 낮다(16/10). 160px 을 그대로 두면 절반을 덮는다. */
-  .ind-hero-figure::after {
-    left: calc(24px * (1 - var(--grow)));
-    right: calc(24px * (1 - var(--grow)));
-    bottom: calc(64px * (1 - var(--grow)));
-    height: 140px;
   }
   .ind-hero-figure-img { aspect-ratio: 16 / 10; }
 }
@@ -801,40 +767,13 @@ img { max-width: 100%; height: auto; }
    위 규칙은 작업복 색을 죽이려고 흑백 · 투명도 .16 · 네 방향 마스크를 걸어 둔
    값이라, 그대로 쓰면 결이 거의 사라지고 섹션 면색만 남는다.
    면 전체를 제 색 · 제 밝기로 깐다 — 원본이 이미 #1E2630 쯤으로 어둡다. */
-/* 배경 사진의 위아래 끝을 섹션 면색(#151B23)으로 덮는다. 가운데는 투명이라
-   비단결이 제 색으로 남고, 위아래 띠에서만 면색에 녹아 이음매가 사라진다.
-   ⚠️ 윗띠는 먼저 한동안 꽉 채운 뒤에 푼다(0~18% 불투명 → 34% 투명). 바로
-      풀면 히어로 사진이 녹아 내린 자리에서 비단결이 곧장 올라와, 평평한 면이
-      15px 밖에 남지 않는다. 18% 면 680px 섹션에서 120px 쯤이다.
-   ⚠️ 아랫띠는 좁게 둔다(85% → 100%). 윗띠와 같은 모양(66% 부터 풀기)으로
-      맞춰 본 적이 있는데 되돌렸다 — 윗띠가 넓은 건 히어로 사진이 녹아 내리는
-      자리를 받기 위해서지, 대칭을 맞추려는 게 아니다.
-   ⚠️ 막 색과 섹션 면색은 반드시 같아야 한다. 다르면 띠 끝에 선이 생긴다.
-   ⚠️ 투명을 transparent 로 쓰지 않는다. 브라우저가 rgba(0,0,0,0) 으로 읽어
-      중간이 검게 뜬다 — 같은 색의 알파 0 으로 적는다.
-   ⚠️ ::after 다. ::before 는 배경 <img> 보다 먼저 칠해져 사진 밑에 깔린다
-      (둘 다 z-index auto 라 DOM 순서대로 쌓인다). 글이 든 .ind-container 는
-      z-index 1 이라 이 막보다 위다. */
-.ind-challenges::after {
-  content: '';
-  position: absolute; inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    #151B23 0,
-    #151B23 18%,
-    rgba(21, 27, 35, 0) 34%,
-    rgba(21, 27, 35, 0) 85%,
-    #151B23 100%);
-}
 .ind-challenges .ind-section-bg-img {
   filter: none; opacity: 1;
   -webkit-mask-image: none; mask-image: none;
   /* 화면 너비를 꽉 채운다. 내용 너비(1600px 안쪽 · 좌우 48px)에 맞춰 둥근
      상자로 띄워 본 적이 있는데, 다시 화면 끝까지 가는 띠로 되돌렸다. */
   inset: 0; width: 100%; height: 100%;
-  /* 위아래를 뒤집는다 — 결이 흐르는 방향이 바뀐다.
-     ⚠️ 위에 덮는 막(.ind-challenges::after)은 뒤집지 않는다. 그쪽은 위아래
-        끝을 면색으로 닫는 역할이라 방향이 있으면 안 된다. */
+  /* 위아래를 뒤집는다 — 결이 흐르는 방향이 바뀐다. */
   transform: scaleY(-1);
 }
 
