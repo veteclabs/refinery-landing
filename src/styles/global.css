@@ -2171,7 +2171,11 @@
        버튼(.hero-actions)에는 CSS 규칙이 없어 inline-block 인 <a> 가
        text-align 을 그대로 따라간다. 마크업의 justify-content 는 동작하지
        않는 값이다(.hero-actions 는 flex 가 아니다). */
-    #cta { background: #ffffff; text-align: left; color: #000; padding: 95px 0; }
+    /* 높이는 위아래 여백이 정한다(글 높이 200px + 여백 2배). 140px -> 480px.
+       95px(390px) 에서 한 단 올린 값이다. 180px(560px) 은 모터 영상 시절
+       피사체를 다 보여주려고 쓰던 값인데, 지금 영상은 결이 가운데로 모이는
+       그림이라 그만큼 높지 않아도 된다. */
+    #cta { background: #ffffff; text-align: left; color: #000; padding: 140px 0; }
     /* 배경 영상 — 섹션을 그대로 채운다. 영상(1600x900 · 16:9)을 object-fit: cover
        로 깔아, 어느 폭에서든 윗변 · 아랫변 · 좌우가 섹션과 맞는다.
        ⚠️ 전에는 폭 75% + top: calc(80px - 10.97vw) 로 모터를 오른쪽에 세우고
