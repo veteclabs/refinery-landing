@@ -11,6 +11,10 @@ export interface UseCase {
   problem: string;   // 산업 현장의 문제
   approach: string;  // Refinery의 접근
   outcome: string;   // 기대 성과
+  /** 표 왼쪽에 붙는 그림(선택). CLS 방지를 위해 width/height는 필수다.
+   *  alt는 비워 둔다 — 바로 옆 칸이 같은 줄의 이름(<th scope="row">)이라
+   *  낭독기가 같은 말을 두 번 읽지 않게 한다. */
+  image?: { src: string; width: number; height: number };
 }
 
 export interface Benefit {
@@ -45,7 +49,7 @@ export interface IndustryData {
     // 소제목(선택). 예지보전 히어로처럼 제목만 두려면 생략한다.
     lede?: string;
     // 어두운 히어로(선택). 예지보전(.uc-hero-bg)과 같은 구성이 된다 —
-    // #111316 바탕에 흰 글자, accent 면 주 버튼.
+    // #191F27 바탕에 흰 글자, accent 면 주 버튼.
     dark?: boolean;
     // 배경 사진(선택). dark와 함께 쓰면 사진 위에 스크림이 깔린다.
     image?: { src: string; alt: string; width: number; height: number };
@@ -57,8 +61,6 @@ export interface IndustryData {
     // 태그라인 옆 아이콘(선택). 랜딩 산업 카드의 워터마크와 같은 SVG를 쓴다
     // (예: '/industry-08.svg' = 에너지 · 유틸리티).
     icon?: string;
-    // 보조 버튼(제품 살펴보기). 기본 노출. 주 버튼 하나만 두려면 false.
-    showSecondary?: boolean;
     // 위치 표시(Industries › 산업명). 기본 노출. 태그라인과 같은 말이 두 번
     // 나오는 페이지에서는 false로 끈다(JSON-LD BreadcrumbList는 그대로 남는다).
     showBreadcrumb?: boolean;
@@ -71,14 +73,19 @@ export interface IndustryData {
     // 어두운 면(선택). 예지보전 '푸는 방식' 섹션과 같은 #111316이 된다 —
     // 카드도 같은 면색에 1px 테두리로만 구분한다.
     dark?: boolean;
+    /** 라벨 줄에 쓰는 짧은 문장들(선택). items 의 제목 · 설명에서 뽑는다.
+     *  주지 않으면 items 의 제목을 그대로 쓴다. */
+    labels?: string[];
     items: Challenge[];
   };
   useCases: {
     title: string;
     subtitle?: string;
-    /** 'steps'면 좌측 번호 레일 + 우측 내용으로 그린다(번호를 누르면 그 내용에 상자).
-     *  지정하지 않으면 기존 카드 목록 그대로다 — 다른 산업 페이지는 건드리지 않는다. */
-    layout?: 'cards' | 'steps';
+    /** 'table'이면 표로 그린다 — 항목이 줄, 문제 · 접근 · 성과가 열이다. 같은 칸끼리
+     *  세로로 비교된다. 지정하지 않으면 카드 목록이다.
+     *  (예전에는 'steps'로 좌측 번호 레일 + 우측 패널을 그렸는데, 1~5번이 순서가
+     *   아니라 병렬 항목인데도 레일과 연결선이 '순차 단계'로 읽혀 걷었다.) */
+    layout?: 'cards' | 'table';
     items: UseCase[];
   };
   architecture: {

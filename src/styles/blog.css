@@ -2,7 +2,7 @@
 :root {
   --bg: #ffffff;
   --bg-soft: #f6f8fa;
-  --bg-card: #f4f4f5;
+  --bg-card: #EFF2F5;
   --border: #E3E7EC;
   --text: #16202C;
   --text-muted: #7E8A98;
@@ -15,7 +15,7 @@
 
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
@@ -28,7 +28,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ---- Main ---- */
-.blog-main { max-width: var(--maxw); margin: 0 auto; padding: 70px 24px 96px; } /* 70px = 고정 내비 높이 */
+.blog-main { max-width: var(--maxw); margin: 0 auto; padding: var(--header-h) 24px 96px; } /* 70px = 고정 내비 높이 */
 
 /* ---- Blog list ---- */
 .blog-hero { padding: 40px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
@@ -249,7 +249,7 @@ img { max-width: 100%; height: auto; }
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 0.88em; background: var(--bg-card); padding: 2px 6px; border-radius: 5px;
 }
-.post-body pre { background: #0f1720; color: #e6edf3; padding: 18px; border-radius: 10px; overflow-x: auto; }
+.post-body pre { background: #191F27; color: #E4E9EF; padding: 18px; border-radius: 10px; overflow-x: auto; }
 .post-body pre code { background: none; padding: 0; color: inherit; }
 .post-body blockquote { border-left: 3px solid var(--accent); padding-left: 16px; color: var(--text-muted); }
 .post-body hr { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
@@ -289,7 +289,7 @@ img { max-width: 100%; height: auto; }
 .blog-main--post { word-break: keep-all; overflow-wrap: break-word; }
 /* 아래 여백 110px = 표지 위 여백과 같다(백서 히어로가 헤더 아래에 두는 간격).
    글이 위아래 같은 간격 안에 놓이고, 그 끝에서 푸터 구분선이 받는다. */
-.blog-main--post { max-width: 1280px; padding-left: 48px; padding-right: 48px; padding-bottom: 110px; }
+.blog-main--post { max-width: 1600px; padding-left: 48px; padding-right: 48px; padding-bottom: 110px; }
 /* 좁은 화면에서는 24px로 되돌린다(자료실 .res-page와 같은 규칙).
    48px을 그대로 두면 375px 화면에서 본문이 279px까지 줄어든다. */
 @media (max-width: 900px) {

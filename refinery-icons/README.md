@@ -32,3 +32,12 @@
 - 플랫폼 개요 > 현장이 먼저입니다: icon-01~03.svg → why-team / why-layer / why-knowledge
 - 회사 소개 통계: icon-stat-02(30년+) → stat-experience, icon-stat-01(100+) → stat-sites, icon-stat-03(20+) → stat-industries
 - 일하는 세 가지 기준: icon-rule-01~03.webp → rule-field / rule-build / rule-context
+
+## 모션 제어
+인라인 SVG로 넣고 `--rf-play` 로 제어한다. 이 변수는 재생 여부가 아니라 **`animation-name` 자리**에 들어간다.
+
+- `--rf-play: none` — 애니메이션이 걸리지 않아 0% 자세로 선다(기본값으로 쓸 값).
+- `--rf-play: initial` — 변수를 비워 각자의 keyframe 이름이 쓰인다(= 재생).
+
+`animation-play-state: paused` 를 쓰면 멈춘 그 프레임에서 굳어, 호버를 뗐을 때 중간 자세로 남는다.
+`--rf-duration` 으로 속도를 바꾼다(기본 1.6s).

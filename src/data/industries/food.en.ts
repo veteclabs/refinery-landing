@@ -10,20 +10,37 @@ export const foodEn: IndustryData = {
     'Connect chillers, air compressors and boilers to production data in one structure, and let an AI agent catch temperature excursions first. Refinery for food and beverage manufacturing.',
   hero: {
     dark: true,
-    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
-    imagePosition: 'center 15%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Food & Beverage',
     title: 'Equipment efficiency that holds\nquality and cost at once',
+    lede: 'Data scattered across heating and cooling equipment, power, LNG and steam is connected through an ontology, and an AI agent catches efficiency loss first and explains the cause. From chiller operation tuning to per-batch energy intensity and replacement simulation for ageing equipment.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nfood sites',
+    title: 'These are the problems on\nfood and beverage sites today',
     subtitle: 'Recurring problems from intake through processing to packaging and storage.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Thermal and refrigeration losses become cost',
+      'Compressors, chillers and boilers carry the load',
+      'Efficiency loss turns into quality risk',
+      'A stoppage costs a great deal',
+      'Hygiene and quality rules are strict',
+      'One interruption is a large loss',
+      'Energy patterns shift batch to batch',
+      'A shift in output moves the energy profile',
+      'Cost, carbon and aging arrive together',
+      'Cost pressure does not let up',
+      'Carbon compliance is pressing',
+      'Equipment keeps aging',
+    ],
     items: [
       {
         title: 'Thermal and refrigeration efficiency losses become cost',
@@ -48,9 +65,9 @@ export const foodEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a food manufacturing site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a food manufacturing site.',
+    layout: 'table',
     items: [
       {
         title: 'Chiller and compressor power and operating pattern analysis',

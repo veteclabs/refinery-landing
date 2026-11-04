@@ -13,16 +13,33 @@ export const automotiveEn: IndustryData = {
     image: { src: '/industries/automotive-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 섀시가 대제목 줄에 걸린다. 30%로 낮춰
     // 사진 위쪽을 보이면 섀시가 제목 아래로 내려간다(이동 여유 239px 중 36px).
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Automotive & Mobility',
     title: 'Process flow and quality consistency,\ncontrolled with data',
+    lede: 'Equipment and energy data scattered across press, body, paint and assembly lines is connected through an ontology, and an AI agent catches early signs first and explains the cause. From rotating-equipment predictive maintenance to per-line power analysis and output-linked energy intensity.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nautomotive sites',
+    title: 'These are the problems on\nautomotive and mobility sites today',
     subtitle: 'Recurring problems across press, body, paint and assembly.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'One process shakes the whole line',
+      'Press, body, paint and assembly are coupled end to end',
+      'A single machine stops the whole line',
+      'High power and fine control at once',
+      'High-power equipment shares the line',
+      'Fine control runs on that same line',
+      'Tuning one side makes the other unstable',
+      'Equipment, energy and output stay apart',
+      'Electrification demands all three together',
+      'Quality standards keep tightening',
+      'The data sits in separate systems',
+      'Nothing connects across those systems',
+    ],
     items: [
       {
         title: 'One process shakes the whole line',
@@ -42,9 +59,9 @@ export const automotiveEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an automotive site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an automotive site.',
+    layout: 'table',
     items: [
       {
         title: 'Vibration-based predictive maintenance for motors and rotating equipment',

@@ -2,13 +2,13 @@
 
     :root {
       --bg: #ffffff;
-      --bg-card: #f4f4f5;
-      --bg-card2: #e4e4e7;
+      --bg-card: #EFF2F5;
+      --bg-card2: #E3E7EC;
       --border: #E3E7EC;
-      --border2: #d4d4d8;
-      --text: #111111;
+      --border2: #C8CED5;
+      --text: #191F27;
       --text-muted: #7E8A98;
-      --text-dim: #888888;
+      --text-dim: #7E858F;
       --accent: #76A6D7;
       --accent2: #76A6D7;
       --accent-glow: rgba(118,166,215,0.15);
@@ -21,7 +21,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -30,7 +30,7 @@
 
     a { color: inherit; text-decoration: none; }
 
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+    .container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
 
     /* 히어로 대제목. 이 페이지의 유일한 제목이라 h1이다 — 다른 페이지와 같은 계층이 된다. */
     h1 { font-size: clamp(30px, 4.2vw, 48px); font-weight: 600; letter-spacing: -0.8px; line-height: 1.3; margin-bottom: 16px; }
@@ -38,21 +38,21 @@
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: 70px;
+      height: var(--header-h);
       background: #ffffff;
       border-bottom: 1px solid var(--border);
     }
     .nav-inner {
-      max-width: 1280px; margin: 0 auto; height: 100%;
+      max-width: 1600px; margin: 0 auto; height: 100%;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 48px;
     }
     .nav-left { display: flex; align-items: center; gap: 48px; }
-    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #111111; display: flex; align-items: center; }
+    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #191F27; display: flex; align-items: center; }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
     .btn-primary {
       padding: 6px 18px; font-size: 14px; font-weight: 400;
-      /* 색은 디자인시스템 ink 스케일. #111111·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
+      /* 색은 디자인시스템 ink 스케일. #191F27·rgba(17,17,17,.6)이던 임의값을 옮겼다 —
          테두리는 흰 배경에 합성하면 #707070이라 가장 가까운 ink-600으로 간다(거리 24.5). */
       background: transparent; color: #16202C; border: 1px solid #5A6776; border-radius: 6px;
       transition: all .2s;
@@ -69,11 +69,11 @@
       display: none;
       flex-direction: column;
       position: fixed;
-      top: 70px; left: 0; right: 0;
+      top: var(--header-h); left: 0; right: 0;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       padding: 8px 24px 20px;
-      max-height: calc(100vh - 70px);
+      max-height: calc(100vh - var(--header-h));
       overflow-y: auto;
       box-shadow: 0 12px 24px rgba(10,14,20,0.10);
       z-index: 99;
@@ -107,7 +107,7 @@
     @media (max-width: 900px) {
       .nav-hamburger { display: flex; }
     }
-    .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
+    .btn-primary:hover, .btn-primary:active { background: #EFF2F5; }
 
     /* CONTACT HERO */
     #contact-hero {

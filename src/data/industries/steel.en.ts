@@ -10,20 +10,37 @@ export const steelEn: IndustryData = {
     'Connect heat-treatment temperature, cooling curves, compressed air and peak demand into one structure, and let an AI agent trace the cause of quality variance. Refinery for steel, non-ferrous and materials coating operations.',
   hero: {
     dark: true,
-    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/steel-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 밝은 시트 띠가 대제목 줄을 가로지른다.
     // 10%로 낮추면 띠가 제목 아래로 내려가고 압연 롤 구조가 위쪽에 들어온다
     // (이동 여유 387px 중 135px).
-    imagePosition: 'center 10%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Steel & Materials',
     title: 'Material quality and energy\nefficiency, secured together',
+    lede: 'Data scattered across heat treatment, forming and coating is connected through an ontology, and an AI agent catches the shifts that move quality first and explains the cause. From target-power load control to heat-treatment temperature pattern analysis and vibration-based equipment monitoring.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nsteel sites',
+    title: 'These are the problems on\nsteel and materials sites today',
     subtitle: 'Recurring problems in heat treatment, forming and coating.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Small process shifts decide quality',
+      'Furnaces, compressed air and cooling water run continuously',
+      'A slight difference stays in the product',
+      'Heat treatment needs stability and energy control together',
+      'Temperature, hold time and cooling set the properties',
+      'Getting only one right will not reproduce the result',
+      'Energy flow is complex',
+      'Peaks come often',
+      'Energy is scattered across processes',
+      'High-temperature, high-power equipment runs together',
+      'Over-consuming segments are hard to pin down',
+      'Peak demand is hard to pin down',
+    ],
     items: [
       {
         title: 'Small process shifts decide quality',
@@ -43,9 +60,9 @@ export const steelEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a steel site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a steel site.',
+    layout: 'table',
     items: [
       {
         title: 'Peak demand monitoring and target-based load control',

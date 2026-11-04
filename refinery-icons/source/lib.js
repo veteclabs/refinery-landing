@@ -72,14 +72,20 @@ const KINDS = {
   glass: [[0, C.b50, 0.9], [0.6, C.b100, 0.8], [1, C.b, 0.42]],
 };
 // ---------- motion (raster: evaluated at MODE.t / css: sampled keyframes) ----------
-let MODE = { css: false, t: 0, pfx: '', anims: [], theme: 'light' };
-const setMode = m => { MODE = Object.assign({ css: false, t: 0, pfx: '', anims: [], theme: 'light' }, m); };
+// center: 그림을 캔버스 한가운데로 옮기는 [dx, dy]. 아이콘마다 그린 범위가 달라
+// 그대로 두면 한 줄에 놓았을 때 저마다 다른 높이에 떠 보인다. icons.js 가 값을 쥔다.
+let MODE = { css: false, t: 0, pfx: '', anims: [], theme: 'light', center: [0, 0] };
+const setMode = m => { MODE = Object.assign({ css: false, t: 0, pfx: '', anims: [], theme: 'light', center: [0, 0] }, m); };
 const f2 = v => +v.toFixed(3);
 function tfStr(v, o) {
   const x = v.x || 0, y = v.y || 0, r = v.r || 0, s = v.s == null ? 1 : v.s;
   return `translate(${f2(x)} ${f2(y)}) translate(${o[0]} ${o[1]}) rotate(${f2(r)}) scale(${f2(s)}) translate(${-o[0]} ${-o[1]})`;
 }
 /** fn(t) -> {x,y,r,s,o}; origin = pivot (element centre); inner = static transform applied inside */
+// --rf-play 는 '재생 여부'가 아니라 animation-name 을 담는다. 값을 none 으로 주면
+// 애니메이션이 아예 걸리지 않아 그림이 0% 자세로 돌아간다. animation-play-state:paused 는
+// 그 순간 프레임에서 굳어 버려, 호버를 뗐을 때 제자리로 못 돌아온다.
+// 값을 비우려면 initial — var() 가 fallback(각자의 keyframe 이름)을 쓰게 된다.
 function motion(fn, origin = [256, 256], inner = '') {
   if (!MODE.css) { const v = fn(MODE.t); return { raster: tfStr(v, origin) + ' ' + inner, op: v.o, inner }; }
   const cls = `${MODE.pfx}m${MODE.anims.length}`;
@@ -94,7 +100,8 @@ function motion(fn, origin = [256, 256], inner = '') {
   frames[N][1] = frames[0][1]; // seamless loop
   // collapse holds: keep first & last of each run of identical declarations
   const kept = frames.filter((f, i) => i === 0 || i === N || f[1] !== frames[i - 1][1] || f[1] !== frames[i + 1][1]);
-  MODE.anims.push(`.${cls}{transform-box:view-box;transform-origin:${origin[0]}px ${origin[1]}px;animation:${cls} var(--rf-duration,1.6s) linear infinite;animation-play-state:var(--rf-play,running)}` +
+  const [cx, cy] = MODE.center || [0, 0];
+  MODE.anims.push(`.${cls}{transform-box:view-box;transform-origin:${origin[0] + cx}px ${origin[1] + cy}px;animation:var(--rf-play,${cls}) var(--rf-duration,1.6s) linear infinite}` +
     `@keyframes ${cls}{${kept.map(([p, d]) => `${p}%{${d}}`).join('')}}`);
   return { cls, inner };
 }
@@ -161,7 +168,10 @@ class Icon {
       `<filter id="${ID('innerG')}" x="-20%" y="-20%" width="140%" height="140%"><feOffset in="SourceAlpha" dx="-7" dy="-9" result="o"/><feGaussianBlur in="o" stdDeviation="9" result="b"/><feComposite in="SourceAlpha" in2="b" operator="out" result="m"/><feFlood flood-color="${C.b600}" flood-opacity="0.22"/><feComposite in2="m" operator="in"/></filter>`;
     const style = MODE.css && MODE.anims.length
       ? `<style>${MODE.anims.join('')}@media (prefers-reduced-motion:reduce){[class^="${MODE.pfx}m"]{animation:none!important}}</style>` : '';
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512" class="${MODE.pfx}icon">${style}<defs>${common}${this.defs.join('')}</defs>${this.body.join('')}</svg>`;
+    const [cx, cy] = MODE.center || [0, 0];
+    const body = this.body.join('');
+    const centred = (cx || cy) ? `<g transform="translate(${cx} ${cy})">${body}</g>` : body;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512" class="${MODE.pfx}icon">${style}<defs>${common}${this.defs.join('')}</defs>${centred}</svg>`;
   }
 }
 module.exports = { C, Icon, rr, ci, pa, rrPath, roundPoly, tr, sc, ro, bounce, spring, smooth, seg, springE, smoothE, motion, wrap, setMode };

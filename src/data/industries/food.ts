@@ -8,20 +8,37 @@ export const food: IndustryData = {
     '냉동기 ⁠· 공기압축기 ⁠· 보일러의 운전 상태와 생산 데이터를 하나의 구조로 연결하고, AI 에이전트가 품질 온도 이탈을 먼저 감지합니다. 식품 ⁠· 음료 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/food-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 낮추면 사진 위쪽이 보여 이미지가 아래로 내려간다.
     // 15%면 45% 기준보다 116px 아래다(이동 여유 387px).
     // 글자 대비는 9.46:1로 AA 기준의 두 배 위다.
-    imagePosition: 'center 15%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '식품 ⁠· 음료',
+    eyebrow: '식품 및 음료',
     title: '설비 효율로 품질과 원가를\n동시에 관리합니다',
+    lede: '열 ⁠· 냉 설비와 전력 ⁠· LNG ⁠· 스팀에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 효율 저하를 먼저 감지하고 원인을 설명합니다. 냉동기 운전 최적화부터 배치별 원단위 관리, 노후 설비 교체 시뮬레이션까지.',
   },
   challenges: {
-    dark: true,
-    title: '식품 제조 현장의 문제',
+    title: '지금 식품 및 음료 현장이\n겪는 문제입니다',
     subtitle: '원료 투입 ⁠· 가공 ⁠· 포장 ⁠· 보관 공정에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '열 ⁠· 냉 설비 효율 저하가 곧 비용이 된다',
+      '공기압축기 ⁠· 냉동기 ⁠· 보일러 비중이 높다',
+      '효율이 떨어지면 품질 리스크로 이어진다',
+      '생산이 멈추면 손실 규모가 크다',
+      '위생 기준과 품질 규제가 엄격하다',
+      '한 번의 중단이 큰 손실로 남는다',
+      '배치마다 에너지 사용 패턴이 달라진다',
+      '생산량이 흔들리면 에너지도 갈린다',
+      '원가 ⁠· 탄소 ⁠· 노후화가 동시에 온다',
+      '원가 압박이 계속된다',
+      '탄소 규제 대응이 급하다',
+      '설비 노후화가 겹친다',
+    ],
     items: [
       {
         title: '열 ⁠· 냉 설비 효율 저하가 곧 비용이 된다',
@@ -46,9 +63,9 @@ export const food: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '식품 제조 현장에서\n<mark>Refinery가 실제로\n하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '식품 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '공기압축기 ⁠· 냉동기 전력 소비 ⁠· 운전 패턴 분석',

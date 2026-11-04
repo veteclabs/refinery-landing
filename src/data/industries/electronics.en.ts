@@ -10,22 +10,39 @@ export const electronicsEn: IndustryData = {
     'Connect power quality, UPS events, temperature, humidity and equipment alarms into one structure, and let an AI agent flag the risk of a line stop before it happens. Refinery for semiconductor, component and precision equipment manufacturing.',
   hero: {
     dark: true,
-    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1079 },
+    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1080 },
     // 원본(3500x1477)은 가로가 길어 히어로 상자와 비율이 거의 같았다. 그대로 쓰면
     // 세로 이동 여유가 38px뿐이라 초점을 0%까지 내려도 17px밖에 안 움직였다.
     // 좌우를 436px씩 잘라 2629x1477로 만든 뒤 넣었다 — 여유가 246px이 된다.
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
-    imagePosition: 'center 20%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Electronics & Precision',
     title: 'Uninterrupted power and microenvironment,\nprotected by one system',
+    lede: 'Data scattered across production equipment, power and the microenvironment is connected through an ontology, and an AI agent catches outages and environmental drift first and explains the cause. From peak demand monitoring to UPS-linked outage alarms and real-time temperature and humidity control.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nelectronics sites',
+    title: 'These are the problems on\nelectronics and precision sites today',
     subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Equipment reacts to the smallest change',
+      'Sensitive to temperature shifts',
+      'Power quality leaves its mark on the process',
+      'A power outage becomes a defect',
+      'A momentary outage stops the line',
+      'Equipment anomalies turn into defective product',
+      'Operating factors are tangled together',
+      'Peak demand and UPS response sit side by side',
+      'Temperature, humidity and alarms run apart',
+      'Safety and fire systems are expected in the same structure',
+      'High-mix, low-volume production splits the lines',
+      'Process-level energy management gets harder',
+    ],
     items: [
       {
         title: 'Equipment reacts to the smallest change',
@@ -50,9 +67,9 @@ export const electronicsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an electronics site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an electronics site.',
+    layout: 'table',
     items: [
       {
         title: 'Live peak demand monitoring and load control',

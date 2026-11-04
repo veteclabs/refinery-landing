@@ -267,7 +267,7 @@ const alternates = [
      공통 .ind-container는 1120/24라 내용이 헤더보다 49px 안쪽에서 시작했다.
      플랫폼 개요(.wr-page)·예지보전 등이 쓰는 값(1280/48)과 같다.
      .cmp-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
-  .cmp-page .ind-container { max-width: 1280px; padding: 0 48px; }
+  .cmp-page .ind-container { max-width: 1600px; padding: 0 48px; }
   @media (max-width: 900px) {
     .cmp-page .ind-container { padding: 0 24px; }
   }
@@ -290,6 +290,7 @@ const alternates = [
     font-size: clamp(48px, 7vw, 84px);
     line-height: 1.15;
     padding: 0.1em 0;
+    /* 히어로 대제목만 Inter — 랜딩 #hero h1 과 같은 자리다. */
     font-family: 'Inter', 'Pretendard', sans-serif;
     /* .ind-hero h1이 걸어 둔 700/자간을 랜딩과 같은 값으로 되돌린다. */
     font-weight: 500; letter-spacing: normal;
@@ -366,7 +367,8 @@ const alternates = [
 
   /* ───────── 원칙 카드 ─────────
      랜딩 솔루션 섹션(#industries)과 같은 규격.
-     global.css .industries-grid → 3열 · gap 18 · 900px 2열 · 600px 1열
+     global.css .industries-grid → 4열 · gap 18 · 1500px 3열 · 1280px 2열 · 600px 1열
+     (여기 원칙 카드는 셋뿐이라 3열을 그대로 쓴다)
      global.css .industry-card    → #fff · 1px border · radius · padding 30
      레이아웃(3열·gap·카드 박스)만 랜딩을 따르고, 글자 크기는 위 뿌리 아코디언과
      동일하게 맞춘다: 라벨 13 · 제목 28 / 1.3 · 본문 16 / 1.7.
@@ -405,12 +407,21 @@ const alternates = [
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
        위치값(30px)은 카드 패딩과 같아 보이는 자리는 그대로다. */
     position: absolute; top: 30px; left: 30px; margin: 0;
+    /* 글리프를 원 한가운데로 내린다. align-items: center 는 글자 상자를 가운데 두는데,
+       숫자 글리프는 그 상자 안에서 baseline 위에 놓여 1.3px 떠 보였다(1·2·3 모두 같은 값).
+       border-box 라 padding 을 줘도 원 지름 30px 은 그대로다.
+       값은 재서 골랐다 — 0px 에서 -1.27px, 2px 에서 -0.27px, 3px 에서 +0.73px.
+       글리프가 정수 픽셀에 스냅돼 1.65~2px 이 같은 자리에 선다. */
+    padding-top: 2px;
   }
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
      위쪽은 카드 패딩 30px이 이미 깔려 있으므로 마진은 30px만 더한다. */
   /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
-  :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 30px auto 40px; }
+  /* 이 자리만 160px 이다(다른 둘은 145). 카드가 넓어 160 이 그 안에서 비율을 잡는다.
+     크기는 그대로지만 중앙 정렬로 아래 빈칸이 7.6%→12.5% 로 커졌으므로, 처음 모습의
+     간격(위 50.6 · 아래 52.2px)을 지키려면 아래 margin 은 40 이 아니라 32 다. */
+  :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 31px auto 32px; }
   .cmp-rule-card h3 {
     /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
@@ -582,7 +593,7 @@ const alternates = [
      막은 예지보전 히어로(.uc-hero-bg::after)와 같은 값이다 —
      위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
   .cmp-story-bg {
-    position: relative; overflow: hidden; background: #111316;
+    position: relative; overflow: hidden; background: #191F27;
     /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
        높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
     /* 사진(3840x2160)이 가로에 맞춰 들어가는 높이를 섹션 높이로 삼는다.
@@ -595,7 +606,7 @@ const alternates = [
        가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
     display: flex; flex-direction: column; justify-content: flex-start;
   }
-  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#111316)만 남는다. */
+  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#191F27)만 남는다. */
   /* ⚠️ 1420px 아래에서는 비율을 풀어야 한다. 내용이 상하 여백 포함 800px을
      차지하는데 16:9로는 그만한 높이가 안 나와(1280px에서 712px) 카드가
      섹션 밖으로 넘친다. 비율을 풀면 높이를 내용이 정하고 여백 130px이
@@ -717,7 +728,7 @@ const alternates = [
      글자가 잠깐 보이지 않으므로 어두운 면을 미리 깔아 둔다. */
   .cmp-cta-bg {
     position: relative; overflow: hidden;
-    padding: 95px 0; text-align: left; background: #0c1015;
+    padding: 95px 0; text-align: left; background: #191F27;
   }
   .cmp-cta-bg-img {
     /* ⚠️ min-width로 배율을 세로 기준에 묶는다.
@@ -791,7 +802,7 @@ const alternates = [
     display: grid; justify-items: center; text-align: right;
     /* 사진 위에 얹히는 네모 박스. 사진이 섹션 전체를 덮게 되면서 수치가
        배경과 섞여 보이던 걸 판으로 띄운다. */
-    background: rgba(17, 19, 22, 0.40);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #111316) · 40% */
+    background: rgba(17, 19, 22, 0.40);   /* 플랫폼 개요 '현장이 먼저입니다' 섹션(.wr-dark #191F27) · 40% */
     /* 다른 섹션 카드(.ind-card)와 같은 값 */
     border-radius: var(--radius);
     /* 카드는 내용(440x220)에 상하좌우 50px씩 더한 크기다.

@@ -5,7 +5,7 @@
  * <img>가 아니라 인라인인 까닭: 파일 안의 CSS 애니메이션이 --rf-play 를 읽는데,
  * <img>로 넣으면 바깥 CSS가 그 변수에 닿지 못해 늘 돌아간다. 한 화면에 아이콘이
  * 서넛씩 놓이는 자리라 상시 재생은 산만하다 — 기본은 멈춤이고, 조상 .rf-ic-host 에
- * 마우스를 올렸을 때만 돈다.
+ * 마우스를 올렸을 때만 돈다. 마우스를 떼면 처음 자세로 돌아간다.
  *
  * 테마는 OS 설정이 아니라 **놓이는 면의 밝기**로 고른다. 사이트에 테마 토글이 없고
  * 섹션 배경이 고정이기 때문이다(어두운 면 dark · 밝은 면 light).
@@ -38,13 +38,18 @@ const svg = raw.replace(head, (_m, ns, viewBox, cls) =>
 <Fragment set:html={svg} />
 
 <style is:global>
-  /* 기본은 멈춤 — 0% 프레임이 제자리라 정지 그림과 같은 모습이 나온다. */
-  .rf-ic { display: block; --rf-play: paused; }
+  /* --rf-play 는 animation-name 자리에 들어간다(파일 쪽은 var(--rf-play, <제 이름>)).
+     none 이면 애니메이션이 아예 걸리지 않아 그림이 0% 자세 그대로 선다.
+     animation-play-state: paused 로는 안 된다 — 그 순간 프레임에서 굳어, 마우스를
+     뗐을 때 중간 자세로 멈춰 버린다. */
+  .rf-ic { display: block; --rf-play: none; }
+  /* initial 은 변수를 비우는 값이라, var() 가 fallback(각자의 keyframe 이름)을 쓴다.
+     애니메이션이 새로 걸리므로 호버할 때마다 처음부터 돈다. */
   .rf-ic-host:hover .rf-ic,
-  .rf-ic-host:focus-within .rf-ic { --rf-play: running; }
+  .rf-ic-host:focus-within .rf-ic { --rf-play: initial; }
   /* 모션을 줄여 달라는 설정이면 호버해도 멈춰 둔다. */
   @media (prefers-reduced-motion: reduce) {
     .rf-ic-host:hover .rf-ic,
-    .rf-ic-host:focus-within .rf-ic { --rf-play: paused; }
+    .rf-ic-host:focus-within .rf-ic { --rf-play: none; }
   }
 </style>

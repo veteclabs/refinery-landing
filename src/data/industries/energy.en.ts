@@ -10,20 +10,37 @@ export const energyEn: IndustryData = {
     'Connect energy data scattered across SCADA, EMS and meters into one structure, let an AI agent catch anomalies first, and automate ESG reporting. Refinery for generation, T&D and utility operations.',
   hero: {
     dark: true,
-    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1280 },
+    image: { src: '/industries/energy-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값은 45%이고, 낮출수록 사진 위쪽이 보여 이미지가 아래로
     // 내려간 것처럼 된다. 이 사진은 세로 이동 여유가 387px이라 30%면 45%보다
     // 58px 아래다.
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Energy & Utilities',
     title: 'Connecting distributed energy sites\ninto a single intelligence layer',
+    lede: 'Data scattered across SCADA, EMS and smart meters is connected through an ontology, and an AI agent catches anomalies first and explains the cause. From unified control to predictive maintenance and automated ESG reporting.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nenergy sites',
+    title: 'These are the problems on\nenergy and utility sites today',
     subtitle: 'Recurring problems on generation, T&D and utility sites.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'The data sits apart',
+      'Seeing the whole picture at once is difficult',
+      'SCADA, EMS and billing hold separate records',
+      'Failures are known too late',
+      'Anomalies surface only after a stoppage',
+      'Little room to act preventively',
+      'ESG and regulatory reports are manual',
+      'Emissions figures are gathered by hand',
+      'Reporting takes time and invites error',
+      'Real-time response lags',
+      'Demand, tariffs and weather move faster than the response',
+      'Every judgment spans several screens',
+    ],
     items: [
       {
         title: 'The data sits apart',
@@ -48,41 +65,46 @@ export const energyEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
+    title: 'This is how\nRefinery solves it',
     // 큰 카드 왼쪽 칸에서 세 줄로 선다. 개행은 lines() 헬퍼가 <br>로 바꾸고,
     // <mark>는 형광펜이다(한국어판과 같은 자리 — 브랜드와 '하는 일').
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non an energy site.',
-    layout: 'steps',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an energy site.',
+    layout: 'table',
     items: [
       {
         title: 'Unified control of distributed assets',
         problem: 'SCADA, EMS and meter data kept apart, with no integrated view',
         approach: 'Field data is connected through an ontology, defining assets, grids and locations in one structure.',
         outcome: 'Status and alarms for generation, T&D and consumption, live on one screen',
+image: { src: '/industries/energy-solutions/energy-01-integrated-monitoring.svg', width: 560, height: 420 },
       },
       {
         title: 'Predictive maintenance',
         problem: 'Response only after an anomaly has grown into a stoppage or incident',
         approach: 'Patterns that differ from the norm are learned from time-series data to catch early signs.',
         outcome: 'Fewer unplanned stoppages and less downtime by acting before failure',
+image: { src: '/industries/energy-solutions/energy-02-predictive-maintenance.svg', width: 560, height: 420 },
       },
       {
         title: 'Energy efficiency and peak optimization',
         problem: 'Waste and demand charges built up by invisible consumption patterns',
         approach: 'Consumption is analyzed by asset and segment, with adjustments proposed against tariff and demand signals.',
         outcome: 'Lower operating cost from reduced peaks and better efficiency',
+image: { src: '/industries/energy-solutions/energy-03-peak-optimization.svg', width: 560, height: 420 },
       },
       {
         title: 'Automated ESG and carbon reporting',
         problem: 'Manual aggregation of emissions and consumption for regulatory reports',
         approach: 'Emissions and consumption metrics are aggregated automatically from field data and turned into reports.',
         outcome: 'Regulatory reports produced automatically, traceable to their source',
+image: { src: '/industries/energy-solutions/energy-04-esg-report.svg', width: 560, height: 420 },
       },
       {
         title: 'Real-time anomaly detection and alerts',
         problem: 'Anomalous signals missed, or noticed too late',
         approach: 'An AI agent detects anomalies in live data and proposes both the likely cause and the next action.',
         outcome: 'Early recognition of problems, with an evidence-backed next step in hand',
+image: { src: '/industries/energy-solutions/energy-05-realtime-alarm.svg', width: 560, height: 420 },
       },
     ],
   },

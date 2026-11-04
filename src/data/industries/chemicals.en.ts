@@ -10,22 +10,39 @@ export const chemicalsEn: IndustryData = {
     'Connect electricity, LNG, steam and water into one structure, and let an AI agent catch combustion inefficiency and emission anomalies first. Refinery for chemicals, materials and pharmaceutical process operations.',
   hero: {
     dark: true,
-    image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1172 },
+    image: { src: '/industries/chemicals-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 값을 올리면 사진 아래쪽이 보여 이미지가 위로 올라간다.
     // 공통값 45%에서는 대물렌즈가 대제목 줄을 가로질렀다. 75%로 올리면
     // 렌즈가 제목 위로 가고 슬라이드와 스테이지가 아래에 들어온다
     // (이동 여유 307px 중 92px). 이 지점이 글자 대비(11.72:1)와
     // 아래 이음새 어둡기 모두 가장 좋다 — 90% 위로는 이음새가 다시 밝아진다.
-    imagePosition: 'center 75%',
-    showSecondary: false,
     showBreadcrumb: false,
     eyebrow: 'Chemicals & Materials',
     title: 'Continuous reactions and heat,\nunder precise control',
+    lede: 'Data scattered across power, LNG, steam and water is connected through an ontology, and an AI agent catches process shifts first and explains the cause. From unified multi-source energy monitoring to boiler air-ratio control and consolidated greenhouse gas management.',
   },
   challenges: {
-    dark: true,
-    title: 'Challenges on\nchemical sites',
+    title: 'These are the problems on\nchemical and materials sites today',
     subtitle: 'Recurring problems where continuous reaction\nand heat-based equipment run.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      'Several energy sources run at once',
+      'Electricity, LNG, steam and water all feed the process',
+      'Each source is aggregated separately',
+      'The whole picture never forms',
+      'Small changes upset quality',
+      'Reactors, boilers and blowers run continuously',
+      'A slight change carries straight through',
+      'Process variables need precise control',
+      'Air-fuel ratio, temperature, pressure and flow at once',
+      'Going by feel cannot hold the optimum',
+      'Energy cost and carbon rules tighten together',
+      'Simple monitoring is no longer enough',
+    ],
     items: [
       {
         title: 'Several energy sources run at once',
@@ -50,9 +67,9 @@ export const chemicalsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How the problems are solved',
-    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark>\non a chemical site.',
-    layout: 'steps',
+    title: 'This is how\nRefinery solves it',
+    subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a chemical site.',
+    layout: 'table',
     items: [
       {
         title: 'Unified electricity, LNG, steam and water monitoring',

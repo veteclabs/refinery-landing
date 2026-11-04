@@ -11,16 +11,33 @@ export const automotive: IndustryData = {
     image: { src: '/industries/automotive-hero.webp', alt: '', width: 1920, height: 1080 },
     // 세로 초점. 공통값 45%에서는 섀시가 대제목 줄에 걸린다. 30%로 낮춰
     // 사진 위쪽을 보이면 섀시가 제목 아래로 내려간다(이동 여유 239px 중 36px).
-    imagePosition: 'center 30%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '자동차 ⁠· 모빌리티',
+    eyebrow: '자동차 및 모빌리티',
     title: '설비 흐름과 품질 일관성을\n데이터로 제어합니다',
+    lede: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에 흩어진 설비 ⁠· 에너지 데이터를 온톨로지로 연결하고, AI 에이전트가 이상 징후를 먼저 감지하고 원인을 설명합니다. 회전체 예지보전부터 라인별 전력 분석, 생산량 연계 원단위 관리까지.',
   },
   challenges: {
-    dark: true,
-    title: '자동차 제조 현장의 문제',
+    title: '지금 자동차 및 모빌리티 현장이\n겪는 문제입니다',
     subtitle: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '한 공정의 이상이 라인 전체를 흔든다',
+      '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립이 연속으로 물려 있다',
+      '설비 하나가 라인 전체를 세운다',
+      '고출력과 정밀 제어를 동시에 요구한다',
+      '큰 전력을 쓰는 설비가 한 라인에 섞여 있다',
+      '미세한 제어가 같은 라인에 걸려 있다',
+      '한쪽을 맞추면 다른 쪽이 흔들린다',
+      '설비 ⁠· 에너지 ⁠· 생산이 따로 논다',
+      '전동화로 셋을 함께 봐야 한다',
+      '품질 기준이 강화되고 있다',
+      '데이터가 각각의 시스템에 남는다',
+      '시스템 사이가 이어지지 않는다',
+    ],
     items: [
       {
         title: '한 공정의 이상이 라인 전체를 흔든다',
@@ -40,9 +57,9 @@ export const automotive: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '자동차 제조 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '자동차 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '모터 ⁠· 회전체 진동 기반 예지보전',

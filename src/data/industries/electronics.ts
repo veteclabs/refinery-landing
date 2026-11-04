@@ -8,22 +8,39 @@ export const electronics: IndustryData = {
     '전력 품질 ⁠· UPS ⁠· 온습도 ⁠· 설비 알람을 하나의 구조로 연결하고, AI 에이전트가 라인 중단 가능성을 미리 감지합니다. 반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장을 위한 Refinery.',
   hero: {
     dark: true,
-    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1079 },
+    image: { src: '/industries/electronics-hero.webp', alt: '', width: 1920, height: 1080 },
     // 원본(3500x1477)은 가로가 길어 히어로 상자와 비율이 거의 같았다. 그대로 쓰면
     // 세로 이동 여유가 38px뿐이라 초점을 0%까지 내려도 17px밖에 안 움직였다.
     // 좌우를 436px씩 잘라 2629x1477로 만든 뒤 넣었다 — 여유가 246px이 된다.
     // (transform: scale로 여유를 만드는 길은 접었다. 확대하면 하단 페이드가
     //  히어로 밖에서 끝나 경계가 다시 생긴다 — 1.35배에서 경계 차 1 → 19.)
-    imagePosition: 'center 20%',
-    showSecondary: false,
     showBreadcrumb: false,
-    eyebrow: '전자 ⁠· 정밀',
+    eyebrow: '전자 및 정밀',
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
+    lede: '생산 설비 ⁠· 전력 ⁠· 미세환경에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 정전과 환경 이상을 먼저 감지하고 원인을 설명합니다. 최대 수요 전력 감시부터 UPS 연계 정전 알람, 온습도 실시간 관제까지.',
   },
   challenges: {
-    dark: true,
-    title: '전자 제조 현장의 문제',
+    title: '지금 전자 및 정밀 현장이\n겪는 문제입니다',
     subtitle: '반도체 ⁠· 전자부품 ⁠· 정밀 장비 제조 현장에서 반복되는 문제입니다.',
+    backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
+    dark: true,
+    // 라벨 줄에 쓰는 짧은 문장. 아래 items 의 제목과 설명에서 뽑은 것이고,
+    // 지어낸 말은 없다. 한 줄이 줄 폭보다 넓어야 흐를 때 같은 말이 두 번
+    // 보이지 않으므로 열두 개를 둔다(여섯 개씩 두 줄).
+    labels: [
+      '미세한 변화에도 설비가 반응한다',
+      '설비가 온도 변화에 민감하다',
+      '전력 품질이 흔들리면 공정에 남는다',
+      '정전 ⁠· 설비 이상이 곧 불량이 된다',
+      '순간의 정전이 제품 불량으로 직결된다',
+      '설비 이상이 라인 중단으로 이어진다',
+      '운영 요소가 복합적으로 얽혀 있다',
+      '최대 수요 전력과 UPS 대응이 함께 걸린다',
+      '온습도 ⁠· 설비 알람이 따로 돈다',
+      '안전 ⁠· 방재까지 한 체계로 묶으라는 요구가 는다',
+      '다품종 소량 생산으로 라인이 잘게 나뉜다',
+      '공정 단위 에너지 관리가 어려워진다',
+    ],
     items: [
       {
         title: '미세한 변화에도 설비가 반응한다',
@@ -48,9 +65,9 @@ export const electronics: IndustryData = {
     ],
   },
   useCases: {
-    title: '문제를 푸는 방법',
-    subtitle: '전자 ⁠· 정밀 현장에서\n<mark>Refinery가 실제로<br class="uc-lede-br"> 하는 일</mark>입니다.',
-    layout: 'steps',
+    title: 'Refinery가\n이렇게 해결합니다',
+    subtitle: '전자 ⁠· 정밀 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    layout: 'table',
     items: [
       {
         title: '최대 수요 전력 실시간 감시 ⁠· 부하 제어',

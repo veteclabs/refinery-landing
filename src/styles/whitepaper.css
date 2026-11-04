@@ -1,6 +1,6 @@
 /* 백서(롱폼) 스타일 — 랜딩과 동일한 브랜드 토큰. industry.css의 컨테이너/버튼/CTA와 함께 사용. */
 /* ───────── 히어로 — /why-refinery(플랫폼 개요)와 같은 글자 규격·여백 ─────────
-   배경 이미지는 아직 없다. 밑판만 어두운 면(#10141B)으로 두고, 이미지가 정해지면
+   배경 이미지는 아직 없다. 밑판만 어두운 면(#191F27)으로 두고, 이미지가 정해지면
    이 위에 절대배치로 얹는다(position: relative는 그때를 위해 남겨둔다). */
 .wp-hero {
   position: relative; overflow: hidden;
@@ -187,7 +187,7 @@
    길고 끊을 곳 없는 문자열(URL 등)만 예외로 강제로 접는다. */
 .wp-page { word-break: keep-all; overflow-wrap: break-word; }
 
-.wp-page .ind-container { max-width: 1280px; padding: 0 48px; }
+.wp-page .ind-container { max-width: 1600px; padding: 0 48px; }
 
 /* 왼쪽 목차 + 오른쪽 본문 두 단. 본문은 읽기 좋은 폭(820px)을 유지한 채
    오른쪽 끝에 붙는다(margin-left: auto) — 목차 열이 넓어져도 본문 줄 길이는 그대로다. */
@@ -246,7 +246,7 @@
 /* 목록의 뼈대(표식 끄기·간격)만 남긴다. 면·글자값은 위 .wp-body 규칙이 정한다. */
 .wp-summary ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 11px; }
 .wp-summary li { position: relative; padding-left: 18px; font-size: 17px; line-height: 1.72; color: #22303F; }
-.wp-summary li::before { content: ''; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: #b7c1cc; }
+.wp-summary li::before { content: ''; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: #B4B8C5; }
 
 /* 목차 — 왼쪽 열에 한 줄에 하나씩 세로로 나열한다.
    가로로 눕히던 2단(columns: 2)과 위아래 구분선은 뺀다. */
@@ -255,7 +255,7 @@
 .wp-toc li { font-size: 14.5px; line-height: 1.5; }
 .wp-toc a {
   position: relative; display: block; padding: 7px 0 7px 14px;
-  color: #47535f; text-decoration: none;
+  color: #494F57; text-decoration: none;
   transition: color .15s;
 }
 /* 지금 읽는 절 표시. border-left로 그리면 항목 높이(29px)를 다 채워 길어 보인다.
@@ -383,7 +383,7 @@
      꼬리고 선 자체가 이미 구분 역할을 해, 96px을 주면 한 번 더 끊긴다.
      선과 문구 사이는 26px — 선은 문구를 여는 표시라 붙어야 한 덩어리로 읽힌다. */
   margin-top: 48px; padding-top: 26px; border-top: 1px solid #e3e7ec;
-  font-size: 16px; color: #47535f;
+  font-size: 16px; color: #494F57;
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px; flex-wrap: wrap;
 }
