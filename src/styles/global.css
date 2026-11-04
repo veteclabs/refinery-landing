@@ -2227,9 +2227,10 @@
       font-weight: 300;
       letter-spacing: normal;
       line-height: var(--lh-body);
-      /* 대제목이 흰색이라 소제목은 한 단 내린다. 토큰 --border2 와 같은 값인데
-         여기 쓰임은 테두리가 아니라 글자색이라 숫자로 적는다. */
-      color: #C8CED5;
+      /* 대제목이 흰색이라 소제목은 두 단 내린다. #F6F8FA -> #C8CED5 를 거쳐
+         온 값이다. 토큰에는 없다 — ink 계열에서 가장 가까운 것이
+         --text-muted(#7E8A98)인데 그건 더 어둡다. */
+      color: #A4ADB8;
       margin-bottom: 0;
       word-break: keep-all;
     }
