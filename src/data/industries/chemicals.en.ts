@@ -22,7 +22,7 @@ export const chemicalsEn: IndustryData = {
     lede: 'Data scattered across power, LNG, steam and water is connected through an ontology, and an AI agent catches process shifts first and explains the cause. From unified multi-source energy monitoring to boiler air-ratio control and consolidated greenhouse gas management.',
   },
   challenges: {
-    title: 'The problems on\nchemical and materials sites',
+    title: 'These are the problems on\nchemical and materials sites today',
     subtitle: 'Recurring problems where continuous reaction\nand heat-based equipment run.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
     dark: true,
@@ -67,7 +67,7 @@ export const chemicalsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How Refinery\nsolves it',
+    title: 'This is how\nRefinery solves it',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on a chemical site.',
     layout: 'table',
     items: [

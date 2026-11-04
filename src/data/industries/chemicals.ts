@@ -20,7 +20,7 @@ export const chemicals: IndustryData = {
     lede: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 공정 변화를 먼저 감지하고 원인을 설명합니다. 다중 에너지원 통합 감시부터 보일러 공기비 제어, 온실가스 통합 관리까지.',
   },
   challenges: {
-    title: '화학 및 소재\n현장이 겪는 문제',
+    title: '지금 화학 및 소재 현장이\n겪는 문제입니다',
     subtitle: '연속 반응 ⁠· 열 기반 설비를 운영하는 현장에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
     dark: true,
@@ -65,7 +65,7 @@ export const chemicals: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n해결하는 방법',
+    title: 'Refinery가\n이렇게 해결합니다',
     subtitle: '화학 공정 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [

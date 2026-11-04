@@ -18,7 +18,7 @@ export const steel: IndustryData = {
     lede: '열처리 ⁠· 성형 ⁠· 코팅 공정에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 품질을 흔드는 변화를 먼저 감지하고 원인을 설명합니다. 목표전력 부하 제어부터 열처리 온도 패턴 분석, 진동 기반 설비 감시까지.',
   },
   challenges: {
-    title: '철강 및 소재\n현장이 겪는 문제',
+    title: '지금 철강 및 소재 현장이\n겪는 문제입니다',
     subtitle: '열처리 ⁠· 성형 ⁠· 코팅 공정에서 반복되는 문제입니다.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
     dark: true,
@@ -58,7 +58,7 @@ export const steel: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n해결하는 방법',
+    title: 'Refinery가\n이렇게 해결합니다',
     subtitle: '철강 ⁠· 소재 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [

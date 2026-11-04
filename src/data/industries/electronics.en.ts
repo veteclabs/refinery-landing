@@ -22,7 +22,7 @@ export const electronicsEn: IndustryData = {
     lede: 'Data scattered across production equipment, power and the microenvironment is connected through an ontology, and an AI agent catches outages and environmental drift first and explains the cause. From peak demand monitoring to UPS-linked outage alarms and real-time temperature and humidity control.',
   },
   challenges: {
-    title: 'The problems on\nelectronics and precision sites',
+    title: 'These are the problems on\nelectronics and precision sites today',
     subtitle: 'Recurring problems in semiconductor, electronic component\nand precision equipment manufacturing.',
     backgroundImage: '/energy-solutions/energy-challenges-bg-silk-horizontal-noline-v1@2x.webp',
     dark: true,
@@ -67,7 +67,7 @@ export const electronicsEn: IndustryData = {
     ],
   },
   useCases: {
-    title: 'How Refinery\nsolves it',
+    title: 'This is how\nRefinery solves it',
     subtitle: 'What <mark><span translate="no">Refinery</span> <span style="white-space:nowrap">actually does</span></mark> on an electronics site.',
     layout: 'table',
     items: [
