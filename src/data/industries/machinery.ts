@@ -64,7 +64,7 @@ export const machinery: IndustryData = {
     ],
   },
   useCases: {
-    title: 'Refinery가\n이렇게 해결합니다',
+    title: '리파이너리가\n이렇게 해결합니다',
     subtitle: '기계 ⁠· 플랜트 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
