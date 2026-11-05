@@ -141,8 +141,8 @@ export const useCasesEn: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/power-management.webp',
       alt: '',
-      width: 2560,
-      height: 1440,
+      width: 1672,
+      height: 941,
     },
     heroImageAsBackground: true,
     heroTitle: 'When, where and how much you use is identified,<br>cutting power cost and risk',
