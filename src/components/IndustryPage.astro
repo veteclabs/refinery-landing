@@ -245,23 +245,28 @@ const lines = (s: string) => s.split('\n');
                   </dl>
                 </div>
                 {u.image ? (
-                  /* alt 는 비운다 — 바로 옆이 같은 항목의 이름이라 낭독기가 같은 말을
-                     두 번 읽을 까닭이 없다. */
-                  <img
-                    class="ind-uc-img"
-                    src={u.image.src}
-                    alt=""
-                    width={u.image.width}
-                    height={u.image.height}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  /* 카드 면(.ind-uc-card)과 그림(.ind-uc-img)을 나눠 둔다 — 그림만
+                     아래로 사라지게 하려면 마스크가 그림에만 걸려야 하고, 마스크는
+                     요소 전체에 걸리므로 면을 같은 요소에 둘 수 없다.
+                     alt 는 비운다 — 바로 옆이 같은 항목의 이름이라 낭독기가 같은
+                     말을 두 번 읽을 까닭이 없다. */
+                  <div class="ind-uc-card">
+                    <img
+                      class="ind-uc-img"
+                      src={u.image.src}
+                      alt=""
+                      width={u.image.width}
+                      height={u.image.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 ) : (
                   /* 그림이 아직 없는 산업은 빈 카드를 그 자리에 둔다 — 상자 크기 ·
-                     둥글기 · 격자 자리를 그림과 똑같이 쓰려고 .ind-uc-img 를 함께
-                     단다(격자 분기도 :has(.ind-uc-img) 로 보므로 두 칸이 유지된다).
+                     둥글기 · 격자 자리를 카드와 똑같이 쓰려고 .ind-uc-card 를 함께
+                     단다(격자 분기도 :has(.ind-uc-card) 로 보므로 두 칸이 유지된다).
                      내용이 없으니 낭독기에서는 숨긴다. */
-                  <div class="ind-uc-img ind-uc-img-ph" aria-hidden="true"></div>
+                  <div class="ind-uc-card ind-uc-card-ph" aria-hidden="true"></div>
                 )}
               </li>
             ))}
