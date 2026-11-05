@@ -1478,24 +1478,33 @@ img { max-width: 100%; height: auto; }
    ⚠️ 그래서 h3 는 선에서 padding-top(44px)만큼 내려온다. 제목 윗변과
       나란하던 것은 선 쪽으로 옮겨 간 것이다. */
 .ind-uc-item:last-child { border-bottom: 0; }
-/* 그림 — 원본은 560x420(4:3)인데 위아래가 비어 있다. 상자를 560x350 으로
-   낮추고 object-fit: cover 로 위아래 35px 씩 잘라 낸다.
-   ⚠️ 그래픽은 SVG 안에서 세로 가운데(210)에 맞춰 두었다. 가장 큰 03(피크
-      최적화)이 높이 245px 이므로 위아래 87.5px 까지는 잘라도 안 닿는다.
-   ⚠️ SVG 안 바탕 rect 의 둥근 모서리도 같이 잘리지만, 아래 border-radius 가
-      다시 둥글려 준다. */
+/* 그림 — 원본 SVG 에는 카드가 들어 있지 않다. 그림만 바싹 잘라 낸 판이고,
+   폭은 82장이 모두 464 로 같고 높이만 내용을 따라 184~312 로 다르다.
+   그래서 카드 면 · 여백 · 둥글기를 여기서 준다.
+   ⚠️ 좌우 여백이 저절로 같아지는 구조다. border-box 라 안쪽 칸이 (상자폭 -
+      56)이고 그림이 그 칸을 가로로 꽉 채우는데, 원본 폭이 82장 모두 464 라
+      어느 카드를 봐도 같은 배율 · 같은 여백이 된다. 글자 크기도 함께 같아진다.
+   ⚠️ aspect-ratio 를 두지 않는다. height: auto 가 제 비율로 높이를 내므로
+      위아래 여백도 좌우와 같은 28px 이고, 카드 높이는 그림을 따라간다.
+      560x350 에 object-fit: cover 로 가두던 때가 있었는데, 그때는 SVG 안에
+      카드가 그려져 있어 위아래 35px 씩을 잘라 내야 했다. 지금은 잘라 낼
+      것도, 빈자리를 만들 까닭도 없다.
+   ⚠️ 면 색 #F6F8FA 는 토큰에 없다. 면 계열에서 가장 밝은 --bg-card 가
+      #EFF2F5 라 한 단 어둡다. 기준인 국문 에너지 그림이 쓰던 값이다. */
 .ind-uc-img {
   display: block;
+  box-sizing: border-box;
   width: 100%; max-width: 560px; height: auto;
-  aspect-ratio: 560 / 350;
-  object-fit: cover;
+  padding: 28px;
+  background: #F6F8FA;
   /* 둥글기는 사이트 공통값(--radius 12px)이다. */
   border-radius: var(--radius);
 }
-/* 그림이 아직 없는 자리 — 면만 둔 빈 카드다. 색은 디자인 시스템의 카드 면
-   (--bg-card)이고, 테두리도 글자도 두지 않는다. 그림이 들어오면 데이터에
-   image 를 적으면 되고 CSS 는 손대지 않는다. */
-.ind-uc-img-ph { background: var(--bg-card); }
+/* 그림이 아직 없는 자리 — 면만 둔 빈 카드다. 테두리도 글자도 두지 않는다.
+   색은 위 카드 면과 같은 값이어야 한다. 그림이 들어오면 데이터에 image 를
+   적으면 되고 CSS 는 손대지 않는다.
+   ⚠️ 지금은 일곱 산업이 모두 그림을 가지고 있어 쓰이는 데가 없다. */
+.ind-uc-img-ph { background: #F6F8FA; aspect-ratio: 560 / 350; }
 .ind-uc-text h3 {
   margin: 0 0 16px;
   font-size: 24px; font-weight: 650;
