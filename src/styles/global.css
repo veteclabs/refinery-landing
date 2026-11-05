@@ -2288,28 +2288,21 @@
           스크립트가 한 번 붙인다 — 기본 상태는 글자가 다 보이는 정지 화면이라,
           스크립트가 안 돌아도 · 낭독기에서도 전문이 그대로 남는다.
        ⚠️ 커서는 border-right 다. 색을 step-end 로 끊어 켜고 끈다 — 기본 타이밍
-          함수로 두면 색이 서서히 번져 깜빡임이 뭉갠다.
-       ⚠️ 두 번째 줄은 animation 을 셋 건다. 뒤에 적은 것이 같은 속성을 이기므로
-          타자 -> 커서 켜기 -> 깜빡임 순서를 지킨다. */
+          함수로 두면 색이 서서히 번져 끄는 순간이 뭉갠다.
+       ⚠️ 두 줄이 같은 한 쌍(타자 + 커서 끄기)을 쓴다. 커서는 제 줄이 쳐지는
+          동안에만 서고 그 줄이 끝나는 순간 꺼진다 — 다 친 뒤에 깜빡이며 남지
+          않는다. 자기 차례 전에는 animation-delay 안이라 규칙이 값을 내지
+          않으므로, 기본값 transparent 가 그대로 쓰여 커서가 미리 서지 않는다.
+          (두 번째 줄에 커서 켜기 + 무한 깜빡임을 따로 걸던 때가 있었다.) */
     #cta .is-typing .cta-wm-l {
       width: 0; overflow: hidden;
       border-right: .04em solid transparent;
-    }
-    #cta .is-typing .cta-wm-l:nth-child(1) {
       animation-name: cta-type, cta-caret-off;
       animation-fill-mode: forwards, forwards;
-    }
-    #cta .is-typing .cta-wm-l:nth-child(2) {
-      animation-name: cta-type, cta-caret-on, cta-blink;
-      animation-fill-mode: forwards, forwards, none;
-      animation-iteration-count: 1, 1, infinite;
     }
     @keyframes cta-type { to { width: var(--cta-wm-w, 100%) } }
     @keyframes cta-caret-off { from { border-right-color: rgba(255,255,255,.85) }
                                to   { border-right-color: transparent } }
-    @keyframes cta-caret-on  { to   { border-right-color: rgba(255,255,255,.85) } }
-    @keyframes cta-blink { 0% { border-right-color: rgba(255,255,255,.85) }
-                           50% { border-right-color: transparent } }
     /* 동작 줄이기 — 스크립트가 클래스를 안 붙이지만, 이미 붙은 뒤 설정을 바꾼
        경우까지 막는다. */
     @media (prefers-reduced-motion: reduce) {
