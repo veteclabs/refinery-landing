@@ -1532,9 +1532,9 @@ img { max-width: 100%; height: auto; }
       나온다. 시작은 거의 한 값이라 그대로 쓰고, 끝은 그 중앙값이다.
    ⚠️ 세로 위치는 카드마다 다르다. transform 의 translateY 는 IndustryPage
       가 그림 높이에서 계산해 --uc-shift 로 넘긴다(그쪽 주석에 식이 있다).
-      '상자 가운데'가 아니라 '페이드를 적용했을 때 보이는 띠의 가운데'를
-      카드 가운데에 놓는 값이다 — 상자를 그대로 가운데 두면 지워진 아래쪽만큼
-      아래가 비어 보인다. 값은 -32.7% ~ -29.9% 사이에 떨어진다.
+      페이드를 뺀 '그림 상자의 가운데'를 카드 가운데에 놓는 값이다 — 보이는
+      띠로 잡아 봤지만 띠의 끝을 어디로 보느냐에 따라 답이 갈렸다.
+      값은 -46.2% ~ -43.5% 사이에 떨어진다.
    ⚠️ 좌우는 28px 씩 띄운다. 카드에 padding 을 주던 자리인데, absolute 로
       띄우면서 left + width 로 옮겼다. 원본 폭이 82장 모두 464 라 이 값이
       곧 좌우 여백이고, 어느 카드를 봐도 같다.
@@ -1547,7 +1547,7 @@ img { max-width: 100%; height: auto; }
   position: absolute;
   left: 28px; top: 50%;
   width: calc(100% - 56px); height: auto;
-  transform: translateY(var(--uc-shift, -31%));
+  transform: translateY(var(--uc-shift, -45%));
   -webkit-mask-image: linear-gradient(to bottom, #000 39.5%, transparent 77%);
           mask-image: linear-gradient(to bottom, #000 39.5%, transparent 77%);
 }
