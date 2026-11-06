@@ -103,6 +103,20 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           <p>{c.desc}</p>
         </article>
       ))}
+
+      {/* 위치 표시 — 지금 몇 번째 장면인지 짚어 준다. 누르면 그 장면으로 간다.
+          ⚠️ 글 층(.hm-text)은 pointer-events:none 이라 여기서만 다시 켠다.
+          ⚠️ 보이는 글자는 번호다(00 · 01 · 02 · 03). 태그라인은 알약 안의 영문
+             낱말이 맡고, 번호는 여기서만 쓴다 — 두 곳이 같은 말을 하지 않는다.
+             ⚠️ 번호만으로는 무엇인지 모르므로 aria-label 에 제목을 함께 넣는다. */}
+      <nav class="hm-rail" id="hmRail" aria-label="히어로 장면">
+        {['00', '01', '02', '03'].map((label, i) => (
+          <button type="button" class="hm-rail-btn" data-go={i} aria-current={i === 0 ? 'true' : undefined}
+            aria-label={i === 0 ? '개요' : `${label} ${heroCards.ko[i - 1].title}`}>
+            <span>{label}</span><i aria-hidden="true"></i>
+          </button>
+        ))}
+      </nav>
     </div>
     </div>
   </div>
@@ -179,16 +193,26 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   /* 장면 1 · 2 · 3 — 왼쪽 아래 */
   .hm-panel {
     left: max(72px, env(safe-area-inset-left, 0px));
-    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    /* 아래에 위치 표시 탭이 서므로 그만큼 올려 둔다. */
+    bottom: calc(132px + env(safe-area-inset-bottom, 0px));
     width: min(470px, calc(100vw - 32px));
   }
   /* 태그라인도 운영체제 섹션(#teams)과 같은 값이다 —
      global.css 의 .teams-preview-tagline.
      ⚠️ 번호(01·02·03)와 선은 두지 않는다. 그쪽은 영문 낱말 한 줄뿐이다. */
-  .hm-tag {
-    margin: 0 0 8px;
+  /* 태그라인 — 운영체제 섹션(#teams)의 알약과 같은 값이다.
+     글자값은 global.css 의 .teams-preview-tagline,
+     상자값(테두리 · 둥글기 · 안여백)은 .teams-split .teams-preview-tagline 이다.
+     ⚠️ 두 규칙에 나뉘어 있다. 글자값만 보고 상자값을 빠뜨리면 알약이 안 생긴다. */
+  .hm-panel .hm-tag {
+    display: inline-flex; align-items: center;
+    margin: 0 0 16px;
+    padding: 7px 13.4px 7px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 999px;
     font-size: 12px; font-weight: 400; color: #5A6776;
-    letter-spacing: var(--ls-wide);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--ls-wide-sm);
   }
   /* 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
      .teams-preview-title-wrap h3 / .teams-preview-text p (global.css).
@@ -207,9 +231,38 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     .hm-panel p { font-size: 16px; }
   }
   @media (max-width: 900px) {
-    .hm-panel { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(84px + env(safe-area-inset-bottom, 0px)); width: calc(100vw - 36px); }
+    .hm-panel { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); width: calc(100vw - 36px); }
     .hm-intro { left: max(18px, env(safe-area-inset-left, 0px)); top: clamp(84px, 11vh, 120px); }
   }
+  /* 위치 표시 — 왼쪽 아래, 글과 같은 축에 둔다(왼쪽 끝 72px).
+     글 아래에 가로로 한 줄이라 패널과 한 덩어리로 읽힌다. */
+  .hm-rail {
+    position: absolute;
+    left: max(72px, env(safe-area-inset-left, 0px));
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; gap: 20px;
+    pointer-events: auto;
+  }
+  .hm-rail-btn {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    background: none; border: 0; padding: 0; cursor: pointer;
+    font: inherit; font-size: 12px; font-weight: 400;
+    letter-spacing: var(--ls-wide-sm);
+    color: #9AA5B1;
+    transition: color .3s;
+  }
+  /* 선 길이로도 지금 자리를 알린다 — 번호만으로는 한눈에 안 들어온다. */
+  .hm-rail-btn i {
+    display: block; height: 1px; width: 28px; background: currentColor;
+    transition: width .3s, background .3s;
+  }
+  .hm-rail-btn:hover { color: #5A6776; }
+  .hm-rail-btn[aria-current="true"] { color: var(--text, #16202C); }
+  .hm-rail-btn[aria-current="true"] i { width: 48px; background: #76A6D7; }
+  @media (max-width: 900px) {
+    .hm-rail { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); gap: 14px; }
+  }
+
   /* 동작 줄이기 — 장면을 넘기지 않고 첫 화면만 둔다. */
   @media (prefers-reduced-motion: reduce) {
     #hero.hm { height: 100svh; }
@@ -226,6 +279,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     if (!hero || !fr) return;
     var text = hero.querySelector('.hm-text');
     var scenes = [].slice.call(text.querySelectorAll('[data-scene]'));
+    var rail = [].slice.call(hero.querySelectorAll('.hm-rail-btn'));
     var N = 4;                       /* 장면 수 — 모션 패키지와 같다 */
     /* 인트로(대제목 · 소제목)가 걷히는 지점. 장면 경계(0.25)보다 훨씬 앞이다 —
        첫 화면의 글은 빨리 비키고 그림이 먼저 눈에 들어오게 한다.
@@ -248,6 +302,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var n = +scenes[k].getAttribute('data-scene');
         scenes[k].classList.toggle('is-on', n === 0 ? introOn : n === i);
       }
+      /* 위치 표시는 장면 번호만 따라간다 — 인트로가 걷혀도 0 번에 머문다. */
+      for (var r = 0; r < rail.length; r++) {
+        if (+rail[r].getAttribute('data-go') === i) rail[r].setAttribute('aria-current', 'true');
+        else rail[r].removeAttribute('aria-current');
+      }
     }
     function tick() {
       var r = hero.getBoundingClientRect();
@@ -261,6 +320,17 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       ticking = true;
       requestAnimationFrame(function () { ticking = false; tick(); });
     }
+    /* 탭을 누르면 그 장면 한가운데로 간다. 장면 i 는 p 가 i/N ~ (i+1)/N 인
+       구간이므로 그 가운데(i + 0.5)/N 으로 보낸다. */
+    for (var r2 = 0; r2 < rail.length; r2++) {
+      rail[r2].addEventListener('click', function () {
+        var i = +this.getAttribute('data-go');
+        var span = hero.offsetHeight - window.innerHeight;
+        if (span <= 0) return;
+        window.scrollTo({ top: hero.offsetTop + span * ((i + 0.5) / N), behavior: 'smooth' });
+      });
+    }
+
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll);
     fr.addEventListener('load', tick);
