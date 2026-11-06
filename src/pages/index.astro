@@ -89,8 +89,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <div class="hm-text">
       {/* 장면 0 — 대제목 · 소제목을 가운데로 모아 위에 둔다. */}
       <div class="hm-intro" data-scene="0">
-        <p class="hm-eyebrow" translate="no">Refinery Industrial AI OS</p>
-        <h1>흩어진 현장을<br>하나의 운영체제로</h1>
+        <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
         <p class="hm-sub">현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
       </div>
 
@@ -132,13 +131,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
-  .hm-eyebrow {
-    margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--text-muted, #7E8A98);
-  }
   /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 이 살아 있어
      그대로 두면 상자가 10em 에 묶여, 글이 가운데여도 덩어리가 왼쪽에 붙는다. */
-  #hero.hm .hm-intro h1 { max-width: none; margin-inline: auto; }
+  /* 대제목 · 소제목 모두 가운데다. 상자도 글도 가운데로 둔다 —
+     .hm-intro 의 text-align 만으로는 상자가 왼쪽에 남는 경우가 있다. */
+  #hero.hm .hm-text .hm-intro h1,
+  #hero.hm .hm-text .hm-intro .hm-sub { max-width: none; margin-inline: auto; text-align: center; }
+  #hero.hm .hm-intro .hm-sub { max-width: 62ch; }
   .hm-intro h1 {
     margin: 0; font-size: clamp(34px, 5.2vw, 72px); font-weight: 700;
     line-height: 1.08; letter-spacing: -.04em; color: var(--text, #16202C);
