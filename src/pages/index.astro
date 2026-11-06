@@ -7,9 +7,7 @@ import Footer from '../components/Footer.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import { legal } from '../data/legal';
 import { heroCards } from '../data/heroMarkers';
-import HeroPinArt from '../components/HeroPinArt.astro';
 import ScrollReveal from '../components/ScrollReveal.astro';
-import HeroZoom from '../components/HeroZoom.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -74,345 +72,157 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- HERO -->
 <main id="main">
-<section id="hero">
-  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다(::after).
-      ⚠️ sticky 로 둔다. 히어로는 250vh 라 그냥 깔면 스크롤을 따라 흘러가는데,
-         보는 사람은 늘 화면 안을 가리키므로 점판도 화면에 붙어 있어야 한다.
-      ⚠️ 무대(.hero-stage)보다 앞에 둔다. 둘 다 sticky 라 뒤에 오는 쪽이 위에
-         그려진다 — 점판이 글과 그래픽 아래로 간다. */}
-  <canvas class="hero-dots" aria-hidden="true"></canvas>
-  <HeroZoom />
-  <div class="hero-stage">
-    <div class="container">
-      <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
-      <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
-      {/* 핀을 누르면 그 마커의 글이 여기 선다 — 소제목 바로 아래, 같은 왼쪽 끝이다.
-          머리 칸의 둘째 줄 · 오른쪽 칸을 쓰므로 자리가 소제목을 그대로 따라간다.
-          ⚠️ 칸 높이는 0 이고 카드는 그 안에 절대 배치한다. 그냥 두면 카드가 뜰 때
-             머리 칸이 커져 그래픽이 아래로 밀린다.
-          ⚠️ 안은 비워 둔다. 아래 스크립트가 <template data-hero-card> 에서 꺼내 채운다. */}
-      <div class="hero-pin-layer">
-        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
-          <div class="hero-pin-card__art" aria-hidden="true"></div>
-          <div class="hero-pin-card__body">
-            <h3 class="hero-pin-card__title"></h3>
-            <p class="hero-pin-card__desc"></p>
-          </div>
-        </div>
+{/* ───────── 히어로 — 스크롤로 넘어가는 전체 화면 모션 ─────────
+    그림은 /hero/refinery/index.html(프레임 193장 + 마스크)이 iframe 안에서 그리고,
+    글은 전부 이 쪽에서 그린다. 모션 쪽 글(.hero-wrap · .panel · .rail …)은
+    그 파일의 #rf-embed-override 가 꺼 둔다 — 글이 두 벌이 되면 번역도 색인도
+    갈라진다.
+    ⚠️ 섹션 높이 400vh 가 장면 넷을 넘기는 길이다. 줄이면 더 빨리 넘어간다.
+    ⚠️ 옛 히어로(VETEC 디지털 트윈 + 핀 3개)는 git 표 hero-vetec-v1 에 있다.
+       되돌리려면 `git show hero-vetec-v1:src/pages/index.astro`. */}
+<section id="hero" class="hm">
+  <div class="hm-sticky">
+    {/* 그림만 들어 있다 — 읽을 것이 없으므로 보조기기와 탭 이동에서 뺀다. */}
+    <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
+      title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
+
+    <div class="hm-text">
+      {/* 장면 0 — 대제목 · 소제목을 가운데로 모아 위에 둔다. */}
+      <div class="hm-intro" data-scene="0">
+        <p class="hm-eyebrow" translate="no">Refinery Industrial AI OS</p>
+        <h1>흩어진 현장을<br>하나의 운영체제로</h1>
+        <p class="hm-sub">현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
       </div>
-    </div>
-    <div class="hero-motion-placeholder">
-      {/* VETEC 히어로 그래픽. 쓰는 법·옵션은 public/hero/README.md 가 쥔다 —
-          마커 문구·좌표는 public/hero/vetec-hero.js 맨 위 MARKERS 다.
-          .vh 는 기본으로 화면 높이를 차지하므로, 칸에 맞게 --vh-height 를 넘겨 쓴다
-          (src/styles/global.css). 스크립트가 안 돌면 static 이 대신 보인다. */}
-      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets-flat/"
-        data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="베텍 산업현장 디지털 트윈">
-        <img class="vh-static" src="/hero/assets-flat/static.webp" alt="공기압축기, 에어 리시버 탱크, 펌프·모터 스키드가 산악 지형 위 현장에 놓인 디지털 트윈 그래픽">
-      </section>
+
+      {/* 장면 1 · 2 · 3 — 옛 히어로의 핀 셋과 같은 글이다(src/data/heroMarkers.ts).
+          각 장면의 왼쪽 아래에 선다. */}
+      {heroCards.ko.map((c, i) => (
+        <article class="hm-panel" data-scene={i + 1}>
+          <div class="hm-idx"><b>{String(i + 1).padStart(2, '0')}</b><i></i>{c.tag}</div>
+          <h2>{c.title}</h2>
+          <p>{c.desc}</p>
+        </article>
+      ))}
     </div>
   </div>
-  
-  <HeroPinArt />
-  <script is:inline src="/hero/vetec-hero.js" defer></script>
-  {/* ⚠️ 스크롤 등장의 공용 장치. 아래 섹션 스크립트들이 모두 이걸 쓴다 —
-      여기보다 뒤에 와야 한다. 예전에는 clamp · ease · stagePinned · '제목이
-      화면을 올라오는 만큼' 식이 섹션마다 복붙돼 있었다(각 3벌 · 2벌).
-      값은 그대로다 — 쓰는 쪽이 제 상수를 넘긴다. */}
-  <script is:inline>
-    window.RfMotion = {
-      /* 0~1 로 자른다. */
-      clamp: function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; },
-      /* smoothstep — 양 끝에서 기울기가 0 이라 시작과 끝이 매끄럽다.
-         페이지의 모든 스크롤 등장이 이 하나를 쓴다. */
-      ease: function (t) { return t * t * (3 - 2 * t); },
-      /* 무대를 화면에 붙여 두는 폭인가. position 을 직접 읽는다 — 미디어 쿼리
-         경계를 스크립트에 두 번 적지 않기 위해서다. */
-      pinned: function (el) { return !!el && getComputedStyle(el).position === 'sticky'; },
-      /* 무대를 붙이지 않을 때 쓰는 진행도 — 제목이 화면을 올라오는 만큼이다.
-         from · to 는 화면 높이의 배수이고, 쓰는 쪽이 제 값을 넘긴다
-         (플랫폼 · 솔루션 1.05 → -0.35, 보안 1.00 → 0.35). */
-      rise: function (el, from, to) {
-        if (!el) return 1;
-        var vh = window.innerHeight || 800;
-        var a = vh * from, b = vh * to;
-        if (a <= b) return 1;
-        return this.clamp((a - el.getBoundingClientRect().top) / (a - b));
-      }
-    };
-  </script>
-  <script is:inline>
-    /* 히어로 핀 — 누르면 무대 왼쪽 아래 카드에 그 마커의 글이 선다.
-       ⚠️ 호버로는 열리지 않는다. 그래픽(public/hero/vetec-hero.js)에서 호버 · 포커스 ·
-          탭으로 카드를 열던 손잡이를 뺐고, 핀마다 나던 카드(.vh-card)는 CSS 로 숨겼다.
-       ⚠️ 핀은 그래픽이 나중에 만든다 — 지금 찾아 두면 늘 null 이다. document 에 한 번만
-          듣고(이벤트 위임) 누른 자리에서 마커를 거슬러 올라간다.
-       ⚠️ 열린 핀 표시는 그래픽의 is-pinned 를 그대로 쓴다(면이 차고 + 가 × 로 돈다).
-          그 클래스를 건드리는 쪽은 이제 여기뿐이다. */
-    (function () {
-      var hero = document.getElementById('hero');
-      var card = document.getElementById('heroPinCard');
-      if (!hero || !card) return;
-      var art = card.querySelector('.hero-pin-card__art');
-      var tt = card.querySelector('.hero-pin-card__title');
-      var ds = card.querySelector('.hero-pin-card__desc');
-      var open = null;
+</section>
 
-      /* 핀을 처음 누르면 그래픽이 한 벌 바뀐다 — 도면 같은 판(assets-flat)에서
-         빛을 계산한 판(assets)으로 간다. '들여다보니 현장이 켜진다' 는 뜻이다.
-         ⚠️ 무거운 판은 미리 받아 둔다. 핀은 그래픽이 다 자란 뒤(#hero.is-grown)에만
-            눌리므로, 그 클래스가 붙는 순간이 받아 둘 자리다 — 누를 때 받으면
-            2.3MB 를 기다리는 동안 아무 일도 안 일어난다.
-         ⚠️ 받아 둔 뒤 src 만 갈아 끼운다. 캐시에 있으므로 한 프레임에 바뀐다.
-            층마다 제 등장 애니메이션(.vh-fade · .vh-glow · .vh-flow)이 걸려 있어
-            겹쳐 띄우면 그 애니메이션이 서로 부딪힌다.
-         ⚠️ 한 번 바뀌면 그대로 둔다. 핀을 닫아도 되돌리지 않는다. */
-      var LIT = '/hero/assets/', FLAT = '/hero/assets-flat/';
-      var litReady = false, lit = false;
-      function preloadLit() {
-        if (litReady) return;
-        litReady = true;
-        var names = ['near'];
-        for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
-      }
-      /* 바뀌는 것은 가운데 설비 층(near.webp) 한 장뿐이다 — 산 · 능선 · 전경 지형과
-         땅에 그려진 윤곽선 · 빛줄기(near-contour · near-glow)는 도면 판 그대로다.
-         ⚠️ 밑장을 지우지 않고 그 위에 한 겹 얹는다. 두 겹이 겹쳐 있으므로 얹히는
-            쪽의 투명도만 움직이면 건너감이 되고, 되돌릴 때도 걷어 내기만 하면 된다. */
-      function litLayer() { return hero.querySelector('.vh-lit-near'); }
-      function baseNear() {
-        var imgs = hero.querySelectorAll('.vh-layer');
-        for (var i = 0; i < imgs.length; i++) {
-          var s = imgs[i].getAttribute('src') || '';
-          if (s.indexOf(FLAT) === 0 && /\/near\.webp$/.test(s) && !imgs[i].classList.contains('vh-lit-near')) return imgs[i];
-        }
-        return null;
-      }
-      var dimT = 0;
-      function light(id) {
-        /* 어느 핀을 눌러도 바뀌는 자리는 하나다 — 가운데 설비 띠.
-           핀마다 제 지형을 바꾸게 해 봤더니 한 화면에서 바뀌는 자리가 셋이라
-           어디를 보라는 건지 흐려졌다. */
-        if (lit) return;
-        clearTimeout(dimT);
-        var old = litLayer();
-        if (old && old.parentNode) old.parentNode.removeChild(old);
-        var base = baseNear();
-        if (!base) return;
-        lit = true;
-        var over = base.cloneNode(false);
-        over.setAttribute('src', LIT + 'near.webp');
-        over.setAttribute('aria-hidden', 'true');
-        over.setAttribute('alt', '');
-        over.classList.add('vh-lit-near');
-        base.parentNode.insertBefore(over, base.nextSibling);
-      }
-      function dim() {
-        if (!lit) return;
-        lit = false;
-        var over = litLayer();
-        if (!over) return;
-        over.classList.add('is-out');
-        clearTimeout(dimT);
-        dimT = setTimeout(function () {
-          var o = litLayer();
-          if (o && o.parentNode) o.parentNode.removeChild(o);
-        }, 460);
-      }
+<style is:global>
+  /* 히어로 모션 — 섹션은 길고, 안의 무대만 화면에 붙어 있는다. */
+  #hero.hm { position: relative; height: 400vh; background: var(--bg, #fff); }
+  .hm-sticky {
+    position: sticky; top: 0;
+    height: 100vh; height: 100svh;
+    overflow: hidden;
+  }
+  .hm-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  /* 글 층 — 그림 위에 얹되 클릭은 통과시킨다(아래 모션이 포인터를 쓴다). */
+  .hm-text { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  .hm-intro, .hm-panel {
+    position: absolute;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .hm-intro.is-on, .hm-panel.is-on { opacity: 1; transform: none; }
 
-      /* is-grown 은 HeroZoom 이 진행도를 보고 붙인다 — 그때 미리 받아 둔다.
-         ⚠️ 떨어질 때도 본다. 스크롤을 되올려 그래픽이 다시 작아지면 핀이 사라지는데,
-            카드만 남으면 무엇에 붙은 글인지 알 수 없다 — 같이 닫는다.
-         ⚠️ hide() 가 #hero 의 class 를 또 건드리지만(pin-open) 그때는 open 이 이미
-            비어 있어 되돌이로 돌지 않는다. */
-      if (window.MutationObserver) {
-        var mo = new MutationObserver(function () {
-          if (hero.classList.contains('is-grown')) {
-            preloadLit();
-            /* 자라는 동안 배율이 계속 바뀐다 — 멈춘 뒤에 한 번 더 잰다. */
-            fitSoon(); setTimeout(fitPins, 180); setTimeout(fitPins, 520);
-          }
-          else if (open) hide();
-        });
-        mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
-        if (hero.classList.contains('is-grown')) preloadLit();
-      /* 좁은 폭에서는 장면이 칸보다 커서 좌우가 잘린다(820 에서 294px, 600 에서
-         404px). 그 바깥에 놓인 핀은 칸 밖으로 나가 반쪽만 보이거나 아예 안
-         보였다 — 핀을 통째로 안쪽으로 당겨 늘 칸 안에 서게 한다.
-         ⚠️ 핀 머리만 옮기지 않는다. 줄기와 바닥 점까지 같이 가야 '이 자리를
-            가리킨다' 가 유지된다. 어차피 원래 가리키던 설비는 잘려 나간 뒤다.
-         ⚠️ translate 로 민다 — .vh-marker 는 transform 을 쓰지 않지만, 그래픽
-            쪽이 나중에 쓰더라도 부딪히지 않는다.
-         ⚠️ 재기 전에 되돌린다. 제가 민 값이 남아 있으면 그만큼 또 밀린다. */
-      var FIT_PAD = 8;
-      function fitPins() {
-        var box = hero.querySelector('.hero-motion-placeholder');
-        if (!box) return;
-        var ms = hero.querySelectorAll('.vh-marker');
-        if (!ms.length) return;
-        for (var i = 0; i < ms.length; i++) ms[i].style.removeProperty('translate');
-        var bb = box.getBoundingClientRect();
-        /* ⚠️ 무대(.vh-stage)가 scale 을 걸고 있다 — 그 안에서 미는 값은 화면에서
-           그 배율만큼 줄어든다. 화면 기준으로 옮기고 싶은 거리를 배율로 나눈다.
-           이 보정 없이는 600 에서 143px 을 밀어도 핀이 여전히 칸 밖이었다. */
-        var sx = 1;
-        var st = hero.querySelector('.vh-stage');
-        if (st && window.DOMMatrixReadOnly) {
-          try { sx = new DOMMatrixReadOnly(getComputedStyle(st).transform).a || 1; } catch (e) { sx = 1; }
-        }
-        if (!sx) sx = 1;
-        for (var i = 0; i < ms.length; i++) {
-          var pin = ms[i].querySelector('.vh-pin');
-          if (!pin) continue;
-          var b = pin.getBoundingClientRect(), dx = 0;
-          if (b.left < bb.left + FIT_PAD) dx = (bb.left + FIT_PAD) - b.left;
-          else if (b.right > bb.right - FIT_PAD) dx = (bb.right - FIT_PAD) - b.right;
-          if (dx) ms[i].style.setProperty('translate', (dx / sx).toFixed(2) + 'px 0');
-        }
-      }
-      var fitT = false;
-      function fitSoon() {
-        if (fitT) return;
-        fitT = true;
-        requestAnimationFrame(function () { fitT = false; fitPins(); });
-      }
-      addEventListener('resize', fitSoon, { passive: true });
-      addEventListener('scroll', fitSoon, { passive: true });
-      } else { preloadLit(); }
+  /* 장면 0 — 가운데 · 위 */
+  .hm-intro {
+    left: 0; right: 0; top: clamp(96px, 12vh, 150px);
+    text-align: center;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .hm-eyebrow {
+    margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-muted, #7E8A98);
+  }
+  /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 이 살아 있어
+     그대로 두면 상자가 10em 에 묶여, 글이 가운데여도 덩어리가 왼쪽에 붙는다. */
+  #hero.hm .hm-intro h1 { max-width: none; margin-inline: auto; }
+  .hm-intro h1 {
+    margin: 0; font-size: clamp(34px, 5.2vw, 72px); font-weight: 700;
+    line-height: 1.08; letter-spacing: -.04em; color: var(--text, #16202C);
+    word-break: keep-all; text-wrap: balance;
+  }
+  .hm-sub {
+    margin: 22px auto 0; max-width: 62ch;
+    font-size: clamp(15px, 1.2vw, 18px); line-height: 1.7;
+    color: var(--text-muted, #7E8A98); word-break: keep-all;
+  }
 
-      function mark(id) {
-        var ms = hero.querySelectorAll('.vh-marker');
-        for (var i = 0; i < ms.length; i++) {
-          ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
-        }
-        /* 하나를 고르면 나머지 핀은 물러선다(CSS 의 #hero.pin-open). */
-        hero.classList.toggle('pin-open', !!id);
-      }
-      /* 카드가 덮는 자리에 선 핀은 감춘다. 카드는 머리글에 붙어 늘 같은 자리인데
-         (1600 기준 453~676) 핀은 화면 높이를 따라 오르내린다 — 창이 낮을수록
-         오른쪽 핀이 카드 안으로 들어와, 760 높이에서는 44×44 가 통째로 겹쳤다.
-         ⚠️ 고른 핀은 감추지 않는다 — CSS 가 카드 위로 올려 통째로 보이게 한다.
-         ⚠️ 창 크기와 스크롤에 따라 다시 재야 한다. 히어로가 자라는 동안에도
-            핀이 움직인다. */
-      function cover() {
-        var ms = hero.querySelectorAll('.vh-marker');
-        var cb = open ? card.getBoundingClientRect() : null;
-        for (var i = 0; i < ms.length; i++) {
-          var m = ms[i], pin = m.querySelector('.vh-pin');
-          if (!cb || !pin || m.classList.contains('is-pinned')) { m.classList.remove('is-covered'); continue; }
-          var b = pin.getBoundingClientRect();
-          m.classList.toggle('is-covered',
-            Math.min(cb.right, b.right) > Math.max(cb.left, b.left) &&
-            Math.min(cb.bottom, b.bottom) > Math.max(cb.top, b.top));
-        }
-      }
-      var coverT = false;
-      function coverSoon() {
-        if (coverT || !open) return;
-        coverT = true;
-        requestAnimationFrame(function () { coverT = false; cover(); });
-      }
-      addEventListener('scroll', coverSoon, { passive: true });
-      addEventListener('resize', coverSoon, { passive: true });
-      function hide() {
-        card.hidden = true;
-        /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
-        dim();
-        mark(null); open = null;
-        cover();
-      }
-      function show(id) {
-        var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
-        if (!tpl) return;
-        var h = tpl.content.querySelector('.vh-card__title');
-        var p = tpl.content.querySelector('.vh-card__desc');
-        /* 윗자리 그래픽은 HeroPinArt 가 둔 <template data-hero-art> 에서 꺼낸다 —
-           마커 id 로 찾는다. 없으면 그 자리를 비워 둔다(글만 선다). */
-        var atpl = document.querySelector('template[data-hero-art="' + id + '"]');
-        art.textContent = '';
-        if (atpl) art.appendChild(atpl.content.cloneNode(true));
-        art.hidden = !atpl;
-        tt.textContent = h ? h.textContent : '';
-        ds.textContent = p ? p.textContent : '';
-        card.hidden = false;
-        mark(id);
-        open = id;
-        /* open 이 정해진 뒤에 잰다 — mark() 안에서는 아직 비어 있다. */
-        cover();
-      }
+  /* 장면 1 · 2 · 3 — 왼쪽 아래 */
+  .hm-panel {
+    left: max(72px, env(safe-area-inset-left, 0px));
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    width: min(470px, calc(100vw - 32px));
+  }
+  .hm-idx {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 500; letter-spacing: .12em;
+    color: var(--text-muted, #7E8A98); margin-bottom: 20px;
+  }
+  .hm-idx b { color: #76A6D7; font-weight: 500; }
+  .hm-idx i { flex: 0 0 40px; height: 1px; background: #C8CED5; }
+  .hm-panel h2 {
+    margin: 0; font-size: clamp(28px, 3.6vw, 52px); font-weight: 700;
+    line-height: 1.12; letter-spacing: -.04em; color: var(--text, #16202C);
+    word-break: keep-all; text-wrap: balance;
+  }
+  .hm-panel p {
+    margin: 18px 0 0; font-size: clamp(15px, 1.25vw, 18px); line-height: 1.65;
+    color: var(--text-muted, #7E8A98); word-break: keep-all;
+  }
+  @media (max-width: 900px) {
+    .hm-panel { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(84px + env(safe-area-inset-bottom, 0px)); width: calc(100vw - 36px); }
+    .hm-intro { top: clamp(84px, 11vh, 120px); }
+  }
+  /* 동작 줄이기 — 장면을 넘기지 않고 첫 화면만 둔다. */
+  @media (prefers-reduced-motion: reduce) {
+    #hero.hm { height: 100svh; }
+    .hm-intro, .hm-panel { transition: none; }
+  }
+</style>
 
-      document.addEventListener('click', function (e) {
-        var t = e.target;
-        if (!t || !t.closest) return;
-        var pin = t.closest('.vh-pin');
-        if (pin && hero.contains(pin)) {
-          var m = pin.closest('.vh-marker');
-          var id = m && m.getAttribute('data-id');
-          if (!id) return;
-          light(id);
-          if (open === id) hide(); else show(id);
-          return;
-        }
-        /* 카드 안을 누르는 건 아무 일도 아니다 — 닫는 건 같은 핀을 다시 누르거나
-           바깥을 누르거나 Esc 다. */
-        if (t.closest('.hero-pin-card')) return;
-        if (open) hide();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && open) hide();
-      });
-    })();
-  </script>
+<script is:inline>
+  /* 스크롤 진행도를 iframe 에 넘기고(모션이 그 값으로 프레임을 고른다),
+     같은 값으로 이 쪽 글의 장면을 바꾼다.
+     ⚠️ 두 곳이 같은 p 를 쓴다 — 글과 그림이 어긋나지 않게 하려면 한 군데서 재야 한다. */
+  (function () {
+    var hero = document.getElementById('hero');
+    var fr = document.getElementById('hmFrame');
+    if (!hero || !fr) return;
+    var text = hero.querySelector('.hm-text');
+    var scenes = [].slice.call(text.querySelectorAll('[data-scene]'));
+    var N = 4;                       /* 장면 수 — 모션 패키지와 같다 */
+    var last = -1, ticking = false;
 
-  {/* 마커 카드의 내용. 그래픽(public/hero/vetec-hero.js)은 핀 위치와 빈 카드 껍데기까지
-      만들고, 그 안은 여기서 채운다 — 아래 스크립트가 data-id 를 맞춰 꽂는다.
-      문구는 src/data/heroMarkers.ts, 모양은 global.css 가 쥔다. */}
-  {heroCards.ko.map((c) => (
-    <template data-hero-card={c.id} data-hero-card-label={c.title}>
-      <div class="vh-card__top"><i class={`ph ${c.icon} vh-card__ic`} aria-hidden="true"></i></div>
-      <h3 class="vh-card__title">{c.title}</h3>
-      <p class="vh-card__desc">{c.desc}</p>
-    </template>
-  ))}
-  <script is:inline type="module">
-    (function () {
-      /* ⚠️ 그래픽 스크립트가 카드 껍데기를 만든 뒤에 돌아야 한다.
-         vetec-hero.js 는 defer 라 파싱이 끝난 뒤 실행되는데, 보통의 인라인 스크립트는
-         파싱 도중 즉시 실행된다 — 그때는 카드가 아직 없어 빈 상자만 남는다.
-         type="module" 이면 defer 와 같은 큐에 들어가 문서 순서대로 실행되고,
-         그래도 늦는 경우를 대비해 카드가 생길 때까지 DOM 을 지켜본다. */
-      function fill() {
-        var cards = document.querySelectorAll('#hero .vh-card');
-        if (!cards.length) return false;
-        var filled = 0;
-        for (var i = 0; i < cards.length; i++) {
-          var card = cards[i];
-          if (card.childElementCount) { filled++; continue; }
-          var marker = card.closest('.vh-marker');
-          if (!marker) continue;
-          var tpl = document.querySelector('template[data-hero-card="' + marker.getAttribute('data-id') + '"]');
-          if (!tpl) continue;
-          card.appendChild(tpl.content.cloneNode(true));
-          /* 핀과 카드의 접근성 이름도 문구에서 가져온다 — 그래픽은 더 이상 문구를 모른다. */
-          var label = tpl.getAttribute('data-hero-card-label') || '';
-          card.setAttribute('aria-label', label);
-          var pin = marker.querySelector('.vh-pin');
-          if (pin) pin.setAttribute('aria-label', label);
-          filled++;
-        }
-        return filled === cards.length;
+    function paint(p) {
+      /* 0~1 을 넷으로 나눈다. 0.999 를 곱해 끝에서 N 이 되는 것을 막는다. */
+      var i = Math.min(N - 1, Math.floor(p * N * 0.999));
+      if (i === last) return;
+      last = i;
+      for (var k = 0; k < scenes.length; k++) {
+        scenes[k].classList.toggle('is-on', +scenes[k].getAttribute('data-scene') === i);
       }
-      if (fill()) return;
-      var hero = document.getElementById('hero');
-      if (!hero || !('MutationObserver' in window)) return;
-      var obs = new MutationObserver(function () { if (fill()) obs.disconnect(); });
-      obs.observe(hero, { childList: true, subtree: true });
-      /* 그래픽이 끝내 안 뜨는 경우까지 지켜보지는 않는다. */
-      setTimeout(function () { obs.disconnect(); }, 8000);
-    })();
-  </script>
-
-  </section>
+    }
+    function tick() {
+      var r = hero.getBoundingClientRect();
+      var span = hero.offsetHeight - window.innerHeight;
+      var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: p }, '*');
+      paint(p);
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; tick(); });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    fr.addEventListener('load', tick);
+    tick();
+  })();
+</script>
 
 <ScrollReveal />
 
