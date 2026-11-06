@@ -160,11 +160,9 @@ body{background:var(--bg);color:var(--ink-800);font-family:var(--sans);-webkit-f
    ⚠️ 지우지 않고 감춘다. 이 파일의 인라인 JS 가 #rail · #prog · .panel 등을
       id/클래스로 집어 쓰므로 노드를 없애면 스크립트가 중간에 멈춘다. */
 /* ⚠️ main 에 높이를 준다. 패키지의 embedCss 가 html,body 만 100% 로 잡는데
-   그 사이에 <main> 이 있어, .track{height:100%} 가 0 으로 풀린다 — 무대도
-   캔버스도 높이 0 이 되어 그림이 통째로 안 보였다. */
+   그 사이에 <main> 이 있어, .track{height:100%} 가 0 으로 풀린다. */
 main { height: 100% !important; }
 .hero-wrap, .panel, .rail, .cue, .prog, .after { display: none !important; }
-/* 글 뒤를 어둡게 깔던 막도 걷는다 — 글이 없으니 그림이 제 색으로 보여야 한다. */
 .hero-shade, .side-shade { opacity: 0 !important; }
 </style>
 

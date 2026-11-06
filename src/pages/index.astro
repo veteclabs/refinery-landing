@@ -88,10 +88,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
       title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
 
+    {/* 첫 화면을 덮는 면. 스크롤을 시작하면 걷히며 그림이 드러난다.
+        ⚠️ iframe 위 · 글 아래(z-index 1)다. 투명도는 아래 스크립트가 --cover 로 넣는다. */}
+    <div class="hm-cover" aria-hidden="true"></div>
+
     <div class="hm-text">
-      {/* 장면 0 — 대제목 · 소제목을 가운데로 모아 위에 둔다. */}
+      {/* 장면 0 — 덮개 위에 글만 선다. 칸 한가운데다. */}
       <div class="hm-intro" data-scene="0">
         <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
+        <p class="hm-sub">현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
       </div>
 
       {/* 장면 1 · 2 · 3 — 옛 히어로의 핀 셋과 같은 글이다(src/data/heroMarkers.ts).
@@ -159,8 +164,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     opacity: 1; transform: none;
     transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1);
   }
-  /* 인트로는 위로 걷힌다 — 스크롤을 내리는 방향과 같아 비켜 주는 것처럼 읽힌다. */
-  .hm-intro { transform: translateY(-18px); }
+  /* 인트로는 살짝 위로 걷힌다 — 스크롤 방향과 같아 비켜 주는 것처럼 읽힌다. */
+  .hm-intro { transform: translateY(-12px); }
   /* 패널은 아래에서 올라오고 아래로 내려간다. */
   .hm-panel { transform: translateY(14px); }
   @media (prefers-reduced-motion: reduce) {
@@ -168,13 +173,22 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   }
 
   /* 장면 0 — 가운데 · 위 */
-  /* 장면 0 — 칸의 왼쪽 위. 왼쪽 끝은 패널 01·02·03 과 같은 자리다(72px).
-     세로 축이 하나로 맞아 글 덩어리가 위아래로 이어져 읽힌다. */
+  /* 덮개 — 칸 안을 통째로 가린다. 칸 배경과 같은 색이라 처음에는 글만 보인다.
+     ⚠️ --cover 는 아래 스크립트가 1 → 0 으로 넣는다. 스크립트가 없거나 동작
+        줄이기를 켠 환경에서는 0 이라 그림이 처음부터 보인다. */
+  .hm-cover {
+    position: absolute; inset: 0; z-index: 1;
+    background: var(--bg-soft, #F6F8FA);
+    opacity: var(--cover, 0);
+    pointer-events: none;
+  }
+  /* 장면 0 — 칸 한가운데. 덮개 위에 글만 선다. */
   .hm-intro {
-    left: max(72px, env(safe-area-inset-left, 0px));
-    right: max(24px, env(safe-area-inset-right, 0px));
-    top: clamp(56px, 8vh, 104px);
-    text-align: left;
+    inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding-left: max(24px, env(safe-area-inset-left, 0px));
+    padding-right: max(24px, env(safe-area-inset-right, 0px));
   }
   /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 이 살아 있어
      그대로 두면 상자가 10em 에 묶여, 글이 가운데여도 덩어리가 왼쪽에 붙는다. */
@@ -182,7 +196,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
      .hm-intro 의 text-align 만으로는 상자가 왼쪽에 남는 경우가 있다. */
   /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 과
      `#hero h1 { text-align:left }` 이 살아 있어, 폭과 정렬을 여기서 다시 잡는다. */
-  #hero.hm .hm-text .hm-intro h1 { max-width: none; margin-inline: 0; text-align: left; }
+  #hero.hm .hm-text .hm-intro h1 { max-width: none; margin-inline: auto; text-align: center; }
+  /* 소제목 — 두 줄은 문장 사이의 <br> 가 만든다. 폭을 묶지 않는다. */
+  .hm-sub {
+    margin: 24px 0 0;
+    font-size: clamp(15px, 1.2vw, 18px); line-height: 1.7;
+    color: var(--text-muted, #7E8A98); word-break: keep-all;
+  }
   .hm-intro h1 {
     margin: 0; font-size: clamp(34px, 5.2vw, 72px); font-weight: 700;
     line-height: 1.08; letter-spacing: -.04em; color: var(--text, #16202C);
@@ -232,7 +252,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   }
   @media (max-width: 900px) {
     .hm-panel { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); width: calc(100vw - 36px); }
-    .hm-intro { left: max(18px, env(safe-area-inset-left, 0px)); top: clamp(84px, 11vh, 120px); }
+    .hm-intro { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
   }
   /* 위치 표시 — 왼쪽 아래, 글과 같은 축에 둔다(왼쪽 끝 72px).
      글 아래에 가로로 한 줄이라 패널과 한 덩어리로 읽힌다. */
@@ -284,6 +304,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     if (!hero || !fr) return;
     var text = hero.querySelector('.hm-text');
     var scenes = [].slice.call(text.querySelectorAll('[data-scene]'));
+    /* ⚠️ window.RfMotion 에 기대지 않는다. 그 선언은 이 스크립트보다 뒤에 있어
+       여기서는 아직 undefined 다 — 한 번 그렇게 써서 히어로가 통째로 멈췄다. */
+    function ease(t) { return t * t * (3 - 2 * t); }
     var rail = [].slice.call(hero.querySelectorAll('.hm-rail-btn'));
     var N = 4;                       /* 장면 수 — 모션 패키지와 같다 */
     /* 인트로(대제목 · 소제목)가 걷히는 지점. 장면 경계(0.25)보다 훨씬 앞이다 —
@@ -295,6 +318,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           0.25 = 675px · 0.18 = 486px · 0.12 = 324px 이다.
           0.12 는 너무 일렀다. */
     var INTRO_END = 0.18;
+    /* 덮개가 다 걷히는 지점. 글이 비키기(0.18) 전에 끝나야 한다 —
+       그림이 먼저 드러나고, 그 위에서 글이 물러나는 차례가 된다. */
+    var COVER_END = 0.12;
     var last = -1, lastIntro = null, ticking = false;
 
     function paint(p) {
@@ -318,6 +344,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var span = hero.offsetHeight - window.innerHeight;
       var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
       if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: p }, '*');
+      /* 덮개 — 처음에는 1(그림을 통째로 가린다), COVER_END 에서 0 이 된다.
+         ⚠️ 클래스가 아니라 숫자다. 스크롤을 되감으면 그대로 되돌아온다. */
+      var c = 1 - Math.min(1, p / COVER_END);
+      hero.style.setProperty('--cover', ease(c).toFixed(3));
       paint(p);
     }
     function onScroll() {
