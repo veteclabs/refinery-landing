@@ -194,7 +194,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   .hm-panel {
     left: max(72px, env(safe-area-inset-left, 0px));
     /* 아래에 위치 표시 탭이 서므로 그만큼 올려 둔다. */
-    bottom: calc(132px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(160px + env(safe-area-inset-bottom, 0px));
     width: min(470px, calc(100vw - 32px));
   }
   /* 태그라인도 운영체제 섹션(#teams)과 같은 값이다 —
@@ -238,6 +238,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
      글 아래에 가로로 한 줄이라 패널과 한 덩어리로 읽힌다. */
   .hm-rail {
     position: absolute;
+    /* ⚠️ top · right 를 반드시 auto 로 되돌린다. 전역 CSS 에 요소 선택자 `nav`
+       규칙이 있어 position:fixed · top:0 · left:0 · right:0 을 건다. 여기서
+       position 과 left · bottom 만 덮으면 top:0 과 right:0 이 살아남아,
+       top 이 bottom 을 이겨 칸 맨 위에 붙고 폭이 오른쪽 끝까지 늘어난다. */
+    top: auto; right: auto;
     left: max(72px, env(safe-area-inset-left, 0px));
     bottom: calc(52px + env(safe-area-inset-bottom, 0px));
     display: flex; align-items: center; gap: 20px;
