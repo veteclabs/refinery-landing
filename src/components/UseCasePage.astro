@@ -1131,7 +1131,18 @@ const jsonLd = [
   .uc-signal-cards {
     display: flex; flex-wrap: wrap; justify-content: center;
     gap: 16px;
+    /* 카드마다 윗변을 어긋내므로 위로 맞춘다. stretch 로 두면 margin-top 이
+       밀어낸 만큼 칸이 늘어나 정사각이 깨진다. */
+    align-items: flex-start;
   }
+  /* 윗변을 세 단으로 어긋낸다 — 0 · 44 · 22px 이 되풀이된다.
+     두 단(짝수만 내리기)으로 하면 규칙적인 지그재그가 되어, 어긋났다기보다
+     두 줄로 보인다. 세 단이면 되풀이 주기가 길어 들쑥날쑥하게 읽힌다.
+     ⚠️ transform 이 아니라 margin-top 이다. 스크롤 등장 모션(ScrollReveal)이
+        같은 요소의 transform 을 translateY(16px) → none 으로 쓰기 때문에,
+        transform 으로 어긋내면 카드가 뜨는 순간 어긋남이 지워진다. */
+  .uc-signal:nth-child(3n+2) { margin-top: 44px; }
+  .uc-signal:nth-child(3n)   { margin-top: 22px; }
   /* 카드 상자 없이 원형 아이콘과 라벨만 세로로 쌓는다. */
   /* 카드 면색은 'Refinery는 이렇게 풉니다' 섹션 배경(.ind-soft)과 같은 --bg-soft.
      이 섹션은 흰 배경이라 별도 테두리 없이 면색만으로 카드가 구분된다. */
