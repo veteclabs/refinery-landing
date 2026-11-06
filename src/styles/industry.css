@@ -958,10 +958,24 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-container { max-width: 1600px; padding: 0 48px; }
 @media (max-width: 900px) { .ind-page .ind-container { padding: 0 24px; } }
 
-/* 섹션 위아래 여백. 히어로 위 여백(.ind-hero-bg 의 padding-top)과 같은 값으로
-   묶는다 — 네 섹션(과제 · 유즈케이스 · 솔루션 구조 · 도입 효과)이 같은 간격으로 선다.
-   ⚠️ 숫자가 두 곳에 있다. 히어로를 고치면 여기도 같이 고친다. */
+/* 섹션 위아래 여백. 필러 페이지(/why-refinery)가 쓰는 값이다.
+   ⚠️ 산업 상세는 아래에서 130px 으로 덮는다. 전에는 이 180px 이 히어로 위
+      여백(.ind-hero-bg 의 padding-top 180px)과 같은 값으로 묶여 있었는데,
+      산업 상세를 과제별과 맞추면서 그 짝이 풀렸다. 히어로 위 여백은 그대로
+      180px 이다. */
 .ind-page .ind-section { padding: 180px 0; }
+
+/* 산업 상세의 섹션 여백은 과제별(.uc-redesigned .ind-section)과 같은 값으로 둔다.
+   ⚠️ .ind-page 가 아니라 .ind-industry 에 건다. .ind-page 는 필러 페이지
+      (/why-refinery)도 쓰므로 그쪽 여백까지 같이 줄어든다.
+   ⚠️ 위 .ind-page 규칙과 특이도가 같다(둘 다 0,2,0). 두 클래스가 같은 <main>
+      에 함께 붙으므로 뒤에 선언된 이쪽이 이긴다 — 순서를 바꾸면 안 된다. */
+.ind-industry .ind-section { padding: 130px 0; }
+/* 좁은 폭 값도 과제별과 같다. 공통 .ind-section 의 560px 분기(60px)는 특이도가
+   낮아(0,1,0) 위 규칙에 져서 산업 상세에는 닿지 않았다. */
+@media (max-width: 900px) {
+  .ind-industry .ind-section { padding: 60px 0; }
+}
 
 /* 대제목 왼쪽 · 소제목 오른쪽으로 한 줄에 나눈다 — 랜딩 .section-header-row와
    같은 값이다. 제목 아래 여백은 44px -> 64px. */
