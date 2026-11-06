@@ -94,13 +94,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     </div>
 
     <div class="hero-motion-placeholder">
-      {/* 창이 커지는 동안에는 이 정지 그림만 보인다. 모션은 그때 progress 0 에
-          세워 둔 상태라 포스터와 같은 장면이고, 바뀌는 순간이 눈에 띄지 않는다.
-          ⚠️ 이게 검은 면을 막는 핵심이다. iframe 안 WebGL 캔버스는 크기가 바뀔
-             때마다 어두운 색으로 지워진다 — 창이 자라는 내내 리사이즈가 이어져
-             그 검은 면이 계속 비쳤다. 다 자란 뒤에는 크기가 멈추므로 괜찮다. */}
-      <img class="hm-poster" src="/hero/refinery/poster.jpg" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
-
       {/* 그림만 들어 있다 — 읽을 것이 없으므로 보조기기와 탭 이동에서 뺀다. */}
       <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
         title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
@@ -173,19 +166,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
   /* ⚠️ 창에 밝은 밑판을 깐다. 모션 패키지는 어두운 면을 기본으로 쓰는 판이라,
      프레임이 아직 안 왔거나 iframe 이 뜨는 동안 그 어두운 면이 비쳤다. */
-  .hero-motion-placeholder { background: var(--bg-soft, #F6F8FA); }
-  .hm-poster, .hm-frame {
+  /* 밑판은 모션 패키지의 바탕(--bg #EEF4FB)과 같은 색이다 — 창 가장자리에서
+     이음매가 보이지 않는다. */
+  .hero-motion-placeholder { background: #EEF4FB; }
+  .hm-frame {
     position: absolute; inset: 0; width: 100%; height: 100%;
     border: 0; display: block;
-    background: var(--bg-soft, #F6F8FA);
+    background: #EEF4FB;
   }
-  .hm-poster { object-fit: cover; object-position: center; z-index: 1; }
-  /* 다 자라기 전에는 포스터만, 다 자란 뒤에는 모션만 보인다.
-     ⚠️ visibility 까지 끈다. opacity 만 0 으로 두면 캔버스가 여전히 그려지고
-        리사이즈마다 검은 면이 깜빡인다. */
-  #hero:not(.is-grown) .hm-frame { opacity: 0; visibility: hidden; }
-  #hero.is-grown .hm-poster { opacity: 0; visibility: hidden; }
-  .hm-poster, .hm-frame { transition: opacity .25s linear; }
+  /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
+     iframe 을 visibility:hidden 으로 숨겼는데, is-grown 이 늦거나 안 붙는
+     환경에서는 정지 그림만 남아 '스크롤이 안 먹고 그래픽이 안 보이는' 꼴이 된다.
+     검은 면을 막으려던 장치였는데 그 검은 면 자체를 재현하지 못했다. */
   /* 글 층 — 창 위에 얹되 클릭은 통과시킨다. */
   .hm-text { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
   /* ⚠️ 창이 다 자라기 전에는 장면 글을 내보내지 않는다. 작은 창 안에 글을

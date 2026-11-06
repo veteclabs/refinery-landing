@@ -322,7 +322,7 @@ const DATA={"live":{"hub":[0,10.5,0],"graph":[150.714,14,34.091],"ring":[150.714
 /* ---------- Rendered scene: Cycles frames scrubbed by scroll, light flows drawn live on top ---------- */
 /* image sequence on a canvas (no video seeking → no stutter); adjacent frames are cross-faded
    and the overlay camera is interpolated, so scroll position maps continuously onto the scene */
-const vid=document.getElementById('vid'),vctx=vid.getContext('2d',{alpha:false}),ov=document.getElementById('ov'),ctx=ov.getContext('2d');
+const vid=document.getElementById('vid'),vctx=vid.getContext('2d',{alpha:true})/* ⚠️ alpha:false 로 두면 안 된다. 불투명 2D 캔버스는 크기가 바뀔 때마다 검정으로 초기화돼, 창이 자라는 내내 검은 면이 깜빡인다. 투명으로 두면 그 자리에 무대 바탕(--bg #EEF4FB)이 비친다. */,ov=document.getElementById('ov'),ctx=ov.getContext('2d');
 const NF=DATA.cams.length,VW=1280,VH=720;
 /* frames are fetched as compressed blobs and decoded off the main thread into ImageBitmaps; only a
    window of frames around the scroll position is kept decoded, so drawing never stalls on a decode */
