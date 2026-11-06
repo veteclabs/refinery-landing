@@ -169,8 +169,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   /* 밑판은 모션 패키지의 바탕(--bg #EEF4FB)과 같은 색이다 — 창 가장자리에서
      이음매가 보이지 않는다. */
   .hero-motion-placeholder { background: #EEF4FB; }
+  /* ⚠️ 창에 맞춰 늘이지 않는다. inset:0 으로 두면 창이 자라는 내내 iframe 이
+     같이 커지고, 그때마다 안쪽 캔버스가 다시 잡혀 그림이 버벅인다
+     (57 프레임에 크기가 52번 바뀌고 프레임 간격이 중앙 496ms 까지 벌어졌다).
+     크기는 화면에서 한 번 정하고(아래 스크립트), 창은 마스크로만 쓴다 —
+     작을 때는 가운데가 보이고 자라면서 둘레가 드러난다. */
   .hm-frame {
-    position: absolute; inset: 0; width: 100%; height: 100%;
+    position: absolute;
+    top: 50%; left: 50%;
+    /* 자리를 잡은 뒤 배율로 줄인다. 창이 작을 때는 장면 전체가 줄어들어 들어가고,
+       자라면서 제 크기(1)로 돌아온다.
+       ⚠️ 배율은 합성 단계에서 처리돼 캔버스를 다시 그리지 않는다. 크기(width/
+          height)를 건드리면 매 프레임 캔버스가 다시 잡혀 버벅인다 — 그래서
+          크기는 고정하고 배율만 움직인다.
+       ⚠️ 0.445 는 작은 창(620px)과 다 자란 창(1393px)의 비다. 창 크기를 바꾸면
+          이 값도 다시 잰다. */
+    transform: translate(-50%, -50%)
+               scale(calc(0.445 + 0.555 * var(--hero-p, 0)));
     border: 0; display: block;
     background: #EEF4FB;
   }
@@ -316,6 +331,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (1 - GROW)), behavior: 'smooth' });
       });
     }
+    /* iframe 크기는 화면이 바뀔 때만 정한다 — 스크롤 중에는 건드리지 않는다.
+       ⚠️ 무대(.hero-stage) 크기를 쓴다. 다 자란 창보다 조금 크지만 창이
+          overflow:hidden 이라 가장자리가 잘릴 뿐, 보이는 그림은 같다. */
+    var stage = hero.querySelector('.hero-stage');
+    function sizeFrame() {
+      if (!stage) return;
+      fr.style.width = stage.clientWidth + 'px';
+      fr.style.height = stage.clientHeight + 'px';
+    }
+    sizeFrame();
+    addEventListener('resize', sizeFrame);
+
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll);
     fr.addEventListener('load', tick);
