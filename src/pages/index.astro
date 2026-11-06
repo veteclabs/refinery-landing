@@ -8,6 +8,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import { legal } from '../data/legal';
 import { heroCards } from '../data/heroMarkers';
 import ScrollReveal from '../components/ScrollReveal.astro';
+import HeroZoom from '../components/HeroZoom.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -72,158 +73,85 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 
 <!-- HERO -->
 <main id="main">
-{/* ───────── 히어로 — 스크롤로 넘어가는 전체 화면 모션 ─────────
-    그림은 /hero/refinery/index.html(프레임 193장 + 마스크)이 iframe 안에서 그리고,
-    글은 전부 이 쪽에서 그린다. 모션 쪽 글(.hero-wrap · .panel · .rail …)은
-    그 파일의 #rf-embed-override 가 꺼 둔다 — 글이 두 벌이 되면 번역도 색인도
-    갈라진다.
-    ⚠️ 섹션 높이 400vh 가 장면 넷을 넘기는 길이다. 줄이면 더 빨리 넘어간다.
-    ⚠️ 옛 히어로(VETEC 디지털 트윈 + 핀 3개)는 git 표 hero-vetec-v1 에 있다.
-       되돌리려면 `git show hero-vetec-v1:src/pages/index.astro`. */}
-<section id="hero" class="hm" data-nav-keep>
-  <div class="hm-sticky">
-    {/* 둥근 네모 칸 — 모션과 글이 모두 이 안에 든다. 스크롤해도 모양은 그대로다. */}
-    <div class="hm-box">
-    {/* 그림만 들어 있다 — 읽을 것이 없으므로 보조기기와 탭 이동에서 뺀다. */}
-    <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
-      title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
-
-    {/* 첫 화면을 덮는 면. 스크롤을 시작하면 걷히며 그림이 드러난다.
-        ⚠️ iframe 위 · 글 아래(z-index 1)다. 투명도는 아래 스크립트가 --cover 로 넣는다. */}
-    <div class="hm-cover" aria-hidden="true"></div>
-
-    <div class="hm-text">
-      {/* 장면 0 — 덮개 위에 글만 선다. 칸 한가운데다. */}
-      <div class="hm-intro" data-scene="0">
-        <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
-        <p class="hm-sub">현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
-      </div>
-
-      {/* 장면 1 · 2 · 3 — 옛 히어로의 핀 셋과 같은 글이다(src/data/heroMarkers.ts).
-          각 장면의 왼쪽 아래에 선다. */}
-      {heroCards.ko.map((c, i) => (
-        <article class="hm-panel" data-scene={i + 1}>
-          <p class="hm-tag">{c.tag}</p>
-          <h2>{c.title}</h2>
-          <p>{c.desc}</p>
-        </article>
-      ))}
-
-      {/* 위치 표시 — 지금 몇 번째 장면인지 짚어 준다. 누르면 그 장면으로 간다.
-          ⚠️ 글 층(.hm-text)은 pointer-events:none 이라 여기서만 다시 켠다.
-          ⚠️ 보이는 글자는 번호다(00 · 01 · 02 · 03). 태그라인은 알약 안의 영문
-             낱말이 맡고, 번호는 여기서만 쓴다 — 두 곳이 같은 말을 하지 않는다.
-             ⚠️ 번호만으로는 무엇인지 모르므로 aria-label 에 제목을 함께 넣는다. */}
-      <nav class="hm-rail" id="hmRail" aria-label="히어로 장면">
-        {['00', '01', '02', '03'].map((label, i) => (
-          <button type="button" class="hm-rail-btn" data-go={i} aria-current={i === 0 ? 'true' : undefined}
-            aria-label={i === 0 ? '개요' : `${label} ${heroCards.ko[i - 1].title}`}>
-            <span>{label}</span><i aria-hidden="true"></i>
-          </button>
-        ))}
-      </nav>
+{/* ───────── 히어로 — 옛 구성에 모션을 넣은 판 ─────────
+    시작 모습은 옛 히어로 그대로다. 왼쪽에 대제목, 오른쪽에 태그라인 + 소제목,
+    가운데에 로고 심볼 모양으로 오려 낸 작은 창. 스크롤하면 그 창이 자라며
+    화면을 채운다(HeroZoom 이 --hero-p 를 0 → 1 로 넣고 CSS 가 크기를 정한다).
+    ⚠️ 창 안의 그림만 바뀌었다. 옛 VETEC 디지털 트윈 대신
+       /hero/refinery/index.html(프레임 193장) 이 iframe 안에서 그린다.
+    ⚠️ 모션 쪽 글은 그 파일의 #rf-embed-override 가 꺼 둔다 — 글은 전부 이 쪽이다.
+    ⚠️ 옛 히어로 원본은 git 표 hero-vetec-v1 에 있다
+       (`git show hero-vetec-v1:src/pages/index.astro`). */}
+<section id="hero" data-nav-keep>
+  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다. */}
+  <canvas class="hero-dots" aria-hidden="true"></canvas>
+  {/* 심볼 모양 오림틀(#rf-symbol-clip)과 자라는 진행도(--hero-p)를 쥔다. */}
+  <HeroZoom />
+  <div class="hero-stage">
+    <div class="container">
+      <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
+      <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
     </div>
+
+    <div class="hero-motion-placeholder">
+      {/* 그림만 들어 있다 — 읽을 것이 없으므로 보조기기와 탭 이동에서 뺀다. */}
+      <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
+        title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
+
+      {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보인다(.is-grown). */}
+      <div class="hm-text">
+        {heroCards.ko.map((c, i) => (
+          <article class="hm-panel" data-scene={i + 1}>
+            <p class="hm-tag">{c.tag}</p>
+            <h2>{c.title}</h2>
+            <p>{c.desc}</p>
+          </article>
+        ))}
+
+        <nav class="hm-rail" id="hmRail" aria-label="히어로 장면">
+          {['00', '01', '02', '03'].map((label, i) => (
+            <button type="button" class="hm-rail-btn" data-go={i} aria-current={i === 0 ? 'true' : undefined}
+              aria-label={i === 0 ? '개요' : `${label} ${heroCards.ko[i - 1].title}`}>
+              <span>{label}</span><i aria-hidden="true"></i>
+            </button>
+          ))}
+        </nav>
+      </div>
     </div>
   </div>
-</section>
 
 <style is:global>
-  /* 히어로 모션 — 섹션은 길고, 안의 무대만 화면에 붙어 있는다. */
-  #hero.hm { position: relative; height: 400vh; background: var(--bg, #fff); }
-  .hm-sticky {
-    position: sticky; top: 0;
-    height: 100vh; height: 100svh;
-    /* 둥근 칸을 화면 안쪽으로 들여 놓는 여백. 위는 고정 내비 아래에서 시작한다. */
-    padding: calc(var(--header-h, 70px) + 12px)
-             max(24px, env(safe-area-inset-right, 0px))
-             max(24px, env(safe-area-inset-bottom, 0px))
-             max(24px, env(safe-area-inset-left, 0px));
-    box-sizing: border-box;
+  /* 모션 iframe 은 창을 그대로 채운다. 창의 모양 · 크기 · 오림은
+     .hero-motion-placeholder 와 HeroZoom 이 쥔다(global.css · HeroZoom.astro). */
+  .hm-frame {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: 0; display: block;
   }
-  /* 둥근 네모 칸. 모션도 글도 이 안에 든다.
-     ⚠️ 스크롤해도 모양이 변하지 않는다 — 상세 히어로(.ind-hero-figure)처럼
-        자라거나 모서리가 펴지지 않는다. */
-  .hm-box {
-    position: relative; width: 100%; height: 100%;
-    border-radius: 24px; overflow: hidden;
-    background: var(--bg-soft, #F6F8FA);
-  }
-  .hm-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
-  /* 글 층 — 그림 위에 얹되 클릭은 통과시킨다(아래 모션이 포인터를 쓴다). */
+  /* 글 층 — 창 위에 얹되 클릭은 통과시킨다. */
   .hm-text { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-  /* 들고 남을 따로 둔다.
-     ⚠️ 전환 값은 '가려는 상태'의 것이 쓰인다. 그래서 나갈 때(클래스가 빠질 때)는
-        아래 기본 규칙의 .42s 가, 들어올 때는 .is-on 의 .5s 가 걸린다 —
-        나가는 쪽이 더 빠르다. */
-  .hm-intro, .hm-panel {
+  /* ⚠️ 창이 다 자라기 전에는 장면 글을 내보내지 않는다. 작은 창 안에 글을
+     얹으면 그림도 글도 못 읽는다 — is-grown 은 HeroZoom 이 붙인다. */
+  #hero:not(.is-grown) .hm-text { opacity: 0; }
+  .hm-text { transition: opacity .4s; }
+
+  .hm-panel {
     position: absolute;
+    left: max(48px, env(safe-area-inset-left, 0px));
+    bottom: calc(132px + env(safe-area-inset-bottom, 0px));
+    width: min(470px, calc(100% - 96px));
     opacity: 0;
+    transform: translateY(14px);
     transition: opacity .42s cubic-bezier(.4,0,.7,.2), transform .42s cubic-bezier(.4,0,.7,.2);
   }
-  .hm-intro.is-on, .hm-panel.is-on {
+  .hm-panel.is-on {
     opacity: 1; transform: none;
     transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1);
   }
-  /* 인트로는 살짝 위로 걷힌다 — 스크롤 방향과 같아 비켜 주는 것처럼 읽힌다. */
-  .hm-intro { transform: translateY(-12px); }
-  /* 패널은 아래에서 올라오고 아래로 내려간다. */
-  .hm-panel { transform: translateY(14px); }
-  @media (prefers-reduced-motion: reduce) {
-    .hm-intro, .hm-panel, .hm-intro.is-on, .hm-panel.is-on { transition: none; transform: none; }
-  }
-
-  /* 장면 0 — 가운데 · 위 */
-  /* 덮개 — 칸 안을 통째로 가린다. 칸 배경과 같은 색이라 처음에는 글만 보인다.
-     ⚠️ --cover 는 아래 스크립트가 1 → 0 으로 넣는다. 스크립트가 없거나 동작
-        줄이기를 켠 환경에서는 0 이라 그림이 처음부터 보인다. */
-  .hm-cover {
-    position: absolute; inset: 0; z-index: 1;
-    background: var(--bg-soft, #F6F8FA);
-    opacity: var(--cover, 0);
-    pointer-events: none;
-  }
-  /* 장면 0 — 칸 한가운데. 덮개 위에 글만 선다. */
-  .hm-intro {
-    inset: 0;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center;
-    padding-left: max(24px, env(safe-area-inset-left, 0px));
-    padding-right: max(24px, env(safe-area-inset-right, 0px));
-  }
-  /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 이 살아 있어
-     그대로 두면 상자가 10em 에 묶여, 글이 가운데여도 덩어리가 왼쪽에 붙는다. */
-  /* 대제목 · 소제목 모두 가운데다. 상자도 글도 가운데로 둔다 —
-     .hm-intro 의 text-align 만으로는 상자가 왼쪽에 남는 경우가 있다. */
-  /* ⚠️ max-width 를 푼다. global.css 의 `#hero h1 { max-width: 10em }` 과
-     `#hero h1 { text-align:left }` 이 살아 있어, 폭과 정렬을 여기서 다시 잡는다. */
-  #hero.hm .hm-text .hm-intro h1 { max-width: none; margin-inline: auto; text-align: center; }
-  /* 소제목 — 두 줄은 문장 사이의 <br> 가 만든다. 폭을 묶지 않는다. */
-  .hm-sub {
-    margin: 24px 0 0;
-    font-size: clamp(15px, 1.2vw, 18px); line-height: 1.7;
-    color: var(--text-muted, #7E8A98); word-break: keep-all;
-  }
-  .hm-intro h1 {
-    margin: 0; font-size: clamp(34px, 5.2vw, 72px); font-weight: 700;
-    line-height: 1.08; letter-spacing: -.04em; color: var(--text, #16202C);
-    /* ⚠️ 한 줄짜리다. nowrap 으로 묶지 않는다 — 좁은 폭에서는 감겨야 한다. */
-    word-break: keep-all; text-wrap: balance;
-  }
-
-  /* 장면 1 · 2 · 3 — 왼쪽 아래 */
-  .hm-panel {
-    left: max(72px, env(safe-area-inset-left, 0px));
-    /* 아래에 위치 표시 탭이 서므로 그만큼 올려 둔다. */
-    bottom: calc(160px + env(safe-area-inset-bottom, 0px));
-    width: min(470px, calc(100vw - 32px));
-  }
-  /* 태그라인도 운영체제 섹션(#teams)과 같은 값이다 —
-     global.css 의 .teams-preview-tagline.
-     ⚠️ 번호(01·02·03)와 선은 두지 않는다. 그쪽은 영문 낱말 한 줄뿐이다. */
-  /* 태그라인 — 운영체제 섹션(#teams)의 알약과 같은 값이다.
-     글자값은 global.css 의 .teams-preview-tagline,
-     상자값(테두리 · 둥글기 · 안여백)은 .teams-split .teams-preview-tagline 이다.
-     ⚠️ 두 규칙에 나뉘어 있다. 글자값만 보고 상자값을 빠뜨리면 알약이 안 생긴다. */
+  /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
+     global.css 의 .teams-preview-tagline / .teams-preview-title-wrap h3 /
+     .teams-preview-text p. 한 벌로 묶은 값이라 한쪽을 고치면 다른 쪽도 본다.
+     ⚠️ 선택자를 .hm-panel .hm-tag 로 올린다. .hm-tag(0,1,0) 는 같은 블록의
+        .hm-panel p(0,2,1) 에 밀려 아무것도 적용되지 않았다. */
   .hm-panel .hm-tag {
     display: inline-flex; align-items: center;
     margin: 0 0 16px;
@@ -234,9 +162,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     line-height: var(--lh-flat);
     letter-spacing: var(--ls-wide-sm);
   }
-  /* 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
-     .teams-preview-title-wrap h3 / .teams-preview-text p (global.css).
-     ⚠️ 한 벌로 묶어 둔 값이라 한쪽을 고치면 다른 쪽도 같이 본다. */
   .hm-panel h2 {
     margin: 0 0 12px; font-size: 30px; font-weight: 600;
     line-height: var(--lh-title); letter-spacing: var(--ls-snug);
@@ -247,23 +172,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     margin: 0; font-size: 18px; line-height: var(--lh-body);
     color: var(--text-muted, #7E8A98); word-break: keep-all;
   }
-  @media (max-width: 900px) {
-    .hm-panel p { font-size: 16px; }
-  }
-  @media (max-width: 900px) {
-    .hm-panel { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); width: calc(100vw - 36px); }
-    .hm-intro { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
-  }
-  /* 위치 표시 — 왼쪽 아래, 글과 같은 축에 둔다(왼쪽 끝 72px).
-     글 아래에 가로로 한 줄이라 패널과 한 덩어리로 읽힌다. */
+
+  /* 위치 표시 — 글과 같은 축(왼쪽 끝 48px)에 가로 한 줄.
+     ⚠️ top · right 를 auto 로 되돌린다. 전역에 요소 선택자 `nav` 규칙이 있어
+        position:fixed · top:0 · right:0 을 건다 — 안 되돌리면 맨 위로 튀고
+        폭이 오른쪽 끝까지 늘어난다. */
   .hm-rail {
     position: absolute;
-    /* ⚠️ top · right 를 반드시 auto 로 되돌린다. 전역 CSS 에 요소 선택자 `nav`
-       규칙이 있어 position:fixed · top:0 · left:0 · right:0 을 건다. 여기서
-       position 과 left · bottom 만 덮으면 top:0 과 right:0 이 살아남아,
-       top 이 bottom 을 이겨 칸 맨 위에 붙고 폭이 오른쪽 끝까지 늘어난다. */
     top: auto; right: auto;
-    left: max(72px, env(safe-area-inset-left, 0px));
+    left: max(48px, env(safe-area-inset-left, 0px));
     bottom: calc(52px + env(safe-area-inset-bottom, 0px));
     display: flex; align-items: center; gap: 20px;
     pointer-events: auto;
@@ -276,7 +193,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     color: #9AA5B1;
     transition: color .3s;
   }
-  /* 선 길이로도 지금 자리를 알린다 — 번호만으로는 한눈에 안 들어온다. */
   .hm-rail-btn i {
     display: block; height: 1px; width: 28px; background: currentColor;
     transition: width .3s, background .3s;
@@ -285,55 +201,37 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   .hm-rail-btn[aria-current="true"] { color: var(--text, #16202C); }
   .hm-rail-btn[aria-current="true"] i { width: 48px; background: #76A6D7; }
   @media (max-width: 900px) {
-    .hm-rail { left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); gap: 14px; }
+    .hm-panel { left: max(24px, env(safe-area-inset-left, 0px)); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); width: calc(100% - 48px); }
+    .hm-panel p { font-size: 16px; }
+    .hm-rail { left: max(24px, env(safe-area-inset-left, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); gap: 14px; }
   }
-
-  /* 동작 줄이기 — 장면을 넘기지 않고 첫 화면만 둔다. */
   @media (prefers-reduced-motion: reduce) {
-    #hero.hm { height: 100svh; }
+    .hm-panel, .hm-panel.is-on, .hm-text { transition: none; transform: none; }
   }
 </style>
 
 <script is:inline>
   /* 스크롤 진행도를 iframe 에 넘기고(모션이 그 값으로 프레임을 고른다),
      같은 값으로 이 쪽 글의 장면을 바꾼다.
-     ⚠️ 두 곳이 같은 p 를 쓴다 — 글과 그림이 어긋나지 않게 하려면 한 군데서 재야 한다. */
+     ⚠️ 한 곳에서 잰다 — 두 번 재면 글과 그림이 어긋난다.
+     ⚠️ window.RfMotion 에 기대지 않는다. 그 선언은 이 스크립트보다 뒤에 있어
+        여기서는 undefined 다. */
   (function () {
     var hero = document.getElementById('hero');
     var fr = document.getElementById('hmFrame');
     if (!hero || !fr) return;
-    var text = hero.querySelector('.hm-text');
-    var scenes = [].slice.call(text.querySelectorAll('[data-scene]'));
-    /* ⚠️ window.RfMotion 에 기대지 않는다. 그 선언은 이 스크립트보다 뒤에 있어
-       여기서는 아직 undefined 다 — 한 번 그렇게 써서 히어로가 통째로 멈췄다. */
-    function ease(t) { return t * t * (3 - 2 * t); }
+    var scenes = [].slice.call(hero.querySelectorAll('.hm-panel[data-scene]'));
     var rail = [].slice.call(hero.querySelectorAll('.hm-rail-btn'));
     var N = 4;                       /* 장면 수 — 모션 패키지와 같다 */
-    /* 인트로(대제목 · 소제목)가 걷히는 지점. 장면 경계(0.25)보다 훨씬 앞이다 —
-       첫 화면의 글은 빨리 비키고 그림이 먼저 눈에 들어오게 한다.
-       ⚠️ 패널 1·2·3 은 종전대로 ¼ 지점에서 바뀐다. 모션 쪽 장면 전환과 같은
-          자리라, 여기를 건드리면 글과 그림이 어긋난다.
-       ⚠️ 그래서 0.18~0.25 사이에는 글이 없다. 의도한 틈이다.
-       ⚠️ 이 값이 걷히는 '시점'이다. 1440x900 에서 스크롤 거리로는
-          0.25 = 675px · 0.18 = 486px · 0.12 = 324px 이다.
-          0.12 는 너무 일렀다. */
-    var INTRO_END = 0.18;
-    /* 덮개가 다 걷히는 지점. 글이 비키기(0.18) 전에 끝나야 한다 —
-       그림이 먼저 드러나고, 그 위에서 글이 물러나는 차례가 된다. */
-    var COVER_END = 0.12;
-    var last = -1, lastIntro = null, ticking = false;
+    var last = -1, ticking = false;
 
     function paint(p) {
-      /* 0~1 을 넷으로 나눈다. 0.999 를 곱해 끝에서 N 이 되는 것을 막는다. */
       var i = Math.min(N - 1, Math.floor(p * N * 0.999));
-      var introOn = p < INTRO_END;
-      if (i === last && introOn === lastIntro) return;
-      last = i; lastIntro = introOn;
+      if (i === last) return;
+      last = i;
       for (var k = 0; k < scenes.length; k++) {
-        var n = +scenes[k].getAttribute('data-scene');
-        scenes[k].classList.toggle('is-on', n === 0 ? introOn : n === i);
+        scenes[k].classList.toggle('is-on', +scenes[k].getAttribute('data-scene') === i);
       }
-      /* 위치 표시는 장면 번호만 따라간다 — 인트로가 걷혀도 0 번에 머문다. */
       for (var r = 0; r < rail.length; r++) {
         if (+rail[r].getAttribute('data-go') === i) rail[r].setAttribute('aria-current', 'true');
         else rail[r].removeAttribute('aria-current');
@@ -344,10 +242,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var span = hero.offsetHeight - window.innerHeight;
       var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
       if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: p }, '*');
-      /* 덮개 — 처음에는 1(그림을 통째로 가린다), COVER_END 에서 0 이 된다.
-         ⚠️ 클래스가 아니라 숫자다. 스크롤을 되감으면 그대로 되돌아온다. */
-      var c = 1 - Math.min(1, p / COVER_END);
-      hero.style.setProperty('--cover', ease(c).toFixed(3));
       paint(p);
     }
     function onScroll() {
@@ -355,8 +249,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       ticking = true;
       requestAnimationFrame(function () { ticking = false; tick(); });
     }
-    /* 탭을 누르면 그 장면 한가운데로 간다. 장면 i 는 p 가 i/N ~ (i+1)/N 인
-       구간이므로 그 가운데(i + 0.5)/N 으로 보낸다. */
     for (var r2 = 0; r2 < rail.length; r2++) {
       rail[r2].addEventListener('click', function () {
         var i = +this.getAttribute('data-go');
@@ -365,13 +257,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         window.scrollTo({ top: hero.offsetTop + span * ((i + 0.5) / N), behavior: 'smooth' });
       });
     }
-
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll);
     fr.addEventListener('load', tick);
     tick();
   })();
 </script>
+</section>
 
   {/* ⚠️ 스크롤 등장의 공용 장치. 아래 섹션 스크립트들이 모두 이걸 쓴다 —
       여기보다 뒤에 와야 한다. 옛 히어로 안에 있던 것을 히어로 바깥으로 꺼냈다. 예전에는 clamp · ease · stagePinned · '제목이
