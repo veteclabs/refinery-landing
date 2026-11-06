@@ -11,6 +11,7 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import SignalIcon from './SignalIcon.astro';
+import ScrollReveal from './ScrollReveal.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
 import { useCasesEn } from '../data/usecases/en';
@@ -136,6 +137,9 @@ const jsonLd = [
   {/* slug 클래스로 페이지별 스타일 스코프를 연다. 공통 .ind-* 규칙은 건드리지 않으므로
       이 클래스를 쓰지 않는 다른 유즈케이스는 기존 디자인 그대로다. */}
   <main class={`ind uc-page uc-${uc.slug}${uc.redesigned ? ' uc-redesigned' : ''}${lang === 'en' ? ' uc-en' : ''}`}>
+    {/* ⚠️ 본문 맨 위에 둔다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+        섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. */}
+    <ScrollReveal />
     <!-- HERO -->
     {/* ⚠️ heroImageAsBackground 는 이름만 옛것이다. 사진은 더 이상 글 뒤에 깔리지 않고
         글 아래 한 칸으로 선다 — 산업 상세(.ind-hero-bg)와 같은 구성이고, 규칙도

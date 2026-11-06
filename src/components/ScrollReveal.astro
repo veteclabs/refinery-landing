@@ -37,7 +37,20 @@
   .rv-on .ind-uc-aside:not(.rv-done),
   .rv-on .ind-uc-item:not(.rv-done),
   .rv-on .ind-flow-step:not(.rv-done),
-  .rv-on .ind-benefits .ind-card:not(.rv-done) {
+  .rv-on .ind-benefits .ind-card:not(.rv-done),
+  /* ↓ 과제별 페이지(UseCasePage). 머리 칸(.ind-head)은 산업 페이지와 같은 선택자로
+     이미 걸려 있어 여기에 다시 적지 않는다.
+     ⚠️ 해결방법 카드는 .ind-card 인데 산업 페이지의 도입 효과 카드와 이름이 같다.
+        그쪽은 .ind-benefits 아래라 서로 닿지 않지만, 과제별은 격자가 여럿이라
+        .uc-page .ind-grid 로 자리를 못박는다.
+     ⚠️ 히어로는 넣지 않는다 — 첫 화면이라 숨겼다 띄울 까닭이 없다. 사진이 자라는
+        모션(--grow)은 이것과 별개로 UseCasePage 안의 스크립트가 쥔다. */
+  .rv-on .uc-problem:not(.rv-done),
+  .rv-on .uc-signal:not(.rv-done),
+  .rv-on .uc-page .ind-grid .ind-card:not(.rv-done),
+  .rv-on .uc-template:not(.rv-done),
+  .rv-on .uc-case:not(.rv-done),
+  .rv-on .uc-faq-item:not(.rv-done) {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .55s cubic-bezier(.2, .7, .2, 1),
@@ -54,7 +67,13 @@
   .rv-on .ind-uc-aside.rv-in:not(.rv-done),
   .rv-on .ind-uc-item.rv-in:not(.rv-done),
   .rv-on .ind-flow-step.rv-in:not(.rv-done),
-  .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done) {
+  .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done),
+  .rv-on .uc-problem.rv-in:not(.rv-done),
+  .rv-on .uc-signal.rv-in:not(.rv-done),
+  .rv-on .uc-page .ind-grid .ind-card.rv-in:not(.rv-done),
+  .rv-on .uc-template.rv-in:not(.rv-done),
+  .rv-on .uc-case.rv-in:not(.rv-done),
+  .rv-on .uc-faq-item.rv-in:not(.rv-done) {
     opacity: 1;
     transform: none;
   }
@@ -71,9 +90,13 @@
 
     function start() {
       clearTimeout(guard);
+      // ⚠️ 위 <style> 의 두 목록과 같은 대상을 가리켜야 한다 — 셋 중 하나만 고치면
+      //    숨기기만 하고 영영 안 띄우거나, 띄우기만 하고 지연이 안 붙는다.
       var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
               + ', .ind-head, .ind-chal-rows, .ind-uc-aside, .ind-uc-item, .ind-flow-step'
-              + ', .ind-benefits .ind-card';
+              + ', .ind-benefits .ind-card'
+              + ', .uc-problem, .uc-signal, .uc-page .ind-grid .ind-card, .uc-template'
+              + ', .uc-case, .uc-faq-item';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }
 
