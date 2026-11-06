@@ -1612,7 +1612,7 @@
     #industries .sol-panel[data-off] { visibility: hidden; opacity: 0; pointer-events: none; }
     @media (prefers-reduced-motion: reduce) { #industries .sol-panel { transition: none; } }
 
-    /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
+    /* 과제별 페이지 '과제 더 살펴보기' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     /* grid-auto-rows: 1fr — 행 높이를 그리드 전체에서 하나로 맞춘다. 기본값(auto)이면

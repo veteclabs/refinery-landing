@@ -67,7 +67,7 @@
      '아직 준비 중'이라는 것은 표지의 그림과 오른쪽 위 배지가 알려 준다. */
   .res-page .res-card.is-link { text-decoration: none; }
 
-  /* 글자 규격을 예지보전 '함께 보면 좋은 과제' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
+  /* 글자 규격을 예지보전 '과제 더 살펴보기' 카드(.uc-case-label/.uc-case-desc)에 맞춘다.
      공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
      색은 맞추지 않는다 — 저쪽은 사진 위 흰 글자, 여기는 밝은 면 위 어두운 글자다. */
   .res-page .res-card h3 {
