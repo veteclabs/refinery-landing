@@ -203,6 +203,11 @@
       var COPY_GAP = 100;
       function placeCopy() {
         if (!copy || !boxEl) return;
+        /* ⚠️ .hv-copy 를 쓰는 판에서는 자리를 잡지 않는다. 그쪽은 글을 화면 세로
+           한가운데에 두므로(CSS 의 top:0/bottom:0 + margin-block:auto), 여기서
+           인라인 style.top 을 쓰면 그 가운데 맞춤이 매 프레임 덮인다 —
+           CSS 로는 인라인을 이길 수 없어 원인을 찾기 어렵다. */
+        if (copy.classList.contains('hv-copy')) return;
         var par = copy.offsetParent || hero;
         var pr = par.getBoundingClientRect();
         var br = boxEl.getBoundingClientRect();
