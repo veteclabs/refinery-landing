@@ -91,7 +91,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <div class="hm-text">
       {/* 장면 0 — 대제목 · 소제목을 가운데로 모아 위에 둔다. */}
       <div class="hm-intro" data-scene="0">
-        <h1><span class="hero-title-lead">흩어진 현장을</span><br><span class="hero-title-accent">하나의 운영체제</span>로</h1>
+        <h1><span class="hero-title-lead">흩어진 현장을</span> <span class="hero-title-accent">하나의 운영체제</span>로</h1>
         <p class="hm-sub">현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, 자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
       </div>
 
@@ -159,6 +159,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   .hm-intro h1 {
     margin: 0; font-size: clamp(34px, 5.2vw, 72px); font-weight: 700;
     line-height: 1.08; letter-spacing: -.04em; color: var(--text, #16202C);
+    /* ⚠️ 한 줄짜리다. nowrap 으로 묶지 않는다 — 좁은 폭에서는 감겨야 한다. */
     word-break: keep-all; text-wrap: balance;
   }
   .hm-sub {
@@ -240,6 +241,33 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     tick();
   })();
 </script>
+
+  {/* ⚠️ 스크롤 등장의 공용 장치. 아래 섹션 스크립트들이 모두 이걸 쓴다 —
+      여기보다 뒤에 와야 한다. 옛 히어로 안에 있던 것을 히어로 바깥으로 꺼냈다. 예전에는 clamp · ease · stagePinned · '제목이
+      화면을 올라오는 만큼' 식이 섹션마다 복붙돼 있었다(각 3벌 · 2벌).
+      값은 그대로다 — 쓰는 쪽이 제 상수를 넘긴다. */}
+  <script is:inline>
+    window.RfMotion = {
+      /* 0~1 로 자른다. */
+      clamp: function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; },
+      /* smoothstep — 양 끝에서 기울기가 0 이라 시작과 끝이 매끄럽다.
+         페이지의 모든 스크롤 등장이 이 하나를 쓴다. */
+      ease: function (t) { return t * t * (3 - 2 * t); },
+      /* 무대를 화면에 붙여 두는 폭인가. position 을 직접 읽는다 — 미디어 쿼리
+         경계를 스크립트에 두 번 적지 않기 위해서다. */
+      pinned: function (el) { return !!el && getComputedStyle(el).position === 'sticky'; },
+      /* 무대를 붙이지 않을 때 쓰는 진행도 — 제목이 화면을 올라오는 만큼이다.
+         from · to 는 화면 높이의 배수이고, 쓰는 쪽이 제 값을 넘긴다
+         (플랫폼 · 솔루션 1.05 → -0.35, 보안 1.00 → 0.35). */
+      rise: function (el, from, to) {
+        if (!el) return 1;
+        var vh = window.innerHeight || 800;
+        var a = vh * from, b = vh * to;
+        if (a <= b) return 1;
+        return this.clamp((a - el.getBoundingClientRect().top) / (a - b));
+      }
+    };
+  </script>
 
 <ScrollReveal />
 
