@@ -164,6 +164,9 @@ body{background:var(--bg);color:var(--ink-800);font-family:var(--sans);-webkit-f
 main { height: 100% !important; }
 .hero-wrap, .panel, .rail, .cue, .prog, .after { display: none !important; }
 .hero-shade, .side-shade { opacity: 0 !important; }
+/* ⚠️ 어두운 면을 밝게 바꾼다. 이 패키지는 'Night Plant' 판이라 무대 바탕이
+   어둡다 — 프레임이 아직 안 온 순간 그 면이 그대로 검게 비쳤다. */
+html, body, .stage, .track { background: #F6F8FA !important; }
 </style>
 
 <header class="nav">
