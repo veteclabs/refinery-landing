@@ -28,7 +28,7 @@ const AI_NOTICE = {
   humanReview:
     'VETEC staff cannot see conversation content. If temporary records are needed to diagnose a failure, they are collected for a set period with the consent of the person in charge at your company and deleted when the work is done.',
   training:
-    'VETEC does not use conversation content to train AI models. Service quality analysis is performed only if your organization administrator has consented, and only in aggregate form after personal information has been removed.',
+    'VETEC does not use conversation content to train AI models. If your organization consents to analytics data collection, then in the online operation mode your company’s server includes a daily AI task quality summary in its status reports: counts and totals such as the number of tasks, failures by type, errors by tool, ratings, tokens, and processing time. It does not send conversation content, account information, or comments you enter. VETEC keeps these summaries for two years. If you withdraw consent, the server stops sending them and VETEC deletes the summaries it has already received.',
   dataAccess:
     'The AI agent reads equipment, time-series, and document data on your company’s server only when it is needed for an answer. There is no continuous collection.',
   deletion:
@@ -46,8 +46,8 @@ const PATH_ROWS: { label: string; vetec: string; customer: string }[] = [
   },
   {
     label: 'What VETEC stores',
-    vetec: 'VETEC does not store conversation content. It keeps only usage (token count, model, time, installation, and organization) and access logs.',
-    customer: 'VETEC does not receive conversation content. In the online operation mode, it receives the number of AI calls and token counts included in status reports.',
+    vetec: 'VETEC does not store conversation content. It keeps usage (token count, model, time, installation, and organization) and access logs. For organizations that consent to analytics data collection, it also receives a daily AI task quality summary.',
+    customer: 'VETEC does not receive conversation content. In the online operation mode, it receives the number of AI calls and token counts included in status reports. For organizations that consent to analytics data collection, it also receives a daily AI task quality summary.',
   },
   {
     label: 'Retention period',
