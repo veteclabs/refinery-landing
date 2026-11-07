@@ -4,6 +4,7 @@ import '../styles/global.css';
 import '../styles/vetec-hero.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import AgentAuthoring from '../components/AgentAuthoring.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import { legal } from '../data/legal';
 import { heroCards } from '../data/heroMarkers';
@@ -2047,6 +2048,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   </div>
   </div>
 </section>
+
+<!-- AGENT AUTHORING (준비 중 · 샘플 UI) -->
+<AgentAuthoring lang="ko" />
 
 <!-- INTEGRATIONS -->
 <section id="integrations" style="background:#151B23;">
