@@ -979,11 +979,11 @@ img { max-width: 100%; height: auto; }
       (/why-refinery)도 쓰므로 그쪽 여백까지 같이 줄어든다.
    ⚠️ 위 .ind-page 규칙과 특이도가 같다(둘 다 0,2,0). 두 클래스가 같은 <main>
       에 함께 붙으므로 뒤에 선언된 이쪽이 이긴다 — 순서를 바꾸면 안 된다. */
-.ind-industry .ind-section { padding: 130px 0; }
+.ind-industry .ind-section { padding: 180px 0; }
 /* 좁은 폭 값도 과제별과 같다. 공통 .ind-section 의 560px 분기(60px)는 특이도가
    낮아(0,1,0) 위 규칙에 져서 산업 상세에는 닿지 않았다. */
 @media (max-width: 900px) {
-  .ind-industry .ind-section { padding: 60px 0; }
+  .ind-industry .ind-section { padding: 84px 0; }
 }
 
 /* 대제목 왼쪽 · 소제목 오른쪽으로 한 줄에 나눈다 — 랜딩 .section-header-row와
