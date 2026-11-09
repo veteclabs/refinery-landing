@@ -69,7 +69,7 @@ export const energy: IndustryData = {
     // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.
     // <br> 뒤 공백은 일부러 둔 것이다. 숨겼을 때 '실제로 하는'이 붙지 않게 하고,
     // 보일 때는 줄 첫머리 공백이라 렌더링에 영향이 없다.
-    subtitle: '에너지 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '에너지 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -164,7 +164,7 @@ export const energy: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '에너지 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '에너지 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

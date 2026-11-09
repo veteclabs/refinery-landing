@@ -56,7 +56,7 @@ export const automotive: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '자동차 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '자동차 제조 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -141,7 +141,7 @@ export const automotive: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '자동차 제조 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '자동차 제조 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };
