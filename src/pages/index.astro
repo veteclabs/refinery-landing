@@ -101,28 +101,26 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보이고(.is-grown),
           그 뒤로도 첫 장면이 올라오기 전까지는 비워 둔다(.is-scene). */}
       <div class="hm-text">
-        {heroCards.ko.map((c, i) => (
-          <article class="hm-panel" data-scene={i + 1}>
-            <p class="hm-tag"><b>{['01', '02', '03'][i]}</b>{c.tag}</p>
-            <h2>{c.title}</h2>
-            <p>{c.desc}</p>
-          </article>
-        ))}
-
-        {/* 세로선 위 원 셋이 곧 탭이다. 글은 활성 원 옆에 선다 —
-            자리는 CSS 가 쥐고(.hm-panel 의 --row), 진행 링은 스크립트가 --ring 으로 채운다. */}
-        <nav class="hm-rail" id="hmRail" aria-label="히어로 장면">
+        {/* 세 줄이 한 벌로 선다. 지금 장면만 펼쳐지고 나머지는 제목 한 줄로 접힌다.
+            줄 전체가 버튼이라 접힌 제목을 눌러도 그 장면으로 간다. */}
+        <div class="hm-acc" id="hmRail">
           {heroCards.ko.map((c, i) => (
-            <button type="button" class="hm-node" data-go={i + 1}
-              aria-label={`${['01', '02', '03'][i]} ${c.title}`}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle class="hm-node-track" cx="12" cy="12" r="10" />
-                <circle class="hm-node-arc" cx="12" cy="12" r="10" />
-                <circle class="hm-node-dot" cx="12" cy="12" r="3.5" />
-              </svg>
+            <button type="button" class="hm-row" data-go={i + 1} aria-expanded="false">
+              <span class="hm-dot" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle class="hm-node-track" cx="12" cy="12" r="10" />
+                  <circle class="hm-node-arc" cx="12" cy="12" r="10" />
+                  <circle class="hm-node-dot" cx="12" cy="12" r="3.5" />
+                </svg>
+              </span>
+              <span class="hm-body">
+                <span class="hm-fold hm-fold-tag"><span><span class="hm-tag"><b>{['01', '02', '03'][i]}</b>{c.tag}</span></span></span>
+                <span class="hm-title">{c.title}</span>
+                <span class="hm-fold"><span><span class="hm-desc">{c.desc}</span></span></span>
+              </span>
             </button>
           ))}
-        </nav>
+        </div>
       </div>
     </div>
   </div>
@@ -206,88 +204,34 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   #hero:not(.is-scene) .hm-text { opacity: 0; }
   .hm-text { transition: opacity .4s; }
 
-  /* 글은 제 원 옆에 선다. 세로 자리는 --row 로, 위아래 가운데는 translateY 로 맞춘다.
-     ⚠️ 자리를 top 으로 잡고 transform 은 가운데 맞춤 + 등장 떨림에만 쓴다.
-        둘을 섮으면 is-on 의 transform 이 자리값까지 지워 글이 가운데로 튀다.
-     ⚠️ 칸 간격(60px)은 .hm-node 의 top 과 같은 값이다. 한쪽을 고치면 다른 쪽도 고친다. */
-  .hm-panel {
+  /* 세 줄 아코디언. 왼쪽 아래에 바닥을 붙이고 위로 자란다 — 펼친 줄이 커져도
+     아래 여백(48px)이 그대로다. 왼쪽 여백도 같은 값이다. */
+  .hm-acc {
     position: absolute;
-    left: calc(max(48px, env(safe-area-inset-left, 0px)) + 46px);
-    top: calc(50% + var(--row, 0) * 60px);
-    width: min(430px, calc(100% - 140px));
-    opacity: 0;
-    transform: translateY(calc(-50% + 14px));
-    transition: opacity .42s cubic-bezier(.4,0,.7,.2), transform .42s cubic-bezier(.4,0,.7,.2);
-  }
-  .hm-panel[data-scene="1"] { --row: -1; }
-  .hm-panel[data-scene="2"] { --row: 0; }
-  .hm-panel[data-scene="3"] { --row: 1; }
-  .hm-panel.is-on {
-    opacity: 1; transform: translateY(-50%);
-    transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1);
-  }
-  /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
-     global.css 의 .teams-preview-tagline / .teams-preview-title-wrap h3 /
-     .teams-preview-text p. 한 벌로 묶은 값이라 한쪽을 고치면 다른 쪽도 본다.
-     ⚠️ 선택자를 .hm-panel .hm-tag 로 올린다. .hm-tag(0,1,0) 는 같은 블록의
-        .hm-panel p(0,2,1) 에 밀려 아무것도 적용되지 않았다. */
-  .hm-panel .hm-tag {
-    display: inline-flex; align-items: center;
-    margin: 0 0 16px;
-    padding: 7px 13.4px 7px 14px;
-    border: 1px solid var(--border2);
-    border-radius: 999px;
-    font-size: 12px; font-weight: 400; color: #5A6776;
-    line-height: var(--lh-flat);
-    letter-spacing: var(--ls-wide-sm);
-  }
-  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
-  .hm-panel .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
-  .hm-panel h2 {
-    margin: 0 0 12px; font-size: 30px; font-weight: 600;
-    line-height: var(--lh-title); letter-spacing: var(--ls-snug);
-    color: var(--text, #16202C);
-    word-break: keep-all; text-wrap: balance;
-  }
-  .hm-panel p {
-    margin: 0; font-size: 18px; line-height: var(--lh-body);
-    color: var(--text-muted, #7E8A98); word-break: keep-all;
-  }
-
-  /* 위치 표시 — 세로선 위의 원 셋. 글 왼쪽에 서고, 가운데 칸이 화면 중앙이다.
-     ⚠️ top · right 를 auto 로 되돌린다. 전역에 요소 선택자 `nav` 규칙이 있어
-        position:fixed · top:0 · right:0 을 건다 — 안 되돌리면 맨 위로 튀고
-        폭이 오른쪽 끝까지 늘어난다. */
-  .hm-rail {
-    position: absolute;
-    right: auto;
     left: max(48px, env(safe-area-inset-left, 0px));
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px; height: 120px;
+    bottom: max(48px, env(safe-area-inset-bottom, 0px));
+    width: min(430px, calc(100% - 140px));
+    display: flex; flex-direction: column; gap: 18px;
     pointer-events: auto;
   }
-  /* 바탕 선과 지나온 선. 두 줄이 같은 자리에 겹쳐 선다. */
-  .hm-rail::before, .hm-rail::after {
-    content: ""; position: absolute; left: 11.5px; top: 0; width: 1px;
+  /* 점을 잇는 선. 첫 점 중심에서 마지막 점 중심까지만 긋는다(점 반지름 12px). */
+  .hm-acc::before, .hm-acc::after {
+    content: ""; position: absolute; left: 11.5px; top: 12px; width: 1px;
   }
-  .hm-rail::before { bottom: 0; background: #CBD9E8; }
-  .hm-rail::after {
+  .hm-acc::before { bottom: 12px; background: #CBD9E8; }
+  .hm-acc::after {
     height: var(--done, 0px); background: #76A6D7;
     transition: height .45s cubic-bezier(.2,.7,.2,1);
   }
-  .hm-node {
-    position: absolute; left: 0;
-    width: 24px; height: 24px; padding: 0;
-    background: none; border: 0; cursor: pointer;
-    transform: translateY(-50%);
+  .hm-row {
+    display: grid; grid-template-columns: 24px 1fr; gap: 22px;
+    align-items: start; text-align: left;
+    background: none; border: 0; padding: 0; margin: 0;
+    font: inherit; color: inherit; cursor: pointer;
   }
-  /* ⚠️ 이 세 값이 .hm-panel 의 --row 와 짝을 이룬다(간격 60px). */
-  .hm-node[data-go="1"] { top: 0; }
-  .hm-node[data-go="2"] { top: 60px; }
-  .hm-node[data-go="3"] { top: 120px; }
-  .hm-node svg { width: 24px; height: 24px; display: block; }
-  .hm-node circle { fill: none; }
+  .hm-dot { width: 24px; height: 24px; }
+  .hm-dot svg { width: 24px; height: 24px; display: block; }
+  .hm-dot circle { fill: none; }
   .hm-node-track, .hm-node-arc { opacity: 0; transition: opacity .3s; }
   .hm-node-track { stroke: #D7E0EA; stroke-width: 2; }
   /* 장면 안 진행을 그리는 링. 둘레 2πr = 62.83 을 다 비워 두고 --ring 만큼 채운다. */
@@ -298,24 +242,68 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     transform: rotate(-90deg); transform-origin: 12px 12px;
   }
   .hm-node-dot { stroke: #B4C3D4; stroke-width: 1; transition: fill .3s, stroke .3s; }
-  .hm-node:hover .hm-node-dot { stroke: #76A6D7; }
-  .hm-node[aria-current="true"] .hm-node-track,
-  .hm-node[aria-current="true"] .hm-node-arc { opacity: 1; }
-  .hm-node[aria-current="true"] .hm-node-dot,
-  .hm-node.is-done .hm-node-dot { fill: #76A6D7; stroke: #76A6D7; }
+  .hm-row:hover .hm-node-dot { stroke: #76A6D7; }
+  .hm-row[aria-expanded="true"] .hm-node-track,
+  .hm-row[aria-expanded="true"] .hm-node-arc { opacity: 1; }
+  .hm-row[aria-expanded="true"] .hm-node-dot,
+  .hm-row.is-done .hm-node-dot { fill: #76A6D7; stroke: #76A6D7; }
+
+  .hm-body { display: block; min-width: 0; }
+  /* 비우는 칸. 0fr → 1fr 로 높이를 여닫는다 — max-height 로 하면 글 길이가
+     달라질 때마다 어림잡은 값을 다시 잡아야 한다. */
+  .hm-fold {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .hm-fold > span { overflow: hidden; min-height: 0; opacity: 0; transition: opacity .3s; }
+  .hm-row[aria-expanded="true"] .hm-fold { grid-template-rows: 1fr; }
+  .hm-row[aria-expanded="true"] .hm-fold > span { opacity: 1; transition: opacity .45s .12s; }
+
+  /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
+     global.css 의 .teams-preview-tagline / .teams-preview-title-wrap h3 /
+     .teams-preview-text p. 한 벌로 묶은 값이라 한쪽을 고치면 다른 쪽도 본다. */
+  .hm-tag {
+    display: inline-flex; align-items: center;
+    margin: 0 0 16px;
+    padding: 7px 13.4px 7px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    font-size: 12px; font-weight: 400; color: #5A6776;
+    line-height: var(--lh-flat);
+    letter-spacing: var(--ls-wide-sm);
+  }
+  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
+  .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
+  /* 접힐 때는 한 줄짜리 목록이고, 펼칠 때 제목이 된다. */
+  .hm-title {
+    display: block;
+    font-size: 17px; font-weight: 400;
+    line-height: var(--lh-title); letter-spacing: var(--ls-snug);
+    color: #7E8A98;
+    word-break: keep-all; text-wrap: balance;
+    transition: font-size .4s cubic-bezier(.2,.7,.2,1), color .3s, font-weight .3s;
+  }
+  .hm-row[aria-expanded="true"] .hm-title {
+    font-size: 30px; font-weight: 600; color: var(--text, #16202C);
+  }
+  .hm-desc {
+    display: block; margin: 12px 0 0;
+    font-size: 18px; line-height: var(--lh-body);
+    color: var(--text-muted, #7E8A98); word-break: keep-all;
+  }
   @media (max-width: 900px) {
-    .hm-panel {
-      left: calc(max(24px, env(safe-area-inset-left, 0px)) + 40px);
-      top: calc(50% + var(--row, 0) * 52px);
+    .hm-acc {
+      left: max(24px, env(safe-area-inset-left, 0px));
+      bottom: max(24px, env(safe-area-inset-bottom, 0px));
       width: calc(100% - 88px);
+      gap: 14px;
     }
-    .hm-panel p { font-size: 16px; }
-    .hm-rail { left: max(24px, env(safe-area-inset-left, 0px)); height: 104px; }
-    .hm-node[data-go="2"] { top: 52px; }
-    .hm-node[data-go="3"] { top: 104px; }
+    .hm-row { gap: 16px; }
+    .hm-row[aria-expanded="true"] .hm-title { font-size: 24px; }
+    .hm-desc { font-size: 16px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hm-panel, .hm-panel.is-on, .hm-text { transition: none; transform: none; }
+    .hm-fold, .hm-fold > span, .hm-title, .hm-acc::after, .hm-text { transition: none; }
   }
 </style>
 
@@ -329,9 +317,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     var hero = document.getElementById('hero');
     var fr = document.getElementById('hmFrame');
     if (!hero || !fr) return;
-    var scenes = [].slice.call(hero.querySelectorAll('.hm-panel[data-scene]'));
     var railEl = document.getElementById('hmRail');
-    var rail = [].slice.call(hero.querySelectorAll('.hm-node'));
+    var rail = [].slice.call(hero.querySelectorAll('.hm-row'));
     var N = 3;                       /* 장면 수 — 모션 패키지와 같다 */
     /* 창이 꽉 찬 직후의 짧은 빈 구간. 이만큼은 그림만 남기고, 더 스크롤해야
        첫 장면이 올라온다. 0 으로 두면 꽉 차는 순간 글이 이미 떠 있다. */
@@ -355,17 +342,25 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       if (i === last) return;
       last = i;
       hero.classList.toggle('is-scene', i > 0);
-      for (var k = 0; k < scenes.length; k++) {
-        scenes[k].classList.toggle('is-on', +scenes[k].getAttribute('data-scene') === i);
-      }
       for (var r = 0; r < rail.length; r++) {
         var g = +rail[r].getAttribute('data-go');
-        if (g === i) rail[r].setAttribute('aria-current', 'true');
-        else rail[r].removeAttribute('aria-current');
+        rail[r].setAttribute('aria-expanded', g === i ? 'true' : 'false');
         rail[r].classList.toggle('is-done', i > 0 && g < i);
       }
-      /* 지나온 선 길이는 활성 원의 자리에서 읽는다 — 간격은 CSS 가 쥔다. */
-      if (railEl) railEl.style.setProperty('--done', (i > 0 ? rail[i - 1].offsetTop : 0) + 'px');
+      /* 지나온 선 길이는 활성 줄의 점 자리에서 읽는다 — 간격은 CSS 가 쥔다.
+         ⚠️ 줄이 펼쳐지며 자리가 바뀌므로 전이가 끝난 뒤 한 번 더 읽는다. */
+      setDone(i);
+    }
+    function setDone(i) {
+      if (!railEl) return;
+      railEl.style.setProperty('--done', (i > 0 ? rail[i - 1].offsetTop : 0) + 'px');
+    }
+    /* 줄이 펼쳐지는 동안 점 자리가 움직인다 — 전이가 끝나는 순간 다시 읽는다.
+       시간을 어림잡아 기다리면 아직 움직이는 중에 읽어 선이 엉뚱하게 길어진다. */
+    if (railEl) {
+      railEl.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'grid-template-rows') setDone(last);
+      });
     }
     function tick() {
       var r = hero.getBoundingClientRect();
@@ -651,7 +646,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       position: absolute;
       left: var(--x);
       top: 28.083%;
-      transform: translateY(-50%);
+      transform: translate(-50%, -50%);
       white-space: nowrap;
       /* 알약 셋의 글자. 그림 폭을 따라가고 753px 에서 12px 다.
          판 위에 눕는 여섯은 아래 .pf-label--iso 에서 10px 로 따로 준다. */
@@ -724,7 +719,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       height: auto;
       padding: 0;
       border-radius: 0;
-      transform: translateY(-50%) skewY(-30deg);
+      transform: translate(-50%, -50%) skewY(-30deg);
     }
     #platform .pf-labels .pf-label--ont {
       color: #F6F8FA;
@@ -736,7 +731,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     /* 판 바닥에 눕는 쪽 — x축은 오른쪽 위(−30°), 아래쪽 y축은 오른쪽 아래(+30°). */
     #platform .pf-labels .pf-label--wf {
-      transform: translateY(-50%) matrix(.866, -.5, .866, .5, 0, 0);
+      transform: translate(-50%, -50%) matrix(.866, -.5, .866, .5, 0, 0);
       color: #9DBBD9;
       /* 원본도 두 줄이다. 원본의 글자 중심 사이는 12 단위인데, HTML 로 빼면서
          글자가 원본보다 커져 같은 비율로는 두 줄이 벌어져 보였다 — 더 붙인다.
