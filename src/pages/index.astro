@@ -177,15 +177,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   .hm-frame {
     position: absolute;
     top: 50%; left: 50%;
-    /* 자리를 잡은 뒤 배율로 줄인다. 창이 작을 때는 장면 전체가 줄어들어 들어가고,
-       자라면서 제 크기(1)로 돌아온다.
+    /* 자리만 잡는다. 배율은 아래 스크립트가 창 크기에서 재어 넣는다(--hm-s).
        ⚠️ 배율은 합성 단계에서 처리돼 캔버스를 다시 그리지 않는다. 크기(width/
           height)를 건드리면 매 프레임 캔버스가 다시 잡혀 버벅인다 — 그래서
-          크기는 고정하고 배율만 움직인다.
-       ⚠️ 0.445 는 작은 창(620px)과 다 자란 창(1393px)의 비다. 창 크기를 바꾸면
-          이 값도 다시 잰다. */
-    transform: translate(-50%, -50%)
-               scale(calc(0.445 + 0.555 * var(--hero-p, 0)));
+          크기는 고정하고 배율만 움직인다. */
+    transform: translate(-50%, -50%) scale(var(--hm-s, 1));
     border: 0; display: block;
     background: #EEF4FB;
   }
@@ -315,6 +311,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          폭을 꽉 채운 뒤부터 스크롤이 모션을 돌린다. */
       var mp = p <= GROW ? 0 : (p - GROW) / (1 - GROW);
       if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: mp }, '*');
+
       paint(mp);
     }
     function onScroll() {
@@ -335,6 +332,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 무대(.hero-stage) 크기를 쓴다. 다 자란 창보다 조금 크지만 창이
           overflow:hidden 이라 가장자리가 잘릴 뿐, 보이는 그림은 같다. */
     var stage = hero.querySelector('.hero-stage');
+    var box = hero.querySelector('.hero-motion-placeholder');
     function sizeFrame() {
       if (!stage) return;
       fr.style.width = stage.clientWidth + 'px';
@@ -342,6 +340,23 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     }
     sizeFrame();
     addEventListener('resize', sizeFrame);
+
+    /* 창을 꽉 채우는 배율. 가로 세로 중 큰 쪽을 쓴다 — 작은 쪽을 쓰면 남는
+       방향에 빈 띠가 생긴다(가로 비만 썼을 때 620px 창 안에서 위아래로 110px 씩
+       비어, 장면이 잘린 것처럼 보였다).
+       ⚠️ 스크롤 핸들러에 두면 한 박자 늦는다. 스크롤이 멈춘 뒤에도 HeroZoom 이
+          창을 계속 키우므로, 창이 움직이는 동안에는 제 박자로 따라가야 한다.
+          그래서 rAF 로 돌리고, 값이 그대로면 쓰지 않는다. */
+    var lastS = 0;
+    function fitFrame() {
+      if (box && fr.offsetWidth) {
+        var sc = Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
+        sc = Math.round(sc * 1000) / 1000;
+        if (sc && sc !== lastS) { lastS = sc; hero.style.setProperty('--hm-s', sc); }
+      }
+      requestAnimationFrame(fitFrame);
+    }
+    requestAnimationFrame(fitFrame);
 
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll);

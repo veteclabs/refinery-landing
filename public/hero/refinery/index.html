@@ -163,6 +163,9 @@ body{background:var(--bg);color:var(--ink-800);font-family:var(--sans);-webkit-f
    그 사이에 <main> 이 있어, .track{height:100%} 가 0 으로 풀린다. */
 main { height: 100% !important; }
 .hero-wrap, .panel, .rail, .cue, .prog, .after { display: none !important; }
+/* ⚠️ 패키지의 점 격자(.dots)는 끈다. 메인 페이지가 제 점판(.hero-dots)을 따로
+   깔고 있어 두 겹이 되고, 시계열 카드 둘레에서 점이 비쳐 보였다. */
+.dots { display: none !important; }
 .hero-shade, .side-shade { opacity: 0 !important; }
 /* ⚠️ 어두운 면을 밝게 바꾼다. 이 패키지는 'Night Plant' 판이라 무대 바탕이
    어둡다 — 프레임이 아직 안 온 순간 그 면이 그대로 검게 비쳤다. */
