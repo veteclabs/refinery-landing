@@ -181,6 +181,12 @@
     .btn-primary:hover, .btn-primary:active { background: #EFF2F5; }
 
     section { padding: 130px 0; }
+    /* 고정되지 않는 본문 섹션은 과제별 · 산업별과 같은 180px 로 둔다.
+       ⚠️ 화면에 멈춰 서는 섹션(#hero · #platform · #industries · #teams)은 뺀다 —
+          그쪽은 무대 높이와 진행도 계산이 여백에 묶여 있어 값만 바꾸면 모션이 어깋난다.
+       ⚠️ #cta 도 뺀다(110px). 다른 페이지의 CTA(95px)와 같은 자리다.
+       #security 는 아래쪽에 제 규칙이 따로 있어 거기서 같은 값으로 두었다. */
+    #integrations, #faq { padding: 180px 0; }
     section:not(#hero) { background: #ffffff; }
     #integrations { background: #151B23 !important; }
     .container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
@@ -1876,7 +1882,7 @@
        성립해서 함께 걷었다).
        ⚠️ static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이 inset: 0 로
           깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이 페이지 전체로 번진다. */
-    #security { padding: 130px 0; }
+    #security { padding: 180px 0; }
     #security .sec-pin { height: auto; }
     #security .sec-stage {
       position: relative;
