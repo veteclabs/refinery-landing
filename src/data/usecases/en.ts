@@ -1,7 +1,7 @@
 import type { UseCase } from './types';
 
 // 영어 유즈케이스 데이터. slug와 순서는 한국어(index.ts)와 1:1로 맞춘다.
-// ⚠️ 초안(원어민 검수 전). related는 영어 블로그 글로 연결한다.
+// ⚠️ 초안(원어민 검수 전).
 export const useCasesEn: UseCase[] = [
   {
     slug: 'predictive-maintenance',
@@ -21,7 +21,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/predictive-maintenance.webp',
@@ -56,7 +55,6 @@ export const useCasesEn: UseCase[] = [
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts a long time, and the hardware holds up in harsh industrial conditions.',
       includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Low power ⁠· up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· operating range −20 to 85°C'],
     },
-    related: { href: '/en/blog/predictive-maintenance' },
     faq: [
       {
         q: 'What is predictive maintenance?',
@@ -102,7 +100,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/sensor-monitoring.webp',
@@ -131,7 +128,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Pressure', icon: 'pressure' },
       { label: 'Flow', icon: 'flow' },
     ],
-    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Sensor monitoring (IoT) | Refinery',
       description: 'Scattered sensors — from IoT devices to existing instrumentation — are standardized, gathered and connected through an ontology for real-time monitoring.',
@@ -155,7 +151,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/power-management.webp',
@@ -190,7 +185,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Consumption by time of day', icon: 'operating-history' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { href: '/en/blog/energy-optimization' },
     faq: [
       {
         q: 'What is a power management solution?',
@@ -231,7 +225,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/power-quality.webp',
@@ -266,7 +259,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Unbalance', icon: 'imbalance' },
       { label: 'Sag/swell', icon: 'sag-swell' },
     ],
-    related: { href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
       description: 'Voltage, frequency, harmonics and unbalance are monitored in real time, and momentary events are recorded automatically to uncover the hidden cause of failures and defects.',
@@ -290,7 +282,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/factory-energy.webp',
@@ -325,7 +316,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Energy intensity', icon: 'intensity' },
       { label: 'Peak', icon: 'peak' },
     ],
-    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
       description: 'Electricity, gas, steam and water across the plant are metered together and analyzed by energy intensity to find waste, and ESG reports are aggregated automatically.',
@@ -349,7 +339,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/energy-optimization.webp',
@@ -375,7 +364,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Peak', icon: 'peak' },
       { label: 'Energy intensity', icon: 'intensity' },
     ],
-    related: { href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
       description: 'Hidden waste and power peaks are found in the data to reduce energy cost — consumption patterns are overlaid on work context to uncover inefficiency.',
@@ -399,7 +387,6 @@ export const useCasesEn: UseCase[] = [
     showBreadcrumb: false,
     showEyebrow: false,
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     showRelatedUseCases: true,
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
@@ -427,7 +414,6 @@ export const useCasesEn: UseCase[] = [
       { label: 'Process conditions', icon: 'process-conditions' },
       { label: 'Inspection results', icon: 'inspection' },
     ],
-    related: { href: '/en/blog/quality-prediction' },
     seo: {
       title: 'Quality prediction | Refinery',
       description: 'Early signs of a defect are read in process data and caught before the part is finished, connecting process conditions with inspection results.',
