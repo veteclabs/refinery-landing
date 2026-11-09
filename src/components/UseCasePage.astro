@@ -1156,12 +1156,14 @@ const jsonLd = [
      ⚠️ 가운데 맞춤(justify-content: center)이 아니라 위 맞춤이다. 가운데로 모으면
         위아래 여백이 늘 같은 값이 되어, 위만 넓히고 아래는 두는 것이 안 된다.
         위 42px 은 padding 이 쥐고, 아래는 남는 만큼이다
-        (245 - 42 - 아이콘 100 - 간격 42 - 한 줄 26 = 35px).
-        영문 라벨이 두 줄인 카드는 아래가 9px 로 줄어든다. */
+        (236 - 42 - 아이콘 100 - 간격 42 - 한 줄 26 = 26px).
+        26px 은 '푸는 방식' 섹션 카드(.ind-card)의 안쪽 여백과 같은 값이다.
+     ⚠️ 영문은 카드를 26px 더 높게 둔다(.uc-en). 라벨이 두 줄인 카드가 섞여 있어
+        같은 높이로 두면 그 카드의 아래 여백이 0 이 된다. */
   .uc-signal {
     display: flex; flex-direction: column;
     align-items: center; justify-content: flex-start; text-align: center;
-    flex: 0 0 auto; width: 204px; height: 245px;
+    flex: 0 0 auto; width: 204px; height: 236px;
     gap: 42px; padding: 42px 12px 0;
     background: var(--bg-soft); border: none;
     border-radius: var(--radius);
@@ -1176,6 +1178,8 @@ const jsonLd = [
      ⚠️ 카드 폭은 204px 에서 멈춘다. 신호가 여섯인 과제(센서 모니터링)가 1440px
         에서 한 줄에 들어가는 한계다 — 204 x 6 + 간격 16 x 5 = 1304, 단 안쪽
         폭 1344 에 40px 이 남는다. 220px 으로 키웠더니 5 + 1 로 접혔다. */
+  /* 영문은 라벨 두 줄짜리가 섞여 있어 그만큼 높다. */
+  .uc-en .uc-signal { height: 262px; }
   .uc-signal-icon {
     width: 100px; height: 100px; flex: none;
     position: relative;

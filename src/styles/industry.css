@@ -187,6 +187,22 @@ img { max-width: 100%; height: auto; }
   z-index: 0;
 }
 .ind-page .ind-flow::before { background: rgba(118, 166, 215, .4); }
+/* 등장할 때 선도 카드를 따라 올라온다.
+   카드는 ScrollReveal 이 16px 아래에서 끌어올리는데, 선은 줄 전체에 깔린 한 줄이라
+   그대로 있으면 카드가 올라오는 내내 선과 카드 중심이 16px 어긋난 채 보인다.
+   ⚠️ 기본값은 제자리(transform 없음)로 두고, 아직 아무 카드도 뜨지 않은 동안에만
+      내려 둔다. :has() 를 모르는 브라우저에서는 이 규칙이 통째로 무시돼
+      선이 처음부터 제자리에 있다 — 어긋남이 없는 쪽으로 깨진다.
+   ⚠️ 값과 곡선은 ScrollReveal 과 같아야 한다(16px · .55s · 같은 베지어).
+      한쪽을 고치면 다른 쪽도 고친다. */
+.ind-page .ind-flow::before,
+.ind-page .ind-flow::after {
+  transition: transform .55s cubic-bezier(.2, .7, .2, 1);
+}
+.rv-on .ind-page .ind-flow:not(:has(.ind-flow-step.rv-in))::before,
+.rv-on .ind-page .ind-flow:not(:has(.ind-flow-step.rv-in))::after {
+  transform: translateY(16px);
+}
 /* 빛 — 280px짜리 부드러운 띠 하나가 줄 왼쪽 밖에서 오른쪽 밖으로 지나간다.
    background-position-x의 100%는 '요소 폭 - 띠 폭'이라 끝값을 calc(100% + 280px)로
    두면 띠가 오른쪽 밖으로 완전히 빠진다. 속도는 일정하게(linear) — 가감속을 주면
