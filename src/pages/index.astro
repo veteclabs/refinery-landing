@@ -299,6 +299,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     display: block; margin: 12px 0 0;
     font-size: 18px; line-height: var(--lh-body);
     color: var(--text-muted, #7E8A98); word-break: keep-all;
+    /* 마지막 줄에 낱말 하나만 남는 것을 막는다. 줄 나눔 자리는 브라우저가 고른다 —
+       <br> 로 박으면 폭이 바뀔 때마다 엉뚱한 데서 끊긴다. */
+    text-wrap: pretty;
   }
   @media (max-width: 900px) {
     .hm-acc {
