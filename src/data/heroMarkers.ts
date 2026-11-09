@@ -26,17 +26,17 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
   ko: [
     {
       id: 'comp', tag: 'Experience', icon: 'ph-clock-counter-clockwise',
-      title: '30년 경험, 두 가지 시작',
+      title: '30년이 만든 두 가지 시작',
       desc: '기존 시스템 위에 얹거나, 없는 현장을 새로 세웁니다.',
     },
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
-      title: '시계열 너머의 AI 판단',
+      title: '시계열을 넘어선 판단',
       desc: '설비 · 문서 · 이력까지 엮어 근거로 판단합니다.',
     },
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
-      title: '현장을 겪은 사람들의 설계',
+      title: '현장을 아는 사람들의 설계',
       desc: '설비가 어떻게 멈추는지 아는 사람들이 만듭니다.',
     },
   ],
