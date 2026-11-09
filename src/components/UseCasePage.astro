@@ -1172,11 +1172,11 @@ const jsonLd = [
   .uc-signal-icon::before {
     content: "";
     position: absolute;
-    /* 그림자 중심을 그림 아랫변에서 18px 아래에 둔다 — 아이콘마다 WebP 안의
+    /* 그림자 중심을 그림 아랫변에서 26px 아래에 둔다 — 아이콘마다 WebP 안의
        빈 높이(--ic-b)가 달라, 상자 기준으로만 놓으면 간격이 제각각이 된다
        (2.7% ~ 33.2%, 100px 기준 30px 차이).
-       22.5 = 간격 18 + 타원 높이의 절반 4.5. --ic-b 를 못 받으면 4.7% 로 둔다. */
-    left: 50%; bottom: calc(var(--ic-b, 4.7%) - 22.5px);
+       30.5 = 간격 26 + 타원 높이의 절반 4.5. --ic-b 를 못 받으면 4.7% 로 둔다. */
+    left: 50%; bottom: calc(var(--ic-b, 4.7%) - 30.5px);
     width: 46px; height: 9px;
     transform: translateX(-50%);
     border-radius: 50%;
