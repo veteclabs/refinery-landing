@@ -189,6 +189,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     transform: translate(-50%, -50%) scale(var(--hm-s, 1));
     border: 0; display: block;
     background: #EEF4FB;
+    /* ⚠️ 포인터를 받지 않는다. iframe 은 제 문서가 포인터 이벤트를 삼켜,
+       그 위에서는 #hero 의 pointermove 가 아예 울리지 않는다. 바탕 점판
+       (canvas.hero-dots)이 그 이벤트로 도는데 히어로를 거의 다 덮는 iframe
+       때문에 점이 영영 안 깨어났다. 안쪽은 볼 것만 있고 누를 것이 없다
+       (aria-hidden · tabindex -1 · embed 모드에서 제 UI 를 숨긴다). */
+    pointer-events: none;
   }
   /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
      iframe 을 visibility:hidden 으로 숨겼는데, is-grown 이 늦거나 안 붙는
