@@ -98,21 +98,28 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
         title="Refinery 현장 모션" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
 
-      {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보인다(.is-grown). */}
+      {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보이고(.is-grown),
+          그 뒤로도 첫 장면이 올라오기 전까지는 비워 둔다(.is-scene). */}
       <div class="hm-text">
         {heroCards.ko.map((c, i) => (
           <article class="hm-panel" data-scene={i + 1}>
-            <p class="hm-tag">{c.tag}</p>
+            <p class="hm-tag"><b>{['01', '02', '03'][i]}</b>{c.tag}</p>
             <h2>{c.title}</h2>
             <p>{c.desc}</p>
           </article>
         ))}
 
+        {/* 세로선 위 원 셋이 곧 탭이다. 글은 활성 원 옆에 선다 —
+            자리는 CSS 가 쥐고(.hm-panel 의 --row), 진행 링은 스크립트가 --ring 으로 채운다. */}
         <nav class="hm-rail" id="hmRail" aria-label="히어로 장면">
-          {['00', '01', '02', '03'].map((label, i) => (
-            <button type="button" class="hm-rail-btn" data-go={i} aria-current={i === 0 ? 'true' : undefined}
-              aria-label={i === 0 ? '개요' : `${label} ${heroCards.ko[i - 1].title}`}>
-              <span>{label}</span><i aria-hidden="true"></i>
+          {heroCards.ko.map((c, i) => (
+            <button type="button" class="hm-node" data-go={i + 1}
+              aria-label={`${['01', '02', '03'][i]} ${c.title}`}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle class="hm-node-track" cx="12" cy="12" r="10" />
+                <circle class="hm-node-arc" cx="12" cy="12" r="10" />
+                <circle class="hm-node-dot" cx="12" cy="12" r="3.5" />
+              </svg>
             </button>
           ))}
         </nav>
@@ -193,20 +200,30 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   .hm-text { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
   /* ⚠️ 창이 다 자라기 전에는 장면 글을 내보내지 않는다. 작은 창 안에 글을
      얹으면 그림도 글도 못 읽는다 — is-grown 은 HeroZoom 이 붙인다. */
-  #hero:not(.is-grown) .hm-text { opacity: 0; }
+  /* ⚠️ 창이 꽉 차는 순간은 그림만 남긴다. 잠깐 더 스크롤해야 첫 장면이 올라온다
+     — is-scene 은 아래 스크립트가 첫 장면부터 붙인다. */
+  #hero:not(.is-grown) .hm-text,
+  #hero:not(.is-scene) .hm-text { opacity: 0; }
   .hm-text { transition: opacity .4s; }
 
+  /* 글은 제 원 옆에 선다. 세로 자리는 --row 로, 위아래 가운데는 translateY 로 맞춘다.
+     ⚠️ 자리를 top 으로 잡고 transform 은 가운데 맞춤 + 등장 떨림에만 쓴다.
+        둘을 섮으면 is-on 의 transform 이 자리값까지 지워 글이 가운데로 튀다.
+     ⚠️ 칸 간격(60px)은 .hm-node 의 top 과 같은 값이다. 한쪽을 고치면 다른 쪽도 고친다. */
   .hm-panel {
     position: absolute;
-    left: max(48px, env(safe-area-inset-left, 0px));
-    bottom: calc(132px + env(safe-area-inset-bottom, 0px));
-    width: min(470px, calc(100% - 96px));
+    left: calc(max(48px, env(safe-area-inset-left, 0px)) + 46px);
+    top: calc(50% + var(--row, 0) * 60px);
+    width: min(430px, calc(100% - 140px));
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(calc(-50% + 14px));
     transition: opacity .42s cubic-bezier(.4,0,.7,.2), transform .42s cubic-bezier(.4,0,.7,.2);
   }
+  .hm-panel[data-scene="1"] { --row: -1; }
+  .hm-panel[data-scene="2"] { --row: 0; }
+  .hm-panel[data-scene="3"] { --row: 1; }
   .hm-panel.is-on {
-    opacity: 1; transform: none;
+    opacity: 1; transform: translateY(-50%);
     transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1);
   }
   /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
@@ -224,6 +241,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     line-height: var(--lh-flat);
     letter-spacing: var(--ls-wide-sm);
   }
+  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
+  .hm-panel .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
   .hm-panel h2 {
     margin: 0 0 12px; font-size: 30px; font-weight: 600;
     line-height: var(--lh-title); letter-spacing: var(--ls-snug);
@@ -235,37 +254,65 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     color: var(--text-muted, #7E8A98); word-break: keep-all;
   }
 
-  /* 위치 표시 — 글과 같은 축(왼쪽 끝 48px)에 가로 한 줄.
+  /* 위치 표시 — 세로선 위의 원 셋. 글 왼쪽에 서고, 가운데 칸이 화면 중앙이다.
      ⚠️ top · right 를 auto 로 되돌린다. 전역에 요소 선택자 `nav` 규칙이 있어
         position:fixed · top:0 · right:0 을 건다 — 안 되돌리면 맨 위로 튀고
         폭이 오른쪽 끝까지 늘어난다. */
   .hm-rail {
     position: absolute;
-    top: auto; right: auto;
+    right: auto;
     left: max(48px, env(safe-area-inset-left, 0px));
-    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
-    display: flex; align-items: center; gap: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px; height: 120px;
     pointer-events: auto;
   }
-  .hm-rail-btn {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
-    background: none; border: 0; padding: 0; cursor: pointer;
-    font: inherit; font-size: 12px; font-weight: 400;
-    letter-spacing: var(--ls-wide-sm);
-    color: #9AA5B1;
-    transition: color .3s;
+  /* 바탕 선과 지나온 선. 두 줄이 같은 자리에 겹쳐 선다. */
+  .hm-rail::before, .hm-rail::after {
+    content: ""; position: absolute; left: 11.5px; top: 0; width: 1px;
   }
-  .hm-rail-btn i {
-    display: block; height: 1px; width: 28px; background: currentColor;
-    transition: width .3s, background .3s;
+  .hm-rail::before { bottom: 0; background: #CBD9E8; }
+  .hm-rail::after {
+    height: var(--done, 0px); background: #76A6D7;
+    transition: height .45s cubic-bezier(.2,.7,.2,1);
   }
-  .hm-rail-btn:hover { color: #5A6776; }
-  .hm-rail-btn[aria-current="true"] { color: var(--text, #16202C); }
-  .hm-rail-btn[aria-current="true"] i { width: 48px; background: #76A6D7; }
+  .hm-node {
+    position: absolute; left: 0;
+    width: 24px; height: 24px; padding: 0;
+    background: none; border: 0; cursor: pointer;
+    transform: translateY(-50%);
+  }
+  /* ⚠️ 이 세 값이 .hm-panel 의 --row 와 짝을 이룬다(간격 60px). */
+  .hm-node[data-go="1"] { top: 0; }
+  .hm-node[data-go="2"] { top: 60px; }
+  .hm-node[data-go="3"] { top: 120px; }
+  .hm-node svg { width: 24px; height: 24px; display: block; }
+  .hm-node circle { fill: none; }
+  .hm-node-track, .hm-node-arc { opacity: 0; transition: opacity .3s; }
+  .hm-node-track { stroke: #D7E0EA; stroke-width: 2; }
+  /* 장면 안 진행을 그리는 링. 둘레 2πr = 62.83 을 다 비워 두고 --ring 만큼 채운다. */
+  .hm-node-arc {
+    stroke: #76A6D7; stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 62.83;
+    stroke-dashoffset: calc(62.83px * (1 - var(--ring, 0)));
+    transform: rotate(-90deg); transform-origin: 12px 12px;
+  }
+  .hm-node-dot { stroke: #B4C3D4; stroke-width: 1; transition: fill .3s, stroke .3s; }
+  .hm-node:hover .hm-node-dot { stroke: #76A6D7; }
+  .hm-node[aria-current="true"] .hm-node-track,
+  .hm-node[aria-current="true"] .hm-node-arc { opacity: 1; }
+  .hm-node[aria-current="true"] .hm-node-dot,
+  .hm-node.is-done .hm-node-dot { fill: #76A6D7; stroke: #76A6D7; }
   @media (max-width: 900px) {
-    .hm-panel { left: max(24px, env(safe-area-inset-left, 0px)); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); width: calc(100% - 48px); }
+    .hm-panel {
+      left: calc(max(24px, env(safe-area-inset-left, 0px)) + 40px);
+      top: calc(50% + var(--row, 0) * 52px);
+      width: calc(100% - 88px);
+    }
     .hm-panel p { font-size: 16px; }
-    .hm-rail { left: max(24px, env(safe-area-inset-left, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); gap: 14px; }
+    .hm-rail { left: max(24px, env(safe-area-inset-left, 0px)); height: 104px; }
+    .hm-node[data-go="2"] { top: 52px; }
+    .hm-node[data-go="3"] { top: 104px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hm-panel, .hm-panel.is-on, .hm-text { transition: none; transform: none; }
@@ -283,25 +330,42 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     var fr = document.getElementById('hmFrame');
     if (!hero || !fr) return;
     var scenes = [].slice.call(hero.querySelectorAll('.hm-panel[data-scene]'));
-    var rail = [].slice.call(hero.querySelectorAll('.hm-rail-btn'));
-    var N = 4;                       /* 장면 수 — 모션 패키지와 같다 */
+    var railEl = document.getElementById('hmRail');
+    var rail = [].slice.call(hero.querySelectorAll('.hm-node'));
+    var N = 3;                       /* 장면 수 — 모션 패키지와 같다 */
+    /* 창이 꽉 찬 직후의 짧은 빈 구간. 이만큼은 그림만 남기고, 더 스크롤해야
+       첫 장면이 올라온다. 0 으로 두면 꽉 차는 순간 글이 이미 떠 있다. */
+    var LEAD = 0.08;
     /* 창이 다 자라는 데 쓰는 몫. HeroZoom.astro 의 ZOOM 과 같은 값이다 —
        거기서 --hero-p = 지나온거리 / (구간 * ZOOM) 로 잰다.
        ⚠️ 두 곳에 같은 숫자가 있다. 한쪽을 고치면 다른 쪽도 고친다. */
     var GROW = 0.38;
     var last = -1, ticking = false;
 
-    function paint(p) {
-      var i = Math.min(N - 1, Math.floor(p * N * 0.999));
+    function paint(mp) {
+      /* i = 0 이면 빈 구간(글도 표시도 없다), 1~3 이 장면. f 는 그 장면 안의 진행. */
+      var i = 0, f = 0;
+      if (mp >= LEAD) {
+        var q = (mp - LEAD) / (1 - LEAD);
+        i = Math.min(N, Math.floor(q * N * 0.999) + 1);
+        f = Math.max(0, Math.min(1, q * N - (i - 1)));
+      }
+      /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
+      if (railEl) railEl.style.setProperty('--ring', f.toFixed(3));
       if (i === last) return;
       last = i;
+      hero.classList.toggle('is-scene', i > 0);
       for (var k = 0; k < scenes.length; k++) {
         scenes[k].classList.toggle('is-on', +scenes[k].getAttribute('data-scene') === i);
       }
       for (var r = 0; r < rail.length; r++) {
-        if (+rail[r].getAttribute('data-go') === i) rail[r].setAttribute('aria-current', 'true');
+        var g = +rail[r].getAttribute('data-go');
+        if (g === i) rail[r].setAttribute('aria-current', 'true');
         else rail[r].removeAttribute('aria-current');
+        rail[r].classList.toggle('is-done', i > 0 && g < i);
       }
+      /* 지나온 선 길이는 활성 원의 자리에서 읽는다 — 간격은 CSS 가 쥔다. */
+      if (railEl) railEl.style.setProperty('--done', (i > 0 ? rail[i - 1].offsetTop : 0) + 'px');
     }
     function tick() {
       var r = hero.getBoundingClientRect();
@@ -324,7 +388,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var i = +this.getAttribute('data-go');
         var span = hero.offsetHeight - window.innerHeight;
         if (span <= 0) return;
-        var mp = (i + 0.5) / N;              /* 모션 구간 안의 자리 */
+        var mp = LEAD + ((i - 1) + 0.5) / N * (1 - LEAD);   /* 모션 구간 안의 자리 */
         window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (1 - GROW)), behavior: 'smooth' });
       });
     }
