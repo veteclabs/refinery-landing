@@ -10,7 +10,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
-import SignalIcon from './SignalIcon.astro';
 import ScrollReveal from './ScrollReveal.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
@@ -324,7 +323,8 @@ const jsonLd = [
                     <span class="uc-signal-icon" aria-hidden="true">
                       {icon && (icon.startsWith('ph-')
                         ? <i class={`ph ${icon}`}></i>
-                        : <SignalIcon name={icon} />)}
+                        : <img src={`/icons/usecase/${icon}.webp`} width="88" height="88"
+                               alt="" loading="lazy" decoding="async" />)}
                     </span>
                     <span class="uc-signal-label">{label}</span>
                   </div>
@@ -413,7 +413,8 @@ const jsonLd = [
                     <span class="uc-signal-icon" aria-hidden="true">
                       {icon && (icon.startsWith('ph-')
                         ? <i class={`ph ${icon}`}></i>
-                        : <SignalIcon name={icon} />)}
+                        : <img src={`/icons/usecase/${icon}.webp`} width="88" height="88"
+                               alt="" loading="lazy" decoding="async" />)}
                     </span>
                     <span class="uc-signal-label">{label}</span>
                   </div>
@@ -1177,38 +1178,20 @@ const jsonLd = [
     background: var(--bg-soft); border: none;
     border-radius: var(--radius);
   }
-  /* 아이콘 배경 — 64px 원 안에 32px 아이콘(비율 0.5).
-     ⚠️ 80px 이던 것을 줄였다. 200px 정사각 안에서 80px 원 + 2줄 라벨이면
-        세로가 모자란다 — 영문 라벨은 'Consumption by time of day' 처럼 길어
-        2줄이 되는 것이 다섯 쪽이다.
-     color가 아이콘 stroke(currentColor)로 내려간다. */
+  /* 클레이 3D 아이콘(public/icons/usecase/*.webp) 자리.
+     ⚠️ 파란 원 바탕을 걷었다. 전에는 흰 선 아이콘이라 원이 바탕을 맡았지만,
+        새 한 벌은 제 안에 흰 면과 브랜드색을 다 가지고 있어 파란 원 위에 놓으면
+        흰 몸통이 뜨고 브랜드색 디테일은 묻힌다.
+     ⚠️ 88px 은 200px 정사각 안에서 아이콘 + 2줄 라벨이 들어가는 최대값이다
+        (88 + 간격 14 + 두 줄 52 + 위아래 여백 36 = 190). 영문 라벨이 길어
+        2줄이 되는 것이 다섯 쪽이라 여기서 더 키우면 카드 밖으로 넘친다. */
   .uc-signal-icon {
-    width: 64px; height: 64px; flex: none;
-    border-radius: 50%;
-    /* 왼쪽 위가 밝고 오른쪽 아래로 짙어지는 대각 그라데이션 —
-       평면 채움보다 원이 살짝 떠 보인다. */
-    background: linear-gradient(180deg, #76a6d7 0%, #76a6d7 25%, #3f76ae 150%);
-    border: none;
+    width: 88px; height: 88px; flex: none;
     display: flex; align-items: center; justify-content: center;
-    color: #fff;
   }
-  /* SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
-  .uc-signal-icon i { font-size: 32px; line-height: 1; }
-  /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
-     (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
-  /* 획 굵기는 여기서 정한다. SVG 파일의 stroke-width 속성(디자인 원본값 2)보다
-     CSS가 우선하고, stroke-width는 상속되므로 도형까지 내려간다.
-     → 원본 파일을 고치지 않아도 되고, 다시 내보내 받아도 이 값이 유지된다. */
-  .uc-signal-icon :global(svg) {
-    width: 32px; height: 32px; display: block;
-    stroke-width: 2.2;
-  }
-  /* 획을 화면 픽셀로 고정한다. 기본값이면 viewBox(50)를 40px로 줄여 그리면서
-     획도 함께 줄어(2 → 1.6px), 아이콘 크기를 조정할 때마다 굵기가 딸려 바뀐다.
-     non-scaling-stroke를 쓰면 stroke-width 2가 화면에서 그대로 2px이 되고,
-     이후 원·아이콘 크기를 바꿔도 획은 2px로 유지된다.
-     (상속되지 않는 속성이라 svg가 아니라 도형에 걸어야 한다) */
-  .uc-signal-icon :global(svg *) { vector-effect: non-scaling-stroke; }
+  .uc-signal-icon img { width: 88px; height: 88px; display: block; }
+  /* Phosphor 로 넣은 신호가 있을 때만 보인다. 바탕이 밝으므로 브랜드색으로 그린다. */
+  .uc-signal-icon i { font-size: 44px; line-height: 1; color: #76a6d7; }
   /* ⚠️ 20px 이던 것을 18px 로 줄였다. 200px 정사각 안에서 긴 라벨이 3줄로
      넘어가지 않게 하는 값이다 — 영문 'Consumption by time of day' 가 기준이다. */
   .uc-signal-label { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.45; }

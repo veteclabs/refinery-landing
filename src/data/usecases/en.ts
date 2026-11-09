@@ -47,7 +47,7 @@ export const useCasesEn: UseCase[] = [
       { label: '3-axis vibration', icon: 'vibration' },
       { label: 'Temperature', icon: 'temperature' },
       { label: 'Current', icon: 'current' },
-      { label: 'Runtime history', icon: 'runtime' },
+      { label: 'Runtime history', icon: 'operating-history' },
     ],
     template: {
       badge: 'Wireless vibration ⁠· LoRaWAN',
@@ -124,7 +124,7 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-pulse', title: 'Real-time anomaly monitoring', desc: 'Multiple signals are seen on one screen, and combinations that differ from the norm are caught.' },
     ],
     signals: [
-      { label: 'Vibration', icon: 'oscillation' },
+      { label: 'Vibration', icon: 'vibration' },
       { label: 'Temperature', icon: 'temperature' },
       { label: 'Humidity', icon: 'humidity' },
       { label: 'Power', icon: 'power' },
@@ -184,10 +184,10 @@ export const useCasesEn: UseCase[] = [
       includes: ['Power metering structure by asset and area', 'Peak and contract-demand management criteria', 'Power factor and load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: [
-      { label: 'Active/reactive power', icon: 'power-active-reactive' },
+      { label: 'Active/reactive power', icon: 'current' },
       { label: 'Power factor', icon: 'power-factor' },
-      { label: 'Load factor', icon: 'load-rate' },
-      { label: 'Consumption by time of day', icon: 'hourly-usage' },
+      { label: 'Load factor', icon: 'load-factor' },
+      { label: 'Consumption by time of day', icon: 'operating-history' },
       { label: 'Peak', icon: 'peak' },
     ],
     related: { href: '/en/blog/energy-optimization' },
@@ -262,7 +262,7 @@ export const useCasesEn: UseCase[] = [
     signals: [
       { label: 'Voltage', icon: 'voltage' },
       { label: 'Frequency', icon: 'frequency' },
-      { label: 'Harmonics (THD)', icon: 'harmonics' },
+      { label: 'Harmonics (THD)', icon: 'harmonics-thd' },
       { label: 'Unbalance', icon: 'imbalance' },
       { label: 'Sag/swell', icon: 'sag-swell' },
     ],
@@ -319,9 +319,9 @@ export const useCasesEn: UseCase[] = [
       includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption and peak alert rules'],
     },
     signals: [
-      { label: 'Electricity ⁠· gas ⁠· steam ⁠· water', icon: 'energy-sources' },
-      { label: 'Output', icon: 'output' },
-      { label: 'Emissions', icon: 'emissions' },
+      { label: 'Electricity ⁠· gas ⁠· steam ⁠· water', icon: 'utilities' },
+      { label: 'Output', icon: 'production' },
+      { label: 'Emissions', icon: 'emission' },
       { label: 'Energy intensity', icon: 'intensity' },
       { label: 'Peak', icon: 'peak' },
     ],
@@ -371,7 +371,7 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-arrows-clockwise', title: 'Ongoing management', desc: 'The effect of improvement is tracked, and the savings held.<br>Any stretch sliding back to the old pattern stands out at once.' },
     ],
     signals: [
-      { label: 'Consumption by time of day', icon: 'hourly-usage' },
+      { label: 'Consumption by time of day', icon: 'operating-history' },
       { label: 'Peak', icon: 'peak' },
       { label: 'Energy intensity', icon: 'intensity' },
     ],
@@ -424,8 +424,8 @@ export const useCasesEn: UseCase[] = [
       { label: 'Temperature', icon: 'temperature' },
       { label: 'Pressure', icon: 'pressure' },
       { label: 'Material lot', icon: 'material-lot' },
-      { label: 'Process conditions', icon: 'process-condition' },
-      { label: 'Inspection results', icon: 'inspection-result' },
+      { label: 'Process conditions', icon: 'process-conditions' },
+      { label: 'Inspection results', icon: 'inspection' },
     ],
     related: { href: '/en/blog/quality-prediction' },
     seo: {

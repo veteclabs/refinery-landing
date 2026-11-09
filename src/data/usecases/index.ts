@@ -44,7 +44,7 @@ export const useCases: UseCase[] = [
       { label: '3축 진동', icon: 'vibration' },
       { label: '온도', icon: 'temperature' },
       { label: '전류', icon: 'current' },
-      { label: '가동 이력', icon: 'runtime' },
+      { label: '가동 이력', icon: 'operating-history' },
     ],
     // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
     // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
@@ -112,7 +112,7 @@ export const useCases: UseCase[] = [
       { icon: 'ph-pulse', title: '실시간 이상 감시', desc: '여러 신호를 한 화면에서 보고 평소와 다른<br>조합을 잡아냅니다.' },
     ],
     signals: [
-      { label: '진동', icon: 'oscillation' },
+      { label: '진동', icon: 'vibration' },
       { label: '온도', icon: 'temperature' },
       { label: '습도', icon: 'humidity' },
       { label: '전력', icon: 'power' },
@@ -174,10 +174,10 @@ export const useCases: UseCase[] = [
       includes: ['설비 ⁠· 구역별 전력 계량 구조', '피크 ⁠· 계약전력 관리 기준', '역률 ⁠· 부하율 대시보드', '이상 사용 알람 규칙'],
     },
     signals: [
-      { label: '유효/무효 전력', icon: 'power-active-reactive' },
+      { label: '유효/무효 전력', icon: 'current' },
       { label: '역률', icon: 'power-factor' },
-      { label: '부하율', icon: 'load-rate' },
-      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '부하율', icon: 'load-factor' },
+      { label: '시간대별 소비', icon: 'operating-history' },
       { label: '피크', icon: 'peak' },
     ],
     related: { href: '/blog/energy-optimization' },
@@ -242,7 +242,7 @@ export const useCases: UseCase[] = [
     signals: [
       { label: '전압', icon: 'voltage' },
       { label: '주파수', icon: 'frequency' },
-      { label: '고조파(THD)', icon: 'harmonics' },
+      { label: '고조파(THD)', icon: 'harmonics-thd' },
       { label: '불평형', icon: 'imbalance' },
       { label: 'sag/swell', icon: 'sag-swell' },
     ],
@@ -301,9 +301,9 @@ export const useCases: UseCase[] = [
       includes: ['에너지원 ⁠· 설비 계량 구조', '원단위 KPI ⁠· 대시보드', 'ESG 리포트 양식', '이상 소비 ⁠· 피크 알람 규칙'],
     },
     signals: [
-      { label: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수', icon: 'energy-sources' },
-      { label: '생산량', icon: 'output' },
-      { label: '배출량', icon: 'emissions' },
+      { label: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수', icon: 'utilities' },
+      { label: '생산량', icon: 'production' },
+      { label: '배출량', icon: 'emission' },
       { label: '원단위', icon: 'intensity' },
       { label: '피크', icon: 'peak' },
     ],
@@ -354,7 +354,7 @@ export const useCases: UseCase[] = [
       { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.<br>예전으로 돌아가는 구간을 바로 잡아냅니다.' },
     ],
     signals: [
-      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '시간대별 소비', icon: 'operating-history' },
       { label: '피크', icon: 'peak' },
       { label: '원단위', icon: 'intensity' },
     ],
@@ -408,8 +408,8 @@ export const useCases: UseCase[] = [
       { label: '온도', icon: 'temperature' },
       { label: '압력', icon: 'pressure' },
       { label: '원료 로트', icon: 'material-lot' },
-      { label: '공정 조건', icon: 'process-condition' },
-      { label: '검사 결과', icon: 'inspection-result' },
+      { label: '공정 조건', icon: 'process-conditions' },
+      { label: '검사 결과', icon: 'inspection' },
     ],
     related: { href: '/blog/quality-prediction' },
     seo: {
