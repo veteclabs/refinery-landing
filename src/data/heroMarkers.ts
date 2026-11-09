@@ -43,18 +43,18 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
   en: [
     {
       id: 'comp', tag: 'Experience', icon: 'ph-clock-counter-clockwise',
-      title: 'Thirty years, two ways to start',
-      desc: 'Sits on the systems you run, or stands up a site that has none.',
+      title: 'Two ways to start, built on thirty years',
+      desc: 'Sits on the systems you run, or builds from the ground up.',
     },
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
-      title: 'From time series to AI judgement',
-      desc: 'Equipment, documents and history woven together, judged with evidence.',
+      title: 'Judgement beyond time series',
+      desc: "Numbers alone don't show the cause. Equipment, documents and history do.",
     },
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
-      title: 'Design from the floor',
-      desc: 'Made by people who know how equipment fails.',
+      title: 'Designed by people who know the floor',
+      desc: 'Built by hands that have seen equipment fail.',
     },
   ],
 };
