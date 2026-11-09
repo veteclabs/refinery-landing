@@ -7,7 +7,6 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
-import HeroPinArt from '../../components/HeroPinArt.astro';
 import ScrollReveal from '../../components/ScrollReveal.astro';
 import HeroZoom from '../../components/HeroZoom.astro';
 
@@ -54,50 +53,369 @@ const jsonLd = [orgSchema, websiteSchema];
 
 <!-- HERO -->
 <main id="main">
-<section id="hero">
-  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다(::after).
-      ⚠️ sticky 로 둔다. 히어로는 250vh 라 그냥 깔면 스크롤을 따라 흘러가는데,
-         보는 사람은 늘 화면 안을 가리키므로 점판도 화면에 붙어 있어야 한다.
-      ⚠️ 무대(.hero-stage)보다 앞에 둔다. 둘 다 sticky 라 뒤에 오는 쪽이 위에
-         그려진다 — 점판이 글과 그래픽 아래로 간다. */}
+<section id="hero" class="hv" data-nav-keep>
+  {/* 바탕 점판 — 24px 격자. 포인터 둘레에서만 점이 솟아 보인다. */}
   <canvas class="hero-dots" aria-hidden="true"></canvas>
+  {/* 심볼 모양 오림틀(#rf-symbol-clip)과 자라는 진행도(--hero-p)를 쥔다. */}
   <HeroZoom />
   <div class="hero-stage">
-    <div class="container">
+    <div class="container hv-copy">
       <h1><span class="hero-title-lead">Scattered sites,</span><br><span class="hero-title-accent">one operating system</span></h1>
-      <p class="hero-sub"><span class="hero-eyebrow" translate="no">Refinery Industrial AI OS</span>Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
-      {/* Pressing a pin puts that marker's text here — right under the sub-copy, on the
-          same left edge. It takes the head grid's second row, right column, so the spot
-          follows the sub-copy on its own.
-          The cell is zero-height and the card is absolutely placed inside it: otherwise
-          the head grows when the card opens and pushes the graphic down.
-          The box is left empty: the script below fills it from <template data-hero-card>. */}
-      <div class="hero-pin-layer">
-        <div class="hero-pin-card" id="heroPinCard" role="region" aria-live="polite" hidden>
-          <div class="hero-pin-card__art" aria-hidden="true"></div>
-          <div class="hero-pin-card__body">
-            <h3 class="hero-pin-card__title"></h3>
-            <p class="hero-pin-card__desc"></p>
-          </div>
+      <p class="hero-sub">Data and documents scattered across your operations are connected into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision, from predictive maintenance to quality, energy, <span class="hero-nb">and autonomous</span> operation.</p>
+    </div>
+
+    <div class="hero-motion-placeholder">
+      {/* 그림만 들어 있다 — 읽을 것이 없으므로 보조기기와 탭 이동에서 뺀다. */}
+      <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
+        title="Refinery field motion" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
+
+      {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보이고(.is-grown),
+          그 뒤로도 첫 장면이 올라오기 전까지는 비워 둔다(.is-scene). */}
+      <div class="hm-text">
+        {/* 세 줄이 한 벌로 선다. 지금 장면만 펼쳐지고 나머지는 제목 한 줄로 접힌다.
+            줄 전체가 버튼이라 접힌 제목을 눌러도 그 장면으로 간다. */}
+        <div class="hm-acc" id="hmRail">
+          {heroCards.en.map((c, i) => (
+            <button type="button" class="hm-row" data-go={i + 1} aria-expanded="false">
+              <span class="hm-dot" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle class="hm-node-track" cx="11.5" cy="12" r="10" />
+                  <circle class="hm-node-arc" cx="11.5" cy="12" r="10" />
+                  <circle class="hm-node-dot" cx="11.5" cy="12" r="3.5" />
+                </svg>
+              </span>
+              <span class="hm-body">
+                <span class="hm-fold hm-fold-tag"><span><span class="hm-tag"><b>{['01', '02', '03'][i]}</b>{c.tag}</span></span></span>
+                <span class="hm-title">{c.title}</span>
+                <span class="hm-fold"><span><span class="hm-desc">{c.desc}</span></span></span>
+              </span>
+            </button>
+          ))}
         </div>
       </div>
-     </div>
-    <div class="hero-motion-placeholder">
-      {/* VETEC hero graphic — usage and options live in public/hero/README.md.
-          Marker copy and coordinates are in MARKERS at the top of public/hero/vetec-hero.js.
-          .vh defaults to viewport height, so global.css hands it a --vh-height that fits
-          the box. Without JS the static image shows instead. */}
-      <section class="vh no-js" data-vetec-hero data-assets="/hero/assets-flat/"
-        data-tilt-x="4.8" data-tilt-y="3.2" data-zoom="1" aria-label="VETEC industrial site digital twin">
-        <img class="vh-static" src="/hero/assets-flat/static.webp" alt="Digital twin graphic: an air compressor, air receiver tank and pump-motor skid on a site set in mountain terrain">
-      </section>
     </div>
   </div>
-  
-  <HeroPinArt />
-  <script is:inline src="/hero/vetec-hero.js" defer></script>
+
+<style is:global>
+  /* 모션 iframe 은 창을 그대로 채운다. 창의 모양 · 크기 · 오림은
+     .hero-motion-placeholder 와 HeroZoom 이 쥔다(global.css · HeroZoom.astro). */
+  /* 대제목 · 소제목 — 배치는 옛 그대로(대제목 왼쪽 · 소제목 오른쪽)이고,
+     그룹만 화면 세로 한가운데에 선다. 위 여백과 아래 여백이 같아진다.
+     ⚠️ display 를 건드리지 않는다. global.css 의 #hero .container 가 두 칸짜리
+        격자로 자리를 잡아 두었다 — 한 번 flex 로 덮었다가 가로까지 가운데로
+        몰려 배치가 망가졌다.
+     ⚠️ 옛 위 여백(padding-top clamp(48px,6.2vw,100px))을 0 으로 지운다.
+        그게 남아 있으면 가운데로 모아도 위가 그만큼 더 벌어진다.
+     ⚠️ 네 변을 따로 박는다. inset 한 줄로는 top 이 251px 에 남았다 —
+        옛 규칙들과 얽힌다.
+     ⚠️ 창이 자라는 만큼 사라진다. --hero-p 가 0.6 에 닿으면 0 이다. */
+  #hero.hv .hv-copy {
+    /* ⚠️ 자리는 손대지 않는다. 옛 규칙(#hero .container)이 이미
+       position:absolute · top:50% · transform:translate(-50%,-50%) 로 세로
+       가운데에 둔다 — 한 번 top:0/bottom:0 으로 덮었다가 그 가운데 맞춤이
+       깨져 위 455 / 아래 204 로 내려앉았다. */
+    z-index: 3;
+    /* ⚠️ top 을 여기서 다시 박는다. 옛 규칙의 top:50% 에 기대 두었더니 글 상자가
+       251px 에 서서 위 251 / 아래 407 로 기울었다. 상자는 글에 꼭 맞으므로
+       (1440 에서 242px) 50% + translateY(-50%) 면 가운데에 선다.
+       기준은 무대의 안쪽(패딩 상자)이다 — 머리에 고정 내비가 70px 얹히므로
+       눈에 보이는 자리로는 그쪽이 맞다. */
+    /* ⚠️ position 도 함께 박는다. 옛 규칙의 absolute 에 기대 두었더니 실제로는
+       .hero-stage > * 의 relative 가 이겨 글 상자가 흐름 자리(251px)에 남았다. */
+    /* ⚠️ top:50% + translateY(-50%) 는 쓰지 않는다. 쓰이는 값이 251px 로 풀려
+       가운데가 안 맞았다(위 251 / 아래 407). 아래 방식은 백분율에 기대지 않는다 —
+       위아래를 0 으로 묶고 높이를 글에 맞춘 뒤 margin 을 auto 로 두면,
+       남는 자리를 위아래가 똑같이 나눠 갖는다. */
+    position: absolute;
+    top: 0; bottom: 0;
+    height: fit-content;
+    margin-block: auto;
+    pointer-events: none;
+    opacity: clamp(0, calc(1 - var(--hero-p, 0) / 0.6), 1);
+    /* 사라지는 모션 — 흐려지면서 함께 위로 뜨고 아주 조금 작아진다.
+       ⚠️ 전환이 아니라 --hero-p 를 그대로 받는다. 스크롤 위치가 곧 진행도라
+          되감으면 그대로 되돌아온다. */
+    transform: translateY(calc(var(--hero-p, 0) * -48px))
+               scale(calc(1 - var(--hero-p, 0) * 0.04));
+    will-change: opacity, transform;
+  }
+
+  /* ⚠️ 창에 밝은 밑판을 깐다. 모션 패키지는 어두운 면을 기본으로 쓰는 판이라,
+     프레임이 아직 안 왔거나 iframe 이 뜨는 동안 그 어두운 면이 비쳤다. */
+  /* 밑판은 모션 패키지의 바탕(--bg #EEF4FB)과 같은 색이다 — 창 가장자리에서
+     이음매가 보이지 않는다. */
+  .hero-motion-placeholder { background: #EEF4FB; }
+  /* ⚠️ 창에 맞춰 늘이지 않는다. inset:0 으로 두면 창이 자라는 내내 iframe 이
+     같이 커지고, 그때마다 안쪽 캔버스가 다시 잡혀 그림이 버벅인다
+     (57 프레임에 크기가 52번 바뀌고 프레임 간격이 중앙 496ms 까지 벌어졌다).
+     크기는 화면에서 한 번 정하고(아래 스크립트), 창은 마스크로만 쓴다 —
+     작을 때는 가운데가 보이고 자라면서 둘레가 드러난다. */
+  .hm-frame {
+    position: absolute;
+    top: 50%; left: 50%;
+    /* 자리만 잡는다. 배율은 아래 스크립트가 창 크기에서 재어 넣는다(--hm-s).
+       ⚠️ 배율은 합성 단계에서 처리돼 캔버스를 다시 그리지 않는다. 크기(width/
+          height)를 건드리면 매 프레임 캔버스가 다시 잡혀 버벅인다 — 그래서
+          크기는 고정하고 배율만 움직인다. */
+    transform: translate(-50%, -50%) scale(var(--hm-s, 1));
+    border: 0; display: block;
+    background: #EEF4FB;
+  }
+  /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
+     iframe 을 visibility:hidden 으로 숨겼는데, is-grown 이 늦거나 안 붙는
+     환경에서는 정지 그림만 남아 '스크롤이 안 먹고 그래픽이 안 보이는' 꼴이 된다.
+     검은 면을 막으려던 장치였는데 그 검은 면 자체를 재현하지 못했다. */
+  /* 글 층 — 창 위에 얹되 클릭은 통과시킨다. */
+  .hm-text { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  /* ⚠️ 창이 다 자라기 전에는 장면 글을 내보내지 않는다. 작은 창 안에 글을
+     얹으면 그림도 글도 못 읽는다 — is-grown 은 HeroZoom 이 붙인다. */
+  /* ⚠️ 창이 꽉 차는 순간은 그림만 남긴다. 잠깐 더 스크롤해야 첫 장면이 올라온다
+     — is-scene 은 아래 스크립트가 첫 장면부터 붙인다. */
+  #hero:not(.is-grown) .hm-text,
+  #hero:not(.is-scene) .hm-text { opacity: 0; }
+  .hm-text { transition: opacity .4s; }
+
+  /* 세 줄 아코디언. 왼쪽 아래에 바닥을 붙이고 위로 자란다 — 펼친 줄이 커져도
+     아래 여백(48px)이 그대로다. 왼쪽 여백도 같은 값이다. */
+  .hm-acc {
+    position: absolute;
+    left: max(72px, env(safe-area-inset-left, 0px));
+    bottom: max(72px, env(safe-area-inset-bottom, 0px));
+    width: min(430px, calc(100% - 188px));
+    display: flex; flex-direction: column; gap: 18px;
+    pointer-events: auto;
+  }
+  /* 점을 잇는 선. 원을 가로지르지 않는다 — 원 바깥에서 시작해 다음 원 바깥에서
+     끝나므로 선이 원 아래로 지나가는 모양이 된다. 통짜 선으로 그으면 속이 빈
+     원 한가운데를 선이 관통한다.
+     13px = 활성 링 반지름(10) + 획(2) + 1. 가장 큰 원을 기준으로 잡아 세 줄이
+     같은 간격으로 끊긴다.
+     세로 길이: (줄 높이 - 25) + 줄 간격 18 + (12 - 13) = 줄 높이 - 8.
+     가로 자리: 원 중심이 11.5 라 left 11 + 너비 1 이 정확히 가운데다. */
+  .hm-row:not(:last-child) .hm-dot::after {
+    content: ""; position: absolute;
+    left: 11px; width: 1px;
+    top: 25px; height: calc(100% - 8px);
+    background: #CBD9E8;
+    transition: background .45s cubic-bezier(.2,.7,.2,1);
+  }
+  /* 지나온 줄에서 나가는 선만 브랜드색이다 — 지금 줄로 이어지는 선까지 칠해진다. */
+  .hm-row.is-done .hm-dot::after { background: #76A6D7; }
+  .hm-row {
+    display: grid; grid-template-columns: 24px 1fr; gap: 22px;
+    align-items: start; text-align: left;
+    background: none; border: 0; padding: 0; margin: 0;
+    font: inherit; color: inherit; cursor: pointer;
+  }
+  /* 칸을 줄 높이만큼 늘린다 — 잇는 선을 이 안에 그린다(줄이 펼쳐지면 같이 길어진다). */
+  .hm-dot { position: relative; align-self: stretch; width: 24px; }
+  .hm-dot svg { width: 24px; height: 24px; display: block; }
+  .hm-dot circle { fill: none; }
+  .hm-node-track, .hm-node-arc { opacity: 0; transition: opacity .3s; }
+  .hm-node-track { stroke: #D7E0EA; stroke-width: 2; }
+  /* 장면 안 진행을 그리는 링. 둘레 2πr = 62.83 을 다 비워 두고 --ring 만큼 채운다. */
+  .hm-node-arc {
+    stroke: #76A6D7; stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 62.83;
+    stroke-dashoffset: calc(62.83px * (1 - var(--ring, 0)));
+    transform: rotate(-90deg); transform-origin: 11.5px 12px;
+  }
+  .hm-node-dot { stroke: #B4C3D4; stroke-width: 1; transition: fill .3s, stroke .3s; }
+  .hm-row:hover .hm-node-dot { stroke: #76A6D7; }
+  .hm-row[aria-expanded="true"] .hm-node-track,
+  .hm-row[aria-expanded="true"] .hm-node-arc { opacity: 1; }
+  .hm-row[aria-expanded="true"] .hm-node-dot,
+  .hm-row.is-done .hm-node-dot { fill: #76A6D7; stroke: #76A6D7; }
+
+  .hm-body { display: block; min-width: 0; }
+  /* 비우는 칸. 0fr → 1fr 로 높이를 여닫는다 — max-height 로 하면 글 길이가
+     달라질 때마다 어림잡은 값을 다시 잡아야 한다. */
+  .hm-fold {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .hm-fold > span { overflow: hidden; min-height: 0; opacity: 0; transition: opacity .3s; }
+  .hm-row[aria-expanded="true"] .hm-fold { grid-template-rows: 1fr; }
+  .hm-row[aria-expanded="true"] .hm-fold > span { opacity: 1; transition: opacity .45s .12s; }
+
+  /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
+     global.css 의 .teams-preview-tagline / .teams-preview-title-wrap h3 /
+     .teams-preview-text p. 한 벌로 묶은 값이라 한쪽을 고치면 다른 쪽도 본다. */
+  .hm-tag {
+    display: inline-flex; align-items: center;
+    margin: 0 0 16px;
+    padding: 7px 13.4px 7px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    font-size: 12px; font-weight: 400; color: #5A6776;
+    line-height: var(--lh-flat);
+    letter-spacing: var(--ls-wide-sm);
+  }
+  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
+  .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
+  /* 접힐 때는 한 줄짜리 목록이고, 펼칠 때 제목이 된다. */
+  .hm-title {
+    display: block;
+    /* 접힌 줄은 태그라인 알약 안 글자와 같은 크기(12px)다. */
+    font-size: 12px; font-weight: 400;
+    line-height: var(--lh-title); letter-spacing: var(--ls-snug);
+    color: #7E8A98;
+    word-break: keep-all; text-wrap: balance;
+    transition: font-size .4s cubic-bezier(.2,.7,.2,1), color .3s, font-weight .3s;
+  }
+  .hm-row[aria-expanded="true"] .hm-title {
+    font-size: 30px; font-weight: 600; color: var(--text, #16202C);
+  }
+  .hm-desc {
+    display: block; margin: 12px 0 0;
+    font-size: 18px; line-height: var(--lh-body);
+    color: var(--text-muted, #7E8A98); word-break: keep-all;
+    /* 마지막 줄에 낱말 하나만 남는 것을 막는다. 줄 나눔 자리는 브라우저가 고른다 —
+       <br> 로 박으면 폭이 바뀔 때마다 엉뚱한 데서 끊긴다. */
+    text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .hm-acc {
+      left: max(40px, env(safe-area-inset-left, 0px));
+      bottom: max(40px, env(safe-area-inset-bottom, 0px));
+      width: calc(100% - 120px);
+      gap: 14px;
+    }
+    .hm-row { gap: 16px; }
+    .hm-row[aria-expanded="true"] .hm-title { font-size: 24px; }
+    .hm-desc { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hm-fold, .hm-fold > span, .hm-title, .hm-dot::after, .hm-text { transition: none; }
+  }
+</style>
+
+<script is:inline>
+  /* 스크롤 진행도를 iframe 에 넘기고(모션이 그 값으로 프레임을 고른다),
+     같은 값으로 이 쪽 글의 장면을 바꾼다.
+     ⚠️ 한 곳에서 잰다 — 두 번 재면 글과 그림이 어긋난다.
+     ⚠️ window.RfMotion 에 기대지 않는다. 그 선언은 이 스크립트보다 뒤에 있어
+        여기서는 undefined 다. */
+  (function () {
+    var hero = document.getElementById('hero');
+    var fr = document.getElementById('hmFrame');
+    if (!hero || !fr) return;
+    var railEl = document.getElementById('hmRail');
+    var rail = [].slice.call(hero.querySelectorAll('.hm-row'));
+    var N = 3;                       /* 장면 수 — 모션 패키지와 같다 */
+    /* 모션 패키지가 쓰는 장면 좌표를 그대로 가져온다. 진행도 p 를 장면값 s(0~3)
+       으로 옮기는 표다 — 구간마다 속도가 다르고 장면마다 멈춰 서는 구간이 있다.
+       글을 진행도로 균등하게 삼등분하면 그림이 아직 1번을 향해 가는 중에 2번 글이
+       떠 버린다. 그림이 쓰는 좌표를 같이 써야 화면과 글이 맞는다.
+       ⚠️ public/hero/refinery/index.html 의 KEYS · HOLD · smoother 와 같은 값이다.
+          한쪽을 고치면 다른 쪽도 고친다. */
+    var KEYS = [[0, 0], [.07, 0], [.31, 1], [.41, 1], [.65, 2], [.75, 2], [.97, 3], [1, 3]];
+    var HOLD = [0, .36, .70, .985];   /* 장면마다 멈춰 서는 자리 — 탭을 눌렀을 때 간다 */
+    function smoother(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function sOf(p) {
+      for (var i = 0; i < KEYS.length - 1; i++) {
+        var p0 = KEYS[i][0], s0 = KEYS[i][1], p1 = KEYS[i + 1][0], s1 = KEYS[i + 1][1];
+        if (p <= p1) {
+          var t = (p - p0) / ((p1 - p0) || 1);
+          return s0 + (s1 - s0) * smoother(Math.max(0, Math.min(1, t)));
+        }
+      }
+      return 3;
+    }
+    /* 장면에 거의 다 닿은 뒤에 글을 연다. 0 으로 두면 그림이 아직 가는 중에
+       글이 먼저 뜬다 — '미리 보이는' 것이 이 값이다. */
+    var TOL = 0.12;
+    /* 창이 다 자라는 데 쓰는 몫. HeroZoom.astro 의 ZOOM 과 같은 값이다 —
+       거기서 --hero-p = 지나온거리 / (구간 * ZOOM) 로 잰다.
+       ⚠️ 두 곳에 같은 숫자가 있다. 한쪽을 고치면 다른 쪽도 고친다. */
+    var GROW = 0.38;
+    var last = -1, ticking = false;
+
+    function paint(mp) {
+      /* i = 0 이면 빈 구간(글도 표시도 없다), 1~3 이 장면. f 는 그 장면 안의 진행 —
+         이 장면을 연 자리에서 다음 장면을 열 자리까지를 0~1 로 본다. */
+      var sv = sOf(mp);
+      var i = 0, f = 0;
+      if (sv >= N - TOL) { i = N; f = (sv - (N - TOL)) / TOL; }
+      else if (sv >= 2 - TOL) { i = 2; f = sv - 2 + TOL; }
+      else if (sv >= 1 - TOL) { i = 1; f = sv - 1 + TOL; }
+      f = Math.max(0, Math.min(1, f));
+      /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
+      if (railEl) railEl.style.setProperty('--ring', f.toFixed(3));
+      if (i === last) return;
+      last = i;
+      hero.classList.toggle('is-scene', i > 0);
+      for (var r = 0; r < rail.length; r++) {
+        var g = +rail[r].getAttribute('data-go');
+        rail[r].setAttribute('aria-expanded', g === i ? 'true' : 'false');
+        rail[r].classList.toggle('is-done', i > 0 && g < i);
+      }
+    }
+    function tick() {
+      var r = hero.getBoundingClientRect();
+      var span = hero.offsetHeight - window.innerHeight;
+      var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      /* 창이 다 자랄 때까지는 모션을 세워 둔다 — 첫 프레임만 보인다.
+         폭을 꽉 채운 뒤부터 스크롤이 모션을 돌린다. */
+      var mp = p <= GROW ? 0 : (p - GROW) / (1 - GROW);
+      if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: mp }, '*');
+
+      paint(mp);
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; tick(); });
+    }
+    for (var r2 = 0; r2 < rail.length; r2++) {
+      rail[r2].addEventListener('click', function () {
+        var i = +this.getAttribute('data-go');
+        var span = hero.offsetHeight - window.innerHeight;
+        if (span <= 0) return;
+        var mp = HOLD[i];                    /* 그 장면이 멈춰 서는 자리 */
+        window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (1 - GROW)), behavior: 'smooth' });
+      });
+    }
+    /* iframe 크기는 화면이 바뀔 때만 정한다 — 스크롤 중에는 건드리지 않는다.
+       ⚠️ 무대(.hero-stage) 크기를 쓴다. 다 자란 창보다 조금 크지만 창이
+          overflow:hidden 이라 가장자리가 잘릴 뿐, 보이는 그림은 같다. */
+    var stage = hero.querySelector('.hero-stage');
+    var box = hero.querySelector('.hero-motion-placeholder');
+    function sizeFrame() {
+      if (!stage) return;
+      fr.style.width = stage.clientWidth + 'px';
+      fr.style.height = stage.clientHeight + 'px';
+    }
+    sizeFrame();
+    addEventListener('resize', sizeFrame);
+
+    /* 창을 꽉 채우는 배율. 가로 세로 중 큰 쪽을 쓴다 — 작은 쪽을 쓰면 남는
+       방향에 빈 띠가 생긴다(가로 비만 썼을 때 620px 창 안에서 위아래로 110px 씩
+       비어, 장면이 잘린 것처럼 보였다).
+       ⚠️ 스크롤 핸들러에 두면 한 박자 늦는다. 스크롤이 멈춘 뒤에도 HeroZoom 이
+          창을 계속 키우므로, 창이 움직이는 동안에는 제 박자로 따라가야 한다.
+          그래서 rAF 로 돌리고, 값이 그대로면 쓰지 않는다. */
+    var lastS = 0;
+    function fitFrame() {
+      if (box && fr.offsetWidth) {
+        var sc = Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
+        sc = Math.round(sc * 1000) / 1000;
+        if (sc && sc !== lastS) { lastS = sc; hero.style.setProperty('--hm-s', sc); }
+      }
+      requestAnimationFrame(fitFrame);
+    }
+    requestAnimationFrame(fitFrame);
+
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    fr.addEventListener('load', tick);
+    tick();
+  })();
+</script>
+</section>
+
   {/* ⚠️ 스크롤 등장의 공용 장치. 아래 섹션 스크립트들이 모두 이걸 쓴다 —
-      여기보다 뒤에 와야 한다. 예전에는 clamp · ease · stagePinned · '제목이
+      여기보다 뒤에 와야 한다. 옛 히어로 안에 있던 것을 히어로 바깥으로 꺼냈다. 예전에는 clamp · ease · stagePinned · '제목이
       화면을 올라오는 만큼' 식이 섹션마다 복붙돼 있었다(각 3벌 · 2벌).
       값은 그대로다 — 쓰는 쪽이 제 상수를 넘긴다. */}
   <script is:inline>
@@ -122,278 +440,6 @@ const jsonLd = [orgSchema, websiteSchema];
       }
     };
   </script>
-  <script is:inline>
-    /* 히어로 핀 — 누르면 무대 왼쪽 아래 카드에 그 마커의 글이 선다.
-       ⚠️ 호버로는 열리지 않는다. 그래픽(public/hero/vetec-hero.js)에서 호버 · 포커스 ·
-          탭으로 카드를 열던 손잡이를 뺐고, 핀마다 나던 카드(.vh-card)는 CSS 로 숨겼다.
-       ⚠️ 핀은 그래픽이 나중에 만든다 — 지금 찾아 두면 늘 null 이다. document 에 한 번만
-          듣고(이벤트 위임) 누른 자리에서 마커를 거슬러 올라간다.
-       ⚠️ 열린 핀 표시는 그래픽의 is-pinned 를 그대로 쓴다(면이 차고 + 가 × 로 돈다).
-          그 클래스를 건드리는 쪽은 이제 여기뿐이다. */
-    (function () {
-      var hero = document.getElementById('hero');
-      var card = document.getElementById('heroPinCard');
-      if (!hero || !card) return;
-      var art = card.querySelector('.hero-pin-card__art');
-      var tt = card.querySelector('.hero-pin-card__title');
-      var ds = card.querySelector('.hero-pin-card__desc');
-      var open = null;
-
-      /* 핀을 처음 누르면 그래픽이 한 벌 바뀐다 — 도면 같은 판(assets-flat)에서
-         빛을 계산한 판(assets)으로 간다. '들여다보니 현장이 켜진다' 는 뜻이다.
-         ⚠️ 무거운 판은 미리 받아 둔다. 핀은 그래픽이 다 자란 뒤(#hero.is-grown)에만
-            눌리므로, 그 클래스가 붙는 순간이 받아 둘 자리다 — 누를 때 받으면
-            2.3MB 를 기다리는 동안 아무 일도 안 일어난다.
-         ⚠️ 받아 둔 뒤 src 만 갈아 끼운다. 캐시에 있으므로 한 프레임에 바뀐다.
-            층마다 제 등장 애니메이션(.vh-fade · .vh-glow · .vh-flow)이 걸려 있어
-            겹쳐 띄우면 그 애니메이션이 서로 부딪힌다.
-         ⚠️ 한 번 바뀌면 그대로 둔다. 핀을 닫아도 되돌리지 않는다. */
-      var LIT = '/hero/assets/', FLAT = '/hero/assets-flat/';
-      var litReady = false, lit = false;
-      function preloadLit() {
-        if (litReady) return;
-        litReady = true;
-        var names = ['near'];
-        for (var i = 0; i < names.length; i++) { var im = new Image(); im.src = LIT + names[i] + '.webp'; }
-      }
-      /* 바뀌는 것은 가운데 설비 층(near.webp) 한 장뿐이다 — 산 · 능선 · 전경 지형과
-         땅에 그려진 윤곽선 · 빛줄기(near-contour · near-glow)는 도면 판 그대로다.
-         ⚠️ 밑장을 지우지 않고 그 위에 한 겹 얹는다. 두 겹이 겹쳐 있으므로 얹히는
-            쪽의 투명도만 움직이면 건너감이 되고, 되돌릴 때도 걷어 내기만 하면 된다. */
-      function litLayer() { return hero.querySelector('.vh-lit-near'); }
-      function baseNear() {
-        var imgs = hero.querySelectorAll('.vh-layer');
-        for (var i = 0; i < imgs.length; i++) {
-          var s = imgs[i].getAttribute('src') || '';
-          if (s.indexOf(FLAT) === 0 && /\/near\.webp$/.test(s) && !imgs[i].classList.contains('vh-lit-near')) return imgs[i];
-        }
-        return null;
-      }
-      var dimT = 0;
-      function light(id) {
-        /* 어느 핀을 눌러도 바뀌는 자리는 하나다 — 가운데 설비 띠.
-           핀마다 제 지형을 바꾸게 해 봤더니 한 화면에서 바뀌는 자리가 셋이라
-           어디를 보라는 건지 흐려졌다. */
-        if (lit) return;
-        clearTimeout(dimT);
-        var old = litLayer();
-        if (old && old.parentNode) old.parentNode.removeChild(old);
-        var base = baseNear();
-        if (!base) return;
-        lit = true;
-        var over = base.cloneNode(false);
-        over.setAttribute('src', LIT + 'near.webp');
-        over.setAttribute('aria-hidden', 'true');
-        over.setAttribute('alt', '');
-        over.classList.add('vh-lit-near');
-        base.parentNode.insertBefore(over, base.nextSibling);
-      }
-      function dim() {
-        if (!lit) return;
-        lit = false;
-        var over = litLayer();
-        if (!over) return;
-        over.classList.add('is-out');
-        clearTimeout(dimT);
-        dimT = setTimeout(function () {
-          var o = litLayer();
-          if (o && o.parentNode) o.parentNode.removeChild(o);
-        }, 460);
-      }
-
-      /* is-grown 은 HeroZoom 이 진행도를 보고 붙인다 — 그때 미리 받아 둔다.
-         ⚠️ 떨어질 때도 본다. 스크롤을 되올려 그래픽이 다시 작아지면 핀이 사라지는데,
-            카드만 남으면 무엇에 붙은 글인지 알 수 없다 — 같이 닫는다.
-         ⚠️ hide() 가 #hero 의 class 를 또 건드리지만(pin-open) 그때는 open 이 이미
-            비어 있어 되돌이로 돌지 않는다. */
-      if (window.MutationObserver) {
-        var mo = new MutationObserver(function () {
-          if (hero.classList.contains('is-grown')) {
-            preloadLit();
-            /* 자라는 동안 배율이 계속 바뀐다 — 멈춘 뒤에 한 번 더 잰다. */
-            fitSoon(); setTimeout(fitPins, 180); setTimeout(fitPins, 520);
-          }
-          else if (open) hide();
-        });
-        mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
-        if (hero.classList.contains('is-grown')) preloadLit();
-      /* 좁은 폭에서는 장면이 칸보다 커서 좌우가 잘린다(820 에서 294px, 600 에서
-         404px). 그 바깥에 놓인 핀은 칸 밖으로 나가 반쪽만 보이거나 아예 안
-         보였다 — 핀을 통째로 안쪽으로 당겨 늘 칸 안에 서게 한다.
-         ⚠️ 핀 머리만 옮기지 않는다. 줄기와 바닥 점까지 같이 가야 '이 자리를
-            가리킨다' 가 유지된다. 어차피 원래 가리키던 설비는 잘려 나간 뒤다.
-         ⚠️ translate 로 민다 — .vh-marker 는 transform 을 쓰지 않지만, 그래픽
-            쪽이 나중에 쓰더라도 부딪히지 않는다.
-         ⚠️ 재기 전에 되돌린다. 제가 민 값이 남아 있으면 그만큼 또 밀린다. */
-      var FIT_PAD = 8;
-      function fitPins() {
-        var box = hero.querySelector('.hero-motion-placeholder');
-        if (!box) return;
-        var ms = hero.querySelectorAll('.vh-marker');
-        if (!ms.length) return;
-        for (var i = 0; i < ms.length; i++) ms[i].style.removeProperty('translate');
-        var bb = box.getBoundingClientRect();
-        /* ⚠️ 무대(.vh-stage)가 scale 을 걸고 있다 — 그 안에서 미는 값은 화면에서
-           그 배율만큼 줄어든다. 화면 기준으로 옮기고 싶은 거리를 배율로 나눈다.
-           이 보정 없이는 600 에서 143px 을 밀어도 핀이 여전히 칸 밖이었다. */
-        var sx = 1;
-        var st = hero.querySelector('.vh-stage');
-        if (st && window.DOMMatrixReadOnly) {
-          try { sx = new DOMMatrixReadOnly(getComputedStyle(st).transform).a || 1; } catch (e) { sx = 1; }
-        }
-        if (!sx) sx = 1;
-        for (var i = 0; i < ms.length; i++) {
-          var pin = ms[i].querySelector('.vh-pin');
-          if (!pin) continue;
-          var b = pin.getBoundingClientRect(), dx = 0;
-          if (b.left < bb.left + FIT_PAD) dx = (bb.left + FIT_PAD) - b.left;
-          else if (b.right > bb.right - FIT_PAD) dx = (bb.right - FIT_PAD) - b.right;
-          if (dx) ms[i].style.setProperty('translate', (dx / sx).toFixed(2) + 'px 0');
-        }
-      }
-      var fitT = false;
-      function fitSoon() {
-        if (fitT) return;
-        fitT = true;
-        requestAnimationFrame(function () { fitT = false; fitPins(); });
-      }
-      addEventListener('resize', fitSoon, { passive: true });
-      addEventListener('scroll', fitSoon, { passive: true });
-      } else { preloadLit(); }
-
-      function mark(id) {
-        var ms = hero.querySelectorAll('.vh-marker');
-        for (var i = 0; i < ms.length; i++) {
-          ms[i].classList.toggle('is-pinned', ms[i].getAttribute('data-id') === id);
-        }
-        /* 하나를 고르면 나머지 핀은 물러선다(CSS 의 #hero.pin-open). */
-        hero.classList.toggle('pin-open', !!id);
-      }
-      /* 카드가 덮는 자리에 선 핀은 감춘다. 카드는 머리글에 붙어 늘 같은 자리인데
-         (1600 기준 453~676) 핀은 화면 높이를 따라 오르내린다 — 창이 낮을수록
-         오른쪽 핀이 카드 안으로 들어와, 760 높이에서는 44×44 가 통째로 겹쳤다.
-         ⚠️ 고른 핀은 감추지 않는다 — CSS 가 카드 위로 올려 통째로 보이게 한다.
-         ⚠️ 창 크기와 스크롤에 따라 다시 재야 한다. 히어로가 자라는 동안에도
-            핀이 움직인다. */
-      function cover() {
-        var ms = hero.querySelectorAll('.vh-marker');
-        var cb = open ? card.getBoundingClientRect() : null;
-        for (var i = 0; i < ms.length; i++) {
-          var m = ms[i], pin = m.querySelector('.vh-pin');
-          if (!cb || !pin || m.classList.contains('is-pinned')) { m.classList.remove('is-covered'); continue; }
-          var b = pin.getBoundingClientRect();
-          m.classList.toggle('is-covered',
-            Math.min(cb.right, b.right) > Math.max(cb.left, b.left) &&
-            Math.min(cb.bottom, b.bottom) > Math.max(cb.top, b.top));
-        }
-      }
-      var coverT = false;
-      function coverSoon() {
-        if (coverT || !open) return;
-        coverT = true;
-        requestAnimationFrame(function () { coverT = false; cover(); });
-      }
-      addEventListener('scroll', coverSoon, { passive: true });
-      addEventListener('resize', coverSoon, { passive: true });
-      function hide() {
-        card.hidden = true;
-        /* 핀을 풀면 그래픽도 예전 판으로 돌아간다. */
-        dim();
-        mark(null); open = null;
-        cover();
-      }
-      function show(id) {
-        var tpl = document.querySelector('template[data-hero-card="' + id + '"]');
-        if (!tpl) return;
-        var h = tpl.content.querySelector('.vh-card__title');
-        var p = tpl.content.querySelector('.vh-card__desc');
-        /* 윗자리 그래픽은 HeroPinArt 가 둔 <template data-hero-art> 에서 꺼낸다 —
-           마커 id 로 찾는다. 없으면 그 자리를 비워 둔다(글만 선다). */
-        var atpl = document.querySelector('template[data-hero-art="' + id + '"]');
-        art.textContent = '';
-        if (atpl) art.appendChild(atpl.content.cloneNode(true));
-        art.hidden = !atpl;
-        tt.textContent = h ? h.textContent : '';
-        ds.textContent = p ? p.textContent : '';
-        card.hidden = false;
-        mark(id);
-        open = id;
-        /* open 이 정해진 뒤에 잰다 — mark() 안에서는 아직 비어 있다. */
-        cover();
-      }
-
-      document.addEventListener('click', function (e) {
-        var t = e.target;
-        if (!t || !t.closest) return;
-        var pin = t.closest('.vh-pin');
-        if (pin && hero.contains(pin)) {
-          var m = pin.closest('.vh-marker');
-          var id = m && m.getAttribute('data-id');
-          if (!id) return;
-          light(id);
-          if (open === id) hide(); else show(id);
-          return;
-        }
-        /* 카드 안을 누르는 건 아무 일도 아니다 — 닫는 건 같은 핀을 다시 누르거나
-           바깥을 누르거나 Esc 다. */
-        if (t.closest('.hero-pin-card')) return;
-        if (open) hide();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && open) hide();
-      });
-    })();
-  </script>
-
-  {/* Marker card contents. The graphic (public/hero/vetec-hero.js) draws the pins and an
-      empty card shell; this fills it — the script below matches them by data-id.
-      Copy lives in src/data/heroMarkers.ts, styling in global.css. */}
-  {heroCards.en.map((c) => (
-    <template data-hero-card={c.id} data-hero-card-label={c.title}>
-      <div class="vh-card__top"><i class={`ph ${c.icon} vh-card__ic`} aria-hidden="true"></i></div>
-      <h3 class="vh-card__title">{c.title}</h3>
-      <p class="vh-card__desc">{c.desc}</p>
-    </template>
-  ))}
-  <script is:inline type="module">
-    (function () {
-      /* ⚠️ 그래픽 스크립트가 카드 껍데기를 만든 뒤에 돌아야 한다.
-         vetec-hero.js 는 defer 라 파싱이 끝난 뒤 실행되는데, 보통의 인라인 스크립트는
-         파싱 도중 즉시 실행된다 — 그때는 카드가 아직 없어 빈 상자만 남는다.
-         type="module" 이면 defer 와 같은 큐에 들어가 문서 순서대로 실행되고,
-         그래도 늦는 경우를 대비해 카드가 생길 때까지 DOM 을 지켜본다. */
-      function fill() {
-        var cards = document.querySelectorAll('#hero .vh-card');
-        if (!cards.length) return false;
-        var filled = 0;
-        for (var i = 0; i < cards.length; i++) {
-          var card = cards[i];
-          if (card.childElementCount) { filled++; continue; }
-          var marker = card.closest('.vh-marker');
-          if (!marker) continue;
-          var tpl = document.querySelector('template[data-hero-card="' + marker.getAttribute('data-id') + '"]');
-          if (!tpl) continue;
-          card.appendChild(tpl.content.cloneNode(true));
-          /* 핀과 카드의 접근성 이름도 문구에서 가져온다 — 그래픽은 더 이상 문구를 모른다. */
-          var label = tpl.getAttribute('data-hero-card-label') || '';
-          card.setAttribute('aria-label', label);
-          var pin = marker.querySelector('.vh-pin');
-          if (pin) pin.setAttribute('aria-label', label);
-          filled++;
-        }
-        return filled === cards.length;
-      }
-      if (fill()) return;
-      var hero = document.getElementById('hero');
-      if (!hero || !('MutationObserver' in window)) return;
-      var obs = new MutationObserver(function () { if (fill()) obs.disconnect(); });
-      obs.observe(hero, { childList: true, subtree: true });
-      /* 그래픽이 끝내 안 뜨는 경우까지 지켜보지는 않는다. */
-      setTimeout(function () { obs.disconnect(); }, 8000);
-    })();
-  </script>
-
-  </section>
 
 <ScrollReveal />
 
