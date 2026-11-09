@@ -108,9 +108,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
             <button type="button" class="hm-row" data-go={i + 1} aria-expanded="false">
               <span class="hm-dot" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <circle class="hm-node-track" cx="12" cy="12" r="10" />
-                  <circle class="hm-node-arc" cx="12" cy="12" r="10" />
-                  <circle class="hm-node-dot" cx="12" cy="12" r="3.5" />
+                  <circle class="hm-node-track" cx="11.5" cy="12" r="10" />
+                  <circle class="hm-node-arc" cx="11.5" cy="12" r="10" />
+                  <circle class="hm-node-dot" cx="11.5" cy="12" r="3.5" />
                 </svg>
               </span>
               <span class="hm-body">
@@ -214,22 +214,30 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     display: flex; flex-direction: column; gap: 18px;
     pointer-events: auto;
   }
-  /* 점을 잇는 선. 첫 점 중심에서 마지막 점 중심까지만 긋는다(점 반지름 12px). */
-  .hm-acc::before, .hm-acc::after {
-    content: ""; position: absolute; left: 11.5px; top: 12px; width: 1px;
+  /* 점을 잇는 선. 원을 가로지르지 않는다 — 원 바깥에서 시작해 다음 원 바깥에서
+     끝나므로 선이 원 아래로 지나가는 모양이 된다. 통짜 선으로 그으면 속이 빈
+     원 한가운데를 선이 관통한다.
+     13px = 활성 링 반지름(10) + 획(2) + 1. 가장 큰 원을 기준으로 잡아 세 줄이
+     같은 간격으로 끊긴다.
+     세로 길이: (줄 높이 - 25) + 줄 간격 18 + (12 - 13) = 줄 높이 - 8.
+     가로 자리: 원 중심이 11.5 라 left 11 + 너비 1 이 정확히 가운데다. */
+  .hm-row:not(:last-child) .hm-dot::after {
+    content: ""; position: absolute;
+    left: 11px; width: 1px;
+    top: 25px; height: calc(100% - 8px);
+    background: #CBD9E8;
+    transition: background .45s cubic-bezier(.2,.7,.2,1);
   }
-  .hm-acc::before { bottom: 12px; background: #CBD9E8; }
-  .hm-acc::after {
-    height: var(--done, 0px); background: #76A6D7;
-    transition: height .45s cubic-bezier(.2,.7,.2,1);
-  }
+  /* 지나온 줄에서 나가는 선만 브랜드색이다 — 지금 줄로 이어지는 선까지 칠해진다. */
+  .hm-row.is-done .hm-dot::after { background: #76A6D7; }
   .hm-row {
     display: grid; grid-template-columns: 24px 1fr; gap: 22px;
     align-items: start; text-align: left;
     background: none; border: 0; padding: 0; margin: 0;
     font: inherit; color: inherit; cursor: pointer;
   }
-  .hm-dot { width: 24px; height: 24px; }
+  /* 칸을 줄 높이만큼 늘린다 — 잇는 선을 이 안에 그린다(줄이 펼쳐지면 같이 길어진다). */
+  .hm-dot { position: relative; align-self: stretch; width: 24px; }
   .hm-dot svg { width: 24px; height: 24px; display: block; }
   .hm-dot circle { fill: none; }
   .hm-node-track, .hm-node-arc { opacity: 0; transition: opacity .3s; }
@@ -239,7 +247,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     stroke: #76A6D7; stroke-width: 2; stroke-linecap: round;
     stroke-dasharray: 62.83;
     stroke-dashoffset: calc(62.83px * (1 - var(--ring, 0)));
-    transform: rotate(-90deg); transform-origin: 12px 12px;
+    transform: rotate(-90deg); transform-origin: 11.5px 12px;
   }
   .hm-node-dot { stroke: #B4C3D4; stroke-width: 1; transition: fill .3s, stroke .3s; }
   .hm-row:hover .hm-node-dot { stroke: #76A6D7; }
@@ -277,7 +285,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   /* 접힐 때는 한 줄짜리 목록이고, 펼칠 때 제목이 된다. */
   .hm-title {
     display: block;
-    font-size: 17px; font-weight: 400;
+    /* 접힌 줄은 태그라인 알약 안 글자와 같은 크기(12px)다. */
+    font-size: 12px; font-weight: 400;
     line-height: var(--lh-title); letter-spacing: var(--ls-snug);
     color: #7E8A98;
     word-break: keep-all; text-wrap: balance;
@@ -303,7 +312,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     .hm-desc { font-size: 16px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hm-fold, .hm-fold > span, .hm-title, .hm-acc::after, .hm-text { transition: none; }
+    .hm-fold, .hm-fold > span, .hm-title, .hm-dot::after, .hm-text { transition: none; }
   }
 </style>
 
@@ -367,20 +376,6 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         rail[r].setAttribute('aria-expanded', g === i ? 'true' : 'false');
         rail[r].classList.toggle('is-done', i > 0 && g < i);
       }
-      /* 지나온 선 길이는 활성 줄의 점 자리에서 읽는다 — 간격은 CSS 가 쥔다.
-         ⚠️ 줄이 펼쳐지며 자리가 바뀌므로 전이가 끝난 뒤 한 번 더 읽는다. */
-      setDone(i);
-    }
-    function setDone(i) {
-      if (!railEl) return;
-      railEl.style.setProperty('--done', (i > 0 ? rail[i - 1].offsetTop : 0) + 'px');
-    }
-    /* 줄이 펼쳐지는 동안 점 자리가 움직인다 — 전이가 끝나는 순간 다시 읽는다.
-       시간을 어림잡아 기다리면 아직 움직이는 중에 읽어 선이 엉뚱하게 길어진다. */
-    if (railEl) {
-      railEl.addEventListener('transitionend', function (e) {
-        if (e.propertyName === 'grid-template-rows') setDone(last);
-      });
     }
     function tick() {
       var r = hero.getBoundingClientRect();
