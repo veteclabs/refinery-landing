@@ -59,22 +59,22 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is predictive maintenance?',
         a:
-          'Predictive maintenance (PdM) analyzes vibration, temperature and current data in real time to predict failure<br>before it happens, so servicing happens only when it is needed.<br>Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
+          'Predictive maintenance (PdM) analyzes vibration, temperature and current data in real time to predict failure before it happens, so servicing happens only when it is needed. Unlike preventive maintenance on a fixed calendar, it acts on actual condition, which cuts needless stoppages and cost.',
       },
       {
         q: 'Can I start predictive maintenance with a wireless vibration sensor?',
         a:
-          'Yes. A wireless vibration sensor such as the WISE-2410 mounts on the machine with no wiring work,<br>collects 3-axis vibration and temperature, and sends it to a gateway over LoRaWAN.<br>That makes it quick to cover rotating equipment where running cable is difficult.',
+          'Yes. A wireless vibration sensor such as the WISE-2410 mounts on the machine with no wiring work, collects 3-axis vibration and temperature, and sends it to a gateway over LoRaWAN. That makes it quick to cover rotating equipment where running cable is difficult.',
       },
       {
         q: 'How do you do predictive maintenance on a motor?',
         a:
-          'Motors show the first signs of failure in vibration, current and temperature.<br>A vibration spectrum reveals bearing wear, shaft misalignment and unbalance,<br>and reading the current alongside it catches load anomalies and insulation degradation early.',
+          'Motors show the first signs of failure in vibration, current and temperature. A vibration spectrum reveals bearing wear, shaft misalignment and unbalance, and reading the current alongside it catches load anomalies and insulation degradation early.',
       },
       {
         q: 'Can predictive maintenance be applied to existing equipment?',
         a:
-          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA or PLC.<br><span translate="no">Refinery</span> weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
+          'Yes. You can collect new data with wireless sensors, or start from signals already present in SCADA or PLC. <span translate="no">Refinery</span> weaves the scattered data into an ontology and explains the cause with the equipment history behind it.',
       },
     ],
     seo: {
@@ -189,17 +189,17 @@ export const useCasesEn: UseCase[] = [
       {
         q: 'What is a power management solution?',
         a:
-          'A power management solution collects and analyzes voltage, current, power and power-factor data from the incoming and distribution circuits in real time to monitor and optimize electricity use.<br>Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
+          'A power management solution collects and analyzes voltage, current, power and power-factor data from the incoming and distribution circuits in real time to monitor and optimize electricity use. Spotting peak demand, abnormal load and falling power factor early reduces both the bill and the risk of an outage.',
       },
       {
         q: 'How does power management differ from an energy management system (EMS)?',
         a:
-          'Power management focuses on monitoring and quality in the electrical system, while an EMS covers use, efficiency and savings across energy as a whole.<br><span translate="no">Refinery</span> joins power data with EMS and equipment data so the savings it proposes come with evidence.',
+          'Power management focuses on monitoring and quality in the electrical system, while an EMS covers use, efficiency and savings across energy as a whole. <span translate="no">Refinery</span> joins power data with EMS and equipment data so the savings it proposes come with evidence.',
       },
       {
         q: 'How does AI help with power management?',
         a:
-          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action.<br>Without anyone watching every metric, it flags the moment with the reasoning attached.',
+          'AI compares live data against past patterns to forecast peaks, and infers the cause behind an abnormal load or a falling power factor to propose an action. Without anyone watching every metric, it flags the moment with the reasoning attached.',
       },
     ],
     seo: {
