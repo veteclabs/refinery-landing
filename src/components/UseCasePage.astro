@@ -1126,7 +1126,7 @@ const jsonLd = [
     display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     flex: 0 0 auto; width: 204px; height: 204px;
-    gap: 22px; padding: 10px 12px;
+    gap: 32px; padding: 6px 12px;
     background: var(--bg-soft); border: none;
     border-radius: var(--radius);
   }
@@ -1135,9 +1135,10 @@ const jsonLd = [
         새 한 벌은 제 안에 흰 면과 브랜드색을 다 가지고 있어 파란 원 위에 놓으면
         흰 몸통이 뜨고 브랜드색 디테일은 묻힌다.
      ⚠️ 100px 은 204px 정사각 안에서 아이콘 + 2줄 라벨이 들어가는 최대값이다
-        (100 + 간격 22 + 두 줄 52 + 위아래 여백 20 = 194). 영문 라벨이 길어
+        (100 + 간격 32 + 두 줄 52 + 위아래 여백 12 = 196). 영문 라벨이 길어
         2줄이 되는 것이 다섯 쪽이라 여기서 더 키우면 카드 밖으로 넘친다.
-        아이콘과 글 사이를 넓히려면 위아래 여백에서 덜어 온다(14 → 10).
+        아이콘과 글 사이를 넓히려면 위아래 여백에서 덜어 온다(14 → 10 → 6).
+        카드는 정사각형이라 높이를 늘려 자리를 내지 않는다.
      ⚠️ 카드 폭은 204px 에서 멈춘다. 신호가 여섯인 과제(센서 모니터링)가 1440px
         에서 한 줄에 들어가는 한계다 — 204 x 6 + 간격 16 x 5 = 1304, 단 안쪽
         폭 1344 에 40px 이 남는다. 220px 으로 키웠더니 5 + 1 로 접혔다. */
@@ -1155,12 +1156,12 @@ const jsonLd = [
   .uc-signal-icon::before {
     content: "";
     position: absolute;
-    left: 50%; bottom: -9px;
+    left: 50%; bottom: -20px;
     width: 60px; height: 12px;
     transform: translateX(-50%);
     border-radius: 50%;
-    background: rgba(22, 32, 44, .22);
-    filter: blur(6px);
+    background: rgba(22, 32, 44, .12);
+    filter: blur(7px);
   }
   .uc-signal-icon img { width: 100px; height: 100px; display: block; }
   /* Phosphor 로 넣은 신호가 있을 때만 보인다. 바탕이 밝으므로 브랜드색으로 그린다. */
