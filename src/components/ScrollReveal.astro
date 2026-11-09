@@ -47,7 +47,6 @@
         모션(--grow)은 이것과 별개로 UseCasePage 안의 스크립트가 쥔다. */
   .rv-on .uc-problem:not(.rv-done),
   .rv-on .uc-signal:not(.rv-done),
-  .rv-on .uc-page .ind-grid .ind-card:not(.rv-done),
   .rv-on .uc-template:not(.rv-done),
   .rv-on .uc-case:not(.rv-done),
   .rv-on .uc-faq-item:not(.rv-done) {
@@ -70,7 +69,6 @@
   .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done),
   .rv-on .uc-problem.rv-in:not(.rv-done),
   .rv-on .uc-signal.rv-in:not(.rv-done),
-  .rv-on .uc-page .ind-grid .ind-card.rv-in:not(.rv-done),
   .rv-on .uc-template.rv-in:not(.rv-done),
   .rv-on .uc-case.rv-in:not(.rv-done),
   .rv-on .uc-faq-item.rv-in:not(.rv-done) {
@@ -95,7 +93,7 @@
       var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
               + ', .ind-head, .ind-chal-rows, .ind-uc-aside, .ind-uc-item, .ind-flow-step'
               + ', .ind-benefits .ind-card'
-              + ', .uc-problem, .uc-signal, .uc-page .ind-grid .ind-card, .uc-template'
+              + ', .uc-problem, .uc-signal, .uc-template'
               + ', .uc-case, .uc-faq-item';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }

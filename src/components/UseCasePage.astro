@@ -347,15 +347,47 @@ const jsonLd = [
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head"><h2>{T.how}</h2></header>
-        <div class="ind-grid ind-grid-3" style={uc.redesigned ? `--uc-cols:${Math.min(uc.how.length, 4)}` : undefined}>
-          {uc.how.map((h) => (
-            <div class="ind-card">
+        <div class="ind-grid ind-grid-3 uc-how-grid" style={uc.redesigned ? `--uc-cols:${Math.min(uc.how.length, 4)}` : undefined}>
+          {uc.how.map((h, i) => (
+            <div class="ind-card" style={`--i:${i}`}>
               {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
               <h3>{h.title}</h3>
               <p set:html={h.desc}></p>
             </div>
           ))}
         </div>
+
+        {/* 카드가 스크롤에 맞춰 차례로 올라온다. 한 번 뜨고 마는 ScrollReveal 과 달리
+            스크롤을 되감으면 같이 되감긴다 — 랜딩의 섹션 모션과 같은 결이다.
+            ⚠️ 그래서 이 카드는 ScrollReveal 의 목록에서 뺐다. 둘 다 걸면 같은
+               요소의 opacity · transform 을 두 곳에서 쥐고 서로 지운다. */}
+        <script is:inline>
+          (function () {
+            var grid = document.currentScript.parentElement.querySelector('.uc-how-grid');
+            if (!grid) return;
+            if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              grid.style.setProperty('--how', '1');
+              return;
+            }
+            var ticking = false;
+            function upd() {
+              var vh = window.innerHeight || 800;
+              var top = grid.getBoundingClientRect().top;
+              /* 화면 아래 88% 에 닿을 때 시작해 45% 선까지 올라오는 동안 다 뜬다. */
+              var a = vh * 0.88, b = vh * 0.45;
+              var p = (a - top) / (a - b);
+              grid.style.setProperty('--how', (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(3));
+            }
+            function onScroll() {
+              if (ticking) return;
+              ticking = true;
+              requestAnimationFrame(function () { ticking = false; upd(); });
+            }
+            addEventListener('scroll', onScroll, { passive: true });
+            addEventListener('resize', onScroll, { passive: true });
+            upd();
+          })();
+        </script>
 
         {uc.template && (
           <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
@@ -838,6 +870,18 @@ const jsonLd = [
      생겨도 같이 적용되게 하기 위해서다(지금은 일곱 개가 모두 redesigned 다).
      지원하지 않는 브라우저는 지금 모습 그대로다. */
   .uc-page .ind-card h3 { text-wrap: balance; }
+
+  /* 해결방법 카드 모션 — --how(0~1)를 스크롤이 올리고, 카드마다 --i 만큼 늦게 받는다.
+     카드 넷이면 마지막 카드가 0.36 에서 시작해 0.66 에 다 뜬다.
+     ⚠️ 칸(--span 0.3)을 너무 좁히면 네 장이 거의 같이 뜨고, 너무 넓히면 마지막
+        카드가 화면을 지나간 뒤에야 뜬다. */
+  .uc-page .uc-how-grid .ind-card {
+    --span: .3;
+    --t: clamp(0, calc((var(--how, 1) - var(--i) * .12) / var(--span)), 1);
+    opacity: var(--t);
+    transform: translateY(calc((1 - var(--t)) * 28px));
+    will-change: opacity, transform;
+  }
   /* 해결 방법 카드의 제목 칸을 두 줄 높이로 잡고 글자를 아래에 붙인다. 영문은 제목
      길이가 카드마다 달라 한 페이지 안에서 한 줄과 두 줄이 섞이고, 두 줄인 카드만
      본문이 32px 내려앉아 가로로 늘어선 카드끼리 시작선이 어긋났다
