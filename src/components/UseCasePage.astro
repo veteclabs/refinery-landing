@@ -890,11 +890,13 @@ const jsonLd = [
     max-width: 1600px;
     padding: 0 48px;
   }
-  /* 섹션 위아래 여백을 랜딩 본문 섹션과 같은 130px으로. (공통값은 84px)
-     CTA는 랜딩 #cta와 같은 95px이라 여기서 제외된다(.ind-section이 아님). */
-  .uc-redesigned .ind-section { padding: 130px 0; }
+  /* 섹션 위아래 여백. 공통값 84px → 랜딩 본문과 같은 130px 으로 올렸다가,
+     다시 180px 로 넓혔다 — 기둥 페이지(.ind-page .ind-section)와 같은 값이다.
+     ⚠️ 히어로와 CTA 는 여기 들어오지 않는다. 히어로는 .ind-hero(위 180px ·
+        아래 0), CTA 는 .ind-cta 로 선택자가 달라 이 규칙이 닿지 않는다. */
+  .uc-redesigned .ind-section { padding: 180px 0; }
   @media (max-width: 900px) {
-    .uc-redesigned .ind-section { padding: 60px 0; }
+    .uc-redesigned .ind-section { padding: 84px 0; }
   }
   @media (max-width: 900px) {
     .uc-redesigned .ind-section .ind-container { padding: 0 24px; }
