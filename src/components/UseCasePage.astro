@@ -409,6 +409,27 @@ const jsonLd = [
       </section>
     )}
 
+    {uc.faq && uc.faq.length > 0 && (
+      <section class="ind-section uc-faq-section">
+        <div class="ind-container">
+          {/* 랜딩 #faq와 같은 구성 — 제목 왼쪽, 아코디언 목록 오른쪽.
+              질문은 h3를 유지한다. 랜딩은 div를 쓰지만 이 페이지는 FAQPage
+              스키마와 함께 나가는 정의형 FAQ(AEO)라 제목 의미를 버릴 수 없다. */}
+          <div class="uc-faq-head">
+            <header class="ind-head"><h2>{T.faqTitle}</h2></header>
+            <div class="uc-faq-list">
+              {uc.faq.map((f) => (
+                <div class="uc-faq-item">
+                  <h3 class="uc-faq-q"><span set:html={nb(f.q)}></span><i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
+                  <div class="uc-faq-a" set:html={nb(f.a)}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
     {/* 다른 과제 — 데이터에서 showRelatedUseCases를 켠 유즈케이스에만 렌더된다.
         아래 CTA가 어두운 배경이라 이 구역은 흰 배경으로 두어 대비로 구분한다. */}
     {uc.showRelatedUseCases && (
@@ -440,27 +461,6 @@ const jsonLd = [
                 </div>
               </a>
             ))}
-          </div>
-        </div>
-      </section>
-    )}
-
-    {uc.faq && uc.faq.length > 0 && (
-      <section class="ind-section uc-faq-section">
-        <div class="ind-container">
-          {/* 랜딩 #faq와 같은 구성 — 제목 왼쪽, 아코디언 목록 오른쪽.
-              질문은 h3를 유지한다. 랜딩은 div를 쓰지만 이 페이지는 FAQPage
-              스키마와 함께 나가는 정의형 FAQ(AEO)라 제목 의미를 버릴 수 없다. */}
-          <div class="uc-faq-head">
-            <header class="ind-head"><h2>{T.faqTitle}</h2></header>
-            <div class="uc-faq-list">
-              {uc.faq.map((f) => (
-                <div class="uc-faq-item">
-                  <h3 class="uc-faq-q"><span set:html={nb(f.q)}></span><i class="ph-bold ph-caret-down uc-faq-icon" aria-hidden="true"></i></h3>
-                  <div class="uc-faq-a" set:html={nb(f.a)}></div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
