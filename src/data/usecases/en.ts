@@ -355,9 +355,9 @@ export const useCasesEn: UseCase[] = [
     problem:
       'Waste tends to sit scattered in places that draw less attention than the large machines. Looking only at totals will not show you where to start.',
     how: [
-      { icon: 'ph-magnifying-glass', title: 'Waste discovery', desc: 'Consumption patterns are overlaid on the work context to find inefficiency.<br>The stretches that used far more for the same job stand out.' },
-      { icon: 'ph-trend-down', title: 'Peak reduction', desc: 'The moments when peaks form are identified, and the load is spread.<br>Contract demand and demand charges come down together.' },
-      { icon: 'ph-arrows-clockwise', title: 'Ongoing management', desc: 'The effect of improvement is tracked, and the savings held.<br>Any stretch sliding back to the old pattern stands out at once.' },
+      { icon: 'ph-magnifying-glass', title: 'Waste discovery', desc: 'Consumption is overlaid on the work context.<br>The stretches that used far more for the same job stand out.' },
+      { icon: 'ph-trend-down', title: 'Peak reduction', desc: 'The moments when peaks form are found, and the load is spread.<br>Contract demand and charges come down together.' },
+      { icon: 'ph-arrows-clockwise', title: 'Ongoing management', desc: 'The effect of improvement is tracked.<br>Any stretch sliding back to the old pattern stands out.' },
     ],
     signals: [
       { label: 'Consumption by time of day', icon: 'operating-history' },
