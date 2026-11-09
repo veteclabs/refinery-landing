@@ -1882,7 +1882,11 @@
        성립해서 함께 걷었다).
        ⚠️ static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이 inset: 0 로
           깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이 페이지 전체로 번진다. */
-    #security { padding: 180px 0; }
+    /* ⚠️ 위는 130px 이다(아래만 180px). 등장 모션이 대제목의 화면 위치로
+       진행도를 재는데(rise 1.00 → 0.35), 위 여백을 50px 늘리면 카드도 함께
+       내려가 모션이 끝나는 순간 카드가 아직 화면 밖에 있다 — 카드가 올라오는
+       것을 아무도 못 본다. 180px 으로 올렸다가 되돌렸다(카드 끝 지점 915px → 865px). */
+    #security { padding: 130px 0 180px; }
     #security .sec-pin { height: auto; }
     #security .sec-stage {
       position: relative;
