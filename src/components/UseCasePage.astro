@@ -113,13 +113,27 @@ const nb = (input) =>
    ⚠️ 숫자 뒤의 마침표는 건너뛴다 — 'Alarm 4.5 mm/s' 같은 값이 쪼개지면 안 된다.
       (?<=[^0-9][.?!]) 는 '숫자가 아닌 글자 + 문장부호' 뒤에서만 끊는다는 뜻이다.
    ⚠️ 데이터에 <br> 를 박지 않는다. 줄 나눔은 브라우저에, 단락 나눔은 여기서. */
-const paras = (input) =>
-  String(input ?? '')
+const SHORT = 25;   /* 이보다 짧은 문장은 혼자 한 줄을 차지하지 않는다 */
+const paras = (input) => {
+  const parts = String(input ?? '')
     .split(/(?<=[^0-9][.?!])\s+/)
     .map((t) => t.trim())
-    .filter(Boolean)
-    .map((t) => `<p>${nb(t)}</p>`)
-    .join('');
+    .filter(Boolean);
+  /* '네 가능합니다.' 같은 짧은 문장은 뒷문장에 붙인다 — 혼자 두면 토막처럼 보인다.
+     마지막 조각이 짧으면 앞문장에 붙인다. */
+  const merged = [];
+  for (const t of parts) {
+    if (merged.length && merged[merged.length - 1].length < SHORT) {
+      merged[merged.length - 1] += ' ' + t;
+    } else {
+      merged.push(t);
+    }
+  }
+  if (merged.length > 1 && merged[merged.length - 1].length < SHORT) {
+    merged[merged.length - 2] += ' ' + merged.pop();
+  }
+  return merged.map((t) => `<p>${nb(t)}</p>`).join('');
+};
 
 const jsonLd = [
   {
@@ -549,8 +563,9 @@ const jsonLd = [
   .uc-faq-item.open .uc-faq-icon { transform: rotate(180deg); }
   /* 접힘은 max-height로 만든다(랜딩과 같은 방식). display:none이 아니라
      DOM에 그대로 남아 FAQPage 스키마·크롤링에는 영향이 없다. */
-  .uc-faq-a :global(p) { margin: 0 0 14px; }
-  .uc-faq-a :global(p:last-child) { margin-bottom: 0; }
+  /* 단락 사이에 빈 줄을 두지 않는다 — 문장이 끝나면 줄만 바뀐다.
+     14px 을 줬더니 답변이 성겨 보였다. */
+  .uc-faq-a :global(p) { margin: 0; }
   .uc-faq-a {
     /* 같은 카드의 소제목(.uc-case-desc)과 같은 15px / 1.5. */
     font-size: 15px; line-height: 1.5; color: var(--text-muted, #5A6776);
@@ -1138,15 +1153,16 @@ const jsonLd = [
      상자를 늘려 버려 크기가 들쭉날쭉해진다.
      ⚠️ 정사각형이 아니다(204 x 252). 카드 위아래 여백을 넓히려고 높이만 키웠다
         — 폭은 204px 이 한계다(신호 여섯인 과제가 1440px 에서 한 줄에 들어가는 값).
-     내용은 세로 가운데로 모은다(justify-content). 높이 252 는 국문에서
-     위 여백 · 아이콘과 글 사이 · 아래 여백이 모두 42px 로 떨어지는 값이다
-     (42 + 100 + 42 + 한 줄 26 + 42 = 252). 영문은 라벨이 두 줄이라 29px 씩 남는다.
-     padding 12px 는 바닥값일 뿐, 실제 여백은 가운데 맞춤이 만든다. */
+     ⚠️ 가운데 맞춤(justify-content: center)이 아니라 위 맞춤이다. 가운데로 모으면
+        위아래 여백이 늘 같은 값이 되어, 위만 넓히고 아래는 두는 것이 안 된다.
+        위 42px 은 padding 이 쥐고, 아래는 남는 만큼이다
+        (245 - 42 - 아이콘 100 - 간격 42 - 한 줄 26 = 35px).
+        영문 라벨이 두 줄인 카드는 아래가 9px 로 줄어든다. */
   .uc-signal {
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center;
-    flex: 0 0 auto; width: 204px; height: 252px;
-    gap: 42px; padding: 12px;
+    align-items: center; justify-content: flex-start; text-align: center;
+    flex: 0 0 auto; width: 204px; height: 245px;
+    gap: 42px; padding: 42px 12px 0;
     background: var(--bg-soft); border: none;
     border-radius: var(--radius);
   }
