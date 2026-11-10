@@ -211,7 +211,9 @@ img { max-width: 100%; height: auto; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
 .ind-page .ind-flow-head {
-  display: flex; align-items: flex-start;
+  /* 번호 배지(::before)와 이름이 한 줄에 선다. 배지를 이름의 가운데에 맞추고
+     사이를 10px 띄운다 — 배지가 그래픽 위에 있던 동안은 둘 다 필요 없었다. */
+  display: flex; align-items: center; gap: 10px;
   height: auto; padding: 0;
   background: none; border: 0; border-bottom: 0;
   border-radius: 0;
@@ -358,15 +360,21 @@ img { max-width: 100%; height: auto; }
       저절로 맞고, 열네 데이터 파일을 건드리지 않는다.
    ⚠️ 카운터는 .ind-flow-step 에서만 올린다 — 사이의 화살표 요소는 세지 않는다.
    ⚠️ 면과 색은 도입 효과의 아이콘 상자와 같은 값이다(하늘색 10% · #3F76AE). */
-/* ⚠️ 번호는 칸(.ind-flow-step)의 ::before 다. 칸이 세로 flex 라 ::before 가
-   첫 자식이 되어 그래픽 위에 선다 — 제목 앞에 두었을 때는 head 의 ::before
-   였다. 이름 줄의 gap 도 그때 쓰던 값이라 함께 걷는다. */
-.ind-page .ind-flow-step::before {
+/* ⚠️ 번호는 이름 줄(.ind-flow-head)의 ::before 다 — 제목 앞에 선다. 칸
+   (.ind-flow-step)의 ::before 로 두었을 때는 칸이 세로 flex 라 ::before 가
+   첫 자식이 되어 그래픽 위에 섰다. 자리를 옮길 때는 이름 줄의
+   align-items · gap 도 함께 본다(아래). */
+.ind-page .ind-flow-head::before {
   content: counter(ind-flow);
-  align-self: flex-start;
-  margin-bottom: 14px;
-  /* 사각 배지다. 둥글기는 헤더의 주 행동 버튼(.btn-primary)과 같은 6px. */
-  padding: 3px 7px;
+  flex: none;
+  /* 정사각형이다 — 22x22px. 여백(3px 7px)으로 두었을 때는 가로가 27px 이라
+     납작한 직사각형이었다. 글자를 가운데에 세우려면 상자를 inline-flex 로
+     두어야 한다(기본 inline 이면 높이 · 폭이 먹지 않는다).
+     ⚠️ 두 자리 숫자(01~04)에 맞춘 값이다. 세 자리가 생기면 폭을 함께 올린다.
+     둥글기는 헤더의 주 행동 버튼(.btn-primary)과 같은 6px. */
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  padding: 0;
   border: 0;
   border-radius: 6px;
   /* 면은 브랜드 하늘색을 그대로 쓴다. 글자는 흰색이다.
