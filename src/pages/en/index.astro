@@ -328,9 +328,13 @@ const jsonLd = [orgSchema, websiteSchema];
       }
       return 3;
     }
-    /* 장면에 거의 다 닿은 뒤에 글을 연다. 0 으로 두면 그림이 아직 가는 중에
-       글이 먼저 뜬다 — '미리 보이는' 것이 이 값이다. */
-    var TOL = 0.12;
+    /* 장면에 얼마나 닿았을 때 글을 열지. s 가 i - TOL 을 넘으면 i 번이 열린다.
+       0 = 카메라가 그 장면에 다 닿은 순간이다.
+       ⚠️ 0 보다 키우면 가는 중에 글이 먼저 뜬다 — 0.25 로 두었더니 시계열
+          화면이 아직 안 보이는데 '시계열을 넘어선 판단' 이 떠 있었다.
+       ⚠️ 장면 사이를 지나는 동안에는 앞 장면의 글이 열린 채로 남는다(아래
+          고르는 식이 '지나온 것 중 마지막' 을 집으므로). 글칸이 비지 않는다. */
+    var TOL = 0;
     /* 장면이 열리는 자리를 진행도(mp) 로 미리 구해 둔다. sOf 를 되짚어
        sOf(mp) = i - TOL 이 되는 mp 를 이분법으로 찾는다.
        ⚠️ 링은 이 자리들 사이를 0~1 로 채운다. 장면값(s) 으로 재면 구간마다
@@ -345,6 +349,16 @@ const jsonLd = [orgSchema, websiteSchema];
       }
       OPEN.push(hi);
     }
+    /* 장면이 화면을 떠나는 자리 — 멈춰 서는 구간의 끝이다(KEYS 에서 같은 장면값을
+       가진 마지막 지점). 링은 여기서 꽉 찬다.
+       ⚠️ 다음 장면이 열릴 때까지 채우면, 카메라가 이미 다음 장면으로 떠난 뒤에도
+          앞 장면의 링이 계속 차 올랐다 — '구간 넘어서까지 채워진다'가 이것이다. */
+    var ENDS = [];
+    for (var ei = 1; ei <= N; ei++) {
+      var last = 0;
+      for (var kk = 0; kk < KEYS.length; kk++) if (KEYS[kk][1] === ei) last = KEYS[kk][0];
+      ENDS.push(last);
+    }
     /* 창이 다 자라는 데 쓰는 몫. HeroZoom.astro 의 ZOOM 과 같은 값이다 —
        거기서 --hero-p = 지나온거리 / (구간 * ZOOM) 로 잰다.
        ⚠️ 두 곳에 같은 숫자가 있다. 한쪽을 고치면 다른 쪽도 고친다. */
@@ -357,8 +371,8 @@ const jsonLd = [orgSchema, websiteSchema];
       var i = 0, f = 0;
       for (var k = N; k >= 1; k--) { if (mp >= OPEN[k - 1]) { i = k; break; } }
       if (i) {
-        var a = OPEN[i - 1], b = i < N ? OPEN[i] : 1;
-        f = Math.max(0, Math.min(1, (mp - a) / (b - a)));
+        var a = OPEN[i - 1], b = ENDS[i - 1];
+        f = b > a ? Math.max(0, Math.min(1, (mp - a) / (b - a))) : 1;
       }
       /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
       if (railEl) railEl.style.setProperty('--ring', f.toFixed(3));
