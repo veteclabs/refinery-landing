@@ -386,7 +386,8 @@ const ucShift = (h: number) =>
         <div class="ind-ben-shell">
           <div class="ind-ben-aside">
             <h2>{ind.benefits.title}</h2>
-            {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
+            {/* ⚠️ 소제목은 화면에 내지 않는다 — 유즈케이스 섹션과 같은 처리다.
+                데이터(benefits.subtitle)는 열네 파일에 그대로 두었다. */}
           </div>
         <div class:list={['ind-grid', `ind-grid-${benefitCols}`]}>
           {ind.benefits.items.map((b) => (
