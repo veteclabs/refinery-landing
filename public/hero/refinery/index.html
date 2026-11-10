@@ -389,8 +389,12 @@ function polyPath(c,L){c.beginPath();for(const P of L){c.moveTo(P[0][0],P[0][1])
 /* light recipes (preview switch: window.__NS) — layers of [blurMul, widthMul, rgb, alpha] from outside in */
 /* white glow: soft brand halo, white bloom, thin pale-brand rim around a wide white core */
 const NEON=[[[2.4,2.8,'140,185,235',.55],[1.2,2.5,'255,255,255',.85],[0,2.0,'190,218,248',1],[.25,1.5,'255,255,255',1]]];
+/* canvas blur filter is missing in some browsers (Safari): without it the glow layers stack as hard bands and the line reads sky-blue */
+const FILTER_OK=(()=>{try{const q=document.createElement('canvas');q.width=q.height=9;const x=q.getContext('2d');x.filter='blur(2px)';x.fillStyle='#000';x.fillRect(4,4,1,1);return x.getImageData(1,4,1,1).data[3]>0;}catch(e){return false;}})();
 function neon(c,L,k,w,a){if(!L.length)return;c.save();c.lineCap='round';c.lineJoin='round';
-  for(const [bm,wm,rgb,al] of NEON[0]){c.filter=bm?`blur(${(w*bm*k).toFixed(1)}px)`:'none';polyPath(c,L);c.strokeStyle=`rgba(${rgb},${(al*a).toFixed(3)})`;c.lineWidth=Math.max(.9,w*wm*k);c.stroke();}
+  for(const [bm,wm,rgb,al] of NEON[0]){const col=`rgba(${rgb},${(al*a).toFixed(3)})`,lw=Math.max(.9,w*wm*k);
+    if(bm&&!FILTER_OK){const off=20000;c.save();c.filter='none';c.translate(-off,0);polyPath(c,L);c.shadowOffsetX=off*DPR;c.shadowOffsetY=0;c.shadowBlur=2*w*bm*k*DPR;c.shadowColor=col;c.strokeStyle='#000';c.lineWidth=lw;c.stroke();c.restore();continue;}
+    c.filter=bm?`blur(${(w*bm*k).toFixed(1)}px)`:'none';polyPath(c,L);c.strokeStyle=col;c.lineWidth=lw;c.stroke();}
   c.restore();}
 function cumOf(P){const q=[0];for(let i=1;i<P.length;i++)q.push(q[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));return q;}
 function sub(P,u0,u1){const q=cumOf(P),L=q[q.length-1];const d0=Math.max(0,u0*L),d1=Math.min(L,u1*L);if(d1-d0<.5)return null;
@@ -426,6 +430,9 @@ function drawFlows(t,frameIdx){
     PL.push([P,(((scrollPos*SWEEPS+f.off)%1)+1)%1*1.3,.18]);
     if(len<f.c3[f.c3.length-1]-.01)PL.push([P,1,.06]);   /* bright growing tip */
   });
+  /* 바깥에서 읽는 상태. rev 는 공중 회로선이 얼마나 내려왔는가(0~1)다 —
+     히어로 탭의 링이 이 값을 그대로 따른다. 그리는 일은 하지 않는다. */
+  {let rv=0;flows.forEach(f=>{if(f.spoke||f.lane||!f.c3)return;const L3=f.c3[f.c3.length-1];if(L3>0)rv=Math.max(rv,Math.min(1,revealLen(f)/L3));});window.__HERO={p:pCur,s:curS,fi:frameIdx,rev:rv};}
   neon(fx,spokes,k,3,1);pulses(fx,spP,k,4);
   neon(fx,gL,k,3.8,1);pulses(fx,gP,k,4.8);
   const m=masks[frameIdx];
@@ -691,7 +698,7 @@ function frame(now){
   const pT=scrollP();pCur=reduce?pT:pCur+(pT-pCur)*(1-Math.exp(-dt*7));if(Math.abs(pT-pCur)<1e-4)pCur=pT;
   const s=sOf(pCur);updateUI(pCur,s);
   const fi=Math.round(clamp(s/3)*(NF-1));
-  curS=s;scrollPos=pCur;window.__DBG={p:pCur,s:s,fi:fi};   /* 바깥에서 지금 그려지는 프레임을 읽을 수 있게 — 글·링 박자를 맞출 때 쓴다 */
+  curS=s;scrollPos=pCur;
   /* embedded in a narrower box than 16:9: keep the scene's subject (shifted right for the old caption space) in view */
   if(window.__EMBED&&VW*sc>W+1){const c=DATA.cams[Math.round(fi)],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
   const sf=drawFrame(fi);setCam(sf);updateFocus();drawFlows(time,sf);   /* overlays follow the frame actually on screen */

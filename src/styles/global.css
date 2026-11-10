@@ -387,7 +387,11 @@
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
       padding: 0;
-      --hero-run: 150vh;
+      /* ⚠️ 150vh 에서 180vh 로 늘렸다. 늘린 30vh 는 모션이 다 끝난 뒤
+         마지막 장면에 머무는 구간이다 — 한 번 멈춘 뒤에 더 스크롤해야 내려간다.
+         자라는 몴(57vh)과 모션 몫(93vh)은 그대로라, 비율은 index.astro 의
+         GROW · RUN 과 HeroZoom 의 ZOOM 이 함께 맞춰 둔다. 한쪽만 고치면 어긋난다. */
+      --hero-run: 180vh;
       height: calc(100vh + var(--hero-run));
       background: none;
       text-align: left;
