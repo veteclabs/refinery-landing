@@ -303,7 +303,9 @@ img { max-width: 100%; height: auto; }
      선다. 제목과 같은 #F6F8FA을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
-  font-size: 13px; line-height: 1.5; color: var(--text-muted);
+  /* 글자값을 섹션 소제목(.ind-page .ind-head p)과 같게 둔다 — 18px / 1.5 /
+     --text-muted. 정렬과 별표는 캡션 제 값 그대로다. */
+  font-size: 18px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
 }
@@ -1352,7 +1354,8 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  font-size: 13px; line-height: 1.5; color: var(--text-muted);
+  /* 흐름 노트와 같은 값 — 곧 섹션 소제목과 같은 18px / 1.5 / --text-muted 다. */
+  font-size: 18px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
 }
