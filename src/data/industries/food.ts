@@ -161,7 +161,7 @@ export const food: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '식품 제조 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
+    title: '식품 및 음료 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

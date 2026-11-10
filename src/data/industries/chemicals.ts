@@ -163,7 +163,7 @@ export const chemicals: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '화학 공정 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
+    title: '화학 및 소재 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

@@ -175,7 +175,7 @@ export const electronics: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '전자 제조 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
+    title: '전자 및 정밀 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

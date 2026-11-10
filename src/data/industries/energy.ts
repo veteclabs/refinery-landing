@@ -164,7 +164,7 @@ export const energy: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '에너지 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
+    title: '에너지 및 유틸리티 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };
