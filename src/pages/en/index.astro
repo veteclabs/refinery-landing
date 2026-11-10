@@ -369,8 +369,10 @@ const jsonLd = [orgSchema, websiteSchema];
           구간을 그대로 쓴다(160 → 192, 마지막 프레임).
        ⚠️ 프레임을 다시 뽑으면 다시 재야 한다. 재는 법은 위 __HERO 주석 참고. */
     var SEG = [[7, 64], [90, 128], [160, 192]];
-    /* 탭을 눌렀을 때 가는 자리 — 장면이 화면 가운데에 선 지점이다. */
-    var HOLD = [0, 0.31, 0.65, 0.97];
+    /* 탭을 눌렀을 때 가는 자리 — 그 장면이 멈춰 서는 구간의 '끝' 이다.
+       그림은 구간 내내 같은 프레임(64 · 128 · 192)이라 어디로 보내도 장면은
+       같지만, 링은 끝에서 꽉 찬다 — 시작으로 보내면 빈 링으로 선다. */
+    var HOLD = [0, 0.41, 0.75, 0.97];
     /* 화면이 멈춰 서는 구간 — 장면에 닿은 뒤 회로 선 하나가 내려와 자리를 잡는
        그 동안이다(패키지의 KEYS 가 장면값을 붙들고 있는 구간과 같다).
        01 은 0.31~0.41, 02 는 0.65~0.75 다.
@@ -471,8 +473,10 @@ const jsonLd = [orgSchema, websiteSchema];
         var i = +this.getAttribute('data-go');
         var span = hero.offsetHeight - window.innerHeight;
         if (span <= 0) return;
-        var mp = HOLD[i];                    /* 그 장면이 멈춰 서는 자리 */
-        window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (1 - GROW)), behavior: 'smooth' });
+        var mp = HOLD[i];                    /* 그 장면이 멈춰 서는 구간의 끝 */
+        /* ⚠️ 되돌리는 식은 tick 과 같아야 한다 — tick 은 mp = (p - GROW) / (RUN - GROW)
+           로 잰다. 1 - GROW 로 되돌렸더니 02 를 눌렀을 때 03 구간으로 넘어갔다. */
+        window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (RUN - GROW)), behavior: 'smooth' });
       });
     }
     /* iframe 크기는 화면이 바뀔 때만 정한다 — 스크롤 중에는 건드리지 않는다.
