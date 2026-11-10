@@ -312,7 +312,7 @@ const DATA={"live":{"hub":[0,10.5,0],"graph":[150.714,14,34.091],"ring":[150.714
 /* ---------- Rendered scene: Cycles frames scrubbed by scroll, light flows drawn live on top ---------- */
 /* image sequence on a canvas (no video seeking → no stutter); adjacent frames are cross-faded
    and the overlay camera is interpolated, so scroll position maps continuously onto the scene */
-const vid=document.getElementById('vid'),vctx=vid.getContext('2d',{alpha:true})/* ⚠️ alpha:false 로 두면 안 된다. 불투명 2D 캔버스는 크기가 바뀔 때마다 검정으로 초기화돼, 창이 자라는 내내 검은 면이 깜빡인다. 투명으로 두면 그 자리에 무대 바탕(--bg #EEF4FB)이 비친다. */,ov=document.getElementById('ov'),ctx=ov.getContext('2d');
+const vid=document.getElementById('vid'),vctx=vid.getContext('2d',{alpha:false})/* ⚠️ 패키지 원본 값이다. 불투명 캔버스는 크기가 바뀌는 순간 검정으로 초기화되고, 이 코드는 clearRect 를 하지 않아 다음 프레임을 그릴 때까지 그 검정이 남았다. 그 깜빡임 때문에 한때 true 로 바꿨다. 지금은 iframe 레이아웃 크기를 고정하고 transform 으로만 키우므로 리사이즈 자체가 없어 그 문제가 나지 않는다 — 원본대로 두고, 합성 비용도 이쪽이 싸다. */,ov=document.getElementById('ov'),ctx=ov.getContext('2d');
 const NF=DATA.cams.length,VW=1280,VH=720;
 /* frames are fetched as compressed blobs and decoded off the main thread into ImageBitmaps; only a
    window of frames around the scroll position is kept decoded, so drawing never stalls on a decode */
@@ -678,7 +678,7 @@ function frame(now){
   const pT=scrollP();pCur=reduce?pT:pCur+(pT-pCur)*(1-Math.exp(-dt*7));if(Math.abs(pT-pCur)<1e-4)pCur=pT;
   const s=sOf(pCur);updateUI(pCur,s);
   const fi=Math.round(clamp(s/3)*(NF-1));
-  curS=s;scrollPos=pCur;
+  curS=s;scrollPos=pCur;window.__DBG={p:pCur,s:s,fi:fi};   /* 바깥에서 지금 그려지는 프레임을 읽을 수 있게 — 글·링 박자를 맞출 때 쓴다 */
   /* embedded in a narrower box than 16:9: keep the scene's subject (shifted right for the old caption space) in view */
   if(window.__EMBED&&VW*sc>W+1){const c=DATA.cams[Math.round(fi)],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
   const sf=drawFrame(fi);setCam(sf);updateFocus();drawFlows(time,sf);   /* overlays follow the frame actually on screen */
