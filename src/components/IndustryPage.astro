@@ -6,7 +6,6 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import type { IndustryData } from '../data/industries/types';
-import RfIcon from './RfIcon.astro';
 import ScrollReveal from './ScrollReveal.astro';
 
 interface Props {
@@ -337,13 +336,24 @@ const ucShift = (h: number) =>
               {i > 0 && (
               <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
             )}
-              <div class:list={['ind-flow-step', 'rf-ic-host', s.highlight && 'is-on']}>
+              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
                 {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
                     말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
                     순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
                 {/* 그림이 먼저, 이름이 그 아래다. 보이는 차례와 마크업 차례를
-                    같게 두어 읽기 프로그램도 같은 순서로 읽는다. */}
-                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
+                    같게 두어 읽기 프로그램도 같은 순서로 읽는다.
+                    ⚠️ RfIcon(인라인 SVG) 이 아니라 그림 파일이다. 3D 아이소메트릭
+                       아이콘이라 SVG 로 그릴 수 있는 것이 아니다 — public/icons/flow
+                       아래 512px webp 와 1024px @2x 를 둔다. */}
+                {s.icon && (
+                  <img
+                    class="ind-flow-img"
+                    src={`/icons/flow/${s.icon}.webp`}
+                    srcset={`/icons/flow/${s.icon}.webp 1x, /icons/flow/${s.icon}@2x.webp 2x`}
+                    width="145" height="145"
+                    alt="" aria-hidden="true" loading="lazy" decoding="async"
+                  />
+                )}
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
