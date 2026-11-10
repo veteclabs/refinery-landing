@@ -133,11 +133,19 @@ const jsonLd = [orgSchema, websiteSchema];
     height: fit-content;
     margin-block: auto;
     pointer-events: none;
-    opacity: clamp(0, calc(1 - var(--hero-p, 0) / 0.6), 1);
-    /* 사라지는 모션 — 흐려지면서 함께 아래로 내려가고 아주 조금 작아진다.
+    /* ⚠️ 창이 자라는 동안에는 사라지지 않는다. --hero-p 로 흐리게 했더니 창이
+       60% 쯤 자랐을 때 이미 0 이라, 자라는 모습을 보는 내내 글이 없었다.
+       자란 뒤의 진행도(--hero-mp, 위 스크립트가 내보낸다)로 비껴 간다 —
+       0 에서 0.12 사이에 걷힌다. 첫 탭 글이 올라오는 자리(0.1779)보다 앞이라
+       두 글이 한 화면에 같이 서지 않는다. */
+    opacity: clamp(0, calc(1 - var(--hero-mp, 0) / 0.12), 1);
+    /* 자라는 동안 아래로 내려간다 — 화면 아래쪽, 탭 글이 설 자리께까지다.
+       ⚠️ 28vh 다. 글 상자는 세로 가운데에 서므로(높이 242px) 28vh 를 내려가면
+          아래 모서리가 화면 바닥에서 77px 께에 선다 — 왼쪽 아래 탭의 아래
+          여백(72px)과 거의 같은 자리다.
        ⚠️ 전환이 아니라 --hero-p 를 그대로 받는다. 스크롤 위치가 곧 진행도라
           되감으면 그대로 되돌아온다. */
-    transform: translateY(calc(var(--hero-p, 0) * 48px))
+    transform: translateY(calc(var(--hero-p, 0) * 28vh))
                scale(calc(1 - var(--hero-p, 0) * 0.04));
     will-change: opacity, transform;
   }
@@ -477,6 +485,10 @@ const jsonLd = [orgSchema, websiteSchema];
       /* 창이 다 자랄 때까지는 모션을 세워 둔다 — 첫 프레임만 보인다.
          폭을 꽉 채운 뒤부터 스크롤이 모션을 돌린다. */
       var mp = p <= GROW ? 0 : Math.min(1, (p - GROW) / (RUN - GROW));
+      /* 창이 다 자란 뒤의 진행도를 CSS 로 내보낸다. --hero-p 는 다 자라면 1 에
+         멈춰 서므로, 그 뒤에 무언가를 움직이려면 이 값이 있어야 한다.
+         대제목 · 소제목이 자란 뒤에 비껴 가는 데 쓴다(.hv-copy). */
+      hero.style.setProperty('--hero-mp', mp.toFixed(4));
       if (fr.contentWindow) fr.contentWindow.postMessage({ type: 'refinery-hero', progress: mp }, '*');
       target = mp;
     }
