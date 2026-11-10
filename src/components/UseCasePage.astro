@@ -561,7 +561,9 @@ const jsonLd = [
      목록에는 따로 판을 깔지 않고 구분선만으로 질문을 나눈다.
      ⚠️ redesigned가 7개 과제 전부라 이 규칙도 7개 페이지에 걸린다. */
   /* ⚠️ 질문 섹션의 면(#f6f8fa)은 걷었다 — 흰 면 위에 그대로 선다.
-     되살릴 때는 이 한 줄을 되돌린다. */
+     되살릴 때는 background: #f6f8fa 한 줄을 되돌린다.
+     아래 여백을 떼는 규칙은 .uc-redesigned .ind-section 뒤에 둔다(아래) —
+     같은 특정도라 앞에 두면 그쪽 padding 한 줄에 덮인다. */
 
   .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
   .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
@@ -1007,6 +1009,13 @@ const jsonLd = [
   @media (max-width: 900px) {
     .uc-redesigned .ind-section { padding: 84px 0; }
   }
+  /* 질문 섹션만 아래 여백을 뗀다. 면(#f6f8fa)이 있을 때는 180px 이 띠 안쪽
+     여백으로 읽혔는데, 면을 걷자 다음 섹션(더 살펴보기)의 위 여백 180px 과
+     더해져 360px 짜리 빈 자리가 됐다. 0 으로 두면 둘 사이가 다음 섹션의 위
+     여백 하나, 곧 질문 섹션의 위 여백과 같은 180px 이 된다.
+     ⚠️ 위 .uc-redesigned .ind-section 보다 뒤에 와야 한다 — 같은 특정도라
+        앞에 두면 그쪽 padding 한 줄에 덮인다. */
+  .uc-redesigned .uc-faq-section { padding-bottom: 0; }
   @media (max-width: 900px) {
     .uc-redesigned .ind-section .ind-container { padding: 0 24px; }
   }
