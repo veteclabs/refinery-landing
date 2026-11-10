@@ -20,16 +20,18 @@ const T = {
     contactHref: '/contact',
     problem: '문제', approach: '접근', outcome: '성과',
     number: '번호', useCase: '하는 일',
-    // 두 섹션 머리 위 작은 라벨. 차례를 나타내는 두 자리 숫자다.
-    // ⚠️ 숫자라 ko/en 이 같다. 사전에 남겨 두는 건 자리를 한곳에서 쥐기 위해서다.
-    diagnose: '01', act: '02',
+    // 두 섹션 머리 위 작은 라벨. '보는 일' 과 '하는 일' 로 짝을 이루는 두 낱말이다.
+    // ⚠️ 숫자(01 · 02)로 두었을 때는 차례만 말하고, 두 섹션이 짝이라는 것을
+    //    라벨만 보고는 알 수 없었다 — 두 섹션 다 소제목을 화면에 내지 않으므로
+    //    그 몫까지 이 라벨이 한다.
+    diagnose: '진단', act: '조치',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
     contactHref: '/en/contact',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
     number: 'No.', useCase: 'Use case',
-    diagnose: '01', act: '02',
+    diagnose: 'Diagnose', act: 'Act',
   },
 }[lang];
 
