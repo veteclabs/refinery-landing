@@ -27,7 +27,7 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
     {
       id: 'comp', tag: 'Experience', icon: 'ph-clock-counter-clockwise',
       title: '30년이 만든 두 가지 시작',
-      desc: '쓰던 시스템이 있으면 그 위에 얹고<br>없으면 바닥부터 세웁니다.',
+      desc: '쓰던 시스템이 있으면 그 위에 얹고 없으면 바닥부터 세웁니다.',
     },
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
@@ -37,7 +37,7 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
       title: '현장을 아는 사람들의 설계',
-      desc: '설비가 어떤 식으로 멈추는지 겪어 본<br>팀이 만들었습니다.',
+      desc: '설비가 어떤 식으로 멈추는지 겪어 본 팀이 만들었습니다.',
     },
   ],
   en: [
