@@ -676,14 +676,23 @@ const jsonLd = [
     /* 글 묶음 옆에 서므로 위 여백이 필요 없다. 줄어들지도 않는다. */
     flex: none;
     border: 1px solid currentColor; border-radius: 50%;
-    color: #4b86bf;
-    /* 평소에는 없다가 카드에 마우스를 올렸을 때만 뜬다. 자리는 그대로고
-       나타나기만 한다 — 움직이면 글과 함께 흔들려 읽기가 어렵다. */
+    /* 뜨는 결과 색을 랜딩 솔루션 카드(#industries .industry-go)에 맞춘다 —
+       평소 #C8CED5 에서 왼쪽으로 6px 물러나 있다가, 호버에 제자리로 오며
+       #F6F8FA 로 밝아진다. 두 곳이 한 벌이라 한쪽을 고치면 다른 쪽도 본다.
+       ⚠️ 저쪽의 margin-right -38px → 0 은 가져오지 않는다. 그건 이름과 원이
+          한 줄에 가운데로 설 때 이름이 자리를 내주게 하는 장치다. 이 카드는
+          글이 왼쪽에 붙고 원이 오른쪽 끝에 서므로, 같이 쓰면 원이 칸 밖으로
+          38px 밀려났다 돌아오는 엉뚱한 움직임이 된다. */
+    color: #C8CED5;
     opacity: 0;
-    transition: opacity .2s ease, background-color .2s ease, color .2s ease;
+    transform: translateX(-6px);
+    /* ⚠️ var(--t-quick) 을 쓰지 않는다. 그 값은 global.css 의 :root 에 있고
+       이 페이지에는 실리지 않아, 쓰면 선언이 통째로 무효가 되어 전이가
+       사라진다(계산값이 all 0s 로 떨어졌다). 랜딩과 같은 .2s ease 를 적는다. */
+    transition: opacity .2s ease, transform .2s ease, background-color .2s ease, color .2s ease;
   }
   .uc-case-go svg { display: block; }
-  .uc-case:hover .uc-case-go { opacity: 1; }
+  .uc-case:hover .uc-case-go { opacity: 1; transform: none; color: #F6F8FA; }
   @media (max-width: 860px) {
     .uc-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
@@ -722,7 +731,8 @@ const jsonLd = [
   .uc-case--img { border: none; }
   .uc-case--img .uc-case-label { color: #fff; }
   .uc-case--img .uc-case-desc { color: rgba(255,255,255,.82); }
-  .uc-case--img .uc-case-go { color: #fff; }
+  /* ⚠️ 화살표 색은 여기서 덮지 않는다. 랜딩 솔루션 카드와 한 벌인
+     #C8CED5 → #F6F8FA 를 그대로 쓴다(일곱 과제가 모두 사진 카드라 바탕도 같다). */
   /* 사진 위에서는 글자색을 바꾸지 않고 이미지를 살짝 확대해 반응을 준다. */
   .uc-case--img:hover .uc-case-label { color: #fff; }
   .uc-case--img:hover .uc-case-img { transform: scale(1.04); }
