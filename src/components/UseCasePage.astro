@@ -645,7 +645,10 @@ const jsonLd = [
     min-height: 320px;
     color: #16202c;
     background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 24px;
+    /* 좌 · 우 · 아래를 24 에서 32 로 넓힌다. 글과 화살표가 한 줄에 서면서
+       카드 모서리에 바짝 붙어 보였다. 위는 글이 아래에 붙어 있어(align-items:
+       flex-end) 보이는 차이가 없으므로 24 로 둔다. */
+    border-radius: var(--radius); padding: 24px 32px 32px;
     transition: border-color .2s, color .2s, box-shadow .2s;
   }
   /* keep-all — 없으면 한국어가 어절 중간에서 잘린다('흩어/진', '데/이터').
