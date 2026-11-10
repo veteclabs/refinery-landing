@@ -84,7 +84,7 @@ export const chemicals: IndustryData = {
         image: { src: '/industries/chemicals-solutions/chemicals-02-target-alarm.svg', width: 464, height: 237 },
       },
       {
-        title: '열매체 보일러 공기비 기반 송풍기 인버터 제어',
+        title: '열매체 보일러 공기비 기반\n송풍기 인버터 제어',
         problem: '감으로 맞추는 열매체 보일러 공기비',
         approach: '열매체 보일러 공기비에 따라 송풍기 인버터를 제어해 최적의 공기비를 유지합니다.',
         outcome: '연소 효율 향상과 에너지 비용 절감',
