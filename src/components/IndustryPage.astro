@@ -20,12 +20,16 @@ const T = {
     contactHref: '/contact',
     problem: '문제', approach: '접근', outcome: '성과',
     number: '번호', useCase: '하는 일',
+    // 두 섹션 머리 위 작은 라벨. 차례를 나타내는 두 자리 숫자다.
+    // ⚠️ 숫자라 ko/en 이 같다. 사전에 남겨 두는 건 자리를 한곳에서 쥐기 위해서다.
+    diagnose: '01', act: '02',
   },
   en: {
     crumbAria: 'Breadcrumb', industries: 'Industries', industriesHref: '/en#industries',
     contactHref: '/en/contact',
     problem: 'Problem', approach: 'Approach', outcome: 'Outcome',
     number: 'No.', useCase: 'Use case',
+    diagnose: '01', act: '02',
   },
 }[lang];
 
@@ -178,6 +182,7 @@ const ucShift = (h: number) =>
       )}
       <div class="ind-container">
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
+          <span class="ind-sec-label">{T.diagnose}</span>
           {/* 제목은 데이터의 개행을 <br>로 낸다. */}
           <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
           {/* ⚠️ 소제목은 화면에 내지 않는다. 라벨 줄이 같은 말을 더 구체적으로
@@ -236,6 +241,7 @@ const ucShift = (h: number) =>
           <div class="ind-uc-shell">
           {/* 왼쪽 칸 — 스크롤해도 제자리에 남는다(sticky). 오른쪽 목록만 흐른다. */}
           <div class="ind-uc-aside">
+            <span class="ind-sec-label">{T.act}</span>
             {/* 제목은 데이터의 개행을 <br>로 낸다 — 과제 섹션 제목과 같은 방식이다. */}
             <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
             {/* ⚠️ 소제목은 화면에 내지 않는다. 제목이 이미 'Refinery가 문제를 푸는
