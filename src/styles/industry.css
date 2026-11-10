@@ -1329,7 +1329,9 @@ img { max-width: 100%; height: auto; }
         선이라, 하나만 남기면 마우스를 올렸을 때만 테가 생겨 더 튄다. */
   background: #F6F8FA;
   border: 0;
-  border-radius: 10px;
+  /* 카드 둥글기는 사이트 공통값 12px 하나로 모았다 — 10px 은 랜딩 통합 노드
+     카드에서 값을 가져오며 따라온 것이었다. */
+  border-radius: var(--radius);
   padding: 24px;
 }
 /* 제목 · 소제목 한 줄 — 섹션 머리(.ind-page .ind-head)와 같은 배치다.
