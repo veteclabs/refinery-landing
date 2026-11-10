@@ -173,67 +173,11 @@ img { max-width: 100%; height: auto; }
   gap: 0;
   flex-wrap: nowrap;
 }
-/* 선과 빛은 줄 전체에 하나씩 깐다. 칸마다 따로 두면 빛이 24px짜리 토막 안에서
-   저 혼자 오갔다 — 24px을 2.8초에 걸쳐 지나가니 실제보다 느려 인위적이었다.
-   줄 전체에 한 줄을 깔고 카드를 그 위에 올리면(z-index) 카드가 선을 가려
-   칸 사이에서만 보인다. 빛도 한 덩어리로 줄을 가로지르므로, 칸을 지날 때마다
-   그 칸이 차례로 밝아진다. */
-.ind-page .ind-flow::before,
-.ind-page .ind-flow::after {
-  content: '';
-  position: absolute; left: 0; right: 0; top: 50%;
-  height: 2px; margin-top: -1px;
-  pointer-events: none;
-  z-index: 0;
-}
-.ind-page .ind-flow::before { background: rgba(118, 166, 215, .4); }
-/* 카드가 다 뜬 뒤에 선을 내보낸다.
-   ⚠️ 떠오르는 동안 카드는 반투명이다. 선은 줄 전체에 한 줄로 깔려 카드 뒤를
-      지나므로, 그 사이 카드 한가운데를 가로선이 자르고 지나가는 것처럼 보였다.
-      카드가 불투명해진 뒤에 띄우면 그 '잘림' 이 안 보인다.
-   ⚠️ 한 장이라도 아직 끝나지 않았으면 감춘 채로 둔다. rv-done 은 전이가 끝날 때
-      붙으므로, 줄 안에 :not(.rv-done) 이 하나라도 있으면 아직 뜨는 중이다.
-      (카드마다 60ms 씩 늦게 뜨므로 '하나라도 끝났으면' 으로는 모자란다.)
-   ⚠️ 내려 두는 것도 그대로 둔다. 선이 보이기 시작하는 순간에는 이미 제자리라
-      카드 중심과 어긋나지 않는다.
-   ⚠️ :has() 를 모르는 브라우저에서는 이 규칙이 통째로 무시돼 선이 처음부터
-      제자리에 보인다 — 고치기 전과 같은 모습으로 깨진다.
-   ⚠️ 움직임 줄이기를 켠 화면에서는 ScrollReveal 이 rv-on 을 붙이지 않아
-      이 규칙이 걸리지 않는다. 선은 처음부터 보인다.
-   ⚠️ 값과 곡선은 ScrollReveal 과 같아야 한다(16px · .55s · 같은 베지어). */
-.ind-page .ind-flow::before,
-.ind-page .ind-flow::after {
-  transition: opacity .35s ease, transform .55s cubic-bezier(.2, .7, .2, 1);
-}
-.rv-on .ind-page .ind-flow:has(.ind-flow-step:not(.rv-done))::before,
-.rv-on .ind-page .ind-flow:has(.ind-flow-step:not(.rv-done))::after {
-  opacity: 0;
-  transform: translateY(16px);
-}
-/* 빛 — 280px짜리 부드러운 띠 하나가 줄 왼쪽 밖에서 오른쪽 밖으로 지나간다.
-   background-position-x의 100%는 '요소 폭 - 띠 폭'이라 끝값을 calc(100% + 280px)로
-   두면 띠가 오른쪽 밖으로 완전히 빠진다. 속도는 일정하게(linear) — 가감속을 주면
-   빛이 아니라 무언가 밀려가는 것처럼 보인다. */
-.ind-page .ind-flow::after {
-  background-image: linear-gradient(90deg,
-    rgba(198, 224, 250, 0) 0%,
-    rgba(198, 224, 250, .75) 50%,
-    rgba(198, 224, 250, 0) 100%);
-  background-repeat: no-repeat;
-  background-size: 280px 100%;
-  animation: indFlowSweep 5.2s linear infinite;
-}
-/* 화면 밖에서는 멈춘다 — 아래 스크립트가 .is-paused 를 붙인다.
-   ⚠️ 가상 요소라 클래스로 끌 수밖에 없다. 요소에 인라인 style 을 줘도
-      ::after 의 애니메이션에는 닿지 않는다(그렇게 넣었다가 고쳤다). */
-.ind-page .ind-flow.is-paused::after { animation-play-state: paused; }
-@keyframes indFlowSweep {
-  from { background-position-x: -280px; }
-  to { background-position-x: calc(100% + 280px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ind-page .ind-flow::after { animation: none; background-image: none; }
-}
+/* ⚠️ 가로 연결선과 지나가는 빛(indFlowSweep)은 걷었다. 둘 다 '카드 사이
+   틈에서만 보이는 선' 을 전제로 한 장치였다 — 카드 면이 사라지자 글 위를
+   가로질러 쓸고 지나갔다. 칸을 잇는 일은 이제 세로선이 맡는다.
+   (되살리려면 git 에서 이 자리의 ::before/::after 와 @keyframes indFlowSweep,
+    그리고 IndustryPage 의 is-paused 스크립트를 함께 되돌린다.) */
 /* 카드가 선 위에 온다. 카드 면이 불투명하므로 선은 칸 사이에서만 보인다. */
 .ind-page .ind-flow-step { position: relative; z-index: 1; }
 /* Refinery 칸만 한 층 아래에 둔다. hover 때 퍼지는 하늘색 광이 이웃 카드 위로
@@ -243,19 +187,27 @@ img { max-width: 100%; height: auto; }
    선(z-index 0)보다는 여전히 위다. */
 .ind-page .ind-flow-step.is-on { z-index: 1; }
 .ind-page .ind-flow-step:not(.is-on) { z-index: 2; }
+/* 카드 면을 걷고 세로선으로만 가른다. 네 단계가 각자 떠 있던 상자에서
+   한 판 위의 네 칸이 된다.
+   ⚠️ 칸 사이 선은 .ind-flow-step ~ .ind-flow-step 으로 건다. 사이에 화살표
+      요소가 끼어 있어 + (인접 형제)로는 닿지 않는다.
+   ⚠️ 첫 칸은 왼쪽 여백을, 끝 칸은 오른쪽 여백을 떼어 글이 컨테이너 양 끝에
+      맞는다. 가운데 칸들만 선 좌우로 28px 씩 벌린다. */
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
-  background: #191F27; border: 1px solid #292F37; border-radius: 10px;
-  /* 안 여백 24px — 도입 효과 카드(.ind-page .ind-grid-3 .ind-card)와 같은 값. */
-  padding: 24px; overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s ease;
+  background: none; border: 0; border-radius: 0;
+  padding: 0 28px;
   text-align: left;
 }
-.ind-page .ind-flow-step:hover {
-  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
+.ind-page .ind-flow-step ~ .ind-flow-step { border-left: 1px solid #292F37; }
+.ind-page .ind-flow-step:first-of-type { padding-left: 0; }
+.ind-page .ind-flow-step:last-of-type { padding-right: 0; }
+/* 화살표는 두지 않는다 — 칸을 가르는 일은 세로선이 맡는다. 둘을 같이 두면
+   같은 자리에 선과 원이 겹쳐 선다. 마크업은 그대로 두어 되돌리기 쉽게 한다. */
+/* ⚠️ .ind-flow 를 한 겹 더 끼워 특정도를 올린다. 아래쪽에 원래 화살표 규칙
+      (.ind-page .ind-flow-arrow, display:flex)이 있어 같은 특정도로는 진다. */
+.ind-page .ind-flow .ind-flow-arrow { display: none; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
 .ind-page .ind-flow-head {
@@ -328,12 +280,11 @@ img { max-width: 100%; height: auto; }
    밝아져서, 색을 바꾸지 않고도 '이 칸이 우리'가 읽힌다.
    광은 번짐 42px에 퍼짐 6px, 알파 .20으로 링(2px) 바깥으로 퍼진다.
    퍼짐을 주면 카드 둘레부터 밝게 시작해 광이 닿는 범위가 넓어진다. */
-.ind-page .ind-flow-step.is-on:hover {
-  box-shadow:
-    0 0 0 2px #292F37,
-    0 0 42px 6px rgba(118, 166, 215, .20),
-    0 2px 4px rgba(0,0,0,.35),
-    0 1px 1px rgba(0,0,0,.25);
+/* ⚠️ 광(box-shadow)으로는 더 이상 가르지 않는다. 카드 둘레가 없어 광이 퍼질
+   테두리 자체가 없다. 칸 전체에 하늘색을 아주 옅게 깔아 '이 칸이 우리' 를
+   남긴다 — 선 하나 차이라 다른 칸과 같은 종류로 읽히는 것은 그대로다. */
+.ind-page .ind-flow-step.is-on {
+  background: rgba(118, 166, 215, .06);
 }
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#292F37)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
