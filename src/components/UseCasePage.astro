@@ -369,9 +369,19 @@ const jsonLd = [
 
         {uc.template && (
           <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
-            {uc.template.decoImage && (
+            {uc.template.decoImage && (uc.template.decoVideo ? (
+              /* 움직이는 장식. 포스터로 둔 webp 가 영상이 오기 전과 '움직임 줄이기'
+                 를 켠 화면에서 그대로 보인다 — 둘은 같은 그림이다.
+                 ⚠️ webm 을 먼저 둔다. 둘 다 받을 수 있는 브라우저는 앞의 것을 쓴다.
+                 ⚠️ 영상은 lazy 가 없다 — preload="metadata" 로 첫 조각만 받는다. */
+              <video class="uc-template-deco" autoplay muted loop playsinline
+                     preload="metadata" poster={uc.template.decoImage} aria-hidden="true">
+                <source src={`${uc.template.decoVideo}.webm`} type="video/webm" />
+                <source src={`${uc.template.decoVideo}.mp4`} type="video/mp4" />
+              </video>
+            ) : (
               <img class="uc-template-deco" src={uc.template.decoImage} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-            )}
+            ))}
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? T.tmplBadge}</span>
               <h3 set:html={nb(uc.template.title)}></h3>
@@ -514,6 +524,14 @@ const jsonLd = [
   <Footer />
 
 <script is:inline>
+  /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — 포스터(첫 프레임)만
+     남는다. autoplay 는 CSS 로 끌 수 없어 여기서 뗀다. */
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video.uc-template-deco').forEach(function (v) {
+      v.removeAttribute('autoplay');
+      v.pause();
+    });
+  }
   // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
   document.querySelectorAll('.uc-faq-q').forEach(function (q) {
     q.addEventListener('click', function () {
@@ -1056,6 +1074,9 @@ const jsonLd = [
      장식 이미지가 있는 쪽과 방향을 맞춰 빛이 한 곳에서 오는 것처럼 보이게 한다.
      글이 있는 왼쪽은 원래의 #111316이라 대비가 손상되지 않는다. */
   /* 우측 상단 장식 — 글 뒤에 깔린다(.uc-template-body가 z-index로 위). */
+  /* ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
+     나머지(자리 · 크기 · 합성 · 마스크)는 img 와 똑같이 먹는다. */
+  video.uc-template-deco { display: block; }
   .uc-template-deco {
     /* 링 중심을 밴드 밖(우상단)에 두고 바깥 호만 밴드에 걸치게 한다.
        크기와 오프셋을 같은 비율로 묶어 두면 구도는 그대로 두고 스케일만 바뀐다. */

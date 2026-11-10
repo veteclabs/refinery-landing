@@ -50,7 +50,8 @@ export const useCasesEn: UseCase[] = [
     ],
     template: {
       badge: 'Wireless vibration ⁠· LoRaWAN',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-predictive-maintenance.webp',
+      decoVideo: '/use-cases/template-deco-predictive-maintenance',
       title: 'Start without wiring, using the WISE-2410 wireless sensor',
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts a long time, and the hardware holds up in harsh industrial conditions.',
       includes: ['No wiring ⁠· mount-on install', 'LoRaWAN wireless ⁠· up to 5 km', 'Low power ⁠· up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 ⁠· operating range −20 to 85°C'],
@@ -173,7 +174,8 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-gauge', title: 'Power factor and load checks', desc: 'A falling power factor or load concentrated on one side affects both cost and equipment life. Those points are flagged, along with how much room there is to improve.' },
     ],
     template: {
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-management.webp',
+      decoVideo: '/use-cases/template-deco-power-management',
       title: 'Start from a power management template',
       desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already sets out how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
       includes: ['Power metering structure by asset and area', 'Peak and contract-demand management criteria', 'Power factor and load factor dashboard', 'Abnormal-use alert rules'],
@@ -247,7 +249,8 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-funnel', title: 'Impact separation', desc: 'Distinguish the events that actually caused problems from the ones that passed harmlessly, so you know what to fix first.' },
     ],
     template: {
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-quality.webp',
+      decoVideo: '/use-cases/template-deco-power-quality',
       title: 'Start from a power quality monitoring template',
       desc: 'What to monitor and against which thresholds differs a little from site to site, but the outline is much the same. The power quality template used across several sites already sets out the key metrics, the judgment criteria, and the event types that commonly cause trouble. Connect your measurement points and assets, and you can skip the design stage and start monitoring.',
       includes: ['Voltage, frequency and harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
@@ -304,7 +307,8 @@ export const useCasesEn: UseCase[] = [
       { icon: 'ph-leaf', title: 'Automatic ESG aggregation', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
     ],
     template: {
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-factory-energy.webp',
+      decoVideo: '/use-cases/template-deco-factory-energy',
       title: 'Start quickly from an energy management system template',
       desc: 'A new site does not have to design the structure from scratch. The energy management system (EnMS) template, refined across sites over 30 years, already includes the metering structure, intensity KPIs, ESG report formats, and anomaly and peak alert rules. Adjust it to your own assets and targets and you can begin operating on a proven structure right away.',
       includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs ⁠· dashboard', 'ESG report formats', 'Abnormal consumption and peak alert rules'],

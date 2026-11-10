@@ -68,6 +68,10 @@ export type UseCase = {
     /** 밴드 우측 상단에 얹는 장식 이미지(선택). 글 뒤에 깔리는 배경 요소라
      *  내용을 담지 않는다(alt 없음, aria-hidden). image와 달리 레이아웃을 바꾸지 않는다. */
     decoImage?: string;
+    /** 같은 장식의 움직이는 판(선택). 확장자를 뺀 경로를 적으면 .webm · .mp4 두
+     *  벌을 찾아 쓴다. decoImage 는 그 포스터(첫 프레임)가 된다 — 영상이 오기
+     *  전과 '움직임 줄이기' 를 켠 화면에서 그대로 보인다. */
+    decoVideo?: string;
   };
   signals: UseCaseSignal[];  // 다루는 데이터·신호
   /** 신호를 칩 대신 카드(원형 아이콘 자리 + 아래 텍스트)로 렌더한다. 기본 false */

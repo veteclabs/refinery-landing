@@ -53,7 +53,8 @@ export const useCases: UseCase[] = [
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     template: {
       badge: '무선 진동센서 ⁠· LoRaWAN',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-predictive-maintenance.webp',
+      decoVideo: '/use-cases/template-deco-predictive-maintenance',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
       desc: '배선 공사 없이 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
       includes: ['배선 불필요 ⁠· 부착식 설치', 'LoRaWAN 무선 ⁠· 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 ⁠· 동작온도 -20~85℃'],
@@ -163,7 +164,8 @@ export const useCases: UseCase[] = [
     ],
     template: {
       badge: '전력 계량 ⁠· 피크 관리',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-management.webp',
+      decoVideo: '/use-cases/template-deco-power-management',
       title: '전력관리 템플릿으로 시작',
       desc: '전력을 처음 들여다보는 현장이라면 무엇부터 재고 어떻게 봐야 할지 막막합니다. 여러 현장을 거치며 정리해 둔 템플릿에는 설비별 계량을 어떻게 잡고 피크와 역률을<br>어떤 기준으로 볼지가 담겨 있습니다. 설비 목록과 계약 조건만 맞춰 넣으면 구조를 처음부터 짤 필요 없이 바로 시작할 수 있습니다.',
       includes: ['설비 ⁠· 구역별 전력 계량 구조', '피크 ⁠· 계약전력 관리 기준', '역률 ⁠· 부하율 대시보드', '이상 사용 알람 규칙'],
@@ -227,7 +229,8 @@ export const useCases: UseCase[] = [
     ],
     template: {
       badge: '품질 지표 ⁠· 이벤트 기준',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-quality.webp',
+      decoVideo: '/use-cases/template-deco-power-quality',
       title: '전력품질 감시 템플릿으로 시작',
       desc: '무엇을 어느 기준으로 감시할지는 현장마다 다르지만 큰 틀은 비슷합니다. 여러 현장에서 쓰던 템플릿에는 주요 지표와 판단 기준,<br>자주 문제가 되는 이벤트 유형이 정리돼 있습니다. 계측 지점과 설비만 연결하면 어디를 어떻게 볼지 고민하는 단계를 건너뛰고 감시부터 시작할 수 있습니다.',
       includes: ['전압 ⁠· 주파수 ⁠· 고조파 감시 항목', 'sag/swell ⁠· 정전 이벤트 기준', '설비 이력 연계 뷰', '품질 이상 알람 규칙'],
@@ -286,7 +289,8 @@ export const useCases: UseCase[] = [
     ],
     template: {
       badge: 'EnMS ⁠· ESG 리포트',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-factory-energy.webp',
+      decoVideo: '/use-cases/template-deco-factory-energy',
       title: '에너지경영시스템 템플릿으로 빠르게 시작',
       desc: '새로 시작하는 현장도 구조를 처음부터 설계할 필요가 없습니다. 30년간 여러 현장에서 다져 온 템플릿에는 계량 구조부터<br>원단위 KPI, ESG 리포트 양식, 이상 ⁠· 피크 알람 규칙까지 들어 있습니다. 설비와 목표에 맞게 조정만 하면 검증된 구조 위에서 곧바로 운영을 시작할 수 있습니다.',
       includes: ['에너지원 ⁠· 설비 계량 구조', '원단위 KPI ⁠· 대시보드', 'ESG 리포트 양식', '이상 소비 ⁠· 피크 알람 규칙'],
