@@ -1666,7 +1666,9 @@ img { max-width: 100%; height: auto; }
    제 라벨을 달고 다니고, 좁아져도 열이 어긋날 일이 없다.
    ⚠️ 라벨 칸은 고정폭이다. 국문은 두 글자(문제 · 접근 · 성과)라 저절로 맞지만
       영문은 Problem · Approach · Outcome 으로 길이가 달라 글 시작선이 어긋난다. */
-.ind-uc-dl { margin: 0; display: grid; gap: 10px; max-width: 58ch; }
+/* 줄 사이 18px — 10px 에서 넓혔다. 라벨이 면으로 칠해지면서 세 줄이 한
+   덩어리로 붙어 보였다. */
+.ind-uc-dl { margin: 0; display: grid; gap: 18px; max-width: 58ch; }
 /* ⚠️ 라벨 칸(첫 값)은 알약 폭에 2px 만 더한 값이다. 알약은 justify-self: start
    라 칸을 다 쓰지 않으므로, 칸이 넓으면 그 남은 자리가 gap 에 더해져 라벨과
    문장 사이가 벌어진다 — 56px 일 때 알약 42px + 빈 14px + gap 14px 으로
