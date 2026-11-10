@@ -144,9 +144,9 @@
       var vhEl = hero.querySelector('.hero-motion-placeholder > .vh');
 
       // 구간 중 자라는 데 쓰는 몫. 나머지는 다 자란 채로 머문다.
-      // ⚠️ 0.38 에서 내렸다 — 구간이 150vh 에서 180vh 로 길어져도 자라는 거리는
-      //    그대로 57vh 여야 한다(57 / 180). index.astro 의 GROW 와 같은 값이다.
-      var ZOOM = 0.3167;
+      // ⚠️ 구간이 길어져도 자라는 거리는 그대로 57vh 여야 한다. 215vh 구간이라
+      //    57 / 215 = 0.2651 이다. index.astro 의 GROW 와 같은 값이다.
+      var ZOOM = 0.2651;
       var run = 0, copyH = 0, ticking = false;
 
       /* 구간 길이는 '히어로 전체 높이 - 무대 한 화면'이다. 이 만큼을 내려가는 동안

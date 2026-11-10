@@ -487,12 +487,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        프레임에서 열리므로, 그 프레임이 그려지는 진행도를 pAt 으로 되짚어 쓴다.
        ⚠️ 숫자로 박지 않는다 — SEG 나 KEYS 를 고치면 여기도 어긋난다. */
     var OPEN = [pAt(SEG[0][0] * 3 / 192), pAt(SEG[1][0] * 3 / 192), null];
-    var GROW = 0.3167;
-    /* 모션이 끝나는 자리. 여기서 1 에 닿고, 남은 구간(0.8333~1, 30vh)은 마지막
+    var GROW = 0.2651;
+    /* 창이 다 자란 뒤 글이 멈춰 서는 자리의 끝. 자란 자리(GROW)부터 여기까지는
+       모션을 세워 두고 대제목 · 소제목을 그대로 보여 준다 — 자라자마자 흐려지면
+       다 보이는 순간이 없다. 여기를 지나야 --hero-mp 가 오르며 글이 걷힌다. */
+    var HOLDC = 0.4279;
+    /* 모션이 끝나는 자리. 여기서 1 에 닿고, 남은 구간(0.8605~1, 30vh)은 마지막
        장면에 머문다 — 한 번 멈춘 뒤에 더 스크롤해야 히어로를 벗어난다.
-       ⚠️ 세 값이 한 벌이다: global.css 의 --hero-run(180vh) · 여기 GROW/RUN ·
-          HeroZoom 의 ZOOM. 자라는 몫 57vh, 모션 몫 93vh, 머무는 몫 30vh 다. */
-    var RUN = 0.8333;
+       ⚠️ 네 값이 한 벌이다: global.css 의 --hero-run(215vh) · 여기 GROW/HOLDC/RUN ·
+          HeroZoom 의 ZOOM(= GROW). 자라는 몫 57vh(57/215 = 0.2651) · 글이 머무는
+          몫 35vh(92/215 = 0.4279) · 모션 몫 93vh(185/215 = 0.8605) · 끝에 머무는
+          몫 30vh 다. 한쪽을 고치면 네 군데를 다 고친다. */
+    var RUN = 0.8605;
     var last = -1, ticking = false;
     var peak = 0, peakFor = -1;   /* 줄마다 지금까지 찬 최대치 — 링이 거꾸로 비지 않게 */
 
@@ -542,7 +548,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
       /* 창이 다 자랄 때까지는 모션을 세워 둔다 — 첫 프레임만 보인다.
          폭을 꽉 채운 뒤부터 스크롤이 모션을 돌린다. */
-      var mp = p <= GROW ? 0 : Math.min(1, (p - GROW) / (RUN - GROW));
+      var mp = p <= HOLDC ? 0 : Math.min(1, (p - HOLDC) / (RUN - HOLDC));
       /* 창이 다 자란 뒤의 진행도를 CSS 로 내보낸다. --hero-p 는 다 자라면 1 에
          멈춰 서므로, 그 뒤에 무언가를 움직이려면 이 값이 있어야 한다.
          대제목 · 소제목이 자란 뒤에 비껴 가는 데 쓴다(.hv-copy). */
@@ -581,9 +587,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var span = hero.offsetHeight - window.innerHeight;
         if (span <= 0) return;
         var mp = HOLD[i];                    /* 그 장면이 멈춰 서는 구간의 끝 */
-        /* ⚠️ 되돌리는 식은 tick 과 같아야 한다 — tick 은 mp = (p - GROW) / (RUN - GROW)
+        /* ⚠️ 되돌리는 식은 tick 과 같아야 한다 — tick 은 mp = (p - HOLDC) / (RUN - HOLDC)
            로 잰다. 1 - GROW 로 되돌렸더니 02 를 눌렀을 때 03 구간으로 넘어갔다. */
-        window.scrollTo({ top: hero.offsetTop + span * (GROW + mp * (RUN - GROW)), behavior: 'smooth' });
+        window.scrollTo({ top: hero.offsetTop + span * (HOLDC + mp * (RUN - HOLDC)), behavior: 'smooth' });
       });
     }
     /* iframe 크기는 화면이 바뀔 때만 정한다 — 스크롤 중에는 건드리지 않는다.

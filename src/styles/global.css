@@ -391,7 +391,7 @@
          마지막 장면에 머무는 구간이다 — 한 번 멈춘 뒤에 더 스크롤해야 내려간다.
          자라는 몴(57vh)과 모션 몫(93vh)은 그대로라, 비율은 index.astro 의
          GROW · RUN 과 HeroZoom 의 ZOOM 이 함께 맞춰 둔다. 한쪽만 고치면 어긋난다. */
-      --hero-run: 180vh;
+      --hero-run: 215vh;
       height: calc(100vh + var(--hero-run));
       background: none;
       text-align: left;
