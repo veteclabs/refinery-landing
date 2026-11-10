@@ -341,10 +341,12 @@ const ucShift = (h: number) =>
                 {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
                     말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
                     순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
+                {/* 그림이 먼저, 이름이 그 아래다. 보이는 차례와 마크업 차례를
+                    같게 두어 읽기 프로그램도 같은 순서로 읽는다. */}
+                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
               {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
                   '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
               <ul class="ind-flow-detail">

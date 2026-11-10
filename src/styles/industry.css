@@ -220,9 +220,8 @@ img { max-width: 100%; height: auto; }
   height: auto; padding: 0;
   background: none; border: 0; border-bottom: 0;
   border-radius: 0;
-  /* 여백은 두지 않는다 — 제목 → 그림 사이는 그림이 가진 위 여백(28px)이
-     전부여야 그림 아래 여백과 같아진다. 5px을 남기면 위가 33px이 된다. */
-  margin-bottom: 0;
+  /* 이름이 그림 아래로 내려오면서 아래쪽 상자 목록과의 사이를 여기서 띄운다. */
+  margin-bottom: 14px;
 }
 /* 이름 — 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다.
    20px / 600 / 줄높이 1.6. 색만 어두운 면에 맞춰 #F6F8FA이다. */
@@ -233,20 +232,20 @@ img { max-width: 100%; height: auto; }
   letter-spacing: -0.01em; text-transform: none;
   color: var(--text); margin-bottom: 0;
 }
-/* 카드 일러스트 — 어두운 카드 면(#191F27)에 맞춰 그린 그림이라 배경을 따로
-   깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
+/* 칸 일러스트 — 왼쪽 끝에 붙는다. 이름 · 내용 상자가 모두 왼쪽 맞춤이라
+   그림만 가운데에 서면 칸 안에서 축이 둘이 된다.
+   ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  /* 위아래 여백이 같다 — 제목 → 그림, 그림 → 상자 목록이 둘 다 28px이다.
-     화살표 원 높이에 맞추려고 위쪽에만 37px을 더 주던 것을 걷었다. */
+  /* 그림이 칸의 맨 위다 — 위 여백은 0 이고, 아래로 이름까지 20px 을 띄운다. */
   width: 145px; height: 145px;
-  margin: 23px auto 26px;
+  margin: 0 0 20px;
 }
 @media (max-width: 1100px) {
   .ind-page .ind-flow-img { width: 116px; height: 116px; }
 }
 @media (max-width: 860px) {
-  .ind-page .ind-flow-img { width: 145px; height: 145px; margin: 23px auto 26px; }
+  .ind-page .ind-flow-img { width: 145px; height: 145px; margin: 0 0 20px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
