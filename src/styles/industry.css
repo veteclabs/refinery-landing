@@ -112,7 +112,11 @@ img { max-width: 100%; height: auto; }
    같은 값이다 — 안의 단계 카드(.ind-flow-step)가 #191F27 이라 면보다 한 단
    밝게 서서 경계가 생긴다. 전에는 면도 #191F27 이라 둘이 같았다.
    ⚠️ --bg-dark(#191F27)를 쓰지 않는다. 그 토큰은 이제 면이 아니라 카드 쪽 값이다. */
-.ind-dark { background: #151B23; border-bottom-color: #292F37; }
+/* 솔루션 구조 섹션. 흰 면이다 — 바로 아래 도입 효과(#F6F8FA)보다 한 단
+   밝아 두 섹션이 붙어 보이지 않는다.
+   ⚠️ 이름이 ind-dark 였다. 면을 밝게 바꾸면서 ind-arch 로 고쳤다 — 이름이
+      값과 어긋나면 다음 사람이 어두운 면으로 알고 색을 맞춘다. */
+.ind-arch { background: #FFFFFF; border-bottom-color: #E3E7EC; }
 .ind-head-light h2 { color: #EFF2F5; }
 /* 섹션 머리 위 라벨. 과제('진단')와 유즈케이스('조치') 두 곳만 쓴다 —
    짝을 이루는 두 단어라 하나만 두면 뜻이 서지 않는다. 테두리만 있는 원형이다.
@@ -149,16 +153,17 @@ img { max-width: 100%; height: auto; }
 /* 점 배경 — 랜딩 통합 섹션(#integrations)과 같은 값이다.
    흰색 알파 .08 점을 24px 간격으로 깐다. 카드 값을 그 섹션에서 가져왔으므로
    바닥도 같은 결로 맞춘다. 내용은 그 위에 올린다(z-index). */
-.ind-page .ind-dark { position: relative; }
-.ind-page .ind-dark::before {
+.ind-page .ind-arch { position: relative; }
+/* ⚠️ 점 색을 뒤집는다. 흰 알파 .08 은 흰 면에서 아예 안 보인다. */
+.ind-page .ind-arch::before {
   content: '';
   position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(22, 32, 44, .05) 1px, transparent 1px);
   background-size: 24px 24px;
   pointer-events: none;
   z-index: 0;
 }
-.ind-page .ind-dark > .ind-container { position: relative; z-index: 1; }
+.ind-page .ind-arch > .ind-container { position: relative; z-index: 1; }
 
 /* ── 솔루션 구조 — 판 위에 카드 넷을 놓고 선으로 잇는 도해.
    카드 값은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -200,7 +205,7 @@ img { max-width: 100%; height: auto; }
   padding: 0 28px;
   text-align: left;
 }
-.ind-page .ind-flow-step ~ .ind-flow-step { border-left: 1px solid #292F37; }
+.ind-page .ind-flow-step ~ .ind-flow-step { border-left: 1px solid #E3E7EC; }
 .ind-page .ind-flow-step:first-of-type { padding-left: 0; }
 .ind-page .ind-flow-step:last-of-type { padding-right: 0; }
 /* 화살표는 두지 않는다 — 칸을 가르는 일은 세로선이 맡는다. 둘을 같이 두면
@@ -226,7 +231,7 @@ img { max-width: 100%; height: auto; }
   font-family: inherit;
   font-size: 20px; font-weight: 600; line-height: 1.6;
   letter-spacing: -0.01em; text-transform: none;
-  color: #F6F8FA; margin-bottom: 0;
+  color: var(--text); margin-bottom: 0;
 }
 /* 카드 일러스트 — 어두운 카드 면(#191F27)에 맞춰 그린 그림이라 배경을 따로
    깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
@@ -259,7 +264,7 @@ img { max-width: 100%; height: auto; }
    상자가 필요한 이유: 내용이 문장이 아니라 낱개 항목의 나열이라
    (발전 · 변전 설비 · 스마트미터) 경계가 없으면 두 항목이 한 덩어리로 읽힌다. */
 .ind-page .ind-flow-detail li {
-  background: #353C44; border: 0; border-radius: 8px;
+  background: #F6F8FA; border: 1px solid #E3E7EC; border-radius: 8px;
   padding: 6px 10px;
   /* 14px — 이 상자는 읽는 글이 아니라 스캔하는 라벨이라(SCADA · 발전 ·
      ESG 리포트) 본문 15px을 그대로 쓸 이유가 없다. 노트와 같은 단계다.
@@ -268,7 +273,7 @@ img { max-width: 100%; height: auto; }
      글자색은 --ink-800(#C8CED5)이다. 상자 면(#353C44) 위에서 AA(4.5:1)를
      지키는 가장 어두운 단계다 — 한 칸 더 내려간 --ink-700(#A0A8B3)은
      4.32:1로 미달이다. 카드 제목(#F6F8FA)보다 한 단계 눌러 위계를 만든다. */
-  font-size: 14px; line-height: 1.5; color: #C8CED5;
+  font-size: 14px; line-height: 1.5; color: #5A6776;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
@@ -303,7 +308,7 @@ img { max-width: 100%; height: auto; }
      선다. 제목과 같은 #F6F8FA을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
-  font-size: 13px; line-height: 1.5; color: #A0A8B3;
+  font-size: 13px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
 }
@@ -1024,7 +1029,7 @@ img { max-width: 100%; height: auto; }
 /* 솔루션 구조 소제목은 한 줄로 둔다. 400px에서는 437px이 필요해 두 줄이 됐다.
    이 섹션만 460px으로 올린다 — 공통값을 건드리면 다른 섹션 소제목 줄바꿈이
    함께 달라진다. */
-.ind-page .ind-dark .ind-head p { max-width: 460px; }
+.ind-page .ind-arch .ind-head p { max-width: 460px; }
 /* 문제 섹션 소제목도 한 줄로 둔다. 산업마다 나열하는 공정 수가 달라 400px에서는
    7개 중 5개가 두 줄이 됐다(가장 긴 식품 542px). 560px으로 올린다 —
    가장 넓은 제목(기계·플랜트 432px)과 32px 사이를 두고도 머리 폭 1184px 안에
@@ -1312,16 +1317,13 @@ img { max-width: 100%; height: auto; }
    모서리 10px · 그림자 · hover 링). 같은 섹션 안에서 같은 종류의 상자로 읽힌다. */
 .ind-page .ind-systems-block {
   margin-top: 64px;
-  background: #191F27;
-  border: 1px solid #292F37;
+  background: #F6F8FA;
+  border: 1px solid #E3E7EC;
   border-radius: 10px;
   padding: 24px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   transition: box-shadow .15s ease;
 }
-.ind-page .ind-systems-block:hover {
-  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
+.ind-page .ind-systems-block:hover { box-shadow: 0 0 0 2px #E3E7EC; }
 /* 제목 · 소제목 한 줄 — 섹션 머리(.ind-page .ind-head)와 같은 배치다.
    제목은 왼쪽, 소제목은 오른쪽 끝에 붙는다. 좁아지면 소제목이 아래로 내려간다. */
 .ind-page .ind-systems-head {
@@ -1331,27 +1333,29 @@ img { max-width: 100%; height: auto; }
 }
 .ind-page .ind-systems-head h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
-  color: #F6F8FA; margin: 0;
+  color: var(--text); margin: 0;
 }
 .ind-page .ind-systems-sub {
-  margin: 0; font-size: 15px; line-height: 1.5; color: #A0A8B3;
+  margin: 0; font-size: 15px; line-height: 1.5; color: var(--text-muted);
   text-align: right;
 }
 /* 연동 시스템 칩 — 흐름 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
    면 #353C44 · 테두리 없음 · 모서리 8px · 안 여백 6px 10px · 14px #C8CED5.
    섹션 안에서 '항목 하나'를 담는 상자가 한 종류로 통일된다. */
-.ind-dark .ind-system {
-  background: #353C44; border: 0; border-radius: 8px;
+/* ⚠️ 칩 면만 흐름 쪽과 다르다. 흐름 상자는 흰 섹션 위라 #F6F8FA 인데,
+   이 칩은 #F6F8FA 블록 안이라 같은 값을 쓰면 면이 사라진다 — 흰 면으로 둔다. */
+.ind-arch .ind-system {
+  background: #FFFFFF; border: 1px solid #E3E7EC; border-radius: 8px;
   padding: 6px 10px;
-  font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
+  font-size: 14px; font-weight: 400; line-height: 1.5; color: #5A6776;
 }
-.ind-dark .ind-systems-note { color: #A0A8B3; }
+.ind-arch .ind-systems-note { color: var(--text-muted); }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
    놓이고, 상자 없이 별표 + 13px #959CA5로 왼쪽 끝에 선다. */
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  font-size: 13px; line-height: 1.5; color: #A0A8B3;
+  font-size: 13px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
 }

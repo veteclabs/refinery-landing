@@ -317,13 +317,17 @@ const ucShift = (h: number) =>
     </section>
 
     <!-- ARCHITECTURE -->
-    <section class="ind-section ind-dark">
+    <section class="ind-section ind-arch">
       <div class="ind-container">
-        <header class="ind-head ind-head-light">
+        {/* ⚠️ ind-head-light 를 쓰지 않는다 — 그 규칙은 어두운 면용(#EFF2F5)이고
+            과제 섹션과 함께 쓰므로, 여기만 밝게 하려면 기본 머리글을 쓴다. */}
+        <header class="ind-head">
           <h2>{ind.architecture.title}</h2>
           {ind.architecture.subtitle && <p>{ind.architecture.subtitle}</p>}
         </header>
-        <div class="ind-flow">
+        {/* 네 단계가 차례로 뜬다. 뜨는 간격은 ScrollReveal 기본(60ms)보다 느리게
+            — 한 칸씩 짚어 가는 것이 읽히도록 150ms 로 둔다. */}
+        <div class="ind-flow" data-rv-step="150">
           {ind.architecture.steps.map((s, i) => (
             <>
               {i > 0 && (

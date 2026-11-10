@@ -117,7 +117,12 @@
         for (var c = n.previousElementSibling; c; c = c.previousElementSibling) {
           if (c.matches && c.matches(SEL)) k++;
         }
-        if (k) n.style.transitionDelay = Math.min(k, 7) * 60 + 'ms';
+        /* 늦추는 간격. 기본 60ms 이고, 묶음 쪽에 data-rv-step 이 있으면 그 값을
+           쓴다 — 한 칸씩 짚어 가는 것이 읽혀야 하는 줄(산업 솔루션 구조)에만
+           느리게 주려고 둔 문이다. 여기 숫자를 올리면 사이트 전체가 느려진다. */
+        var host = n.closest && n.closest('[data-rv-step]');
+        var step = host ? (parseInt(host.getAttribute('data-rv-step'), 10) || 60) : 60;
+        if (k) n.style.transitionDelay = Math.min(k, 7) * step + 'ms';
         // 다 뜨고 나면 reveal 규칙을 통째로 벗는다 — 안 그러면 여기서 건 transition 과
         // 지연이 카드 제 호버 효과까지 늦춘다.
         n.addEventListener('transitionend', function () {
