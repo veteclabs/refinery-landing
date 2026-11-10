@@ -325,9 +325,11 @@ const ucShift = (h: number) =>
           <h2>{ind.architecture.title}</h2>
           {ind.architecture.subtitle && <p>{ind.architecture.subtitle}</p>}
         </header>
-        {/* 네 단계가 차례로 뜬다. 뜨는 간격은 ScrollReveal 기본(60ms)보다 느리게
-            — 한 칸씩 짚어 가는 것이 읽히도록 150ms 로 둔다. */}
-        <div class="ind-flow" data-rv-step="150">
+        {/* 네 단계가 차례로 뜬다. 뜨는 간격은 ScrollReveal 기본(60ms)보다 한참
+            느리게 — 한 칸이 거의 다 뜬 뒤에 다음 칸이 시작하도록 300ms 로 둔다
+            (뜨는 데 걸리는 시간 자체는 .55s 다). 현장 0 → 연동 300 →
+            Refinery 600 → 활용 900ms 에 시작해 끝까지 1.45초다. */}
+        <div class="ind-flow" data-rv-step="300">
           {ind.architecture.steps.map((s, i) => (
             <>
               {i > 0 && (
