@@ -560,7 +560,8 @@ const jsonLd = [
   /* 배경은 '왜 필요한가요?'(.uc-problem-section)와 같은 #f6f8fa.
      목록에는 따로 판을 깔지 않고 구분선만으로 질문을 나눈다.
      ⚠️ redesigned가 7개 과제 전부라 이 규칙도 7개 페이지에 걸린다. */
-  .uc-redesigned .uc-faq-section { background: #f6f8fa; }
+  /* ⚠️ 질문 섹션의 면(#f6f8fa)은 걷었다 — 흰 면 위에 그대로 선다.
+     되살릴 때는 이 한 줄을 되돌린다. */
 
   .uc-faq-head { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
   .uc-faq-head .ind-head { max-width: none; margin-bottom: 0; }
