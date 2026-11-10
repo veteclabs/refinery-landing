@@ -257,10 +257,19 @@ img { max-width: 100%; height: auto; }
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
    담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
    맞춰 옮겼다(그쪽 --bg-soft 자리에 #191F27). */
+/* ⚠️ flex-wrap 이 아니라 3칸 격자다. 저절로 감기게 두면 칸마다 한 줄에 드는
+   개수가 달라(연동 칸은 4·2, 나머지는 3) 네 칸의 줄 수가 들쭉날쭉했다.
+   한 줄에 셋으로 못 박는다.
+   ⚠️ 칸 너비는 max-content 다 — 1fr(같은 폭)로 두면 칸이 93px 이 되어
+      '에너지 대시보드'(108px) 같은 긴 상자의 글이 두 줄로 감긴다.
+      앞의 minmax(0, …)는 폭이 좁아질 때 칸이 목록을 넘지 않게 막는 몫이다.
+   ⚠️ 상자는 칸 폭까지 늘어난다(격자 기본값). justify-items: start 로 글자
+      너비만큼 세우면 같은 줄 안에서 상자 사이가 제각각 벌어져 더 어수선하다. */
 .ind-page .ind-flow-detail {
   list-style: none; margin: 0;
   padding: 0;
-  display: flex; flex-wrap: wrap; gap: 8px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, max-content));
+  justify-content: start; gap: 8px;
 }
 /* 상자는 면만으로 선다. 카드 · 머리 띠에 이미 테두리가 있어 안쪽까지 두르면
    한 카드에 선이 세 겹이 된다. 참고한 플랫폼 개요 목록도 면만 쓴다.
