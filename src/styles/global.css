@@ -2179,6 +2179,10 @@
       html[lang="en"] #faq .faq-head { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height var(--t-move), padding var(--t-move), opacity var(--t-move); opacity: 0; }
+    /* 가장 긴 답의 높이를 재는 동안에는 전이를 끈다 — 전이 중이면 재는 값이
+       시작값(닫힌 높이)이라 자리를 잡지 못한다. 스크립트가 is-measuring 을
+       잠깐 붙였다 뗀다(index.astro 의 rfReserveFaq). */
+    .faq-list.is-measuring .faq-a { transition: none !important; }
     .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
     /* 글은 .container 왼쪽 변에 붙인다 — 다른 섹션 제목과 같은 선이다.

@@ -2856,6 +2856,42 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
 <Footer />
 
 <script is:inline>
+
+  /* 질문을 열고 닫아도 섹션 높이가 그대로이게 한다.
+     한 번에 하나만 열리므로, 가장 긴 답 하나가 열렸을 때의 높이를 목록의
+     min-height 로 미리 잡아 둔다 — 그러면 여는 순간 아래 내용이 밀리지 않는다.
+     ⚠️ 재는 동안 전이를 끈다. max-height 가 전이 중이면 재는 값이 시작값이라
+        늘 닫힌 높이가 나온다(is-measuring 이 그 일을 한다).
+     ⚠️ 폭이 바뀌면 답이 다시 감겨 높이가 달라진다 — 다시 잰다. 글꼴이 늦게
+        와도 마찬가지라 fonts.ready 에서도 한 번 더 잰다. */
+  function rfReserveFaq(list, itemSel, ansSel) {
+    if (!list) return;
+    var items = list.querySelectorAll(itemSel);
+    if (!items.length) return;
+    list.style.minHeight = '';
+    list.classList.add('is-measuring');
+    var max = 0;
+    for (var i = 0; i < items.length; i++) {
+      var a = items[i].querySelector(ansSel);
+      if (!a) continue;
+      var wasA = a.classList.contains('open');
+      var wasI = items[i].classList.contains('open');
+      a.classList.add('open');
+      items[i].classList.add('open');
+      var h = list.getBoundingClientRect().height;
+      if (h > max) max = h;
+      if (!wasA) a.classList.remove('open');
+      if (!wasI) items[i].classList.remove('open');
+    }
+    list.classList.remove('is-measuring');
+    if (max) list.style.minHeight = Math.ceil(max) + 'px';
+  }
+
+  function rfFaqAll() { rfReserveFaq(document.querySelector('.faq-list'), '.faq-item', '.faq-a'); }
+  rfFaqAll();
+  addEventListener('resize', rfFaqAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(rfFaqAll);
+
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
       const a = q.nextElementSibling;

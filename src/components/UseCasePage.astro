@@ -529,6 +529,42 @@ const jsonLd = [
   <Footer />
 
 <script is:inline>
+
+  /* 질문을 열고 닫아도 섹션 높이가 그대로이게 한다.
+     한 번에 하나만 열리므로, 가장 긴 답 하나가 열렸을 때의 높이를 목록의
+     min-height 로 미리 잡아 둔다 — 그러면 여는 순간 아래 내용이 밀리지 않는다.
+     ⚠️ 재는 동안 전이를 끈다. max-height 가 전이 중이면 재는 값이 시작값이라
+        늘 닫힌 높이가 나온다(is-measuring 이 그 일을 한다).
+     ⚠️ 폭이 바뀌면 답이 다시 감겨 높이가 달라진다 — 다시 잰다. 글꼴이 늦게
+        와도 마찬가지라 fonts.ready 에서도 한 번 더 잰다. */
+  function rfReserveFaq(list, itemSel, ansSel) {
+    if (!list) return;
+    var items = list.querySelectorAll(itemSel);
+    if (!items.length) return;
+    list.style.minHeight = '';
+    list.classList.add('is-measuring');
+    var max = 0;
+    for (var i = 0; i < items.length; i++) {
+      var a = items[i].querySelector(ansSel);
+      if (!a) continue;
+      var wasA = a.classList.contains('open');
+      var wasI = items[i].classList.contains('open');
+      a.classList.add('open');
+      items[i].classList.add('open');
+      var h = list.getBoundingClientRect().height;
+      if (h > max) max = h;
+      if (!wasA) a.classList.remove('open');
+      if (!wasI) items[i].classList.remove('open');
+    }
+    list.classList.remove('is-measuring');
+    if (max) list.style.minHeight = Math.ceil(max) + 'px';
+  }
+
+  function rfFaqAll() { rfReserveFaq(document.querySelector('.uc-faq-list'), '.uc-faq-item', '.uc-faq-a'); }
+  rfFaqAll();
+  addEventListener('resize', rfFaqAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(rfFaqAll);
+
   /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — 포스터(첫 프레임)만
      남는다. autoplay 는 CSS 로 끌 수 없어 여기서 뗀다. */
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -592,6 +628,8 @@ const jsonLd = [
   /* 단락 사이에 빈 줄을 두지 않는다 — 문장이 끝나면 줄만 바뀐다.
      14px 을 줬더니 답변이 성겨 보였다. */
   .uc-faq-a :global(p) { margin: 0; }
+  /* 높이를 재는 동안에는 전이를 끈다 — 위 rfReserveFaq 주석 참고. */
+  .uc-faq-list.is-measuring .uc-faq-a { transition: none !important; }
   .uc-faq-a {
     /* 같은 카드의 소제목(.uc-case-desc)과 같은 15px / 1.5. */
     font-size: 15px; line-height: 1.5; color: var(--text-muted, #5A6776);
