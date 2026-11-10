@@ -153,17 +153,10 @@ img { max-width: 100%; height: auto; }
 /* 점 배경 — 랜딩 통합 섹션(#integrations)과 같은 값이다.
    흰색 알파 .08 점을 24px 간격으로 깐다. 카드 값을 그 섹션에서 가져왔으므로
    바닥도 같은 결로 맞춘다. 내용은 그 위에 올린다(z-index). */
-.ind-page .ind-arch { position: relative; }
-/* ⚠️ 점 색을 뒤집는다. 흰 알파 .08 은 흰 면에서 아예 안 보인다. */
-.ind-page .ind-arch::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(22, 32, 44, .05) 1px, transparent 1px);
-  background-size: 24px 24px;
-  pointer-events: none;
-  z-index: 0;
-}
-.ind-page .ind-arch > .ind-container { position: relative; z-index: 1; }
+/* ⚠️ 점 바탕(24px 격자)은 걷었다. 어두운 면이던 때 랜딩 통합 섹션과 결을
+   맞추려고 깔았던 것인데, 흰 면에서는 바탕이 비어 있는 쪽이 낫다.
+   함께 있던 position: relative · z-index 도 지운다 — 점 위에 내용을 올리려고
+   둔 값이라 점이 없으면 쓸 데가 없다(되살릴 때 같이 되돌린다). */
 
 /* ── 솔루션 구조 — 판 위에 카드 넷을 놓고 선으로 잇는 도해.
    카드 값은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
