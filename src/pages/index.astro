@@ -201,6 +201,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   /* 밑판은 모션 패키지의 바탕(--bg #EEF4FB)과 같은 색이다 — 창 가장자리에서
      이음매가 보이지 않는다. */
   .hero-motion-placeholder { background: #EEF4FB; }
+  /* 점판 점 색 — 모션 창 바탕과 같다.
+     ⚠️ 공용 회색(--ink-400)을 바꾸지 않는다. nav-footer.css 의 :root 에 있어
+        다른 자리까지 함께 바뀐다 — 점판만의 값을 두고 스크립트가 이걸 먼저 본다. */
+  #hero { --hero-dot: #EEF4FB; }
   /* ⚠️ 창에 맞춰 늘이지 않는다. inset:0 으로 두면 창이 자라는 내내 iframe 이
      같이 커지고, 그때마다 안쪽 캔버스가 다시 잡혀 그림이 버벅인다
      (57 프레임에 크기가 52번 바뀌고 프레임 간격이 중앙 496ms 까지 벌어졌다).
@@ -3150,8 +3154,12 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
       dx0 = 0; dy0 = 0; dx1 = -1; dy1 = -1;
     }
 
+    /* ⚠️ 위에서 박은 DR · DG · DB 를 여기서 덮어쓴다. 상수만 고치면 아무 일도
+       일어나지 않는다 — 색은 이 함수가 읽는 값에서 온다.
+       점판만의 --hero-dot 을 먼저 보고, 없을 때만 공용 회색 --ink-400 을 쓴다. */
     function readAccent() {
-      var v = getComputedStyle(document.documentElement).getPropertyValue('--ink-400').trim();
+      var v = getComputedStyle(sec).getPropertyValue('--hero-dot').trim();
+      if (!v) v = getComputedStyle(document.documentElement).getPropertyValue('--ink-400').trim();
       var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(v);
       if (!m) return;
       var s = m[1].length === 3 ? m[1].replace(/./g, function (c) { return c + c; }) : m[1];
