@@ -1427,13 +1427,35 @@ img { max-width: 100%; height: auto; }
 .ind-grid-1 { grid-template-columns: 1fr; }
 .ind-page .ind-benefits .ind-grid { gap: 0; }
 .ind-page .ind-benefits .ind-card {
-  display: grid; grid-template-columns: 40px minmax(0, 1fr);
-  column-gap: 20px; align-items: start;
+  display: grid; grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 18px; align-items: start;
   background: none; border: 0; border-radius: 0;
-  padding: 22px 0;
+  padding: 24px 28px;
 }
-.ind-page .ind-benefits .ind-card + .ind-card { border-top: 1px solid var(--border); }
-.ind-page .ind-benefits .ind-card-icon { grid-column: 1; grid-row: 1 / 3; }
+/* 칸을 선으로만 가른다 — 2열이라 가로 · 세로 두 방향이 필요하다.
+   ⚠️ + (인접 형제)로는 안 된다. 2열에서는 첫 줄의 오른쪽 칸까지 윗선을 받아
+      줄이 하나 더 있는 것처럼 보인다. 둘째 줄부터(n+3) 윗선을, 오른쪽
+      칸(even)에만 왼선을 준다.
+   ⚠️ 바깥 테두리는 두지 않는다. 선이 칸 사이에만 있어야 상자로 읽히지 않는다 —
+      그래서 첫 줄 · 왼쪽 칸은 선이 없고, 양 끝 칸의 안 여백도 아래에서 뗀다. */
+.ind-page .ind-benefits .ind-card:nth-child(n+3) { border-top: 1px solid var(--border); }
+.ind-page .ind-benefits .ind-card:nth-child(even) { border-left: 1px solid var(--border); }
+.ind-page .ind-benefits .ind-card:nth-child(odd) { padding-left: 0; }
+.ind-page .ind-benefits .ind-card:nth-child(even) { padding-right: 0; }
+/* 아이콘은 상자 안에 담는다 — 면은 하늘색 10%, 모서리는 솔루션 구조 쪽
+   아이콘 상자와 같은 10px 이다.
+   ⚠️ 두 줄(제목 · 설명)을 가로지르게 두고(grid-row 1/3) align-self: center 로
+      그 두 줄의 한가운데에 세운다. start 로 두면 제목 첫 줄에만 맞아, 설명이
+      두 줄인 칸에서 아이콘이 위로 쏠린다.
+   ⚠️ 글자 크기는 22px 로 내린다. 공용값 30px 은 44px 상자에 넣으면 꽉 차
+      상자가 아니라 테두리처럼 보인다. */
+.ind-page .ind-benefits .ind-card-icon {
+  grid-column: 1; grid-row: 1 / 3; align-self: center;
+  width: 44px; height: 44px; border-radius: 10px;
+  background: rgba(118, 166, 215, .10);
+  display: flex; align-items: center; justify-content: center;
+}
+.ind-page .ind-benefits .ind-card-icon i { font-size: 22px; }
 .ind-page .ind-benefits .ind-card h3 { grid-column: 2; margin: 0 0 5px; }
 .ind-page .ind-benefits .ind-card p { grid-column: 2; margin: 0; }
 

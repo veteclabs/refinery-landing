@@ -44,9 +44,9 @@ const challengesBg = ind.challenges.backgroundImage;
 
 // 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
 // 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
-/* 도입 효과는 한 줄에 하나씩 아래로 쌓는다. 산업마다 항목이 4개 · 6개로 달라도
-   줄 수만 달라질 뿐 구도가 그대로다 — 칸 수를 세던 분기를 걷었다. */
-const benefitCols = 1;
+/* 도입 효과는 2열이다. 산업마다 항목이 4개 · 6개로 달라도 2 x n 으로 떨어져
+   구도가 그대로다 — 칸 수를 세던 분기(4개면 4열, 아니면 3열)는 걷었다. */
+const benefitCols = 2;
 // ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
 const alternates = [
   { lang: 'ko', href: `/industries/${ind.slug}` },
