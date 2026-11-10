@@ -133,21 +133,21 @@ img { max-width: 100%; height: auto; }
 .ind-sec-label {
   display: inline-block;
   margin: 0;
-  padding: 7px 16px;
-  font-size: 18px; font-weight: 400; letter-spacing: .08em; line-height: 1;
+  /* ⚠️ 배지를 걷었다 — 테두리도 안 여백도 없는 맨 글자다. 테가 있던 자리는
+     제목과 같은 색 선이라, 제목 바로 위에서 글자보다 테가 먼저 보였다. */
+  padding: 0;
+  /* 낱말용 값이다 — 15px · 500 · 자간 .02em. 18px · 400 · 자간 .08em 은 두
+     글자 숫자(01 · 02)를 위한 값이라, 낱말을 그대로 넣으면 라벨이 소제목만큼
+     커지고 넓은 자간이 '진단' 두 글자를 떼어 놓았다. */
+  font-size: 15px; font-weight: 500; letter-spacing: .02em; line-height: 1;
   /* 글자색은 그 섹션 대제목과 같은 색이다 — 밝은 면은 먹색(--text), 어두운
      면은 .ind-head-light h2 와 같은 #EFF2F5. 번호와 제목이 한 묶음으로
-     읽히게 하려는 것이다. 브랜드색 #3F76AE 로 두었을 때는 번호만 따로 떴다.
-     ⚠️ 테두리도 같은 색이다 — 글자만 옮기고 테를 브랜드색으로 남겼을 때는
-        한 배지 안에서 두 색이 갈렸다. */
+     읽히게 하려는 것이다. 브랜드색 #3F76AE 로 두었을 때는 라벨만 따로 떴다. */
   color: var(--text);
-  /* 모서리는 헤더의 주 행동 버튼(.btn-primary)과 같은 6px 이다 — 사이트 공통값
-     (--radius 12px)으로 두었을 때는 같은 사각 배지인데 둘의 결이 달랐다.
-     999px 짜리 완전한 원형은 이 페이지에서 .ind-badge 만 쓴다. */
-  border: 1px solid var(--text); border-radius: 6px;
+  border: 0;
 }
-/* 어두운 면 — 글자도 테두리도 같은 머리의 h2(#EFF2F5)와 같은 색이다. */
-.ind-head-light .ind-sec-label { color: #EFF2F5; border-color: #EFF2F5; }
+/* 어두운 면 — 같은 머리의 h2(#EFF2F5)와 같은 색이다. */
+.ind-head-light .ind-sec-label { color: #EFF2F5; }
 /* 과제 머리는 flex(column · gap 16px)라 간격을 gap 이 쥔다. */
 /* 유즈케이스 쪽은 블록이라 margin 으로 직접 준다. */
 .ind-uc-aside > .ind-sec-label { margin-bottom: 16px; }
@@ -1280,9 +1280,9 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline; }
 }@media (max-width: 900px) {
   .ind-page .ind-head p { font-size: 16px; }
-  /* 칩도 같은 자리에서 함께 내린다 — 소제목과 같은 크기로 두기로 한 값이라,
-     여기서 안 내리면 좁은 폭에서 칩만 18px 로 남아 소제목보다 커진다. */
-  .ind-sec-label { font-size: 16px; }
+  /* ⚠️ 라벨을 16px 로 내리는 규칙이 있었다. 18px 짜리 숫자 라벨이 좁은 폭의
+     소제목(16px)보다 커지는 것을 막던 값인데, 낱말 라벨 15px 은 이미 그보다
+     작아 되려 키우는 규칙이 됐다 — 걷는다. */
 }
 
 /* 카드 글자값도 예지보전과 맞춘다(.uc-how-card 기준).
