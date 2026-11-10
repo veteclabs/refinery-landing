@@ -402,7 +402,8 @@ function sub(P,u0,u1){const q=cumOf(P),L=q[q.length-1];const d0=Math.max(0,u0*L)
   const o=[at(d0)];for(let i=0;i<P.length;i++)if(q[i]>d0&&q[i]<d1)o.push(P[i]);o.push(at(d1));return o;}
 /* travelling light: three tail steps of rising brightness, batched */
 function pulses(c,list,k,w){[[0,.4,.3],[.4,.75,.6],[.75,1,1]].forEach(([l0,l1,al])=>{const segs=[];
-  for(const [P,u,len] of list){const s=sub(P,u-len+len*l0,u-len+len*l1);if(s)segs.push(s);}crisp(c,segs,k,w,al);});}
+  for(const [P,u,len0] of list){const q=cumOf(P),Lp=q[q.length-1]||1,len=Math.min(len0,70*k/Lp);   /* cap the light to a short glint: on long near-camera lanes 18% of the path read as a sky-blue stretch */
+    const s=sub(P,u-len+len*l0,u-len+len*l1);if(s)segs.push(s);}crisp(c,segs,k,w,al);});}
 /* the travelling light itself: crisp, no surrounding glow */
 function crisp(c,L,k,w,a){if(!L.length)return;c.save();c.lineCap='round';c.lineJoin='round';c.filter='none';
   polyPath(c,L);c.strokeStyle=`rgba(190,218,248,${a.toFixed(3)})`;c.lineWidth=w*.95*k;c.stroke();
@@ -430,9 +431,9 @@ function drawFlows(t,frameIdx){
     PL.push([P,(((scrollPos*SWEEPS+f.off)%1)+1)%1*1.3,.18]);
     if(len<f.c3[f.c3.length-1]-.01)PL.push([P,1,.06]);   /* bright growing tip */
   });
-  /* 바깥에서 읽는 상태. rev 는 공중 회로선이 얼마나 내려왔는가(0~1)다 —
-     히어로 탭의 링이 이 값을 그대로 따른다. 그리는 일은 하지 않는다. */
-  {let rv=0;flows.forEach(f=>{if(f.spoke||f.lane||!f.c3)return;const L3=f.c3[f.c3.length-1];if(L3>0)rv=Math.max(rv,Math.min(1,revealLen(f)/L3));});window.__HERO={p:pCur,s:curS,fi:frameIdx,rev:rv};}
+  /* 바깥에서 읽는 상태 — 히어로 탭의 글·링이 지금 그려지는 프레임을
+     보고 박자를 맞춘다. 그리는 일은 하지 않는다. */
+  window.__HERO={p:pCur,s:curS,fi:frameIdx};
   neon(fx,spokes,k,3,1);pulses(fx,spP,k,4);
   neon(fx,gL,k,3.8,1);pulses(fx,gP,k,4.8);
   const m=masks[frameIdx];
