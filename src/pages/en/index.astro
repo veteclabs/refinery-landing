@@ -89,7 +89,7 @@ const jsonLd = [orgSchema, websiteSchema];
                 {/* 접힌 줄이 보여 주는 라벨. 펼치면 위 알약이 같은 글을 받는다. */}
                 <span class="hm-unfold"><span><span class="hm-label"><b>{['01', '02', '03'][i]}</b>{c.tag}</span></span></span>
                 <span class="hm-fold"><span><span class="hm-title">{c.title}</span></span></span>
-                <span class="hm-fold"><span><span class="hm-desc">{c.desc}</span></span></span>
+                <span class="hm-fold"><span><span class="hm-desc" set:html={c.desc}></span></span></span>
               </span>
             </button>
           ))}
@@ -333,59 +333,21 @@ const jsonLd = [orgSchema, websiteSchema];
     var railEl = document.getElementById('hmRail');
     var rail = [].slice.call(hero.querySelectorAll('.hm-row'));
     var N = 3;                       /* 장면 수 — 모션 패키지와 같다 */
-    /* 모션 패키지가 쓰는 장면 좌표를 그대로 가져온다. 진행도 p 를 장면값 s(0~3)
-       으로 옮기는 표다 — 구간마다 속도가 다르고 장면마다 멈춰 서는 구간이 있다.
-       글을 진행도로 균등하게 삼등분하면 그림이 아직 1번을 향해 가는 중에 2번 글이
-       떠 버린다. 그림이 쓰는 좌표를 같이 써야 화면과 글이 맞는다.
-       ⚠️ public/hero/refinery/index.html 의 KEYS · HOLD · smoother 와 같은 값이다.
-          한쪽을 고치면 다른 쪽도 고친다. */
-    var KEYS = [[0, 0], [.07, 0], [.31, 1], [.41, 1], [.65, 2], [.75, 2], [.97, 3], [1, 3]];
-    var HOLD = [0, .36, .70, .985];   /* 장면마다 멈춰 서는 자리 — 탭을 눌렀을 때 간다 */
-    function smoother(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-    function sOf(p) {
-      for (var i = 0; i < KEYS.length - 1; i++) {
-        var p0 = KEYS[i][0], s0 = KEYS[i][1], p1 = KEYS[i + 1][0], s1 = KEYS[i + 1][1];
-        if (p <= p1) {
-          var t = (p - p0) / ((p1 - p0) || 1);
-          return s0 + (s1 - s0) * smoother(Math.max(0, Math.min(1, t)));
-        }
-      }
-      return 3;
-    }
-    /* 장면에 얼마나 닿았을 때 글을 열지. s 가 i - TOL 을 넘으면 i 번이 열린다.
-       0 = 카메라가 그 장면에 다 닿은 순간이다.
-       ⚠️ 0 보다 키우면 가는 중에 글이 먼저 뜬다 — 0.25 로 두었더니 시계열
-          화면이 아직 안 보이는데 '시계열을 넘어선 판단' 이 떠 있었다.
-       ⚠️ 장면 사이를 지나는 동안에는 앞 장면의 글이 열린 채로 남는다(아래
-          고르는 식이 '지나온 것 중 마지막' 을 집으므로). 글칸이 비지 않는다. */
-    var TOL = 0;
-    /* 장면이 열리는 자리를 진행도(mp) 로 미리 구해 둔다. sOf 를 되짚어
-       sOf(mp) = i - TOL 이 되는 mp 를 이분법으로 찾는다.
-       ⚠️ 링은 이 자리들 사이를 0~1 로 채운다. 장면값(s) 으로 재면 구간마다
-          멈춰 서는 자리가 있어 링이 얼어붙었다가 내달리고, 마지막 장면은
-          TOL 만에 다 차 버려 구간이 끝나기 한참 전에 가득 찼다. */
-    var OPEN = [];
-    for (var oi = 1; oi <= N; oi++) {
-      var lo = 0, hi = 1, want = oi - TOL;
-      for (var it = 0; it < 40; it++) {
-        var mid = (lo + hi) / 2;
-        if (sOf(mid) < want) lo = mid; else hi = mid;
-      }
-      OPEN.push(hi);
-    }
-    /* 장면이 화면을 떠나는 자리 — 멈춰 서는 구간의 끝이다(KEYS 에서 같은 장면값을
-       가진 마지막 지점). 링은 여기서 꽉 찬다.
-       ⚠️ 다음 장면이 열릴 때까지 채우면, 카메라가 이미 다음 장면으로 떠난 뒤에도
-          앞 장면의 링이 계속 차 올랐다 — '구간 넘어서까지 채워진다'가 이것이다. */
-    var ENDS = [];
-    for (var ei = 1; ei <= N; ei++) {
-      var last = 0;
-      for (var kk = 0; kk < KEYS.length; kk++) if (KEYS[kk][1] === ei) last = KEYS[kk][0];
-      ENDS.push(last);
-    }
-    /* 창이 다 자라는 데 쓰는 몫. HeroZoom.astro 의 ZOOM 과 같은 값이다 —
-       거기서 --hero-p = 지나온거리 / (구간 * ZOOM) 로 잰다.
-       ⚠️ 두 곳에 같은 숫자가 있다. 한쪽을 고치면 다른 쪽도 고친다. */
+    /* 장면이 열리는 자리(OPEN)와 링이 꽉 차는 자리(FULL) — 진행도 기준이다.
+       ⚠️ 패키지의 장면값(s)에서 뽑지 않고 프레임을 눈으로 훑어 집은 값이다.
+          s 는 카메라가 '어느 역에 가까운가' 일 뿐, 그 역의 그림이 화면에
+          들어오는 시점과는 어긋난다 — 예를 들어 s 가 2 에 닿기 한참 전에는
+          시계열 카드가 아직 프레임 밖이고, s 가 2 를 떠난 뒤로도 한동안
+          화면 가운데에 남아 있다.
+       기준 삼은 여섯 화면:
+         01 시작 0.05 넓게 내려다보는 첫 화면 · 채움 0.33 설비에 표시가 달린 화면
+         02 시작 0.67 시계열 카드가 아래에서 들어오는 화면 · 채움 0.78 카드가 가운데 선 화면
+         03 시작 0.86 카드가 위로 빠지고 모터가 가운데 오는 화면 · 채움 0.97 모터 화면
+       ⚠️ 프레임을 다시 뽑으면 이 여섯 값도 다시 집어야 한다. */
+    var OPEN = [0.05, 0.67, 0.86];
+    var FULL = [0.33, 0.78, 0.97];
+    /* 탭을 눌렀을 때 가는 자리 — 장면이 화면 가운데에 선 지점이다. */
+    var HOLD = [0, 0.33, 0.78, 0.97];
     var GROW = 0.38;
     var last = -1, ticking = false;
 
@@ -395,7 +357,7 @@ const jsonLd = [orgSchema, websiteSchema];
       var i = 0, f = 0;
       for (var k = N; k >= 1; k--) { if (mp >= OPEN[k - 1]) { i = k; break; } }
       if (i) {
-        var a = OPEN[i - 1], b = ENDS[i - 1];
+        var a = OPEN[i - 1], b = FULL[i - 1];
         f = b > a ? Math.max(0, Math.min(1, (mp - a) / (b - a))) : 1;
       }
       /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
