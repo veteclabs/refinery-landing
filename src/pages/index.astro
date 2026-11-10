@@ -235,12 +235,17 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
   }
 
   /* 세 줄 아코디언. 왼쪽 아래에 바닥을 붙이고 위로 자란다 — 펼친 줄이 커져도
-     아래 여백(48px)이 그대로다. 왼쪽 여백도 같은 값이다. */
+     아래 여백(48px)이 그대로다. 왼쪽 여백도 같은 값이다.
+     ⚠️ 폭은 설명문이 한 줄로 서는 값이다. 글 칸은 원 때문에 46px 들여쓰므로
+        가장 긴 줄(영문 02, 611px)에 그만큼을 더한 657px 이 필요하다 — 660 으로 둔다.
+        430 으로 두었을 때는 국문 01(430px) · 영문 01 · 02 가 두 줄로 감겼다.
+        국문은 476 이면 되지만 두 판을 같은 값으로 둔다. 상자가 글보다 넓어도
+        글이 왼쪽에 붙으므로 보이는 모습은 같다. */
   .hm-acc {
     position: absolute;
     left: max(72px, env(safe-area-inset-left, 0px));
     bottom: max(72px, env(safe-area-inset-bottom, 0px));
-    width: min(430px, calc(100% - 188px));
+    width: min(660px, calc(100% - 188px));
     display: flex; flex-direction: column; gap: 18px;
     pointer-events: auto;
   }
@@ -328,8 +333,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     line-height: var(--lh-flat);
     letter-spacing: var(--ls-wide-sm);
   }
-  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
-  .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
+  /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다.
+     ⚠️ 색을 따로 박지 않는다. 숫자만 먹색(--text)으로 두었더니 같은 줄에서
+        숫자와 글자의 색이 어긋났다 — 물려받게 두면 글자색을 바꿔도 함께 간다.
+     font-weight 400 은 <b> 의 기본 굵기를 눌러 글자와 같게 맞추는 값이다. */
+  .hm-tag b { font-weight: 400; margin-right: 7.15px; }
   /* 제목은 펼친 줄에만 나온다 — 접힌 줄은 .hm-label(번호 + 태그라인)이 맡는다. */
   .hm-title {
     display: block;
@@ -346,7 +354,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        var(--lh-flat) 로 두면 줄상자가 12px 이라 원보다 6px 위로 뜬다. */
     line-height: 24px; letter-spacing: var(--ls-wide-sm);
   }
-  .hm-label b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
+  /* 접힌 줄의 번호도 같다 — 색은 물려받고 굵기만 글자에 맞춘다. */
+  .hm-label b { font-weight: 400; margin-right: 7.15px; }
   .hm-desc {
     display: block; margin: 12px 0 0;
     font-size: 18px; line-height: var(--lh-body);
