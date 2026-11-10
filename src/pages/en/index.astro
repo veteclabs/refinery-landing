@@ -331,6 +331,20 @@ const jsonLd = [orgSchema, websiteSchema];
     /* 장면에 거의 다 닿은 뒤에 글을 연다. 0 으로 두면 그림이 아직 가는 중에
        글이 먼저 뜬다 — '미리 보이는' 것이 이 값이다. */
     var TOL = 0.12;
+    /* 장면이 열리는 자리를 진행도(mp) 로 미리 구해 둔다. sOf 를 되짚어
+       sOf(mp) = i - TOL 이 되는 mp 를 이분법으로 찾는다.
+       ⚠️ 링은 이 자리들 사이를 0~1 로 채운다. 장면값(s) 으로 재면 구간마다
+          멈춰 서는 자리가 있어 링이 얼어붙었다가 내달리고, 마지막 장면은
+          TOL 만에 다 차 버려 구간이 끝나기 한참 전에 가득 찼다. */
+    var OPEN = [];
+    for (var oi = 1; oi <= N; oi++) {
+      var lo = 0, hi = 1, want = oi - TOL;
+      for (var it = 0; it < 40; it++) {
+        var mid = (lo + hi) / 2;
+        if (sOf(mid) < want) lo = mid; else hi = mid;
+      }
+      OPEN.push(hi);
+    }
     /* 창이 다 자라는 데 쓰는 몫. HeroZoom.astro 의 ZOOM 과 같은 값이다 —
        거기서 --hero-p = 지나온거리 / (구간 * ZOOM) 로 잰다.
        ⚠️ 두 곳에 같은 숫자가 있다. 한쪽을 고치면 다른 쪽도 고친다. */
@@ -340,12 +354,12 @@ const jsonLd = [orgSchema, websiteSchema];
     function paint(mp) {
       /* i = 0 이면 빈 구간(글도 표시도 없다), 1~3 이 장면. f 는 그 장면 안의 진행 —
          이 장면을 연 자리에서 다음 장면을 열 자리까지를 0~1 로 본다. */
-      var sv = sOf(mp);
       var i = 0, f = 0;
-      if (sv >= N - TOL) { i = N; f = (sv - (N - TOL)) / TOL; }
-      else if (sv >= 2 - TOL) { i = 2; f = sv - 2 + TOL; }
-      else if (sv >= 1 - TOL) { i = 1; f = sv - 1 + TOL; }
-      f = Math.max(0, Math.min(1, f));
+      for (var k = N; k >= 1; k--) { if (mp >= OPEN[k - 1]) { i = k; break; } }
+      if (i) {
+        var a = OPEN[i - 1], b = i < N ? OPEN[i] : 1;
+        f = Math.max(0, Math.min(1, (mp - a) / (b - a)));
+      }
       /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
       if (railEl) railEl.style.setProperty('--ring', f.toFixed(3));
       if (i === last) return;
