@@ -652,7 +652,7 @@ const jsonLd = [
        카드 모서리에 바짝 붙어 보였다. 위는 글이 아래에 붙어 있어(align-items:
        flex-end) 보이는 차이가 없으므로 24 로 둔다. */
     border-radius: var(--radius); padding: 24px 32px 32px;
-    transition: border-color .2s, color .2s, box-shadow .2s;
+    transition: border-color .2s, color .2s;
   }
   /* keep-all — 없으면 한국어가 어절 중간에서 잘린다('흩어/진', '데/이터').
      띄어쓰기에서만 줄을 바꿔 읽는 단위가 유지된다. */
@@ -730,7 +730,11 @@ const jsonLd = [
   @media (max-width: 520px) {
     .uc-cases { grid-template-columns: 1fr; }
   }
-  .uc-case:hover { border-color: var(--accent); color: #4b86bf; box-shadow: 0 4px 14px rgba(16,32,44,.06); }
+  /* ⚠️ 그림자를 두지 않는다. 랜딩 솔루션 카드(#industries .industry-card)는
+     호버에 사진만 1.04 배 커지고 그림자가 없다 — 두 곳이 한 벌이다.
+     테두리색 · 글자색은 남겨 둔다. 지금 일곱 과제가 모두 사진 카드라
+     드러나지 않지만, 사진 없는 카드가 생기면 그때 쓰인다. */
+  .uc-case:hover { border-color: var(--accent); color: #4b86bf; }
 
   /* 배경 이미지가 있는 카드(데이터에 cardImage를 넣은 것만).
      이미지 → 스크림 → 제목 순으로 쌓아 사진 위에서도 글자가 읽히게 한다.
