@@ -86,7 +86,9 @@ const jsonLd = [orgSchema, websiteSchema];
               </span>
               <span class="hm-body">
                 <span class="hm-fold hm-fold-tag"><span><span class="hm-tag"><b>{['01', '02', '03'][i]}</b>{c.tag}</span></span></span>
-                <span class="hm-title">{c.title}</span>
+                {/* 접힌 줄이 보여 주는 라벨. 펼치면 위 알약이 같은 글을 받는다. */}
+                <span class="hm-unfold"><span><span class="hm-label"><b>{['01', '02', '03'][i]}</b>{c.tag}</span></span></span>
+                <span class="hm-fold"><span><span class="hm-title">{c.title}</span></span></span>
                 <span class="hm-fold"><span><span class="hm-desc">{c.desc}</span></span></span>
               </span>
             </button>
@@ -215,7 +217,17 @@ const jsonLd = [orgSchema, websiteSchema];
   }
   /* 칸을 줄 높이만큼 늘린다 — 잇는 선을 이 안에 그린다(줄이 펼쳐지면 같이 길어진다). */
   .hm-dot { position: relative; align-self: stretch; width: 24px; }
-  .hm-dot svg { width: 24px; height: 24px; display: block; }
+  /* 원의 한가운데를 첫 줄 글의 한가운데에 맞춘다.
+     접힌 줄의 라벨 줄상자는 19px, 펼친 줄의 알약은 28px 이라 둘이 다르고,
+     원 상자는 24px 로 고정이다 — 그만큼 어긋나는 값을 상태별로 덜어 준다.
+     접힌 줄은 라벨의 줄높이를 24px 로 두어 원과 같은 높이로 맞췄다(아래 .hm-label).
+     ⚠️ 펼친 줄의 +2px 는 글꼴 metric 에서 나온 실측값이다. 알약의 padding 이나
+        글자 크기를 바꾸면 다시 재야 한다. */
+  .hm-dot svg {
+    width: 24px; height: 24px; display: block;
+    transition: margin-top .45s cubic-bezier(.2, .7, .2, 1);
+  }
+  .hm-row[aria-expanded="true"] .hm-dot svg { margin-top: 2px; }
   .hm-dot circle { fill: none; }
   .hm-node-track, .hm-node-arc { opacity: 0; transition: opacity .3s; }
   .hm-node-track { stroke: #D7E0EA; stroke-width: 2; }
@@ -243,6 +255,14 @@ const jsonLd = [orgSchema, websiteSchema];
   .hm-fold > span { overflow: hidden; min-height: 0; opacity: 0; transition: opacity .3s; }
   .hm-row[aria-expanded="true"] .hm-fold { grid-template-rows: 1fr; }
   .hm-row[aria-expanded="true"] .hm-fold > span { opacity: 1; transition: opacity .45s .12s; }
+  /* 접혔을 때만 보이는 칸 — .hm-fold 의 반대다. */
+  .hm-unfold {
+    display: grid; grid-template-rows: 1fr;
+    transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .hm-unfold > span { overflow: hidden; min-height: 0; opacity: 1; transition: opacity .3s .1s; }
+  .hm-row[aria-expanded="true"] .hm-unfold { grid-template-rows: 0fr; }
+  .hm-row[aria-expanded="true"] .hm-unfold > span { opacity: 0; transition: opacity .2s; }
 
   /* 태그라인 · 제목 · 내용 글값은 운영체제 섹션(#teams)과 같은 값이다 —
      global.css 의 .teams-preview-tagline / .teams-preview-title-wrap h3 /
@@ -259,19 +279,23 @@ const jsonLd = [orgSchema, websiteSchema];
   }
   /* 번호는 알약 안에 넣는다 — 세로선 옆에 숫자를 또 두면 번호가 두 번 나온다. */
   .hm-tag b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
-  /* 접힐 때는 한 줄짜리 목록이고, 펼칠 때 제목이 된다. */
+  /* 제목은 펼친 줄에만 나온다 — 접힌 줄은 .hm-label(번호 + 태그라인)이 맡는다. */
   .hm-title {
     display: block;
-    /* 접힌 줄은 태그라인 알약 안 글자와 같은 크기(12px)다. */
-    font-size: 12px; font-weight: 400;
+    font-size: 30px; font-weight: 600;
     line-height: var(--lh-title); letter-spacing: var(--ls-snug);
-    color: #7E8A98;
+    color: var(--text, #16202C);
     word-break: keep-all; text-wrap: balance;
-    transition: font-size .4s cubic-bezier(.2,.7,.2,1), color .3s, font-weight .3s;
   }
-  .hm-row[aria-expanded="true"] .hm-title {
-    font-size: 30px; font-weight: 600; color: var(--text, #16202C);
+  /* 접힌 줄의 라벨. 알약 안 글자와 같은 크기 · 같은 자간이고, 번호만 진하다. */
+  .hm-label {
+    display: block;
+    font-size: 12px; font-weight: 400; color: #5A6776;
+    /* ⚠️ 24px 이다. 원 상자와 같은 높이라 두 한가운데가 저절로 맞는다 —
+       var(--lh-flat) 로 두면 줄상자가 12px 이라 원보다 6px 위로 뜬다. */
+    line-height: 24px; letter-spacing: var(--ls-wide-sm);
   }
+  .hm-label b { font-weight: 400; color: var(--text, #16202C); margin-right: 9px; }
   .hm-desc {
     display: block; margin: 12px 0 0;
     font-size: 18px; line-height: var(--lh-body);
@@ -288,7 +312,7 @@ const jsonLd = [orgSchema, websiteSchema];
       gap: 14px;
     }
     .hm-row { gap: 16px; }
-    .hm-row[aria-expanded="true"] .hm-title { font-size: 24px; }
+    .hm-title { font-size: 24px; }
     .hm-desc { font-size: 16px; }
   }
   @media (prefers-reduced-motion: reduce) {
