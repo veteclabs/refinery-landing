@@ -1417,6 +1417,33 @@ img { max-width: 100%; height: auto; }
   .ind-uc-list { margin-top: 0; }
   .ind-uc-aside { position: static; }
 }
+/* 도입 효과 — 유즈케이스 섹션(.ind-uc-shell)과 같은 구도다. 왼쪽 칸에 제목과
+   소제목, 오른쪽에 목록이 선다.
+   ⚠️ 붙여 두지(sticky) 않는다. 오른쪽 목록이 짧아(여섯 칸) 따라올 거리가 없다.
+   ⚠️ 글자값은 .ind-uc-aside 와 같은 값을 그대로 쓴다 — 한 페이지 안에서 왼쪽
+      머리 칸이 두 번 나오므로 둘이 같아야 한 짝으로 읽힌다. */
+.ind-ben-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  column-gap: 120px;
+  align-items: start;
+}
+.ind-ben-aside { min-width: 0; }
+.ind-ben-aside h2 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 4vw, 45px);
+  font-weight: 600; letter-spacing: -0.8px; line-height: 1.3;
+  color: var(--text);
+}
+/* 소제목은 왼쪽 맞춤이다 — 머리글이 한 줄에 좌우로 서던 때의 오른쪽 맞춤을 푼다. */
+.ind-ben-aside p {
+  margin: 0; max-width: none; text-align: left;
+  font-size: 18px; line-height: 1.5; color: var(--text-muted);
+}
+@media (max-width: 1200px) {
+  .ind-ben-shell { grid-template-columns: 1fr; row-gap: 32px; }
+}
+
 /* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 28px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
    제목과 같은 값이다. 줄 나눔은 데이터의 개행을 lines()가 <br>로 바꿔 넣는다. */
