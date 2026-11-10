@@ -1333,7 +1333,12 @@ img { max-width: 100%; height: auto; }
   /* 테두리 없이 면으로만 선다 — 안의 칩, 흐름 상자와 같은 결이다.
      ⚠️ hover 링(box-shadow 0 0 0 2px)도 함께 걷었다. 테두리와 같은 일을 하는
         선이라, 하나만 남기면 마우스를 올렸을 때만 테가 생겨 더 튄다. */
-  background: #F6F8FA;
+  /* 먹색 판이다 — 랜딩 플랫폼 개요 섹션(#platform)과 같은 #151B23. 흰 섹션
+     한가운데에 어두운 판 하나를 놓아, 흐름 네 칸과 성격이 다른 '연동 목록'
+     임을 면색으로 가른다. #F6F8FA 로 두었을 때는 같은 흰 결의 한 단 아래라
+     판이 섹션에 묻혔다.
+     ⚠️ 판이 어두워지면서 안의 글 · 칩도 밝은 한 벌로 함께 옮겼다(아래). */
+  background: #151B23;
   border: 0;
   /* 카드 둥글기는 사이트 공통값 12px 하나로 모았다 — 10px 은 랜딩 통합 노드
      카드에서 값을 가져오며 따라온 것이었다. */
@@ -1347,23 +1352,27 @@ img { max-width: 100%; height: auto; }
   gap: 24px; flex-wrap: wrap;
   margin-bottom: 24px;
 }
+/* 어두운 판 위라 글은 밝은 한 벌이다 — 제목 #F6F8FA · 소제목 #A0A8B3,
+   이 페이지 어두운 면(.ind-head-light)에서 쓰는 두 값과 같다. */
 .ind-page .ind-systems-head h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
-  color: var(--text); margin: 0;
+  color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
-  margin: 0; font-size: 15px; line-height: 1.5; color: var(--text-muted);
+  margin: 0; font-size: 15px; line-height: 1.5; color: #A0A8B3;
   text-align: right;
 }
 /* 연동 시스템 칩 — 흐름 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
    면 #353C44 · 테두리 없음 · 모서리 8px · 안 여백 6px 10px · 14px #C8CED5.
    섹션 안에서 '항목 하나'를 담는 상자가 한 종류로 통일된다. */
 /* ⚠️ 칩 면만 흐름 쪽과 다르다. 흐름 상자는 흰 섹션 위라 #F6F8FA 인데,
-   이 칩은 #F6F8FA 블록 안이라 같은 값을 쓰면 면이 사라진다 — 흰 면으로 둔다. */
+   이 칩은 먹색 판(#151B23) 안이라 한 톤 올린 #32373F 를 쓴다 — 판 위에서
+   1.35:1 로 상자가 읽히는 가장 낮은 단계다. 글자 #C8CED5 는 그 면 위에서
+   AA(4.5:1)를 지키는 가장 어두운 단계다. */
 .ind-arch .ind-system {
-  background: #FFFFFF; border: 0; border-radius: 8px;
+  background: #32373F; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  font-size: 14px; font-weight: 400; line-height: 1.5; color: #5A6776;
+  font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
 }
 .ind-arch .ind-systems-note { color: var(--text-muted); }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
