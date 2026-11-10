@@ -166,6 +166,14 @@ const jsonLd = [orgSchema, websiteSchema];
                          calc(var(--hero-p, 0) * var(--cp-sy, 0px)));
     will-change: transform;
   }
+  /* ⚠️ 다 자란 뒤에는 글이 클릭을 받지 않는다. 대제목이 탭 자리로 내려가 앉기
+     때문에, 투명해진 뒤에도 그 상자가 탭 줄을 덮어 클릭을 먹었다 — 02 · 03 을
+     눌러도 화면이 움직이지 않던 것이 이것이다(투명도 0 은 클릭을 막지 못한다).
+     상자(.hv-copy)에는 이미 pointer-events: none 이 걸려 있지만 global.css 의
+     #hero .container h1 · .hero-sub 가 auto 로 되돌린다 — 그보다 센 규칙으로 막는다.
+     ⚠️ 자라는 동안에는 그대로 둔다. 그때는 글이 보이고 탭도 아직 없다. */
+  #hero.hv.is-grown .hv-copy h1,
+  #hero.hv.is-grown .hv-copy .hero-sub { pointer-events: none; }
 
   /* ⚠️ 창에 밝은 밑판을 깐다. 모션 패키지는 어두운 면을 기본으로 쓰는 판이라,
      프레임이 아직 안 왔거나 iframe 이 뜨는 동안 그 어두운 면이 비쳤다. */
@@ -175,7 +183,7 @@ const jsonLd = [orgSchema, websiteSchema];
   /* 점판 점 색 — 모션 창 바탕과 같다.
      ⚠️ 공용 회색(--ink-400)을 바꾸지 않는다. nav-footer.css 의 :root 에 있어
         다른 자리까지 함께 바뀐다 — 점판만의 값을 두고 스크립트가 이걸 먼저 본다. */
-  #hero { --hero-dot: #EEF4FB; }
+  #hero { --hero-dot: #DCE8F5; }
   /* ⚠️ 창에 맞춰 늘이지 않는다. inset:0 으로 두면 창이 자라는 내내 iframe 이
      같이 커지고, 그때마다 안쪽 캔버스가 다시 잡혀 그림이 버벅인다
      (57 프레임에 크기가 52번 바뀌고 프레임 간격이 중앙 496ms 까지 벌어졌다).
@@ -3086,12 +3094,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeTeams
     var DOT = 1.2;           /* 점 반지름(기운 0) */
     var SWELL = 1.4;         /* 기운이 찼을 때 반지름 배수 — 꼭대기 2.88px */
     var ALPHA = 1;           /* 기운 1(돔 꼭대기)일 때의 진하기 */
-    /* 점 색은 모션 창의 바탕과 같은 #EEF4FB 다.
-       ⚠️ 흰 바탕 위에서는 대비가 1.07:1 이라 거의 보이지 않는다. 앞서 쓰던
-          --ink-400(#A4ADB8)은 2.27:1 이었고, 돔이 입체로 읽히던 것도 그 밝기
-          차이였다. 점판을 다시 드러내려면 여기 세 값을 164 · 173 · 184 로
-          되돌린다. */
-    var DR = 238, DG = 244, DB = 251;
+    /* 점 색. 실제 값은 아래 readAccent 가 --hero-dot 에서 읽어 덮어쓴다 —
+       여기 세 값은 그 전에 한 번 그릴 때 쓰는 기본값이다. */
+    var DR = 220, DG = 232, DB = 245;
     var STRENGTH = 0.55;     /* 미는 힘 */
     /* ⚠️ 달리는 점을 진행 방향으로 늘리는 처리(reactbits 의 stretch)는 걷어냈다. 둥근 끝으로
           그리면 양 끝 머리가 '점 두 개가 겹친 것'으로 읽힌다. 비율이 2.25:1 이라 점이라기엔
