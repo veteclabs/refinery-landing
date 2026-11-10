@@ -187,15 +187,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
      ⚠️ 크기는 줄이지 않는다. scale 을 걸면 상자가 작아지며 맞춰 둔 끝이 어긋난다.
      ⚠️ 전환이 아니라 --hero-p 를 그대로 받는다. 스크롤 위치가 곧 진행도라
         되감으면 그대로 되돌아온다. */
-  #hero.hv .hv-copy h1 {
-    transform: translate(calc(var(--hero-p, 0) * var(--cp-tx, 0px)),
-                         calc(var(--hero-p, 0) * var(--cp-ty, 0px)));
-    will-change: transform;
-  }
-  #hero.hv .hv-copy .hero-sub {
-    transform: translate(calc(var(--hero-p, 0) * var(--cp-sx, 0px)),
-                         calc(var(--hero-p, 0) * var(--cp-sy, 0px)));
-    will-change: transform;
+  /* ⚠️ 901px 위에서만 건다. 900 아래에서는 글 칸이 한 칸으로 쌓여(global.css 의
+     @media (max-width: 900px)) 소제목이 폭을 통째로 쓴다 — 둘을 양쪽 끝으로
+     보내면 서로 겹친다. 900 에서 가로로 310px · 세로로 45px 겹쳤다.
+     그 아래에서는 제자리에서 흐려지기만 한다(모바일 결은 따로 본다). */
+  @media (min-width: 901px) {
+    #hero.hv .hv-copy h1 {
+      transform: translate(calc(var(--hero-p, 0) * var(--cp-tx, 0px)),
+                           calc(var(--hero-p, 0) * var(--cp-ty, 0px)));
+      will-change: transform;
+    }
+    #hero.hv .hv-copy .hero-sub {
+      transform: translate(calc(var(--hero-p, 0) * var(--cp-sx, 0px)),
+                           calc(var(--hero-p, 0) * var(--cp-sy, 0px)));
+      will-change: transform;
+    }
   }
   /* ⚠️ 다 자란 뒤에는 글이 클릭을 받지 않는다. 대제목이 탭 자리로 내려가 앉기
      때문에, 투명해진 뒤에도 그 상자가 탭 줄을 덮어 클릭을 먹었다 — 02 · 03 을
