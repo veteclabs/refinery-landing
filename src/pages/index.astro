@@ -163,10 +163,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     margin-block: auto;
     pointer-events: none;
     opacity: clamp(0, calc(1 - var(--hero-p, 0) / 0.6), 1);
-    /* 사라지는 모션 — 흐려지면서 함께 위로 뜨고 아주 조금 작아진다.
+    /* 사라지는 모션 — 흐려지면서 함께 아래로 내려가고 아주 조금 작아진다.
        ⚠️ 전환이 아니라 --hero-p 를 그대로 받는다. 스크롤 위치가 곧 진행도라
           되감으면 그대로 되돌아온다. */
-    transform: translateY(calc(var(--hero-p, 0) * -48px))
+    transform: translateY(calc(var(--hero-p, 0) * 48px))
                scale(calc(1 - var(--hero-p, 0) * 0.04));
     will-change: opacity, transform;
   }
