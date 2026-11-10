@@ -198,8 +198,13 @@ img { max-width: 100%; height: auto; }
   padding: 0 28px;
   text-align: left;
 }
-.ind-page .ind-flow-step ~ .ind-flow-step { border-left: 1px solid #E3E7EC; }
-.ind-page .ind-flow-step:first-of-type { padding-left: 0; }
+/* 네 칸 모두 왼쪽에 선을 둔다 — 첫 칸(현장) 왼쪽에도 선이 선다.
+   ⚠️ 첫 칸의 padding-left: 0 은 걷는다. 선과 글이 붙어 버린다. 대신 글이
+      컨테이너 왼쪽 끝에서 28px 안으로 들어오므로, 제목 · 캡션보다 그만큼
+      오른쪽에서 시작한다 — 선이 그 자리를 대신 짚는다.
+   ⚠️ 끝 칸의 오른쪽 여백만 0 으로 남긴다. 그쪽에는 선이 없어, 글이 컨테이너
+      오른쪽 끝에 맞는 쪽이 낫다. */
+.ind-page .ind-flow-step { border-left: 1px solid #E3E7EC; }
 .ind-page .ind-flow-step:last-of-type { padding-right: 0; }
 /* 화살표는 두지 않는다 — 칸을 가르는 일은 세로선이 맡는다. 둘을 같이 두면
    같은 자리에 선과 원이 겹쳐 선다. 마크업은 그대로 두어 되돌리기 쉽게 한다. */
