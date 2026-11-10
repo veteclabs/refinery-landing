@@ -1095,10 +1095,11 @@ img { max-width: 100%; height: auto; }
    줄 높이 32px(20px * 1.6)에 맞춘 값이다. 일곱 산업 · 두 언어를 320~1600px
    17개 폭에서 재어 제목은 최대 두 줄이고, 제목에 인라인 태그가 없어 flex 로 둬도
    줄 나눔이 깨지지 않는다. */
-.ind-page .ind-benefits .ind-card h3 {
-  min-height: 64px; margin-top: -32px;
-  display: flex; align-items: flex-end;
-}
+/* ⚠️ 위 보정(min-height 64px · margin-top -32px)은 걷었다. 카드가 가로로
+   늘어서던 때 '두 줄 제목만 위로 자라게' 해 본문 시작선을 맞추던 값인데,
+   상자를 걷고 아이콘을 제목 옆에 세운 지금은 제목 상자가 32px 위로 끌려
+   올라가 아이콘과 30px 어긋났다. 줄 사이가 선이 아니라 간격이라 시작선을
+   맞출 까닭도 없어졌다. */
 
 /* 영문 산업 페이지의 도입 효과는 2열로 둔다. 국문은 카드 수에 따라 3열 · 4열 그대로다.
    한국어와 영어는 같은 뜻을 담는 데 드는 글자 폭이 1.6~1.9배 차이 난다. 3열(칸 333px)
@@ -1425,39 +1426,45 @@ img { max-width: 100%; height: auto; }
    ⚠️ 아이콘은 글 왼쪽에 세우고 두 줄을 가로지르게 둔다(grid-row 1/3). 상자였을
       때처럼 글 위에 두면 줄마다 높이가 들쭉날쭉해진다. */
 .ind-grid-1 { grid-template-columns: 1fr; }
-.ind-page .ind-benefits .ind-grid { gap: 0; }
+/* 칸 수를 숫자로 박지 않고 폭에 맡긴다 — 320px 이 들어갈 만큼만 담으므로
+   이 칸(809px)에서는 둘, 좁아지면 저절로 하나가 된다.
+   ⚠️ .ind-grid-2 보다 뒤에 와야 이긴다(같은 특정도). */
+.ind-page .ind-benefits .ind-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 36px 40px;
+}
 .ind-page .ind-benefits .ind-card {
   display: grid; grid-template-columns: 44px minmax(0, 1fr);
   column-gap: 18px; align-items: start;
   background: none; border: 0; border-radius: 0;
-  padding: 24px 28px;
+  padding: 0;
 }
-/* 칸을 선으로만 가른다 — 2열이라 가로 · 세로 두 방향이 필요하다.
-   ⚠️ + (인접 형제)로는 안 된다. 2열에서는 첫 줄의 오른쪽 칸까지 윗선을 받아
-      줄이 하나 더 있는 것처럼 보인다. 둘째 줄부터(n+3) 윗선을, 오른쪽
-      칸(even)에만 왼선을 준다.
-   ⚠️ 바깥 테두리는 두지 않는다. 선이 칸 사이에만 있어야 상자로 읽히지 않는다 —
-      그래서 첫 줄 · 왼쪽 칸은 선이 없고, 양 끝 칸의 안 여백도 아래에서 뗀다. */
-.ind-page .ind-benefits .ind-card:nth-child(n+3) { border-top: 1px solid var(--border); }
-.ind-page .ind-benefits .ind-card:nth-child(even) { border-left: 1px solid var(--border); }
-.ind-page .ind-benefits .ind-card:nth-child(odd) { padding-left: 0; }
-.ind-page .ind-benefits .ind-card:nth-child(even) { padding-right: 0; }
+/* ⚠️ 구분선은 두지 않는다. 칸을 가르는 일은 간격(gap)이 맡는다. */
 /* 아이콘은 상자 안에 담는다 — 면은 하늘색 10%, 모서리는 솔루션 구조 쪽
    아이콘 상자와 같은 10px 이다.
-   ⚠️ 두 줄(제목 · 설명)을 가로지르게 두고(grid-row 1/3) align-self: center 로
-      그 두 줄의 한가운데에 세운다. start 로 두면 제목 첫 줄에만 맞아, 설명이
-      두 줄인 칸에서 아이콘이 위로 쏠린다.
+   ⚠️ 제목 줄에만 둔다(grid-row 1). 두 줄을 가로지르게 두면 설명 길이에 따라
+      아이콘이 위아래로 움직여 칸마다 높이가 달라 보인다.
+   ⚠️ 아이콘과 제목 둘 다 align-self: center 다. 줄 높이는 상자(44px)가 정하는데
+      제목만 start 로 두면 제목이 그 줄 꼭대기에 붙어 아이콘과 어긋난다 —
+      둘을 같이 가운데로 보내야 두 한가운데가 한 선에 온다.
    ⚠️ 글자 크기는 22px 로 내린다. 공용값 30px 은 44px 상자에 넣으면 꽉 차
       상자가 아니라 테두리처럼 보인다. */
 .ind-page .ind-benefits .ind-card-icon {
-  grid-column: 1; grid-row: 1 / 3; align-self: center;
+  grid-column: 1; grid-row: 1; align-self: center;
+  /* ⚠️ 여백을 0 으로 지운다. 아이콘이 글 위에 서던 때의 아래 여백(65px)이
+     남아 있어 줄 높이가 44 가 아니라 109px 이 됐고, 그 안에서 제목이 가운데로
+     내려가 아이콘과 30px 어긋났다. */
+  margin: 0;
   width: 44px; height: 44px; border-radius: 10px;
   background: rgba(118, 166, 215, .10);
   display: flex; align-items: center; justify-content: center;
 }
 .ind-page .ind-benefits .ind-card-icon i { font-size: 22px; }
-.ind-page .ind-benefits .ind-card h3 { grid-column: 2; margin: 0 0 5px; }
-.ind-page .ind-benefits .ind-card p { grid-column: 2; margin: 0; }
+/* ⚠️ 제목의 아래 여백은 0 이다. 가운데 맞춤은 여백까지 더한 상자를 기준으로
+   하므로, 5px 을 달면 제목이 그 절반(2.5px)만큼 위로 올라가 아이콘과 어긋난다.
+   줄 사이 여백은 설명 쪽 위 여백으로 옮겼다. */
+.ind-page .ind-benefits .ind-card h3 { grid-column: 2; align-self: center; margin: 0; }
+.ind-page .ind-benefits .ind-card p { grid-column: 2; margin: 5px 0 0; }
 
 /* 도입 효과 — 유즈케이스 섹션(.ind-uc-shell)과 같은 구도다. 왼쪽 칸에 제목과
    소제목, 오른쪽에 목록이 선다.
