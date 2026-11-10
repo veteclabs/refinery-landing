@@ -610,6 +610,27 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 재기 전에 거리를 0 으로 돌린다. 그러지 않으면 이미 옮겨진 자리를 재서
           다시 잴 때마다 더 멀리 간다. */
     var copyEl = hero.querySelector('.hv-copy');
+    /* 마지막 글줄의 기준선 y. 상자 아래끝은 글보다 더 내려와 있고(대제목 6px ·
+       소제목 3px) 그 아래 여백도 글자 크기마다 다르므로, 줄상자를 직접 집어
+       거기서 글자 아래 여백과 디센트를 덜어 낸다. */
+    var mcv = null;
+    function baseline(el) {
+      var cs = getComputedStyle(el);
+      var rg = document.createRange();
+      rg.selectNodeContents(el);
+      var rects = rg.getClientRects(), b = -1e9;
+      for (var i = 0; i < rects.length; i++) {
+        if (rects[i].height >= 1 && rects[i].bottom > b) b = rects[i].bottom;
+      }
+      if (b === -1e9) b = el.getBoundingClientRect().bottom;
+      var lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
+      if (!mcv) mcv = document.createElement('canvas').getContext('2d');
+      mcv.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+      var tm = mcv.measureText('가Hg');
+      var asc = tm.fontBoundingBoxAscent, desc = tm.fontBoundingBoxDescent;
+      if (!asc || !desc) { asc = parseFloat(cs.fontSize) * 0.88; desc = parseFloat(cs.fontSize) * 0.25; }
+      return b - (lh - (asc + desc)) / 2 - desc;
+    }
     function placeCopy() {
       if (!copyEl || !railEl) return;
       var h1 = copyEl.querySelector('h1');
@@ -624,10 +645,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       if (prev) hero.style.setProperty('--hero-p', prev);
       else hero.style.removeProperty('--hero-p');
       var m = ra.left;                     /* 탭 칸의 왼쪽 여백 — 오른쪽도 같은 값을 쓴다 */
+      /* 세로는 상자가 아니라 마지막 줄의 기준선을 맞춘다.
+         ⚠️ 상자 아래끝을 맞췄더니 글자가 13.5px 어긋나 보였다. 60px 과 16px 은
+            글자 아래 여백(half-leading + 디센트)이 17 대 6.5 로 달라, 상자를
+            같은 선에 세우면 글자는 그만큼 어긋난다. 게다가 한글은 디센더를
+            거의 쓰지 않아 눈에는 기준선이 곧 글자 아래끝으로 보인다.
+         대제목은 상자 아래끝을 탭 칸에 맞추고, 소제목은 그 기준선에 맞춘다. */
+      var ty = ra.bottom - rt.bottom;
+      var baseT = baseline(h1) + ty;
       hero.style.setProperty('--cp-tx', (m - rt.left).toFixed(1) + 'px');
-      hero.style.setProperty('--cp-ty', (ra.bottom - rt.bottom).toFixed(1) + 'px');
+      hero.style.setProperty('--cp-ty', ty.toFixed(1) + 'px');
       hero.style.setProperty('--cp-sx', ((window.innerWidth - m) - rs.right).toFixed(1) + 'px');
-      hero.style.setProperty('--cp-sy', (ra.bottom - rs.bottom).toFixed(1) + 'px');
+      hero.style.setProperty('--cp-sy', (baseT - baseline(sub)).toFixed(1) + 'px');
     }
     placeCopy();
     addEventListener('resize', placeCopy);
