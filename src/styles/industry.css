@@ -849,11 +849,15 @@ img { max-width: 100%; height: auto; }
      ⚠️ 한때 1200px 이하를 띠(높이 62%)로 묶어 확대율을 고정했다. 확대는
         잡혔지만 그림이 섹션 위아래에 닿지 않아 띠가 네모로 드러났다 —
         마스크로 녹여도 '섹션에 안 맞는' 모습은 그대로였다.
-     ⚠️ 오른쪽에 붙이고 폭을 110% 로 둬서 그림을 오른쪽으로 10% 민다. transform
-        으로 밀면 왼쪽에 상자가 닿지 않는 띠가 생겨 그 경계가 세로선으로 드러난다.
+     ⚠️ 왼쪽 끝에 붙이고 폭을 110% 로 둔다 — 상자가 섹션 오른쪽 밖으로 10% 나가
+        면서, 오른쪽 끝에 맞춘 그림이 그만큼 오른쪽으로 밀린다.
+        ⚠️ 오른쪽 기준(right: 0)으로 달면 상자가 왼쪽 밖으로 나가 보이는 자리가
+           달라진다 — 그림이 205px 왼쪽으로 옮겨 간 것처럼 보였다.
+        ⚠️ transform 으로 밀면 왼쪽에 상자가 닿지 않는 띠가 생겨 그 경계가
+           세로선으로 드러난다.
      ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다. */
   display: block;
-  position: absolute; top: 0; right: 0; bottom: 0; left: auto;
+  position: absolute; top: 0; left: 0; bottom: 0; right: auto;
   width: 110%; height: 100%;
   object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
