@@ -358,10 +358,22 @@ const jsonLd = [
       <div class="ind-container">
         <header class="ind-head"><h2>{T.how}</h2></header>
         <div class="ind-grid ind-grid-3" style={uc.redesigned ? `--uc-cols:${Math.min(uc.how.length, 4)}` : undefined}>
-          {uc.how.map((h) => (
+          {uc.how.map((h, i) => (
             <div class="ind-card">
-              {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
-              <h3>{h.title}</h3>
+              {/* 새 구성은 아이콘 대신 차례를 단다 — 네 칸이 '붙이고 → 판정하고
+                  → 감지하고 → 제안한다' 는 순서라 번호가 그 뜻을 진다.
+                  ⚠️ 예전 구성(redesigned 가 아닌 과제)은 아이콘 그대로다. */}
+              {uc.redesigned ? (
+                <div class="uc-card-head">
+                  <span class="uc-card-no" aria-hidden="true">{i + 1}</span>
+                  <h3>{h.title}</h3>
+                </div>
+              ) : (
+                <>
+                  {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
+                  <h3>{h.title}</h3>
+                </>
+              )}
               <p set:html={h.desc}></p>
             </div>
           ))}
@@ -974,30 +986,11 @@ const jsonLd = [
      생겨도 같이 적용되게 하기 위해서다(지금은 일곱 개가 모두 redesigned 다).
      지원하지 않는 브라우저는 지금 모습 그대로다. */
   .uc-page .ind-card h3 { text-wrap: balance; }
-  /* 해결 방법 카드의 제목 칸을 두 줄 높이로 잡고 글자를 아래에 붙인다. 영문은 제목
-     길이가 카드마다 달라 한 페이지 안에서 한 줄과 두 줄이 섞이고, 두 줄인 카드만
-     본문이 32px 내려앉아 가로로 늘어선 카드끼리 시작선이 어긋났다
-     (전력관리 [1,1,1,2] · 전력품질 [1,2,1,1] · 공장에너지 [1,1,2,2]).
-     아래 끝을 고정하는 쪽이라 한 줄 제목은 지금 자리를 그대로 지키고, 두 줄 제목만
-     아이콘 쪽 여백(65px)을 한 줄만큼 먹으며 위로 자란다.
-       한 줄  칸 위 -32 + 글자 아래 32  -> 아이콘에서 65px (그대로)
-       두 줄  칸 위 -32 + 글자 가득 64  -> 아이콘에서 33px
-     줄 높이 32px(20px * 1.6)에 맞춘 값이다. 산업 페이지 도입 효과 카드와 같은 규칙이다.
-     제목이 모두 평문이라 flex 로 둬도 줄 나눔이 깨지지 않는다. */
-  .uc-page .ind-grid-3 .ind-card h3 {
-    min-height: 64px; margin-top: -32px;
-    display: flex; align-items: flex-end;
-  }
-  /* 네 제목이 모두 두 줄인 페이지에는 걸지 않는다. 위 보정은 '한 줄 제목 옆에 선
-     두 줄 제목'을 끌어올려 본문 시작선을 맞추는 것인데, 모두 두 줄이면 시작선이
-     이미 맞아 있고 보정만 먹어 페이지가 통째로 32px 위로 당겨진다 — 아이콘과 제목
-     사이가 69px -> 37px 이 되어 그 페이지만 다른 페이지보다 좁아 보인다.
-     1440px 에서 그런 페이지는 영문 예지보전 하나뿐이다(국문은 네 제목이 모두 한 줄).
-     줄 수가 섞인 전력관리 [1,1,1,2] · 전력품질 [1,2,1,1] · 공장에너지 [1,1,2,2] 는
-     위 규칙을 그대로 쓴다. */
-  .uc-predictive-maintenance.uc-en .ind-grid-3 .ind-card h3 {
-    min-height: 0; margin-top: 0; display: block;
-  }
+  /* 해결 방법 카드는 번호 배지 + 제목 한 줄 구성이다(.uc-card-head). 제목 칸을
+     두 줄로 미리 잡는 일은 그 쪽에서 하므로, 아이콘 시절에 제목에 걸어 두었던
+     보정(min-height 64 · margin-top -32 · 아래 맞춤)은 걷었다. 과제 페이지 일곱
+     개가 모두 redesigned 라 그 보정과 영문 예지보전 예외는 둘 다 쓰이지 않는다.
+     되살리려면 .uc-card-head 의 자리 잡기와 겹치지 않는지 먼저 본다. */
   /* 카드가 넷인 영문 유즈케이스의 해결 방법 카드를 2열로 둔다
      (예지보전 · 전력관리 · 전력품질 · 공장에너지관리). 카드가 넷이라 4열(칸 233px)인데, 영문은
      한 줄에 네댓 낱말뿐이라 제목이 두 줄 · 설명이 다섯 줄이 되고 'in / real time' ·
@@ -1200,6 +1193,43 @@ const jsonLd = [
         둔다(그쪽은 아래 원형 빛 위에 놓여 면만으로는 묽다). */
   .uc-redesigned .ind-soft .ind-card {
     background: var(--bg-soft); border: 0;
+  }
+  /* 번호 + 제목 한 줄. 산업별 솔루션 구조 카드와 같은 배지다 — 20x20 ·
+     둥글기 6px · 먹색 면 · 흰 글자 10px/600.
+     ⚠️ 두 줄 자리(64px = 20px x 1.6 의 두 배)를 미리 잡는다. 제목이 한 줄인
+        카드와 두 줄인 카드가 한 줄에 섞여 있어(영문이 특히 그렇다), 잡아
+        두지 않으면 카드마다 본문 시작선이 32px 어긋난다.
+     ⚠️ 위 맞춤이다. 아래 맞춤으로 두면 한 줄짜리 카드에서 배지까지 내려와
+        카드 위가 비어 보인다.
+     ⚠️ 아이콘 구성에 걸려 있는 보정(.uc-page .ind-grid-3 .ind-card h3 의
+        min-height 64 · margin-top -32)은 여기서 푼다. 그 값은 제목을 아이콘
+        밑에 아래 맞춤으로 붙이려던 것이라, 배지와 한 줄에 세우면 제목이
+        32px 위로 빠져나간다. */
+  .uc-redesigned .uc-card-head {
+    display: flex; align-items: flex-start; gap: 10px;
+    min-height: 64px;
+    margin-bottom: 14px;
+  }
+  /* 제목에 붙어 있던 아래 여백 5px 을 턴다. 두 줄 제목(64px)이 그 5px 때문에
+     잡아 둔 자리를 넘겨 본문 시작선이 그 카드만 5px 내려앉았다(1100px 국문
+     예지보전 · 영문 센서감시). 칸과 본문 사이 간격은 칸 쪽 margin-bottom 이 쥔다. */
+  .uc-redesigned .uc-card-head h3 { margin: 0; }
+  .uc-redesigned .uc-card-no {
+    flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    background: var(--text); color: #FFFFFF;
+    font-size: 10px; font-weight: 600; letter-spacing: normal; line-height: 1;
+    /* ⚠️ 안 여백 위 0.13px — 숫자 잉크의 가운데를 상자 가운데에 맞춘다.
+       ⚠️ 바깥 여백 위 5.9px — 배지 가운데를 제목 첫 줄의 대문자 가운데에
+          맞춘다. 줄 상자(32px) 안에서 대문자 가운데가 15.9px 이고 배지
+          절반이 10px 이라 그 차다(Roboto, 제목 20px x 1.6).
+          ⚠️ 위 맞춤(flex-start)이라 이 값이 그대로 내려간다 — 가운데
+             맞춤이었다면 절반만 먹는다.
+          제목 크기나 줄 높이를 바꾸면 다시 잰다. */
+    padding: 0.13px 0 0;
+    margin-top: 5.9px;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
