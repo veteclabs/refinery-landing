@@ -590,50 +590,13 @@ const jsonLd = [
      답을 펼치면 판이 그만큼 커진다. 높이를 다시 고정하려면 판을 걷거나,
      판 자체에 min-height 를 주는 쪽으로 간다. */
 
-  /* 푸는 방식 왼쪽 칸(번호 + 대제목)은 붙어서 따라오다가, 마지막 항목이
-     화면에 들어오면 사라진다. 산업별 02 섹션(IndustryPage.astro)과 같은
-     코드다 — 한쪽을 고치면 다른 쪽도 함께 본다.
-     ⚠️ IntersectionObserver 를 쓰지 않는다. 빠르게 스크롤하면 상태 변화가
-        한 프레임에 합쳐져 콜백을 놓치는 일이 있어, 프레임마다 제 위치를
-        직접 잰다(ScrollReveal 과 같은 까닭이다).
-     ⚠️ 좁은 폭(1200px 이하)에서는 칸이 static 이라 따라오지 않는다 — 그때는
-        지우지 않는다. 미디어 쿼리를 또 적지 않고 계산된 position 을 본다. */
-  (function () {
-    var aside = document.querySelector('.ind-uc-aside');
-    var shell = aside && aside.closest('.ind-uc-shell');
-    if (!aside || !shell) return;
-    var box = shell.parentElement;
-    var tail = box.querySelector('.uc-template') || shell.querySelector('.ind-uc-list');
-    var ticking = false;
-    function upd() {
-      if (getComputedStyle(aside).position !== 'sticky') {
-        aside.classList.remove('is-faded');
-        return;
-      }
-      /* 오른쪽 칸의 마지막 덩어리 — 밴드가 있으면 밴드, 없으면 목록 — 의
-         아랫변이 제목 칸 아랫변까지 올라오면 지운다. 칸이 붙기를 그만두는
-         바로 그 자리이고, 늦출 수 있는 끝이다.
-         ⚠️ 통(.ind-uc-shell)을 재지 않는다. 1201px 이상에서 통은
-            display: contents 라 상자가 없어 rect 가 0 으로 나온다.
-         ⚠️ 산업별 02 섹션은 여기에 화면 절반(vh * 0.5)을 함께 걸어 더 이른
-            쪽에서 지운다. 그쪽 통은 1440px 에서 3766px 이라 절반 자리에서도
-            마지막 사례가 이미 다 지나갔지만, 이쪽은 1000px 안팎이라 같은
-            값이면 마지막 항목이 화면 한가운데 있는데 제목이 먼저 사라졌다.
-            두 쪽의 규칙이 다른 까닭이다 — 한쪽을 고칠 때 이 주석을 같이 본다. */
-      var a = aside.getBoundingClientRect();
-      var end = (tail || shell).getBoundingClientRect();
-      var done = end.bottom <= a.bottom + 8;
-      aside.classList.toggle('is-faded', done);
-    }
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; upd(); });
-    }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll, { passive: true });
-    upd();
-  })();
+  /* ⚠️ 제목 칸을 지우던 스크립트는 걷었다(산업별 02 의 .is-faded 와 같은
+     코드였다). 그쪽 오른쪽 칸은 1440px 에서 3766px — 네 화면 — 이라 제목이
+     계속 붙어 있으면 빈 칸이 두 화면 넘게 따라와 지워 줘야 했지만, 이쪽은
+     밴드까지 합쳐 1447px, 한 화면 반이라 지우는 동작이 길잡이보다 깜빡임으로
+     읽혔다. 지금은 붙어 있다가 섹션이 끝나면 그대로 흘러 나간다.
+     되살리려면 IndustryPage.astro 의 같은 이름 블록을 가져오되, 지우는
+     자리를 밴드 아랫변으로 잡는다(목록만 보면 너무 이르다). */
 
   /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — 포스터(첫 프레임)만
      남는다. autoplay 는 CSS 로 끌 수 없어 여기서 뗀다. */
