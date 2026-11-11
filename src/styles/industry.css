@@ -1522,7 +1522,12 @@ img { max-width: 100%; height: auto; }
   color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
-  margin: 0; font-size: 15px; line-height: 1.5; color: #A0A8B3;
+  /* 14px — 판 안의 글을 카드보다 한 단 아래로 둔다. 어두운 바탕의 밝은
+     글자는 같은 크기라도 더 커 보여, 15px 으로 두면 흰 카드의 15px 보다
+     한 끗 크게 읽힌다.
+     ⚠️ 판 안 글자는 소제목 · 내용 라벨이 같은 14px 로 함께 간다. 한쪽만
+        내리면 판 안에서 둘이 어긋난다. 제목(20px)은 그대로다. */
+  margin: 0; font-size: 14px; line-height: 1.5; color: #A0A8B3;
   /* 제목 아래로 내려오면서 왼쪽 맞춤이 된다. */
   text-align: left;
 }
@@ -1536,9 +1541,11 @@ img { max-width: 100%; height: auto; }
 .ind-arch .ind-system {
   background: #32373F; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  /* 15px — 카드 안 내용 라벨(.ind-page .ind-flow-detail li)과 같은 단계다.
-     14px 이었다. 두 라벨은 같은 종류의 상자라 크기를 함께 본다. */
-  font-size: 15px; font-weight: 400; line-height: 1.5; color: #C8CED5;
+  /* 14px — 카드 안 내용 라벨(15px)보다 한 단 아래다. 판 안 글을 통째로
+     한 단 내리기로 한 결과이고, 같은 판의 소제목과 같은 값이다.
+     ⚠️ 상자 값(여백 6px 10px · 둥글기 8px · 굵기 400)은 카드 쪽과 같다 —
+        다른 것은 글자 크기와 색뿐이다. */
+  font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
 }
 .ind-arch .ind-systems-note { color: var(--text-muted); }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
