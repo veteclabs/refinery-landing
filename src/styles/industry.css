@@ -408,10 +408,11 @@ img { max-width: 100%; height: auto; }
   padding: 0;
   border: 0;
   border-radius: 6px;
-  /* 면은 브랜드 하늘색을 그대로 쓴다. 글자는 흰색이다.
-     ⚠️ 대비가 2.5:1 이라 11px 글자 기준(4.5:1)에는 못 미친다. 먹색(#16202C)
-        으로 두면 5.6:1 이 된다 — 숫자가 잘 안 읽히면 그쪽으로 바꾼다. */
-  background: #76A6D7;
+  /* 면은 카드 제목과 같은 먹색(--text #16202C)이고 글자는 흰색이다.
+     ⚠️ 번호와 이름이 한 색 계열로 묶인다 — 브랜드 하늘색(#76A6D7)으로
+        두었을 때는 번호만 따로 떴고, 그 면 위 흰 글자는 대비가 2.56:1 이라
+        11px 글자 기준(4.5:1)에도 미달이었다. 먹색 면 위 흰 글자는 15.8:1. */
+  background: var(--text);
   font-size: 11px; font-weight: 600;
   letter-spacing: .06em; line-height: 1;
   color: #FFFFFF;
