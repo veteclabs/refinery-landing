@@ -842,34 +842,22 @@ img { max-width: 100%; height: auto; }
    축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
    모자란 가로는 좌우 균등하게 잘린다. */
 .ind-cta-bg-img {
-  /* 섹션 전체를 덮는다. 그래픽(2880x600)은 오른쪽에 내용이 몰려 있고 왼쪽은
-     배경색으로 사라지므로, 좁아질 때 잘려야 할 쪽은 왼쪽이다.
-     ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
-     ⚠️ 예전 사진용 보정(min-width: 1440px · 가운데 정렬)은 걷었다. 세로가 긴
-        사진을 납작한 띠에 맞추려던 값인데, 이 그래픽은 띠와 같은 비율이다.
-     ⚠️ 오른쪽으로 10% 민다. object-position 은 이미 right 라 더 갈 데가 없어서
-        상자째 옮긴다 — 밀려난 오른쪽은 섹션의 overflow: hidden 이 자르고,
-        왼쪽에 생기는 자리는 그림 왼쪽이 배경색으로 사라지는 구간이라 비어
-        보이지 않는다. */
+  /* 그래픽을 섹션 아래쪽 띠에 깐다 — 높이를 섹션의 62% 로 묶고 그 안에서
+     cover 로 채운다.
+     ⚠️ 섹션 전체를 cover 로 덮으면 섹션이 그래픽(2880x600 = 4.8:1)보다 납작
+        하지 않은 모든 폭에서 세로를 채우느라 그림이 커지고 가로가 잘렸다 —
+        1440px 1.4배 · 901px 2.1배라 폭마다 확대율이 달라 보였다.
+     ⚠️ 반대로 contain 으로 두면 어느 폭에서나 같은 그림이지만, 좁은 폭에서
+        4.8:1 한 벌이 폭에 맞춰 들어가며 띠가 얇아진다(390px 에서 81px).
+     ⚠️ 띠로 묶으면 확대율이 그 높이에 매여 폭이 바뀌어도 그림 크기가 비슷하게
+        남는다 — 1440px 에서 세로 39px 만 잘리고, 390px 에서는 오른쪽 절반이
+        2배로 보인다. 글은 위쪽에 있어 띠와 겹치지 않는다.
+     ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다. */
   display: block;
-  /* ⚠️ 오른쪽에 붙이고 폭을 110% 로 둔다. 그림을 오른쪽으로 10% 밀되 상자는
-     섹션을 다 덮게 하려는 것이다 — transform 으로 밀었더니 왼쪽에 상자가 닿지
-     않는 띠가 생겨, 좁은 폭에서 그 경계가 세로선으로 드러났다. */
-  position: absolute; top: 0; right: 0; bottom: 0; left: auto;
-  width: 110%; height: 100%;
+  position: absolute; left: 0; right: 0; bottom: 0; top: auto;
+  width: 100%; height: 62%;
   object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
-}
-/* ⚠️ 900px 이하에서는 그림을 자르지 않는다. 글이 여러 줄로 늘어나 섹션이
-   길어지는데 cover 는 세로를 채우느라 그림을 2~3배로 키워 가로를 잘라낸다
-   (580px 에서 지형 한가운데만 남았다). contain 으로 두면 그림 한 벌이 폭에
-   맞춰 들어가고, 위아래 남는 자리는 그림 제 배경색(#151B23)과 같은 섹션
-   면색이라 이어 붙은 것처럼 보인다. */
-@media (max-width: 900px) {
-  .ind-cta-bg-img {
-    width: 100%;
-    object-fit: contain; object-position: right center;
-  }
 }
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
 .ind-cta-bg::after {
