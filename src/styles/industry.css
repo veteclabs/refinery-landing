@@ -1536,7 +1536,9 @@ img { max-width: 100%; height: auto; }
 .ind-arch .ind-system {
   background: #32373F; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
+  /* 15px — 카드 안 내용 라벨(.ind-page .ind-flow-detail li)과 같은 단계다.
+     14px 이었다. 두 라벨은 같은 종류의 상자라 크기를 함께 본다. */
+  font-size: 15px; font-weight: 400; line-height: 1.5; color: #C8CED5;
 }
 .ind-arch .ind-systems-note { color: var(--text-muted); }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
