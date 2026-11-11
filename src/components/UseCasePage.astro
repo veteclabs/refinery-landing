@@ -428,7 +428,10 @@ const jsonLd = [
             <div class="uc-template-body">
               <span class="uc-template-badge">{uc.template.badge ?? T.tmplBadge}</span>
               <h3 set:html={nb(uc.template.title)}></h3>
-              <p set:html={nb(uc.template.desc)}></p>
+              {/* ⚠️ 밴드 글의 <br> 도 걷는다(redesigned 만). 밴드가 컨테이너 폭을
+                  다 쓰던 시절에 손으로 끊어 둔 자리라, 목록 칸에 맞춰 좁아지고
+                  안 여백이 넓어진 지금은 '판단 / 기준,' 처럼 한가운데서 끊긴다. */}
+              <p set:html={nb(uc.redesigned ? uc.template.desc.replace(/<br\s*\/?>/g, ' ') : uc.template.desc)}></p>
               {uc.template.includes && (
                 <ul class="uc-template-list" style={uc.redesigned ? `--uc-tmpl-cols:${uc.template.includes.length % 3 === 0 ? 3 : 2}` : undefined}>
                   {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i><span set:html={nb(it)}></span></li>)}
@@ -1255,10 +1258,12 @@ const jsonLd = [
         위로 빠져나간다. */
   .uc-redesigned .uc-card-head {
     display: flex; align-items: flex-start; gap: 10px;
-    /* 아래 16px — 산업별 항목(.ind-uc-text h3)은 24px 인데, 저쪽은 제목 밑이
-       라벨 세 줄짜리 묶음이라 한 단 더 떼어 둔 것이다. 여기는 한 단락이라
-       그만큼 벌리면 제목이 글에서 떨어져 보인다. */
-    margin-bottom: 16px;
+    /* 아래 8px — 산업별 항목(.ind-uc-text h3)은 24px 이고 한때 16px 이었다.
+       ⚠️ 상자 사이가 아니라 글자 사이로 잰 값이다. 제목 줄 상자(31.2px)와
+          본문 줄 상자(24.8px)의 남는 위아래가 11px 을 더 보태서, 16px 로
+          두면 화면에서는 27px 로 보인다. 8px 이면 19px 이고, 본문 줄 사이
+          (14px)보다 한 단 넓어 제목과 글이 묶여 읽힌다. */
+    margin-bottom: 8px;
   }
   /* 제목의 아래 여백은 칸이 쥔다. 제목에 그대로 두면 칸 높이가 한 번 더
      늘어 배지가 글보다 높이 선다. */
@@ -1347,9 +1352,17 @@ const jsonLd = [
   .uc-template-body { position: relative; z-index: 1; }
   /* 860px 이하 display:none을 걷었다 — 이제 비율로 줄어들어 감출 이유가 없다. */
 
-  /* 위 여백은 4개 카드(.ind-card, 24px)와 같게 둔다 — 배지가 카드의 아이콘과
-     같은 자리에서 시작하므로 두 블록의 윗선이 맞는다. */
-  .uc-redesigned .uc-template { padding-top: 24px; }
+  /* 안 여백 40 · 48px — 공통값(24 · 26px)에서 넓혔다. 좌우는 질문 판
+     (.uc-faq-list)과 같은 48px 이라 두 판이 같은 결로 선다. 위아래를 좌우보다
+     한 단 적게 둔 것은 밴드 안이 태그라인 · 제목 · 글 · 목록 네 덩어리라
+     사방을 48px 로 두면 세로로 길어지기 때문이다.
+     ⚠️ 한때 위 여백만 24px 로 맞췄다 — 네 개 카드가 옆에 서 있을 때 배지와
+        카드 아이콘의 윗선을 맞추려던 값인데, 그 카드들이 목록으로 바뀌어
+        맞출 상대가 없어졌다. */
+  .uc-redesigned .uc-template { padding: 40px 48px; }
+  @media (max-width: 900px) {
+    .uc-redesigned .uc-template { padding: 28px 24px; }
+  }
   /* 배지→제목 간격을 위 4개 카드의 아이콘→제목(65px)과 같게 맞춘다.
      배지가 카드의 아이콘과 같은 자리(묶음 맨 위)에 놓이므로 리듬이 이어진다. */
   .uc-redesigned .uc-template h3 { margin-top: 65px; }
