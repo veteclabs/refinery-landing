@@ -264,15 +264,13 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-img {
   display: block;
   width: var(--ind-flow-ic, 200px); height: var(--ind-flow-ic, 200px);
-  /* 카드 오른쪽 아래 — margin 의 auto 둘이 자리를 잡는다. 위 auto 가 남은
-     높이를 전부 위쪽 여백으로 밀어 그림을 아랫변에 붙이고, 왼쪽 auto 가
-     남은 폭을 왼쪽으로 밀어 오른쪽 끝에 붙인다.
-     ⚠️ 위치를 absolute 로 잡지 않는다. 흐름에서 빠지면 내용 상자가 길어진
-        카드에서 글 위에 그림이 겹친다 — 네 카드의 내용 줄 수가 다르다.
-     ⚠️ padding-top 16px 은 내용 상자와 그림이 붙지 않게 두는 최소 간격이다
-        (auto 가 자리를 다 쓴 카드, 곧 가장 높은 카드에서만 쓰인다). */
-  margin: auto 0 0 auto;
-  padding-top: 16px;
+  /* 제목과 내용 사이, 카드 가로 가운데 — 좌우 margin 의 auto 가 남은 폭을
+     양쪽으로 똑같이 나눈다. 위아래로 20px 씩 띄운다.
+     ⚠️ 오른쪽 아래에 두던 때는 margin 이 auto 0 0 auto 였다(위 · 왼쪽 auto).
+        되돌리려면 그 값과 padding-top 16px 을 함께 되살리고, 마크업에서
+        그림을 다시 카드 맨 끝으로 옮긴다.
+     ⚠️ 위치를 absolute 로 잡지 않는다. 흐름에서 빠지면 글과 겹친다. */
+  margin: 0 auto 20px;
 }
 @media (max-width: 1280px) {
   /* 기본값(200)은 카드 안쪽이 200px 이상인 폭, 곧 1156px 위에서만 든다.

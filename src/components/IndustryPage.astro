@@ -351,14 +351,8 @@ const ucShift = (h: number) =>
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-              {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
-                  '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
-              <ul class="ind-flow-detail">
-                {s.detail.split(' ⁠· ').map((d) => <li>{d}</li>)}
-              </ul>
-                {/* 이름 · 내용이 먼저, 그림이 맨 끝이다 — 그림은 카드 오른쪽
-                    아래에 놓이므로 보이는 차례와 마크업 차례가 같다.
-                    장식(aria-hidden)이라 읽기 프로그램이 맨 끝에서 건너뛴다.
+                {/* 차례는 제목 · 그림 · 내용이다. 그림이 가운데에 서고 그 위아래로
+                    글이 붙는다 — 보이는 차례와 마크업 차례가 같다.
                     ⚠️ RfIcon(인라인 SVG) 이 아니라 그림 파일이다. 3D 아이소메트릭
                        아이콘이라 SVG 로 그릴 수 있는 것이 아니다 — public/icons/flow
                        아래 512px webp 와 1024px @2x 를 둔다. */}
@@ -371,6 +365,11 @@ const ucShift = (h: number) =>
                     alt="" aria-hidden="true" loading="lazy" decoding="async"
                   />
                 )}
+              {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
+                  '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
+              <ul class="ind-flow-detail">
+                {s.detail.split(' ⁠· ').map((d) => <li>{d}</li>)}
+              </ul>
               </div>
             </>
           ))}
