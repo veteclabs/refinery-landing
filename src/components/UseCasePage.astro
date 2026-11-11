@@ -1375,7 +1375,25 @@ const jsonLd = [
     align-items: center; justify-content: flex-start; text-align: center;
     flex: 0 0 auto; width: 204px; height: 236px;
     gap: 42px; padding: 42px 12px 0;
-    background: var(--bg-soft); border: none;
+    /* 면은 위 가운데서 흰빛이 퍼지는 원형 그라데이션이다 — 아이콘 뒤가 가장
+       밝고 아래로 갈수록 #EEF4FB 로 짙어진다. 카드 위에 놓인 3D 아이콘의
+       타원 그림자와 빛의 방향이 맞는다.
+       ⚠️ 정지점을 열한 개로 쪼갠 smootherstep 이다. 두 점짜리 radial 은
+          색이 바뀌는 자리에 동그란 테가 보인다.
+       ⚠️ 단색 --bg-soft 이던 자리다 — 되돌리려면 그 한 줄로 바꾼다. */
+    background: radial-gradient(90% 70% at 50% 0%,
+      #FFFFFF 0%,
+      #FFFFFF 10%,
+      #FEFEFF 20%,
+      #FCFDFE 30%,
+      #FAFCFE 40%,
+      #F6FAFD 50%,
+      #F3F7FC 60%,
+      #F1F6FC 70%,
+      #EFF5FB 80%,
+      #EEF4FB 90%,
+      #EEF4FB 100%);
+    border: none;
     border-radius: var(--radius);
   }
   /* 클레이 3D 아이콘(public/icons/usecase/*.webp) 자리.
