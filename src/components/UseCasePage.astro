@@ -1691,22 +1691,29 @@ const jsonLd = [
     background: #151B23;
   }
   .uc-cta-bg-img {
-    /* 그래픽을 섹션 아래쪽 띠에 깐다 — 높이를 섹션의 62% 로 묶고 그 안에서
-       cover 로 채운다.
-       ⚠️ 섹션 전체를 cover 로 덮으면 섹션이 그래픽(2880x600 = 4.8:1)보다 납작
-          하지 않은 모든 폭에서 세로를 채우느라 그림이 커지고 가로가 잘렸다 —
-          1440px 1.4배 · 901px 2.1배라 폭마다 확대율이 달라 보였다.
-       ⚠️ 반대로 contain 으로 두면 어느 폭에서나 같은 그림이지만, 좁은 폭에서
-          4.8:1 한 벌이 폭에 맞춰 들어가며 띠가 얇아진다(390px 에서 81px).
-       ⚠️ 띠로 묶으면 확대율이 그 높이에 매여 폭이 바뀌어도 그림 크기가 비슷하게
-          남는다 — 1440px 에서 세로 39px 만 잘리고, 390px 에서는 오른쪽 절반이
-          2배로 보인다. 글은 위쪽에 있어 띠와 겹치지 않는다.
+    /* 기본(1201px 이상) — 섹션을 가득 덮는다. 그래픽(2880x600 = 4.8:1)보다
+       섹션이 납작하지 않아 세로를 채우며 가로가 1.4배쯤 잘리는데, 넓은 화면에서는
+       그 모습이 의도한 기본값이다.
+       ⚠️ 오른쪽에 붙이고 폭을 110% 로 둬서 그림을 오른쪽으로 10% 민다. transform
+          으로 밀면 왼쪽에 상자가 닿지 않는 띠가 생겨 그 경계가 세로선으로 드러난다.
        ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다. */
     display: block;
-    position: absolute; left: 0; right: 0; bottom: 0; top: auto;
-    width: 100%; height: 62%;
+    position: absolute; top: 0; right: 0; bottom: 0; left: auto;
+    width: 110%; height: 100%;
     object-fit: cover; object-position: right center;
     pointer-events: none; user-select: none;
+  }
+  /* 1200px 이하 — 그래픽을 아래쪽 띠(섹션 높이의 62%)에 묶는다.
+     ⚠️ 좁아질수록 섹션이 세로로 길어져, 가득 덮는 채로 두면 확대율이 1.4배(1440)
+        에서 2.1배(901)로 커지며 폭마다 다른 그림이 된다.
+     ⚠️ 반대로 contain 으로 폭에 맞추면 4.8:1 한 벌이 띠로 얇아진다(390px 에서
+        81px). 띠로 묶으면 확대율이 띠 높이에 매여 크기가 비슷하게 남는다.
+     ⚠️ 폭도 100% 로 되돌린다 — 띠 안에서는 밀 자리가 없다. */
+  @media (max-width: 1200px) {
+    .uc-cta-bg-img {
+      top: auto; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 62%;
+    }
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
   .uc-cta-bg::after {
