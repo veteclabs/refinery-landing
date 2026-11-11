@@ -1651,9 +1651,20 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-benefits .ind-grid {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 36px 40px;
+  /* 오른쪽 칸을 8.9px 내린다 — 첫 아이콘 상자의 윗변이 왼쪽 대제목의 글자
+     윗변과 같은 선에 온다.
+     ⚠️ 두 칸은 상자로는 이미 같은 자리에서 시작한다(shell 이 align-items:
+        start). 어긋나 보이는 것은 대제목의 줄 상자가 글자보다 위로 8.9px
+        크기 때문이다(45px x 1.3 = 58.5px 줄 상자). 아이콘 상자는 면을 칠한
+        네모라 상자가 곧 글자 끝이다.
+     ⚠️ 대제목 크기 · 줄 높이를 바꾸면 이 값을 다시 잰다. */
+  margin-top: 8.9px;
 }
 .ind-page .ind-benefits .ind-card {
-  display: grid; grid-template-columns: 44px minmax(0, 1fr);
+  /* 첫 칸은 아이콘 상자 폭(40px)과 같다. 44px 이던 것을 아이콘을 줄이면서
+     함께 줄였다 — 그대로 두면 칸 안에 4px 이 죽은 채 남아 글이 그만큼 더
+     밀렸다. */
+  display: grid; grid-template-columns: 40px minmax(0, 1fr);
   column-gap: 18px; align-items: start;
   background: none; border: 0; border-radius: 0;
   padding: 0;
