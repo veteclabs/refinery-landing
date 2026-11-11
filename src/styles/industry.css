@@ -1408,7 +1408,13 @@ img { max-width: 100%; height: auto; }
 .ind-page video.ind-sys-deco {
   display: block;
   position: absolute; right: 0; bottom: 0;
-  height: 100%; width: auto;
+  /* 판 높이의 140% — 아랫변 · 오른쪽 끝에 붙인 채 위로 넘긴다. 넘친 윗부분은
+     판의 overflow: hidden 이 자른다. 원본이 1440x270 으로 납작해 100% 로는
+     오른쪽 구석에만 작게 앉았다.
+     ⚠️ 키울수록 왼쪽으로도 넓어진다(폭이 비율대로 따라온다) — 140% 면
+        192x1024 라 판(1329) 의 오른쪽 77% 를 지난다. 더 키우면 칩 뒤까지
+        들어간다. */
+  height: 140%; width: auto;
   pointer-events: none;
   z-index: 0;
 }
