@@ -33,6 +33,11 @@ const T = {
   },
 }[lang];
 
+// 연동 시스템 판 오른쪽 아래 장식. public/industries/systems-corner 에
+// corner-rings · perspective-grid · halftone · orbit-hub · silk-ribbon 다섯 종이 있다.
+// ⚠️ 고를 때는 이 한 줄만 바꾼다.
+const sysDeco = 'perspective-grid';
+
 const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${ind.slug}`;
 
 // 문제 섹션에는 배경 사진을 깔지 않는다. 전에는 모든 산업이 같은 사진
@@ -384,6 +389,21 @@ const ucShift = (h: number) =>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
+          {/* 오른쪽 아래 장식 — 배경이 투명한 움직이는 그림이다.
+              ⚠️ webm 하나만 둔다(240KB). 같은 폴더의 mp4 는 배경이 검어 먹색
+                 판 위에서 네모가 드러나므로 쓰지 않고, 애니메이션 WebP 는
+                 1.19MB 이라 산업 페이지 일곱 장에 얹기에는 무겁다.
+              ⚠️ Safari 는 알파 있는 webm 을 못 읽는다 — 거기서는 poster(정지
+                 webp, 45KB)가 그대로 남는다. 모션이 없을 뿐 그림은 같다.
+                 Safari 에서도 움직이게 하려면 -anim.webp 를 함께 두고
+                 <picture> 로 바꾼다(그만큼 무거워진다).
+              ⚠️ 움직임을 줄여 달라고 한 화면에서는 아래 스크립트가 세운다 —
+                 autoplay 는 CSS 로 끌 수 없다. */}
+          <video class="ind-sys-deco" autoplay muted loop playsinline
+                 preload="metadata" aria-hidden="true"
+                 poster={`/industries/systems-corner/systems-${sysDeco}.webp`}>
+            <source src={`/industries/systems-corner/systems-${sysDeco}.webm`} type="video/webm" />
+          </video>
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
         {ind.integrations.note && <p class="ind-systems-note" set:html={ind.integrations.note} />}
@@ -448,6 +468,13 @@ const ucShift = (h: number) =>
            보일 때 튀지 않는다.
         ⚠️ 각 요소를 제가 관찰한다. 섹션을 관찰하면 선택자 짝을 따로 들고
            있어야 하는데, 끝없이 도는 것이 늘어날 때마다 두 곳을 고치게 된다. */}
+    /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — poster 만 남는다. */
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video.ind-sys-deco').forEach(function (v) {
+        v.removeAttribute('autoplay');
+        v.pause();
+      });
+    }
     (function () {
       if (!('IntersectionObserver' in window)) return;
       var nodes = document.querySelectorAll('.ind-chal-track, .ind-flow');
