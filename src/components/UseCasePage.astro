@@ -1407,6 +1407,32 @@ const jsonLd = [
     mask-image: radial-gradient(140% 140% at 100% 0%, #000 0%, rgba(0,0,0,.92) 35%, rgba(0,0,0,.68) 55%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.10) 86%, transparent 100%);
     pointer-events: none; user-select: none;
   }
+  /* 그래픽 위에 덮는 면색 한 겹. 우상단 모서리에서는 비어 있고 멀어질수록
+     밴드 면색(#151B23)으로 차올라, 그림의 끝이 선으로 끊기지 않고 배경에
+     녹는다. 마스크(그림 쪽)만으로는 옅게 남은 꼬리가 면과 따로 놀았다.
+     ⚠️ 글(.uc-template-body)은 z-index 1 이라 이 겹 위에 선다 — 글자는
+        흐려지지 않는다.
+     ⚠️ 정지점 열셋은 smootherstep 으로 뽑았다. 어두운 면 위 낮은 알파라
+        단계가 적으면 띠가 보인다. */
+  .uc-redesigned .uc-template::after {
+    content: ''; position: absolute; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 520px at 100% 0%,
+        rgba(21,27,35,0) 0%,
+        rgba(21,27,35,0.005) 8.33%,
+        rgba(21,27,35,0.034) 16.67%,
+        rgba(21,27,35,0.099) 25%,
+        rgba(21,27,35,0.201) 33.33%,
+        rgba(21,27,35,0.333) 41.67%,
+        rgba(21,27,35,0.48) 50%,
+        rgba(21,27,35,0.627) 58.33%,
+        rgba(21,27,35,0.759) 66.67%,
+        rgba(21,27,35,0.861) 75%,
+        rgba(21,27,35,0.926) 83.33%,
+        rgba(21,27,35,0.955) 91.67%,
+        rgba(21,27,35,0.96) 100%);
+  }
   .uc-template-body { position: relative; z-index: 1; }
   /* 860px 이하 display:none을 걷었다 — 이제 비율로 줄어들어 감출 이유가 없다. */
 
