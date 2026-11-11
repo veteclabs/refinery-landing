@@ -169,7 +169,9 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow {
   position: relative;
   align-items: stretch;
-  gap: 0;
+  /* 카드 사이 20px. 0 이었던 것은 면 없이 칸을 세로선으로만 가르던 때의
+     값이다 — 카드가 되면 서로 붙는다. */
+  gap: 20px;
   flex-wrap: nowrap;
 }
 /* ⚠️ 가로 연결선과 지나가는 빛(indFlowSweep)은 걷었다. 둘 다 '카드 사이
@@ -186,17 +188,22 @@ img { max-width: 100%; height: auto; }
    선(z-index 0)보다는 여전히 위다. */
 .ind-page .ind-flow-step.is-on { z-index: 1; }
 .ind-page .ind-flow-step:not(.is-on) { z-index: 2; }
-/* 카드 면을 걷고 세로선으로만 가른다. 네 단계가 각자 떠 있던 상자에서
-   한 판 위의 네 칸이 된다.
-   ⚠️ 칸 사이 선은 .ind-flow-step ~ .ind-flow-step 으로 건다. 사이에 화살표
-      요소가 끼어 있어 + (인접 형제)로는 닿지 않는다.
-   ⚠️ 첫 칸은 왼쪽 여백을, 끝 칸은 오른쪽 여백을 떼어 글이 컨테이너 양 끝에
-      맞는다. 가운데 칸들만 선 좌우로 28px 씩 벌린다. */
+/* 네 단계가 각자 선 카드다. 한때 면을 걷고 세로선으로만 가른 적이 있었는데
+   (판 위의 네 칸), 다시 카드로 돌렸다.
+   면은 흰색이고 테두리 한 겹으로 선다 — 섹션도 흰 면이라 테가 카드 경계를
+   혼자 쥔다. 면을 #F6F8FA 로 두면 안의 내용 상자(같은 #F6F8FA)가 사라진다.
+   ⚠️ 세로 flex 다. 이름 · 내용이 위에서 차례로 쌓이고, 그림이 margin 의 auto
+      로 남은 자리를 밀어 오른쪽 아래에 선다(.ind-flow-img).
+   ⚠️ 칸마다 여백이 달랐다(첫 칸 왼쪽 0 · 끝 칸 오른쪽 0). 카드가 되면서
+      네 카드가 모두 같은 24px 안 여백을 갖는다 — 그 두 규칙은 걷었다. */
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
-  background: none; border: 0; border-radius: 0;
-  padding: 0 28px;
+  background: #FFFFFF;
+  border: 1px solid #E3E7EC;
+  /* 카드 둥글기는 사이트 공통값 12px 이다. */
+  border-radius: var(--radius);
+  padding: 24px;
   text-align: left;
 }
 /* 칸 사이를 세로선이 아니라 가로선 + 원형 화살표가 잇는다.
@@ -204,10 +211,10 @@ img { max-width: 100%; height: auto; }
       선이 그림을 뚫고 지나간다 — 칸 사이(화살표 자리)에만 둔다.
    ⚠️ 선과 원의 높이는 아이콘의 한가운데다. --ind-flow-ic 가 아이콘 크기라
       그 값만 바꾸면 선도 따라 내려온다. */
-.ind-page .ind-flow { --ind-flow-ic: 200px; counter-reset: ind-flow; }
-.ind-page .ind-flow-step { border-left: 0; padding: 0 24px; counter-increment: ind-flow; }
-.ind-page .ind-flow-step:first-of-type { padding-left: 0; }
-.ind-page .ind-flow-step:last-of-type { padding-right: 0; }
+/* 그림 크기 — 카드 오른쪽 아래의 작은 그림이다. 200px 은 칸 맨 위에 크게
+   놓던 때의 값이라, 카드 안 여백(24px) 안에서는 글 자리를 다 먹는다. */
+.ind-page .ind-flow { --ind-flow-ic: 120px; counter-reset: ind-flow; }
+.ind-page .ind-flow-step { counter-increment: ind-flow; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
 .ind-page .ind-flow-head {
@@ -236,18 +243,23 @@ img { max-width: 100%; height: auto; }
    ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  /* 그림이 칸의 맨 위다 — 위 여백은 0 이고, 아래로 이름까지 20px 을 띄운다.
-     ⚠️ 145px 에서 키웠다. 3D 아이소메트릭이라 점선 큐브와 바닥판까지 한 장에
-        들어 있어, 안쪽 아이콘이 실제로 차지하는 폭은 그림의 60% 남짓이다 —
-        같은 145px 이어도 전보다 작아 보였다. */
-  width: var(--ind-flow-ic, 200px); height: var(--ind-flow-ic, 200px);
-  margin: 0 0 20px;
+  width: var(--ind-flow-ic, 120px); height: var(--ind-flow-ic, 120px);
+  /* 카드 오른쪽 아래 — margin 의 auto 둘이 자리를 잡는다. 위 auto 가 남은
+     높이를 전부 위쪽 여백으로 밀어 그림을 아랫변에 붙이고, 왼쪽 auto 가
+     남은 폭을 왼쪽으로 밀어 오른쪽 끝에 붙인다.
+     ⚠️ 위치를 absolute 로 잡지 않는다. 흐름에서 빠지면 내용 상자가 길어진
+        카드에서 글 위에 그림이 겹친다 — 네 카드의 내용 줄 수가 다르다.
+     ⚠️ padding-top 16px 은 내용 상자와 그림이 붙지 않게 두는 최소 간격이다
+        (auto 가 자리를 다 쓴 카드, 곧 가장 높은 카드에서만 쓰인다). */
+  margin: auto 0 0 auto;
+  padding-top: 16px;
 }
 @media (max-width: 1100px) {
-  .ind-page .ind-flow { --ind-flow-ic: 160px; }
+  .ind-page .ind-flow { --ind-flow-ic: 100px; }
 }
 @media (max-width: 860px) {
-  .ind-page .ind-flow { --ind-flow-ic: 200px; }
+  /* 카드가 한 줄에 하나씩 쌓여 폭이 넉넉해진다 — 그림을 되돌려 키운다. */
+  .ind-page .ind-flow { --ind-flow-ic: 140px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
