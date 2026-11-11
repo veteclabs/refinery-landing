@@ -147,12 +147,12 @@ export const energy: IndustryData = {
       {
         title: '현장 보안',
         icon: 'ph-shield-check',
-        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
+        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고\nOT⁠/⁠IT 경계를 보호합니다.',
       },
       {
         title: '통합 또는 신규 구축',
         icon: 'ph-stack',
-        description: '레거시 SCADA⁠/⁠EMS⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+        description: '레거시 SCADA⁠/⁠EMS⁠/⁠ERP가 있으면 그 위에 얹어\n양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
       },
     ],
   },
