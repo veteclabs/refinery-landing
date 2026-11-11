@@ -1674,14 +1674,18 @@ img { max-width: 100%; height: auto; }
      남아 있어 줄 높이가 44 가 아니라 109px 이 됐고, 그 안에서 제목이 가운데로
      내려가 아이콘과 30px 어긋났다. */
   margin: 0;
-  width: 44px; height: 44px; border-radius: 10px;
+  /* 40x40 — 44 -> 36 -> 40px. 36 은 제목 줄(32px)과 거의 같아져 아이콘이
+     글에 묻혔다. 둥글기는 10px 그대로다. */
+  width: 40px; height: 40px; border-radius: 10px;
   /* 면은 #EEF4FB — 솔루션 구조 섹션 띠와 같은 값이다. 전에는
      rgba(118,166,215,.10) 이라 흰 면 위에서 #F1F6FB 로 풀려, 같은 페이지
      안에 비슷하지만 다른 옅은 하늘색이 둘 있었다. */
   background: #EEF4FB;
   display: flex; align-items: center; justify-content: center;
 }
-.ind-page .ind-benefits .ind-card-icon i { font-size: 22px; }
+/* 아이콘 글자 20px — 상자(40px)의 절반이다. 44/22 일 때와 같은 비율이라
+   상자 안 위아래로 10px 씩 남는다. */
+.ind-page .ind-benefits .ind-card-icon i { font-size: 20px; }
 /* ⚠️ 제목의 아래 여백은 0 이다. 가운데 맞춤은 여백까지 더한 상자를 기준으로
    하므로, 5px 을 달면 제목이 그 절반(2.5px)만큼 위로 올라가 아이콘과 어긋난다.
    줄 사이 여백은 설명 쪽 위 여백으로 옮겼다. */
