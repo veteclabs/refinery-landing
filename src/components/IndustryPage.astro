@@ -467,6 +467,40 @@ const ucShift = (h: number) =>
            보일 때 튀지 않는다.
         ⚠️ 각 요소를 제가 관찰한다. 섹션을 관찰하면 선택자 짝을 따로 들고
            있어야 하는데, 끝없이 도는 것이 늘어날 때마다 두 곳을 고치게 된다. */}
+    /* 유즈케이스 왼쪽 칸(번호 + 대제목)은 붙어서 따라오다가, 마지막 사례가
+       화면에 들어오면 사라진다.
+       ⚠️ IntersectionObserver 를 쓰지 않는다. 빠르게 스크롤하면 상태 변화가
+          한 프레임에 합쳐져 콜백을 놓치는 일이 있어, 프레임마다 제 위치를
+          직접 재는 쪽으로 둔다(ScrollReveal 과 같은 까닭이다).
+       ⚠️ 좁은 폭(1200px 이하)에서는 칸이 static 이라 따라오지 않는다 —
+          그때는 지우지 않는다. 미디어 쿼리를 또 적지 않고 계산된 position 을
+          그대로 본다. */
+    (function () {
+      var aside = document.querySelector('.ind-uc-aside');
+      var items = document.querySelectorAll('.ind-uc-item');
+      if (!aside || !items.length) return;
+      var last = items[items.length - 1];
+      var ticking = false;
+      function upd() {
+        if (getComputedStyle(aside).position !== 'sticky') {
+          aside.classList.remove('is-faded');
+          return;
+        }
+        /* 마지막 사례의 윗변이 화면 아래 90% 선을 넘어오면 — 곧 눈에 들어오기
+           시작하면 — 왼쪽 칸을 지운다. */
+        var line = (window.innerHeight || document.documentElement.clientHeight) * 0.9;
+        aside.classList.toggle('is-faded', last.getBoundingClientRect().top < line);
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; upd(); });
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll, { passive: true });
+      upd();
+    })();
+
     /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — poster 만 남는다. */
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.querySelectorAll('video.ind-sys-deco').forEach(function (v) {
