@@ -1239,7 +1239,9 @@ const jsonLd = [
      industry.css 에서 그대로 받는다. 여기서는 글값만 맞춘다. */
   .uc-redesigned .ind-uc-text p {
     margin: 0;
-    font-size: 15.5px; line-height: 1.6;
+    /* 17px — 산업별 항목 글(.ind-uc-dl dd)의 15.5px 에서 키웠다. 저쪽은 라벨
+       세 줄이 한 칸에 겹쳐 서서 작게 둔 것이고, 여기는 한 단락뿐이다. */
+    font-size: 17px; line-height: 1.6;
     color: var(--text-muted);
   }
   /* 목록은 제 칸을 다 쓴다(1440px 에서 664px). 글만 있는 목록이라 한때
