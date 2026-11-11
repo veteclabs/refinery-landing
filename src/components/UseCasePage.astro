@@ -1066,16 +1066,13 @@ const jsonLd = [
         90 + 180 = 270px 이 된다. 실제로 그랬다. */
   .uc-redesigned .ind-section:has(+ .uc-faq-section),
   .uc-redesigned .ind-section:has(+ .uc-related-section) { padding-bottom: 90px; }
-  /* 신호 ↔ 푸는 방식 사이도 같은 180px 이다(90 + 90).
-     ⚠️ 두 섹션의 차례는 데이터(signalsFirst)가 정한다 — 신호가 먼저인 쪽도
-        있고 나중인 쪽도 있어, 어느 쪽이 앞서든 걸리도록 두 벌로 적는다.
-     ⚠️ :has() 로 '뒤에 상대가 붙은 섹션' 의 아래 여백만 깎는다. 클래스로
-        그냥 걸면 신호 섹션이 질문 섹션 앞에 오는 쪽에서 엉뚱한 경계까지
-        좁아진다. */
-  .uc-redesigned .uc-signal-section + .ind-soft,
-  .uc-redesigned .ind-soft + .uc-signal-section { padding-top: 90px; }
-  .uc-redesigned .uc-signal-section:has(+ .ind-soft),
-  .uc-redesigned .ind-soft:has(+ .uc-signal-section) { padding-bottom: 90px; }
+  /* ⚠️ 신호 ↔ 푸는 방식 사이는 기본 360px(180 + 180)으로 되돌렸다. 한때
+     90 + 90 으로 좁혔다 — 되살리려면
+       .uc-signal-section + .ind-soft, .ind-soft + .uc-signal-section
+         { padding-top: 90px }
+       .uc-signal-section:has(+ .ind-soft), .ind-soft:has(+ .uc-signal-section)
+         { padding-bottom: 90px }
+     두 벌을 다시 둔다(차례가 signalsFirst 로 바뀌므로 두 벌이 필요하다). */
   /* 좁은 폭에서는 섹션 여백이 84px 이라 둘을 합치면 168px 이 된다. 지금까지
      그 폭에서는 84px 이었으므로 그대로 둔다 — 모바일 여백은 따로 본다. */
   @media (max-width: 900px) {
