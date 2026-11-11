@@ -1443,7 +1443,12 @@ img { max-width: 100%; height: auto; }
   display: inline-flex; align-items: center; justify-content: center;
   width: fit-content; height: auto;
   margin-bottom: 65px;
-  color: #76a6d7;
+  /* 아이콘 색은 #3F76AE — 브랜드색(#76A6D7)에서 램프 두 단 아래다.
+     바탕 #EEF4FB 위에서 #76A6D7 은 2.31:1 이라 뜻을 지는 도형 기준(3:1)에
+     못 미쳤다. #3F76AE 는 4.30:1 이다.
+     ⚠️ 이 규칙은 산업 페이지의 .ind-card-icon 전부에 걸린다 — 지금 쓰는
+        곳은 도입 효과 한 군데뿐이다(한 페이지에 다섯 개). */
+  color: #3F76AE;
 }
 /* 제목을 20px으로 올린 만큼 아이콘도 키운다(랜딩은 26 / 16). */
 .ind-page .ind-card-icon i { font-size: 30px; line-height: 1; }
