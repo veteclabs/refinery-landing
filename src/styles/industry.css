@@ -377,6 +377,13 @@ img { max-width: 100%; height: auto; }
   flex-wrap: wrap;
   column-gap: .32em;
   padding-left: .72em;
+  /* 오른쪽 끝으로 보낸다.
+     ⚠️ text-align: right 로는 안 된다. 별표가 absolute(left: 0)라 글만
+        오른쪽으로 가고 별표는 왼쪽 끝에 남는다. 상자를 글자 너비만큼
+        줄이고(fit-content) 왼쪽 여백을 auto 로 밀어, 별표가 글에 붙은 채
+        덩어리째 오른쪽으로 간다. */
+  width: fit-content;
+  margin-left: auto;
 }
 .ind-page .ind-flow-note::before {
   content: '*';
@@ -1474,6 +1481,9 @@ img { max-width: 100%; height: auto; }
   flex-wrap: wrap;
   column-gap: .32em;
   padding-left: .72em;
+  /* 흐름 노트와 같은 방식으로 오른쪽 끝에 세운다(위 설명 참고). */
+  width: fit-content;
+  margin-left: auto;
 }
 .ind-page .ind-systems-note::before {
   content: '*';
