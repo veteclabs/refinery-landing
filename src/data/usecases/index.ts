@@ -12,14 +12,14 @@ export const useCases: UseCase[] = [
       height: 720,
     },
     redesigned: true,
-    ctaTitle: '예지보전, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '예지보전, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     name: '예지보전',
     // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
     showBreadcrumb: false,
     showEyebrow: false,
     heroAlignsWithNav: true,
     heroTaglineAsTitle: true,
-    heroTitle: '무선 진동센서로 모터의 고장 전조를<br>읽어 멈춤과 손실을 줄입니다',
+    heroTitle: '고장 전조를 무선으로 읽어<br>멈춤과 손실을 줄입니다',
     tagline: '무선 진동센서로 모터의 고장 전조를 읽어 멈춤과 손실을 줄입니다.',
     heroImageAsBackground: true,
     heroImage: {
@@ -28,6 +28,8 @@ export const useCases: UseCase[] = [
       width: 1672,
       height: 941,
     },
+    heroLede:
+      '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리고, 주기 사이에 생기는 갑작스러운 고장은 놓칩니다. 시간은 설비의 실제 상태를 비추지 못하기 때문입니다. 그렇다고 사람이 돌며 재거나 설비마다 배선하는 것도 부담입니다.',
     problem:
       '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리거나 교체 주기 사이에 발생하는 갑작스러운 고장을 놓칩니다. 시간은 설비의 실제 상태를 반영하지 못하는 기준이기 때문입니다. 그렇다고 사람이 직접 현장을 돌며 진동을 측정하거나 설비마다 유선 센서를 배선하는 것도 현실적으로 부담이 큽니다.',
     problemHtml:
@@ -42,27 +44,26 @@ export const useCases: UseCase[] = [
       { label: '3축 진동', icon: 'vibration' },
       { label: '온도', icon: 'temperature' },
       { label: '전류', icon: 'current' },
-      { label: '가동 이력', icon: 'runtime' },
+      { label: '가동 이력', icon: 'operating-history' },
     ],
     // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
     // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
-    relatedAsHeaderLink: true,
     signalsAsCards: true,
     showRelatedUseCases: true,
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     template: {
       badge: '무선 진동센서 ⁠· LoRaWAN',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-predictive-maintenance.webp',
+      decoVideo: '/use-cases/template-deco-predictive-maintenance',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
       desc: '배선 공사 없이 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
       includes: ['배선 불필요 ⁠· 부착식 설치', 'LoRaWAN 무선 ⁠· 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 ⁠· 동작온도 -20~85℃'],
     },
-    related: { href: '/blog/predictive-maintenance' },
     faq: [
-      { q: '예지보전이란 무엇인가요?', a: '예지보전(PdM)은 설비의 진동 ⁠· 온도 ⁠· 전류 데이터를 실시간으로 분석해 고장을 사전에 예측하고,<br>필요한 시점에만 정비하는 방식입니다.<br>정해진 주기로 점검하는 예방보전과 달리 실제 상태에 근거해 정비하므로 불필요한 정지와 비용을 줄입니다.' },
-      { q: '무선 진동센서로 예지보전을 시작할 수 있나요?', a: '네 가능합니다. 무선 진동센서(예: WISE-2410)는 배선 공사 없이 설비에 부착해 3축 진동과 온도를 수집하고<br>LoRaWAN으로 게이트웨이에 전송합니다.<br>기존 배선이 어려운 회전설비에도 빠르게 예지보전을 적용할 수 있습니다.' },
-      { q: '모터 예지보전은 어떻게 하나요?', a: '모터는 진동 ⁠· 전류 ⁠· 온도 신호에 고장 징후가 먼저 나타납니다.<br>진동 스펙트럼으로 베어링 마모 ⁠· 축 정렬 불량 ⁠· 언밸런스를 감지하고, 전류 신호까지 함께 보면<br>부하 이상과 절연 열화도 조기에 잡아낼 수 있습니다.' },
-      { q: '기존 설비에도 예지보전을 적용할 수 있나요?', a: '네 가능합니다. 무선 센서로 새 데이터를 수집하거나 SCADA ⁠· PLC에 이미 있는 신호를 연동해 시작할 수 있습니다.<br>Refinery는 흩어진 데이터를 온톨로지로 엮어 설비 이력과 함께 원인을 근거로 설명합니다.' },
+      { q: '예지보전이란 무엇인가요?', a: '예지보전(PdM)은 설비의 진동 ⁠· 온도 ⁠· 전류 데이터를 실시간으로 분석해 고장을 사전에 예측하고, 필요한 시점에만 정비하는 방식입니다. 정해진 주기로 점검하는 예방보전과 달리 실제 상태에 근거해 정비하므로 불필요한 정지와 비용을 줄입니다.' },
+      { q: '무선 진동센서로 예지보전을 시작할 수 있나요?', a: '네 가능합니다. 무선 진동센서(예: WISE-2410)는 배선 공사 없이 설비에 부착해 3축 진동과 온도를 수집하고 LoRaWAN으로 게이트웨이에 전송합니다. 기존 배선이 어려운 회전설비에도 빠르게 예지보전을 적용할 수 있습니다.' },
+      { q: '모터 예지보전은 어떻게 하나요?', a: '모터는 진동 ⁠· 전류 ⁠· 온도 신호에 고장 징후가 먼저 나타납니다. 진동 스펙트럼으로 베어링 마모 ⁠· 축 정렬 불량 ⁠· 언밸런스를 감지하고, 전류 신호까지 함께 보면 부하 이상과 절연 열화도 조기에 잡아낼 수 있습니다.' },
+      { q: '기존 설비에도 예지보전을 적용할 수 있나요?', a: '네 가능합니다. 무선 센서로 새 데이터를 수집하거나 SCADA ⁠· PLC에 이미 있는 신호를 연동해 시작할 수 있습니다. 리파이너리는 흩어진 데이터를 온톨로지로 엮어 설비 이력과 함께 원인을 근거로 설명합니다.' },
     ],
     seo: {
       title: '예지보전 ⁠· 무선 진동 모니터링(WISE-2410) | Refinery',
@@ -84,11 +85,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '흩어진 센서를 한 구조로 모아<br>이상을 놓치지 않고 함께 읽습니다',
+    heroTitle: '흩어진 센서를 하나로 모아<br>이상을 함께 읽습니다',
     showRelatedUseCases: true,
-    ctaTitle: '센서 모니터링, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '센서 모니터링, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '흩어진 센서를 한 구조로 모아<br>이상을 놓치지 않고 함께 읽습니다.',
     name: '센서 모니터링',
     cardImage: {
@@ -98,6 +98,8 @@ export const useCases: UseCase[] = [
       height: 720,
     },
     tagline: '진동 ⁠· 온도 ⁠· 전력 ⁠· 환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
+    heroLede:
+      '설비마다 다른 센서와 프로토콜이 섞여 데이터가 한곳에서 읽히지 않습니다. 필요할 때마다 하나씩 붙이다 보니 규격도 수집 방식도 제각각이 된 탓입니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
     problem:
       '설비마다 다른 센서와 프로토콜이 섞여 있어 데이터가 한곳에서 읽히지 않습니다. 필요할 때마다 하나씩 붙이다 보니 규격도 수집 방식도 제각각이 된 탓입니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
     problemHtml:
@@ -108,14 +110,13 @@ export const useCases: UseCase[] = [
       { icon: 'ph-pulse', title: '실시간 이상 감시', desc: '여러 신호를 한 화면에서 보고 평소와 다른<br>조합을 잡아냅니다.' },
     ],
     signals: [
-      { label: '진동', icon: 'oscillation' },
+      { label: '진동', icon: 'vibration' },
       { label: '온도', icon: 'temperature' },
       { label: '습도', icon: 'humidity' },
       { label: '전력', icon: 'power' },
       { label: '압력', icon: 'pressure' },
       { label: '유량', icon: 'flow' },
     ],
-    related: { href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '센서 모니터링(IoT) | Refinery',
       description: 'IoT 센서부터 기존 계측기까지 흩어진 다중 센서를 표준화해 모으고, 온톨로지로 연결해 실시간으로 감시합니다.',
@@ -136,11 +137,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '언제 어디서 얼마나 쓰는지 파악해<br>전력 비용과 리스크를 줄입니다',
+    heroTitle: '언제 어디서 얼마나 쓰는지 알고<br>비용을 줄입니다',
     showRelatedUseCases: true,
-    ctaTitle: '전력관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '전력관리, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '언제 어디서 얼마나 쓰는지 파악해<br>전력 비용과 리스크를 줄입니다.',
     name: '전력관리',
     cardImage: {
@@ -150,35 +150,37 @@ export const useCases: UseCase[] = [
       height: 720,
     },
     tagline: '언제 어디서 얼마나 쓰는지 데이터로 파악해, 전력 비용과 리스크를 줄입니다.',
+    heroLede:
+      '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 어느 설비가 어느 시간대에 왜 그만큼 썼는지는 거기 없습니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 압니다.',
     problem:
       '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 그 전력을 어느 설비가 어느 시간대에 왜 그만큼 썼는지는 거기 없습니다. 계량이 따로 놀고 기록도 흩어져 있으니 요금이 올라도 원인을 찾기보다 아껴 쓰라는 지시로 끝납니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 압니다.',
     problemHtml:
       '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 그 전력을 어느 설비가 어느 시간대에<br>왜 그만큼 썼는지는 거기 없습니다. 계량이 따로 놀고 기록도 흩어져 있으니 요금이 올라도 원인을 찾기보다 아껴 쓰라는<br>지시로 끝납니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 압니다.',
     how: [
-      { icon: 'ph-chart-bar', title: '사용 가시화', desc: '설비와 구역, 시간대를 함께 놓고<br>봅니다. 어느 설비가 언제 얼마나<br>쓰는지 한 화면에 모이면 막연하던<br>소비가 눈에 잡힙니다.' },
-      { icon: 'ph-chart-line', title: '피크 관리', desc: '여러 설비가 동시에 돌아 피크를 만드는<br>순간을 찾습니다. 가동 시점을 옮기거나<br>부하를 나누면 계약전력과 피크 요금이<br>내려갑니다.' },
-      { icon: 'ph-warning-circle', title: '이상 사용 감지', desc: '평소 패턴에서 벗어난 소비를 잡습니다.<br>꺼져 있어야 할 시간에 도는 설비나<br>슬그머니 늘어난 대기 전력이<br>드러납니다.' },
-      { icon: 'ph-gauge', title: '역률 ⁠· 부하 점검', desc: '역률이 떨어지거나 부하가 한쪽으로<br>쏠리면 요금과 설비 수명에 영향을<br>줍니다. 그 지점을 짚어 개선할 여지를<br>알려줍니다.' },
+      { icon: 'ph-chart-bar', title: '사용 가시화', desc: '설비와 구역, 시간대를 함께 놓고<br>봅니다. 어느 설비가 언제 얼마나<br>쓰는지 한 화면에 모입니다.' },
+      { icon: 'ph-chart-line', title: '피크 관리', desc: '여러 설비가 동시에 돌아 피크를<br>만드는 순간을 찾습니다. 가동 시점을<br>옮기면 피크 요금이 내려갑니다.' },
+      { icon: 'ph-warning-circle', title: '이상 사용 감지', desc: '평소 패턴에서 벗어난 소비를<br>잡습니다. 꺼져 있어야 할 시간에<br>도는 설비와 대기 전력이 드러납니다.' },
+      { icon: 'ph-gauge', title: '역률 ⁠· 부하 점검', desc: '역률이 떨어지거나 부하가 한쪽으로<br>쏠리면 요금과 설비 수명에 영향을<br>줍니다. 그 지점을 짚어 드립니다.' },
     ],
     template: {
       badge: '전력 계량 ⁠· 피크 관리',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-management.webp',
+      decoVideo: '/use-cases/template-deco-power-management',
       title: '전력관리 템플릿으로 시작',
       desc: '전력을 처음 들여다보는 현장이라면 무엇부터 재고 어떻게 봐야 할지 막막합니다. 여러 현장을 거치며 정리해 둔 템플릿에는 설비별 계량을 어떻게 잡고 피크와 역률을<br>어떤 기준으로 볼지가 담겨 있습니다. 설비 목록과 계약 조건만 맞춰 넣으면 구조를 처음부터 짤 필요 없이 바로 시작할 수 있습니다.',
       includes: ['설비 ⁠· 구역별 전력 계량 구조', '피크 ⁠· 계약전력 관리 기준', '역률 ⁠· 부하율 대시보드', '이상 사용 알람 규칙'],
     },
     signals: [
-      { label: '유효/무효 전력', icon: 'power-active-reactive' },
+      { label: '유효/무효 전력', icon: 'current' },
       { label: '역률', icon: 'power-factor' },
-      { label: '부하율', icon: 'load-rate' },
-      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '부하율', icon: 'load-factor' },
+      { label: '시간대별 소비', icon: 'operating-history' },
       { label: '피크', icon: 'peak' },
     ],
-    related: { href: '/blog/energy-optimization' },
     faq: [
-      { q: '전력관리 솔루션이란 무엇인가요?', a: '전력관리 솔루션은 수전 ⁠· 분전 계통의 전압 ⁠· 전류 ⁠· 전력 ⁠· 역률 데이터를 실시간으로 수집 ⁠· 분석해<br>전력 사용을 감시하고 최적화하는 시스템입니다.<br>피크 수요, 이상 부하, 역률 저하를 조기에 파악해 전력 요금과 정전 위험을 줄입니다.' },
-      { q: '전력관리와 에너지관리시스템(EMS)은 어떻게 다른가요?', a: '전력관리는 전력 계통의 감시 ⁠· 품질에 초점을 두고, EMS는 전력을 포함한 에너지 전반의 사용 ⁠· 효율 ⁠· 절감을 다룹니다.<br>Refinery는 전력 데이터를 EMS ⁠· 설비 데이터와 하나로 엮어 근거 있는 절감 방안을 제안합니다.' },
-      { q: 'AI가 전력관리에 어떻게 도움이 되나요?', a: 'AI는 과거 패턴과 실시간 데이터를 비교해 피크를 예측하고, 이상 부하나 역률 저하의 원인을 추론해 조치를 제안합니다.<br>사람이 모든 지표를 지켜보지 않아도 이상 시점에 근거와 함께 알립니다.' },
+      { q: '전력관리 솔루션이란 무엇인가요?', a: '전력관리 솔루션은 수전 ⁠· 분전 계통의 전압 ⁠· 전류 ⁠· 전력 ⁠· 역률 데이터를 실시간으로 수집 ⁠· 분석해 전력 사용을 감시하고 최적화하는 시스템입니다. 피크 수요, 이상 부하, 역률 저하를 조기에 파악해 전력 요금과 정전 위험을 줄입니다.' },
+      { q: '전력관리와 에너지관리시스템(EMS)은 어떻게 다른가요?', a: '전력관리는 전력 계통의 감시 ⁠· 품질에 초점을 두고, EMS는 전력을 포함한 에너지 전반의 사용 ⁠· 효율 ⁠· 절감을 다룹니다. 리파이너리는 전력 데이터를 EMS ⁠· 설비 데이터와 하나로 엮어 근거 있는 절감 방안을 제안합니다.' },
+      { q: 'AI가 전력관리에 어떻게 도움이 되나요?', a: 'AI는 과거 패턴과 실시간 데이터를 비교해 피크를 예측하고, 이상 부하나 역률 저하의 원인을 추론해 조치를 제안합니다. 사람이 모든 지표를 지켜보지 않아도 이상 시점에 근거와 함께 알립니다.' },
     ],
     seo: {
       title: '전력관리 | Refinery',
@@ -200,11 +202,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '눈에 안 보이는 전력 품질 이상을<br>실시간으로 잡아 기록합니다',
+    heroTitle: '보이지 않는 전력 이상을<br>실시간으로 잡아 남깁니다',
     showRelatedUseCases: true,
-    ctaTitle: '전력품질, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '전력품질, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '눈에 안 보이는 전력 품질 이상을<br>실시간으로 잡아 기록합니다.',
     name: '전력품질',
     cardImage: {
@@ -214,19 +215,22 @@ export const useCases: UseCase[] = [
       height: 720,
     },
     tagline: '전압 변동 ⁠· 고조파 ⁠· 순간 정전 같은 품질 이상을 실시간으로 감시합니다.',
+    heroLede:
+      '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 납니다. 순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아, 상시로 지켜보지 않으면 지나간 뒤에 흔적을 잡을 수 없습니다. 왜 하필 그때였는지는 끝내 모른 채 넘어갑니다.',
     problem:
       '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 날 때가 있습니다. 원인을 찾다 보면 전력품질이 범인인 경우가 많습니다. 순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다. 그래서 왜 하필 그때 멈췄는지는 끝내 알지 못한 채 넘어갑니다.',
     problemHtml:
       '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 날 때가 있습니다. 원인을 찾다 보면 전력품질이 범인인 경우가 많습니다.<br>순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다.<br>그래서 왜 하필 그때 멈췄는지는 끝내 알지 못한 채 넘어갑니다.',
     how: [
-      { icon: 'ph-pulse', title: '품질 지표 감시', desc: '전압과 주파수, 고조파, 불평형 같은<br>지표를 실시간으로 지켜봅니다.<br>기준을 벗어나는 순간을 놓치지<br>않습니다.' },
-      { icon: 'ph-clipboard-text', title: '이벤트 자동 기록', desc: '순간 전압 강하(sag)나 상승(swell),<br>짧은 정전처럼 스쳐 지나가는 사건을<br>자동으로 기록합니다.<br>나중에 되짚어 볼 근거가 남습니다.' },
-      { icon: 'ph-link', title: '원인 연결', desc: '품질 이상이 언제 어느 설비 근처에서<br>있었는지 가동 ⁠· 고장 이력과 겹쳐<br>봅니다. 멈춤이나 불량과 시점이 맞으면<br>막연한 의심이 근거로 바뀝니다.' },
+      { icon: 'ph-pulse', title: '품질 지표 감시', desc: '전압과 주파수, 고조파, 불평형<br>같은 지표를 실시간으로 지켜보며<br>기준을 벗어나는 순간을 잡습니다.' },
+      { icon: 'ph-clipboard-text', title: '이벤트 자동 기록', desc: '순간 전압 강하(sag) ⁠· 상승(swell) ⁠·<br>짧은 정전처럼 스쳐 지나가는 사건을<br>자동으로 기록해 근거로 남깁니다.' },
+      { icon: 'ph-link', title: '원인 연결', desc: '품질 이상이 언제 어느 설비 근처에서<br>있었는지 가동 ⁠· 고장 이력과 겹쳐<br>봅니다. 막연한 의심이 근거가 됩니다.' },
       { icon: 'ph-funnel', title: '영향 구분', desc: '어느 이상이 실제로 문제를 일으켰고<br>어느 것이 문제 없이 그냥 지나갔는지<br>나눠서 먼저 손봐야 할 순서를 정합니다.' },
     ],
     template: {
       badge: '품질 지표 ⁠· 이벤트 기준',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-power-quality.webp',
+      decoVideo: '/use-cases/template-deco-power-quality',
       title: '전력품질 감시 템플릿으로 시작',
       desc: '무엇을 어느 기준으로 감시할지는 현장마다 다르지만 큰 틀은 비슷합니다. 여러 현장에서 쓰던 템플릿에는 주요 지표와 판단 기준,<br>자주 문제가 되는 이벤트 유형이 정리돼 있습니다. 계측 지점과 설비만 연결하면 어디를 어떻게 볼지 고민하는 단계를 건너뛰고 감시부터 시작할 수 있습니다.',
       includes: ['전압 ⁠· 주파수 ⁠· 고조파 감시 항목', 'sag/swell ⁠· 정전 이벤트 기준', '설비 이력 연계 뷰', '품질 이상 알람 규칙'],
@@ -234,11 +238,10 @@ export const useCases: UseCase[] = [
     signals: [
       { label: '전압', icon: 'voltage' },
       { label: '주파수', icon: 'frequency' },
-      { label: '고조파(THD)', icon: 'harmonics' },
+      { label: '고조파(THD)', icon: 'harmonics-thd' },
       { label: '불평형', icon: 'imbalance' },
       { label: 'sag/swell', icon: 'sag-swell' },
     ],
-    related: { href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '전력품질 감시 | Refinery',
       description: '전압 ⁠· 주파수 ⁠· 고조파 ⁠· 불평형 등 전력품질 지표를 실시간 감시하고, 순간 이벤트를 자동 기록해 설비 고장 ⁠· 불량의 숨은 원인을 짚습니다.',
@@ -259,11 +262,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '공장 전체의 에너지 흐름을 한곳에 모아<br>낭비와 배출을 함께 줄입니다',
+    heroTitle: '에너지 흐름을 한곳에 모아<br>낭비와 배출을 줄입니다',
     showRelatedUseCases: true,
-    ctaTitle: '공장 에너지관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '공장 에너지관리, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '공장 전체의 에너지 흐름을 한곳에 모아<br>낭비와 배출을 함께 줄입니다.',
     cardImage: {
       src: '/use-cases/cards/factory-energy.webp',
@@ -273,6 +275,8 @@ export const useCases: UseCase[] = [
     },
     name: '공장 에너지관리',
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
+    heroLede:
+      '공장은 전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수를 함께 씁니다. 그런데 소비가 부서별 ⁠· 설비별 ⁠· 시간대별로 흩어져 기록돼, 어디서 얼마나 왜 쓰는지가 한눈에 보이지 않습니다. 전체 흐름이 안 보이니 절감은 감에 기대고, ESG 집계도 매번 수작업입니다.',
     problem:
       '공장은 전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수 등 여러 에너지를 함께 씁니다. 그런데 이 소비가 부서별 ⁠· 설비별 ⁠· 시간대별로 흩어져 기록되어 어디서 얼마나 왜 쓰는지가 한눈에 보이지 않습니다. 전체 흐름이 안 보이니 어디를 줄여야 할지 근거를 잡기 어렵고 절감은 감에 의존합니다. ESG 보고를 위한 집계도 매번 수작업으로 반복됩니다.',
     problemHtml:
@@ -285,19 +289,19 @@ export const useCases: UseCase[] = [
     ],
     template: {
       badge: 'EnMS ⁠· ESG 리포트',
-      decoImage: '/use-cases/template-deco.webp',
+      decoImage: '/use-cases/template-deco-factory-energy.webp',
+      decoVideo: '/use-cases/template-deco-factory-energy',
       title: '에너지경영시스템 템플릿으로 빠르게 시작',
       desc: '새로 시작하는 현장도 구조를 처음부터 설계할 필요가 없습니다. 30년간 여러 현장에서 다져 온 템플릿에는 계량 구조부터<br>원단위 KPI, ESG 리포트 양식, 이상 ⁠· 피크 알람 규칙까지 들어 있습니다. 설비와 목표에 맞게 조정만 하면 검증된 구조 위에서 곧바로 운영을 시작할 수 있습니다.',
       includes: ['에너지원 ⁠· 설비 계량 구조', '원단위 KPI ⁠· 대시보드', 'ESG 리포트 양식', '이상 소비 ⁠· 피크 알람 규칙'],
     },
     signals: [
-      { label: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수', icon: 'energy-sources' },
-      { label: '생산량', icon: 'output' },
-      { label: '배출량', icon: 'emissions' },
+      { label: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수', icon: 'utilities' },
+      { label: '생산량', icon: 'production' },
+      { label: '배출량', icon: 'emission' },
       { label: '원단위', icon: 'intensity' },
       { label: '피크', icon: 'peak' },
     ],
-    related: { href: '/blog/energy-optimization' },
     seo: {
       title: '공장 에너지관리(FEMS) | Refinery',
       description: '공장 전체의 전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수 흐름을 통합 계량하고 원단위로 분석해 낭비를 찾고, ESG 리포트를 자동으로 집계합니다.',
@@ -318,11 +322,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '숨은 낭비와 피크를 찾아 같은 일을<br>더 적은 비용으로 합니다',
+    heroTitle: '낭비와 피크를 찾아<br>같은 일을 더 적게 씁니다',
     showRelatedUseCases: true,
-    ctaTitle: '에너지 최적화, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '에너지 최적화, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '숨은 낭비와 피크를 찾아 같은 일을<br>더 적은 비용으로 합니다.',
     cardImage: {
       src: '/use-cases/cards/energy-optimization.webp',
@@ -332,6 +335,8 @@ export const useCases: UseCase[] = [
     },
     name: '에너지 최적화',
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
+    heroLede:
+      '낭비는 큰 설비보다 눈에 잘 띄지 않는 곳에 흩어져 있습니다. 대기 상태로 계속 도는 설비나 필요 없는 시간대의 가동처럼 하나씩은 작아 보이는 것들입니다. 총량만 봐서는 어디를 손봐야 할지 보이지 않아 절감은 감에 기대게 됩니다.',
     problem:
       '낭비는 큰 설비보다 눈에 잘 띄지 않는 곳에 흩어져 있습니다. 대기 상태로 계속 도는 설비나 필요 없는 시간대의 가동처럼 하나씩은 작아 보이는 것들입니다. 총량만 봐서는 어디를 손봐야 할지 보이지 않아 절감은 감에 기대게 됩니다.',
     problemHtml:
@@ -342,11 +347,10 @@ export const useCases: UseCase[] = [
       { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.<br>예전으로 돌아가는 구간을 바로 잡아냅니다.' },
     ],
     signals: [
-      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '시간대별 소비', icon: 'operating-history' },
       { label: '피크', icon: 'peak' },
       { label: '원단위', icon: 'intensity' },
     ],
-    related: { href: '/blog/energy-optimization' },
     seo: {
       title: '에너지 최적화 | Refinery',
       description: '숨은 낭비와 피크를 데이터로 찾아 에너지 비용을 줄입니다. 소비 패턴을 작업 맥락과 겹쳐 비효율을 발굴하는 유즈케이스.',
@@ -367,11 +371,10 @@ export const useCases: UseCase[] = [
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
-    relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '공정 데이터가 보내는 신호를 읽어<br>불량이 완성되기 전에 잡습니다',
+    heroTitle: '공정 신호를 읽어 불량을<br>완성되기 전에 잡습니다',
     showRelatedUseCases: true,
-    ctaTitle: '품질 예측, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '품질 예측, 현장에 어떻게 적용될지<br>리파이너리와 함께 확인해보세요.',
     cardDesc: '공정 데이터가 보내는 신호를 읽어<br>불량이 완성되기 전에 잡습니다.',
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
@@ -381,6 +384,8 @@ export const useCases: UseCase[] = [
     },
     name: '품질 예측',
     tagline: '공정 데이터가 보내는 신호를 읽어, 불량이 완성되기 전에 잡습니다.',
+    heroLede:
+      '완성품 검사에서 불량을 찾으면 이미 자재와 시간이 들어간 뒤입니다. 그때는 폐기하든 재작업하든 손실이 남습니다. 완성품만 봐서는 어느 공정의 무엇이 원인이었는지 알기 어려워 같은 불량이 다시 나옵니다.',
     problem:
       '완성품 검사에서 불량을 찾으면 이미 자재와 시간이 들어간 뒤입니다. 그때는 폐기하든 재작업하든 손실이 남습니다. 완성품만 봐서는 어느 공정의 무엇이 원인이었는지 알기 어려워 같은 불량이 다시 나옵니다.',
     problemHtml:
@@ -394,10 +399,9 @@ export const useCases: UseCase[] = [
       { label: '온도', icon: 'temperature' },
       { label: '압력', icon: 'pressure' },
       { label: '원료 로트', icon: 'material-lot' },
-      { label: '공정 조건', icon: 'process-condition' },
-      { label: '검사 결과', icon: 'inspection-result' },
+      { label: '공정 조건', icon: 'process-conditions' },
+      { label: '검사 결과', icon: 'inspection' },
     ],
-    related: { href: '/blog/quality-prediction' },
     seo: {
       title: '품질 예측 | Refinery',
       description: '공정 데이터가 보내는 신호를 읽어 불량이 완성되기 전에 잡습니다. 공정과 검사 결과를 연결해 원인을 짚는 품질 예측 유즈케이스.',

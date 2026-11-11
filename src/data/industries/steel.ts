@@ -15,7 +15,7 @@ export const steel: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '철강 및 소재',
     title: '소재 품질과 에너지 효율을\n함께 확보합니다',
-    lede: '열처리 ⁠· 성형 ⁠· 코팅 공정에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 품질을 흔드는 변화를 먼저 감지하고 원인을 설명합니다. 목표전력 부하 제어부터 열처리 온도 패턴 분석, 진동 기반 설비 감시까지.',
+    lede: '열처리 ⁠· 성형 ⁠· 코팅 공정에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 품질을 흔드는 변화를 먼저 감지하고 원인을 설명합니다. 목표전력 부하 제어부터 열처리 온도 패턴 분석, 진동 기반 설비 감시까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 철강 및 소재 현장이\n겪는 문제입니다',
@@ -59,7 +59,7 @@ export const steel: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '철강 ⁠· 소재 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '철강 ⁠· 소재 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -156,7 +156,7 @@ export const steel: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '철강 공정 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '철강 및 소재 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

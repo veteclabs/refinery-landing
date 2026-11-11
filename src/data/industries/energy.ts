@@ -15,7 +15,7 @@ export const energy: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '에너지 및 유틸리티',
     title: '분산된 에너지 현장을\n하나의 지능으로 잇습니다',
-    lede: 'SCADA ⁠· EMS ⁠· 스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지.',
+    lede: 'SCADA ⁠· EMS ⁠· 스마트미터에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 통합 관제부터 예지보전, ESG 리포트 자동화까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 에너지 및 유틸리티 현장이\n겪는 문제입니다',
@@ -69,7 +69,7 @@ export const energy: IndustryData = {
     // 1200px 이하에서는 칸이 넓어지므로 industry.css 가 이 <br>을 숨겨 두 줄로 만든다.
     // <br> 뒤 공백은 일부러 둔 것이다. 숨겼을 때 '실제로 하는'이 붙지 않게 하고,
     // 보일 때는 줄 첫머리 공백이라 렌더링에 영향이 없다.
-    subtitle: '에너지 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '에너지 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -147,12 +147,12 @@ export const energy: IndustryData = {
       {
         title: '현장 보안',
         icon: 'ph-shield-check',
-        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT⁠/⁠IT 경계를 보호합니다.',
+        description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고\nOT⁠/⁠IT 경계를 보호합니다.',
       },
       {
         title: '통합 또는 신규 구축',
         icon: 'ph-stack',
-        description: '레거시 SCADA⁠/⁠EMS⁠/⁠ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
+        description: '레거시 SCADA⁠/⁠EMS⁠/⁠ERP가 있으면 그 위에 얹어\n양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
       },
     ],
   },
@@ -164,7 +164,7 @@ export const energy: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '에너지 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '에너지 및 유틸리티 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

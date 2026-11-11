@@ -16,7 +16,7 @@ export const machinery: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '기계 및 플랜트',
     title: '대형 설비와 공정을\n실시간으로 함께 제어합니다',
-    lede: '24시간 돌아가는 대형 설비와 여러 에너지원에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 공기압축기 수요 제어부터 공조 인버터 제어, 탄소 배출량 통합 관제까지.',
+    lede: '24시간 돌아가는 대형 설비와 여러 에너지원에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 이상을 먼저 감지하고 원인을 설명합니다. 공기압축기 수요 제어부터 공조 인버터 제어, 탄소 배출량 통합 관제까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 기계 및 플랜트 현장이\n겪는 문제입니다',
@@ -65,7 +65,7 @@ export const machinery: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '기계 ⁠· 플랜트 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '기계 ⁠· 플랜트 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -167,7 +167,7 @@ export const machinery: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '기계 설비 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '기계 및 플랜트 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

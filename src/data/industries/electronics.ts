@@ -17,7 +17,7 @@ export const electronics: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '전자 및 정밀',
     title: '무정전과 미세환경을\n하나의 구조로 지킵니다',
-    lede: '생산 설비 ⁠· 전력 ⁠· 미세환경에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 정전과 환경 이상을 먼저 감지하고 원인을 설명합니다. 최대 수요 전력 감시부터 UPS 연계 정전 알람, 온습도 실시간 관제까지.',
+    lede: '생산 설비 ⁠· 전력 ⁠· 미세환경에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 정전과 환경 이상을 먼저 감지하고 원인을 설명합니다. 최대 수요 전력 감시부터 UPS 연계 정전 알람, 온습도 실시간 관제까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 전자 및 정밀 현장이\n겪는 문제입니다',
@@ -66,7 +66,7 @@ export const electronics: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '전자 ⁠· 정밀 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '전자 ⁠· 정밀 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -175,7 +175,7 @@ export const electronics: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '전자 제조 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '전자 및 정밀 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

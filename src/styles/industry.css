@@ -38,6 +38,16 @@ img { max-width: 100%; height: auto; }
 }
 .ind-btn-primary:hover { background: #191F27; transform: translateY(-1px); }
 .ind-btn-lg { padding: 14px 30px; font-size: 16px; }
+/* CTA 버튼은 랜딩 #cta .btn-primary 와 같은 규격으로 둔다 —
+   11px 26px · 16px/400 · 모서리 6px(실측 141x48). 같은 행동을 안내하는
+   버튼이 페이지마다 다른 크기로 서 있었다(산업별 147x54 · 과제별 98x45). */
+.ind-cta .ind-btn-primary {
+  padding: 11px 26px;
+  font-size: 16px; font-weight: 400;
+  line-height: 24px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+}
 .ind-btn-ghost { display: inline-flex; align-items: center; padding: 12px 8px; color: var(--text-muted); font-size: 15px; font-weight: 500; transition: color .2s; }
 .ind-btn-ghost:hover { color: var(--accent-ink); }
 
@@ -53,12 +63,21 @@ img { max-width: 100%; height: auto; }
 
 /* 섹션 공통 */
 .ind-section { padding: 84px 0; border-bottom: 1px solid var(--border); }
-/* 산업 페이지는 섹션 구분선을 쓰지 않는다 — 면 색과 여백만으로 나눈다.
+/* 산업 페이지와 과제별 페이지는 섹션 구분선을 쓰지 않는다 — 면 색과 여백만으로
+   나눈다.
    ⚠️ .ind-page 가 아니라 .ind-industry 에 건다. .ind-page 는 필러 페이지
-      (/why-refinery)도 쓰므로 그쪽 구분선까지 같이 사라진다. */
+      (/industrial-ai · /energy-management)도 쓰므로 그쪽 구분선까지 같이 사라진다.
+   ⚠️ 과제별은 .uc-page 다. 히어로 아래 선은 특히 눈에 걸린다 — 사진이 히어로
+      맨 아래에 서고 스크롤하면 화면 폭으로 자라는데, 그 아래에 1px 실선이
+      가로질러 남는다.
+   ⚠️ FAQ 아코디언의 항목 구분선(.uc-faq-item)은 여기와 무관하다. 그쪽은
+      목록 안을 나누는 선이라 그대로 둔다. */
 .ind-industry .ind-hero,
 .ind-industry .ind-section,
-.ind-industry .ind-cta { border-bottom: 0; }
+.ind-industry .ind-cta,
+.uc-page .ind-hero,
+.uc-page .ind-section,
+.uc-page .ind-cta { border-bottom: 0; }
 .ind-soft { background: var(--bg-soft); }
 .ind-head { max-width: 640px; margin-bottom: 44px; }
 .ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
@@ -93,10 +112,64 @@ img { max-width: 100%; height: auto; }
    같은 값이다 — 안의 단계 카드(.ind-flow-step)가 #191F27 이라 면보다 한 단
    밝게 서서 경계가 생긴다. 전에는 면도 #191F27 이라 둘이 같았다.
    ⚠️ --bg-dark(#191F27)를 쓰지 않는다. 그 토큰은 이제 면이 아니라 카드 쪽 값이다. */
-.ind-dark { background: #151B23; border-bottom-color: #292F37; }
+/* 솔루션 구조 섹션. 흰 면이다 — 바로 아래 도입 효과(#F6F8FA)보다 한 단
+   밝아 두 섹션이 붙어 보이지 않는다.
+   ⚠️ 이름이 ind-dark 였다. 면을 밝게 바꾸면서 ind-arch 로 고쳤다 — 이름이
+      값과 어긋나면 다음 사람이 어두운 면으로 알고 색을 맞춘다. */
+/* 섹션 면은 그라데이션이다 — 하늘색 띠가 카드 넷이 놓인 높이에만 있다.
+   섹션 윗변의 흰색에서 42% 까지 올라가 #EEF4FB 에 닿고, 곧바로 아랫변까지
+   다시 내려간다. 평평한 구간이 없다 — 제 색을 내는 데는 42% 한 자리뿐이라
+   하늘색이 차지하는 면이 좁아지는 대신, 변하는 구간이 섹션 전체로 늘어나
+   색이 가장 천천히 바뀐다.
+   ⚠️ 42% 는 카드 넷의 세로 한가운데다(카드가 24.9~59.0%).
+   ⚠️ 양 끝이 흰색이라 위아래 모두 이음매가 없다. 위(유즈케이스)도 아래
+      (도입 효과)도 면을 깔지 않아 페이지 바탕(흰색)이 그대로 보이므로,
+      끝에 색을 남기면 그 경계에서 면이 뚝 끊겨 선이 하나 보인다.
+   ⚠️ 색이 바뀌는 두 구간은 정지점 열여섯 개로 쪼갠 smootherstep 이다. 두 점만
+      두면 그 사이가 직선이라 평평한 구간과 만나는 자리에서 기울기가 꺾여
+      띠가 거기서 끊겨 보인다 — 랜딩 플랫폼 개요의 띠도 같은 까닭으로
+      같은 방식을 쓴다. smootherstep 은 양 끝에서 기울기가 0 이라 꺾인
+      데가 없다.
+   ⚠️ 자리를 % 로 잡은 값이라 섹션 높이를 따라간다. 화학 1440px 기준 카드는
+      24.9~59.0% 에 있고(303~717px), 가장 짙은 한 점(42%)이 그 한가운데다.
+      산업마다 내용 줄 수가 달라 몇 % 씩 움직이지만, 카드 자리가 섹션에서
+      차지하는 비율은 비슷해 띠가 카드를 벗어나지 않는다.
+      카드 안 줄 수가 크게 달라지면 이 네 값을 다시 잰다. */
+.ind-arch {
+  background: linear-gradient(180deg,
+    #FFFFFF 0%,
+    #FFFFFF 5.25%,
+    #FEFEFF 7.88%,
+    #FDFEFF 10.5%,
+    #FCFDFE 13.12%,
+    #FAFCFE 15.75%,
+    #F8FBFD 18.38%,
+    #F6FAFD 21%,
+    #F5F8FD 23.62%,
+    #F3F7FC 26.25%,
+    #F1F6FC 28.88%,
+    #F0F5FB 31.5%,
+    #EFF5FB 34.12%,
+    #EEF4FB 36.75%,
+    #EEF4FB 49.25%,
+    #EFF5FB 52.88%,
+    #F0F5FB 56.5%,
+    #F1F6FC 60.12%,
+    #F3F7FC 63.75%,
+    #F5F8FD 67.38%,
+    #F6FAFD 71%,
+    #F8FBFD 74.62%,
+    #FAFCFE 78.25%,
+    #FCFDFE 81.88%,
+    #FDFEFF 85.5%,
+    #FEFEFF 89.12%,
+    #FFFFFF 92.75%,
+    #FFFFFF 100%);
+  border-bottom-color: #E3E7EC;
+}
 .ind-head-light h2 { color: #EFF2F5; }
-/* 섹션 머리 위 라벨. 과제('진단')와 유즈케이스('조치') 두 곳만 쓴다 —
-   짝을 이루는 두 단어라 하나만 두면 뜻이 서지 않는다. 테두리만 있는 원형이다.
+/* 섹션 머리 위 번호 라벨. 과제('01')와 유즈케이스('02') 두 곳만 쓴다 —
+   차례를 이루는 두 자리라 하나만 두면 뜻이 서지 않는다. 테두리만 있는 배지다.
    ⚠️ <p> 가 아니라 <span> 이다. 머리글의 p 는 소제목용 규칙(.ind-head p ·
       .ind-page .ind-challenges .ind-head p)을 여럿 달고 있어서, p 로 두면
       13px 로 적어도 18px 소제목 값에 눌려 소제목과 똑같아 보였다.
@@ -113,14 +186,20 @@ img { max-width: 100%; height: auto; }
   padding: 7px 16px;
   font-size: 18px; font-weight: 400; letter-spacing: .08em; line-height: 1;
   color: #3F76AE;
-  /* 모서리는 사이트 공통값(--radius 12px)이다. 999px 짜리 완전한 원형은
-     이 페이지에서 .ind-badge 만 쓴다. */
-  border: 1px solid rgba(118, 166, 215, 0.45); border-radius: var(--radius);
+  /* 모서리는 헤더의 주 행동 버튼(.btn-primary)과 같은 6px 이다 — 사이트 공통값
+     (--radius 12px)으로 두었을 때는 같은 사각 배지인데 둘의 결이 달랐다.
+     999px 짜리 완전한 원형은 이 페이지에서 .ind-badge 만 쓴다. */
+  border: 1px solid rgba(118, 166, 215, 0.45); border-radius: 6px;
 }
 .ind-head-light .ind-sec-label { color: var(--accent); }
 /* 과제 머리는 flex(column · gap 16px)라 간격을 gap 이 쥔다. */
 /* 유즈케이스 쪽은 블록이라 margin 으로 직접 준다. */
 .ind-uc-aside > .ind-sec-label { margin-bottom: 16px; }
+.ind-uc-aside.is-faded { opacity: 0; pointer-events: none; }
+/* 움직임을 줄여 달라고 한 화면에서는 서서히가 아니라 그냥 사라진다. */
+@media (prefers-reduced-motion: reduce) {
+  .ind-uc-aside { transition: none; }
+}
 .ind-head-light p { color: #A0A8B3; }
 .ind-flow { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
 .ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191F27; border: 1px solid #292F37; border-radius: var(--radius); padding: 22px 20px; }
@@ -130,16 +209,10 @@ img { max-width: 100%; height: auto; }
 /* 점 배경 — 랜딩 통합 섹션(#integrations)과 같은 값이다.
    흰색 알파 .08 점을 24px 간격으로 깐다. 카드 값을 그 섹션에서 가져왔으므로
    바닥도 같은 결로 맞춘다. 내용은 그 위에 올린다(z-index). */
-.ind-page .ind-dark { position: relative; }
-.ind-page .ind-dark::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px);
-  background-size: 24px 24px;
-  pointer-events: none;
-  z-index: 0;
-}
-.ind-page .ind-dark > .ind-container { position: relative; z-index: 1; }
+/* ⚠️ 점 바탕(24px 격자)은 걷었다. 어두운 면이던 때 랜딩 통합 섹션과 결을
+   맞추려고 깔았던 것인데, 흰 면에서는 바탕이 비어 있는 쪽이 낫다.
+   함께 있던 position: relative · z-index 도 지운다 — 점 위에 내용을 올리려고
+   둔 값이라 점이 없으면 쓸 데가 없다(되살릴 때 같이 되돌린다). */
 
 /* ── 솔루션 구조 — 판 위에 카드 넷을 놓고 선으로 잇는 도해.
    카드 값은 랜딩 통합 섹션('기존 위에 얹거나 처음부터 새로')의 노드 카드
@@ -151,47 +224,16 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow {
   position: relative;
   align-items: stretch;
-  gap: 0;
+  /* 카드 사이 20px. 0 이었던 것은 면 없이 칸을 세로선으로만 가르던 때의
+     값이다 — 카드가 되면 서로 붙는다. */
+  gap: 20px;
   flex-wrap: nowrap;
 }
-/* 선과 빛은 줄 전체에 하나씩 깐다. 칸마다 따로 두면 빛이 24px짜리 토막 안에서
-   저 혼자 오갔다 — 24px을 2.8초에 걸쳐 지나가니 실제보다 느려 인위적이었다.
-   줄 전체에 한 줄을 깔고 카드를 그 위에 올리면(z-index) 카드가 선을 가려
-   칸 사이에서만 보인다. 빛도 한 덩어리로 줄을 가로지르므로, 칸을 지날 때마다
-   그 칸이 차례로 밝아진다. */
-.ind-page .ind-flow::before,
-.ind-page .ind-flow::after {
-  content: '';
-  position: absolute; left: 0; right: 0; top: 50%;
-  height: 2px; margin-top: -1px;
-  pointer-events: none;
-  z-index: 0;
-}
-.ind-page .ind-flow::before { background: rgba(118, 166, 215, .4); }
-/* 빛 — 280px짜리 부드러운 띠 하나가 줄 왼쪽 밖에서 오른쪽 밖으로 지나간다.
-   background-position-x의 100%는 '요소 폭 - 띠 폭'이라 끝값을 calc(100% + 280px)로
-   두면 띠가 오른쪽 밖으로 완전히 빠진다. 속도는 일정하게(linear) — 가감속을 주면
-   빛이 아니라 무언가 밀려가는 것처럼 보인다. */
-.ind-page .ind-flow::after {
-  background-image: linear-gradient(90deg,
-    rgba(198, 224, 250, 0) 0%,
-    rgba(198, 224, 250, .75) 50%,
-    rgba(198, 224, 250, 0) 100%);
-  background-repeat: no-repeat;
-  background-size: 280px 100%;
-  animation: indFlowSweep 5.2s linear infinite;
-}
-/* 화면 밖에서는 멈춘다 — 아래 스크립트가 .is-paused 를 붙인다.
-   ⚠️ 가상 요소라 클래스로 끌 수밖에 없다. 요소에 인라인 style 을 줘도
-      ::after 의 애니메이션에는 닿지 않는다(그렇게 넣었다가 고쳤다). */
-.ind-page .ind-flow.is-paused::after { animation-play-state: paused; }
-@keyframes indFlowSweep {
-  from { background-position-x: -280px; }
-  to { background-position-x: calc(100% + 280px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ind-page .ind-flow::after { animation: none; background-image: none; }
-}
+/* ⚠️ 가로 연결선과 지나가는 빛(indFlowSweep)은 걷었다. 둘 다 '카드 사이
+   틈에서만 보이는 선' 을 전제로 한 장치였다 — 카드 면이 사라지자 글 위를
+   가로질러 쓸고 지나갔다. 칸을 잇는 일은 이제 세로선이 맡는다.
+   (되살리려면 git 에서 이 자리의 ::before/::after 와 @keyframes indFlowSweep,
+    그리고 IndustryPage 의 is-paused 스크립트를 함께 되돌린다.) */
 /* 카드가 선 위에 온다. 카드 면이 불투명하므로 선은 칸 사이에서만 보인다. */
 .ind-page .ind-flow-step { position: relative; z-index: 1; }
 /* Refinery 칸만 한 층 아래에 둔다. hover 때 퍼지는 하늘색 광이 이웃 카드 위로
@@ -201,58 +243,105 @@ img { max-width: 100%; height: auto; }
    선(z-index 0)보다는 여전히 위다. */
 .ind-page .ind-flow-step.is-on { z-index: 1; }
 .ind-page .ind-flow-step:not(.is-on) { z-index: 2; }
+/* 네 단계가 각자 선 카드다. 한때 면을 걷고 세로선으로만 가른 적이 있었는데
+   (판 위의 네 칸), 다시 카드로 돌렸다.
+   면은 흰색이고 테두리 한 겹으로 선다 — 섹션 면이 그라데이션이라 흰 카드가
+   그 위에 떠 보인다.
+   ⚠️ 면을 #F6F8FA 로 두면 안의 내용 상자(같은 #F6F8FA)가 사라진다. 카드 면을
+      바꿀 때는 .ind-page .ind-flow-detail li 를 함께 뒤집는다.
+   ⚠️ 세로 flex 다. 이름 · 내용이 위에서 차례로 쌓이고, 그림이 margin 의 auto
+      로 남은 자리를 밀어 오른쪽 아래에 선다(.ind-flow-img).
+   ⚠️ 칸마다 여백이 달랐다(첫 칸 왼쪽 0 · 끝 칸 오른쪽 0). 카드가 되면서
+      네 카드가 모두 같은 24px 안 여백을 갖는다 — 그 두 규칙은 걷었다. */
 .ind-page .ind-flow-step {
   flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column;
-  background: #191F27; border: 1px solid #292F37; border-radius: 10px;
-  /* 안 여백 24px — 도입 효과 카드(.ind-page .ind-grid-3 .ind-card)와 같은 값. */
-  padding: 24px; overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s ease;
+  background: #FFFFFF;
+  border: 1px solid #E3E7EC;
+  /* 카드 둥글기는 사이트 공통값 12px 이다. */
+  border-radius: var(--radius);
+  padding: 24px;
   text-align: left;
 }
-.ind-page .ind-flow-step:hover {
-  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-}
+/* 칸 사이를 세로선이 아니라 가로선 + 원형 화살표가 잇는다.
+   ⚠️ 가로선을 줄 전체에 한 줄로 깔지 않는다. 아이콘이 배경 투명한 그림이라
+      선이 그림을 뚫고 지나간다 — 칸 사이(화살표 자리)에만 둔다.
+   ⚠️ 선과 원의 높이는 아이콘의 한가운데다. --ind-flow-ic 가 아이콘 크기라
+      그 값만 바꾸면 선도 따라 내려온다. */
+/* 그림 크기 — 카드 오른쪽 아래의 그림이다. 120 -> 160 -> 180 -> 200px.
+   ⚠️ 상한은 카드 안쪽 폭이다. 카드 안쪽 = (화면폭 - 컨테이너 좌우 96 -
+      카드 사이 60) / 4 - 안 여백 48 - 테두리 2 이라, 1440px 에서 271px ·
+      1280px 에서 231px · 1101px 에서 186px 이 된다. 그림은 폭이 고정이라
+      이보다 커지면 카드 밖으로 삐져나온다 — 그래서 구간마다 값을 따로 둔다.
+   ⚠️ 3D 아이소메트릭이라 점선 큐브와 바닥판까지 한 장에 들어 있다 — 안쪽
+      아이콘이 실제로 차지하는 폭은 그림의 60% 남짓이라 수치보다 작아 보인다. */
+.ind-page .ind-flow { --ind-flow-ic: 200px; counter-reset: ind-flow; }
+.ind-page .ind-flow-step { counter-increment: ind-flow; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
 .ind-page .ind-flow-head {
-  display: flex; align-items: flex-start;
+  /* 번호 배지(::before)와 이름이 한 줄에 선다. 배지를 이름의 가운데에 맞추고
+     사이를 10px 띄운다 — 배지가 그래픽 위에 있던 동안은 둘 다 필요 없었다. */
+  display: flex; align-items: center; gap: 10px;
   height: auto; padding: 0;
   background: none; border: 0; border-bottom: 0;
   border-radius: 0;
-  /* 여백은 두지 않는다 — 제목 → 그림 사이는 그림이 가진 위 여백(28px)이
-     전부여야 그림 아래 여백과 같아진다. 5px을 남기면 위가 33px이 된다. */
-  margin-bottom: 0;
+  /* 이름과 그림 사이 28px — 그림과 내용 사이(.ind-flow-img 의 아래 여백)와
+     같은 값이다. 14 -> 20 -> 28px 으로 넓혔다.
+     ⚠️ 둘은 늘 같이 고친다. 한쪽만 바꾸면 그림이 위아래 가운데에서 벗어난다. */
+  margin-bottom: 28px;
 }
-/* 이름 — 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다.
-   20px / 600 / 줄높이 1.6. 색만 어두운 면에 맞춰 #F6F8FA이다. */
+/* 이름 — 유즈케이스 섹션의 카드 제목(.ind-uc-text h3)과 같은 값이다.
+   24px / 600 / 줄높이 1.3 / 자간 -0.01em.
+   ⚠️ 한때 같은 섹션의 연동 시스템 제목(20px / 600 / 1.6 / 자간 기본)에
+      맞춰 두었다. 한 페이지 안에서 어느 쪽에 맞출지 정하는 문제라, 바꿀
+      때는 그쪽도 함께 본다. */
 .ind-page .ind-flow-label {
   flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: inherit;
-  font-size: 20px; font-weight: 600; line-height: 1.6;
+  font-size: 24px; font-weight: 600; line-height: 1.3;
   letter-spacing: -0.01em; text-transform: none;
-  color: #F6F8FA; margin-bottom: 0;
+  color: var(--text); margin-bottom: 0;
 }
-/* 카드 일러스트 — 어두운 카드 면(#191F27)에 맞춰 그린 그림이라 배경을 따로
-   깔지 않는다. 머리 띠 아래 가운데에 놓는다. */
+/* 칸 일러스트 — 왼쪽 끝에 붙는다. 이름 · 내용 상자가 모두 왼쪽 맞춤이라
+   그림만 가운데에 서면 칸 안에서 축이 둘이 된다.
+   ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  /* 위아래 여백이 같다 — 제목 → 그림, 그림 → 상자 목록이 둘 다 28px이다.
-     화살표 원 높이에 맞추려고 위쪽에만 37px을 더 주던 것을 걷었다. */
-  width: 145px; height: 145px;
-  margin: 23px auto 26px;
+  width: var(--ind-flow-ic, 200px); height: var(--ind-flow-ic, 200px);
+  /* 제목과 내용 사이, 카드 가로 가운데 — 좌우 margin 의 auto 가 남은 폭을
+     양쪽으로 똑같이 나눈다. 위아래로 20px 씩 띄운다.
+     ⚠️ 오른쪽 아래에 두던 때는 margin 이 auto 0 0 auto 였다(위 · 왼쪽 auto).
+        되돌리려면 그 값과 padding-top 16px 을 함께 되살리고, 마크업에서
+        그림을 다시 카드 맨 끝으로 옮긴다.
+     ⚠️ 위치를 absolute 로 잡지 않는다. 흐름에서 빠지면 글과 겹친다. */
+  margin: 0 auto 28px;
+}
+@media (max-width: 1280px) {
+  /* 기본값(200)은 카드 안쪽이 200px 이상인 폭, 곧 1156px 위에서만 든다.
+     그 아래로는 넘치므로 1280px 부터 한 단 내려 둔다. */
+  .ind-page .ind-flow { --ind-flow-ic: 180px; }
 }
 @media (max-width: 1100px) {
-  .ind-page .ind-flow-img { width: 116px; height: 116px; }
+  /* 여기서는 안쪽이 186px 밑으로 더 내려간다. */
+  .ind-page .ind-flow { --ind-flow-ic: 150px; }
 }
 @media (max-width: 860px) {
-  .ind-page .ind-flow-img { width: 145px; height: 145px; margin: 23px auto 26px; }
+  /* 카드가 한 줄에 하나씩 쌓여 폭이 넉넉해진다 — 그림을 되돌려 키운다. */
+  .ind-page .ind-flow { --ind-flow-ic: 200px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
    담긴 기능' 카드의 목록(.wr-cap-group li)과 같은 구성이고, 값만 어두운 면에
    맞춰 옮겼다(그쪽 --bg-soft 자리에 #191F27). */
+/* 상자는 제 글자 너비만큼만 선다(안 여백 6px 10px 를 더한 값). 사이는
+   어디서나 8px 로 같고, 폭을 넘으면 다음 줄로 넘어간다.
+   ⚠️ 늘이지 않는다. 한때 3칸 격자였고(칸이 stretch 라 짧은 글자의 상자가
+      칸 폭까지 늘어나 오른쪽 안 여백이 달라 보였다), 그 다음에는 남는 폭을
+      나눠 갖게 해 줄을 채웠다(flex-grow: 1 — 끝 줄에 하나만 남으면 그
+      하나가 줄을 다 차지했다). 둘 다 상자 크기가 글자와 어긋난다.
+   ⚠️ 그 대가로 줄 오른쪽 끝이 들쭉날쭉하고, 한 줄에 드는 개수가 칸마다
+      다르다. 상자 크기를 글자에 맞추기로 한 결과다. */
 .ind-page .ind-flow-detail {
   list-style: none; margin: 0;
   padding: 0;
@@ -265,16 +354,27 @@ img { max-width: 100%; height: auto; }
    상자가 필요한 이유: 내용이 문장이 아니라 낱개 항목의 나열이라
    (발전 · 변전 설비 · 스마트미터) 경계가 없으면 두 항목이 한 덩어리로 읽힌다. */
 .ind-page .ind-flow-detail li {
-  background: #353C44; border: 0; border-radius: 8px;
+  /* 테두리 없이 면으로만 선다 — 흰 카드 위에서 #F6F8FA 한 단이면 상자가
+     읽히고, 선이 없어 네 카드가 더 조용하다.
+     ⚠️ 카드 면을 바꾸면 여기도 함께 뒤집는다. 둘이 같은 색이 되면 상자가
+        통째로 사라진다. */
+  background: #F6F8FA; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  /* 14px — 이 상자는 읽는 글이 아니라 스캔하는 라벨이라(SCADA · 발전 ·
-     ESG 리포트) 본문 15px을 그대로 쓸 이유가 없다. 노트와 같은 단계다.
+  /* 15px — 14px 에서 키웠다. 본문 글과 같은 단계다.
+     ⚠️ 대비 기준은 크기를 바꿔도 그대로 4.5:1 이다 — 18.66px 굵게 · 24px
+        보통 미만은 모두 같은 구간이라 15px 도 14px 과 같은 기준을 받는다.
      대비 기준은 그대로 4.5:1이다 — 18.66px 굵게 · 24px 보통 미만은 모두 같은
      구간이라 크기를 줄여도 대비 요구가 올라가지 않는다.
      글자색은 --ink-800(#C8CED5)이다. 상자 면(#353C44) 위에서 AA(4.5:1)를
      지키는 가장 어두운 단계다 — 한 칸 더 내려간 --ink-700(#A0A8B3)은
      4.32:1로 미달이다. 카드 제목(#F6F8FA)보다 한 단계 눌러 위계를 만든다. */
-  font-size: 14px; line-height: 1.5; color: #C8CED5;
+  /* 글자색 #7E8A98 — 본문 글(--text-muted)과 같은 값이다. 한 단 진한
+     #5A6776 에서 내렸다.
+     ⚠️ 칩 면(#F6F8FA) 위 대비가 3.30:1 이라 14px 기준(4.5:1)에는 미달이다
+        (#5A6776 은 5.42:1 이었다). 읽는 글이 아니라 스캔하는 라벨이라는
+        전제로 고른 값이다 — 기준을 지키려면 #6B7684(4.52:1)까지만 연해질
+        수 있다. */
+  font-size: 15px; line-height: 1.5; color: #7E8A98;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
@@ -286,13 +386,10 @@ img { max-width: 100%; height: auto; }
    밝아져서, 색을 바꾸지 않고도 '이 칸이 우리'가 읽힌다.
    광은 번짐 42px에 퍼짐 6px, 알파 .20으로 링(2px) 바깥으로 퍼진다.
    퍼짐을 주면 카드 둘레부터 밝게 시작해 광이 닿는 범위가 넓어진다. */
-.ind-page .ind-flow-step.is-on:hover {
-  box-shadow:
-    0 0 0 2px #292F37,
-    0 0 42px 6px rgba(118, 166, 215, .20),
-    0 2px 4px rgba(0,0,0,.35),
-    0 1px 1px rgba(0,0,0,.25);
-}
+/* ⚠️ Refinery 칸을 면으로 가르지 않는다. 카드였을 때는 광(box-shadow)으로,
+   카드를 걷은 뒤에는 옅은 하늘색 면으로 '이 칸이 우리' 를 표시했는데 둘 다
+   걷었다 — 네 칸이 같은 흰 면 위에 선다. 구분은 이름(Refinery)이 맡는다.
+   (data 의 highlight 와 .is-on 클래스는 그대로 둔다. 다시 표시할 때 쓴다.) */
 /* 노트 — 상자 안에 한 줄로 둔다. 68ch 상한을 풀어야 한 줄로 서고,
    면은 카드 안 상자(#292F37)와 같은 값이라 흐름 아래에 붙은 한 칸으로 읽힌다.
    좁아지면 한 줄이 안 되므로 상한만 풀고 줄바꿈은 막지 않는다. */
@@ -310,7 +407,15 @@ img { max-width: 100%; height: auto; }
      선다. 제목과 같은 #F6F8FA을 쓰면 가장 덜 중요한 글이 가장 밝아진다.
      크기는 13px — 본문이 아니라 흐름 아래 붙는 주석이라 카드 안 상자(14px)
      보다 한 단계 작다. */
-  font-size: 13px; line-height: 1.5; color: #A0A8B3;
+  /* 15px — 18 -> 14 -> 15px. 카드 안 내용 라벨과 같은 단계다.
+     ⚠️ 아래 연동 시스템 캡션(.ind-page .ind-systems-note)도 같은 15px ·
+        같은 #A4ADB8 이다. 두 캡션은 늘 같은 값으로 둔다 — 한쪽만 고치지
+        않는다.
+     ⚠️ 글자색 #A4ADB8 은 흰 면 위 2.27:1 로 14px 기준(4.5:1)에 한참 미달
+        이다(--text-muted #7E8A98 은 3.51:1 이었다). 띠가 깔린 자리
+        (#EEF4FB)에서는 더 낮다. 주석이라는 전제로 고른 값이다 — 기준을
+        지키려면 #6B7684(흰 면 4.80:1)까지 내려야 한다. */
+  font-size: 15px; line-height: 1.5; color: #A4ADB8;
   text-align: left;
   word-break: keep-all;
 }
@@ -327,6 +432,13 @@ img { max-width: 100%; height: auto; }
   flex-wrap: wrap;
   column-gap: .32em;
   padding-left: .72em;
+  /* 오른쪽 끝으로 보낸다.
+     ⚠️ text-align: right 로는 안 된다. 별표가 absolute(left: 0)라 글만
+        오른쪽으로 가고 별표는 왼쪽 끝에 남는다. 상자를 글자 너비만큼
+        줄이고(fit-content) 왼쪽 여백을 auto 로 밀어, 별표가 글에 붙은 채
+        덩어리째 오른쪽으로 간다. */
+  width: fit-content;
+  margin-left: auto;
 }
 .ind-page .ind-flow-note::before {
   content: '*';
@@ -340,30 +452,63 @@ img { max-width: 100%; height: auto; }
    원이 눌린다(16x30이 됐다).
    원은 어느 카드보다도 위에 온다(z-index 3 · 카드는 1~2). 카드 위에 10.5px씩
    걸쳐 있어 한 층이라도 밀리면 불투명한 카드 면에 절반이 잘린다. */
-.ind-page .ind-flow-arrow {
-  position: relative; z-index: 3;
-  flex: 0 0 35px;
-  /* 원형은 35px인데 자리는 14px만 차지한다 — 남는 21px만큼 양쪽 카드 위에
-     걸친다. 이 값이 곧 카드 사이 간격이다. */
-  margin: 0 -10.5px;
-  align-self: center;
-  display: flex; align-items: center; justify-content: center;
-  width: 35px; height: 35px;
-  border-radius: 50%;
-  /* 안쪽 원 35px #353C44, 그 밑에 55px 원(면 #191F27 · 테두리 1px #292F37).
-     테두리는 네모 카드와 같은 값이고 면만 카드(#191F27)보다 한 톤 밝다.
-     두 원 모두 box-shadow spread로 그린다(모서리가 50%라 원으로 퍼진다).
-     10px은 면(35 + 10*2 = 55px), 11px은 그 바깥 1px 테두리다 — 뒤에 적은 그림자가 더 바깥에
-     깔리므로 순서를 이렇게 둔다. 별도 요소나 ::after는 이 요소가 z-index로
-     쌓임 맥락을 만들어 작은 원 뒤로 못 보낸다. */
-  background: #353C44; border: 0;
-  box-shadow: 0 0 0 10px #191F27, 0 0 0 11px #292F37;
-  /* 화살표는 카드 제목과 같은 #F6F8FA이다. */
-  color: #F6F8FA;
-  font-size: 0;
+/* ⚠️ 칸 사이 화살표와 그 가로선은 감췄다. 칸을 가르는 일은 간격이, 차례를
+   짚는 일은 제목 앞 번호 원이 맡는다. 마크업(.ind-flow-arrow)은 그대로 두어
+   되돌리기 쉽게 한다 — 되살리려면 이 규칙만 지우면 된다. */
+.ind-page .ind-flow .ind-flow-arrow { display: none; }
+
+/* 제목 앞 번호 원 — 01 ~ 04.
+   ⚠️ 데이터에 번호를 넣지 않고 CSS 카운터로 센다. 칸이 넷이든 다섯이든
+      저절로 맞고, 열네 데이터 파일을 건드리지 않는다.
+   ⚠️ 카운터는 .ind-flow-step 에서만 올린다 — 사이의 화살표 요소는 세지 않는다.
+   ⚠️ 면과 색은 도입 효과의 아이콘 상자와 같은 값이다(하늘색 10% · #3F76AE). */
+/* ⚠️ 번호는 이름 줄(.ind-flow-head)의 ::before 다 — 제목 앞에 선다. 칸
+   (.ind-flow-step)의 ::before 로 두었을 때는 칸이 세로 flex 라 ::before 가
+   첫 자식이 되어 그래픽 위에 섰다. 자리를 옮길 때는 이름 줄의
+   align-items · gap 도 함께 본다(아래). */
+.ind-page .ind-flow-head::before {
+  content: counter(ind-flow);
+  flex: none;
+  /* 정사각형이다 — 20x20px(22 에서 줄였다). 여백(3px 7px)으로 두었을 때는
+     가로가 27px 이라 납작한 직사각형이었다. 글자를 가운데에 세우려면 상자를
+     inline-flex 로 두어야 한다(기본 inline 이면 높이 · 폭이 먹지 않는다).
+     ⚠️ 한 자리 숫자(1~4)에 맞춘 값이다. 두 자리가 되면 폭을 함께 올린다.
+     둥글기는 헤더의 주 행동 버튼(.btn-primary)과 같은 6px. */
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  /* ⚠️ 가운데로 세우는 데 두 가지가 더 필요하다.
+     가로 — letter-spacing 은 마지막 글자 뒤에도 붙는다. 한 글자짜리라 그
+     자리가 통째로 오른쪽에 남아 숫자가 왼쪽으로 치우친다. 자간을 걷는다.
+     세로 — 숫자 잉크의 가운데를 상자 가운데에 맞춘다. 식으로 적으면
+       줄상자 top = PT + (20 - PT - PB - 10) / 2
+       베이스라인 = 줄상자 top + (10 - (ascent 9 + descent 2)) / 2 + 9
+       잉크 가운데 = 베이스라인 - 숫자높이(7.13) / 2 = 9.935 + PT/2 - PB/2
+     PT · PB 가 0 이면 9.935 로 상자 가운데(10)보다 0.065px 위다. PT 를
+     0.13px 주면 정확히 10 이 된다.
+     ⚠️ 아래 여백(PB)으로는 못 내린다. 늘리면 안쪽 칸이 줄어 줄 상자가
+        오히려 위로 올라간다 — 전에 PB 1px 을 주었다가 0.565px 더 떴다. */
+  letter-spacing: normal;
+  padding: 0.13px 0 0;
+  /* ⚠️ 제목의 '대문자 가운데' 에 맞춘다. align-items: center 는 줄 상자를
+     가운데에 두는데, Roboto 는 ascent 22 · descent 6 으로 위아래가 다르고
+     대문자 높이가 17.06 이라, 줄 상자 가운데(15.60)와 글자 가운데(15.07)가
+     0.53px 어긋난다. 줄 높이를 바꿔도 이 차는 그대로다(식에서 lh 가 지워진다).
+     flex 가운데맞춤은 바깥 여백까지 함께 가운데에 두므로, 아래 여백을
+     1.06px 주면 배지가 그 절반인 0.53px 만큼 올라간다. */
+  margin-bottom: 1.06px;
+  border: 0;
+  border-radius: 6px;
+  /* 면은 브랜드 하늘색(#76A6D7)이고 글자는 흰색이다.
+     ⚠️ 흰 글자는 이 면 위에서 대비가 2.56:1 이라 11px 글자 기준(4.5:1)에
+        미달이다. 글자를 먹색(#16202C)으로 두면 6.43:1 이 된다 — 번호가 잘
+        안 읽히면 그쪽으로 바꾼다(면은 그대로 두고 color 만 고친다).
+     ⚠️ 먹색 면(--text)으로 두었던 적이 있다. 그때는 번호와 이름이 한 색
+        계열로 묶였고 흰 글자가 15.8:1 이었다. */
+  background: #76A6D7;
+  font-size: 10px; font-weight: 600;
+  line-height: 1;
+  color: #FFFFFF;
 }
-.ind-page .ind-flow-arrow .ph { font-size: 14px; line-height: 1; }
-.ind-flow-arrow { display: flex; align-items: center; color: #494F57; font-size: 20px; }
 .ind-flow-note { margin-top: 24px; font-size: 14px; color: #A0A8B3; max-width: 68ch; }
 
 /* INTEGRATIONS */
@@ -549,11 +694,19 @@ img { max-width: 100%; height: auto; }
 }
 .ind-hero-bg .ind-hero-row h1 { grid-column: 1 / -1; grid-row: 2; }
 /* ⚠️ 대제목은 두 칸에 걸친다. 소제목은 아랫줄(3줄)에 있어 가로로 비켜 줄 까닭이
-   없는데, 같은 열을 쓰면 둘째 칸(소제목 폭 520px)만큼 대제목 칸이 깎인다.
-   1440 에서 761px 로 좁아져 영문 에너지 제목이 60px 에서 3줄로 터졌다. */
-/* 가로 자리는 오른쪽 칸 그대로, 세로만 셋째 줄로 내린다. */
+   없는데, 같은 열을 쓰면 둘째 칸만큼 대제목 칸이 깎인다.
+   1440 에서 761px 로 좁아져 영문 에너지 제목이 60px 에서 3줄로 터졌다.
+   ⚠️ 대제목이 두 칸에 걸치므로 이 폭을 넓혀도 대제목은 깎이지 않는다. 넓어지는
+      만큼 소제목의 왼쪽 끝이 왼쪽으로 옮겨 갈 뿐이다. */
+/* 가로 자리는 오른쪽 칸 그대로, 세로만 셋째 줄로 내린다.
+   폭 620px — 국문 소제목이 모두 3줄 안에 들어오는 값이다. 1440 에서 28개
+   (산업 · 과제 x ko · en)를 폭별로 재 보니 520px 에서 국문 최대 4줄,
+   580px 부터 국문 최대 3줄이었다. 580 은 딱 경계라 40px 여유를 두고 620 으로
+   잡는다 — 경계값은 실제 브라우저에서 어긋난다.
+   ⚠️ 영문 산업 소제목은 223~298자로 국문의 2배가 넘어, 740px 까지 넓혀도
+      4~5줄이다. 그쪽은 글을 줄여야 하는 건이라 폭으로 풀지 않는다. */
 .ind-hero-bg .ind-hero-row .ind-lede {
-  grid-column: 2; grid-row: 3; margin-top: 0; max-width: 520px;
+  grid-column: 2; grid-row: 3; margin-top: 0; max-width: 620px;
 }
 /* 좁은 폭에서는 다시 세로로 쌓고 원래 여백을 돌려준다. */
 @media (max-width: 1100px) {
@@ -581,7 +734,12 @@ img { max-width: 100%; height: auto; }
 /* 태그라인 — 예지보전은 12px 대문자 eyebrow가 아니라 18px 문장체다.
    하늘색은 배경 밝기와 무관하게 브랜드 값 하나로 통일한다. */
 .ind-hero-bg .ind-eyebrow {
-  font-size: 20px; font-weight: 600; letter-spacing: -0.2px;
+  /* ⚠️ 폭을 따라 줄어든다. 20px 고정이었을 때 390px 화면에서 대제목이 30px
+     까지 내려오는 동안 태그라인만 20px 에 머물러 둘이 거의 같은 크기로
+     읽혔다(대제목은 clamp(30,5vw,52) · 소제목은 900px 에서 18 -> 16px).
+     1.4vw 는 1440px 에서 20.2px 이라 넓은 화면의 모습은 그대로고, 900px 에서
+     12.6 -> 하한 15px, 390px 에서 15px 이 된다. */
+  font-size: clamp(15px, 1.4vw, 20px); font-weight: 600; letter-spacing: -0.2px;
   /* 태그라인은 소제목과 색(--text-muted #7E8A98)이 같고 굵기는 대제목과 같은
      600 이다 — 20px / 600 으로 소제목(18px / 400)보다 조금 크고 굵다.
      ⚠️ 흰 면에서 3.51:1 이라 작은 글자 기준(4.5:1)에 모자란다. --text-muted 가
@@ -672,28 +830,63 @@ img { max-width: 100%; height: auto; }
    예지보전 CTA(.uc-cta-bg)와 같은 구성이다. */
 .ind-cta-bg {
   position: relative; overflow: hidden;
-  padding: 95px 0;
+  /* 위아래 110px — 메인 CTA(#cta)와 같은 값이다. 95px 에서 올렸다. */
+  padding: 110px 0;
   text-align: left;
-  /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
-     흰 배경이면 글자가 잠깐 보이지 않는다. */
-  background: #191F27;
+  /* 면색은 그래픽에 들어 있는 배경(#151B23)과 같은 값이다 — 영상이 닿지
+     않는 자리와 도착 전 화면이 이어진다. */
+  background: #151B23;
 }
 /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 섹션이 사진보다 훨씬 납작해
    object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록 사진이
    축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
    모자란 가로는 좌우 균등하게 잘린다. */
 .ind-cta-bg-img {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; min-width: 1440px; height: 100%;
-  object-fit: cover; object-position: center 65%;
+  /* 어느 폭에서나 섹션을 가득 덮는다. 그래픽(2880x600 = 4.8:1)보다
+     섹션이 납작하지 않아 세로를 채우며 가로가 잘린다 — 1440px 에서 1.4배,
+     901px 에서 2.1배다. 폭마다 확대율이 다르지만, 섹션 위아래에 딱 맞고
+     오른쪽 자리가 그대로인 쪽을 택했다.
+     ⚠️ 한때 1200px 이하를 띠(높이 62%)로 묶어 확대율을 고정했다. 확대는
+        잡혔지만 그림이 섹션 위아래에 닿지 않아 띠가 네모로 드러났다 —
+        마스크로 녹여도 '섹션에 안 맞는' 모습은 그대로였다.
+     ⚠️ 왼쪽 끝에 붙이고 폭을 110% 로 둔다 — 상자가 섹션 오른쪽 밖으로 10% 나가
+        면서, 오른쪽 끝에 맞춘 그림이 그만큼 오른쪽으로 밀린다.
+        ⚠️ 오른쪽 기준(right: 0)으로 달면 상자가 왼쪽 밖으로 나가 보이는 자리가
+           달라진다 — 그림이 205px 왼쪽으로 옮겨 간 것처럼 보였다.
+        ⚠️ transform 으로 밀면 왼쪽에 상자가 닿지 않는 띠가 생겨 그 경계가
+           세로선으로 드러난다.
+     ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다. */
+  display: block;
+  position: absolute; top: 0; left: 0; bottom: 0; right: auto;
+  width: 110%; height: 100%;
+  object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
 }
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
-/* 제목 좌측 · 버튼 우측으로 한 줄에 나눈다. 버튼이 제목 아래에 쌓이지 않아
-   시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다. */
+.ind-cta-bg::after {
+  /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
+     가운데를 가장 짙게 둔다. 글이 세로 가운데에 모여 있고, 위아래는 영상이
+     제 모습으로 남아야 배경이 영상인 줄 알아본다.
+     ⚠️ video 와 ::after 둘 다 absolute 라 나중에 칠해지는 ::after 가 위에 온다.
+      글이 든 칸은 z-index 1 이라 둘보다 위다. */
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  /* ⚠️ 메인 CTA(.30 / .46)보다 짙다. 지나온 값 — .44/.62 · .56/.74(짙었다) · .50/.68 · .46/.64. 저쪽 영상은 결이 모여드는 그림이라
+     옅어도 되지만, 이 그래픽은 선이 또렷해 글 뒤에서 먼저 읽혔다. */
+  background: linear-gradient(180deg,
+    rgba(10, 14, 20, .46) 0%,
+    rgba(10, 14, 20, .64) 42%,
+    rgba(10, 14, 20, .64) 62%,
+    rgba(10, 14, 20, .46) 100%);
+}
+/* 문구 위 · 버튼 아래로 왼쪽에 쌓는다 — 메인 CTA 와 같은 배치다.
+   ⚠️ 한때 제목 좌측 · 버튼 우측 한 줄이었다(space-between). 메인과 결을
+      맞추려고 바꿨다 — 되살리려면 이 블록만 되돌린다.
+   ⚠️ 사이 40px 도 메인 값이다(문구 아랫변 ~ 버튼 윗변). */
 .ind-cta-bg .ind-container {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 48px; flex-wrap: wrap;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 40px;
 }
 .ind-cta-bg .ind-container > * { flex: none; }
 /* 굵기 650 -> 500, 줄높이 1.3 -> 1.35. 한 줄로 나란히 서므로 제목 아래 여백은 없앤다. */
@@ -950,10 +1143,37 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-container { max-width: 1600px; padding: 0 48px; }
 @media (max-width: 900px) { .ind-page .ind-container { padding: 0 24px; } }
 
-/* 섹션 위아래 여백. 히어로 위 여백(.ind-hero-bg 의 padding-top)과 같은 값으로
-   묶는다 — 네 섹션(과제 · 유즈케이스 · 솔루션 구조 · 도입 효과)이 같은 간격으로 선다.
-   ⚠️ 숫자가 두 곳에 있다. 히어로를 고치면 여기도 같이 고친다. */
+/* 섹션 위아래 여백. 필러 페이지(/why-refinery)가 쓰는 값이다.
+   ⚠️ 산업 상세는 아래에서 130px 으로 덮는다. 전에는 이 180px 이 히어로 위
+      여백(.ind-hero-bg 의 padding-top 180px)과 같은 값으로 묶여 있었는데,
+      산업 상세를 과제별과 맞추면서 그 짝이 풀렸다. 히어로 위 여백은 그대로
+      180px 이다. */
 .ind-page .ind-section { padding: 180px 0; }
+
+/* 산업 상세의 섹션 여백은 과제별(.uc-redesigned .ind-section)과 같은 값으로 둔다.
+   ⚠️ .ind-page 가 아니라 .ind-industry 에 건다. .ind-page 는 필러 페이지
+      (/why-refinery)도 쓰므로 그쪽 여백까지 같이 줄어든다.
+   ⚠️ 위 .ind-page 규칙과 특이도가 같다(둘 다 0,2,0). 두 클래스가 같은 <main>
+      에 함께 붙으므로 뒤에 선언된 이쪽이 이긴다 — 순서를 바꾸면 안 된다. */
+.ind-industry .ind-section { padding: 180px 0; }
+/* 섹션 사이 간격 — 기본은 360px(안 여백 180px 두 장)이고, 솔루션 구조를
+   앞뒤로 낀 두 경계만 240px 으로 좁힌다.
+     유즈케이스 → 솔루션 구조  180px (90 + 90)
+     솔루션 구조 → 도입 효과   180px (90 + 90)
+   ⚠️ 섹션의 기본 안 여백 180px 은 건드리지 않는다. 그 값을 내리면 페이지의
+      모든 경계가 함께 좁아진다 — 한 번 140px 으로 내렸다가 되돌렸다.
+   ⚠️ 각 간격은 맞붙은 두 섹션이 절반씩 나눠 가진다. 한쪽만 줄이면 섹션의
+      위아래 여백이 저마다 달라져 다음 사람이 읽기 어렵다.
+   ⚠️ 한때 두 경계를 280 / 180px 으로 달리 두었다(화제가 바뀌는 자리와 같은
+      화제가 이어지는 자리). 지금은 둘 다 같은 값이다 — 360 -> 240 -> 200
+      -> 180px 으로 좁혀 왔다. */
+.ind-industry .ind-usecases { padding-bottom: 90px; }
+.ind-industry .ind-arch { padding-top: 90px; padding-bottom: 90px; }
+.ind-industry .ind-benefits { padding-top: 90px; }/* 좁은 폭 값도 과제별과 같다. 공통 .ind-section 의 560px 분기(60px)는 특이도가
+   낮아(0,1,0) 위 규칙에 져서 산업 상세에는 닿지 않았다. */
+@media (max-width: 900px) {
+  .ind-industry .ind-section { padding: 84px 0; }
+}
 
 /* 대제목 왼쪽 · 소제목 오른쪽으로 한 줄에 나눈다 — 랜딩 .section-header-row와
    같은 값이다. 제목 아래 여백은 44px -> 64px. */
@@ -1009,7 +1229,7 @@ img { max-width: 100%; height: auto; }
 /* 솔루션 구조 소제목은 한 줄로 둔다. 400px에서는 437px이 필요해 두 줄이 됐다.
    이 섹션만 460px으로 올린다 — 공통값을 건드리면 다른 섹션 소제목 줄바꿈이
    함께 달라진다. */
-.ind-page .ind-dark .ind-head p { max-width: 460px; }
+.ind-page .ind-arch .ind-head p { max-width: 460px; }
 /* 문제 섹션 소제목도 한 줄로 둔다. 산업마다 나열하는 공정 수가 달라 400px에서는
    7개 중 5개가 두 줄이 됐다(가장 긴 식품 542px). 560px으로 올린다 —
    가장 넓은 제목(기계·플랜트 432px)과 32px 사이를 두고도 머리 폭 1184px 안에
@@ -1075,10 +1295,11 @@ img { max-width: 100%; height: auto; }
    줄 높이 32px(20px * 1.6)에 맞춘 값이다. 일곱 산업 · 두 언어를 320~1600px
    17개 폭에서 재어 제목은 최대 두 줄이고, 제목에 인라인 태그가 없어 flex 로 둬도
    줄 나눔이 깨지지 않는다. */
-.ind-page .ind-benefits .ind-card h3 {
-  min-height: 64px; margin-top: -32px;
-  display: flex; align-items: flex-end;
-}
+/* ⚠️ 위 보정(min-height 64px · margin-top -32px)은 걷었다. 카드가 가로로
+   늘어서던 때 '두 줄 제목만 위로 자라게' 해 본문 시작선을 맞추던 값인데,
+   상자를 걷고 아이콘을 제목 옆에 세운 지금은 제목 상자가 32px 위로 끌려
+   올라가 아이콘과 30px 어긋났다. 줄 사이가 선이 아니라 간격이라 시작선을
+   맞출 까닭도 없어졌다. */
 
 /* 영문 산업 페이지의 도입 효과는 2열로 둔다. 국문은 카드 수에 따라 3열 · 4열 그대로다.
    한국어와 영어는 같은 뜻을 담는 데 드는 글자 폭이 1.6~1.9배 차이 난다. 3열(칸 333px)
@@ -1238,8 +1459,8 @@ img { max-width: 100%; height: auto; }
   .ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline; }
 }@media (max-width: 900px) {
   .ind-page .ind-head p { font-size: 16px; }
-  /* 칩도 같은 자리에서 함께 내린다 — 소제목과 같은 크기로 두기로 한 값이라,
-     여기서 안 내리면 좁은 폭에서 칩만 18px 로 남아 소제목보다 커진다. */
+  /* 라벨도 같은 자리에서 함께 내린다 — 소제목과 같은 크기로 두기로 한 값이라,
+     여기서 안 내리면 좁은 폭에서 라벨만 18px 로 남아 소제목보다 커진다. */
   .ind-sec-label { font-size: 16px; }
 }
 
@@ -1280,7 +1501,12 @@ img { max-width: 100%; height: auto; }
   display: inline-flex; align-items: center; justify-content: center;
   width: fit-content; height: auto;
   margin-bottom: 65px;
-  color: #76a6d7;
+  /* 아이콘 색은 #3F76AE — 브랜드색(#76A6D7)에서 램프 두 단 아래다.
+     바탕 #EEF4FB 위에서 #76A6D7 은 2.31:1 이라 뜻을 지는 도형 기준(3:1)에
+     못 미쳤다. #3F76AE 는 4.30:1 이다.
+     ⚠️ 이 규칙은 산업 페이지의 .ind-card-icon 전부에 걸린다 — 지금 쓰는
+        곳은 도입 효과 한 군데뿐이다(한 페이지에 다섯 개). */
+  color: #3F76AE;
 }
 /* 제목을 20px으로 올린 만큼 아이콘도 키운다(랜딩은 26 / 16). */
 .ind-page .ind-card-icon i { font-size: 30px; line-height: 1; }
@@ -1297,46 +1523,114 @@ img { max-width: 100%; height: auto; }
    모서리 10px · 그림자 · hover 링). 같은 섹션 안에서 같은 종류의 상자로 읽힌다. */
 .ind-page .ind-systems-block {
   margin-top: 64px;
-  background: #191F27;
-  border: 1px solid #292F37;
-  border-radius: 10px;
+  /* 테두리 없이 면으로만 선다 — 안의 칩, 흐름 상자와 같은 결이다.
+     ⚠️ hover 링(box-shadow 0 0 0 2px)도 함께 걷었다. 테두리와 같은 일을 하는
+        선이라, 하나만 남기면 마우스를 올렸을 때만 테가 생겨 더 튄다. */
+  /* 먹색 판이다 — 랜딩 플랫폼 개요 섹션(#platform)과 같은 #151B23. 흰 섹션
+     한가운데에 어두운 판 하나를 놓아, 흐름 네 칸과 성격이 다른 '연동 목록'
+     임을 면색으로 가른다. #F6F8FA 로 두었을 때는 같은 흰 결의 한 단 아래라
+     판이 섹션에 묻혔다.
+     ⚠️ 판이 어두워지면서 안의 글 · 칩도 밝은 한 벌로 함께 옮겼다(아래). */
+  background: #151B23;
+  border: 0;
+  /* 카드 둥글기는 사이트 공통값 12px 하나로 모았다 — 10px 은 랜딩 통합 노드
+     카드에서 값을 가져오며 따라온 것이었다. */
+  border-radius: var(--radius);
+  /* 네 변 모두 24px — 위 카드 넷(.ind-page .ind-flow-step)과 같은 값이다.
+     ⚠️ 한때 윗변만 16.9px 으로 줄였다. 제목의 줄 상자가 글자보다 반 줄 간격
+        (7.1px)만큼 커서 눈에 보이는 윗여백이 31.1px 이 되기 때문인데, 카드와
+        값을 맞추기로 해서 되돌렸다. 카드도 같은 사정으로 윗여백이 더 넓게
+        보인다 — 둘이 같은 방식으로 어긋나 있어 나란히 놓으면 결은 맞는다.
+     ⚠️ 카드는 테두리 1px 이 더 있어 글이 바깥에서 25px 안쪽에서 시작한다.
+        판은 테두리가 없어 24px 이다. */
   padding: 24px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  transition: box-shadow .15s ease;
+  /* 오른쪽 아래 장식이 판 안에서만 보이게 한다 — 둥근 모서리를 넘는 부분은
+     잘린다. 장식이 absolute 라 판이 기준 상자가 되어야 한다. */
+  position: relative;
+  overflow: hidden;
 }
-.ind-page .ind-systems-block:hover {
-  box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+/* 장식 — 판 오른쪽 아래에 붙여 높이를 꽉 채운다. 원본이 1440x270(= 720x135
+   @2x)이라 폭은 비율대로 따라온다.
+   ⚠️ 글 · 칩보다 뒤에 둔다. 같은 층이면 나중에 온 장식이 위를 덮는다.
+   ⚠️ video 는 inline 이라 그대로 두면 아래에 글줄만큼 빈 칸이 생긴다. */
+.ind-page video.ind-sys-deco {
+  display: block;
+  position: absolute; right: 0; bottom: 0;
+  /* 판 폭을 그대로 쓴다(100%). 높이는 비율대로 따라와 판보다 커지고, 넘친
+     윗부분은 판의 overflow: hidden 이 자른다 — 원본이 1440x270 으로 납작해
+     가로를 키우려면 세로가 먼저 넘친다.
+     ⚠️ 높이로 잡던 값(140%)을 폭으로 바꾼 것이다. 그때는 1023px 이라 판
+        오른쪽 77% 까지였다. 지금은 1329x249 로 판을 가로지르고 112px 이
+        위에서 잘린다.
+     ⚠️ 왼쪽 끝까지 깔려도 글을 가리지 않는다. 그림 자체가 오른쪽 아래에서
+        뻗어 나가는 격자라 왼쪽은 거의 비어 있고, 글 · 칩은 z-index 로 한 층
+        위에 있다. */
+  width: 100%; height: auto;
+  pointer-events: none;
+  z-index: 0;
+  /* 먹색 판 위에서 격자가 너무 묽어 잘 안 보였다 — 밝기를 1.6 배로 올린다.
+     ⚠️ opacity 로는 못 올린다(1 이 최대다). 그림 자체가 반투명한 선이라
+        brightness 로 선만 밝아지고 빈 자리는 그대로 투명하다.
+     ⚠️ 판 높이가 줄면서(214 -> 158px) 그림 249px 중 아래쪽만 남은 것도
+        겹쳤다. 더 보이게 하려면 판을 키우거나 그림을 더 키운다. */
+  filter: brightness(1.6);
 }
-/* 제목 · 소제목 한 줄 — 섹션 머리(.ind-page .ind-head)와 같은 배치다.
-   제목은 왼쪽, 소제목은 오른쪽 끝에 붙는다. 좁아지면 소제목이 아래로 내려간다. */
+/* 글 · 칩을 한 층 올린다. */
+.ind-page .ind-systems-head,
+.ind-page .ind-systems { position: relative; z-index: 1; }
+/* 제목 위, 소제목 아래 — 두 줄로 쌓는다.
+   ⚠️ 한 줄이었다(제목 왼쪽 · 소제목 오른쪽 끝). 그때는 소제목이 판 오른쪽
+      끝에 서서 장식과 같은 자리를 다퉜다. 세로로 쌓으면 둘 다 왼쪽 선에
+      걸리고 오른쪽이 장식 몫으로 비워진다. */
 .ind-page .ind-systems-head {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  gap: 24px; flex-wrap: wrap;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 6px;
+  /* 소제목에서 칩까지 24px — 판의 위 · 아래 여백과 같은 값이다.
+     ⚠️ 한때 19.6px 이었다(소제목의 반 줄 간격 4.4px 을 뺀 값). 판 여백을
+        카드와 같은 24px 으로 되돌리면서 이쪽도 값으로 맞춘다. */
   margin-bottom: 24px;
 }
+/* 어두운 판 위라 글은 밝은 한 벌이다 — 제목 #F6F8FA · 소제목 #A0A8B3,
+   이 페이지 어두운 면(.ind-head-light)에서 쓰는 두 값과 같다. */
 .ind-page .ind-systems-head h3 {
   font-size: 20px; font-weight: 600; line-height: 1.6;
   color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
-  margin: 0; font-size: 15px; line-height: 1.5; color: #A0A8B3;
-  text-align: right;
+  /* 14px — 판 안의 글을 카드보다 한 단 아래로 둔다. 어두운 바탕의 밝은
+     글자는 같은 크기라도 더 커 보여, 15px 으로 두면 흰 카드의 15px 보다
+     한 끗 크게 읽힌다.
+     ⚠️ 판 안 글자는 소제목 · 내용 라벨이 같은 14px 로 함께 간다. 한쪽만
+        내리면 판 안에서 둘이 어긋난다. 제목(20px)은 그대로다. */
+  margin: 0; font-size: 14px; line-height: 1.5; color: #A0A8B3;
+  /* 제목 아래로 내려오면서 왼쪽 맞춤이 된다. */
+  text-align: left;
 }
 /* 연동 시스템 칩 — 흐름 카드 안 내용 상자(.ind-flow-detail li)와 같은 값이다.
    면 #353C44 · 테두리 없음 · 모서리 8px · 안 여백 6px 10px · 14px #C8CED5.
    섹션 안에서 '항목 하나'를 담는 상자가 한 종류로 통일된다. */
-.ind-dark .ind-system {
-  background: #353C44; border: 0; border-radius: 8px;
+/* ⚠️ 칩 면만 흐름 쪽과 다르다. 흐름 상자는 흰 섹션 위라 #F6F8FA 인데,
+   이 칩은 먹색 판(#151B23) 안이라 한 톤 올린 #32373F 를 쓴다 — 판 위에서
+   1.35:1 로 상자가 읽히는 가장 낮은 단계다. 글자 #C8CED5 는 그 면 위에서
+   AA(4.5:1)를 지키는 가장 어두운 단계다. */
+.ind-arch .ind-system {
+  background: #32373F; border: 0; border-radius: 8px;
   padding: 6px 10px;
+  /* 14px — 카드 안 내용 라벨(15px)보다 한 단 아래다. 판 안 글을 통째로
+     한 단 내리기로 한 결과이고, 같은 판의 소제목과 같은 값이다.
+     ⚠️ 상자 값(여백 6px 10px · 둥글기 8px · 굵기 400)은 카드 쪽과 같다 —
+        다른 것은 글자 크기와 색뿐이다. */
   font-size: 14px; font-weight: 400; line-height: 1.5; color: #C8CED5;
 }
-.ind-dark .ind-systems-note { color: #A0A8B3; }
+.ind-arch .ind-systems-note { color: var(--text-muted); }
 /* 연동 시스템 노트 — 흐름 노트(.ind-flow-note)와 같은 값이다. 카드 밖 아래에
    놓이고, 상자 없이 별표 + 13px #959CA5로 왼쪽 끝에 선다. */
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  font-size: 13px; line-height: 1.5; color: #A0A8B3;
+  /* 흐름 노트(.ind-page .ind-flow-note)와 같은 15px · 같은 #A4ADB8 이다.
+     두 캡션은 늘 같은 값으로 둔다. 대비 설명은 그쪽에 적어 두었다. */
+  font-size: 15px; line-height: 1.5; color: #A4ADB8;
   text-align: left;
   word-break: keep-all;
 }
@@ -1346,6 +1640,9 @@ img { max-width: 100%; height: auto; }
   flex-wrap: wrap;
   column-gap: .32em;
   padding-left: .72em;
+  /* 흐름 노트와 같은 방식으로 오른쪽 끝에 세운다(위 설명 참고). */
+  width: fit-content;
+  margin-left: auto;
 }
 .ind-page .ind-systems-note::before {
   content: '*';
@@ -1376,6 +1673,10 @@ img { max-width: 100%; height: auto; }
 .ind-uc-aside {
   position: sticky;
   top: calc(var(--header-h, 70px) + 48px);
+  /* 마지막 사례가 화면에 들어오면 사라진다 — IndustryPage 의 스크립트가
+     .is-faded 를 붙인다. 목록이 끝나 가는데도 제목이 계속 붙어 있으면
+     왼쪽 칸이 빈 채로 화면 두 개 분량을 따라온다(1440px 에서 1907px). */
+  transition: opacity .35s cubic-bezier(.2, .7, .2, 1);
   /* ⚠️ 격자 칸의 기본 min-width 는 auto 라 내용만큼 늘어난다. 좁은 폭에서 탭 띠를
      가로 스크롤로 눕히면 이 칸이 1282px 까지 벌어져 페이지에 가로 스크롤이 났다. */
   min-width: 0;
@@ -1398,6 +1699,96 @@ img { max-width: 100%; height: auto; }
   .ind-uc-list { margin-top: 0; }
   .ind-uc-aside { position: static; }
 }
+/* 도입 효과 목록 — 상자를 걷고 한 줄에 하나씩 아래로 쌓는다.
+   ⚠️ .ind-card 는 다른 섹션(.ind-grid-rule · .ind-soft-dark 등)도 쓰는 공용
+      클래스라, 반드시 .ind-benefits 안으로 좁혀서 덮는다.
+   ⚠️ 줄 사이는 가로선 하나로 가른다. 상자가 없으니 간격(gap)만으로는 두 줄이
+      한 덩어리로 읽힌다.
+   ⚠️ 아이콘은 글 왼쪽에 세우고 두 줄을 가로지르게 둔다(grid-row 1/3). 상자였을
+      때처럼 글 위에 두면 줄마다 높이가 들쭉날쭉해진다. */
+.ind-grid-1 { grid-template-columns: 1fr; }
+/* 칸 수를 숫자로 박지 않고 폭에 맡긴다 — 320px 이 들어갈 만큼만 담으므로
+   이 칸(809px)에서는 둘, 좁아지면 저절로 하나가 된다.
+   ⚠️ .ind-grid-2 보다 뒤에 와야 이긴다(같은 특정도). */
+.ind-page .ind-benefits .ind-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 36px 40px;
+  /* 오른쪽 칸을 8.9px 내린다 — 첫 아이콘 상자의 윗변이 왼쪽 대제목의 글자
+     윗변과 같은 선에 온다.
+     ⚠️ 두 칸은 상자로는 이미 같은 자리에서 시작한다(shell 이 align-items:
+        start). 어긋나 보이는 것은 대제목의 줄 상자가 글자보다 위로 8.9px
+        크기 때문이다(45px x 1.3 = 58.5px 줄 상자). 아이콘 상자는 면을 칠한
+        네모라 상자가 곧 글자 끝이다.
+     ⚠️ 대제목 크기 · 줄 높이를 바꾸면 이 값을 다시 잰다. */
+  margin-top: 8.9px;
+}
+.ind-page .ind-benefits .ind-card {
+  /* 첫 칸은 아이콘 상자 폭(40px)과 같다. 44px 이던 것을 아이콘을 줄이면서
+     함께 줄였다 — 그대로 두면 칸 안에 4px 이 죽은 채 남아 글이 그만큼 더
+     밀렸다. */
+  display: grid; grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 18px; align-items: start;
+  background: none; border: 0; border-radius: 0;
+  padding: 0;
+}
+/* ⚠️ 구분선은 두지 않는다. 칸을 가르는 일은 간격(gap)이 맡는다. */
+/* 아이콘은 상자 안에 담는다 — 면은 하늘색 10%, 모서리는 솔루션 구조 쪽
+   아이콘 상자와 같은 10px 이다.
+   ⚠️ 제목 줄에만 둔다(grid-row 1). 두 줄을 가로지르게 두면 설명 길이에 따라
+      아이콘이 위아래로 움직여 칸마다 높이가 달라 보인다.
+   ⚠️ 아이콘과 제목 둘 다 align-self: center 다. 줄 높이는 상자(44px)가 정하는데
+      제목만 start 로 두면 제목이 그 줄 꼭대기에 붙어 아이콘과 어긋난다 —
+      둘을 같이 가운데로 보내야 두 한가운데가 한 선에 온다.
+   ⚠️ 글자 크기는 22px 로 내린다. 공용값 30px 은 44px 상자에 넣으면 꽉 차
+      상자가 아니라 테두리처럼 보인다. */
+.ind-page .ind-benefits .ind-card-icon {
+  grid-column: 1; grid-row: 1; align-self: center;
+  /* ⚠️ 여백을 0 으로 지운다. 아이콘이 글 위에 서던 때의 아래 여백(65px)이
+     남아 있어 줄 높이가 44 가 아니라 109px 이 됐고, 그 안에서 제목이 가운데로
+     내려가 아이콘과 30px 어긋났다. */
+  margin: 0;
+  /* 40x40 — 44 -> 36 -> 40px. 36 은 제목 줄(32px)과 거의 같아져 아이콘이
+     글에 묻혔다. 둥글기는 10px 그대로다. */
+  width: 40px; height: 40px; border-radius: 10px;
+  /* 면은 #EEF4FB — 솔루션 구조 섹션 띠와 같은 값이다. 전에는
+     rgba(118,166,215,.10) 이라 흰 면 위에서 #F1F6FB 로 풀려, 같은 페이지
+     안에 비슷하지만 다른 옅은 하늘색이 둘 있었다. */
+  background: #EEF4FB;
+  display: flex; align-items: center; justify-content: center;
+}
+/* 아이콘 글자 20px — 상자(40px)의 절반이다. 44/22 일 때와 같은 비율이라
+   상자 안 위아래로 10px 씩 남는다. */
+.ind-page .ind-benefits .ind-card-icon i { font-size: 20px; }
+/* ⚠️ 제목의 아래 여백은 0 이다. 가운데 맞춤은 여백까지 더한 상자를 기준으로
+   하므로, 5px 을 달면 제목이 그 절반(2.5px)만큼 위로 올라가 아이콘과 어긋난다.
+   줄 사이 여백은 설명 쪽 위 여백으로 옮겼다. */
+.ind-page .ind-benefits .ind-card h3 { grid-column: 2; align-self: center; margin: 0; }
+.ind-page .ind-benefits .ind-card p { grid-column: 2; margin: 5px 0 0; }
+
+/* 도입 효과 — 유즈케이스 섹션(.ind-uc-shell)과 같은 구도다. 왼쪽 칸에 제목과
+   소제목, 오른쪽에 목록이 선다.
+   ⚠️ 붙여 두지(sticky) 않는다. 오른쪽 목록이 짧아(여섯 칸) 따라올 거리가 없다.
+   ⚠️ 글자값은 .ind-uc-aside 와 같은 값을 그대로 쓴다 — 한 페이지 안에서 왼쪽
+      머리 칸이 두 번 나오므로 둘이 같아야 한 짝으로 읽힌다. */
+.ind-ben-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  column-gap: 120px;
+  align-items: start;
+}
+.ind-ben-aside { min-width: 0; }
+.ind-ben-aside h2 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 4vw, 45px);
+  font-weight: 600; letter-spacing: -0.8px; line-height: 1.3;
+  color: var(--text);
+}
+/* ⚠️ 소제목 규칙은 걷었다. 화면에 내지 않으므로 남겨 두면 죽은 코드다 —
+   다시 낼 때는 왼쪽 맞춤 · 18px / 1.5 / --text-muted 로 되돌린다. */
+@media (max-width: 1200px) {
+  .ind-ben-shell { grid-template-columns: 1fr; row-gap: 32px; }
+}
+
 /* 소제목은 카드 왼쪽 칸에서 왼쪽 맞춤으로 선다. 28px — 오른쪽 카드 제목(20px)
    보다 크게 잡아 이 칸이 목록의 머리말로 읽힌다. 굵기 · 자간 · 색은 카드
    제목과 같은 값이다. 줄 나눔은 데이터의 개행을 lines()가 <br>로 바꿔 넣는다. */
@@ -1555,8 +1946,12 @@ img { max-width: 100%; height: auto; }
    크기 · 둥글기 · 비율은 .ind-uc-card 가 이미 가지고 있어 더 줄 것이 없다.
    ⚠️ 지금은 일곱 산업이 모두 그림을 가지고 있어 쓰이는 데가 없다. */
 .ind-uc-text h3 {
-  margin: 0 0 16px;
-  font-size: 24px; font-weight: 650;
+  /* 아래 여백 24px — 16px 에서 넓혔다. 세 줄 사이가 18px 이 되면서 제목과
+     내용 사이가 그보다 좁아 보였다. */
+  margin: 0 0 24px;
+  /* ⚠️ 굵기 600 — 650 에서 내렸다. 솔루션 구조 카드 제목
+     (.ind-page .ind-flow-label)이 같은 값을 쓰므로 함께 고친다. */
+  font-size: 24px; font-weight: 600;
   letter-spacing: -0.01em; line-height: 1.3;
   color: var(--text);
 }
@@ -1564,7 +1959,9 @@ img { max-width: 100%; height: auto; }
    제 라벨을 달고 다니고, 좁아져도 열이 어긋날 일이 없다.
    ⚠️ 라벨 칸은 고정폭이다. 국문은 두 글자(문제 · 접근 · 성과)라 저절로 맞지만
       영문은 Problem · Approach · Outcome 으로 길이가 달라 글 시작선이 어긋난다. */
-.ind-uc-dl { margin: 0; display: grid; gap: 10px; max-width: 58ch; }
+/* 줄 사이 18px — 10px 에서 넓혔다. 라벨이 면으로 칠해지면서 세 줄이 한
+   덩어리로 붙어 보였다. */
+.ind-uc-dl { margin: 0; display: grid; gap: 18px; max-width: 58ch; }
 /* ⚠️ 라벨 칸(첫 값)은 알약 폭에 2px 만 더한 값이다. 알약은 justify-self: start
    라 칸을 다 쓰지 않으므로, 칸이 넓으면 그 남은 자리가 gap 에 더해져 라벨과
    문장 사이가 벌어진다 — 56px 일 때 알약 42px + 빈 14px + gap 14px 으로
@@ -1572,7 +1969,15 @@ img { max-width: 100%; height: auto; }
    2px 여유는 글꼴 렌더링이 브라우저마다 1~2px 다르기 때문이다. 0 으로 맞추면
    알약이 칸을 넘친다. 칸을 고정으로 두는 것은 세 줄의 문장 시작선을 맞추려는
    것이다 — max-content 로 두면 줄마다 라벨 폭을 따라 들쭉날쭉해진다. */
-.ind-uc-dl > div { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+/* ⚠️ align-items 는 start 다 — 라벨을 문장 '첫 줄' 의 수직 가운데에 세운다.
+   값이 맞는 까닭: 라벨 상자 높이 = 12px x 1.4 + 여백 3px 두 번 + 테두리 1px
+   두 번 = 24.8px 이고, 문장 한 줄 높이 = 15.5px x 1.6 = 24.8px 로 같다.
+   두 상자의 윗변을 맞추면 가운데도 저절로 맞는다.
+   ⚠️ center 는 두세 줄짜리 문장에서 라벨이 덩어리 가운데로 내려간다.
+      baseline 은 라벨의 글자선을 첫 줄 글자선에 맞춰 상자가 위로 들린다.
+   ⚠️ 그래서 라벨 글자 크기 · 줄 높이 · 여백을 고치면 첫 줄과 어긋난다 —
+      둘 중 하나를 건드리면 24.8px 두 값을 다시 맞춘다. */
+.ind-uc-dl > div { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; }
 /* 문제 · 접근 · 성과 — 면을 채운 알약 라벨.
    ⚠️ justify-self: start 가 있어야 칸(56px) 을 다 채우지 않고 글자만큼만 선다.
       격자 칸은 기본이 stretch 라, 없으면 알약이 칸 폭까지 늘어난다.
@@ -1584,22 +1989,48 @@ img { max-width: 100%; height: auto; }
 .ind-uc-dl dt {
   justify-self: start;
   padding: 4px 10px;
-  font-size: 12px; font-weight: 700; letter-spacing: .04em; line-height: 1.4;
+  /* ⚠️ 굵기는 내용 글(dd, 400)보다 한 단 위인 500 이다. 700 은 라벨이 내용보다
+     먼저 읽혔고, 400 은 테두리만 남은 상자 안에서 너무 묽었다. */
+  font-size: 12px; font-weight: 500; letter-spacing: .04em; line-height: 1.4;
   color: #5A6776;
-  background: var(--bg-card);
-  border-radius: var(--radius);
+  /* ⚠️ 세 라벨이 같은 조형이다 — 회색 면 #EFF2F5 에 글자 #5A6776(5.11:1).
+     전에는 줄마다 달랐다: 문제 회색 면 · 접근 브랜드 테두리 · 성과 브랜드 면.
+     라벨 칸은 '이 줄이 무엇인가' 만 말하는 고정 칸인데 조형이 줄마다 바뀌면
+     세 줄이 한 사례의 세 면으로 묶이지 않고 서로 다른 세 요소로 읽혔고,
+     산업마다 사례가 4~6개라 그 색 사건이 한 페이지에서 12~18번 반복됐다.
+     세기 차이는 성과 내용 글(.ind-uc-out)이 혼자 쥔다.
+     ⚠️ 테두리는 면과 같은 색으로 남긴다 — 1px 을 걷으면 상자가 2px 작아진다.
+     ⚠️ 여백을 3px 9px 로 줄여 테두리 1px 을 더해도 상자 크기가 전과 같다.
+     ⚠️ 성과만 브랜드 면으로 세우려면 글자를 흰색이 아니라 먹색(#16202C)으로
+        둔다 — 흰 글자는 그 면 위에서 2.56:1 로 12px 기준(4.5:1)에 미달이다. */
+  padding: 3px 9px;
+  background: #EFF2F5;
+  border: 1px solid #EFF2F5;
+  /* ⚠️ 헤더의 주 행동 버튼(.btn-primary)과 같은 6px 이다. var(--radius)(12px)
+     로 두었을 때는 25px 짜리 라벨이 거의 알약으로 보여, 같은 사각 배지인
+     헤더 버튼과 결이 달랐다. */
+  border-radius: 6px;
 }
 .ind-uc-dl dd {
   margin: 0;
   font-size: 15.5px; line-height: 1.6;
   color: var(--text-muted);
 }
-/* 성과 — 끝점이라 한 단 진하게 둔다. */
-.ind-uc-out { color: #5A6776; font-weight: 500; }
-/* 영문 라벨은 길다 — 칸을 넓혀 글 시작선을 맞춘다. 가장 긴 Approach 가
-   76px 이라 78px 이다(국문과 같은 2px 여유). Problem 69 · Outcome 72 는
-   그보다 짧아 그 줄만 빈틈이 몇 px 넓다 — 시작선을 맞추는 대가다. */
-.ind-en .ind-uc-dl > div { grid-template-columns: 78px minmax(0, 1fr); }
+/* 성과 — 끝점이라 한 단 진하게 둔다. 세 라벨이 같은 조형이 된 뒤로는 이
+   한 곳이 사례 안의 위계를 혼자 쥔다.
+   ⚠️ 선택자에 .ind-uc-dl dd 를 붙여야 한다. 클래스만으로는 (0,1,0)이라 바로
+      위 .ind-uc-dl dd(0,1,1)에 눌려 색이 통째로 버려졌다 — 굵기만 먹고
+      색은 내용 글과 같은 #7E8A98 로 남아 있었다. */
+.ind-uc-dl dd.ind-uc-out { color: #5A6776; font-weight: 500; }
+/* 영문 라벨은 길이가 제각각이라(Problem 68.6 · Approach 75.5 · Outcome 72.3)
+   가장 긴 Approach 에 맞춰 셋을 같은 폭으로 세운다.
+   ⚠️ 칸을 76px 으로 두고 라벨을 칸 폭까지 늘린다(justify-self: stretch).
+      국문처럼 justify-self: start 로 두면 라벨이 제 글자 너비만큼만 서서
+      셋의 폭이 달라진다 — 국문은 두 글자씩이라 저절로 같았다.
+   ⚠️ 늘어난 만큼 글자는 가운데에 세운다. 왼쪽에 붙이면 폭만 같고 글자는
+      제각각인 자리에서 시작해 되레 어긋나 보인다. */
+.ind-en .ind-uc-dl > div { grid-template-columns: 76px minmax(0, 1fr); }
+.ind-en .ind-uc-dl dt { justify-self: stretch; text-align: center; }
 @media (max-width: 900px) {
   .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 0; padding: 32px 0; }
   .ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }

@@ -12,7 +12,7 @@ export const automotive: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '자동차 및 모빌리티',
     title: '설비 흐름과 품질 일관성을\n데이터로 제어합니다',
-    lede: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에 흩어진 설비 ⁠· 에너지 데이터를 온톨로지로 연결하고, AI 에이전트가 이상 징후를 먼저 감지하고 원인을 설명합니다. 회전체 예지보전부터 라인별 전력 분석, 생산량 연계 원단위 관리까지.',
+    lede: '프레스 ⁠· 차체 ⁠· 도장 ⁠· 조립 라인에 흩어진 설비 ⁠· 에너지 데이터를 온톨로지로 연결하고, AI 에이전트가 이상 징후를 먼저 감지하고 원인을 설명합니다. 회전체 예지보전부터 라인별 전력 분석, 생산량 연계 원단위 관리까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 자동차 및 모빌리티 현장이\n겪는 문제입니다',
@@ -56,7 +56,7 @@ export const automotive: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '자동차 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '자동차 제조 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -141,7 +141,7 @@ export const automotive: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '자동차 제조 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '자동차 및 모빌리티 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

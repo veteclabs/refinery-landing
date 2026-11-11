@@ -17,7 +17,7 @@ export const chemicals: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '화학 및 소재',
     title: '연속 반응 공정과 열에너지를\n정밀하게 제어합니다',
-    lede: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 공정 변화를 먼저 감지하고 원인을 설명합니다. 다중 에너지원 통합 감시부터 보일러 공기비 제어, 온실가스 통합 관리까지.',
+    lede: '전력 ⁠· LNG ⁠· 스팀 ⁠· 수도에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 공정 변화를 먼저 감지하고 원인을 설명합니다. 다중 에너지원 통합 감시부터 보일러 공기비 제어, 온실가스 통합 관리까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 화학 및 소재 현장이\n겪는 문제입니다',
@@ -66,7 +66,7 @@ export const chemicals: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '화학 공정 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '화학 공정 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -84,7 +84,7 @@ export const chemicals: IndustryData = {
         image: { src: '/industries/chemicals-solutions/chemicals-02-target-alarm.svg', width: 464, height: 237 },
       },
       {
-        title: '열매체 보일러 공기비 기반 송풍기 인버터 제어',
+        title: '열매체 보일러 공기비 기반\n송풍기 인버터 제어',
         problem: '감으로 맞추는 열매체 보일러 공기비',
         approach: '열매체 보일러 공기비에 따라 송풍기 인버터를 제어해 최적의 공기비를 유지합니다.',
         outcome: '연소 효율 향상과 에너지 비용 절감',
@@ -163,7 +163,7 @@ export const chemicals: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '화학 공정 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '화학 및 소재 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

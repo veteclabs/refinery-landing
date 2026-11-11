@@ -34,3 +34,5 @@ intro-deck/
 # 끝에 / 가 붙은 패턴은 링크를 걸러내지 못해 따로 적는다.
 node_modules
 시안.md
+refinery-usecase-icons/*
+!refinery-usecase-icons/README.md

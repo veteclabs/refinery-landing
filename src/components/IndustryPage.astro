@@ -6,7 +6,6 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import type { IndustryData } from '../data/industries/types';
-import RfIcon from './RfIcon.astro';
 import ScrollReveal from './ScrollReveal.astro';
 
 interface Props {
@@ -34,6 +33,11 @@ const T = {
   },
 }[lang];
 
+// 연동 시스템 판 오른쪽 아래 장식. public/industries/systems-corner 에
+// corner-rings · perspective-grid · halftone · orbit-hub · silk-ribbon 다섯 종이 있다.
+// ⚠️ 고를 때는 이 한 줄만 바꾼다.
+const sysDeco = 'perspective-grid';
+
 const canonical = lang === 'en' ? `/en/industries/${ind.slug}` : `/industries/${ind.slug}`;
 
 // 문제 섹션에는 배경 사진을 깔지 않는다. 전에는 모든 산업이 같은 사진
@@ -44,7 +48,9 @@ const challengesBg = ind.challenges.backgroundImage;
 
 // 도입 효과 칸 수. 산업마다 항목 수가 달라(4개 또는 6개) 3칸으로 고정하면
 // 4개일 때 마지막 줄에 한 칸만 남는다. 4개는 한 줄에 넷으로 세운다.
-const benefitCols = ind.benefits.items.length === 4 ? 4 : 3;
+/* 도입 효과는 2열이다. 산업마다 항목이 4개 · 6개로 달라도 2 x n 으로 떨어져
+   구도가 그대로다 — 칸 수를 세던 분기(4개면 4열, 아니면 3열)는 걷었다. */
+const benefitCols = 2;
 // ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
 const alternates = [
   { lang: 'ko', href: `/industries/${ind.slug}` },
@@ -254,7 +260,9 @@ const ucShift = (h: number) =>
                     나란히 서고 그림 윗변이 제목 윗변과 맞는다 — 여백을 눈대중으로
                     맞추면 번호의 글자 크기가 바뀔 때마다 어긋난다. */}
                 <div class="ind-uc-text">
-                  <h3>{u.title}</h3>
+                  {/* 제목의 개행은 lines() 가 <br> 로 낸다 — 섹션 제목과 같은 방식이다.
+                      데이터에 \n 이 없는 제목은 그대로 한 덩어리로 흐른다. */}
+                  <h3>{lines(u.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h3>
                   {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
                       세 문장은 데이터 그대로다. */}
                   <dl class="ind-uc-dl">
@@ -317,26 +325,46 @@ const ucShift = (h: number) =>
     </section>
 
     <!-- ARCHITECTURE -->
-    <section class="ind-section ind-dark">
+    <section class="ind-section ind-arch">
       <div class="ind-container">
-        <header class="ind-head ind-head-light">
+        {/* ⚠️ ind-head-light 를 쓰지 않는다 — 그 규칙은 어두운 면용(#EFF2F5)이고
+            과제 섹션과 함께 쓰므로, 여기만 밝게 하려면 기본 머리글을 쓴다. */}
+        <header class="ind-head">
           <h2>{ind.architecture.title}</h2>
-          {ind.architecture.subtitle && <p>{ind.architecture.subtitle}</p>}
+          {/* ⚠️ 소제목은 화면에 내지 않는다 — 유즈케이스 · 도입 효과와 같은
+              처리다. 데이터(architecture.subtitle)는 열네 파일에 그대로 두었다. */}
         </header>
-        <div class="ind-flow">
+        {/* 네 단계가 차례로 뜬다. 뜨는 간격은 ScrollReveal 기본(60ms)보다 한참
+            느리게 — 한 칸이 거의 다 뜬 뒤에 다음 칸이 시작하도록 300ms 로 둔다
+            (뜨는 데 걸리는 시간 자체는 .55s 다). 현장 0 → 연동 300 →
+            Refinery 600 → 활용 900ms 에 시작해 끝까지 1.45초다. */}
+        <div class="ind-flow" data-rv-step="300">
           {ind.architecture.steps.map((s, i) => (
             <>
               {i > 0 && (
               <div class="ind-flow-arrow" aria-hidden="true"><i class="ph ph-arrow-right"></i></div>
             )}
-              <div class:list={['ind-flow-step', 'rf-ic-host', s.highlight && 'is-on']}>
+              <div class:list={['ind-flow-step', s.highlight && 'is-on']}>
                 {/* 이름만 둔다. 카드 안에 일러스트가 이미 그 단계가 무엇인지
                     말하고 있어 작은 배지 아이콘은 같은 말을 두 번 하는 셈이다.
                     순서는 카드가 놓인 차례와 사이의 화살표가 맡는다. */}
                 <div class="ind-flow-head">
                   <span class="ind-flow-label">{s.label}</span>
                 </div>
-                {s.icon && <RfIcon name={s.icon} class="ind-flow-img" />}
+                {/* 차례는 제목 · 그림 · 내용이다. 그림이 가운데에 서고 그 위아래로
+                    글이 붙는다 — 보이는 차례와 마크업 차례가 같다.
+                    ⚠️ RfIcon(인라인 SVG) 이 아니라 그림 파일이다. 3D 아이소메트릭
+                       아이콘이라 SVG 로 그릴 수 있는 것이 아니다 — public/icons/flow
+                       아래 512px webp 와 1024px @2x 를 둔다. */}
+                {s.icon && (
+                  <img
+                    class="ind-flow-img"
+                    src={`/icons/flow/${s.icon}.webp`}
+                    srcset={`/icons/flow/${s.icon}.webp 1x, /icons/flow/${s.icon}@2x.webp 2x`}
+                    width="200" height="200"
+                    alt="" aria-hidden="true" loading="lazy" decoding="async"
+                  />
+                )}
               {/* 본문은 가운뎃점으로 끊어 상자 하나씩 담는다 — 플랫폼 개요
                   '한 플랫폼 안에 담긴 기능' 카드의 목록과 같은 구성이다. */}
               <ul class="ind-flow-detail">
@@ -360,6 +388,21 @@ const ucShift = (h: number) =>
           <div class="ind-systems">
             {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
           </div>
+          {/* 오른쪽 아래 장식 — 배경이 투명한 움직이는 그림이다.
+              ⚠️ webm 하나만 둔다(240KB). 같은 폴더의 mp4 는 배경이 검어 먹색
+                 판 위에서 네모가 드러나므로 쓰지 않고, 애니메이션 WebP 는
+                 1.19MB 이라 산업 페이지 일곱 장에 얹기에는 무겁다.
+              ⚠️ Safari 는 알파 있는 webm 을 못 읽는다 — 거기서는 poster(정지
+                 webp, 45KB)가 그대로 남는다. 모션이 없을 뿐 그림은 같다.
+                 Safari 에서도 움직이게 하려면 -anim.webp 를 함께 두고
+                 <picture> 로 바꾼다(그만큼 무거워진다).
+              ⚠️ 움직임을 줄여 달라고 한 화면에서는 아래 스크립트가 세운다 —
+                 autoplay 는 CSS 로 끌 수 없다. */}
+          <video class="ind-sys-deco" autoplay muted loop playsinline
+                 preload="metadata" aria-hidden="true"
+                 poster={`/industries/systems-corner/systems-${sysDeco}.webp`}>
+            <source src={`/industries/systems-corner/systems-${sysDeco}.webm`} type="video/webm" />
+          </video>
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
         {ind.integrations.note && <p class="ind-systems-note" set:html={ind.integrations.note} />}
@@ -367,12 +410,18 @@ const ucShift = (h: number) =>
     </section>
 
     <!-- BENEFITS -->
-    <section class="ind-section ind-soft ind-benefits">
+    {/* ⚠️ ind-soft(면 #F6F8FA)를 걷었다 — 위 솔루션 구조가 흰 면이 되면서 두
+        섹션이 면색으로 갈리지 않아, 아래 CTA 까지 흰 면 한 판으로 이어진다.
+        ⚠️ 구도는 유즈케이스 섹션(.ind-uc-shell)과 같다 — 왼쪽 칸에 제목 · 소제목,
+           오른쪽에 목록. 다만 왼쪽 칸을 붙여 두지는(sticky) 않는다. */}
+    <section class="ind-section ind-benefits">
       <div class="ind-container">
-        <header class="ind-head">
-          <h2>{ind.benefits.title}</h2>
-          {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
-        </header>
+        <div class="ind-ben-shell">
+          <div class="ind-ben-aside">
+            <h2>{ind.benefits.title}</h2>
+            {/* ⚠️ 소제목은 화면에 내지 않는다 — 유즈케이스 섹션과 같은 처리다.
+                데이터(benefits.subtitle)는 열네 파일에 그대로 두었다. */}
+          </div>
         <div class:list={['ind-grid', `ind-grid-${benefitCols}`]}>
           {ind.benefits.items.map((b) => (
             <div class="ind-card">
@@ -383,21 +432,28 @@ const ucShift = (h: number) =>
             </div>
           ))}
         </div>
+        </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class={ind.cta.backgroundImage ? 'ind-cta ind-cta-bg' : 'ind-cta'}>
-      {ind.cta.backgroundImage && (
-        <img
-          class="ind-cta-bg-img"
-          src={ind.cta.backgroundImage}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-        />
-      )}
+    <section class="ind-cta ind-cta-bg">
+      {/* 배경은 public/cta/page-cta 의 산업별 그래픽이다(와이어프레임 지형,
+          4초 루프). 그림 왼쪽이 배경색으로 사라지게 그려져 있어 섹션 전체
+          폭에 깐다.
+          ⚠️ 데이터의 cta.backgroundImage 는 더 쓰지 않는다 — 파일에 그대로
+             두었으니 되살릴 때 다시 꽂으면 된다.
+          ⚠️ 영상은 lazy 가 없다. preload="metadata" 로 첫 조각만 받고,
+             포스터(webp)가 도착 전과 '움직임 줄이기' 를 켠 화면을 맡는다. */}
+      <video
+        class="ind-cta-bg-img"
+        autoplay muted loop playsinline preload="metadata"
+        poster="/cta/page-cta/industry-cta-terrain.webp"
+        aria-hidden="true"
+      >
+        <source src="/cta/page-cta/industry-cta-terrain.webm" type="video/webm" />
+        <source src="/cta/page-cta/industry-cta-terrain.mp4" type="video/mp4" />
+      </video>
       <div class="ind-container">
         <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
@@ -417,6 +473,54 @@ const ucShift = (h: number) =>
            보일 때 튀지 않는다.
         ⚠️ 각 요소를 제가 관찰한다. 섹션을 관찰하면 선택자 짝을 따로 들고
            있어야 하는데, 끝없이 도는 것이 늘어날 때마다 두 곳을 고치게 된다. */}
+    /* 유즈케이스 왼쪽 칸(번호 + 대제목)은 붙어서 따라오다가, 마지막 사례가
+       화면에 들어오면 사라진다.
+       ⚠️ IntersectionObserver 를 쓰지 않는다. 빠르게 스크롤하면 상태 변화가
+          한 프레임에 합쳐져 콜백을 놓치는 일이 있어, 프레임마다 제 위치를
+          직접 재는 쪽으로 둔다(ScrollReveal 과 같은 까닭이다).
+       ⚠️ 좁은 폭(1200px 이하)에서는 칸이 static 이라 따라오지 않는다 —
+          그때는 지우지 않는다. 미디어 쿼리를 또 적지 않고 계산된 position 을
+          그대로 본다. */
+    (function () {
+      var aside = document.querySelector('.ind-uc-aside');
+      var shell = aside && aside.closest('.ind-uc-shell');
+      if (!aside || !shell) return;
+      var ticking = false;
+      function upd() {
+        if (getComputedStyle(aside).position !== 'sticky') {
+          aside.classList.remove('is-faded');
+          return;
+        }
+        /* 통(.ind-uc-shell)의 아랫변이 화면 절반 위로 올라오면 지운다 —
+           마지막 사례가 다 보이고 그 아래로 다음 섹션이 올라오기 시작하는
+           자리다. 통의 끝까지 붙여 두었더니 다음 섹션의 제목과 카드가 이미
+           화면에 들어온 뒤에도 02 제목이 왼쪽에 남아 있었다.
+           ⚠️ 칸이 붙기를 그만두는 자리(a.bottom)보다 늦출 수는 없다. 둘 중
+              이른 쪽이 아니라 '늦은 쪽' 을 기준으로 잡아야 화면이 아주 낮을
+              때도 붙은 채로 흘러 나가지 않는다 — Math.max 가 그 몫이다. */
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var a = aside.getBoundingClientRect();
+        var sh = shell.getBoundingClientRect();
+        var done = sh.bottom <= Math.max(a.bottom + 8, vh * 0.5);
+        aside.classList.toggle('is-faded', done);
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; upd(); });
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll, { passive: true });
+      upd();
+    })();
+
+    /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — poster 만 남는다. */
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video.ind-sys-deco, video.ind-cta-bg-img').forEach(function (v) {
+        v.removeAttribute('autoplay');
+        v.pause();
+      });
+    }
     (function () {
       if (!('IntersectionObserver' in window)) return;
       var nodes = document.querySelectorAll('.ind-chal-track, .ind-flow');
