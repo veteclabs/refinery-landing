@@ -633,14 +633,19 @@ const jsonLd = [
   .uc-faq-item:last-child { border-bottom: none; }
   .uc-faq-q {
     margin: 0; padding: 20px 4px;
-    /* '과제 더 살펴보기' 카드 대제목(.uc-case-label)과 같은 20px / 600. */
-    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    /* 메인 질문(.faq-q)과 같은 17px / 500 / 줄 1.5 다. 저쪽은 줄 높이를 적지
+       않고 body 값(1.5)을 받는데, 이 페이지의 h3 는 제 줄 높이를 갖고 있어
+       여기서는 적어 준다. 20px / 600 에서 내렸다. */
+    font-size: 17px; font-weight: 500; line-height: 1.5; letter-spacing: normal;
     color: var(--text, #16202c); cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
     word-break: keep-all;
   }
   .uc-faq-icon {
-    font-size: 14px; color: var(--text-dim, #7E8A98);
+    /* ⚠️ 예비값이 메인과 달랐다(#7E8A98). --text-dim 은 global.css 에만 있고
+       이 페이지는 그 파일을 읽지 않아 늘 예비값이 쓰인다 — 메인에서 그 토큰이
+       내는 값(#7E858F)으로 맞춘다. */
+    font-size: 14px; color: var(--text-dim, #7E858F);
     flex-shrink: 0; margin-left: 12px; transition: transform .2s;
     -webkit-text-stroke: 0.3px currentColor;
   }
