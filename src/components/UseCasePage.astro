@@ -322,6 +322,9 @@ const jsonLd = [
       <section class="ind-section uc-signal-section">
         <div class="ind-container uc-narrow">
           <header class="ind-head">
+            {/* 산업별 페이지와 같은 번호 라벨이다 — 신호가 01, 푸는 방식이 02.
+                숫자는 국·영문이 같아 사전에 두지 않는다. */}
+            <span class="ind-sec-label">01</span>
             <h2>{T.signals}</h2>
             <p>{T.signalsLede}</p>
           </header>
@@ -356,28 +359,52 @@ const jsonLd = [
     <!-- 어떻게 -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
-        <header class="ind-head"><h2>{T.how}</h2></header>
-        <div class="ind-grid ind-grid-3" style={uc.redesigned ? `--uc-cols:${Math.min(uc.how.length, 4)}` : undefined}>
-          {uc.how.map((h, i) => (
-            <div class="ind-card">
-              {/* 새 구성은 아이콘 대신 차례를 단다 — 네 칸이 '붙이고 → 판정하고
-                  → 감지하고 → 제안한다' 는 순서라 번호가 그 뜻을 진다.
-                  ⚠️ 예전 구성(redesigned 가 아닌 과제)은 아이콘 그대로다. */}
-              {uc.redesigned ? (
-                <div class="uc-card-head">
-                  <span class="uc-card-no" aria-hidden="true">{i + 1}</span>
-                  <h3>{h.title}</h3>
-                </div>
-              ) : (
-                <>
+        {uc.redesigned ? (
+          /* 산업별 '리파이너리가 이렇게 해결합니다' 와 같은 뼈대다 — 왼쪽 칸에
+             제목이 붙어 따라오고(sticky), 오른쪽에 항목이 가로선으로 갈려 쌓인다.
+             클래스도 그쪽 것(.ind-uc-shell · .ind-uc-list · .ind-uc-item)을
+             그대로 쓴다. 베끼면 두 곳이 따로 움직인다.
+             ⚠️ 그림 칸은 두지 않는다. .ind-uc-item 은 .ind-uc-card 가 없으면
+                글이 칸을 다 쓰도록 되어 있어(:not(:has(...))) 따로 손대지 않는다. */
+          <div class="ind-uc-shell">
+            <div class="ind-uc-aside">
+              <span class="ind-sec-label">02</span>
+              <h2>{T.how}</h2>
+            </div>
+            <ol class="ind-uc-list">
+              {uc.how.map((h, i) => (
+                <li class="ind-uc-item">
+                  <div class="ind-uc-text">
+                    {/* 아이콘 대신 차례를 단다 — 네 항목이 '붙이고 → 판정하고
+                        → 감지하고 → 제안한다' 는 순서라 번호가 그 뜻을 진다. */}
+                    <div class="uc-card-head">
+                      <span class="uc-card-no" aria-hidden="true">{i + 1}</span>
+                      <h3>{h.title}</h3>
+                    </div>
+                    {/* ⚠️ 데이터의 <br> 는 걷는다. 칸이 233px 이던 카드 구성에서
+                        손으로 끊어 둔 자리라, 폭이 1000px 가까이 되는 이 칸에서는
+                        석 줄이 한가운데서 뚝뚝 끊긴다. 줄 나눔은 브라우저에 맡기고
+                        길이는 max-width(58ch)가 쥔다. */}
+                    <p set:html={h.desc.replace(/<br\s*\/?>/g, ' ')}></p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : (
+          <>
+            <header class="ind-head"><h2>{T.how}</h2></header>
+            <div class="ind-grid ind-grid-3">
+              {uc.how.map((h) => (
+                <div class="ind-card">
                   {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
                   <h3>{h.title}</h3>
-                </>
-              )}
-              <p set:html={h.desc}></p>
+                  <p set:html={h.desc}></p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         {uc.template && (
           <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
@@ -427,6 +454,9 @@ const jsonLd = [
       <section class="ind-section uc-signal-section">
         <div class="ind-container uc-narrow">
           <header class="ind-head">
+            {/* 산업별 페이지와 같은 번호 라벨이다 — 신호가 01, 푸는 방식이 02.
+                숫자는 국·영문이 같아 사전에 두지 않는다. */}
+            <span class="ind-sec-label">01</span>
             <h2>{T.signals}</h2>
             <p>{T.signalsLede}</p>
           </header>
@@ -1187,13 +1217,18 @@ const jsonLd = [
   .uc-redesigned .ind-soft { background: #FFFFFF; position: relative; }
   .uc-redesigned .ind-soft > .ind-container { position: relative; z-index: 1; }
   .uc-redesigned .ind-soft .ind-head h2 { color: var(--text); }
-  /* 카드는 면으로만 선다 — #F6F8FA, 테두리 없음. 섹션이 흰 면이라 한 단
-     아래 면이 곧 경계다. 신호 섹션 카드(.uc-signal)와 같은 값이다.
-     ⚠️ 그림자도 두지 않는다 — 면이 경계를 쥔다. 그림자는 신호 카드에만
-        둔다(그쪽은 아래 원형 빛 위에 놓여 면만으로는 묽다). */
-  .uc-redesigned .ind-soft .ind-card {
-    background: var(--bg-soft); border: 0;
+  /* 항목은 가로선으로만 갈린다 — 면도 테두리도 없다. 산업별 '리파이너리가
+     이렇게 해결합니다' 와 같은 값(.ind-uc-item 의 윗선 · 위아래 44px)을
+     industry.css 에서 그대로 받는다. 여기서는 글값만 맞춘다. */
+  .uc-redesigned .ind-uc-text p {
+    margin: 0;
+    font-size: 15.5px; line-height: 1.6;
+    color: var(--text-muted);
   }
+  /* 글만 있는 목록이라 오른쪽 칸을 560px 에서 끊는다. 산업별 쪽은 같은 칸에
+     그림이 함께 서서 920px 을 다 쓰지만, 여기서는 가로선만 그만큼 길어지고
+     글은 58ch 에서 멈춰 선과 글이 겉돈다. 길이는 선이 쥐고 글은 칸을 채운다. */
+  .uc-redesigned .ind-uc-list { max-width: 560px; }
   /* 번호 + 제목 한 줄. 산업별 솔루션 구조 카드와 같은 배지다 — 20x20 ·
      둥글기 6px · 먹색 면 · 흰 글자 10px/600.
      ⚠️ 위 맞춤이다. 아래 맞춤으로 두면 한 줄짜리 카드에서 배지까지 내려와
@@ -1204,25 +1239,12 @@ const jsonLd = [
         위로 빠져나간다. */
   .uc-redesigned .uc-card-head {
     display: flex; align-items: flex-start; gap: 10px;
+    /* 아래 24px — 산업별 항목 제목(.ind-uc-text h3)과 같은 값이다. */
+    margin-bottom: 24px;
   }
-  /* 제목에 붙어 있던 아래 여백 5px 을 턴다. 칸과 본문 사이는 아래 subgrid 의
-     행 간격이 쥔다 — 여기서 또 벌리면 카드마다 값이 어긋난다. */
-  .uc-redesigned .uc-card-head h3 { margin: 0; }
-  /* 제목 칸과 본문을 카드 바깥 격자의 두 행에 걸친다(subgrid). 제목이 한 줄인
-     카드와 두 줄인 카드가 한 줄에 섞여도(1100px 국문 예지보전 · 영문 센서감시)
-     첫 행 높이를 가장 높은 제목이 정해, 네 카드의 본문 시작선이 같은 자리에 선다.
-     ⚠️ 두 줄 자리를 미리 잡는 방식(min-height 64px)은 걷었다. 제목이 모두 한
-        줄인 페이지에서 제목과 본문 사이가 46px 비어 보였다. 행 높이는 실제
-        제목에 맞춰 줄어든다.
-     ⚠️ 행 간격은 바깥 격자의 18px 을 그대로 쓴다. 카드 쪽에도 같은 값을 적어
-        두는 것은 subgrid 를 모르는 브라우저(Safari 15 이하) 때문이다 — 그쪽은
-        평범한 격자가 되어 이 값으로 선다.
-     ⚠️ 카드 안에 요소가 둘(제목 칸 · 본문)이라는 전제다. 하나 더 넣으면 행이
-        모자라 바깥 격자에 걸치지 못한다. */
-  .uc-redesigned .ind-soft .ind-card {
-    display: grid; row-gap: 18px;
-    grid-row: span 2; grid-template-rows: subgrid;
-  }
+  /* 제목의 아래 여백은 칸이 쥔다. 제목에 그대로 두면 칸 높이가 한 번 더
+     늘어 배지가 글보다 높이 선다. */
+  .uc-redesigned .ind-uc-text h3 { margin: 0; }
   .uc-redesigned .uc-card-no {
     flex: none;
     display: inline-flex; align-items: center; justify-content: center;
@@ -1231,14 +1253,14 @@ const jsonLd = [
     background: var(--text); color: #FFFFFF;
     font-size: 10px; font-weight: 600; letter-spacing: normal; line-height: 1;
     /* ⚠️ 안 여백 위 0.13px — 숫자 잉크의 가운데를 상자 가운데에 맞춘다.
-       ⚠️ 바깥 여백 위 5.9px — 배지 가운데를 제목 첫 줄의 대문자 가운데에
-          맞춘다. 줄 상자(32px) 안에서 대문자 가운데가 15.9px 이고 배지
-          절반이 10px 이라 그 차다(Roboto, 제목 20px x 1.6).
+       ⚠️ 바깥 여백 위 5.08px — 배지 가운데를 제목 첫 줄의 대문자 가운데에
+          맞춘다. 줄 상자(31.2px) 안에서 대문자 가운데가 15.08px 이고 배지
+          절반이 10px 이라 그 차다(Roboto, 제목 24px x 1.3).
           ⚠️ 위 맞춤(flex-start)이라 이 값이 그대로 내려간다 — 가운데
              맞춤이었다면 절반만 먹는다.
           제목 크기나 줄 높이를 바꾸면 다시 잰다. */
     padding: 0.13px 0 0;
-    margin-top: 5.9px;
+    margin-top: 5.08px;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
@@ -1254,8 +1276,7 @@ const jsonLd = [
   .uc-redesigned .uc-template {
     box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   }
-  .uc-redesigned .ind-soft .ind-card h3 { color: var(--text); }
-  .uc-redesigned .ind-soft .ind-card p { color: var(--text-muted); }
+
 
   /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
   /* 밴드가 섹션 배경(#191F27)과 같은 색이라 1px 테두리로만 구분됐다.
@@ -1348,6 +1369,10 @@ const jsonLd = [
      소제목은 한 줄로 두고 싶어 폭을 따로 잡는다 — 640px 을 풀면 본문 폭(820px)
      까지 늘어나 두 줄이 되는 쪽이 없지만, 영문이 길어 나중을 위해 남겨 둔다. */
   .uc-signal-section .ind-head { max-width: none; text-align: center; }
+  /* 라벨과 제목 사이 16px — 산업별 유즈케이스 칸(.ind-uc-aside > .ind-sec-label)과
+     같은 값이다. 저쪽 과제 머리는 flex 의 gap 이 쥐는데 이 머리는 블록이라
+     여기서 직접 준다. */
+  .uc-signal-section .ind-head .ind-sec-label { margin-bottom: 16px; }
   /* 글자 규격을 산업별 페이지 '도입 효과' 섹션 소제목(.ind-page .ind-benefits
      .ind-head p)에 맞춘다 — 18px / 400 / 줄높이 1.5. 굵기와 색은 원래 같다.
      ⚠️ 정렬과 최대폭은 가져오지 않는다. 저쪽은 제목과 소제목이 한 줄에 좌우로
