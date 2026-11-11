@@ -1156,36 +1156,32 @@ const jsonLd = [
      카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
      이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
      ─────────────────────────────────────────────────────────── */
-  .uc-redesigned .ind-soft { background: #191F27; position: relative; }
-  /* 바닥 점판 — 산업별 솔루션 구조 섹션(.ind-page .ind-dark)과 같은 값이다.
-     흰색 알파 .08 점을 24px 간격으로 깐다. 내용은 그 위에 올린다(z-index). */
-  .uc-redesigned .ind-soft::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px);
-    background-size: 24px 24px;
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* ⚠️ 흰 면이다. 한때 먹색(#191F27)이었고 그 위에 흰 점판을 깔았다 —
+     되살리려면 background 와 ::before(흰색 알파 .08 점 · 24px 간격),
+     아래 글 · 카드의 밝은 한 벌을 함께 되돌린다. */
+  .uc-redesigned .ind-soft { background: #FFFFFF; position: relative; }
   .uc-redesigned .ind-soft > .ind-container { position: relative; z-index: 1; }
-  .uc-redesigned .ind-soft .ind-head h2 { color: #F6F8FA; }
+  .uc-redesigned .ind-soft .ind-head h2 { color: var(--text); }
+  /* 카드는 흰 면에 테두리 한 겹 — 산업별 솔루션 구조 카드와 같은 값이다. */
   .uc-redesigned .ind-soft .ind-card {
-    background: #191F27; border: 1px solid #292F37;
+    background: #FFFFFF; border: 1px solid #E3E7EC;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
      레이아웃이 흔들리지 않고, 링크가 아닌 카드에 '누를 수 있다'는 신호도 주지 않는다. */
-  .uc-redesigned .ind-soft .ind-card,
+  /* ⚠️ 카드의 그림자 · hover 링은 걷었다. 먹색 면 위에서 카드를 띄우던
+     값(검정 알파 .35 그림자 · #292F37 링)이라 흰 면에서는 때처럼 보인다.
+     지금은 테두리 한 겹이 경계를 쥔다. 밴드(.uc-template)는 제 규칙을
+     그대로 둔다. */
+  /* ⚠️ hover 링도 걷었다. 밴드는 누를 수 있는 것이 아니라 마우스에 반응할
+     까닭이 없고, 링 색(#292F37)도 먹색 면 위에서 쓰던 값이었다.
+     놓인 채의 그림자만 남긴다 — 밴드는 아직 먹색이라 흰 면 위에서 한 겹
+     띄우는 몫을 한다. */
   .uc-redesigned .uc-template {
     box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-    transition: box-shadow .15s;
   }
-  .uc-redesigned .ind-soft .ind-card:hover,
-  .uc-redesigned .uc-template:hover {
-    box-shadow: 0 0 0 2px #292F37, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
-  }
-  .uc-redesigned .ind-soft .ind-card h3 { color: #F6F8FA; }
-  .uc-redesigned .ind-soft .ind-card p { color: #A0A8B3; }
+  .uc-redesigned .ind-soft .ind-card h3 { color: var(--text); }
+  .uc-redesigned .ind-soft .ind-card p { color: var(--text-muted); }
 
   /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
   /* 밴드가 섹션 배경(#191F27)과 같은 색이라 1px 테두리로만 구분됐다.
