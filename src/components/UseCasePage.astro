@@ -1088,14 +1088,15 @@ const jsonLd = [
         그 전제가 깨지면 신호 섹션과의 사이까지 90 으로 좁아진다. */
   .uc-redesigned .ind-soft:has(+ .ind-section) { padding-bottom: 90px; }
   .uc-redesigned .ind-soft + .ind-section { padding-top: 90px; }
-  /* 제목이 위, 질문 판이 아래다 — 둘 다 가운데 정렬. 공통값(.uc-faq-head)은
-     제목 왼쪽 · 목록 오른쪽 두 칸인데, 그 자리 나눔을 풀고 한 칸으로 세운다.
+  /* 제목이 위, 질문 판이 아래다. 공통값(.uc-faq-head)은 제목 왼쪽 · 목록
+     오른쪽 두 칸인데, 그 자리 나눔을 풀고 한 칸으로 세운다.
+     ⚠️ 제목은 왼쪽 정렬이다 — 한때 가운데에 뒀다. 다른 섹션 제목(신호를 빼면
+        모두 왼쪽)과 결을 맞춘다.
      ⚠️ 판은 목록(.uc-faq-list)이 쥔다. 머리 전체에 면을 깔면 제목까지 면 안에
         들어간다. */
   .uc-redesigned .uc-faq-head {
     grid-template-columns: 1fr;
     gap: 64px;
-    text-align: center;
   }
   .uc-redesigned .uc-faq-head .ind-head { margin-bottom: 0; max-width: none; }
   /* 질문 판 — 면 #F6F8FA · 둥글기는 사이트 공통값. 폭은 컨테이너 그대로라
