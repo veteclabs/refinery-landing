@@ -1210,7 +1210,27 @@ const jsonLd = [
      되살리려면 industry.css 의 .ind-arch 배경을 그대로 떠 온다.
      ⚠️ 그 전에는 먹색(#191F27)에 흰 점판(알파 .08 · 24px 간격)이었다.
         되살리려면 글 · 카드의 밝은 한 벌도 함께 되돌린다. */
-  .uc-redesigned .ind-soft { background: #FFFFFF; position: relative; }
+  /* 위쪽에 원형 빛 한 겹 — 신호 섹션 아래에 깔린 것과 같은 값이고 자리만
+     위(50% 0%)로 뒤집었다. 정지점 열셋은 smootherstep 으로 뽑은 것이라
+     두 점짜리 그라데이션에서 보이던 테가 없다. 바꿀 때는 두 곳을 같이 본다
+     (.uc-redesigned .uc-signal-section). */
+  .uc-redesigned .ind-soft {
+    background: #FFFFFF radial-gradient(62% 50% at 50% 0%,
+      rgba(238, 244, 251, 1) 0%,
+      rgba(238, 244, 251, 0.995) 8.33%,
+      rgba(238, 244, 251, 0.965) 16.67%,
+      rgba(238, 244, 251, 0.896) 25%,
+      rgba(238, 244, 251, 0.79) 33.33%,
+      rgba(238, 244, 251, 0.653) 41.67%,
+      rgba(238, 244, 251, 0.5) 50%,
+      rgba(238, 244, 251, 0.347) 58.33%,
+      rgba(238, 244, 251, 0.21) 66.67%,
+      rgba(238, 244, 251, 0.104) 75%,
+      rgba(238, 244, 251, 0.035) 83.33%,
+      rgba(238, 244, 251, 0.005) 91.67%,
+      rgba(238, 244, 251, 0) 100%);
+    position: relative;
+  }
   .uc-redesigned .ind-soft > .ind-container { position: relative; z-index: 1; }
   .uc-redesigned .ind-soft .ind-head h2 { color: var(--text); }
   /* 항목은 가로선으로만 갈린다 — 면도 테두리도 없다. 산업별 '리파이너리가
