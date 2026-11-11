@@ -404,8 +404,8 @@ img { max-width: 100%; height: auto; }
      보다 한 단계 작다. */
   /* 14px — 섹션 소제목(18px)과 같이 두었다가 줄였다. 카드 밑에 붙는 주석
      이라 카드 안 내용 라벨(15px)보다 한 단 작다.
-     ⚠️ 아래 연동 시스템 캡션(.ind-page .ind-systems-note)은 18px 그대로다.
-        둘을 같은 값으로 쓰기로 했던 자리이니, 맞출 때는 함께 본다. */
+     ⚠️ 아래 연동 시스템 캡션(.ind-page .ind-systems-note)도 같은 14px 이다.
+        두 캡션은 늘 같은 값으로 둔다 — 한쪽만 고치지 않는다. */
   font-size: 14px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
@@ -1540,8 +1540,9 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  /* 흐름 노트와 같은 값 — 곧 섹션 소제목과 같은 18px / 1.5 / --text-muted 다. */
-  font-size: 18px; line-height: 1.5; color: var(--text-muted);
+  /* 흐름 노트(.ind-page .ind-flow-note)와 같은 14px 이다. 둘 다 18px 이었다가
+     함께 내렸다 — 두 캡션은 늘 같은 값으로 둔다. */
+  font-size: 14px; line-height: 1.5; color: var(--text-muted);
   text-align: left;
   word-break: keep-all;
 }
