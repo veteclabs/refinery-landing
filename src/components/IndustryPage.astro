@@ -486,10 +486,15 @@ const ucShift = (h: number) =>
           aside.classList.remove('is-faded');
           return;
         }
-        /* 마지막 사례의 윗변이 화면 아래 90% 선을 넘어오면 — 곧 눈에 들어오기
-           시작하면 — 왼쪽 칸을 지운다. */
-        var line = (window.innerHeight || document.documentElement.clientHeight) * 0.9;
-        aside.classList.toggle('is-faded', last.getBoundingClientRect().top < line);
+        /* 마지막 사례가 '다' 보이면 지운다 — 아랫변이 화면 안으로 들어오는
+           때다. 윗변이 들어오는 순간(화면 아래 90% 선)으로 두었더니 사례가
+           40px 만 고개를 내민 자리에서 벌써 사라졌다.
+           ⚠️ 사례가 화면보다 높으면 아랫변이 영영 안 들어온다. 그때는 윗변이
+              화면 1/4 선을 넘는 때로 대신한다. */
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var r = last.getBoundingClientRect();
+        var done = (r.height <= vh) ? (r.bottom <= vh) : (r.top < vh * 0.25);
+        aside.classList.toggle('is-faded', done);
       }
       function onScroll() {
         if (ticking) return;
