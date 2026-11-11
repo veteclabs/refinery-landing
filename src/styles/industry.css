@@ -1670,7 +1670,10 @@ img { max-width: 100%; height: auto; }
      내려가 아이콘과 30px 어긋났다. */
   margin: 0;
   width: 44px; height: 44px; border-radius: 10px;
-  background: rgba(118, 166, 215, .10);
+  /* 면은 #EEF4FB — 솔루션 구조 섹션 띠와 같은 값이다. 전에는
+     rgba(118,166,215,.10) 이라 흰 면 위에서 #F1F6FB 로 풀려, 같은 페이지
+     안에 비슷하지만 다른 옅은 하늘색이 둘 있었다. */
+  background: #EEF4FB;
   display: flex; align-items: center; justify-content: center;
 }
 .ind-page .ind-benefits .ind-card-icon i { font-size: 22px; }
