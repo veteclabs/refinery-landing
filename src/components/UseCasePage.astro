@@ -1711,6 +1711,20 @@ const jsonLd = [
     object-fit: cover; object-position: right center;
     pointer-events: none; user-select: none;
   }
+  /* 1200px 이하 — 과녁이 오른쪽에 오도록 보이는 자리를 옮긴다.
+     ⚠️ 좁아질수록 cover 가 세로를 채우느라 가로를 더 잘라내는데, 오른쪽 끝에
+        맞춰 두면 과녁(원본 가로 66% 자리)이 잘린 창의 왼쪽으로 밀려 글 뒤에
+        깔렸다. 창을 왼쪽으로 당겨(60%) 과녁을 창의 오른쪽에 세운다 —
+        390px 에서 86% · 768px 74% · 1128px 71% 자리다.
+     ⚠️ 상자도 폭을 100% 로 되돌린다. 오른쪽으로 10% 내보낸 채로 두면 그만큼
+        창이 다시 오른쪽으로 밀린다.
+     ⚠️ 1201px 이상은 건드리지 않는다 — 넓은 화면은 지금 모습이 기준이다. */
+  @media (max-width: 1200px) {
+    .uc-cta-bg-img {
+      width: 100%;
+      object-position: 60% center;
+    }
+  }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
   .uc-cta-bg::after {
     /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
