@@ -847,11 +847,24 @@ img { max-width: 100%; height: auto; }
         왼쪽에 생기는 자리는 그림 왼쪽이 배경색으로 사라지는 구간이라 비어
         보이지 않는다. */
   display: block;
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  /* ⚠️ 오른쪽에 붙이고 폭을 110% 로 둔다. 그림을 오른쪽으로 10% 밀되 상자는
+     섹션을 다 덮게 하려는 것이다 — transform 으로 밀었더니 왼쪽에 상자가 닿지
+     않는 띠가 생겨, 좁은 폭에서 그 경계가 세로선으로 드러났다. */
+  position: absolute; top: 0; right: 0; bottom: 0; left: auto;
+  width: 110%; height: 100%;
   object-fit: cover; object-position: right center;
-  transform: translateX(10%);
   pointer-events: none; user-select: none;
+}
+/* ⚠️ 900px 이하에서는 그림을 자르지 않는다. 글이 여러 줄로 늘어나 섹션이
+   길어지는데 cover 는 세로를 채우느라 그림을 2~3배로 키워 가로를 잘라낸다
+   (580px 에서 지형 한가운데만 남았다). contain 으로 두면 그림 한 벌이 폭에
+   맞춰 들어가고, 위아래 남는 자리는 그림 제 배경색(#151B23)과 같은 섹션
+   면색이라 이어 붙은 것처럼 보인다. */
+@media (max-width: 900px) {
+  .ind-cta-bg-img {
+    width: 100%;
+    object-fit: contain; object-position: right center;
+  }
 }
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
 .ind-cta-bg::after {
