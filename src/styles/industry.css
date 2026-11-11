@@ -313,8 +313,9 @@ img { max-width: 100%; height: auto; }
         통째로 사라진다. */
   background: #F6F8FA; border: 0; border-radius: 8px;
   padding: 6px 10px;
-  /* 14px — 이 상자는 읽는 글이 아니라 스캔하는 라벨이라(SCADA · 발전 ·
-     ESG 리포트) 본문 15px을 그대로 쓸 이유가 없다. 노트와 같은 단계다.
+  /* 15px — 14px 에서 키웠다. 본문 글과 같은 단계다.
+     ⚠️ 대비 기준은 크기를 바꿔도 그대로 4.5:1 이다 — 18.66px 굵게 · 24px
+        보통 미만은 모두 같은 구간이라 15px 도 14px 과 같은 기준을 받는다.
      대비 기준은 그대로 4.5:1이다 — 18.66px 굵게 · 24px 보통 미만은 모두 같은
      구간이라 크기를 줄여도 대비 요구가 올라가지 않는다.
      글자색은 --ink-800(#C8CED5)이다. 상자 면(#353C44) 위에서 AA(4.5:1)를
@@ -326,7 +327,7 @@ img { max-width: 100%; height: auto; }
         (#5A6776 은 5.42:1 이었다). 읽는 글이 아니라 스캔하는 라벨이라는
         전제로 고른 값이다 — 기준을 지키려면 #6B7684(4.52:1)까지만 연해질
         수 있다. */
-  font-size: 14px; line-height: 1.5; color: #7E8A98;
+  font-size: 15px; line-height: 1.5; color: #7E8A98;
   word-break: keep-all;
 }
 /* 우리 자리(highlight)는 hover 색으로 가른다. 광을 상시로 두면 다른 카드와
