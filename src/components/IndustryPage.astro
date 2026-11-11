@@ -477,25 +477,25 @@ const ucShift = (h: number) =>
           그대로 본다. */
     (function () {
       var aside = document.querySelector('.ind-uc-aside');
-      var items = document.querySelectorAll('.ind-uc-item');
-      if (!aside || !items.length) return;
-      var last = items[items.length - 1];
+      var shell = aside && aside.closest('.ind-uc-shell');
+      if (!aside || !shell) return;
       var ticking = false;
       function upd() {
         if (getComputedStyle(aside).position !== 'sticky') {
           aside.classList.remove('is-faded');
           return;
         }
-        /* 마지막 사례가 다 보이고 화면 위쪽으로 한참 올라온 때 지운다 —
-           아랫변이 화면 높이의 80% 선 위로 올라오는 자리다.
-           ⚠️ 두 번 늦췄다. 윗변이 화면 아래 90% 선을 넘는 때(사례가 40px 만
-              고개를 내민 자리) -> 아랫변이 화면 안으로 들어오는 때(다 보이는
-              자리) -> 지금. 더 늦추려면 0.8 을 더 내린다.
-           ⚠️ 사례가 화면보다 높으면 아랫변이 그 선까지 못 올라온다. 그때는
-              윗변이 화면 1/4 선을 넘는 때로 대신한다. */
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var r = last.getBoundingClientRect();
-        var done = (r.height <= vh * 0.8) ? (r.bottom <= vh * 0.8) : (r.top < vh * 0.25);
+        /* 통(.ind-uc-shell)이 끝나 칸이 붙기를 그만두는 자리에서 지운다 —
+           더 늦출 수 없는 지점이다. 그 뒤로는 칸이 어차피 내용과 함께 위로
+           밀려 올라가므로, 지우지 않으면 제목이 화면 밖으로 흘러 나간다.
+           ⚠️ 세 번 늦춘 끝이다. 마지막 사례의 윗변이 화면 아래 90% 선을 넘는
+              때 -> 아랫변이 화면 안으로 들어오는 때 -> 아랫변이 화면 80% 선을
+              넘는 때 -> 지금.
+           ⚠️ 8px 은 붙기를 그만두기 직전에 지워지기 시작하도록 둔 여유다.
+              0 으로 두면 칸이 이미 밀려 올라가기 시작한 뒤에 사라진다. */
+        var a = aside.getBoundingClientRect();
+        var sh = shell.getBoundingClientRect();
+        var done = sh.bottom <= a.bottom + 8;
         aside.classList.toggle('is-faded', done);
       }
       function onScroll() {
