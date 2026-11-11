@@ -841,11 +841,16 @@ img { max-width: 100%; height: auto; }
      배경색으로 사라지므로, 좁아질 때 잘려야 할 쪽은 왼쪽이다.
      ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
      ⚠️ 예전 사진용 보정(min-width: 1440px · 가운데 정렬)은 걷었다. 세로가 긴
-        사진을 납작한 띠에 맞추려던 값인데, 이 그래픽은 띠와 같은 비율이다. */
+        사진을 납작한 띠에 맞추려던 값인데, 이 그래픽은 띠와 같은 비율이다.
+     ⚠️ 오른쪽으로 10% 민다. object-position 은 이미 right 라 더 갈 데가 없어서
+        상자째 옮긴다 — 밀려난 오른쪽은 섹션의 overflow: hidden 이 자르고,
+        왼쪽에 생기는 자리는 그림 왼쪽이 배경색으로 사라지는 구간이라 비어
+        보이지 않는다. */
   display: block;
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; object-position: right center;
+  transform: translateX(10%);
   pointer-events: none; user-select: none;
 }
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }

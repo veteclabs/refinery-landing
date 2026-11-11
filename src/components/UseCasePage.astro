@@ -1689,11 +1689,16 @@ const jsonLd = [
        ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
        ⚠️ 예전 사진용 보정(min-width: 1440px · 가운데 정렬)은 걷었다. 그 값은
           세로가 긴 사진을 납작한 띠에 맞추려던 것인데, 이 그래픽은 띠와 같은
-          비율(2880x600)이라 늘려 깔면 된다. */
+          비율(2880x600)이라 늘려 깔면 된다.
+       ⚠️ 오른쪽으로 10% 민다. object-position 은 이미 right 라 더 갈 데가 없어서
+        상자째 옮긴다 — 밀려난 오른쪽은 섹션의 overflow: hidden 이 자르고,
+        왼쪽에 생기는 자리는 그림 왼쪽이 배경색으로 사라지는 구간이라 비어
+        보이지 않는다. */
     display: block;
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover; object-position: right center;
+    transform: translateX(10%);
     pointer-events: none; user-select: none;
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
