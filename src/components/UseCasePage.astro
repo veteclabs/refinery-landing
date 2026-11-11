@@ -426,7 +426,7 @@ const jsonLd = [
               <img class="uc-template-deco" src={uc.template.decoImage} alt="" aria-hidden="true" loading="lazy" decoding="async" />
             ))}
             <div class="uc-template-body">
-              <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? T.tmplBadge}</span>
+              <span class="uc-template-badge">{uc.template.badge ?? T.tmplBadge}</span>
               <h3 set:html={nb(uc.template.title)}></h3>
               <p set:html={nb(uc.template.desc)}></p>
               {uc.template.includes && (
@@ -846,13 +846,16 @@ const jsonLd = [
     margin-top: 24px; background: #EFF2F5; border: 1px solid #E3E7EC; border-radius: var(--radius);
     padding: 24px 26px;
   }
-  /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
+  /* 알약 없이 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다.
+     ⚠️ 앞에 두던 아이콘(ph-blueprint)은 뗐다. gap 6px 은 아이콘과의 사이를
+        벌리던 값이라 이제 할 일이 없지만, 글이 한 덩어리라 그대로 둬도
+        화면에 드러나지 않는다. */
   .uc-template-badge {
     /* inline-flex면 부모 줄상자(16px·1.65)의 여유 공간이 배지 아래에 붙어
        h3의 margin-top이 화면 간격과 달라진다. flex + fit-content로 줄상자를
        벗어나게 해 선언한 값이 그대로 간격이 되게 한다. */
     display: flex; width: fit-content; align-items: center; gap: 6px;
-    /* 크기는 아래 설명(.uc-template p)과 같은 15px. 아이콘도 font-size를 따라 커진다. */
+    /* 크기는 아래 설명(.uc-template p)과 같은 15px. */
     font-size: 15px; font-weight: 700; letter-spacing: .02em; color: #76a6d7;
     background: none; border: none; border-radius: 0; padding: 0;
   }
@@ -1252,8 +1255,10 @@ const jsonLd = [
         위로 빠져나간다. */
   .uc-redesigned .uc-card-head {
     display: flex; align-items: flex-start; gap: 10px;
-    /* 아래 24px — 산업별 항목 제목(.ind-uc-text h3)과 같은 값이다. */
-    margin-bottom: 24px;
+    /* 아래 16px — 산업별 항목(.ind-uc-text h3)은 24px 인데, 저쪽은 제목 밑이
+       라벨 세 줄짜리 묶음이라 한 단 더 떼어 둔 것이다. 여기는 한 단락이라
+       그만큼 벌리면 제목이 글에서 떨어져 보인다. */
+    margin-bottom: 16px;
   }
   /* 제목의 아래 여백은 칸이 쥔다. 제목에 그대로 두면 칸 높이가 한 번 더
      늘어 배지가 글보다 높이 선다. */
