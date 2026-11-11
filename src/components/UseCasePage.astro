@@ -1373,7 +1373,9 @@ const jsonLd = [
     gap: 42px; padding: 42px 12px 0;
     /* 면은 아이콘 자리에서 흰빛이 퍼지는 원형 그라데이션이다 — 빛의 중심을
        아이콘 한가운데(세로 39% = 위 여백 42 + 아이콘 100 의 절반, 카드
-       236px 기준)에 두어 아이콘 뒤가 가장 밝고 사방으로 #EEF4FB 로 짙어진다.
+       236px 기준)에 두어 아이콘 뒤가 가장 밝고 사방으로 #F6F8FA 로 짙어진다.
+       ⚠️ 끝 색은 사이트 공통 연한 면(--bg-soft #F6F8FA)이다. 한때 푸른 기가
+          한 단 더 있는 #EEF4FB 였다.
        ⚠️ 한때 윗변 가운데(50% 0%)에 두었다. 그때는 한 방향으로만 짙어져
           아이콘이 빛의 복판에 서지 않았다.
        ⚠️ 정지점을 열한 개로 쪼갠 smootherstep 이다. 두 점짜리 radial 은
@@ -1382,15 +1384,15 @@ const jsonLd = [
     background: radial-gradient(85% 75% at 50% 39%,
       #FFFFFF 0%,
       #FFFFFF 10%,
-      #FEFEFF 20%,
-      #FCFDFE 30%,
-      #FAFCFE 40%,
-      #F6FAFD 50%,
-      #F3F7FC 60%,
-      #F1F6FC 70%,
-      #EFF5FB 80%,
-      #EEF4FB 90%,
-      #EEF4FB 100%);
+      #FEFFFF 20%,
+      #FEFEFE 30%,
+      #FCFDFD 40%,
+      #FAFCFC 50%,
+      #F9FAFC 60%,
+      #F7F9FB 70%,
+      #F7F8FA 80%,
+      #F6F8FA 90%,
+      #F6F8FA 100%);
     border: none;
     border-radius: var(--radius);
   }
