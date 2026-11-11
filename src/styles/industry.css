@@ -404,9 +404,14 @@ img { max-width: 100%; height: auto; }
      보다 한 단계 작다. */
   /* 14px — 섹션 소제목(18px)과 같이 두었다가 줄였다. 카드 밑에 붙는 주석
      이라 카드 안 내용 라벨(15px)보다 한 단 작다.
-     ⚠️ 아래 연동 시스템 캡션(.ind-page .ind-systems-note)도 같은 14px 이다.
-        두 캡션은 늘 같은 값으로 둔다 — 한쪽만 고치지 않는다. */
-  font-size: 14px; line-height: 1.5; color: var(--text-muted);
+     ⚠️ 아래 연동 시스템 캡션(.ind-page .ind-systems-note)도 같은 14px ·
+        같은 #A4ADB8 이다. 두 캡션은 늘 같은 값으로 둔다 — 한쪽만 고치지
+        않는다.
+     ⚠️ 글자색 #A4ADB8 은 흰 면 위 2.27:1 로 14px 기준(4.5:1)에 한참 미달
+        이다(--text-muted #7E8A98 은 3.51:1 이었다). 띠가 깔린 자리
+        (#EEF4FB)에서는 더 낮다. 주석이라는 전제로 고른 값이다 — 기준을
+        지키려면 #6B7684(흰 면 4.80:1)까지 내려야 한다. */
+  font-size: 14px; line-height: 1.5; color: #A4ADB8;
   text-align: left;
   word-break: keep-all;
 }
@@ -1540,9 +1545,9 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-systems-note {
   max-width: none;
   margin-top: 20px;
-  /* 흐름 노트(.ind-page .ind-flow-note)와 같은 14px 이다. 둘 다 18px 이었다가
-     함께 내렸다 — 두 캡션은 늘 같은 값으로 둔다. */
-  font-size: 14px; line-height: 1.5; color: var(--text-muted);
+  /* 흐름 노트(.ind-page .ind-flow-note)와 같은 14px · 같은 #A4ADB8 이다.
+     두 캡션은 늘 같은 값으로 둔다. 대비 설명은 그쪽에 적어 두었다. */
+  font-size: 14px; line-height: 1.5; color: #A4ADB8;
   text-align: left;
   word-break: keep-all;
 }
