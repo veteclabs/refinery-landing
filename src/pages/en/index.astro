@@ -2834,55 +2834,13 @@ the ontology finds the answer</h3>
 
 <script is:inline>
 
-  /* 질문을 열고 닫아도 섹션 높이가 그대로이게 한다.
-     한 번에 하나만 열리므로, 가장 긴 답 하나가 열렸을 때의 높이를 목록의
-     min-height 로 미리 잡아 둔다 — 그러면 여는 순간 아래 내용이 밀리지 않는다.
-     ⚠️ 미리 잡아 둔 자리는 다 닫혔을 때 빈 채로 남아 마지막 질문 아래가 그만큼
-        넓어 보인다(국문 88px · 영문 200px). 그 몫을 아래 바깥 여백에서 되돌려
-        닫힌 모습의 아래 여백을 제자리에 둔다 — 빼는 값이 늘 같아 섹션 높이는
-        그대로다.
-     ⚠️ 다만 섹션의 아래 안 여백(180px)보다 많이 빼지는 않는다. 더 빼면 답을
-        펼쳤을 때 글이 섹션 밖 — 바로 아래 어두운 CTA 면 — 으로 넘어간다.
-        영문이 그 경우라 24px 을 남기고 156px 만 되돌린다.
-     ⚠️ 재는 동안 전이를 끈다. max-height 가 전이 중이면 재는 값이 시작값이라
-        늘 닫힌 높이가 나온다(is-measuring 이 그 일을 한다).
-     ⚠️ 폭이 바뀌면 답이 다시 감겨 높이가 달라진다 — 다시 잰다. 글꼴이 늦게
-        와도 마찬가지라 fonts.ready 에서도 한 번 더 잰다. */
-  function rfReserveFaq(list, itemSel, ansSel) {
-    if (!list) return;
-    var items = list.querySelectorAll(itemSel);
-    if (!items.length) return;
-    list.style.minHeight = '';
-    list.style.marginBottom = '';
-    list.classList.add('is-measuring');
-    /* 다 닫힌 채의 높이 — 미리 잡아 둔 자리와의 차를 빼는 데 쓴다. */
-    var natural = list.getBoundingClientRect().height;
-    var max = 0;
-    for (var i = 0; i < items.length; i++) {
-      var a = items[i].querySelector(ansSel);
-      if (!a) continue;
-      var wasA = a.classList.contains('open');
-      var wasI = items[i].classList.contains('open');
-      a.classList.add('open');
-      items[i].classList.add('open');
-      var h = list.getBoundingClientRect().height;
-      if (h > max) max = h;
-      if (!wasA) a.classList.remove('open');
-      if (!wasI) items[i].classList.remove('open');
-    }
-    list.classList.remove('is-measuring');
-    if (!max) return;
-    list.style.minHeight = Math.ceil(max) + 'px';
-    var sec = list.closest('section');
-    var pad = sec ? parseFloat(getComputedStyle(sec).paddingBottom) || 0 : 0;
-    var slack = Math.min(Math.ceil(max) - Math.ceil(natural), Math.max(pad - 24, 0));
-    list.style.marginBottom = slack > 0 ? -slack + 'px' : '';
-  }
-
-  function rfFaqAll() { rfReserveFaq(document.querySelector('.faq-list'), '.faq-item', '.faq-a'); }
-  rfFaqAll();
-  addEventListener('resize', rfFaqAll);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(rfFaqAll);
+  /* ⚠️ 답 높이를 미리 잡아 두던 코드(rfReserveFaq)는 걷었다. 가장 긴 답
+     높이를 목록의 min-height 로 잡아 두면 섹션 높이는 고정되지만, 다 닫혔을
+     때 그 자리가 빈 채로 남아 아래 여백이 넓어진다. 그 몫을 아래 바깥 여백
+     에서 되돌려 봤더니 이번에는 답을 펼쳤을 때 아래 여백이 그만큼 좁아졌다
+     (국문 180 -> 115 · 영문 224 -> 24). 둘을 함께 만족시키는 값은 없다.
+     지금은 목록이 내용에 맞춰 선다 — 닫히든 펼치든 마지막 글 아래가 늘
+     180px 이고, 답을 펼치면 그만큼 아래 내용이 밀린다. */
 
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
