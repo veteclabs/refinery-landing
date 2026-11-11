@@ -1243,6 +1243,23 @@ const jsonLd = [
        세 줄이 한 칸에 겹쳐 서서 작게 둔 것이고, 여기는 한 단락뿐이다. */
     font-size: 17px; line-height: 1.6;
     color: var(--text-muted);
+    /* 글 앞에 가운뎃점 하나. 매달아 두는 들여쓰기라 둘째 줄부터는 점 자리를
+       비우지 않고 글끼리 왼쪽 선이 맞는다. */
+    position: relative;
+    padding-left: 18px;
+  }
+  .uc-redesigned .ind-uc-text p::before {
+    /* ⚠️ 글이 아니라 표식이다 — 낭독기는 건너뛴다. */
+    content: '\00B7';
+    position: absolute; left: 0; top: 0;
+    /* 28px — 본문 크기 그대로 두면 점이 티끌만 했다. 점 하나를 첫 줄 높이
+       (17px x 1.6 = 27.2px)짜리 칸에 넣고 가운데에 세운다 — 글자 크기를
+       바꿔도 줄 한가운데를 지킨다. 본문 크기나 줄 높이를 바꾸면 height 도
+       함께 고친다. */
+    display: flex; align-items: center;
+    height: 27.2px;
+    font-size: 28px; line-height: 1;
+    color: inherit;
   }
   /* 목록은 제 칸을 다 쓴다(1440px 에서 664px). 글만 있는 목록이라 한때
      560px 에서 끊었는데 글이 너무 좁아졌다. 폭은 바깥 격자가 쥐게 두고
@@ -1260,12 +1277,11 @@ const jsonLd = [
         위로 빠져나간다. */
   .uc-redesigned .uc-card-head {
     display: flex; align-items: flex-start; gap: 10px;
-    /* 아래 8px — 산업별 항목(.ind-uc-text h3)은 24px 이고 한때 16px 이었다.
-       ⚠️ 상자 사이가 아니라 글자 사이로 잰 값이다. 제목 줄 상자(31.2px)와
-          본문 줄 상자(24.8px)의 남는 위아래가 11px 을 더 보태서, 16px 로
-          두면 화면에서는 27px 로 보인다. 8px 이면 19px 이고, 본문 줄 사이
-          (14px)보다 한 단 넓어 제목과 글이 묶여 읽힌다. */
-    margin-bottom: 8px;
+    /* 아래 12px — 지나온 값은 24 -> 16 -> 8 -> 12 다.
+       ⚠️ 상자 사이가 아니라 글자 사이로 잰다. 제목 줄 상자(31.2px)와 본문 줄
+          상자(27.2px)의 남는 위아래가 12px 을 더 보태므로, 12px 은 화면에서
+          24px 로 보인다. 본문 줄 사이(약 15px)보다 한 단 넓다. */
+    margin-bottom: 12px;
   }
   /* 제목의 아래 여백은 칸이 쥔다. 제목에 그대로 두면 칸 높이가 한 번 더
      늘어 배지가 글보다 높이 선다. */
