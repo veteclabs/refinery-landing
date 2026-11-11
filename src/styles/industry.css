@@ -863,11 +863,13 @@ img { max-width: 100%; height: auto; }
   content: '';
   position: absolute; inset: 0;
   pointer-events: none;
+  /* ⚠️ 메인 CTA(.30 / .46)보다 한 단 짙다. 저쪽 영상은 결이 모여드는 그림이라
+     옅어도 되지만, 이 그래픽은 선이 또렷해 글 뒤에서 먼저 읽혔다. */
   background: linear-gradient(180deg,
-    rgba(10, 14, 20, .30) 0%,
-    rgba(10, 14, 20, .46) 42%,
-    rgba(10, 14, 20, .46) 62%,
-    rgba(10, 14, 20, .30) 100%);
+    rgba(10, 14, 20, .44) 0%,
+    rgba(10, 14, 20, .62) 42%,
+    rgba(10, 14, 20, .62) 62%,
+    rgba(10, 14, 20, .44) 100%);
 }
 /* 문구 위 · 버튼 아래로 왼쪽에 쌓는다 — 메인 CTA 와 같은 배치다.
    ⚠️ 한때 제목 좌측 · 버튼 우측 한 줄이었다(space-between). 메인과 결을
