@@ -223,13 +223,13 @@ img { max-width: 100%; height: auto; }
       선이 그림을 뚫고 지나간다 — 칸 사이(화살표 자리)에만 둔다.
    ⚠️ 선과 원의 높이는 아이콘의 한가운데다. --ind-flow-ic 가 아이콘 크기라
       그 값만 바꾸면 선도 따라 내려온다. */
-/* 그림 크기 — 카드 왼쪽 위의 그림이다.
-   ⚠️ 상한은 카드 안쪽 폭이다. 1440px 에서 271px, 1280px 에서 231px 이라
-      200px 이면 어느 쪽에서도 넘치지 않는다. 오른쪽 아래에 두던 때와 달리
-      그림이 글 위에 서므로 글 자리를 밀지 않는다 — 카드만 그만큼 높아진다.
+/* 그림 크기 — 카드 오른쪽 아래의 그림이다. 120 -> 160 -> 180px 으로 키웠다.
+   ⚠️ 상한은 카드 안쪽 폭이다. 1440px 에서 267px, 1280px 에서 227px 이라
+      180px 이면 어느 쪽에서도 글 자리를 밀지 않는다. 그보다 더 키우려면
+      1280px 쪽(227px)이 먼저 걸린다.
    ⚠️ 3D 아이소메트릭이라 점선 큐브와 바닥판까지 한 장에 들어 있다 — 안쪽
       아이콘이 실제로 차지하는 폭은 그림의 60% 남짓이라 수치보다 작아 보인다. */
-.ind-page .ind-flow { --ind-flow-ic: 200px; counter-reset: ind-flow; }
+.ind-page .ind-flow { --ind-flow-ic: 180px; counter-reset: ind-flow; }
 .ind-page .ind-flow-step { counter-increment: ind-flow; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
@@ -240,7 +240,7 @@ img { max-width: 100%; height: auto; }
   height: auto; padding: 0;
   background: none; border: 0; border-bottom: 0;
   border-radius: 0;
-  /* 이름과 아래 상자 목록 사이. */
+  /* 이름이 그림 아래로 내려오면서 아래쪽 상자 목록과의 사이를 여기서 띄운다. */
   margin-bottom: 14px;
 }
 /* 이름 — 같은 섹션의 연동 시스템 제목(.ind-page .ind-systems-head h3)과 같은
@@ -262,20 +262,24 @@ img { max-width: 100%; height: auto; }
    ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  width: var(--ind-flow-ic, 200px); height: var(--ind-flow-ic, 200px);
-  /* 카드 왼쪽 위 — 세로 flex 의 첫 자식이라 위에 서고, margin 을 0 으로 두어
-     왼쪽 끝에 붙는다. 아래로 이름 줄까지 20px 을 띄운다.
-     ⚠️ 오른쪽 아래에 두던 때는 margin 의 auto 둘(위 · 왼쪽)이 자리를 잡았다.
-        되돌리려면 margin: auto 0 0 auto 와 padding-top 16px 을 함께 되살린다. */
-  margin: 0 0 20px;
+  width: var(--ind-flow-ic, 180px); height: var(--ind-flow-ic, 180px);
+  /* 카드 오른쪽 아래 — margin 의 auto 둘이 자리를 잡는다. 위 auto 가 남은
+     높이를 전부 위쪽 여백으로 밀어 그림을 아랫변에 붙이고, 왼쪽 auto 가
+     남은 폭을 왼쪽으로 밀어 오른쪽 끝에 붙인다.
+     ⚠️ 위치를 absolute 로 잡지 않는다. 흐름에서 빠지면 내용 상자가 길어진
+        카드에서 글 위에 그림이 겹친다 — 네 카드의 내용 줄 수가 다르다.
+     ⚠️ padding-top 16px 은 내용 상자와 그림이 붙지 않게 두는 최소 간격이다
+        (auto 가 자리를 다 쓴 카드, 곧 가장 높은 카드에서만 쓰인다). */
+  margin: auto 0 0 auto;
+  padding-top: 16px;
 }
 @media (max-width: 1100px) {
-  /* 1100px 에서 카드 안쪽이 198px 이라 기본값(200)이 넘친다. */
-  .ind-page .ind-flow { --ind-flow-ic: 170px; }
+  /* 1100px 에서 카드 안쪽이 198px 이라 기본값(180)은 너무 빠듯하다. */
+  .ind-page .ind-flow { --ind-flow-ic: 150px; }
 }
 @media (max-width: 860px) {
   /* 카드가 한 줄에 하나씩 쌓여 폭이 넉넉해진다 — 그림을 되돌려 키운다. */
-  .ind-page .ind-flow { --ind-flow-ic: 220px; }
+  .ind-page .ind-flow { --ind-flow-ic: 200px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
