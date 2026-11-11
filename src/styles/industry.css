@@ -825,28 +825,52 @@ img { max-width: 100%; height: auto; }
    예지보전 CTA(.uc-cta-bg)와 같은 구성이다. */
 .ind-cta-bg {
   position: relative; overflow: hidden;
-  padding: 95px 0;
+  /* 위아래 110px — 메인 CTA(#cta)와 같은 값이다. 95px 에서 올렸다. */
+  padding: 110px 0;
   text-align: left;
-  /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
-     흰 배경이면 글자가 잠깐 보이지 않는다. */
-  background: #191F27;
+  /* 면색은 그래픽에 들어 있는 배경(#151B23)과 같은 값이다 — 영상이 닿지
+     않는 자리와 도착 전 화면이 이어진다. */
+  background: #151B23;
 }
 /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 섹션이 사진보다 훨씬 납작해
    object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록 사진이
    축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
    모자란 가로는 좌우 균등하게 잘린다. */
 .ind-cta-bg-img {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; min-width: 1440px; height: 100%;
-  object-fit: cover; object-position: center 65%;
+  /* 섹션 전체를 덮는다. 그래픽(2880x600)은 오른쪽에 내용이 몰려 있고 왼쪽은
+     배경색으로 사라지므로, 좁아질 때 잘려야 할 쪽은 왼쪽이다.
+     ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
+     ⚠️ 예전 사진용 보정(min-width: 1440px · 가운데 정렬)은 걷었다. 세로가 긴
+        사진을 납작한 띠에 맞추려던 값인데, 이 그래픽은 띠와 같은 비율이다. */
+  display: block;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
 }
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
-/* 제목 좌측 · 버튼 우측으로 한 줄에 나눈다. 버튼이 제목 아래에 쌓이지 않아
-   시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다. */
+.ind-cta-bg::after {
+  /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
+     가운데를 가장 짙게 둔다. 글이 세로 가운데에 모여 있고, 위아래는 영상이
+     제 모습으로 남아야 배경이 영상인 줄 알아본다.
+     ⚠️ video 와 ::after 둘 다 absolute 라 나중에 칠해지는 ::after 가 위에 온다.
+      글이 든 칸은 z-index 1 이라 둘보다 위다. */
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(10, 14, 20, .30) 0%,
+    rgba(10, 14, 20, .46) 42%,
+    rgba(10, 14, 20, .46) 62%,
+    rgba(10, 14, 20, .30) 100%);
+}
+/* 문구 위 · 버튼 아래로 왼쪽에 쌓는다 — 메인 CTA 와 같은 배치다.
+   ⚠️ 한때 제목 좌측 · 버튼 우측 한 줄이었다(space-between). 메인과 결을
+      맞추려고 바꿨다 — 되살리려면 이 블록만 되돌린다.
+   ⚠️ 사이 40px 도 메인 값이다(문구 아랫변 ~ 버튼 윗변). */
 .ind-cta-bg .ind-container {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 48px; flex-wrap: wrap;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 40px;
 }
 .ind-cta-bg .ind-container > * { flex: none; }
 /* 굵기 650 -> 500, 줄높이 1.3 -> 1.35. 한 줄로 나란히 서므로 제목 아래 여백은 없앤다. */

@@ -437,17 +437,23 @@ const ucShift = (h: number) =>
     </section>
 
     <!-- CTA -->
-    <section class={ind.cta.backgroundImage ? 'ind-cta ind-cta-bg' : 'ind-cta'}>
-      {ind.cta.backgroundImage && (
-        <img
-          class="ind-cta-bg-img"
-          src={ind.cta.backgroundImage}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-        />
-      )}
+    <section class="ind-cta ind-cta-bg">
+      {/* 배경은 public/cta/page-cta 의 산업별 그래픽이다(와이어프레임 지형,
+          4초 루프). 그림 왼쪽이 배경색으로 사라지게 그려져 있어 섹션 전체
+          폭에 깐다.
+          ⚠️ 데이터의 cta.backgroundImage 는 더 쓰지 않는다 — 파일에 그대로
+             두었으니 되살릴 때 다시 꽂으면 된다.
+          ⚠️ 영상은 lazy 가 없다. preload="metadata" 로 첫 조각만 받고,
+             포스터(webp)가 도착 전과 '움직임 줄이기' 를 켠 화면을 맡는다. */}
+      <video
+        class="ind-cta-bg-img"
+        autoplay muted loop playsinline preload="metadata"
+        poster="/cta/page-cta/industry-cta-terrain.webp"
+        aria-hidden="true"
+      >
+        <source src="/cta/page-cta/industry-cta-terrain.webm" type="video/webm" />
+        <source src="/cta/page-cta/industry-cta-terrain.mp4" type="video/mp4" />
+      </video>
       <div class="ind-container">
         <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
@@ -510,7 +516,7 @@ const ucShift = (h: number) =>
 
     /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — poster 만 남는다. */
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('video.ind-sys-deco').forEach(function (v) {
+      document.querySelectorAll('video.ind-sys-deco, video.ind-cta-bg-img').forEach(function (v) {
         v.removeAttribute('autoplay');
         v.pause();
       });

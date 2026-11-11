@@ -560,17 +560,22 @@ const jsonLd = [
     )}
 
     <!-- CTA -->
-    <section class={uc.ctaBackgroundImage ? 'ind-cta uc-cta-bg' : 'ind-cta'}>
-      {uc.ctaBackgroundImage && (
-        <img
-          class="uc-cta-bg-img"
-          src={uc.ctaBackgroundImage}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-        />
-      )}
+    <section class="ind-cta uc-cta-bg">
+      {/* 배경은 public/cta/page-cta 의 과제별 그래픽이다(포커스 타깃, 4초 루프).
+          그림 왼쪽이 배경색으로 사라지게 그려져 있어 섹션 전체 폭에 깐다.
+          ⚠️ 데이터의 ctaBackgroundImage 는 더 쓰지 않는다 — 열네 파일에 그대로
+             두었으니 되살릴 때 다시 꽂으면 된다.
+          ⚠️ 영상은 lazy 가 없다. preload="metadata" 로 첫 조각만 받고, 포스터
+             (webp)가 도착 전과 '움직임 줄이기' 를 켠 화면을 맡는다. */}
+      <video
+        class="uc-cta-bg-img"
+        autoplay muted loop playsinline preload="metadata"
+        poster="/cta/page-cta/usecase-cta-focus.webp"
+        aria-hidden="true"
+      >
+        <source src="/cta/page-cta/usecase-cta-focus.webm" type="video/webm" />
+        <source src="/cta/page-cta/usecase-cta-focus.mp4" type="video/mp4" />
+      </video>
       <div class="ind-container">
         <h2 set:html={nb(uc.ctaTitle ?? T.ctaTitle)}></h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.contact}</a>
@@ -601,7 +606,7 @@ const jsonLd = [
   /* 움직임을 줄여 달라고 한 화면에서는 장식 영상을 세운다 — 포스터(첫 프레임)만
      남는다. autoplay 는 CSS 로 끌 수 없어 여기서 뗀다. */
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('video.uc-template-deco').forEach(function (v) {
+    document.querySelectorAll('video.uc-template-deco, video.uc-cta-bg-img').forEach(function (v) {
       v.removeAttribute('autoplay');
       v.pause();
     });
@@ -1670,25 +1675,43 @@ const jsonLd = [
      ─────────────────────────────────────────────────────────── */
   .uc-cta-bg {
     position: relative; overflow: hidden;
-    padding: 95px 0;
+    /* 위아래 110px — 메인 CTA(#cta)와 같은 값이다. 95px 에서 올렸다. */
+    padding: 110px 0;
     text-align: left;
-    /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
-       흰 배경이면 글자가 잠깐 보이지 않는다(이미지의 글자 자리 색과 같은 톤). */
-    background: #191F27;
+    /* 면색은 그래픽에 들어 있는 배경(#151B23)과 같은 값이다 — 영상이 닿지
+       않는 자리와 도착 전 화면이 이어진다. */
+    background: #151B23;
   }
   .uc-cta-bg-img {
-    /* ⚠️ min-width로 배율을 세로 기준에 묶는다. 회사 소개 CTA(.cmp-cta-bg-img)와
-       같은 처리다. 섹션(1425x298 = 4.8:1)이 사진(3840x2462 = 1.56:1)보다 훨씬
-       납작해 object-fit: cover의 배율이 가로에 끌려간다. 그대로 두면 폭이 줄수록
-       사진이 축소된다. 상자 폭을 1440px 아래로 못 내려가게 막으면 배율이 고정되고,
-       모자란 가로는 좌우 균등하게 잘린다. 1440px 위로는 지금처럼 늘어난다. */
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; min-width: 1440px; height: 100%;
-    /* 두 번째 값이 보이는 띠의 위치 — center면 이미지 한가운데다. */
-    object-fit: cover; object-position: center 65%;
+    /* 섹션 전체를 덮는다. 그래픽(2880x600)은 오른쪽에 내용이 몰려 있고 왼쪽은
+       배경색으로 사라지므로, 좁아질 때 잘려야 할 쪽은 왼쪽이다 — object-position
+       오른쪽이 그 몫이다.
+       ⚠️ video 는 inline 이라 아래에 글줄만큼의 빈 칸이 생긴다 — block 으로 둔다.
+       ⚠️ 예전 사진용 보정(min-width: 1440px · 가운데 정렬)은 걷었다. 그 값은
+          세로가 긴 사진을 납작한 띠에 맞추려던 것인데, 이 그래픽은 띠와 같은
+          비율(2880x600)이라 늘려 깔면 된다. */
+    display: block;
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: right center;
     pointer-events: none; user-select: none;
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
+  .uc-cta-bg::after {
+    /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
+       가운데를 가장 짙게 둔다. 글이 세로 가운데에 모여 있고, 위아래는 영상이
+       제 모습으로 남아야 배경이 영상인 줄 알아본다.
+       ⚠️ video 와 ::after 둘 다 absolute 라 나중에 칠해지는 ::after 가 위에 온다.
+          글이 든 칸은 z-index 1 이라 둘보다 위다. */
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+      rgba(10, 14, 20, .30) 0%,
+      rgba(10, 14, 20, .46) 42%,
+      rgba(10, 14, 20, .46) 62%,
+      rgba(10, 14, 20, .30) 100%);
+  }
   /* ctaTitle 일부를 다른 색으로 강조하고 싶을 때 쓴다(현재 사용처 없음).
      set:html로 넣은 노드는 Astro 스코프 속성을 받지 않아 :global이 필요하다. */
   .uc-cta-bg h2 :global(.uc-cta-em) { color: #76a6d7; }
@@ -1704,13 +1727,12 @@ const jsonLd = [
     margin-bottom: 0;
     text-wrap: initial;
   }
-  /* 제목 좌측 · 버튼 우측으로 한 줄에 나눈다. 버튼이 제목 아래에 쌓이지 않아
-     시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다.
-     가로 위치는 space-between이 잡고(버튼은 오른쪽 끝),
-     align-items:center가 세로만 제목 두 줄의 가운데로 맞춘다. */
+  /* 문구 위 · 버튼 아래로 왼쪽에 쌓는다 — 메인 CTA 와 같은 배치다.
+     ⚠️ 한때 제목 좌측 · 버튼 우측 한 줄이었다(space-between). 메인과 결을
+        맞추려고 바꿨다 — 되살리려면 이 블록과 아래 row/column-gap 을 되돌린다. */
   .uc-redesigned .uc-cta-bg .ind-container {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 48px; flex-wrap: wrap;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 40px;
   }
   .uc-redesigned .uc-cta-bg .ind-container > * { flex: none; }
   /* 좁은 폭에서 상하 여백과 글-버튼 간격을 줄인다. 95px 고정이면 375px에서
@@ -1748,6 +1770,8 @@ const jsonLd = [
      옆에 있으면 column-gap(48px)이 적용돼 중단점 없이 둘 다 맞는다.
      h2의 margin-bottom은 이 간격과 겹치므로 0으로 둔다.
      세 CTA(회사 소개·플랫폼 개요·유즈케이스)가 같은 값을 쓴다. */
-  .uc-redesigned .uc-cta-bg .ind-container { column-gap: 48px; row-gap: 32px; }
+  /* ⚠️ 사이 40px 은 메인 CTA 값이다(문구 아랫변 ~ 버튼 윗변). 한 줄로 서던
+     시절의 column 48 · row 32 를 대신한다. */
+  .uc-redesigned .uc-cta-bg .ind-container { gap: 40px; }
   .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
 </style>
