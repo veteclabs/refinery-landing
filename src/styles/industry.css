@@ -1506,6 +1506,12 @@ img { max-width: 100%; height: auto; }
   width: 100%; height: auto;
   pointer-events: none;
   z-index: 0;
+  /* 먹색 판 위에서 격자가 너무 묽어 잘 안 보였다 — 밝기를 1.6 배로 올린다.
+     ⚠️ opacity 로는 못 올린다(1 이 최대다). 그림 자체가 반투명한 선이라
+        brightness 로 선만 밝아지고 빈 자리는 그대로 투명하다.
+     ⚠️ 판 높이가 줄면서(214 -> 158px) 그림 249px 중 아래쪽만 남은 것도
+        겹쳤다. 더 보이게 하려면 판을 키우거나 그림을 더 키운다. */
+  filter: brightness(1.6);
 }
 /* 글 · 칩을 한 층 올린다. */
 .ind-page .ind-systems-head,
