@@ -223,12 +223,13 @@ img { max-width: 100%; height: auto; }
       선이 그림을 뚫고 지나간다 — 칸 사이(화살표 자리)에만 둔다.
    ⚠️ 선과 원의 높이는 아이콘의 한가운데다. --ind-flow-ic 가 아이콘 크기라
       그 값만 바꾸면 선도 따라 내려온다. */
-/* 그림 크기 — 카드 오른쪽 아래의 그림이다. 120px 에서 키웠다.
+/* 그림 크기 — 카드 오른쪽 아래의 그림이다. 120 -> 160 -> 180px 으로 키웠다.
    ⚠️ 상한은 카드 안쪽 폭이다. 1440px 에서 267px, 1280px 에서 227px 이라
-      160px 이면 어느 쪽에서도 글 자리를 밀지 않는다.
+      180px 이면 어느 쪽에서도 글 자리를 밀지 않는다. 그보다 더 키우려면
+      1280px 쪽(227px)이 먼저 걸린다.
    ⚠️ 3D 아이소메트릭이라 점선 큐브와 바닥판까지 한 장에 들어 있다 — 안쪽
       아이콘이 실제로 차지하는 폭은 그림의 60% 남짓이라 수치보다 작아 보인다. */
-.ind-page .ind-flow { --ind-flow-ic: 160px; counter-reset: ind-flow; }
+.ind-page .ind-flow { --ind-flow-ic: 180px; counter-reset: ind-flow; }
 .ind-page .ind-flow-step { counter-increment: ind-flow; }
 /* 머리 — 배지 + 이름 한 줄. 카드가 안 여백을 갖게 되면서 띠를 벗었다.
    아래 여백 5px은 도입 효과 카드 제목(.ind-page .ind-card h3)과 같은 값이다. */
@@ -258,7 +259,7 @@ img { max-width: 100%; height: auto; }
    ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  width: var(--ind-flow-ic, 160px); height: var(--ind-flow-ic, 160px);
+  width: var(--ind-flow-ic, 180px); height: var(--ind-flow-ic, 180px);
   /* 카드 오른쪽 아래 — margin 의 auto 둘이 자리를 잡는다. 위 auto 가 남은
      높이를 전부 위쪽 여백으로 밀어 그림을 아랫변에 붙이고, 왼쪽 auto 가
      남은 폭을 왼쪽으로 밀어 오른쪽 끝에 붙인다.
@@ -270,11 +271,12 @@ img { max-width: 100%; height: auto; }
   padding-top: 16px;
 }
 @media (max-width: 1100px) {
-  .ind-page .ind-flow { --ind-flow-ic: 136px; }
+  /* 1100px 에서 카드 안쪽이 198px 이라 기본값(180)은 너무 빠듯하다. */
+  .ind-page .ind-flow { --ind-flow-ic: 150px; }
 }
 @media (max-width: 860px) {
   /* 카드가 한 줄에 하나씩 쌓여 폭이 넉넉해진다 — 그림을 되돌려 키운다. */
-  .ind-page .ind-flow { --ind-flow-ic: 180px; }
+  .ind-page .ind-flow { --ind-flow-ic: 200px; }
 }
 
 /* 본문 — 가운뎃점으로 끊어 상자 하나씩 담는다. 플랫폼 개요 '한 플랫폼 안에
