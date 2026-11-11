@@ -1974,10 +1974,15 @@ img { max-width: 100%; height: auto; }
       위 .ind-uc-dl dd(0,1,1)에 눌려 색이 통째로 버려졌다 — 굵기만 먹고
       색은 내용 글과 같은 #7E8A98 로 남아 있었다. */
 .ind-uc-dl dd.ind-uc-out { color: #5A6776; font-weight: 500; }
-/* 영문 라벨은 길다 — 칸을 넓혀 글 시작선을 맞춘다. 가장 긴 Approach 가
-   76px 이라 78px 이다(국문과 같은 2px 여유). Problem 69 · Outcome 72 는
-   그보다 짧아 그 줄만 빈틈이 몇 px 넓다 — 시작선을 맞추는 대가다. */
-.ind-en .ind-uc-dl > div { grid-template-columns: 78px minmax(0, 1fr); }
+/* 영문 라벨은 길이가 제각각이라(Problem 68.6 · Approach 75.5 · Outcome 72.3)
+   가장 긴 Approach 에 맞춰 셋을 같은 폭으로 세운다.
+   ⚠️ 칸을 76px 으로 두고 라벨을 칸 폭까지 늘린다(justify-self: stretch).
+      국문처럼 justify-self: start 로 두면 라벨이 제 글자 너비만큼만 서서
+      셋의 폭이 달라진다 — 국문은 두 글자씩이라 저절로 같았다.
+   ⚠️ 늘어난 만큼 글자는 가운데에 세운다. 왼쪽에 붙이면 폭만 같고 글자는
+      제각각인 자리에서 시작해 되레 어긋나 보인다. */
+.ind-en .ind-uc-dl > div { grid-template-columns: 76px minmax(0, 1fr); }
+.ind-en .ind-uc-dl dt { justify-self: stretch; text-align: center; }
 @media (max-width: 900px) {
   .ind-uc-item { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 0; padding: 32px 0; }
   .ind-uc-item > .ind-uc-text { grid-area: 1 / 1; }
