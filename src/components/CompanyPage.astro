@@ -23,10 +23,9 @@ const T = {
     description: 'Refinery는 (주)베텍이 30년 넘게 산업 현장에서 쌓은 경험을 토대로 만들었습니다. 개발자와 현장 엔지니어가 한 팀이 되어, 기존 시스템 위에 얹거나 없으면 새로 구축해 하나의 통합 지능으로 잇습니다.',
     canonical: '/company',
     jsonLdName: '회사 소개 | Refinery',
-    /* 두 줄로 세운다 — 메인 히어로(흩어진 현장을 / 하나의 운영체제로)와 같은
-       모양이다. 한 줄로 두면 1440px 에서 840px 짜리 한 줄이 되어 아래 소제목
-       두 줄과 덩어리가 맞지 않는다. */
-    h1: '현장의 언어로<br>문제를 풉니다',
+    /* 한 줄로 둔다. 1440px 에서 613px 짜리 한 줄이다 — 폭이 좁아지면 글자가
+       함께 줄어들어(clamp 36~60px) 390px 까지 한 줄을 지킨다. */
+    h1: '현장의 언어로 문제를 풉니다',
     lede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.<br>개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     cta: '문의하기', contactHref: '/contact',
     storyTag: '회사 소개',
@@ -314,18 +313,20 @@ const alternates = [
     word-break: keep-all;
     overflow-wrap: break-word;
   }
-  /* 소제목도 메인 히어로(#hero .hero-sub)와 같은 값이다 — 16px / 300 /
-     행간 1.5 / #5A6776. 한때 18px / 400 / 1.7 / #7E8A98 이었다.
+  /* 소제목은 솔루션(산업별) 히어로의 .ind-lede 와 같은 값이다 — 18px / 400 /
+     행간 1.5 / --text-muted. 대제목을 메인에 맞출 때 메인 소제목 값
+     (16 / 300 / #5A6776)으로 갔다가 되돌린 자리다.
+     ⚠️ 900px 이하는 저쪽과 같이 16px 로 내린다.
      ⚠️ 칸 폭(960px)은 그대로 둔다. 글자값을 맞추는 것이지 자리를 옮기는
-        작업이 아니다. */
+        작업이 아니다(저쪽은 600px 이고 이 페이지는 글이 길다). */
   .cmp-hero .ind-lede {
-    font-size: 16px; font-weight: 300; line-height: 1.5;
-    color: #5A6776; max-width: 960px; margin: 0;
+    font-size: 18px; font-weight: 400; line-height: 1.5;
+    color: var(--text-muted); max-width: 960px; margin: 0;
   }
   @media (max-width: 900px) {
     .cmp-hero { padding: 208px 0 72px; }
-    /* 메인은 900px 이하에서 소제목을 15px 로 내린다 — 같은 값으로 맞춘다. */
-    .cmp-hero .ind-lede { font-size: 15px; }
+    /* 솔루션 히어로는 900px 이하에서 소제목을 16px 로 내린다 — 같은 값이다. */
+    .cmp-hero .ind-lede { font-size: 16px; }
   }
 
   /* ───────── 섹션 여백·제목 — /why-refinery(플랫폼 개요)와 같은 값 ─────────
