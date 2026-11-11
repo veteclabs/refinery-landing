@@ -1066,6 +1066,12 @@ const jsonLd = [
         (푸는 방식 180 + 살펴보기 180)은 그대로다. */
   .uc-redesigned .uc-faq-section { padding-bottom: 90px; }
   .uc-redesigned .uc-faq-section + .ind-section { padding-top: 90px; }
+  /* 푸는 방식 ↔ 질문 사이도 같은 값이다 — 180px 을 90 + 90 으로 나눈다.
+     ⚠️ 인접한 두 쪽만 짚는다. 질문 섹션 앞이 늘 푸는 방식인 것은 아니다
+        (signalsFirst 가 꺼진 과제는 신호 섹션이 그 자리에 온다) — 그 경우는
+        180 + 180 그대로 둔다. */
+  .uc-redesigned .ind-soft:has(+ .uc-faq-section) { padding-bottom: 90px; }
+  .uc-redesigned .ind-soft + .uc-faq-section { padding-top: 90px; }
   /* 제목이 위, 질문 판이 아래다 — 둘 다 가운데 정렬. 공통값(.uc-faq-head)은
      제목 왼쪽 · 목록 오른쪽 두 칸인데, 그 자리 나눔을 풀고 한 칸으로 세운다.
      ⚠️ 판은 목록(.uc-faq-list)이 쥔다. 머리 전체에 면을 깔면 제목까지 면 안에
