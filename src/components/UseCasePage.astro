@@ -34,7 +34,7 @@ const T = {
     crumbAria: '위치', home: 'Home', list: '유즈케이스', listHref: undefined as string | undefined,
     eyebrow: 'USE CASE', contact: '문의하기', contactHref: '/contact',
     secondary: '플랫폼 개요 →', secondaryPlain: '플랫폼 개요', secondaryHref: '/why-refinery',
-    why: '왜 필요한가요?', how: '리파이너리로 푸는 방식', tmplBadge: '템플릿으로 시작',
+    why: '왜 필요한가요?', how: '리파이너리로\n푸는 방식', tmplBadge: '템플릿으로 시작',
     signals: '읽는 데이터와 신호', related: '과제 더 살펴보기',
     signalsLede: '따로 보던 값을 한자리에 모아 함께 읽습니다.',
     faqTitle: '자주 묻는 질문',
@@ -44,7 +44,7 @@ const T = {
     crumbAria: 'Breadcrumb', home: 'Home', list: 'Use cases', listHref: undefined as string | undefined,
     eyebrow: 'USE CASE', contact: 'Contact', contactHref: '/en/contact',
     secondary: 'Platform overview →', secondaryPlain: 'Platform overview', secondaryHref: '/en#teams',
-    why: 'Why it matters', how: 'How Refinery solves it', tmplBadge: 'Start from a template',
+    why: 'Why it matters', how: 'How Refinery\nsolves it', tmplBadge: 'Start from a template',
     signals: 'The data and signals we read', related: 'Explore more use cases',
     signalsLede: 'Values you used to read apart, brought together and read as one.',
     faqTitle: 'FAQ',
@@ -326,7 +326,9 @@ const jsonLd = [
                 숫자는 국·영문이 같아 사전에 두지 않는다. */}
             <span class="ind-sec-label">01</span>
             <h2>{T.signals}</h2>
-            <p>{T.signalsLede}</p>
+            {/* ⚠️ 소제목은 화면에 내지 않는다. 산업별 두 섹션과 같은 처리다 —
+                제목이 이미 무엇을 읽는지 말하고 있다. 사전(signalsLede)은
+                국·영문 모두 그대로 두었다. */}
           </header>
           {uc.signalsAsCards ? (
             <div class="uc-signal-cards">
@@ -369,7 +371,9 @@ const jsonLd = [
           <div class="ind-uc-shell">
             <div class="ind-uc-aside">
               <span class="ind-sec-label">02</span>
-              <h2>{T.how}</h2>
+              {/* 줄 나눔은 사전의 개행을 <br> 로 낸다 — 산업별 제목과 같은 방식이다.
+                  칸이 400px 이라 두면 '리파이너리로 푸는 / 방식' 으로 끊겼다. */}
+              <h2>{T.how.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
             </div>
             <ol class="ind-uc-list">
               {uc.how.map((h, i) => (
@@ -393,7 +397,7 @@ const jsonLd = [
           </div>
         ) : (
           <>
-            <header class="ind-head"><h2>{T.how}</h2></header>
+            <header class="ind-head"><h2>{T.how.replace('\n', ' ')}</h2></header>
             <div class="ind-grid ind-grid-3">
               {uc.how.map((h) => (
                 <div class="ind-card">
@@ -458,7 +462,9 @@ const jsonLd = [
                 숫자는 국·영문이 같아 사전에 두지 않는다. */}
             <span class="ind-sec-label">01</span>
             <h2>{T.signals}</h2>
-            <p>{T.signalsLede}</p>
+            {/* ⚠️ 소제목은 화면에 내지 않는다. 산업별 두 섹션과 같은 처리다 —
+                제목이 이미 무엇을 읽는지 말하고 있다. 사전(signalsLede)은
+                국·영문 모두 그대로 두었다. */}
           </header>
           {uc.signalsAsCards ? (
             <div class="uc-signal-cards">
@@ -1225,10 +1231,12 @@ const jsonLd = [
     font-size: 15.5px; line-height: 1.6;
     color: var(--text-muted);
   }
-  /* 글만 있는 목록이라 오른쪽 칸을 560px 에서 끊는다. 산업별 쪽은 같은 칸에
-     그림이 함께 서서 920px 을 다 쓰지만, 여기서는 가로선만 그만큼 길어지고
-     글은 58ch 에서 멈춰 선과 글이 겉돈다. 길이는 선이 쥐고 글은 칸을 채운다. */
-  .uc-redesigned .ind-uc-list { max-width: 560px; }
+  /* 목록은 제 칸을 다 쓴다(1440px 에서 664px). 글만 있는 목록이라 한때
+     560px 에서 끊었는데 글이 너무 좁아졌다. 폭은 바깥 격자가 쥐게 두고
+     — 왼쪽 칸 400px · 사이 120px · 컨테이너 안쪽 1184px — 가로선 오른쪽
+     끝이 밴드(.uc-template) 끝과 같은 선에 서게 한다.
+     ⚠️ 글에도 max-width 를 두지 않는다. 58ch(505px)에서 멈추면 선만 길어져
+        선과 글이 겉돈다. */
   /* 번호 + 제목 한 줄. 산업별 솔루션 구조 카드와 같은 배지다 — 20x20 ·
      둥글기 6px · 먹색 면 · 흰 글자 10px/600.
      ⚠️ 위 맞춤이다. 아래 맞춤으로 두면 한 줄짜리 카드에서 배지까지 내려와
