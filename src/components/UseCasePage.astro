@@ -1335,8 +1335,8 @@ const jsonLd = [
      마크업에서 밴드는 통(.ind-uc-shell) 밖 형제다 — 예전 구성과 같은 자리에
      두려고 그렇게 두었다. 그래서 통을 display: contents 로 풀어 제목 칸 ·
      목록 · 밴드를 모두 바깥 칸(.ind-container)의 격자 칸으로 올린다.
-     그래야 제목 칸이 붙어 있는 범위가 밴드 아래까지 늘어나, 밴드를 지나는
-     동안에도 제목이 따라온다.
+     밴드도 같은 칸(2열)에 세우기 위해서다 — 왼쪽 여백을 손으로 주던 방식
+     (margin-left: 520px)을 걷었다.
      ⚠️ 칸 값(400 · 120px)은 industry.css 의 .ind-uc-shell 과 같은 값이다.
         그쪽을 바꾸면 여기도 함께 고친다.
      ⚠️ display: contents 인 요소는 상자가 없어 getBoundingClientRect 가 0 을
@@ -1351,7 +1351,14 @@ const jsonLd = [
       column-gap: 120px;
       align-items: start;
     }
-    .uc-redesigned .ind-soft .ind-uc-aside { grid-column: 1; grid-row: 1 / span 2; }
+    .uc-redesigned .ind-soft .ind-uc-aside {
+      grid-column: 1; grid-row: 1 / span 2;
+      /* ⚠️ 붙어서 따라오지 않는다. 산업별 02(.ind-uc-aside)는 sticky 인데,
+         그쪽 오른쪽 칸은 1440px 에서 3766px — 네 화면 — 이라 제목이 따라올
+         값이 있다. 이쪽은 밴드까지 1447px, 한 화면 반이라 잠깐 멈췄다
+         흘러가는 모습이 되레 눈에 걸렸다. 되살리려면 이 줄만 지운다. */
+      position: static;
+    }
     .uc-redesigned .ind-soft .ind-uc-list { grid-column: 2; grid-row: 1; }
     .uc-redesigned .ind-soft .uc-template { grid-column: 2; grid-row: 2; }
   }
