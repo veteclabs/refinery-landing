@@ -1135,6 +1135,14 @@ const jsonLd = [
   @media (max-width: 900px) {
     .uc-redesigned .ind-section .ind-container { padding: 0 24px; }
   }
+  /* ⚠️ 640px 이하에서 industry.css 가 통(.ind-uc-shell)에 24 · 20px 을 준다.
+     산업별에서는 통 안에 목록과 그림이 함께 들어 있어 그 여백이 한 덩어리를
+     들여쓰지만, 여기서는 통이 목록만 감싸고 밴드는 밖에 있어 목록만 좌우
+     20px 씩 안으로 들어갔다(390px 에서 목록 44~346 · 밴드 24~366).
+     셋의 왼쪽 선을 맞추려고 여기서 푼다. */
+  @media (max-width: 640px) {
+    .uc-redesigned .ind-soft .ind-uc-shell { padding: 0; }
+  }
 
   /* 카드 수만큼 한 줄에 둔다 — 3개면 3열, 4개면 4열. 고정 3컬럼이면 카드가
      4개일 때 마지막 하나가 혼자 떨어지고, 4컬럼이면 3개일 때 한 칸이 빈다.
