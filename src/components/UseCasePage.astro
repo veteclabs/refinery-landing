@@ -470,7 +470,7 @@ const jsonLd = [
     {/* 다른 과제 — 데이터에서 showRelatedUseCases를 켠 유즈케이스에만 렌더된다.
         아래 CTA가 어두운 배경이라 이 구역은 흰 배경으로 두어 대비로 구분한다. */}
     {uc.showRelatedUseCases && (
-      <section class="ind-section uc-related-section">
+      <section class="ind-section">
         <div class="ind-container uc-narrow">
           <header class="ind-head"><h2>{T.related}</h2></header>
           <div class="uc-cases">
@@ -542,7 +542,10 @@ const jsonLd = [
     var items = list.querySelectorAll(itemSel);
     if (!items.length) return;
     list.style.minHeight = '';
+    list.style.marginBottom = '';
     list.classList.add('is-measuring');
+    /* 다 닫힌 채의 높이 — 아래에서 미리 잡아 둔 자리와의 차를 빼는 데 쓴다. */
+    var natural = list.getBoundingClientRect().height;
     var max = 0;
     for (var i = 0; i < items.length; i++) {
       var a = items[i].querySelector(ansSel);
@@ -557,7 +560,16 @@ const jsonLd = [
       if (!wasI) items[i].classList.remove('open');
     }
     list.classList.remove('is-measuring');
-    if (max) list.style.minHeight = Math.ceil(max) + 'px';
+    if (!max) return;
+    list.style.minHeight = Math.ceil(max) + 'px';
+    /* 미리 잡아 둔 자리(max)는 다 닫혔을 때 빈 채로 남아, 마지막 질문 아래가
+       그만큼 더 넓어 보인다(예지보전 1440px 에서 88px). 그 차를 아래 바깥
+       여백에서 되돌려 닫힌 모습의 아래 여백을 제자리에 둔다.
+       ⚠️ 섹션 높이는 여전히 변하지 않는다 — 빼는 값이 늘 같기 때문이다.
+          답을 펼치면 그만큼이 다음 섹션의 위 여백 쪽으로 내려오는데, 그
+          여백이 180px 이라 글끼리 닿지는 않는다. */
+    var slack = Math.ceil(max) - Math.ceil(natural);
+    list.style.marginBottom = slack > 0 ? -slack + 'px' : '';
   }
 
   function rfFaqAll() { rfReserveFaq(document.querySelector('.uc-faq-list'), '.uc-faq-item', '.uc-faq-a'); }
@@ -1048,23 +1060,21 @@ const jsonLd = [
   @media (max-width: 900px) {
     .uc-redesigned .ind-section { padding: 84px 0; }
   }
-  /* 질문 → 더 살펴보기 사이는 180px 이다. 면(#f6f8fa)이 있을 때는 180px 이
-     띠 안쪽 여백으로 읽혔는데, 면을 걷자 두 섹션의 여백이 더해져 360px 짜리
-     빈 자리가 됐다.
-     ⚠️ 180px 을 두 섹션이 90px 씩 나눠 갖는다. 한쪽을 0 으로 두어도 보이는
-        간격은 같지만, 그러면 질문 섹션의 안 여백이 위 180 · 아래 0 으로
-        어긋나 다음에 그 섹션에 면을 깔거나 차례를 바꿀 때 밑이 붙는다.
-        산업 상세(.ind-industry)의 좁힌 경계도 같은 방식이다.
+  /* 질문 섹션만 아래 여백을 뗀다. 면(#f6f8fa)이 있을 때는 180px 이 띠 안쪽
+     여백으로 읽혔는데, 면을 걷자 다음 섹션(더 살펴보기)의 위 여백 180px 과
+     더해져 360px 짜리 빈 자리가 됐다. 0 으로 두면 둘 사이가 다음 섹션의 위
+     여백 하나, 곧 질문 섹션의 위 여백과 같은 180px 이 된다.
      ⚠️ 위 .uc-redesigned .ind-section 보다 뒤에 와야 한다 — 같은 특정도라
         앞에 두면 그쪽 padding 한 줄에 덮인다. */
+  .uc-redesigned .uc-faq-section { padding-bottom: 0; }
   /* 신호 섹션 아랫변에 원형 빛을 깐다 — 가운데 아래에서 퍼져 섹션 폭의
-     48% · 높이의 38% 까지 번진다(72 x 58 에서 줄였다).
-     ⚠️ 색은 솔루션 구조 · 푸는 방식 띠와 같은 #EEF4FB 이고, 투명도만 바꾼다.
-        색까지 함께 바꾸면 중간에 회색기가 돈다(합성 때 섞이는 값이 달라진다).
+     62% · 높이의 50% 까지 번진다.
+     ⚠️ 색은 솔루션 구조 띠와 같은 #EEF4FB 이고 투명도만 바꾼다. 색까지 함께
+        바꾸면 합성 때 섞이는 값이 달라져 중간에 회색기가 돈다.
      ⚠️ 정지점 열세 개짜리 smootherstep 이다. 두 점짜리 radial 은 사라지는
-        자리에 테가 보인다 — 띠에서 겪은 것과 같다. */
+        자리에 동그란 테가 보인다. */
   .uc-redesigned .uc-signal-section {
-    background: radial-gradient(48% 38% at 50% 100%,
+    background: radial-gradient(62% 50% at 50% 100%,
       rgba(238, 244, 251, 1) 0%,
       rgba(238, 244, 251, 0.995) 8.33%,
       rgba(238, 244, 251, 0.965) 16.67%,
@@ -1079,15 +1089,6 @@ const jsonLd = [
       rgba(238, 244, 251, 0.005) 91.67%,
       rgba(238, 244, 251, 0) 100%);
   }
-  .uc-redesigned .uc-faq-section { padding-top: 90px; padding-bottom: 90px; }
-  .uc-redesigned .uc-related-section { padding-top: 90px; }
-  /* 질문 · 더 살펴보기 앞에 오는 섹션도 아래를 깎는다 — 차례가 데이터에 따라
-     달라서(질문이 없는 과제도 있고, 신호가 뒤에 오는 과제도 있다) 클래스가
-     아니라 자리로 집는다.
-     ⚠️ 더 살펴보기 쪽을 빼먹으면 질문 섹션이 없는 과제에서 그 경계만
-        90 + 180 = 270px 이 된다. 실제로 그랬다. */
-  .uc-redesigned .ind-section:has(+ .uc-faq-section),
-  .uc-redesigned .ind-section:has(+ .uc-related-section) { padding-bottom: 90px; }
   /* ⚠️ 신호 ↔ 푸는 방식 사이는 기본 360px(180 + 180)으로 되돌렸다. 한때
      90 + 90 으로 좁혔다 — 되살리려면
        .uc-signal-section + .ind-soft, .ind-soft + .uc-signal-section
@@ -1095,12 +1096,6 @@ const jsonLd = [
        .uc-signal-section:has(+ .ind-soft), .ind-soft:has(+ .uc-signal-section)
          { padding-bottom: 90px }
      두 벌을 다시 둔다(차례가 signalsFirst 로 바뀌므로 두 벌이 필요하다). */
-  /* 좁은 폭에서는 섹션 여백이 84px 이라 둘을 합치면 168px 이 된다. 지금까지
-     그 폭에서는 84px 이었으므로 그대로 둔다 — 모바일 여백은 따로 본다. */
-  @media (max-width: 900px) {
-    .uc-redesigned .uc-faq-section { padding-bottom: 0; }
-    .uc-redesigned .uc-related-section { padding-top: 84px; }
-  }
   @media (max-width: 900px) {
     .uc-redesigned .ind-section .ind-container { padding: 0 24px; }
   }
@@ -1192,59 +1187,18 @@ const jsonLd = [
      카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
      이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
      ─────────────────────────────────────────────────────────── */
-  /* ⚠️ 먹색이던 면을 흰 면으로 돌리고, 산업별 솔루션 구조 섹션(.ind-arch)과
-     똑같은 띠를 깐다 — 흰색에서 42% 의 #EEF4FB 까지 올라갔다가 다시 흰색으로
-     내려간다. 평평한 구간이 없어 제 색을 내는 데는 한 자리뿐이고, 변하는
-     구간이 섹션 전체로 늘어나 색이 가장 천천히 바뀐다.
-     ⚠️ 정지점은 양쪽 열여섯 개씩 smootherstep 이다. 두 점만 두면 그 사이가
-        직선이라 꺾인 데가 보인다. 값은 industry.css 의 .ind-arch 와 같아야
-        한다 — 한쪽만 고치면 두 섹션의 띠가 달라진다.
-     ⚠️ 한때 먹색(#191F27)이었고 그 위에 흰 점판(알파 .08 · 24px 간격)을
-        깔았다. 되살리려면 글 · 카드의 밝은 한 벌도 함께 되돌린다. */
-  .uc-redesigned .ind-soft {
-    background: linear-gradient(180deg,
-    #FFFFFF 0%,
-    #FFFFFF 5.25%,
-    #FEFEFF 7.88%,
-    #FDFEFF 10.5%,
-    #FCFDFE 13.12%,
-    #FAFCFE 15.75%,
-    #F8FBFD 18.38%,
-    #F6FAFD 21%,
-    #F5F8FD 23.62%,
-    #F3F7FC 26.25%,
-    #F1F6FC 28.88%,
-    #F0F5FB 31.5%,
-    #EFF5FB 34.12%,
-    #EEF4FB 36.75%,
-    #EEF4FB 49.25%,
-    #EFF5FB 52.88%,
-    #F0F5FB 56.5%,
-    #F1F6FC 60.12%,
-    #F3F7FC 63.75%,
-    #F5F8FD 67.38%,
-    #F6FAFD 71%,
-    #F8FBFD 74.62%,
-    #FAFCFE 78.25%,
-    #FCFDFE 81.88%,
-    #FDFEFF 85.5%,
-    #FEFEFF 89.12%,
-    #FFFFFF 92.75%,
-    #FFFFFF 100%);
-    position: relative;
-  }
+  /* ⚠️ 흰 면이다. 한때 산업별 솔루션 구조 섹션과 같은 띠를 깔았다가 걷었다 —
+     되살리려면 industry.css 의 .ind-arch 배경을 그대로 떠 온다.
+     ⚠️ 그 전에는 먹색(#191F27)에 흰 점판(알파 .08 · 24px 간격)이었다.
+        되살리려면 글 · 카드의 밝은 한 벌도 함께 되돌린다. */
+  .uc-redesigned .ind-soft { background: #FFFFFF; position: relative; }
   .uc-redesigned .ind-soft > .ind-container { position: relative; z-index: 1; }
   .uc-redesigned .ind-soft .ind-head h2 { color: var(--text); }
   /* 카드는 흰 면에 테두리 한 겹 — 산업별 솔루션 구조 카드와 같은 값이다.
-     ⚠️ 그림자는 먹색(--text #16202C)의 아주 옅은 알파다. 검정(0,0,0)을 쓰면
-        같은 알파라도 더 차갑고 탁하게 깔린다 — 사이트가 쓰는 먹색에는 푸른
-        기가 있어 흰 면과 띠(#EEF4FB) 둘 위에서 모두 자연스럽다.
-     ⚠️ 두 겹이다. 1px 짜리는 카드의 아랫변을 또렷하게 하고, 12px 짜리는
-        면에서 살짝 떠 보이게 한다. 한 겹으로 하면 둘 중 하나를 잃는다. */
+     ⚠️ 그림자는 두지 않는다 — 테두리 한 겹이 경계를 쥔다. 그림자는 신호
+        섹션 카드(.uc-signal)에만 둔다. */
   .uc-redesigned .ind-soft .ind-card {
     background: #FFFFFF; border: 1px solid #E3E7EC;
-    box-shadow: 0 1px 2px rgba(22, 32, 44, .04),
-                0 4px 12px rgba(22, 32, 44, .05);
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
@@ -1386,6 +1340,19 @@ const jsonLd = [
      ⚠️ transform 이 아니라 margin-top 이다. 스크롤 등장 모션(ScrollReveal)이
         같은 요소의 transform 을 translateY(16px) → none 으로 쓰기 때문에,
         transform 으로 어긋내면 카드가 뜨는 순간 어긋남이 지워진다. */
+  /* 카드 아래로 떨어지는 그림자. 면(#F6F8FA)만으로 선 카드라 흰 바탕 위에서
+     경계가 묽어, 그림자가 그 몫을 함께 진다.
+     ⚠️ 색은 먹색(--text #16202C)의 알파다. 검정(0,0,0)을 쓰면 같은 알파라도
+        더 차갑고 탁하게 깔린다.
+     ⚠️ y 를 10px 내린다. 0 으로 두면 사방으로 퍼져 '떠 있다' 가 아니라
+        '번졌다' 로 보인다. */
+  .uc-signal {
+    /* ⚠️ 퍼짐을 -10px 으로 당겨 그림자를 카드 밑에만 둔다. 0 으로 두면 좌우와
+       위로도 번져 '떠 있다' 가 아니라 '테를 둘렀다' 로 보인다.
+       알파는 .10 -> .14 -> .08 로 내려왔다 — 면(#F6F8FA)만으로 선 카드라
+       그림자가 세면 카드보다 그림자가 먼저 읽힌다. */
+    box-shadow: 0 10px 18px -10px rgba(22, 32, 44, .08);
+  }
   .uc-signal:nth-child(3n+2) { margin-top: 80px; }
   .uc-signal:nth-child(3n)   { margin-top: 40px; }
   /* 카드 상자 없이 원형 아이콘과 라벨만 세로로 쌓는다. */
