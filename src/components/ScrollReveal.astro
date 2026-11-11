@@ -37,6 +37,14 @@
   .rv-on .ind-uc-aside:not(.rv-done),
   .rv-on .ind-uc-item:not(.rv-done),
   .rv-on .ind-flow-step:not(.rv-done),
+  /* ⚠️ 솔루션 구조는 카드 넷만 띄우고 그 아래 캡션 · 연동 판 · 연동 캡션은
+     가만히 있었다. 네 가지를 한 섹션으로 읽히게 하려고 함께 띄운다.
+     지연은 기본 60ms 다 — 카드의 300ms 는 .ind-flow 안에서만 쓴다. 셋은
+     세로로 멀리 떨어져 있어 스크롤하면서 차례로 선에 걸리므로, 거기에 큰
+     지연까지 주면 마지막 캡션이 한참 뒤에 뜬다. */
+  .rv-on .ind-flow-note:not(.rv-done),
+  .rv-on .ind-systems-block:not(.rv-done),
+  .rv-on .ind-systems-note:not(.rv-done),
   .rv-on .ind-benefits .ind-card:not(.rv-done),
   /* ↓ 과제별 페이지(UseCasePage). 머리 칸(.ind-head)은 산업 페이지와 같은 선택자로
      이미 걸려 있어 여기에 다시 적지 않는다.
@@ -67,6 +75,9 @@
   .rv-on .ind-uc-aside.rv-in:not(.rv-done),
   .rv-on .ind-uc-item.rv-in:not(.rv-done),
   .rv-on .ind-flow-step.rv-in:not(.rv-done),
+  .rv-on .ind-flow-note.rv-in:not(.rv-done),
+  .rv-on .ind-systems-block.rv-in:not(.rv-done),
+  .rv-on .ind-systems-note.rv-in:not(.rv-done),
   .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done),
   .rv-on .uc-problem.rv-in:not(.rv-done),
   .rv-on .uc-signal.rv-in:not(.rv-done),
@@ -94,6 +105,7 @@
       //    숨기기만 하고 영영 안 띄우거나, 띄우기만 하고 지연이 안 붙는다.
       var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
               + ', .ind-head, .ind-chal-rows, .ind-uc-aside, .ind-uc-item, .ind-flow-step'
+              + ', .ind-flow-note, .ind-systems-block, .ind-systems-note'
               + ', .ind-benefits .ind-card'
               + ', .uc-problem, .uc-signal, .uc-page .ind-grid .ind-card, .uc-template'
               + ', .uc-case, .uc-faq-item';
