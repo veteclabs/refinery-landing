@@ -181,6 +181,12 @@
     .btn-primary:hover, .btn-primary:active { background: #EFF2F5; }
 
     section { padding: 130px 0; }
+    /* 고정되지 않는 본문 섹션은 과제별 · 산업별과 같은 180px 로 둔다.
+       ⚠️ 화면에 멈춰 서는 섹션(#hero · #platform · #industries · #teams)은 뺀다 —
+          그쪽은 무대 높이와 진행도 계산이 여백에 묶여 있어 값만 바꾸면 모션이 어긋난다.
+       ⚠️ #cta 도 뺀다(110px). 다른 페이지의 CTA(95px)와 같은 자리다.
+       #security 는 아래쪽에 제 규칙이 따로 있어 거기서 같은 값으로 두었다. */
+    #integrations, #faq { padding: 180px 0; }
     section:not(#hero) { background: #ffffff; }
     #integrations { background: #151B23 !important; }
     .container { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
@@ -381,7 +387,11 @@
          덮고 있었는데 그 선언이 .hero-stage 로 옮겨가면서 되살아났다 — 무대가
          130px 아래에서 시작하고 그만큼 sticky 도 늦게 걸린다. */
       padding: 0;
-      --hero-run: 150vh;
+      /* ⚠️ 150vh 에서 180vh 로 늘렸다. 늘린 30vh 는 모션이 다 끝난 뒤
+         마지막 장면에 머무는 구간이다 — 한 번 멈춘 뒤에 더 스크롤해야 내려간다.
+         자라는 몴(57vh)과 모션 몫(93vh)은 그대로라, 비율은 index.astro 의
+         GROW · RUN 과 HeroZoom 의 ZOOM 이 함께 맞춰 둔다. 한쪽만 고치면 어긋난다. */
+      --hero-run: 215vh;
       height: calc(100vh + var(--hero-run));
       background: none;
       text-align: left;
@@ -1612,7 +1622,7 @@
     #industries .sol-panel[data-off] { visibility: hidden; opacity: 0; pointer-events: none; }
     @media (prefers-reduced-motion: reduce) { #industries .sol-panel { transition: none; } }
 
-    /* 과제별 페이지 '함께 보면 좋은 과제' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
+    /* 과제별 페이지 '과제 더 살펴보기' 카드(UseCasePage.astro의 .uc-case--img)와 같은 스타일.
        사진을 카드 전체에 깔고 글은 아래에 붙인다. 그쪽 값을 그대로 옮기되,
        카드 간격(18px)과 글자 크기는 이 섹션의 기존 값을 유지한다. */
     /* grid-auto-rows: 1fr — 행 높이를 그리드 전체에서 하나로 맞춘다. 기본값(auto)이면
@@ -1876,7 +1886,11 @@
        성립해서 함께 걷었다).
        ⚠️ static 이 아니라 relative 다 — 무대 바탕(::before · ::after)이 inset: 0 로
           깔리므로, 무대가 자리를 잡아 주지 않으면 그 두 겹이 페이지 전체로 번진다. */
-    #security { padding: 130px 0; }
+    /* ⚠️ 위는 130px 이다(아래만 180px). 등장 모션이 대제목의 화면 위치로
+       진행도를 재는데(rise 1.00 → 0.35), 위 여백을 50px 늘리면 카드도 함께
+       내려가 모션이 끝나는 순간 카드가 아직 화면 밖에 있다 — 카드가 올라오는
+       것을 아무도 못 본다. 180px 으로 올렸다가 되돌렸다(카드 끝 지점 915px → 865px). */
+    #security { padding: 130px 0 180px; }
     #security .sec-pin { height: auto; }
     #security .sec-stage {
       position: relative;
@@ -2165,7 +2179,7 @@
       html[lang="en"] #faq .faq-head { grid-template-columns: 1fr !important; gap: 24px !important; }
     }
     .faq-a { overflow: hidden; max-height: 0; padding: 0 4px; transition: max-height var(--t-move), padding var(--t-move), opacity var(--t-move); opacity: 0; }
-    .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
+        .faq-a.open { max-height: 400px; padding: 0 4px 20px; opacity: 1; }
     /* CTA */
     /* 글은 .container 왼쪽 변에 붙인다 — 다른 섹션 제목과 같은 선이다.
        버튼(.hero-actions)에는 CSS 규칙이 없어 inline-block 인 <a> 가

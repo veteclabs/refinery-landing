@@ -51,25 +51,20 @@ const t =
      길고 옅은 한 겹으로 배너가 본문 위에 떠 있음을 알린다 — 흰 배경 구간에서
      위쪽 선 하나만으로는 뒤 요소가 잘린 것처럼 보였다. */
   .cc {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
-    background: #ffffff; color: #16202c;
-    border-top: 1px solid #e3e7ec;
-    box-shadow: 0 -1px 3px rgba(22, 32, 44, .05), 0 -12px 28px rgba(22, 32, 44, .08);
-    padding: 32px 0;
+    position: fixed; left: auto; right: 28px; bottom: 28px; z-index: 200;
+    color: #16202c;
     font-family: 'Roboto', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   /* 안쪽 단은 헤더(.nav-inner)·본문(.container)과 같은 값이다 — 1280 / 좌우 48.
      그래야 배너 글이 헤더 로고와 같은 선에서 시작한다(1440px에서 128px).
      900px 아래에서 24로 좁히는 것도 그쪽 규칙을 그대로 따른다. */
   .cc-inner {
-    max-width: 1600px; margin: 0 auto; padding: 0 48px;
-    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-  }
-  @media (max-width: 900px) {
-    .cc-inner { padding: 0 24px; }
+    width: 320px; padding: 18px 20px;
+    background: #ffffff;
+    border: 1px solid #e3e7ec; border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(22, 32, 44, .05), 0 12px 28px rgba(22, 32, 44, .10);
   }
   .cc[hidden] { display: none; }
-  .cc-copy { flex: 1 1 320px; }
   /* keep-all: 없으면 좁은 폭에서 한글이 어절 한가운데서 끊긴다
      (320px에서 '개선하/고', 640px에서 '분/석합니다'). 전 페이지 공통 배너다. */
   /* 글자는 모두 디자인시스템 ink 스케일로 맞춘다.
@@ -84,7 +79,10 @@ const t =
   /* 링크 #3F76AE (4.94:1). 12.5px 기준(4.5:1)을 넘는다.
      Blue 스케일에 정확히 있는 값은 아니고 500(#3B7FD4)과 600(#2965B4) 사이다. */
   .cc-links a { color: #3f76ae; text-decoration: underline; text-underline-offset: 2px; }
-  .cc-actions { display: flex; gap: 8px; margin-left: auto; }
+  /* 두 버튼이 칸을 반씩 나눠 갖는다. 어느 쪽도 작거나 흐리게 두지 않는다 —
+     한쪽을 약하게 만드는 형태는 동의 UI 에서 다크 패턴으로 본다. */
+  .cc-actions { display: flex; gap: 8px; margin: 14px 0 0; }
+  .cc-actions .cc-btn { flex: 1; text-align: center; padding-inline: 0; }
   /* 헤더의 '문의하기'(.btn-primary)와 같은 규격이다 —
      6px 18px · 14px · 400 · 테두리 1px 60% · 모서리 6px.
      ⚠️ 색만 다르다. 헤더는 #191F27 / rgba(17,17,17,.6)을 쓰는데 둘 다 디자인
@@ -114,13 +112,11 @@ const t =
     border-color: #16202c;
     color: #ffffff;
   }
-  @media (max-width: 560px) {
-    .cc { padding: 24px 0; }
-    .cc-inner { flex-direction: column; align-items: stretch; gap: 12px; }
-    /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
-    .cc-copy { flex: 0 1 auto; }
-    .cc-actions { margin-left: 0; }
-    .cc-btn { flex: 1; }
+  /* 좁은 폭에서는 카드가 좌우 여백만 남기고 늘어난다 — 320px 을 그대로 두면
+     한쪽에 몰려 서고 반대쪽 여백만 넓어진다. */
+  @media (max-width: 420px) {
+    .cc { left: 16px; right: 16px; bottom: 16px; }
+    .cc-inner { width: auto; }
   }
 </style>
 

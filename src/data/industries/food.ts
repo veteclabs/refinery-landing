@@ -15,7 +15,7 @@ export const food: IndustryData = {
     showBreadcrumb: false,
     eyebrow: '식품 및 음료',
     title: '설비 효율로 품질과 원가를\n동시에 관리합니다',
-    lede: '열 ⁠· 냉 설비와 전력 ⁠· LNG ⁠· 스팀에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 효율 저하를 먼저 감지하고 원인을 설명합니다. 냉동기 운전 최적화부터 배치별 원단위 관리, 노후 설비 교체 시뮬레이션까지.',
+    lede: '열 ⁠· 냉 설비와 전력 ⁠· LNG ⁠· 스팀에 흩어진 데이터를 온톨로지로 연결하고, AI 에이전트가 효율 저하를 먼저 감지하고 원인을 설명합니다. 냉동기 운전 최적화부터 배치별 원단위 관리, 노후 설비 교체 시뮬레이션까지 한 자리에서 다룹니다.',
   },
   challenges: {
     title: '지금 식품 및 음료 현장이\n겪는 문제입니다',
@@ -64,7 +64,7 @@ export const food: IndustryData = {
   },
   useCases: {
     title: '리파이너리가\n이렇게 해결합니다',
-    subtitle: '식품 제조 현장에서 <mark>Refinery가 실제로 하는 일</mark>입니다.',
+    subtitle: '식품 제조 현장에서 <mark>리파이너리가 실제로 하는 일</mark>입니다.',
     layout: 'table',
     items: [
       {
@@ -161,7 +161,7 @@ export const food: IndustryData = {
   },
   cta: {
     backgroundImage: '/use-cases/cta-bg.webp',
-    title: '식품 제조 현장에 맞는 답을\nRefinery 팀이 함께 찾아드립니다.',
+    title: '식품 및 음료 현장에 맞는 답을\n리파이너리 팀이 함께 찾아드립니다.',
     buttonLabel: '데모 신청하기',
   },
 };

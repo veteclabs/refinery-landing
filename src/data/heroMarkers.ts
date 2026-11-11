@@ -26,35 +26,35 @@ export const heroCards: Record<'ko' | 'en', HeroCard[]> = {
   ko: [
     {
       id: 'comp', tag: 'Experience', icon: 'ph-clock-counter-clockwise',
-      title: '30년 경험, 두 가지 시작',
-      desc: '기존 시스템 위에 얹거나, 없는 현장을 새로 세웁니다.',
+      title: '30년이 만든 두 가지 시작',
+      desc: '쓰던 시스템이 있으면 그 위에 얹고 없으면 바닥부터 세웁니다.',
     },
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
-      title: '시계열 너머의 AI 판단',
-      desc: '설비 · 문서 · 이력까지 엮어 근거로 판단합니다.',
+      title: '시계열을 넘어선 판단',
+      desc: '숫자에 설비 · 문서 · 이력을 붙여야 원인이 보입니다.',
     },
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
-      title: '현장을 겪은 사람들의 설계',
-      desc: '설비가 어떻게 멈추는지 아는 사람들이 만듭니다.',
+      title: '현장을 아는 사람들의 설계',
+      desc: '설비가 어떤 식으로 멈추는지 겪어 본 팀이 만들었습니다.',
     },
   ],
   en: [
     {
       id: 'comp', tag: 'Experience', icon: 'ph-clock-counter-clockwise',
-      title: 'Thirty years, two ways to start',
-      desc: 'Sits on the systems you run, or stands up a site that has none.',
+      title: 'Two ways to start, built on thirty years',
+      desc: 'Sits on the systems you run, or builds from the ground up.',
     },
     {
       id: 'pump', tag: 'Technology', icon: 'ph-cpu',
-      title: 'From time series to AI judgement',
-      desc: 'Equipment, documents and history woven together, judged with evidence.',
+      title: 'Judgement beyond time series',
+      desc: "Numbers alone don't show the cause. Equipment, documents and history do.",
     },
     {
       id: 'motor', tag: 'People', icon: 'ph-users-three',
-      title: 'Design from the floor',
-      desc: 'Made by people who know how equipment fails.',
+      title: 'Designed by people who know the floor',
+      desc: 'Built by hands that have seen equipment fail.',
     },
   ],
 };

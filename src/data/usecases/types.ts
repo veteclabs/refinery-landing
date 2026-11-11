@@ -12,7 +12,7 @@ export type UseCaseImage = {
   caption?: string;
   /** object-position 값(선택, 예 '80% center'). 사진마다 담긴 장면이 달라
    *  잘리는 위치를 조정할 때 쓴다. 미지정 시 가운데(50% 50%).
-   *  cardImage에서만 쓴다 — '함께 보면 좋은 과제' 카드는 자기 페이지가 아니라
+   *  cardImage에서만 쓴다 — '과제 더 살펴보기' 카드는 자기 페이지가 아니라
    *  다른 6개 페이지에 나오므로 페이지 스코프 CSS(.uc-<slug>)로는 잡을 수 없다.
    *  (히어로는 자기 페이지에만 나오므로 UseCasePage의 CSS에서 slug로 지정한다) */
   position?: string;
@@ -68,10 +68,12 @@ export type UseCase = {
     /** 밴드 우측 상단에 얹는 장식 이미지(선택). 글 뒤에 깔리는 배경 요소라
      *  내용을 담지 않는다(alt 없음, aria-hidden). image와 달리 레이아웃을 바꾸지 않는다. */
     decoImage?: string;
+    /** 같은 장식의 움직이는 판(선택). 확장자를 뺀 경로를 적으면 .webm · .mp4 두
+     *  벌을 찾아 쓴다. decoImage 는 그 포스터(첫 프레임)가 된다 — 영상이 오기
+     *  전과 '움직임 줄이기' 를 켠 화면에서 그대로 보인다. */
+    decoVideo?: string;
   };
   signals: UseCaseSignal[];  // 다루는 데이터·신호
-  /** related 링크를 신호 섹션 제목 오른쪽 끝에 배치한다(홈 히어로의 '데모 신청하기'와 같은 형태). 기본 false */
-  relatedAsHeaderLink?: boolean;
   /** 신호를 칩 대신 카드(원형 아이콘 자리 + 아래 텍스트)로 렌더한다. 기본 false */
   signalsAsCards?: boolean;
   /** '다른 과제' 목록을 신호 섹션과 CTA 사이에 노출한다(자기 자신 제외). 기본 false */
@@ -90,6 +92,16 @@ export type UseCase = {
    *  히어로 폭에 맞춰 <br>로 줄을 직접 끊은 판이다(tagline은 유즈케이스 목록·
    *  다른 과제 카드에도 쓰여 폭이 달라, 거기에 <br>이 들어가면 엉뚱하게 끊긴다). */
   heroTitle?: string;
+  /** 히어로 대제목 오른쪽에 서는 설명 문단(.ind-lede). 산업 상세와 같은 자리다.
+   *  problem을 그 칸(520px · 18px)에 맞게 줄인 판으로, 3~4줄에 들어와야 한다 —
+   *  국문 100~145자 · 영문 175~205자가 그 범위다. 넘기면 대제목 아래 왼쪽이 비고
+   *  히어로가 산업 상세보다 길어진다.
+   *  ⚠️ <br>를 넣지 않는다. 줄 나눔은 브라우저에 맡긴다 — problem/problemHtml의
+   *     줄 나눔은 1600px 넓은 단 기준이라 이 칸에서는 엉뚱한 데서 끊긴다.
+   *  ⚠️ 이 값을 넣으면 '왜 필요한가요?' 섹션을 렌더하지 않는다. 같은 말이
+   *     두 번 나오기 때문이다. problem/problemHtml 자체는 지우지 않는다 —
+   *     산업 상세(/industries/[slug])의 과제 목록이 problem을 읽는다. */
+  heroLede?: string;
   /** '다른 과제' 카드의 배경 이미지. 넣으면 카드를 꽉 채우고 제목이 흰색이 된다.
    *  없으면 기존 흰 카드 그대로. 표시 381x240이므로 854x480(2배) 권장. */
   cardImage?: UseCaseImage;
@@ -98,10 +110,6 @@ export type UseCase = {
    *  tagline과 따로 두는 이유: tagline은 히어로(.ind-lede)와 유즈케이스 목록에도
    *  쓰이는데, 그쪽은 폭이 달라 여기 줄바꿈을 그대로 넣으면 엉뚱하게 끊긴다. */
   cardDesc?: string;
-  /** 관련 글/페이지. 블로그(/blog/<slug> · /en/blog/<slug>)를 가리키면 제목은
-   *  글 원본에서 읽어 오므로 label을 적지 않는다 — 적어 두면 제목을 고칠 때
-   *  두 곳이 어긋난다. label은 블로그가 아닌 곳을 가리킬 때만 쓴다. */
-  related?: { label?: string; href: string };
   /** 정의형 Q&A(선택). 넣으면 하단에 FAQ 섹션 + FAQPage 구조화 데이터를 출력한다(AEO). */
   faq?: { q: string; a: string }[];
   seo: { title: string; description: string };

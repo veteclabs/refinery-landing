@@ -37,7 +37,28 @@
   .rv-on .ind-uc-aside:not(.rv-done),
   .rv-on .ind-uc-item:not(.rv-done),
   .rv-on .ind-flow-step:not(.rv-done),
-  .rv-on .ind-benefits .ind-card:not(.rv-done) {
+  /* ⚠️ 솔루션 구조는 카드 넷만 띄우고 그 아래 캡션 · 연동 판 · 연동 캡션은
+     가만히 있었다. 네 가지를 한 섹션으로 읽히게 하려고 함께 띄운다.
+     지연은 기본 60ms 다 — 카드의 300ms 는 .ind-flow 안에서만 쓴다. 셋은
+     세로로 멀리 떨어져 있어 스크롤하면서 차례로 선에 걸리므로, 거기에 큰
+     지연까지 주면 마지막 캡션이 한참 뒤에 뜬다. */
+  .rv-on .ind-flow-note:not(.rv-done),
+  .rv-on .ind-systems-block:not(.rv-done),
+  .rv-on .ind-systems-note:not(.rv-done),
+  .rv-on .ind-benefits .ind-card:not(.rv-done),
+  /* ↓ 과제별 페이지(UseCasePage). 머리 칸(.ind-head)은 산업 페이지와 같은 선택자로
+     이미 걸려 있어 여기에 다시 적지 않는다.
+     ⚠️ 해결방법 카드는 .ind-card 인데 산업 페이지의 도입 효과 카드와 이름이 같다.
+        그쪽은 .ind-benefits 아래라 서로 닿지 않지만, 과제별은 격자가 여럿이라
+        .uc-page .ind-grid 로 자리를 못박는다.
+     ⚠️ 히어로는 넣지 않는다 — 첫 화면이라 숨겼다 띄울 까닭이 없다. 사진이 자라는
+        모션(--grow)은 이것과 별개로 UseCasePage 안의 스크립트가 쥔다. */
+  .rv-on .uc-problem:not(.rv-done),
+  .rv-on .uc-signal:not(.rv-done),
+  .rv-on .uc-page .ind-grid .ind-card:not(.rv-done),
+  .rv-on .uc-template:not(.rv-done),
+  .rv-on .uc-case:not(.rv-done),
+  .rv-on .uc-faq-item:not(.rv-done) {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .55s cubic-bezier(.2, .7, .2, 1),
@@ -54,7 +75,16 @@
   .rv-on .ind-uc-aside.rv-in:not(.rv-done),
   .rv-on .ind-uc-item.rv-in:not(.rv-done),
   .rv-on .ind-flow-step.rv-in:not(.rv-done),
-  .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done) {
+  .rv-on .ind-flow-note.rv-in:not(.rv-done),
+  .rv-on .ind-systems-block.rv-in:not(.rv-done),
+  .rv-on .ind-systems-note.rv-in:not(.rv-done),
+  .rv-on .ind-benefits .ind-card.rv-in:not(.rv-done),
+  .rv-on .uc-problem.rv-in:not(.rv-done),
+  .rv-on .uc-signal.rv-in:not(.rv-done),
+  .rv-on .uc-page .ind-grid .ind-card.rv-in:not(.rv-done),
+  .rv-on .uc-template.rv-in:not(.rv-done),
+  .rv-on .uc-case.rv-in:not(.rv-done),
+  .rv-on .uc-faq-item.rv-in:not(.rv-done) {
     opacity: 1;
     transform: none;
   }
@@ -71,9 +101,14 @@
 
     function start() {
       clearTimeout(guard);
+      // ⚠️ 위 <style> 의 두 목록과 같은 대상을 가리켜야 한다 — 셋 중 하나만 고치면
+      //    숨기기만 하고 영영 안 띄우거나, 띄우기만 하고 지연이 안 붙는다.
       var SEL = '.section-header, .series-card, .industry-card, .sec-card, .faq-item'
               + ', .ind-head, .ind-chal-rows, .ind-uc-aside, .ind-uc-item, .ind-flow-step'
-              + ', .ind-benefits .ind-card';
+              + ', .ind-flow-note, .ind-systems-block, .ind-systems-note'
+              + ', .ind-benefits .ind-card'
+              + ', .uc-problem, .uc-signal, .uc-page .ind-grid .ind-card, .uc-template'
+              + ', .uc-case, .uc-faq-item';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }
 
@@ -94,7 +129,12 @@
         for (var c = n.previousElementSibling; c; c = c.previousElementSibling) {
           if (c.matches && c.matches(SEL)) k++;
         }
-        if (k) n.style.transitionDelay = Math.min(k, 7) * 60 + 'ms';
+        /* 늦추는 간격. 기본 60ms 이고, 묶음 쪽에 data-rv-step 이 있으면 그 값을
+           쓴다 — 한 칸씩 짚어 가는 것이 읽혀야 하는 줄(산업 솔루션 구조)에만
+           느리게 주려고 둔 문이다. 여기 숫자를 올리면 사이트 전체가 느려진다. */
+        var host = n.closest && n.closest('[data-rv-step]');
+        var step = host ? (parseInt(host.getAttribute('data-rv-step'), 10) || 60) : 60;
+        if (k) n.style.transitionDelay = Math.min(k, 7) * step + 'ms';
         // 다 뜨고 나면 reveal 규칙을 통째로 벗는다 — 안 그러면 여기서 건 transition 과
         // 지연이 카드 제 호버 효과까지 늦춘다.
         n.addEventListener('transitionend', function () {

@@ -190,6 +190,15 @@ const home = lang === 'en' ? '/en' : '/';
         nav.classList.remove('is-away');
         return;
       }
+      /* [data-nav-keep] 을 단 구역이 아직 화면에 걸쳐 있으면 헤더를 붙잡는다.
+         홈 히어로가 그 구역이다 — 장면이 넘어가는 내내 헤더가 서 있어야 하고,
+         히어로가 다 지나간 뒤부터 원래대로 걷힌다.
+         ⚠️ 매번 다시 찾는다. 히어로가 없는 페이지도 이 스크립트를 함께 쓴다. */
+      var keep = document.querySelector('[data-nav-keep]');
+      if (keep && keep.getBoundingClientRect().bottom > 0) {
+        nav.classList.remove('is-away');
+        return;
+      }
       if (dy > 0 && y > nav.offsetHeight) nav.classList.add('is-away');
       else if (dy < 0) nav.classList.remove('is-away');
     }
