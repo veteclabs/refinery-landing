@@ -289,8 +289,15 @@ const alternates = [
     align-items: start;
     column-gap: 48px; row-gap: 0;
   }
-  .cmp-hero-row h1 { grid-column: 1 / -1; grid-row: 1; }
-  .cmp-hero-row .ind-lede { grid-column: 2; grid-row: 2; }
+  .cmp-hero .cmp-hero-row h1 { grid-column: 1 / -1; grid-row: 1; }
+  .cmp-hero .cmp-hero-row .ind-lede {
+    grid-column: 2; grid-row: 2;
+    /* 대제목 아랫변에서 소제목 윗변까지를 산업별(1440px 에서 7.2px)과 같게 둔다.
+       이 페이지 대제목은 60px 에 padding 0.1em 이 붙어 상자 아랫변이 저쪽(54px)
+       보다 3.8px 더 내려간다 — 그만큼 끌어올린다. 줄 사이(row-gap)는 0 그대로다.
+       ⚠️ 대제목 크기나 그 padding 이 바뀌면 다시 잰다. */
+    margin-top: -3.8px;
+  }
   .cmp-hero h1 {
     /* 아래 0 — 솔루션 히어로는 대제목 글자 아랫변에서 소제목 글자 윗변까지가
        19px 이다(1600 · 1440 · 1280 · 1201px 모두). 35px 이면 54px 이 됐다.
@@ -331,11 +338,13 @@ const alternates = [
     color: var(--text-muted); max-width: 620px; margin: 0;
   }
   @media (max-width: 1100px) {
-    .cmp-hero h1 { margin-bottom: 22px; }
+    .cmp-hero h1 { margin-bottom: 15px; }
     /* 저쪽과 같은 폭에서 격자를 풀고 세로로 쌓는다(저쪽 600px).
        ⚠️ 소제목에 위 여백을 주지 않는다 — 대제목이 이미 아래 22px 을 쥐고 있다. */
     .cmp-hero-row { display: block; }
-    .cmp-hero-row .ind-lede { max-width: 600px; }
+    /* 세로로 쌓이면 간격은 대제목의 아래 margin 이 맡는다 — 음수 margin 은 되돌린다.
+       22px 이면 대제목 아랫변에서 33.3px 이라 저쪽(26px)보다 7px 넓었다. */
+    .cmp-hero .cmp-hero-row .ind-lede { max-width: 600px; margin-top: 0; }
   }
   @media (max-width: 900px) {
     .cmp-hero { padding: 208px 0 72px; }
