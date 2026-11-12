@@ -148,10 +148,9 @@ const T = {
     storyLede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
     stats: [
-      // ⚠️ 단위를 'yr' 로 둔다. '년' 은 Roboto 에 글리프가 없어 Pretendard 가
-      //    받는데, 그러면 한 수치 안에서 글꼴이 갈린다(30 Roboto · 년 Pretendard).
-      //    라틴 글자로 두면 세 글자가 모두 Roboto 로 그려진다.
-      { num: '30yr+', label: '산업 현장에서 쌓은 <span class="cmp-stat-hl">경험</span>', icon: 'stat-experience' },
+      // ⚠️ 수치에는 한글을 두지 않는다. Roboto 에 한글 글리프가 없어 '년' 을
+      //    넣으면 Pretendard 가 받아 한 수치 안에서 글꼴이 갈린다. 단위는 라벨이 쥔다.
+      { num: '30+', label: '산업 현장에서 보낸 <span class="cmp-stat-hl">햇수</span>', icon: 'stat-experience' },
       { num: '100+', label: '데이터를 다룬 <span class="cmp-stat-hl">현장 수</span>', icon: 'stat-sites' },
       { num: '20+', label: '철강 ⁠· 반도체 ⁠· 식품 등 <span class="cmp-stat-hl">산업군 수</span>', icon: 'stat-industries' },
     ],
