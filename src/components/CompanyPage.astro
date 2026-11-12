@@ -1245,6 +1245,12 @@ const alternates = [
      ⚠️ 끝 색은 페이지 바탕과 같은 흰색이어야 한다. 섹션에 색을 깔면 여기도 함께
         바꿔야 흡수되어 보인다. */
   .cmp-stat-num {
+    /* 수치는 Roboto 한 벌로 묶는다 — 물려받지 않고 여기서 못 박는다.
+       ⚠️ Roboto 에 한글 글리프가 없다. 'Roboto' 만 적으면 '년' 이 시스템
+          글꼴(맥 Apple SD Gothic Neo · 윈도우 맑은 고딕)로 떨어져 기계마다
+          달라진다 — 실측으로 확인했다. 그래서 한글 자리만 Pretendard 가
+          받도록 뒤에 둔다. 숫자와 '+' 는 Roboto 로 그려진다. */
+    font-family: 'Roboto', 'Pretendard', sans-serif;
     font-size: clamp(56px, 8vw, 120px);
     font-weight: 400;
     line-height: 1.15; letter-spacing: -0.02em;
