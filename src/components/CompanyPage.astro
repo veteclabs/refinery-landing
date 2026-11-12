@@ -914,8 +914,10 @@ const alternates = [
   }
   /* 글 한 줄 — 높이를 화면의 절반쯤으로 줘 스크롤하는 동안 하나씩 들어온다. */
   .cmp-stage-item {
-    /* 한 줄씩 화면을 채우며 지나가게 — 줄 사이를 화면 절반 넘게 띄운다. */
-    min-height: 56vh;
+    /* 56vh 는 그림 사이가 97 / 129 / 209px 이라 두 구간이 함께 보였고,
+       100vh 는 한 구간만 보이는 대신 빈 자리가 너무 컸다(사이 493~629px).
+       그 사이로 잡는다. */
+    min-height: 76vh;
     display: flex; flex-direction: column; justify-content: center;
     /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
        들어오므로 가로로도 움직인다. */
