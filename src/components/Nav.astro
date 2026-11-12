@@ -32,7 +32,7 @@ const home = lang === 'en' ? '/en' : '/';
                       (제목 유무와는 무관하다 — 세 메뉴 모두 묶음 제목을 갖는다.) */}
                   {m.groups.map((g) => (
                     !g.items.some((it) => it.icon) ? (
-                      <div class={g.items.length >= 6 ? 'mm-col mm-col--split' : (g.items.length <= 2 ? 'mm-col mm-col--lead' : 'mm-col')}>
+                      <div class={g.items.length >= 6 ? 'mm-col mm-col--split' : 'mm-col'}>
                         <div class="mm-col-title">{g.title}</div>
                         <ul>
                           {g.items.map((it) => (
