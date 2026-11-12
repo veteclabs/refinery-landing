@@ -150,9 +150,10 @@ const alternates = [
       </div>
     </section>
 
-    <section class="ind-section ind-soft">
+    <section class="ind-section">
       <div class="ind-container">
-        <header class="ind-head cmp-head-row">
+        {/* 머리는 메인 솔루션 섹션(#industries)처럼 가운데에 크게 세운다. */}
+        <header class="ind-head cmp-head-row cmp-head-big">
           <h2>{T.strengthsTitle}</h2>
           <p>{T.strengthsSub}</p>
         </header>
@@ -440,6 +441,19 @@ const alternates = [
      랜딩은 섹션마다 소제목 max-width가 360~680px로 다른데, 기본값 360px을 쓴다. */
   /* ⚠️ max-width: none 필수. industry.css의 .ind-head가 640px로 묶고 있어
      그대로 두면 flex-wrap 때문에 소제목이 아래로 내려간다(랜딩은 1184px 전체). */
+  /* 뿌리 섹션 머리 — 메인 솔루션 섹션(#industries .section-header-row)과 같다.
+     대제목을 한 단 키우고(45 -> 60px) 소제목을 오른쪽이 아니라 아래에 둔 뒤
+     둘 다 가운데에 세운다. 60px 제목 옆에 18px 글이 서면 줄 끝이 서로 멀어
+     한 덩어리로 읽히지 않는다는 게 저쪽에 적힌 까닭이다.
+     ⚠️ 5.6vw 는 1071px 에서 60px 에 닿는다 — 그 아래로는 폭을 따라 줄어든다. */
+  .cmp-page .cmp-head-big {
+    flex-direction: column; align-items: center; gap: 16px; text-align: center;
+  }
+  .cmp-page .cmp-head-big h2 { font-size: clamp(32px, 5.6vw, 60px); }
+  .cmp-page .cmp-head-big p { max-width: none; }
+  @media (max-width: 900px) {
+    .cmp-page .cmp-head-big { display: flex; }
+  }
   .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; max-width: none; }
   .cmp-head-row h2 { margin-bottom: 0; }
   /* 소제목 칸을 360 -> 565px 으로 올린다. 영문은 두 머리 모두 소제목이 두 줄이었다 —
