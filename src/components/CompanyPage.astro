@@ -293,14 +293,14 @@ const alternates = [
      ⚠️ 빛은 '현장'이 아니라 '언어'에 둔다. 메인 첫 줄의 '흩어진 현장을'은 빛 없이
         두고 '하나의 운영체제'에 주므로, 같은 낱말을 여기서 빛내면 규칙이 어긋난다.
         이 문장에서 새로 말하는 것도 '언어' 쪽이다. */
-  /* 영문 줄만 한 단 키운다 — 국문 줄(clamp 36~60)의 1.33배다.
+  /* 영문 줄만 크게 둔다 — 국문 줄(clamp 36~60)의 1.67배다.
      ⚠️ :global — 대제목은 set:html 로 넣어 Astro 스코프 속성이 붙지 않는다.
      ⚠️ line-height 1.1 — h1 의 1.25 를 그대로 받으면 큰 글자만큼 줄 사이가
         벌어져 두 줄이 따로 놀았다.
      ⚠️ 빛의 반지름은 em 이라 글자가 커지면 같이 커진다. 따로 손댈 것이 없다. */
   .cmp-hero h1 :global(.cmp-title-en) {
     display: inline-block;
-    font-size: clamp(44px, 6.6vw, 80px);
+    font-size: clamp(52px, 8vw, 100px);
     line-height: 1.1;
   }
   /* ⚠️ :global 이다. set:html 로 넣은 글에는 Astro 스코프 속성이 붙지 않아
