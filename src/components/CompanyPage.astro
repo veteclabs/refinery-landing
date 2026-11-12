@@ -24,15 +24,22 @@ const SITE = 'https://refinery.kr';
 const SCENES = {
   hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0944, cy: 0.4178, cs: 0.1131 },
   rows: [
-    { file: 'scene-1-team.webp',         w: 1404, h: 883, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
-    { file: 'scene-2-30years.webp',      w: 1398, h: 979, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
-    { file: 'scene-3-100sites.webp',     w: 1406, h: 738,     cx: 0.6485, cy: 0.2603, cs: 0.0510 },
-    { file: 'scene-4-20industries.webp', w: 1404, h: 620,     cx: 0.5000, cy: 0.1735, cs: 0.0649 },
-    { file: 'scene-5-refinery.webp',     w: 1404, h: 719, cx: 0.5000, cy: 0.0638, cs: 0.1697 },
+    { file: 'scene-1-team.webp', w: 1224, h: 834, cx: 0.2436, cy: 0.1389, cs: 0.1847, sw: 0.772,
+      ov: [] },
+    { file: 'scene-2-30years.webp', w: 1436, h: 1006, cx: 0.5060, cy: -0.0204, cs: 0.2077, sw: 0.675,
+      ov: [] },
+    { file: 'scene-3-100sites.webp', w: 1532, h: 721, cx: 0.6493, cy: 0.2065, cs: 0.0465, sw: 1.000,
+      ov: [{ k: 'grid', src: '3-grid.webp', ox: 50.00, oy: 53.12 }, { k: 'up0', src: '3-up0.webp', ox: 41.64, oy: 32.87 }, { k: 'up1', src: '3-up1.webp', ox: 56.56, oy: 40.85 }, { k: 'up2', src: '3-up2.webp', ox: 48.20, oy: 41.40 }] },
+    { file: 'scene-4-20industries.webp', w: 1524, h: 671, cx: 0.5000, cy: 0.1838, cs: 0.0500, sw: 1.000,
+      ov: [{ k: 'spoke', src: '4-spoke.webp', ox: 49.97, oy: 50.00 }, { k: 'r0', src: '4-r0.webp', ox: 49.97, oy: 50.00 }, { k: 'r1', src: '4-r1.webp', ox: 50.00, oy: 50.00 }] },
+    { file: 'scene-5-refinery.webp', w: 1436, h: 736, cx: 0.4998, cy: 0.0636, cs: 0.1696, sw: 0.853,
+      ov: [{ k: 'r0', src: '5-r0.webp', ox: 49.97, oy: 57.47 }, { k: 'r1', src: '5-r1.webp', ox: 49.97, oy: 57.13 }, { k: 'r2', src: '5-r2.webp', ox: 50.00, oy: 56.79 }, { k: 'b0', src: '5-b0.webp', ox: 69.92, oy: 16.78 }, { k: 'b1', src: '5-b1.webp', ox: 31.44, oy: 10.46 }, { k: 'b2', src: '5-b2.webp', ox: 30.01, oy: 48.78 }, { k: 'b3', src: '5-b3.webp', ox: 68.52, oy: 55.30 }] },
   ],
 };
 const sceneVars = (sc) =>
-  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs}`;
+  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs};--sw:${sc.sw ?? 1}`;
+// 브랜드 그래픽 층(링 · 선 · 포트 · 배지) — 그림 위에 같은 크기로 겹쳐 CSS 로 움직인다.
+//   k 가 'spoke' 면 바깥으로 흐려지는 바탕선 + 허브로 모이는 흐름 두 장을 깐다.
 
 // ⚠️ 회사 세부 사실(설립연도·조직 규모·수상 등)은 실제 정보로 확인·보완 필요.
 const T = {
@@ -143,6 +150,7 @@ const alternates = [
         <div class="cmp-scene cmp-scene-r" data-row="1" style={sceneVars(SCENES.rows[0])} aria-hidden="true">
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[0].file}`} alt=""
                width={SCENES.rows[0].w} height={SCENES.rows[0].h} loading="lazy" decoding="async" />
+          {(SCENES.rows[0].ov || []).map((o) => o.k === 'spoke' ? (<><img class="cmp-ov cmp-spk-base" src={`/company-story/${o.src.replace('.webp','-base.webp')}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /><div class="cmp-ov cmp-spk-fade" style={`--ox:${o.ox}%;--oy:${o.oy}%`}><img class="cmp-spk-flow" src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /></div></>) : (<img class={`cmp-ov cmp-ov-${o.k}`} src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" />))}
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                width="350" height="385" loading="lazy" decoding="async" />
         </div>
@@ -156,14 +164,16 @@ const alternates = [
             <div class={`cmp-scene ${i % 2 === 0 ? 'cmp-scene-l' : 'cmp-scene-r'}`} data-row={i + 2} style={sceneVars(SCENES.rows[i + 1])} aria-hidden="true">
               <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[i + 1].file}`} alt=""
                    width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
+          {(SCENES.rows[i + 1].ov || []).map((o) => o.k === 'spoke' ? (<><img class="cmp-ov cmp-spk-base" src={`/company-story/${o.src.replace('.webp','-base.webp')}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /><div class="cmp-ov cmp-spk-fade" style={`--ox:${o.ox}%;--oy:${o.oy}%`}><img class="cmp-spk-flow" src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /></div></>) : (<img class={`cmp-ov cmp-ov-${o.k}`} src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" />))}
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                    width="350" height="385" loading="lazy" decoding="async" />
             </div>
             <div class={`cmp-stage-item cmp-stage-stat ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
               {/* 줄 높이(56vh)는 바깥 칸이 쥐고, 카드는 제 내용만큼만 선다. */}
+              {/* 라벨이 좌측 상단, 수치가 우측 하단이다 — 보이는 순서대로 적는다. */}
               <div class="cmp-stat-card">
-                <div class="cmp-stat-num">{st.num}</div>
                 <div class="cmp-stat-label"><span set:html={st.label}></span></div>
+                <div class="cmp-stat-num">{st.num}</div>
               </div>
             </div>
           </>
@@ -172,6 +182,7 @@ const alternates = [
         <div class="cmp-scene cmp-scene-l" data-row="5" style={sceneVars(SCENES.rows[4])} aria-hidden="true">
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[4].file}`} alt=""
                width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
+          {(SCENES.rows[4].ov || []).map((o) => o.k === 'spoke' ? (<><img class="cmp-ov cmp-spk-base" src={`/company-story/${o.src.replace('.webp','-base.webp')}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /><div class="cmp-ov cmp-spk-fade" style={`--ox:${o.ox}%;--oy:${o.oy}%`}><img class="cmp-spk-flow" src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" /></div></>) : (<img class={`cmp-ov cmp-ov-${o.k}`} src={`/company-story/${o.src}`} alt="" style={`--ox:${o.ox}%;--oy:${o.oy}%`} loading="lazy" decoding="async" />))}
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                width="350" height="385" loading="lazy" decoding="async" />
         </div>
@@ -298,7 +309,7 @@ const alternates = [
       upd();
     })();
 
-    // 수치 — 화면에 들어오면 숫자가 한참 요동치다 제 값에 가서 찍힌다.
+    // 수치 — 화면에 들어오면 0 에서 제 값까지 조용히 올라간다.
     // ⚠️ 자릿수가 변하면 글자 폭도 변해 칸이 흔들린다(100+ 는 1 -> 3 자리).
     //    요동치기 전에 끝 모습의 폭을 재서 min-width 로 못 박는다.
     // ⚠️ '30년+' 처럼 숫자 앞뒤에 글자가 붙는다 — 첫 숫자 덩이만 바꾼다.
@@ -328,26 +339,18 @@ const alternates = [
       });
       if (!items.length) return;
 
-      var DUR = 1200;   /* 요동치는 시간 */
-      var TICK = 45;    /* 숫자가 바뀌는 간격 — 60fps 로 바꾸면 흐려서 안 읽힌다 */
+      /* ⚠️ 한때 값을 무작위로 흔들다 찍히게 했는데 번잡했다 — 숫자가 오르내려
+            눈이 따라가다 지친다. 한 방향으로만 올라가고 끝에서 천천히 선다. */
+      var DUR = 1100;
       function run(it) {
-        var t0 = 0, last = -1;
+        var t0 = 0;
         function step(now) {
           if (!t0) t0 = now;
           var p = Math.min(1, (now - t0) / DUR);
-          if (p >= 1) { it.span.textContent = String(it.target); return; }
-          if (now - last >= TICK || last < 0) {
-            last = now;
-            // 올라가는 값 둘레로 흔들린다. 흔들 폭은 끝으로 갈수록 0 에 수렴한다.
-            var e = 1 - Math.pow(1 - p, 3);
-            var base = it.target * e;
-            var amp = it.target * 0.45 * (1 - p);
-            var v = Math.round(base + (Math.random() * 2 - 1) * amp);
-            if (v < 0) v = 0;
-            if (v > it.target) v = it.target;
-            it.span.textContent = String(v);
-          }
-          requestAnimationFrame(step);
+          var e = 1 - Math.pow(1 - p, 3);   /* 처음이 빠르고 끝이 느리다 */
+          it.span.textContent = String(Math.round(it.target * e));
+          if (p < 1) requestAnimationFrame(step);
+          else it.span.textContent = String(it.target);
         }
         requestAnimationFrame(step);
       }
@@ -397,10 +400,9 @@ const alternates = [
         var x = A[0].x, y = A[0].y, s = A[0].s, rot = 0;
         for (var i = 0; i < A.length - 1; i++) {
           var a = A[i], b = A[i + 1], span = b.y - a.y;
-          // 자리마다 머문다 — 앞쪽 20% · 뒤쪽 10% 를 비워 둔다(초안과 같은 값).
-          var y0 = a.y + span * 0.20, y1 = b.y - span * 0.10;
-          if (mid <= y0) break;
-          var t = Math.min(1, (mid - y0) / Math.max(1, y1 - y0)), e = ease(t);
+          // 멈추는 자리 없이 같은 속도로 건너간다 — 읽는 줄이 한 자리에서 다음 자리로 가는 만큼.
+          if (mid <= a.y) break;
+          var t = Math.min(1, (mid - a.y) / Math.max(1, span)), e = t;
           x = a.x + (b.x - a.x) * e;
           y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * Math.min(span * 0.14, 80);
           s = a.s + (b.s - a.s) * e;
@@ -1003,25 +1005,64 @@ const alternates = [
   }
 
   /* 수치 카드 — 과제별 '푸는 방식' 섹션의 큰 카드(.uc-template)와 같은 값이다.
-     실측 면 #151B23 · 테두리 #292F37 · 모서리 12px. */
+     실측 면 #151B23 · 모서리 12px. */
   /* 칸은 글 길이만큼만 넓어진다(shrink-to-fit) — 그대로 두면 카드 셋이
      384 / 349 / 322px 로 제각각이다. 폭을 채워 셋을 460px 로 맞춘다. */
   .cmp-stage-stat { justify-content: center; width: 100%; }
   .cmp-stat-card {
     width: 100%;
-    background: #151B23; border: 1px solid #292F37; border-radius: 12px;
-    padding: 44px 48px;
+    /* 카드 아랫부분이 바탕으로 스며든다 — 면이 70% 부터 옅어져 아랫변에서
+       완전히 사라진다. 그래서 아래쪽 모서리와 밑선이 보이지 않는다.
+       끝 색은 흰색이 아니라 '투명한 면색' 이다. 흰색으로 두면 바탕이 흰색이
+       아닌 자리에서 카드 자국이 남는다.
+       ⚠️ 흐리기는 아래 안여백(48px) 안에서만 일어나야 한다. 수치 아랫변이
+          카드의 82% 자리이므로 거기서부터 흐린다 — 더 일찍 잡으면 숫자가
+          같이 바랜다.
+       ⚠️ 테두리는 두지 않는다. 면이 사라지는데 선만 남으면 아랫변에 또렷한
+          금이 그어져 스며드는 뜻이 깨진다(그쪽 카드에는 1px #292F37 이 있다).
+       ⚠️ 정지점이 열셋인 건 smootherstep 으로 뽑았기 때문이다. 두 점짜리로
+          두면 알파가 직선으로 떨어져 중간에 띠가 보인다 — 유즈케이스 02 섹션 ·
+          푸터 위 띠가 쓰는 것과 같은 곡선이고, 여기서는 82~100% 구간에 얹었다. */
+    background-image: linear-gradient(180deg,
+      #151B23 0%,
+      rgba(21, 27, 35, 1) 82.0%,
+      rgba(21, 27, 35, 0.995) 83.5%,
+      rgba(21, 27, 35, 0.965) 85.0%,
+      rgba(21, 27, 35, 0.896) 86.5%,
+      rgba(21, 27, 35, 0.79) 88.0%,
+      rgba(21, 27, 35, 0.653) 89.5%,
+      rgba(21, 27, 35, 0.5) 91.0%,
+      rgba(21, 27, 35, 0.347) 92.5%,
+      rgba(21, 27, 35, 0.21) 94.0%,
+      rgba(21, 27, 35, 0.104) 95.5%,
+      rgba(21, 27, 35, 0.035) 97.0%,
+      rgba(21, 27, 35, 0.005) 98.5%,
+      rgba(21, 27, 35, 0) 100.0%);
+    border-radius: 12px;
+    /* 상하좌우 같은 48px. */
+    padding: 48px;
+    /* 라벨은 좌측 위, 수치는 우측 아래 — 대각으로 앉힌다. */
+    display: flex; flex-direction: column; gap: 20px;
   }
-  /* 먹색 면 위로 올라왔으니 글자도 뒤집는다 — 숫자는 흰색에서 시작해 아래로
-     갈수록 카드 면(#151B23)에 흡수된다. 흰 면에서 쓰던 규칙과 같은 생각이고
-     끝 색만 바탕을 따라간다. */
+  /* 수치 — 크기는 히어로 대제목(.cmp-title-l1 · l2)과 같은 clamp(52~100px)다.
+     ⚠️ 그라데이션은 걷었다. 먹색 카드 위에서는 흰색 단색이다 —
+        background-clip: text 를 풀어야 하므로 배경을 none 으로 되돌린다. */
   .cmp-stat-card .cmp-stat-num {
-    background-image: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 34%, #151B23 100%);
+    align-self: flex-end;
+    margin-top: auto;
+    font-size: clamp(52px, 8vw, 100px);
+    line-height: 1.1;
+    background-image: none;
+    -webkit-text-fill-color: #FFFFFF; color: #FFFFFF;
   }
   /* 어두운 면의 설명 글자 — /why-refinery 먹색 띠와 같은 #A0A8B3. */
-  .cmp-stat-card .cmp-stat-label { color: #A0A8B3; }
+  .cmp-stat-card .cmp-stat-label {
+    align-self: flex-start;
+    margin-top: 0;
+    color: #A0A8B3;
+  }
   @media (max-width: 900px) {
-    .cmp-stat-card { padding: 32px 28px; }
+    .cmp-stat-card { padding: 32px; }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
@@ -1048,4 +1089,36 @@ const alternates = [
   .cmp-stat-label { margin-top: 10px; font-size: 18px; line-height: 1.7; color: var(--text-muted); word-break: keep-all; }
   /* ⚠️ label 은 set:html 로 넣어 span 에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
   .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
+
+  /* ── 장면 폭: 사람 크기가 모든 장면에서 같도록 장면마다 비율(--sw)을 준다.
+        바깥 끝은 그대로 무대 띠 끝에 붙는다(justify-self). */
+  .cmp-stage .cmp-scene { width: calc(var(--sw, 1) * 100%); }
+  /* ── 브랜드 그래픽 모션 층 */
+  .cmp-scene .cmp-ov { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; transform-origin: var(--ox) var(--oy); }
+  .cmp-scene .cmp-spk-fade img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  @property --cmp-p { syntax: '<percentage>'; inherits: false; initial-value: 50%; }
+  /* 100+ 그리드 — 스캔 빛이 대각선으로 지나간다 */
+  .cmp-ov-grid { -webkit-mask-image: linear-gradient(110deg, transparent 40%, #000 50%, transparent 60%); mask-image: linear-gradient(110deg, transparent 40%, #000 50%, transparent 60%); -webkit-mask-size: 300% 100%; mask-size: 300% 100%; animation: cmpScan 4.5s linear infinite; }
+  @keyframes cmpScan { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
+  /* 업링크 · 포트 — 차례로 점멸 */
+  .cmp-ov-up0, .cmp-ov-up1, .cmp-ov-up2 { opacity: 0; animation: cmpBlink 2.4s ease-in-out infinite; }
+  .cmp-ov-up1 { animation-delay: .8s; } .cmp-ov-up2 { animation-delay: 1.6s; }
+  @keyframes cmpBlink { 0%, 100% { opacity: 0; } 40%, 55% { opacity: 1; } }
+  /* 20+ 스포크 — 바깥으로 갈수록 투명, 흐름은 허브 쪽으로 */
+  .cmp-spk-base, .cmp-spk-fade { -webkit-mask-image: radial-gradient(ellipse at var(--ox) var(--oy), #000 6%, rgba(0,0,0,.55) 22%, transparent 46%); mask-image: radial-gradient(ellipse at var(--ox) var(--oy), #000 6%, rgba(0,0,0,.55) 22%, transparent 46%); }
+  .cmp-spk-flow { -webkit-mask-image: radial-gradient(ellipse at var(--ox) var(--oy), transparent calc(var(--cmp-p) - 14%), #000 var(--cmp-p), transparent calc(var(--cmp-p) + 4%)); mask-image: radial-gradient(ellipse at var(--ox) var(--oy), transparent calc(var(--cmp-p) - 14%), #000 var(--cmp-p), transparent calc(var(--cmp-p) + 4%)); animation: cmpInflow 2.2s cubic-bezier(.4,0,.6,1) infinite; }
+  @keyframes cmpInflow { from { --cmp-p: 50%; } to { --cmp-p: 6%; } }
+  /* 링 — 하나씩 차례대로 퍼진다 */
+  .cmp-ov-r0, .cmp-ov-r1, .cmp-ov-r2 { opacity: 0; animation: cmpRing 3.6s ease-in-out infinite; }
+  [data-row="4"] .cmp-ov-r1 { animation-delay: 1.8s; }
+  [data-row="5"] .cmp-ov-r1 { animation-delay: 1.2s; } [data-row="5"] .cmp-ov-r2 { animation-delay: 2.4s; }
+  @keyframes cmpRing { 0% { opacity: 0; transform: scale(.96); } 30% { opacity: 1; transform: scale(1); } 60% { opacity: 0; transform: scale(1.03); } 100% { opacity: 0; } }
+  /* 마지막 장면 배지 4개 — 천천히 떠오르고 내려앉는다 */
+  .cmp-ov-b0, .cmp-ov-b1, .cmp-ov-b2, .cmp-ov-b3 { animation: cmpBob 3.4s ease-in-out infinite; }
+  .cmp-ov-b1 { animation-delay: -.85s; } .cmp-ov-b2 { animation-delay: -1.7s; } .cmp-ov-b3 { animation-delay: -2.55s; }
+  @keyframes cmpBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.1%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-ov-grid, .cmp-spk-flow, .cmp-ov-r0, .cmp-ov-r1, .cmp-ov-r2, .cmp-ov-up0, .cmp-ov-up1, .cmp-ov-up2 { display: none; }
+    .cmp-ov-b0, .cmp-ov-b1, .cmp-ov-b2, .cmp-ov-b3 { animation: none; }
+  }
 </style>
