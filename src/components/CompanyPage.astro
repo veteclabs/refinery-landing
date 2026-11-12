@@ -127,40 +127,29 @@ const alternates = [
       </div>
     </section>
 
-    {/* STORY — 흰 면이다. 전에는 사진을 깔고 흰 글자를 올렸는데, 히어로가
-        흰 면이 되면서 사진·먹색 면을 모두 걷었다. */}
-    <section class="ind-section cmp-story-bg">
-      <div class="ind-container">
-        {/* 수치가 대제목 끝나는 지점에서 시작하도록 제목 묶음(1행)과 본문(2행)을
-            그리드 직계 자식으로 나눈다. 수치를 2행에 두면 행 경계 = 대제목 아래선이라
-            높이를 재서 맞출 필요가 없다. */}
-        <header class="ind-head cmp-story">
+    {/* STAGE — 가운데 그래픽은 붙어 있고(sticky), 글이 좌 · 우 번갈아 떠오른다.
+        그래픽은 아직 자리만 잡은 회색 판이다. */}
+    <section class="cmp-stage">
+      <div class="ind-container cmp-stage-grid">
+        <div class="cmp-stage-art" aria-hidden="true"><span>그래픽 자리</span></div>
+
+        <div class="cmp-stage-item cmp-stage-l" data-row="1">
           <p class="cmp-story-tag">{T.storyTag}</p>
           <h2 set:html={T.storyTitle}></h2>
-          {/* ⚠️ 본문은 제목 묶음 안(1행)에 있어야 한다. 2행에 두면 space-between이
-              만드는 남는 높이가 대제목과 본문 사이로 들어가, 화면이 넓어질수록
-              간격이 벌어진다(1920px에서 290px). 여기 있으면 항상 20px이다. */}
           <p class="cmp-story-lede" set:html={T.storyLede}></p>
-        </header>
-        <p class="cmp-story-sig">{T.storySig}</p>
-
-        <!-- 오른쪽 칸 — 사진이 닿지 않아 비어 있던 자리. 수치를 여기로 옮겼다. -->
-        <div class="cmp-stats">
-          {T.stats.map((st) => (
-            <div class="cmp-stat">
-              <div class="cmp-stat-num">{st.num}</div>
-              <div class="cmp-stat-label">
-                {/* ⚠️ 아이콘을 뺐다. 이 세 종(stat-*)은 dark 판만 있어 흰 면에서
-                    보이지 않는다. light 판을 뽑으면 되살릴 수 있다. */}
-                <span set:html={st.label}></span>
-              </div>
-            </div>
-          ))}
         </div>
+
+        {T.stats.map((st, i) => (
+          <div class={`cmp-stage-item ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
+            <div class="cmp-stat-num">{st.num}</div>
+            <div class="cmp-stat-label"><span set:html={st.label}></span></div>
+          </div>
+        ))}
+
+        <p class="cmp-stage-item cmp-stage-r cmp-story-sig" data-row="5">{T.storySig}</p>
       </div>
     </section>
 
-    <!-- STRENGTHS -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head cmp-head-row">
@@ -219,6 +208,25 @@ const alternates = [
   <Footer />
 
   <script is:inline>
+    // 무대 — 글 한 줄이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
+    (function () {
+      var items = document.querySelectorAll('.cmp-stage-item');
+      if (!items.length) return;
+      if (!('IntersectionObserver' in window) ||
+          matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        items.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -25% 0px', threshold: 0.2 });
+      items.forEach(function (el) { io.observe(el); });
+    })();
+
     // 항상 하나만 펼쳐 둔다. 이미 열린 항목을 다시 눌러도 닫히지 않는다.
     document.querySelectorAll('.cmp-acc').forEach(function (acc) {
       acc.addEventListener('click', function (e) {
@@ -682,154 +690,87 @@ const alternates = [
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
-  /* ───────── 스토리 섹션 — 흰 면 ─────────
-     전에는 사진(/img_login-bg.webp) 위에 흰 글자였다. 히어로가 흰 면이 되면서
-     사진 · 먹색 밑판 · 좁은 폭 전용 막 · 16:9 비율 묶음을 모두 걷었다.
-     섹션 높이는 이제 내용이 정한다. */
-  .cmp-story-bg {
-    position: relative;
-    /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다. */
-    display: flex; flex-direction: column; justify-content: flex-start;
+  /* ───────── 무대(stage) — 가운데 그래픽 + 좌 · 우로 떠오르는 글 ─────────
+     세 칸 격자다. 가운데 칸에 그래픽이 붙어 있고(sticky), 글은 양쪽 칸에
+     한 줄씩 번갈아 놓인다. 줄마다 높이를 크게 줘서 스크롤하는 동안 하나씩
+     화면에 들어온다.
+     ⚠️ 그래픽은 아직 회색 판이다. 이미지를 받으면 .cmp-stage-art 안을 바꾼다. */
+  .cmp-stage { padding: 60px 0 130px; }
+  .cmp-stage-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(40vw, 520px) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: center;
   }
-  /* 글도 왼쪽 절반 안에 둔다 — 컨테이너를 두 칸으로 나누고 첫 칸만 쓴다.
-     오른쪽 여백 48px은 글 끝과 사진 오른쪽 끝 사이의 숨이다. */
-  .cmp-story-bg > .ind-container {
-    display: grid; grid-template-columns: 1fr 1fr;
+  .cmp-stage-art {
+    grid-column: 2; grid-row: 1 / -1;
+    position: sticky; top: calc(50vh - min(20vw, 260px));
+    aspect-ratio: 1 / 1;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-dim, #9AA3AE); font-size: 15px; letter-spacing: -0.2px;
   }
-  /* ⚠️ margin-bottom: 0 필수. .cmp-page .ind-head의 64px이 1행 높이에 포함돼
-     행 경계가 대제목 아래선보다 64px 내려가고, 수치도 그만큼 밀린다.
-     본문 사이 간격은 .cmp-story-lede의 margin-top 20px이 담당한다. */
-  .cmp-story-bg .cmp-story { grid-column: 1; grid-row: 1; padding-right: 48px; align-self: start; margin-bottom: 0; }
-  /* 본문은 플랫폼 개요 히어로처럼 대제목 바로 아래(20px)에 붙는다.
-     ⚠️ font-size를 여기서 명시해야 한다. 그리드를 2행으로 나누며 이 문단을
-     .ind-head 밖으로 뺐고, 그때 18px을 물려받던 .cmp-page .ind-head p 경로가
-     끊겨 body 기본값 16px로 떨어져 있었다. */
-  .cmp-story-bg .cmp-story-lede {
-    padding-right: 48px;
-    font-size: 18px; font-weight: 400; line-height: 1.7;
+  /* 글 한 줄 — 높이를 화면의 절반쯤으로 줘 스크롤하는 동안 하나씩 들어온다. */
+  .cmp-stage-item {
+    min-height: 56vh;
+    display: flex; flex-direction: column; justify-content: center;
+    /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
+       들어오므로 가로로도 움직인다. */
+    opacity: 0;
+    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
   }
-  /* 한 줄 문구는 본문이 있던 자리 — 오른쪽 카드 아래선에 맞춘다.
-     본문과 같은 2행 1열이지만 정렬이 반대라 겹치지 않는다.
-     크기·색은 본문과 같은 값(18px / 흰색 72%)을 그대로 쓴다. */
-  .cmp-story-bg .cmp-story-sig {
-    grid-column: 1; grid-row: 2; padding-right: 48px; align-self: end;
-    margin: 0; font-size: 18px; font-weight: 400; line-height: 1.7;
+  .cmp-stage-l { grid-column: 1; align-items: flex-start; text-align: left; transform: translate(-24px, 16px); }
+  .cmp-stage-r { grid-column: 3; align-items: flex-start; text-align: left; transform: translate(24px, 16px); }
+  .cmp-stage-item.is-in { opacity: 1; transform: none; }
+  /* 줄 번호는 마크업이 들고 있다 — 좌우가 같은 줄에 겹치지 않게 한 줄씩 내려간다. */
+  .cmp-stage-item[data-row="1"] { grid-row: 1; }
+  .cmp-stage-item[data-row="2"] { grid-row: 2; }
+  .cmp-stage-item[data-row="3"] { grid-row: 3; }
+  .cmp-stage-item[data-row="4"] { grid-row: 4; }
+  .cmp-stage-item[data-row="5"] { grid-row: 5; }
+
+  .cmp-page .cmp-stage .cmp-story-tag {
+    font-size: 18px; font-weight: 600; line-height: 1.65;
+    letter-spacing: -0.2px; color: #76a6d7; margin: 0 0 14px;
+  }
+  .cmp-stage h2 {
+    margin: 0; color: var(--text);
+    font-size: clamp(28px, 4vw, 45px); font-weight: 600;
+    letter-spacing: -0.8px; line-height: 1.3;
+    word-break: keep-all; text-wrap: balance;
+  }
+  .cmp-stage .cmp-story-lede {
+    margin: 20px 0 0; font-size: 18px; line-height: 1.7;
+    color: var(--text-muted); word-break: keep-all;
+  }
+  .cmp-stage .cmp-story-sig {
+    margin: 0; font-size: 18px; line-height: 1.7;
     color: var(--text-muted); word-break: keep-all;
   }
   @media (max-width: 900px) {
-    .cmp-story-bg .cmp-story-lede { font-size: 16px; }
-    .cmp-story-bg .cmp-story-sig { grid-row: auto; padding-right: 0; align-self: start; font-size: 16px; margin-top: 16px; }
+    .cmp-stage .cmp-story-lede, .cmp-stage .cmp-story-sig { font-size: 16px; }
   }
-  /* 좁은 화면에서는 반으로 나눌 자리가 없다 — 사진·막·글 모두 폭을 다 쓴다.
-     ⚠️ 기준이 900이 아니라 980이다. 901~980px에서는 왼쪽 칸이 좁아 <br>로 잡아 둔
-     줄이 또 감겼다 — 대제목 2줄 -> 3줄, 소제목 2줄 -> 4줄. 뿌리 일러스트를
-     내리는 기준(980px)과도 맞춘다. */
+  /* 좁은 폭에서는 세 칸을 풀고 그래픽을 맨 위에 한 번만 둔다 — 붙여 두면
+     화면 절반을 그래픽이 차지해 글이 들어올 자리가 없다. */
   @media (max-width: 980px) {
-    .cmp-story-bg > .ind-container { grid-template-columns: 1fr; }
-    .cmp-story-bg .cmp-story { grid-row: auto; padding-right: 0; margin-bottom: 0; }
-    .cmp-story-bg .cmp-story-lede { grid-row: auto; padding-right: 0; margin-bottom: 40px; align-self: start; }
-    .cmp-story-bg { min-height: 0; }
+    .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
+    .cmp-stage-art {
+      grid-column: 1; grid-row: 1; position: static; top: auto;
+      aspect-ratio: 16 / 10;
+    }
+    .cmp-stage-item { min-height: 0; }
+    .cmp-stage-l, .cmp-stage-r { grid-column: 1; transform: translateY(16px); }
+    .cmp-stage-item[data-row="1"] { grid-row: 2; }
+    .cmp-stage-item[data-row="2"] { grid-row: 3; }
+    .cmp-stage-item[data-row="3"] { grid-row: 4; }
+    .cmp-stage-item[data-row="4"] { grid-row: 5; }
+    .cmp-stage-item[data-row="5"] { grid-row: 6; }
   }
-  /* ⚠️ width:100% 필수. .ind-container는 margin:0 auto라 flex 자식이 되면
-     stretch가 풀리고 내용 폭으로 줄어든다. 본문이 있을 땐 티가 안 났지만
-     제목 3줄만 남으니 716px로 쪼그라들어 좌측 여백이 페이지 기준을 벗어났다. */
-  .cmp-story-bg > .ind-container {
-    position: relative; z-index: 1; width: 100%;
-    /* ⚠️ align-content: start 필수. 섹션이 사진 비율 때문에 내용보다 훨씬 높은데,
-       기본값이면 남는 높이를 행들이 나눠 가져 아래 margin-top이 지켜지지 않는다
-       (40px을 걸었는데 실제로는 154px로 벌어졌다). */
-    /* 남는 높이를 제목 묶음과 카드 사이로 보낸다 — 상하 여백은 건드리지 않고
-       그 사이 간격만 늘었다 줄었다 한다. start면 남는 높이가 아래로 몰려
-       바닥 여백이 130px보다 커진다. */
-    align-content: space-between;
-    /* ⚠️ flex:1 필수. 섹션이 flex column이라 이게 없으면 컨테이너 높이가
-       내용(333px)에 머물고, 남는 높이는 컨테이너 '아래'로 빠진다.
-       그러면 안쪽 그리드 행도 333px이라 align-self:end가 움직일 자리가 없다. */
-    flex: 1;
-  }
-  /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
-     음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
-  .cmp-story-bg .ind-head h2 { color: var(--text); word-break: keep-all; text-wrap: balance; }
-  /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
-     어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
-  /* 플랫폼 개요 히어로 .wr-tag와 같은 값이다.
-     ⚠️ 선택자 앞에 .cmp-page가 필요하다. .ind-head 안의 <p>라서
-     .cmp-page .ind-head p(0,2,1)가 크기·행간을 덮는다 — 그 규칙은
-     900px 아래에서 16px으로 줄이는데, .wr-tag는 폭과 무관하게 18px 고정이다. */
-  .cmp-page .cmp-story-bg .cmp-story-tag {
-    font-size: 18px; font-weight: 600; line-height: 1.65;
-    letter-spacing: -0.2px; color: #76a6d7;
-    margin: 0 0 14px;
-  }
-  /* 제목의 계단 리듬을 잇도록 두 문장을 <br>로 나눠 각각 한 줄에 세운다.
-     max-width를 두지 않는 이유: <br>가 이미 줄을 정해 두었고, 폭을 좁히면
-     좁은 화면에서 각 줄이 다시 감겨 4줄이 된다. */
-  /* 제목→본문 20px은 플랫폼 개요 히어로(.ind-hero .ind-lede)와 같은 값이다.
-     좁은 화면에서도 20px을 유지한다 — 그쪽이 1440·375 모두 20px이다.
-     크기·행간은 위 ⚠️대로 .cmp-page .ind-head p가 정한다(18px → 900px 아래 16px). */
-  .cmp-story-bg .cmp-story-lede {
-    margin: 20px 0 0;
-    color: var(--text-muted); word-break: keep-all;
-  }
-  /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
 
-
-  /* 수치 세 칸을 헤더 아래 한 줄로 편다 — 컨테이너 본문 폭을 그대로 쓴다.
-     예전에는 오른쪽 칸에 440px 카드로 세로 3줄이었다(설명 왼쪽 · 수치 오른쪽).
-     수치를 키우면 그 폭에 세 칸이 들어가지 않아 자리를 아래로 옮겼다. */
-  .cmp-stats {
-    grid-column: 1 / -1; grid-row: 3;
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 48px; row-gap: 40px;
-    justify-items: start; text-align: left;
-    justify-self: stretch; width: auto;
-    margin-top: 72px;
-    /* 판 없이 사진 위에 바로 올린다. 판을 깔면 그 안쪽 여백(50px)만큼 수치가
-       들어가 헤더 글자 선과 어긋났다 — 지금은 '30년+'의 왼쪽 선이 대제목과 같다. */
-  }
-  /* 수치가 위, 설명이 아래다. 한 줄에 나란히 두던 배치는 칸이 440px 하나였기
-     때문이고, 세 칸으로 나뉘면 수치 옆에 설명을 둘 자리가 없다.
-     ⚠️ min-width: 0 — 그리드 아이템 기본값 auto 는 min-content 라 좁은 폭에서
-        칸을 밀어낸다. 수치는 nowrap 이라 줄지 않으므로 설명 쪽이 감겨야 한다. */
-  .cmp-stats .cmp-stat {
-    width: auto; min-width: 0; padding: 0;
-    display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
-  }
-  .cmp-stats .cmp-stat-num { text-align: left; }
-  .cmp-stats .cmp-stat-label { margin-top: 0; text-align: left; min-width: 0; }
-  /* ⚠️ 이 미디어 블록은 위 기본 규칙보다 뒤에 있어야 한다.
-     앞쪽 900px 블록에 넣었을 땐 특정도가 같아 뒤의 기본 규칙에 밀려 죽었다. */
-  @media (max-width: 980px) {
-    /* 사진 위 2열이 풀리는 980px 과 같은 기준이다. */
-    .cmp-stats { grid-row: auto; margin-top: 60px; column-gap: 24px; }
-    .cmp-story-bg > .ind-container { align-content: start; }
-    /* 한 칸으로 접히면 DOM 순서상 서명이 수치 위에 온다. order 로 맨 뒤에 보낸다.
-       ⚠️ grid-row: auto 필수. 명시적으로 배치된 그리드 아이템은 order 를 무시한다. */
-    .cmp-story-bg .cmp-story-sig { order: 1; grid-row: auto; margin-top: 40px; }
-  }
-  /* 세 칸을 나란히 두기엔 좁다 — 한 줄에 하나씩 쌓는다. */
-  @media (max-width: 720px) {
-    .cmp-stats { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
-  }
-  /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
-     700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
-  /* nowrap 필수: 375px에서 '30년+'가 '30년 / +'로 갈렸다. 수치는 한 덩어리다. */
+  /* 수치 — 무대 안에서 쓴다. */
   .cmp-stat-num { font-size: clamp(40px, 5.6vw, 80px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
-  /* 대제목과 같은 순백. 숫자·소제목의 위계는 크기(36 vs 15)와
-     굵기(700 vs 400)가 이미 만들고 있어 색까지 나눌 이유가 없다. */
-  /* keep-all: 없으면 '산업군 수'가 '산업군 / 수'로 갈려 마지막 줄에 한 글자만 남는다. */
   .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--text-muted); word-break: keep-all; }
-  /* 소제목은 한 톤(흰색)으로 둔다. 아이콘이 이미 흰색+하늘색 2색이라
-     소제목까지 강조하면 한 줄에서 하늘색이 두 번 나와 초점이 흐려진다.
-     강조 span은 데이터에 그대로 두고 색만 물려받게 해서, 다시 살리려면
-     이 규칙의 color만 #76A6D7로 바꾸면 된다.
-     ⚠️ label은 set:html로 넣어 span에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
+  /* ⚠️ label 은 set:html 로 넣어 span 에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
   .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
-  .cmp-stats .cmp-stat-label { display: flex; align-items: center; gap: 12px; }
-  /* 파일 색(흰색 + 하늘색)을 그대로 쓴다. 크기만 지정한다. */
-  /* ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프 속성이 붙지 않는다. */
-  :global(.cmp-stat-icon) {
-    width: clamp(40px, 5.4vw, 54px); height: clamp(40px, 5.4vw, 54px); flex: none;
-  }
-  .cmp-story { max-width: 760px; }
 </style>
