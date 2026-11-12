@@ -22,7 +22,10 @@ const SITE = 'https://refinery.kr';
 //   cy       같은 자리의 세로 위치. 폭 기준이라 그림이 줄어도 비율이 안 틀어진다.
 // CSS top 은 높이 기준이라 cy 를 높이 백분율(--cyh)로 환산해 넘긴다.
 const SCENES = {
-  hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0944, cy: 0.4178, cs: 0.1131 },
+  // 값은 public/company-story/meta.json 의 0 번에서 뽑았다 —
+  //   cx = ax/w · cy = ay/w · cs = k x 350(큐브 원본 폭) / w.
+  //   preview.html 의 큐브 크기 74.1(900px 로 놓았을 때)과도 맞는다.
+  hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0939, cy: 0.4178, cs: 0.0823 },
   rows: [
     { file: 'scene-1-team.webp',         w: 1404, h: 883, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
     { file: 'scene-2-30years.webp',      w: 1398, h: 979, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
