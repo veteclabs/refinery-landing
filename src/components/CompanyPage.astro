@@ -110,6 +110,19 @@ const SCENE_LAYERS: Record<number, Layer[]> = {
 };
 const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
 
+/* 수치를 숫자 덩이와 나머지로 쪼갠다 — '30년+' -> '' · '30' · '년+'.
+   나머지(단위 · 기호)는 숫자보다 작게 둔다. 숫자 덩이는 올라가는 모션이
+   글자를 바꿔 끼우는 자리이기도 하다(.cmp-stat-count). */
+const statParts = (num: string) => {
+  const m = /(\d[\d,]*)/.exec(num);
+  if (!m) return { before: num, digits: '', after: '' };
+  return {
+    before: num.slice(0, m.index),
+    digits: m[1],
+    after: num.slice(m.index + m[1].length),
+  };
+};
+
 /* 그려지는 폭. 초안(preview.html)이 1425px 페이지에 놓은 폭을 가장 큰 장면
    (680px)에 대한 비율로 옮긴 값이다 — 525 / 459 / 680 / 680 / 580.
    장면마다 원근이 달라 폭을 따로 쥔다. 바깥 끝은 어차피 띠 끝에 붙으므로
@@ -260,7 +273,11 @@ const alternates = [
               {/* 라벨이 좌측 상단, 수치가 우측 하단이다 — 보이는 순서대로 적는다. */}
               <div class="cmp-stat-card">
                 <div class="cmp-stat-label"><span set:html={st.label}></span></div>
-                <div class="cmp-stat-num">{st.num}</div>
+                <div class="cmp-stat-num">
+                  {statParts(st.num).before && <span class="cmp-stat-rest">{statParts(st.num).before}</span>}
+                  <span class="cmp-stat-count">{statParts(st.num).digits}</span>
+                  {statParts(st.num).after && <span class="cmp-stat-rest">{statParts(st.num).after}</span>}
+                </div>
               </div>
             </div>
           </>
@@ -416,20 +433,13 @@ const alternates = [
 
       var items = [];
       nums.forEach(function (el) {
-        var m = /(\d[\d,]*)/.exec(el.textContent);
-        if (!m) return;
-        var target = parseInt(m[1].replace(/,/g, ''), 10);
+        // 숫자 덩이는 마크업이 이미 .cmp-stat-count 로 싸 두었다.
+        var span = el.querySelector('.cmp-stat-count');
+        if (!span) return;
+        var target = parseInt(span.textContent.replace(/,/g, ''), 10);
         if (!(target > 0)) return;
         // 끝 모습 그대로일 때의 폭을 먼저 잰다.
         el.style.minWidth = Math.ceil(el.getBoundingClientRect().width) + 'px';
-        var before = el.textContent.slice(0, m.index);
-        var after = el.textContent.slice(m.index + m[1].length);
-        var span = document.createElement('span');
-        span.textContent = m[1];
-        el.textContent = '';
-        if (before) el.appendChild(document.createTextNode(before));
-        el.appendChild(span);
-        if (after) el.appendChild(document.createTextNode(after));
         items.push({ el: el, span: span, target: target, done: false });
       });
       if (!items.length) return;
@@ -1206,6 +1216,11 @@ const alternates = [
   /* 수치 — 크기는 히어로 대제목(.cmp-title-l1 · l2)과 같은 clamp(52~100px)다.
      ⚠️ 그라데이션은 걷었다. 먹색 카드 위에서는 흰색 단색이다 —
         background-clip: text 를 풀어야 하므로 배경을 none 으로 되돌린다. */
+  /* 단위 · 기호는 숫자보다 작다. 0.68 은 숫자가 주인공이 되면서도 '년+' 가
+     받침으로 읽히는 자리다 — 0.55 까지 내리면 '+' 가 윗첨자처럼 떠 보인다
+     (특히 100+ 처럼 기호만 남는 수치에서 그렇다). */
+  .cmp-stat-num :global(.cmp-stat-rest) { font-size: 0.68em; }
+
   .cmp-stat-card .cmp-stat-num {
     align-self: flex-end;
     margin-top: auto;
