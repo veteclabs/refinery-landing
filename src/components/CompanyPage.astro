@@ -127,19 +127,9 @@ const alternates = [
       </div>
     </section>
 
-    {/* STORY — 히어로 바로 아래라 사진을 깔아 어두운 면으로 이어 받는다.
-        사진 위에 어두운 막을 덮고 글자를 흰색 계열로 바꾼다(예지보전 히어로와 같은 방식). */}
+    {/* STORY — 흰 면이다. 전에는 사진을 깔고 흰 글자를 올렸는데, 히어로가
+        흰 면이 되면서 사진·먹색 면을 모두 걷었다. */}
     <section class="ind-section cmp-story-bg">
-      <img
-        class="cmp-story-bg-img"
-        src="/img_login-bg.webp"
-        alt=""
-        aria-hidden="true"
-        width="3840"
-        height="2160"
-        loading="lazy"
-        decoding="async"
-      />
       <div class="ind-container">
         {/* 수치가 대제목 끝나는 지점에서 시작하도록 제목 묶음(1행)과 본문(2행)을
             그리드 직계 자식으로 나눈다. 수치를 2행에 두면 행 경계 = 대제목 아래선이라
@@ -157,12 +147,11 @@ const alternates = [
         <!-- 오른쪽 칸 — 사진이 닿지 않아 비어 있던 자리. 수치를 여기로 옮겼다. -->
         <div class="cmp-stats">
           {T.stats.map((st) => (
-            <div class="cmp-stat rf-ic-host">
+            <div class="cmp-stat">
               <div class="cmp-stat-num">{st.num}</div>
               <div class="cmp-stat-label">
-                {/* 어두운 판(rgba(17,19,22,.40)) 위에 놓이므로 dark 세트를 쓴다.
-                    크기는 아래 .cmp-stat-icon 의 clamp 가 정한다. */}
-                <RfIcon name={st.icon} class="cmp-stat-icon" />
+                {/* ⚠️ 아이콘을 뺐다. 이 세 종(stat-*)은 dark 판만 있어 흰 면에서
+                    보이지 않는다. light 판을 뽑으면 되살릴 수 있다. */}
                 <span set:html={st.label}></span>
               </div>
             </div>
@@ -693,59 +682,15 @@ const alternates = [
   }
   @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
-  /* ───────── 스토리 섹션 — 사진 위 흰 글자 ─────────
-     사진이 lazy라 도착 전 흰 배경이면 흰 글자가 안 보인다. 어두운 면을 미리 깔아 둔다.
-     막은 예지보전 히어로(.uc-hero-bg::after)와 같은 값이다 —
-     위 80% -> 아래 50%로, 대제목이 놓인 위쪽을 짙게 덮는다. */
+  /* ───────── 스토리 섹션 — 흰 면 ─────────
+     전에는 사진(/img_login-bg.webp) 위에 흰 글자였다. 히어로가 흰 면이 되면서
+     사진 · 먹색 밑판 · 좁은 폭 전용 막 · 16:9 비율 묶음을 모두 걷었다.
+     섹션 높이는 이제 내용이 정한다. */
   .cmp-story-bg {
-    position: relative; overflow: hidden; background: #191F27;
-    /* 보여 줄 구간을 파일에 미리 잘라 넣었으므로(아래 사진 주석) 칸 비율에
-       높이를 묶지 않는다. 이제 섹션 높이는 내용이 정한다. */
-    /* 사진(3840x2160)이 가로에 맞춰 들어가는 높이를 섹션 높이로 삼는다.
-       그래야 위쪽에 빈 배경이 남지 않는다. min-height이므로 내용이 더 크면
-       섹션이 늘어나고, 그때는 상하 여백 130px이 그대로 지켜진다.
-       ⚠️ 100vw로 계산하면 스크롤바 폭(15px)만큼 어긋나 위에 7px이 남는다.
-       aspect-ratio는 섹션 자기 폭을 기준으로 잡아 정확히 맞는다. */
-    aspect-ratio: 3840 / 2160;
-    /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다.
-       가운데 정렬이면 같은 padding이어도 시작점이 밀린다. */
+    position: relative;
+    /* 랜딩 #platform과 같이 내용이 섹션 위 여백(130px) 바로 아래에서 시작한다. */
     display: flex; flex-direction: column; justify-content: flex-start;
   }
-  /* 사진은 왼쪽 절반에만 깐다. 오른쪽 절반은 밑판(#191F27)만 남는다. */
-  /* ⚠️ 1420px 아래에서는 비율을 풀어야 한다. 내용이 상하 여백 포함 800px을
-     차지하는데 16:9로는 그만한 높이가 안 나와(1280px에서 712px) 카드가
-     섹션 밖으로 넘친다. 비율을 풀면 높이를 내용이 정하고 여백 130px이
-     지켜지는 대신, 사진이 낮은 만큼 위쪽에 배경색이 보인다. */
-  @media (max-width: 1420px) {
-    .cmp-story-bg { aspect-ratio: auto; }
-  }
-
-  .cmp-story-bg-img {
-    /* 섹션을 세로로 꽉 채운다. 예전엔 width:100% · height:auto라 폭이 줄면
-       사진 높이도 같이 줄어(1440px 810px -> 375px 211px) 위쪽에 배경색
-       #111316만 남는 띠가 생겼다. inset:0 + cover로 높이를 섹션에 묶고,
-       모자란 가로는 잘라 낸다. 기준점은 오른쪽 아래로 고정한다.
-       1420px 이상에서는 섹션이 16:9(사진 비율)라 잘리는 곳 없이 예전과 같다. */
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; max-width: none;
-    object-fit: cover; object-position: 100% 100%;
-    pointer-events: none; user-select: none;
-  }
-  /* ⚠️ 980px 이하 전용 막. 사진을 섹션 높이에 묶으면서 예전엔 안 보이던
-     오른쪽 아래 밝은 부분이 글 뒤로 들어왔다. 실측으로 글자 자리 대비가
-     1440px 6.21:1 · 980px 4.58:1은 괜찮은데 768px 3.06:1 · 375px 3.01:1로
-     AA(4.5:1) 아래였다. 좁은 폭에서만 덮는다. */
-  @media (max-width: 980px) {
-    .cmp-story-bg::after {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(17, 19, 22, 0.46);
-      pointer-events: none;
-    }
-  }
-  /* 막도 사진이 있는 왼쪽 절반에만 덮는다. */
-  /* ⚠️ 어둡게 덮는 오버레이는 두지 않는다. 앞서 쓰던 사진은 밝아서 필요했지만
-     이 사진은 그 자체가 어두워(사용 영역 평균 rgb(38,51,74)) 덮으면 검정만 남는다.
-     흰 글씨 대비는 오버레이 없이도 12.6:1로 AAA를 넘는다. */
   /* 글도 왼쪽 절반 안에 둔다 — 컨테이너를 두 칸으로 나누고 첫 칸만 쓴다.
      오른쪽 여백 48px은 글 끝과 사진 오른쪽 끝 사이의 숨이다. */
   .cmp-story-bg > .ind-container {
@@ -769,7 +714,7 @@ const alternates = [
   .cmp-story-bg .cmp-story-sig {
     grid-column: 1; grid-row: 2; padding-right: 48px; align-self: end;
     margin: 0; font-size: 18px; font-weight: 400; line-height: 1.7;
-    color: rgba(255, 255, 255, 0.72); word-break: keep-all;
+    color: var(--text-muted); word-break: keep-all;
   }
   @media (max-width: 900px) {
     .cmp-story-bg .cmp-story-lede { font-size: 16px; }
@@ -804,7 +749,7 @@ const alternates = [
   }
   /* 칸이 절반으로 좁아져 제목이 두 줄이 된다. 기본값(word-break: normal)은
      음절 사이 어디서나 끊어 '솔루 / 션'처럼 갈렸다 — 어절 단위로만 끊는다. */
-  .cmp-story-bg .ind-head h2 { color: #fff; word-break: keep-all; text-wrap: balance; }
+  .cmp-story-bg .ind-head h2 { color: var(--text); word-break: keep-all; text-wrap: balance; }
   /* 랜딩 .teams-preview-tagline과 같은 값(12px/600/자간 1.2px/아래 8px).
      어두운 배경이라 색만 브랜드 하늘색을 그대로 쓴다. */
   /* 플랫폼 개요 히어로 .wr-tag와 같은 값이다.
@@ -824,7 +769,7 @@ const alternates = [
      크기·행간은 위 ⚠️대로 .cmp-page .ind-head p가 정한다(18px → 900px 아래 16px). */
   .cmp-story-bg .cmp-story-lede {
     margin: 20px 0 0;
-    color: rgba(255,255,255,.72); word-break: keep-all;
+    color: var(--text-muted); word-break: keep-all;
   }
   /* 굵게 쓴 부분은 밝은 배경용 색(var(--text))이 걸려 있어 흰색으로 올린다. */
 
@@ -869,11 +814,11 @@ const alternates = [
   /* ⚠️ 750은 Pretendard에 없는 굵기라 800(ExtraBold)으로 올림돼 그려졌다.
      700(Bold)은 실제 페이스가 있어 선언대로 나온다. */
   /* nowrap 필수: 375px에서 '30년+'가 '30년 / +'로 갈렸다. 수치는 한 덩어리다. */
-  .cmp-stat-num { font-size: clamp(40px, 5.6vw, 80px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: #fff; white-space: nowrap; }
+  .cmp-stat-num { font-size: clamp(40px, 5.6vw, 80px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
   /* 대제목과 같은 순백. 숫자·소제목의 위계는 크기(36 vs 15)와
      굵기(700 vs 400)가 이미 만들고 있어 색까지 나눌 이유가 없다. */
   /* keep-all: 없으면 '산업군 수'가 '산업군 / 수'로 갈려 마지막 줄에 한 글자만 남는다. */
-  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: #fff; word-break: keep-all; }
+  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--text-muted); word-break: keep-all; }
   /* 소제목은 한 톤(흰색)으로 둔다. 아이콘이 이미 흰색+하늘색 2색이라
      소제목까지 강조하면 한 줄에서 하늘색이 두 번 나와 초점이 흐려진다.
      강조 span은 데이터에 그대로 두고 색만 물려받게 해서, 다시 살리려면
