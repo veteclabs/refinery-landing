@@ -16,6 +16,26 @@ const RULE_ICONS = ['rule-field', 'rule-build', 'rule-context'];
 
 const SITE = 'https://refinery.kr';
 
+// 무대 장면 — public/company-story/. 히어로 아래 한 장(scene-0)과 무대 다섯 줄이
+// 한 벌이다. 그림마다 파란 큐브가 빠져 있고, cube.webp 를 스크롤로 옮겨 끼운다.
+//   cx · cs  그림 폭에 대한 비율(큐브가 들어갈 가로 위치 · 큐브 크기)
+//   cy       같은 자리의 세로 위치. 폭 기준이라 그림이 줄어도 비율이 안 틀어진다.
+//   rel      가운데 칸을 얼마나 채울지. 그림마다 원근이 달라 폭을 따로 쥔다.
+// CSS top 은 높이 기준이라 cy 를 높이 백분율(--cyh)로 환산해 넘긴다.
+const SCENES = {
+  hero:  { file: 'scene-0-site.webp',          w: 609, h: 316, cx: 0.0953, cy: 0.4188, cs: 0.1183 },
+  rows: [
+    { file: 'scene-1-team.webp',        w: 441, h: 278, rel: 0.909, cx: 0.2583, cy: 0.1183, cs: 0.1633 },
+    { file: 'scene-2-30years.webp',     w: 334, h: 233, rel: 0.697, cx: 0.5065, cy: -0.0217, cs: 0.2157 },
+    { file: 'scene-3-100sites.webp',    w: 796, h: 418, rel: 1,     cx: 0.6470, cy: 0.2621, cs: 0.0533 },
+    { file: 'scene-4-20industries.webp',w: 784, h: 347, rel: 1,     cx: 0.5000, cy: 0.1742, cs: 0.0677 },
+    { file: 'scene-5-refinery.webp',    w: 782, h: 401, rel: 0.848, cx: 0.5000, cy: 0.0643, cs: 0.1773 },
+  ],
+};
+const sceneVars = (sc) =>
+  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs}` +
+  (sc.rel ? `;--rel:${sc.rel}` : '');
+
 // ⚠️ 회사 세부 사실(설립연도·조직 규모·수상 등)은 실제 정보로 확인·보완 필요.
 const T = {
   ko: {
@@ -114,15 +134,26 @@ const alternates = [
           <h1 set:html={T.h1}></h1>
           <p class="ind-lede" set:html={T.lede}></p>
         </div>
+        {/* 제목 아래 플랜트 현장 — 무대로 이어지는 첫 장면이다. 큐브가 여기서 출발한다. */}
+        <div class="cmp-scene cmp-scene-hero" style={sceneVars(SCENES.hero)} aria-hidden="true">
+          <img class="cmp-scene-art" src={`/company-story/${SCENES.hero.file}`} alt=""
+               width={SCENES.hero.w} height={SCENES.hero.h} decoding="async" />
+          <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
+               width="72" height="77" decoding="async" />
+        </div>
       </div>
     </section>
 
-    {/* STAGE — 가운데 그래픽은 붙어 있고(sticky), 글이 좌 · 우 번갈아 떠오른다.
-        그래픽은 아직 자리만 잡은 회색 판이다. */}
+    {/* STAGE — 가운데 칸에 줄마다 제 장면이 서고, 글이 좌 · 우로 번갈아 떠오른다.
+        그림 순서는 DOM 순서이기도 하다(큐브가 이 순서로 옮겨 다닌다). */}
     <section class="cmp-stage">
       <div class="ind-container cmp-stage-grid">
-        <div class="cmp-stage-art" aria-hidden="true"><span>그래픽 자리</span></div>
-
+        <div class="cmp-scene" data-row="1" style={sceneVars(SCENES.rows[0])} aria-hidden="true">
+          <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[0].file}`} alt=""
+               width={SCENES.rows[0].w} height={SCENES.rows[0].h} loading="lazy" decoding="async" />
+          <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
+               width="72" height="77" loading="lazy" decoding="async" />
+        </div>
         <div class="cmp-stage-item cmp-stage-l" data-row="1">
           <p class="cmp-story-tag">{T.storyTag}</p>
           <h2 set:html={T.storyTitle}></h2>
@@ -130,12 +161,26 @@ const alternates = [
         </div>
 
         {T.stats.map((st, i) => (
-          <div class={`cmp-stage-item ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
-            <div class="cmp-stat-num">{st.num}</div>
-            <div class="cmp-stat-label"><span set:html={st.label}></span></div>
-          </div>
+          <>
+            <div class="cmp-scene" data-row={i + 2} style={sceneVars(SCENES.rows[i + 1])} aria-hidden="true">
+              <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[i + 1].file}`} alt=""
+                   width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
+              <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
+                   width="72" height="77" loading="lazy" decoding="async" />
+            </div>
+            <div class={`cmp-stage-item ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
+              <div class="cmp-stat-num">{st.num}</div>
+              <div class="cmp-stat-label"><span set:html={st.label}></span></div>
+            </div>
+          </>
         ))}
 
+        <div class="cmp-scene" data-row="5" style={sceneVars(SCENES.rows[4])} aria-hidden="true">
+          <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[4].file}`} alt=""
+               width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
+          <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
+               width="72" height="77" loading="lazy" decoding="async" />
+        </div>
         <p class="cmp-stage-item cmp-stage-r cmp-story-sig" data-row="5">{T.storySig}</p>
       </div>
     </section>
@@ -171,6 +216,11 @@ const alternates = [
         </p>
       </div>
     </section>
+
+    {/* 장면 사이를 옮겨 다니는 큐브. 각 그림에는 큐브가 빠져 있고 이 하나가 끼워진다.
+        동작 줄이기에서는 이쪽을 숨기고 그림마다 박힌 .cmp-scene-cube 가 대신 선다. */}
+    <img class="cmp-cube" src="/company-story/cube.webp" alt="" aria-hidden="true"
+         width="72" height="77" decoding="async" />
   </main>
   <Footer />
 
@@ -205,9 +255,9 @@ const alternates = [
       upd();
     })();
 
-    // 무대 — 글 한 줄이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
+    // 무대 — 글과 그림이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
     (function () {
-      var items = document.querySelectorAll('.cmp-stage-item');
+      var items = document.querySelectorAll('.cmp-stage-item, .cmp-scene');
       if (!items.length) return;
       if (!('IntersectionObserver' in window) ||
           matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -249,6 +299,67 @@ const alternates = [
       addEventListener('resize', onScroll);
       upd();
     })();
+
+    // 큐브 — 장면과 장면 사이를 날아 옮겨 간다.
+    // 끼울 자리는 그림마다 --cx · --cyh · --cs 로 박혀 있다(모두 그림 크기에 대한 비율).
+    // 읽는 줄(화면 55%)이 한 자리에서 다음 자리로 가는 동안 포물선을 그리며 건너간다.
+    (function () {
+      var page = document.querySelector('.cmp-page');
+      var cube = document.querySelector('.cmp-cube');
+      var scenes = [].slice.call(document.querySelectorAll('.cmp-scene'));
+      if (!page || !cube || scenes.length < 2) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // 비율은 인라인 style 에 박힌 고정값이다 — 한 번만 읽어 둔다.
+      var F = scenes.map(function (el) {
+        var cs = getComputedStyle(el);
+        return {
+          el: el,
+          x: parseFloat(cs.getPropertyValue('--cx')) || 0,
+          y: parseFloat(cs.getPropertyValue('--cyh')) || 0,
+          s: parseFloat(cs.getPropertyValue('--cs')) || 0.1
+        };
+      });
+      var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+      var ticking = false, lit = false;
+      function upd() {
+        ticking = false;
+        var pr = page.getBoundingClientRect();
+        var A = F.map(function (f) {
+          var r = f.el.getBoundingClientRect();
+          return { x: r.left - pr.left + f.x * r.width,
+                   y: r.top - pr.top + f.y * r.height,
+                   s: f.s * r.width };
+        });
+        var mid = (window.innerHeight || 800) * 0.55 - pr.top;
+        var x = A[0].x, y = A[0].y, s = A[0].s, rot = 0;
+        for (var i = 0; i < A.length - 1; i++) {
+          var a = A[i], b = A[i + 1], span = b.y - a.y;
+          // 자리마다 잠깐 머문다 — 앞뒤로 구간의 10% 남짓을 비워 둔다.
+          var y0 = a.y + span * 0.12, y1 = b.y - span * 0.10;
+          if (mid <= y0) break;
+          var t = Math.min(1, (mid - y0) / Math.max(1, y1 - y0)), e = ease(t);
+          x = a.x + (b.x - a.x) * e;
+          y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * span * 0.14;
+          s = a.s + (b.s - a.s) * e;
+          rot = Math.sin(Math.PI * e) * 90 * (i % 2 ? -1 : 1);
+          if (t < 1) break;
+        }
+        cube.style.width = s.toFixed(1) + 'px';
+        cube.style.transform = 'translate(' + (x - s / 2).toFixed(1) + 'px,' +
+                               (y - s * 0.54).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
+        // 첫 장면이 뜨기 전에는 큐브도 나오지 않는다 — 빈 자리에 혼자 떠 있지 않게.
+        if (!lit && F[0].el.classList.contains('is-in')) { lit = true; cube.classList.add('is-on'); }
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(upd);
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+      addEventListener('load', onScroll);
+      upd();
+    })();
   </script>
 </BaseLayout>
 
@@ -257,6 +368,8 @@ const alternates = [
      (.ind-lede)·섹션 소제목처럼 빠진 곳이 남아, 320~480px에서 '만/들었습니다.'
      '현/장에서'처럼 어절 한가운데가 끊겼다. overflow-wrap: break-word는
      한 어절이 줄보다 길 때만 쓰이는 안전장치다. */
+  /* 큐브가 이 상자의 좌표로 움직인다 — 기준을 여기서 못 박는다. */
+  .cmp-page { position: relative; }
   .cmp-page, .cmp-page * { word-break: keep-all; overflow-wrap: break-word; }
 
   /* 본문 좌우를 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
@@ -633,18 +746,49 @@ const alternates = [
   .cmp-stage { padding: 60px 0 0; }
   .cmp-stage-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) min(40vw, 520px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) min(44vw, 620px) minmax(0, 1fr);
     column-gap: 64px;
     align-items: center;
   }
-  .cmp-stage-art {
-    grid-column: 2; grid-row: 1 / -1;
-    position: sticky; top: calc(50vh - min(20vw, 260px));
-    aspect-ratio: 1 / 1;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg-soft); border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text-dim, #9AA3AE); font-size: 15px; letter-spacing: -0.2px;
+  /* 장면 — 줄마다 가운데 칸에 한 장. 폭은 그림마다 다르다(--rel). */
+  .cmp-stage-grid > .cmp-scene { grid-column: 2; }
+  .cmp-scene {
+    position: relative;
+    width: calc(var(--rel, 1) * 100%);
+    margin-inline: auto;
+    /* 글과 같은 등장 — 아래에서 떠오른다. */
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .cmp-scene.is-in { opacity: 1; transform: none; }
+  .cmp-scene .cmp-scene-art { display: block; width: 100%; height: auto; }
+  /* 그림에 박아 둔 큐브. 보통은 옮겨 다니는 .cmp-cube 가 대신하므로 숨어 있다.
+     ⚠️ top 은 높이 기준이라 --cyh 는 폭 비율을 높이 비율로 환산한 값이다. */
+  .cmp-scene .cmp-scene-cube {
+    position: absolute;
+    left: calc(var(--cx) * 100%);
+    top: calc(var(--cyh) * 100%);
+    width: calc(var(--cs) * 100%);
+    height: auto;
+    transform: translate(-50%, -54%);
+    opacity: 0;
+  }
+  /* 히어로 아래 한 장 — 가운데에 두고 폭만 잡는다. */
+  .cmp-scene-hero { width: min(620px, 100%); margin: 44px auto 0; }
+
+  /* 옮겨 다니는 큐브. 위치 · 크기는 스크립트가 매 프레임 쓴다. */
+  .cmp-cube {
+    position: absolute; left: 0; top: 0; width: 72px; height: auto;
+    transform-origin: 50% 50%;
+    pointer-events: none; z-index: 2;
+    opacity: 0; transition: opacity .6s ease;
+    will-change: transform;
+  }
+  .cmp-cube.is-on { opacity: 1; }
+  /* 동작 줄이기 — 큐브는 날지 않고, 그림마다 제자리에 박혀 선다. */
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-cube { display: none; }
+    .cmp-scene .cmp-scene-cube { opacity: 1; }
   }
   /* 글 한 줄 — 높이를 화면의 절반쯤으로 줘 스크롤하는 동안 하나씩 들어온다. */
   .cmp-stage-item {
@@ -660,11 +804,11 @@ const alternates = [
   .cmp-stage-r { grid-column: 3; align-items: flex-start; text-align: left; transform: translate(24px, 16px); }
   .cmp-stage-item.is-in { opacity: 1; transform: none; }
   /* 줄 번호는 마크업이 들고 있다 — 좌우가 같은 줄에 겹치지 않게 한 줄씩 내려간다. */
-  .cmp-stage-item[data-row="1"] { grid-row: 1; }
-  .cmp-stage-item[data-row="2"] { grid-row: 2; }
-  .cmp-stage-item[data-row="3"] { grid-row: 3; }
-  .cmp-stage-item[data-row="4"] { grid-row: 4; }
-  .cmp-stage-item[data-row="5"] { grid-row: 5; }
+  .cmp-stage-grid > [data-row="1"] { grid-row: 1; }
+  .cmp-stage-grid > [data-row="2"] { grid-row: 2; }
+  .cmp-stage-grid > [data-row="3"] { grid-row: 3; }
+  .cmp-stage-grid > [data-row="4"] { grid-row: 4; }
+  .cmp-stage-grid > [data-row="5"] { grid-row: 5; }
 
   .cmp-page .cmp-stage .cmp-story-tag {
     font-size: 18px; font-weight: 600; line-height: 1.65;
@@ -690,18 +834,12 @@ const alternates = [
   /* 좁은 폭에서는 세 칸을 풀고 그래픽을 맨 위에 한 번만 둔다 — 붙여 두면
      화면 절반을 그래픽이 차지해 글이 들어올 자리가 없다. */
   @media (max-width: 980px) {
-    .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
-    .cmp-stage-art {
-      grid-column: 1; grid-row: 1; position: static; top: auto;
-      aspect-ratio: 16 / 10;
-    }
+    .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+    /* 줄 번호 · 칸 지정을 모두 풀면 마크업 순서(그림 → 글)대로 쌓인다. */
+    .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; }
     .cmp-stage-item { min-height: 0; }
-    .cmp-stage-l, .cmp-stage-r { grid-column: 1; transform: translateY(16px); }
-    .cmp-stage-item[data-row="1"] { grid-row: 2; }
-    .cmp-stage-item[data-row="2"] { grid-row: 3; }
-    .cmp-stage-item[data-row="3"] { grid-row: 4; }
-    .cmp-stage-item[data-row="4"] { grid-row: 5; }
-    .cmp-stage-item[data-row="5"] { grid-row: 6; }
+    .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
+    .cmp-scene { width: min(440px, 100%); }
   }
 
   /* 수치 — 무대 안에서 쓴다. */

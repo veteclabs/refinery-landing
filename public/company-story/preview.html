@@ -1,0 +1,46 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+body{margin:0;font-family:"Noto Sans KR",Pretendard,sans-serif;background:#fff;color:#16202C}
+.page{position:relative;width:1425px;height:3520px;margin:0 auto;overflow:hidden}
+h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;line-height:1.25;margin:0}
+.lede{position:absolute;left:0;right:0;top:370px;text-align:center;color:#5A6776;font-size:18px}
+.t{position:absolute;width:340px;font-weight:700;font-size:36px;line-height:1.35}
+.t small{display:block;font-size:18px;color:#76A6D7;margin-bottom:12px}.t span{display:block;font-size:18px;font-weight:500;color:#5A6776;margin-top:8px}
+.s{position:absolute;opacity:0;transform:translateY(40px);transition:opacity .7s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.s.in{opacity:1;transform:none}
+#cube{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform;z-index:5}
+</style></head><body><div class="page" id="pg">
+<h1>From the floor up<br>현장 바닥에서 올라온 산업 AI</h1>
+<p class="lede">리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.</p>
+<div class="t" style="left:84px;top:960px"><small>회사 소개</small>현장을 아는 팀이 만든<br>솔루션, 산업 AI</div>
+<div class="t" style="left:1061px;top:1470px">30년+<span>산업 현장에서 쌓은 경험</span></div>
+<div class="t" style="left:84px;top:1975px">100+<span>데이터를 다룬 현장 수</span></div>
+<div class="t" style="left:1061px;top:2480px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
+<div class="t" style="left:1061px;top:3010px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
+<img class="s" id="s0" src="scene-0-site.webp" style="left:392px;top:524px;width:640px">
+<img class="s" id="s1" src="scene-1-team.webp" style="left:580px;top:921px;width:600px">
+<img class="s" id="s2" src="scene-2-30years.webp" style="left:330px;top:1420px;width:460px">
+<img class="s" id="s3" src="scene-3-100sites.webp" style="left:530px;top:1902px;width:660px">
+<img class="s" id="s4" src="scene-4-20industries.webp" style="left:230px;top:2429px;width:660px">
+<img class="s" id="s5" src="scene-5-refinery.webp" style="left:280px;top:2931px;width:560px">
+<img id="cube" src="cube.webp">
+</div><script>
+const S=[[453, 792, 75.7], [735, 992, 98.0], [563, 1410, 99.2], [957, 2075, 35.2], [560, 2544, 44.7], [560, 2967, 99.3]];
+const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('.s')];
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function frame(){
+  const pg=document.getElementById('pg').getBoundingClientRect(),mid=innerHeight*.55-pg.top;
+  imgs.forEach((im,i)=>{if(mid>S[i][1]-innerHeight*.35)im.classList.add('in');});
+  // which segment: travel between anchors while the reading line passes from one anchor to the next
+  let x=S[0][0],y=S[0][1],s=S[0][2],rot=0;
+  for(let i=0;i<S.length-1;i++){
+    const a=S[i],b=S[i+1],y0=a[1]+120,y1=b[1]-80;
+    if(mid<=y0){break}
+    const t=Math.min(1,(mid-y0)/(y1-y0)),e=ease(t);
+    x=a[0]+(b[0]-a[0])*e;y=a[1]+(b[1]-a[1])*e - Math.sin(Math.PI*e)*60;s=a[2]+(b[2]-a[2])*e;rot=Math.sin(Math.PI*e)*90*(i%2?-1:1);
+    if(t<1)break;
+  }
+  cube.style.width=s+'px';cube.style.transform=`translate(${x-s/2}px,${y-s*.54}px) rotate(${rot}deg)`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script></body></html>
