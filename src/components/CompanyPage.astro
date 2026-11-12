@@ -20,21 +20,19 @@ const SITE = 'https://refinery.kr';
 // 한 벌이다. 그림마다 파란 큐브가 빠져 있고, cube.webp 를 스크롤로 옮겨 끼운다.
 //   cx · cs  그림 폭에 대한 비율(큐브가 들어갈 가로 위치 · 큐브 크기)
 //   cy       같은 자리의 세로 위치. 폭 기준이라 그림이 줄어도 비율이 안 틀어진다.
-//   rel      가운데 칸을 얼마나 채울지. 그림마다 원근이 달라 폭을 따로 쥔다.
 // CSS top 은 높이 기준이라 cy 를 높이 백분율(--cyh)로 환산해 넘긴다.
 const SCENES = {
   hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0944, cy: 0.4178, cs: 0.1131 },
   rows: [
-    { file: 'scene-1-team.webp',         w: 1404, h: 883, rel: 0.912, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
-    { file: 'scene-2-30years.webp',      w: 1398, h: 979, rel: 0.676, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
-    { file: 'scene-3-100sites.webp',     w: 1406, h: 738, rel: 1,     cx: 0.6485, cy: 0.2603, cs: 0.0510 },
-    { file: 'scene-4-20industries.webp', w: 1404, h: 620, rel: 1,     cx: 0.5000, cy: 0.1735, cs: 0.0649 },
-    { file: 'scene-5-refinery.webp',     w: 1404, h: 719, rel: 0.853, cx: 0.5000, cy: 0.0638, cs: 0.1697 },
+    { file: 'scene-1-team.webp',         w: 1404, h: 883, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
+    { file: 'scene-2-30years.webp',      w: 1398, h: 979, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
+    { file: 'scene-3-100sites.webp',     w: 1406, h: 738,     cx: 0.6485, cy: 0.2603, cs: 0.0510 },
+    { file: 'scene-4-20industries.webp', w: 1404, h: 620,     cx: 0.5000, cy: 0.1735, cs: 0.0649 },
+    { file: 'scene-5-refinery.webp',     w: 1404, h: 719, cx: 0.5000, cy: 0.0638, cs: 0.1697 },
   ],
 };
 const sceneVars = (sc) =>
-  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs}` +
-  (sc.rel ? `;--rel:${sc.rel}` : '');
+  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs}`;
 
 // ⚠️ 회사 세부 사실(설립연도·조직 규모·수상 등)은 실제 정보로 확인·보완 필요.
 const T = {
@@ -721,13 +719,17 @@ const alternates = [
     column-gap: 80px;
     align-items: center;
   }
-  /* 장면 — 글 반대쪽 칸에 한 장. 폭은 그림마다 다르다(--rel). */
+  /* 장면 — 글 반대쪽 칸에 한 장.
+     ⚠️ 다섯 장이 같은 폭을 쓴다. 그림마다 폭을 달리 주면(초안이 그랬다) 가운데
+        정렬이라 줄마다 바깥 끝이 어긋난다 — 실측 바깥여백 76 / 150 / 48 / 48 / 94px.
+     ⚠️ 헤더 내용 너비(로고~CTA, 1440px 에서 1344px)보다 안쪽에 둔다. 560px 이면
+        1440px 에서 양 끝이 36px 씩 들어온다. */
   .cmp-scene-l { grid-column: 1; }
   .cmp-scene-r { grid-column: 2; }
+  .cmp-stage .cmp-scene { max-width: 560px; }
   .cmp-scene {
     position: relative;
-    width: calc(var(--rel, 1) * 100%);
-    max-width: 680px;
+    width: 100%;
     margin-inline: auto;
     /* 글과 같은 등장 — 아래에서 떠오른다. */
     opacity: 0; transform: translateY(20px);
@@ -824,7 +826,7 @@ const alternates = [
     .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; justify-self: start; }
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
-    .cmp-scene { width: min(440px, 100%); }
+    .cmp-stage .cmp-scene { max-width: min(440px, 100%); }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
