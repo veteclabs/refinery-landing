@@ -7,6 +7,27 @@ h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;l
 .t small{display:block;font-size:18px;color:#76A6D7;margin-bottom:12px}.t span{display:block;font-size:18px;font-weight:500;color:#5A6776;margin-top:8px}
 .s{position:absolute;opacity:0;transform:translateY(40px);transition:opacity .7s,transform .9s cubic-bezier(.2,.7,.2,1)}
 .s.in{opacity:1;transform:none}
+.s img{position:absolute;left:0;top:0;width:100%;height:100%}
+.ov{transform-origin:var(--ox) var(--oy)}
+@property --p{syntax:'<percentage>';inherits:false;initial-value:60%}
+/* 100+ 그리드: 데이터 스캔 빛이 대각선으로 지나감 */
+.ov-grid{-webkit-mask-image:linear-gradient(110deg,transparent 40%,#000 50%,transparent 60%);mask-image:linear-gradient(110deg,transparent 40%,#000 50%,transparent 60%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:scan 4.5s linear infinite}
+@keyframes scan{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+/* 업링크·포트: 순차 점멸 */
+.ov-up0,.ov-up1,.ov-up2{opacity:0;animation:blink 2.4s ease-in-out infinite}.ov-up1{animation-delay:.8s}.ov-up2{animation-delay:1.6s}
+@keyframes blink{0%,100%{opacity:0}40%,55%{opacity:1}}
+/* 20+ 스포크: 바깥으로 갈수록 투명 + 현장 → 허브로 모여드는 흐름 */
+.spk-base,.spk-fade{-webkit-mask-image:radial-gradient(ellipse at var(--ox) var(--oy),#000 6%,rgba(0,0,0,.55) 22%,transparent 46%);mask-image:radial-gradient(ellipse at var(--ox) var(--oy),#000 6%,rgba(0,0,0,.55) 22%,transparent 46%)}
+.spk-flow{-webkit-mask-image:radial-gradient(ellipse at var(--ox) var(--oy),transparent calc(var(--p) - 14%),#000 var(--p),transparent calc(var(--p) + 4%));mask-image:radial-gradient(ellipse at var(--ox) var(--oy),transparent calc(var(--p) - 14%),#000 var(--p),transparent calc(var(--p) + 4%));animation:inflow 2.2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes inflow{from{--p:50%}to{--p:6%}}
+/* 마지막: 떠 있는 4개 배지가 천천히 위아래로 */
+#s5 .ov-b0,#s5 .ov-b1,#s5 .ov-b2,#s5 .ov-b3{opacity:1;animation:bob 3.4s ease-in-out infinite}
+#s5 .ov-b1{animation-delay:-.85s}#s5 .ov-b2{animation-delay:-1.7s}#s5 .ov-b3{animation-delay:-2.55s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+/* 링: 하나씩 차례대로 퍼져 나감 */
+#s4 .ov-r0,#s4 .ov-r1,#s5 .ov-r0,#s5 .ov-r1,#s5 .ov-r2{opacity:0;animation:ring 3.6s ease-in-out infinite}
+#s4 .ov-r1{animation-delay:1.8s}#s5 .ov-r1{animation-delay:1.2s}#s5 .ov-r2{animation-delay:2.4s}
+@keyframes ring{0%{opacity:0;transform:scale(.96)}30%{opacity:1;transform:scale(1)}60%{opacity:0;transform:scale(1.03)}100%{opacity:0}}
 #cube{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform;z-index:5}
 </style></head><body><div class="page" id="pg">
 <h1>From the floor up<br>현장 바닥에서 올라온 산업 AI</h1>
@@ -16,16 +37,16 @@ h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;l
 <div class="t" style="left:84px;top:1975px">100+<span>데이터를 다룬 현장 수</span></div>
 <div class="t" style="left:1061px;top:2480px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
 <div class="t" style="left:1061px;top:3010px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
-<img class="s in" id="s0" src="scene-0-site.webp" style="left:262px;top:468px;width:900px">
-<img class="s" id="s1" src="scene-1-team.webp" style="left:570px;top:915px;width:620px">
-<img class="s" id="s2" src="scene-2-30years.webp" style="left:330px;top:1419px;width:460px">
-<img class="s" id="s3" src="scene-3-100sites.webp" style="left:520px;top:1897px;width:680px">
-<img class="s" id="s4" src="scene-4-20industries.webp" style="left:220px;top:2425px;width:680px">
-<img class="s" id="s5" src="scene-5-refinery.webp" style="left:270px;top:2926px;width:580px">
+<div class="s in" id="s0" style="left:262px;top:468px;width:900px;height:465px"><img src="scene-0-site.webp"></div>
+<div class="s" id="s1" style="left:618px;top:915px;width:525px;height:358px"><img src="scene-1-team.webp"></div>
+<div class="s" id="s2" style="left:330px;top:1419px;width:459px;height:322px"><img src="scene-2-30years.webp"></div>
+<div class="s" id="s3" style="left:520px;top:1897px;width:680px;height:320px"><img src="scene-3-100sites.webp"><img class="ov ov-grid" src="3-grid.webp" style="--ox:50.00%;--oy:53.12%"><img class="ov ov-up0" src="3-up0.webp" style="--ox:41.64%;--oy:32.87%"><img class="ov ov-up1" src="3-up1.webp" style="--ox:56.56%;--oy:40.85%"><img class="ov ov-up2" src="3-up2.webp" style="--ox:48.20%;--oy:41.40%"></div>
+<div class="s" id="s4" style="left:220px;top:2425px;width:680px;height:299px"><img src="scene-4-20industries.webp"><img class="ov spk-base" src="4-spoke-base.webp" style="--ox:49.97%;--oy:50.00%"><div class="ov spk-fade" style="--ox:49.97%;--oy:50.00%"><img class="spk-flow" src="4-spoke.webp" style="--ox:49.97%;--oy:50.00%"></div><img class="ov ov-r0" src="4-r0.webp" style="--ox:49.97%;--oy:50.00%"><img class="ov ov-r1" src="4-r1.webp" style="--ox:50.00%;--oy:50.00%"></div>
+<div class="s" id="s5" style="left:270px;top:2926px;width:580px;height:297px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.47%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.13%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:50.00%;--oy:56.79%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.92%;--oy:16.78%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.44%;--oy:10.46%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:30.01%;--oy:48.78%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.52%;--oy:55.30%"></div>
 <img id="cube" src="cube.webp">
 </div><script>
-const S=[[347, 844, 101.8], [729, 988, 96.9], [563, 1409, 95.4], [961, 2074, 34.7], [560, 2543, 44.1], [560, 2963, 98.4]];
-const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('.s')];
+const S=[[346.5, 844.0, 74.1], [745.4, 987.9, 96.9], [562.8, 1409.6, 95.3], [961.5, 2037.4, 31.6], [560.0, 2550.0, 34.0], [559.9, 2962.9, 98.4]];
+const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('div.s')];
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function frame(){
   const pg=document.getElementById('pg').getBoundingClientRect(),mid=innerHeight*.55-pg.top;
@@ -33,10 +54,10 @@ function frame(){
   // which segment: travel between anchors while the reading line passes from one anchor to the next
   let x=S[0][0],y=S[0][1],s=S[0][2],rot=0;
   for(let i=0;i<S.length-1;i++){
-    const a=S[i],b=S[i+1],D=b[1]-a[1],y0=a[1]+D*.2,y1=b[1]-D*.1;
-    if(mid<=y0){break}
-    const t=Math.min(1,(mid-y0)/(y1-y0)),e=ease(t);
-    x=a[0]+(b[0]-a[0])*e;y=a[1]+(b[1]-a[1])*e - Math.sin(Math.PI*e)*60;s=a[2]+(b[2]-a[2])*e;rot=Math.sin(Math.PI*e)*90*(i%2?-1:1);
+    const a=S[i],b=S[i+1];
+    if(mid<=a[1])break;
+    const t=Math.min(1,(mid-a[1])/(b[1]-a[1]));
+    x=a[0]+(b[0]-a[0])*t;y=a[1]+(b[1]-a[1])*t-Math.sin(Math.PI*t)*60;s=a[2]+(b[2]-a[2])*t;rot=Math.sin(Math.PI*t)*90*(i%2?-1:1);
     if(t<1)break;
   }
   cube.style.width=s+'px';cube.style.transform=`translate(${x-s/2}px,${y-s*.54}px) rotate(${rot}deg)`;
