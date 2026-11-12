@@ -159,9 +159,12 @@ const alternates = [
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                    width="350" height="385" loading="lazy" decoding="async" />
             </div>
-            <div class={`cmp-stage-item ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
-              <div class="cmp-stat-num">{st.num}</div>
-              <div class="cmp-stat-label"><span set:html={st.label}></span></div>
+            <div class={`cmp-stage-item cmp-stage-stat ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
+              {/* 줄 높이(56vh)는 바깥 칸이 쥐고, 카드는 제 내용만큼만 선다. */}
+              <div class="cmp-stat-card">
+                <div class="cmp-stat-num">{st.num}</div>
+                <div class="cmp-stat-label"><span set:html={st.label}></span></div>
+              </div>
             </div>
           </>
         ))}
@@ -997,6 +1000,28 @@ const alternates = [
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
     .cmp-stage .cmp-scene { max-width: min(440px, 100%); margin-inline: 0; }
+  }
+
+  /* 수치 카드 — 과제별 '푸는 방식' 섹션의 큰 카드(.uc-template)와 같은 값이다.
+     실측 면 #151B23 · 테두리 #292F37 · 모서리 12px. */
+  /* 칸은 글 길이만큼만 넓어진다(shrink-to-fit) — 그대로 두면 카드 셋이
+     384 / 349 / 322px 로 제각각이다. 폭을 채워 셋을 460px 로 맞춘다. */
+  .cmp-stage-stat { justify-content: center; width: 100%; }
+  .cmp-stat-card {
+    width: 100%;
+    background: #151B23; border: 1px solid #292F37; border-radius: 12px;
+    padding: 44px 48px;
+  }
+  /* 먹색 면 위로 올라왔으니 글자도 뒤집는다 — 숫자는 흰색에서 시작해 아래로
+     갈수록 카드 면(#151B23)에 흡수된다. 흰 면에서 쓰던 규칙과 같은 생각이고
+     끝 색만 바탕을 따라간다. */
+  .cmp-stat-card .cmp-stat-num {
+    background-image: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 34%, #151B23 100%);
+  }
+  /* 어두운 면의 설명 글자 — /why-refinery 먹색 띠와 같은 #A0A8B3. */
+  .cmp-stat-card .cmp-stat-label { color: #A0A8B3; }
+  @media (max-width: 900px) {
+    .cmp-stat-card { padding: 32px 28px; }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
