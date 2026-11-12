@@ -19,8 +19,16 @@ export const navMenu: Record<Lang, NavMenu[]> = {
   ko: [
     {
       label: '솔루션',
-      href: '/#industries',
+      href: '/why-refinery',
       groups: [
+        {
+          // 제품 본문으로 들어가는 문. 자료실(백서 · 리포트 서랍)에만 있어 들어갈 길이
+          // 사실상 없었다 — 솔루션 패널 맨 앞으로 옮긴다.
+          title: '플랫폼',
+          items: [
+            { label: '플랫폼 개요', href: '/why-refinery' },
+          ],
+        },
         {
           // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 '예정' 배지.
           title: '산업별',
@@ -89,8 +97,14 @@ export const navMenu: Record<Lang, NavMenu[]> = {
   en: [
     {
       label: 'Solutions',
-      href: '/en#industries',
+      href: '/en/why-refinery',
       groups: [
+        {
+          title: 'Platform',
+          items: [
+            { label: 'Platform overview', href: '/en/why-refinery' },
+          ],
+        },
         {
           title: 'By industry',
           items: [

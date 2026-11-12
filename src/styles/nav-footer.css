@@ -278,6 +278,9 @@ button.mm-top { font-family: inherit; font-weight: inherit; line-height: inherit
    제목은 ul 바깥이라 2단 위에 걸쳐 놓인다. 단 사이(28px)보다 묶음 사이(72px)를
    훨씬 넓게 둬야 어느 단이 어느 묶음인지 읽힌다 — 같은 간격이면 4개가 따로 논다. */
 .mm-col--split { min-width: 408px; }
+/* 항목이 한둘뿐인 묶음(솔루션의 '플랫폼')은 폭을 나눠 받지 않는다 —
+   flex: 1 로 두면 링크 하나가 400px 짜리 빈 칸에 떠 있는 꼴이 된다. */
+.mm-col--lead { flex: 0 0 200px; }
 /* CSS columns 대신 grid로 단을 나눈다. columns는 두 단의 높이를 알아서 맞추려 해
    7개가 3+4로 갈렸다. 행 수를 4로 못 박고 세로로 채우면 1~4번이 왼쪽, 5~7번이
    오른쪽으로 가서 항상 4+3이 된다. */
