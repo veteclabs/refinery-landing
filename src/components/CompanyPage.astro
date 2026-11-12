@@ -208,6 +208,9 @@ const alternates = [
       </div>
     </section>
 
+    {/* 푸터 위 맺음 띠 — 바닥에서 원형 빛이 올라온다. 글은 두지 않는다. */}
+    <section class="cmp-glow-band" aria-hidden="true"></section>
+
     {/* 장면 사이를 옮겨 다니는 큐브. 각 그림에는 큐브가 빠져 있고 이 하나가 끼워진다.
         동작 줄이기에서는 이쪽을 숨기고 그림마다 박힌 .cmp-scene-cube 가 대신 선다. */}
     <img class="cmp-cube" src="/company-story/cube.webp" alt="" aria-hidden="true"
@@ -509,7 +512,31 @@ const alternates = [
      이 페이지는 면 색이 모두 흰색이라 선만 남아 칸막이처럼 보인다.
      ⚠️ 마지막 섹션의 아래 선은 그대로 둔다 — 그 선이 곧 푸터 위 선이다. */
   .cmp-page .ind-section { padding: 180px 0; border-bottom: none; }
-  .cmp-page .ind-section:last-of-type { border-bottom: 1px solid var(--border); }
+  /* ⚠️ 푸터 위 선은 아래 .cmp-glow-band 가 들고 있다 — 그 띠가 마지막이다.
+     여기에 두면 선이 띠 위에 그어져 페이지 한가운데에 금이 간다. */
+
+  /* 푸터 위 맺음 띠 — 유즈케이스 02 섹션(.uc-redesigned .ind-soft)과 같은 빛이되
+     자리를 아래(50% 100%)로 뒤집었다. 저쪽은 위(50% 0%)에서 아래로 흐른다.
+     정지점 열셋은 저쪽에서 그대로 가져온 것이다 — smootherstep 으로 뽑아
+     두 점짜리 그라데이션에서 보이던 테가 없다. */
+  .cmp-glow-band {
+    height: clamp(180px, 24vh, 300px);
+    border-bottom: 1px solid var(--border);
+    background: #FFFFFF radial-gradient(62% 50% at 50% 100%,
+      rgba(238, 244, 251, 1) 0%,
+      rgba(238, 244, 251, 0.995) 8.33%,
+      rgba(238, 244, 251, 0.965) 16.67%,
+      rgba(238, 244, 251, 0.896) 25%,
+      rgba(238, 244, 251, 0.79) 33.33%,
+      rgba(238, 244, 251, 0.653) 41.67%,
+      rgba(238, 244, 251, 0.5) 50%,
+      rgba(238, 244, 251, 0.347) 58.33%,
+      rgba(238, 244, 251, 0.21) 66.67%,
+      rgba(238, 244, 251, 0.104) 75%,
+      rgba(238, 244, 251, 0.035) 83.33%,
+      rgba(238, 244, 251, 0.005) 91.67%,
+      rgba(238, 244, 251, 0) 100%);
+  }
   @media (max-width: 900px) {
     .cmp-page .ind-section { padding: 60px 0; }
   }
