@@ -380,11 +380,15 @@ const alternates = [
      min-height: 100vh를 쓰지만, 여기는 글만 있어 그 값은 가져오지 않는다
      (빈 자리가 화면 하나만큼 생긴다). */
   .cmp-hero {
-    /* 대제목과 그래픽이 한 화면에 함께 서야 한다 — 그래서 위 여백을 고정값이
-       아니라 화면 높이로 잡는다. 전에는 244px 고정이라 1440x900 에서 그림이
-       105px, 1280x800 에서 225px 잘렸다.
-       17vh: 780px 화면에서 133px · 900px 에서 153px · 1050px 에서 179px. */
-    padding: clamp(120px, 17vh, 200px) 0 clamp(48px, 7vh, 80px);
+    /* 위 244px — 산업별(솔루션) 히어로와 대제목 글자 윗변이 같은 자리에 오도록
+       맞춘 값이다. 저쪽은 섹션 위 180px 에 태그라인과 그 아래 여백이 더해져
+       대제목 글자가 254px 에서 시작하는데, 이 페이지는 태그라인이 없어 200px
+       이면 210px 에서 시작했다.
+       ⚠️ 900px 이하도 같은 식으로 맞춘다(저쪽 216px · 여기 140px -> 208px).
+       ⚠️ 그래픽이 화면 아래로 잘리는 건 받아들인 결과다 — 화면 높이에 맞춰
+          줄이지 않는다. '처음부터 함께 보인다'는 건 스크롤 없이 그림이
+          시작된다는 뜻이지, 그림이 통째로 들어온다는 뜻이 아니다. */
+    padding: 244px 0 100px;
     background: none; border-bottom: none;
   }
   /* '현장'에만 브랜드 빛을 둔다 — 메인 히어로의 .hero-title-accent 와 같은 처리다.
@@ -487,6 +491,9 @@ const alternates = [
     text-align: left;
     word-break: keep-all;
     overflow-wrap: break-word;
+  }
+  @media (max-width: 900px) {
+    .cmp-hero { padding: 208px 0 72px; }
   }
 
 
@@ -748,10 +755,11 @@ const alternates = [
         그림에 max-height 를 걸어 상자와 어긋나게 하면 큐브가 빗나간다. */
   .cmp-scene-hero {
     /* 무대 그림들의 상한(680px)은 여기에 걸지 않는다 — 히어로는 더 크다. */
-    max-width: none;
-    width: min(900px, 100%, calc((100vh - 500px) * 1.93));
-    margin: 32px auto 0;
-    /* 첫 화면에 제목과 함께 서야 하므로 등장 모션에서 빼 둔다. */
+    max-width: 100%;
+    width: min(900px, 100%);
+    margin: 44px auto 0;
+    /* 스크롤을 기다리지 않고 처음부터 서 있는다 — 등장 모션에서 빼 둔다.
+       화면 아래로 잘리는 건 상관없다. 시작이 보이기만 하면 된다. */
     opacity: 1; transform: none;
   }
 
