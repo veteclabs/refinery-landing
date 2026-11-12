@@ -255,23 +255,41 @@ const alternates = [
       upd();
     })();
 
-    // 무대 — 글과 그림이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
+    // 무대 — 글과 그림이 읽는 자리로 올라올 때 떠오른다. 한 번 뜨면 그대로 둔다.
+    // ⚠️ IntersectionObserver 로 상자를 보면 안 된다. 상자는 40vh 인데 글은 그 한가운데라,
+    //    윗변이 화면에 걸리는 순간 글은 아직 화면 맨 아래다 — 눈에 들어올 때는 이미 끝나 있다.
+    //    그래서 상자가 아니라 '글이 실제로 놓인 자리'(상자 한가운데)로 잰다.
     (function () {
-      var items = document.querySelectorAll('.cmp-stage-item, .cmp-scene');
+      var items = [].slice.call(document.querySelectorAll('.cmp-stage-item, .cmp-scene'));
       if (!items.length) return;
-      if (!('IntersectionObserver' in window) ||
-          matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         items.forEach(function (el) { el.classList.add('is-in'); });
         return;
       }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          e.target.classList.add('is-in');
-          io.unobserve(e.target);
-        });
-      }, { rootMargin: '0px 0px -25% 0px', threshold: 0.2 });
-      items.forEach(function (el) { io.observe(el); });
+      var left = items.length, ticking = false;
+      function upd() {
+        ticking = false;
+        var vh = window.innerHeight || 800;
+        for (var i = 0; i < items.length; i++) {
+          var el = items[i];
+          if (el.classList.contains('is-in')) continue;
+          var r = el.getBoundingClientRect();
+          // 화면 아래 80% — 다 뜨고 나서도 읽는 자리까지 한참 더 올라온다.
+          if (r.top + r.height / 2 < vh * 0.80) { el.classList.add('is-in'); left--; }
+        }
+        if (left <= 0) {
+          removeEventListener('scroll', onScroll);
+          removeEventListener('resize', onScroll);
+        }
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(upd);
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+      upd();
     })();
 
     // 카드 줄 — 스크롤하는 만큼 가운데에서 제자리로 펼쳐진다.
@@ -756,9 +774,10 @@ const alternates = [
     position: relative;
     width: calc(var(--rel, 1) * 100%);
     margin-inline: auto;
-    /* 글과 같은 등장 — 아래에서 떠오른다. */
-    opacity: 0; transform: translateY(20px);
-    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+    /* 글과 같은 등장 — 아래에서 떠오른다. 글보다 한 박자(.08s) 늦게 따라온다. */
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+    transition-delay: .08s;
   }
   .cmp-scene.is-in { opacity: 1; transform: none; }
   .cmp-scene .cmp-scene-art { display: block; width: 100%; height: auto; }
@@ -798,10 +817,12 @@ const alternates = [
     /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
        들어오므로 가로로도 움직인다. */
     opacity: 0;
-    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
   }
-  .cmp-stage-l { grid-column: 1; align-items: flex-start; text-align: left; transform: translate(-24px, 16px); }
-  .cmp-stage-r { grid-column: 3; align-items: flex-start; text-align: left; transform: translate(24px, 16px); }
+  /* 좌 · 우 칸에서 각자 바깥쪽에서 들어온다. 40px 은 글자 두 칸쯤 — 이보다 작으면
+     다 뜨고 나서도 떴는지 모른다. */
+  .cmp-stage-l { grid-column: 1; align-items: flex-start; text-align: left; transform: translate(-40px, 20px); }
+  .cmp-stage-r { grid-column: 3; align-items: flex-start; text-align: left; transform: translate(40px, 20px); }
   .cmp-stage-item.is-in { opacity: 1; transform: none; }
   /* 줄 번호는 마크업이 들고 있다 — 좌우가 같은 줄에 겹치지 않게 한 줄씩 내려간다. */
   .cmp-stage-grid > [data-row="1"] { grid-row: 1; }
