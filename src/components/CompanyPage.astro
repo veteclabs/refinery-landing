@@ -314,11 +314,6 @@ const alternates = [
     font-size: clamp(18px, 2.2vw, 30px);
     line-height: 1.45;
     letter-spacing: -0.02em;
-    /* 아랫변을 맞추면 국문 밑선이 영문보다 한참 내려앉는다 — 100px Roboto 의
-       밑선 아래 여유(p 의 꼬리까지)가 30px 국문보다 그만큼 크기 때문이다.
-       1440px 화면에서 재 보니 22px 차이라 8.5 + 22 = 30.5px 끌어올린다.
-       ⚠️ 두 글자 크기 중 하나라도 바뀌면 다시 잰다. */
-    margin-bottom: 30.5px;
   }
   /* ⚠️ :global 이다. set:html 로 넣은 글에는 Astro 스코프 속성이 붙지 않아
      .cmp-title-accent 로만 쓰면 규칙이 통째로 빗나간다(RfIcon 과 같은 건이다). */
@@ -349,7 +344,9 @@ const alternates = [
     align-items: start;
     column-gap: 48px; row-gap: 0;
   }
-  .cmp-hero .cmp-hero-row h1 { grid-column: 1 / -1; grid-row: 1; }
+  /* 대제목은 두 칸을 다 쓰고 그 안에서 가운데에 선다 — width: fit-content 라
+     justify-self 가 없으면 왼쪽에 붙는다. */
+  .cmp-hero .cmp-hero-row h1 { grid-column: 1 / -1; grid-row: 1; justify-self: center; }
   .cmp-hero .cmp-hero-row .ind-lede {
     grid-column: 2; grid-row: 2;
     /* 대제목 아랫변에서 소제목 윗변까지를 산업별(1440px 에서 7.2px)과 같게 둔다.
@@ -385,9 +382,10 @@ const alternates = [
     color: #16202C;
     padding: 0.1em 0;
     width: fit-content;
-    /* 영문 덩이와 국문 덩이를 두 칸으로 나란히 둔다. */
-    display: grid; grid-template-columns: auto auto;
-    justify-content: start; align-items: end; column-gap: 28px;
+    /* 영문 덩이 아래에 국문 덩이를 둔다. 화면 가운데에 세운다. */
+    display: grid; grid-template-columns: auto;
+    justify-content: center; justify-items: center; row-gap: 18px;
+    text-align: center;
     word-break: keep-all;
     overflow-wrap: break-word;
   }
