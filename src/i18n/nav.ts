@@ -66,8 +66,6 @@ export const navMenu: Record<Lang, NavMenu[]> = {
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
             { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수 통합 관리' },
             { label: '블로그', href: '/blog', icon: 'article', desc: '현장 적용 사례와 기술 노트' },
-            // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '예정', icon: 'file-text', desc: '설치 ⁠· 연동 ⁠· 운영 안내' },
             { label: '자료실', href: '/resources', icon: 'folder-open', desc: '백서 ⁠· 리포트 ⁠· 제품 자료' },
           ],
         },
@@ -138,7 +136,6 @@ export const navMenu: Record<Lang, NavMenu[]> = {
             { label: 'Industrial AI', href: '/en/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
             { label: 'Energy management', href: '/en/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
-            { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
             { label: 'Resource library', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
           ],
         },
