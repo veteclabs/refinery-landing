@@ -25,7 +25,7 @@ const T = {
     jsonLdName: '회사 소개 | Refinery',
     /* 한 줄로 둔다. 1440px 에서 613px 짜리 한 줄이다 — 폭이 좁아지면 글자가
        함께 줄어들어(clamp 36~60px) 390px 까지 한 줄을 지킨다. */
-    h1: '현장의 언어로 문제를 풉니다',
+    h1: '<span class="cmp-title-accent">현장</span>의 언어로 문제를 풉니다',
     lede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     storyTag: '회사 소개',
     storyTitle: '현장을 아는 팀이 만든<br>솔루션, 산업 AI',
@@ -278,6 +278,36 @@ const alternates = [
     padding: 244px 0 100px;
     background: none; border-bottom: none;
   }
+  /* '현장'에만 브랜드 빛을 둔다 — 메인 히어로의 .hero-title-accent 와 같은 처리다.
+     발밑 바깥에서 올라오는 작은 원이라 글자 윗부분은 제 색 그대로이고 아래쪽만
+     브랜드색으로 번진다. 가장 바깥 색(#16202C)이 대제목 색과 같아 경계가 없다.
+     ⚠️ 순서를 지킨다 — background 단축 속성이 background-clip 을 초기화하므로
+        clip 은 반드시 background 뒤에 온다.
+     ⚠️ 반지름은 em 이다. 대제목이 clamp 로 36~60px 을 오가므로 px 로 두면 좁은
+        화면에서 빛이 글자를 통째로 덮는다.
+     ⚠️ line-height 1 로 상자를 글자에 맞추고 아래로 0.25em 을 더한다. 그냥 1 만
+        두면 상자가 글자 높이에 딱 맞아 받침 아래가 잘린다(background-clip:text 는
+        상자 안에서만 칠한다). 0.25em 이면 대제목 줄 높이(1.25)와 같아진다.
+     ⚠️ 가로 중심 50% — 메인은 여섯 글자짜리 낱말이라 60% 였지만 여기는 두 글자라
+        가운데가 맞다. 세로 82% 는 메인과 같은 값이다. */
+  /* ⚠️ :global 이다. set:html 로 넣은 글에는 Astro 스코프 속성이 붙지 않아
+     .cmp-title-accent 로만 쓰면 규칙이 통째로 빗나간다(RfIcon 과 같은 건이다). */
+  .cmp-hero h1 :global(.cmp-title-accent) {
+    display: inline-block;
+    line-height: 1;
+    padding-bottom: 0.25em;
+    background: radial-gradient(
+      circle 1.2em at 50% 82%,
+      #76A6D7 0%,
+      #4A7FA8 38%,
+      #22303F 72%,
+      #16202C 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   /* 소제목 자리를 산업별 히어로와 같게 둔다 — 대제목 아랫줄 오른쪽 칸이다.
      저쪽은 태그라인이 1줄 · 대제목 2줄 · 소제목 3줄인데, 이 페이지는 태그라인이
      없어 두 줄짜리 격자가 된다. 칸 구성 · 칸 사이 48px · 줄 사이 0 은 같은 값이다.
