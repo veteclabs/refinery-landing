@@ -16,26 +16,70 @@ const RULE_ICONS = ['rule-field', 'rule-build', 'rule-context'];
 
 const SITE = 'https://refinery.kr';
 
-// 무대 장면 — public/company-story/. 히어로 아래 한 장(scene-0)과 무대 다섯 줄이
+// 무대 장면 — public/company-story/. 히어로 아래 한 장(0)과 무대 다섯 줄(1~5)이
 // 한 벌이다. 그림마다 파란 큐브가 빠져 있고, cube.webp 를 스크롤로 옮겨 끼운다.
-//   cx · cs  그림 폭에 대한 비율(큐브가 들어갈 가로 위치 · 큐브 크기)
-//   cy       같은 자리의 세로 위치. 폭 기준이라 그림이 줄어도 비율이 안 틀어진다.
-// CSS top 은 높이 기준이라 cy 를 높이 백분율(--cyh)로 환산해 넘긴다.
-const SCENES = {
-  // 값은 public/company-story/meta.json 의 0 번에서 뽑았다 —
-  //   cx = ax/w · cy = ay/w · cs = k x 350(큐브 원본 폭) / w.
-  //   preview.html 의 큐브 크기 74.1(900px 로 놓았을 때)과도 맞는다.
-  hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0939, cy: 0.4178, cs: 0.0823 },
-  rows: [
-    { file: 'scene-1-team.webp',         w: 1404, h: 883, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
-    { file: 'scene-2-30years.webp',      w: 1398, h: 979, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
-    { file: 'scene-3-100sites.webp',     w: 1406, h: 738,     cx: 0.6485, cy: 0.2603, cs: 0.0510 },
-    { file: 'scene-4-20industries.webp', w: 1404, h: 620,     cx: 0.5000, cy: 0.1735, cs: 0.0649 },
-    { file: 'scene-5-refinery.webp',     w: 1404, h: 719, cx: 0.5000, cy: 0.0638, cs: 0.1697 },
-  ],
+//
+// ⚠️ 자리값은 손으로 적지 않는다. public/company-story/meta.json 이 정본이고
+//    여기서 그대로 읽는다 — 그림을 다시 뽑을 때 meta.json 만 갈면 따라온다.
+//    한때 숫자를 베껴 적어 뒀다가 그림이 바뀌자 캔버스 크기부터 어긋났다.
+//
+//    meta 의 ax · ay 는 그림 원본 픽셀 기준의 큐브 자리, k 는 큐브 원본 폭(350px)에
+//    대한 배율이다. 아래에서 폭에 대한 비율로 바꾼다 —
+//      cx = ax / w · cy = ay / w · cs = k x 350 / w
+//    cy 를 높이가 아니라 폭으로 나누는 건, 그림이 줄어도 비율이 안 틀어지게 하기
+//    위해서다(CSS top 은 높이 기준이라 sceneVars 가 --cyh 로 환산한다).
+import sceneMeta from '../../public/company-story/meta.json';
+import { readFileSync } from 'node:fs';
+
+const CUBE_W = 350;   // cube.webp 원본 폭
+const SCENE_FILES = [
+  'scene-0-site.webp',
+  'scene-1-team.webp',
+  'scene-2-30years.webp',
+  'scene-3-100sites.webp',
+  'scene-4-20industries.webp',
+  'scene-5-refinery.webp',
+];
+
+/* 파일에 적힌 실제 캔버스 크기를 읽는다(WebP VP8X 헤더).
+   meta.json 과 맞는지 보려는 것이다 — 그림을 다시 뽑는 사이에 둘이 어긋나면
+   큐브가 엉뚱한 자리에 박힌다. */
+function webpSize(name: string) {
+  /* ⚠️ import.meta.url 은 빌드 때 dist 안을 가리킨다 — 프로젝트 뿌리에서 찾는다. */
+  const buf = readFileSync(process.cwd() + '/public/company-story/' + name);
+  if (buf.subarray(0, 4).toString() !== 'RIFF' || buf.subarray(12, 16).toString() !== 'VP8X') return null;
+  return { w: buf.readUIntLE(24, 3) + 1, h: buf.readUIntLE(27, 3) + 1 };
+}
+
+/* 그림이 바뀌기 전에 눈으로 맞춰 둔 값. meta 와 파일이 어긋날 때만 쓴다. */
+const FALLBACK: Record<string, { cx: number; cy: number; cs: number }> = {
+  '1': { cx: 0.2565, cy: 0.1177, cs: 0.1563 },
+  '2': { cx: 0.5065, cy: -0.0217, cs: 0.2074 },
+  '3': { cx: 0.6485, cy: 0.2603, cs: 0.0510 },
+  '4': { cx: 0.5000, cy: 0.1735, cs: 0.0649 },
+  '5': { cx: 0.5000, cy: 0.0638, cs: 0.1697 },
 };
-const sceneVars = (sc) =>
-  `--cx:${sc.cx};--cyh:${(sc.cy * sc.w / sc.h).toFixed(4)};--cs:${sc.cs}`;
+
+const scene = (i: number) => {
+  const key = String(i);
+  const m = (sceneMeta as Record<string, { w: number; h: number; ax: number; ay: number; k: number }>)[key];
+  const file = SCENE_FILES[i];
+  const real = webpSize(file) ?? { w: m.w, h: m.h };
+  const fits = real.w === m.w && real.h === m.h;
+  const a = fits
+    ? { cx: m.ax / m.w, cy: m.ay / m.w, cs: (m.k * CUBE_W) / m.w }
+    : (FALLBACK[key] ?? { cx: m.ax / m.w, cy: m.ay / m.w, cs: (m.k * CUBE_W) / m.w });
+  if (!fits) {
+    console.warn(
+      `[company-story] ${file} 는 ${real.w}x${real.h} 인데 meta.json 은 ${m.w}x${m.h} 다 — ` +
+      '그림을 meta 크기로 다시 뽑으면 meta 값이 자동으로 쓰인다. 지금은 손으로 맞춰 둔 값을 쓴다.'
+    );
+  }
+  return { file, w: real.w, h: real.h, ...a };
+};
+const SCENES = { hero: scene(0), rows: [scene(1), scene(2), scene(3), scene(4), scene(5)] };
+const sceneVars = (sc: { w: number; h: number; cx: number; cy: number; cs: number }) =>
+  `--cx:${sc.cx.toFixed(4)};--cyh:${((sc.cy * sc.w) / sc.h).toFixed(4)};--cs:${sc.cs.toFixed(4)}`;
 
 // ⚠️ 회사 세부 사실(설립연도·조직 규모·수상 등)은 실제 정보로 확인·보완 필요.
 const T = {
