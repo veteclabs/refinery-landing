@@ -23,13 +23,13 @@ const SITE = 'https://refinery.kr';
 //   rel      가운데 칸을 얼마나 채울지. 그림마다 원근이 달라 폭을 따로 쥔다.
 // CSS top 은 높이 기준이라 cy 를 높이 백분율(--cyh)로 환산해 넘긴다.
 const SCENES = {
-  hero:  { file: 'scene-0-site.webp',          w: 609, h: 316, cx: 0.0953, cy: 0.4188, cs: 0.1183 },
+  hero:  { file: 'scene-0-site.webp',          w: 1931, h: 997, cx: 0.0944, cy: 0.4178, cs: 0.1131 },
   rows: [
-    { file: 'scene-1-team.webp',        w: 441, h: 278, rel: 0.909, cx: 0.2583, cy: 0.1183, cs: 0.1633 },
-    { file: 'scene-2-30years.webp',     w: 334, h: 233, rel: 0.697, cx: 0.5065, cy: -0.0217, cs: 0.2157 },
-    { file: 'scene-3-100sites.webp',    w: 796, h: 418, rel: 1,     cx: 0.6470, cy: 0.2621, cs: 0.0533 },
-    { file: 'scene-4-20industries.webp',w: 784, h: 347, rel: 1,     cx: 0.5000, cy: 0.1742, cs: 0.0677 },
-    { file: 'scene-5-refinery.webp',    w: 782, h: 401, rel: 0.848, cx: 0.5000, cy: 0.0643, cs: 0.1773 },
+    { file: 'scene-1-team.webp',         w: 1404, h: 883, rel: 0.912, cx: 0.2565, cy: 0.1177, cs: 0.1563 },
+    { file: 'scene-2-30years.webp',      w: 1398, h: 979, rel: 0.676, cx: 0.5065, cy: -0.0217, cs: 0.2074 },
+    { file: 'scene-3-100sites.webp',     w: 1406, h: 738, rel: 1,     cx: 0.6485, cy: 0.2603, cs: 0.0510 },
+    { file: 'scene-4-20industries.webp', w: 1404, h: 620, rel: 1,     cx: 0.5000, cy: 0.1735, cs: 0.0649 },
+    { file: 'scene-5-refinery.webp',     w: 1404, h: 719, rel: 0.853, cx: 0.5000, cy: 0.0638, cs: 0.1697 },
   ],
 };
 const sceneVars = (sc) =>
@@ -46,10 +46,8 @@ const T = {
     /* 한 줄로 둔다. 1440px 에서 613px 짜리 한 줄이다 — 폭이 좁아지면 글자가
        함께 줄어들어(clamp 36~60px) 390px 까지 한 줄을 지킨다. */
     h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-l2"><span class="cmp-title-accent">floor</span> up</span>',
-    lede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
-    storyTag: '회사 소개',
     storyTitle: '현장 바닥에서<br>올라온 산업 AI',
-    storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
+    storyLede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
     stats: [
       { num: '30년+', label: '산업 현장에서 쌓은 <span class="cmp-stat-hl">경험</span>', icon: 'stat-experience' },
@@ -72,10 +70,8 @@ const T = {
     canonical: '/en/company',
     jsonLdName: 'About | Refinery',
     h1: 'Hello, we’re Refinery',
-    lede: '<span translate="no">Refinery</span> is built on more than 30 years of experience VETEC gathered on industrial sites. Our developers have worked across many industrial sites, and we define and solve problems in the language of the site.',
-    storyTag: 'About us',
     storyTitle: 'Industrial AI,<br>from the floor up.',
-    storyLede: 'We do not build flashy tech demos.<br>We build what actually works on site.',
+    storyLede: '<span translate="no">Refinery</span> is built on more than 30 years of experience VETEC gathered on industrial sites. Our developers have worked across many industrial sites, and we define and solve problems in the language of the site.',
     storySig: 'A product built by VETEC, 30 years in the field',
     stats: [
       { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: 'stat-experience' },
@@ -128,18 +124,16 @@ const alternates = [
         소제목만 둔다. 태그라인·배경 이미지는 두지 않는다. */}
     <section class="ind-hero cmp-hero">
       <div class="ind-container">
-        {/* 산업별 히어로(.ind-hero-bg .ind-hero-row)와 같은 격자다 — 대제목이
-            두 칸을 쓰고, 소제목은 그 아랫줄 오른쪽 칸에 선다. */}
+        {/* 대제목 한 덩어리만 둔다 — 소제목은 걷고, 그 문구는 무대 첫 글로 내렸다. */}
         <div class="cmp-hero-row">
           <h1 set:html={T.h1}></h1>
-          <p class="ind-lede" set:html={T.lede}></p>
         </div>
         {/* 제목 아래 플랜트 현장 — 무대로 이어지는 첫 장면이다. 큐브가 여기서 출발한다. */}
         <div class="cmp-scene cmp-scene-hero" style={sceneVars(SCENES.hero)} aria-hidden="true">
           <img class="cmp-scene-art" src={`/company-story/${SCENES.hero.file}`} alt=""
                width={SCENES.hero.w} height={SCENES.hero.h} decoding="async" />
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
-               width="72" height="77" decoding="async" />
+               width="350" height="385" decoding="async" />
         </div>
       </div>
     </section>
@@ -152,10 +146,9 @@ const alternates = [
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[0].file}`} alt=""
                width={SCENES.rows[0].w} height={SCENES.rows[0].h} loading="lazy" decoding="async" />
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
-               width="72" height="77" loading="lazy" decoding="async" />
+               width="350" height="385" loading="lazy" decoding="async" />
         </div>
         <div class="cmp-stage-item cmp-stage-l" data-row="1">
-          <p class="cmp-story-tag">{T.storyTag}</p>
           <h2 set:html={T.storyTitle}></h2>
           <p class="cmp-story-lede" set:html={T.storyLede}></p>
         </div>
@@ -166,7 +159,7 @@ const alternates = [
               <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[i + 1].file}`} alt=""
                    width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
-                   width="72" height="77" loading="lazy" decoding="async" />
+                   width="350" height="385" loading="lazy" decoding="async" />
             </div>
             <div class={`cmp-stage-item ${i % 2 === 0 ? 'cmp-stage-r' : 'cmp-stage-l'}`} data-row={i + 2}>
               <div class="cmp-stat-num">{st.num}</div>
@@ -179,7 +172,7 @@ const alternates = [
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[4].file}`} alt=""
                width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
-               width="72" height="77" loading="lazy" decoding="async" />
+               width="350" height="385" loading="lazy" decoding="async" />
         </div>
         <p class="cmp-stage-item cmp-stage-r cmp-story-sig" data-row="5">{T.storySig}</p>
       </div>
@@ -220,7 +213,7 @@ const alternates = [
     {/* 장면 사이를 옮겨 다니는 큐브. 각 그림에는 큐브가 빠져 있고 이 하나가 끼워진다.
         동작 줄이기에서는 이쪽을 숨기고 그림마다 박힌 .cmp-scene-cube 가 대신 선다. */}
     <img class="cmp-cube" src="/company-story/cube.webp" alt="" aria-hidden="true"
-         width="72" height="77" decoding="async" />
+         width="350" height="385" decoding="async" />
   </main>
   <Footer />
 
@@ -257,7 +250,8 @@ const alternates = [
 
     // 무대 — 글과 그림이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
     (function () {
-      var items = document.querySelectorAll('.cmp-stage-item, .cmp-scene');
+      // 히어로 그림(.cmp-scene-hero)은 첫 화면에 이미 서 있으므로 뺀다.
+      var items = document.querySelectorAll('.cmp-stage-item, .cmp-stage .cmp-scene');
       if (!items.length) return;
       if (!('IntersectionObserver' in window) ||
           matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -334,12 +328,12 @@ const alternates = [
         var x = A[0].x, y = A[0].y, s = A[0].s, rot = 0;
         for (var i = 0; i < A.length - 1; i++) {
           var a = A[i], b = A[i + 1], span = b.y - a.y;
-          // 자리마다 잠깐 머문다 — 앞뒤로 구간의 10% 남짓을 비워 둔다.
-          var y0 = a.y + span * 0.12, y1 = b.y - span * 0.10;
+          // 자리마다 머문다 — 앞쪽 20% · 뒤쪽 10% 를 비워 둔다(초안과 같은 값).
+          var y0 = a.y + span * 0.20, y1 = b.y - span * 0.10;
           if (mid <= y0) break;
           var t = Math.min(1, (mid - y0) / Math.max(1, y1 - y0)), e = ease(t);
           x = a.x + (b.x - a.x) * e;
-          y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * span * 0.14;
+          y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * Math.min(span * 0.14, 80);
           s = a.s + (b.s - a.s) * e;
           rot = Math.sin(Math.PI * e) * 90 * (i % 2 ? -1 : 1);
           if (t < 1) break;
@@ -347,8 +341,8 @@ const alternates = [
         cube.style.width = s.toFixed(1) + 'px';
         cube.style.transform = 'translate(' + (x - s / 2).toFixed(1) + 'px,' +
                                (y - s * 0.54).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
-        // 첫 장면이 뜨기 전에는 큐브도 나오지 않는다 — 빈 자리에 혼자 떠 있지 않게.
-        if (!lit && F[0].el.classList.contains('is-in')) { lit = true; cube.classList.add('is-on'); }
+        // 첫 장면(히어로 그림)은 늘 떠 있으므로 큐브도 바로 켠다.
+        if (!lit) { lit = true; cube.classList.add('is-on'); }
       }
       function onScroll() {
         if (ticking) return;
@@ -386,13 +380,11 @@ const alternates = [
      min-height: 100vh를 쓰지만, 여기는 글만 있어 그 값은 가져오지 않는다
      (빈 자리가 화면 하나만큼 생긴다). */
   .cmp-hero {
-    /* 위 244px — 산업별(솔루션) 히어로와 대제목 글자 윗변이 같은 자리에 오도록
-       맞춘 값이다. 저쪽은 섹션 위 180px 에 태그라인과 그 아래 여백이 더해져
-       대제목 글자가 254px 에서 시작하는데, 이 페이지는 태그라인이 없어 200px
-       이면 210px 에서 시작했다.
-       ⚠️ 900px 이하도 같은 식으로 맞춘다(저쪽 216px · 여기 140px -> 208px).
-       ⚠️ 대제목 크기나 태그라인 자리가 바뀌면 다시 잰다. */
-    padding: 244px 0 100px;
+    /* 대제목과 그래픽이 한 화면에 함께 서야 한다 — 그래서 위 여백을 고정값이
+       아니라 화면 높이로 잡는다. 전에는 244px 고정이라 1440x900 에서 그림이
+       105px, 1280x800 에서 225px 잘렸다.
+       17vh: 780px 화면에서 133px · 900px 에서 153px · 1050px 에서 179px. */
+    padding: clamp(120px, 17vh, 200px) 0 clamp(48px, 7vh, 80px);
     background: none; border-bottom: none;
   }
   /* '현장'에만 브랜드 빛을 둔다 — 메인 히어로의 .hero-title-accent 와 같은 처리다.
@@ -461,13 +453,6 @@ const alternates = [
   }
   /* width: fit-content 라 justify-self 가 없으면 왼쪽에 붙는다. */
   .cmp-hero .cmp-hero-row h1 { grid-row: 1; justify-self: center; }
-  .cmp-hero .cmp-hero-row .ind-lede {
-    grid-row: 2; justify-self: center; text-align: center;
-    /* 대제목 끝 줄(작은 국문)에서 18px 띄운다 — 줄상자 여유까지 더하면 눈에는
-       30px 쯤이다. 산업별 히어로의 7.2px 을 따르던 값(-1.8px)은 소제목이 대제목
-       오른쪽 칸에 있을 때 이야기였고, 가운데로 내려온 지금은 너무 붙는다. */
-    margin-top: 18px;
-  }
   .cmp-hero h1 {
     /* 아래 0 — 솔루션 히어로는 대제목 글자 아랫변에서 소제목 글자 윗변까지가
        19px 이다(1600 · 1440 · 1280 · 1201px 모두). 35px 이면 54px 이 됐다.
@@ -503,30 +488,7 @@ const alternates = [
     word-break: keep-all;
     overflow-wrap: break-word;
   }
-  /* 소제목은 솔루션(산업별) 히어로의 .ind-lede 와 같은 값이다 — 18px / 400 /
-     행간 1.5 / --text-muted. 대제목을 메인에 맞출 때 메인 소제목 값
-     (16 / 300 / #5A6776)으로 갔다가 되돌린 자리다.
-     ⚠️ 900px 이하는 저쪽과 같이 16px 로 내린다.
-     ⚠️ 칸 폭(960px)은 그대로 둔다. 글자값을 맞추는 것이지 자리를 옮기는
-        작업이 아니다(저쪽은 600px 이고 이 페이지는 글이 길다). */
-  .cmp-hero .ind-lede {
-    font-size: 18px; font-weight: 400; line-height: 1.5;
-    color: var(--text-muted); max-width: 620px; margin: 0;
-  }
-  @media (max-width: 1100px) {
-    /* 대제목 아랫변은 영문 줄이 정한다 — 그 밑선 기준으로 저쪽(26px)에 맞춘다. */
-    .cmp-hero h1 { margin-bottom: 17px; }
-    /* 좁은 폭에서도 가운데 정렬은 그대로다 — 폭만 저쪽과 같은 600px 로 줄인다.
-       ⚠️ 소제목에 위 여백을 주지 않는다 — 대제목이 이미 아래 margin 을 쥐고 있다. */
-    .cmp-hero .cmp-hero-row .ind-lede { max-width: 600px; margin-top: 0; }
-  }
-  @media (max-width: 900px) {
-    .cmp-hero { padding: 208px 0 72px; }
-    /* 대제목이 작아지는 만큼 줄상자 여유도 줄어 1100px 값(17px)이면 좁다. */
-    .cmp-hero h1 { margin-bottom: 19px; }
-    /* 솔루션 히어로는 900px 이하에서 소제목을 16px 로 내린다 — 같은 값이다. */
-    .cmp-hero .ind-lede { font-size: 16px; }
-  }
+
 
   /* ───────── 섹션 여백·제목 — /why-refinery(플랫폼 개요)와 같은 값 ─────────
      공통값은 섹션 84px · 대제목 clamp(26,3.4vw,38)/650/-0.02em/1.25 ·
@@ -649,7 +611,7 @@ const alternates = [
           (1.2px 일 때 0.6px 밀려 padding-left 로 보정했던 자리다). 숫자 한 글자라
           아래 -0.2px 을 그대로 쓴다. */
     font-size: 15px; font-weight: 600; line-height: 1;
-    /* 자간은 회사 소개 섹션 태그라인(.cmp-story-tag)과 같은 -0.2px.
+    /* 자간은 -0.2px — 사이트 공통값이다.
        값이 작아 한 글자 뒤에 붙는 여백도 -0.1px 수준이라 되밀 필요가 없다. */
     /* 흰색 유지. #3f76ae를 시도했으나 그 4.71:1은 흰 배경 기준 값이었고,
        실제 바탕인 #76A6D7 위에서는 1.86:1로 흰색(2.56:1)보다 낮았다. */
@@ -758,7 +720,7 @@ const alternates = [
   .cmp-scene {
     position: relative;
     width: calc(var(--rel, 1) * 100%);
-    max-width: 620px;
+    max-width: 680px;
     margin-inline: auto;
     /* 글과 같은 등장 — 아래에서 떠오른다. */
     opacity: 0; transform: translateY(20px);
@@ -778,7 +740,20 @@ const alternates = [
     opacity: 0;
   }
   /* 히어로 아래 한 장 — 가운데에 두고 폭만 잡는다. */
-  .cmp-scene-hero { width: min(620px, 100%); margin: 44px auto 0; }
+  /* 초안에서 1425px 페이지에 900px 로 놓였다 — 무대 그림들보다 눈에 띄게 크다.
+     다만 대제목과 한 화면에 서야 하므로 남는 높이로 폭을 묶는다. 그림 비율이
+     1931:997(=1.93:1)이라 '남는 높이 x 1.93' 이 들어갈 수 있는 최대 폭이다.
+     빼는 500px = 내비 70 + 대제목 252 + 위아래 여백. 여유를 40px 남겼다.
+     ⚠️ 큐브 자리는 이 상자의 비율로 잡히므로, 상자가 곧 그림이어야 한다 —
+        그림에 max-height 를 걸어 상자와 어긋나게 하면 큐브가 빗나간다. */
+  .cmp-scene-hero {
+    /* 무대 그림들의 상한(680px)은 여기에 걸지 않는다 — 히어로는 더 크다. */
+    max-width: none;
+    width: min(900px, 100%, calc((100vh - 500px) * 1.93));
+    margin: 32px auto 0;
+    /* 첫 화면에 제목과 함께 서야 하므로 등장 모션에서 빼 둔다. */
+    opacity: 1; transform: none;
+  }
 
   /* 옮겨 다니는 큐브. 위치 · 크기는 스크립트가 매 프레임 쓴다. */
   .cmp-cube {
@@ -816,10 +791,6 @@ const alternates = [
   .cmp-stage-grid > [data-row="4"] { grid-row: 4; }
   .cmp-stage-grid > [data-row="5"] { grid-row: 5; }
 
-  .cmp-page .cmp-stage .cmp-story-tag {
-    font-size: 18px; font-weight: 600; line-height: 1.65;
-    letter-spacing: -0.2px; color: #76a6d7; margin: 0 0 14px;
-  }
   .cmp-stage h2 {
     margin: 0; color: var(--text);
     font-size: clamp(28px, 4vw, 45px); font-weight: 600;
