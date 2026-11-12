@@ -25,10 +25,10 @@ const T = {
     jsonLdName: '회사 소개 | Refinery',
     /* 한 줄로 둔다. 1440px 에서 613px 짜리 한 줄이다 — 폭이 좁아지면 글자가
        함께 줄어들어(clamp 36~60px) 390px 까지 한 줄을 지킨다. */
-    h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-ko">현장 바닥에서<br>올라온 산업 AI</span><span class="cmp-title-l2"><span class="cmp-title-accent">floor</span> up</span>',
+    h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-l2"><span class="cmp-title-accent">floor</span> up</span>',
     lede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     storyTag: '회사 소개',
-    storyTitle: '현장을 아는 팀이 만든<br>솔루션, 산업 AI',
+    storyTitle: '현장 바닥에서<br>올라온 산업 AI',
     storyLede: '화려한 기술 데모는 만들지 않습니다.<br>현장에서 실제로 통하는 방식을 만듭니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
     stats: [
@@ -38,6 +38,8 @@ const T = {
     ],
     principlesTitle: '일하는 세 가지 기준',
     principlesSub: '현장에서 확인한 것만 제품에 넣습니다.',
+    outro: '현장의 문제를 함께 보실 분은 언제든 연락 주세요.',
+    outroCta: '문의하기', contactHref: '/contact',
     principles: [
       { title: '현장에서 나온 문제', description: '이론에서 시작하지 않습니다.<br>멈춘 설비 앞에서 시작합니다.' },
       { title: '얹거나, 새로 세우거나', description: '쓰던 시스템을 걷어내지 않습니다.<br>그 위에 얹거나, 없으면 세웁니다.' },
@@ -52,7 +54,7 @@ const T = {
     h1: 'Hello, we’re Refinery',
     lede: '<span translate="no">Refinery</span> is built on more than 30 years of experience VETEC gathered on industrial sites. Our developers have worked across many industrial sites, and we define and solve problems in the language of the site.',
     storyTag: 'About us',
-    storyTitle: 'Industrial AI, built<br>by a team from the floor.',
+    storyTitle: 'Industrial AI,<br>from the floor up.',
     storyLede: 'We do not build flashy tech demos.<br>We build what actually works on site.',
     storySig: 'A product built by VETEC, 30 years in the field',
     stats: [
@@ -62,6 +64,8 @@ const T = {
     ],
     principlesTitle: 'Three standards we work by',
     principlesSub: 'Only what we have confirmed on site goes into the product.',
+    outro: 'If you would like us to look at your site together, get in touch.',
+    outroCta: 'Contact', contactHref: '/en/contact',
     principles: [
       { title: 'Problems from the field', description: 'We do not start from theory.<br>We start at the machine that stopped.' },
       { title: 'Layer on, or build new', description: 'We do not tear out what you already run.<br>We layer on top, or build from scratch.' },
@@ -159,6 +163,12 @@ const alternates = [
             </li>
           ))}
         </ol>
+        {/* 맺음 — 큰 CTA 판 대신 한 줄로 닫는다. 카드에서 바로 푸터로 떨어지면
+            읽다 만 느낌이 난다. */}
+        <p class="cmp-outro">
+          {T.outro}{' '}
+          <a href={T.contactHref}>{T.outroCta} →</a>
+        </p>
       </div>
     </section>
   </main>
@@ -297,9 +307,10 @@ const alternates = [
     font-size: clamp(52px, 8vw, 100px);
     line-height: 1.1;
   }
-  /* 첫 줄은 두 칸에 걸쳐 왼쪽 끝에서 시작한다. */
-  .cmp-hero h1 :global(.cmp-title-l1) { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
-  .cmp-hero h1 :global(.cmp-title-l2) { grid-column: 2; grid-row: 2; }
+  .cmp-hero h1 :global(.cmp-title-l1) { grid-row: 1; }
+  /* ⚠️ 미는 값은 em 이다 — 글자가 clamp 로 52~100px 을 오가므로 px 로 두면
+     좁은 화면에서 어긋남이 과해진다. */
+  .cmp-hero h1 :global(.cmp-title-l2) { grid-row: 2; margin-left: 2.2em; }
   /* 국문은 'floor up' 오른쪽에 작게 두 줄로 선다. 두 덩이를 inline-block 으로
      두 칸 격자로 두고 아랫변을 맞춘다(align-items: end).
      ⚠️ inline-block + vertical-align: baseline 으로 맞추면 줄상자가 두 덩이의
@@ -308,15 +319,6 @@ const alternates = [
      ⚠️ 아랫변을 맞추면 두 글의 밑선은 조금 어긋난다. 국문 쪽을 margin-bottom
         으로 끌어올려 맞춘다(아래 값).
      ⚠️ :global — 대제목은 set:html 로 넣어 Astro 스코프 속성이 붙지 않는다. */
-  .cmp-hero h1 :global(.cmp-title-ko) {
-    grid-column: 1; grid-row: 2; align-self: end; justify-self: start;
-    font-size: clamp(13px, 1.45vw, 20px);
-    line-height: 1.5;
-    letter-spacing: -0.02em;
-    /* 'floor up' 의 밑선 쯤에 앉힌다 — 아랫변끼리 맞추면 큰 글자의 밑선 아래
-       여유만큼 국문이 내려앉는다. */
-    margin-bottom: 0.9em;
-  }
   /* ⚠️ :global 이다. set:html 로 넣은 글에는 Astro 스코프 속성이 붙지 않아
      .cmp-title-accent 로만 쓰면 규칙이 통째로 빗나간다(RfIcon 과 같은 건이다). */
   .cmp-hero h1 :global(.cmp-title-accent) {
@@ -379,13 +381,11 @@ const alternates = [
     color: #16202C;
     padding: 0.1em 0;
     width: fit-content;
-    /* 두 칸 격자다.
-         1줄  From the (두 칸에 걸친다)
-         2줄  국문 두 줄 | floor up
-       둘째 줄이 오른쪽으로 물러난 만큼 왼쪽에 빈 자리가 생기는데, 그 자리에
-       국문을 작게 넣는다. 덩이 전체는 화면 가운데에 선다. */
-    display: grid; grid-template-columns: auto auto;
-    justify-content: center; column-gap: 40px; row-gap: 0;
+    /* 두 줄을 어긋나게 둔다 — 첫 줄은 왼쪽 끝, 둘째 줄은 2.2em 오른쪽으로
+       물러난다. 덩이 폭은 둘째 줄 끝까지로 잡히고, 그 덩이가 통째로 화면
+       가운데에 선다. */
+    display: grid; grid-template-columns: auto;
+    justify-content: center; justify-items: start; row-gap: 0;
     text-align: left;
     word-break: keep-all;
     overflow-wrap: break-word;
@@ -582,6 +582,22 @@ const alternates = [
     .cmp-rule { grid-template-columns: 1fr; }
   }
 
+  /* 맺음 한 줄 — 카드 아래 가운데. */
+  .cmp-outro {
+    margin: 72px 0 0; text-align: center;
+    font-size: 18px; line-height: 1.7; color: var(--text-muted);
+    word-break: keep-all;
+  }
+  .cmp-outro a {
+    color: var(--text); font-weight: 600; text-decoration: none;
+    border-bottom: 1px solid var(--border); padding-bottom: 2px;
+    transition: border-color .2s, color .2s;
+  }
+  .cmp-outro a:hover { color: #3f76ae; border-bottom-color: #76a6d7; }
+  @media (max-width: 900px) {
+    .cmp-outro { margin-top: 48px; font-size: 16px; }
+  }
+
   /* ───────── 뭉쳤다 펼쳐지는 줄 (.cmp-spread) ─────────
      한 줄에 선 카드 셋이 처음에는 가운데로 모여 오른쪽 · 아래로 한 칸씩
      어긋난 채 포개져 있다가, 스크롤하면 제자리로 펼쳐진다(--spread 0→1).
@@ -612,7 +628,9 @@ const alternates = [
      한 줄씩 번갈아 놓인다. 줄마다 높이를 크게 줘서 스크롤하는 동안 하나씩
      화면에 들어온다.
      ⚠️ 그래픽은 아직 회색 판이다. 이미지를 받으면 .cmp-stage-art 안을 바꾼다. */
-  .cmp-stage { padding: 60px 0 130px; }
+  /* 아래 여백은 두지 않는다 — 마지막 줄(40vh)이 글 아래로 이미 여유를 남기고,
+     다음 섹션이 위로 180px 을 쥔다. 130px 을 더 두면 화면 하나가 비었다. */
+  .cmp-stage { padding: 60px 0 0; }
   .cmp-stage-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) min(40vw, 520px) minmax(0, 1fr);
@@ -630,7 +648,8 @@ const alternates = [
   }
   /* 글 한 줄 — 높이를 화면의 절반쯤으로 줘 스크롤하는 동안 하나씩 들어온다. */
   .cmp-stage-item {
-    min-height: 56vh;
+    /* 한 줄이 화면 들어올 만큼만 — 수치는 한 줄짜리라 56vh 는 과했다. */
+    min-height: 40vh;
     display: flex; flex-direction: column; justify-content: center;
     /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
        들어오므로 가로로도 움직인다. */
