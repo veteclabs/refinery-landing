@@ -369,6 +369,13 @@ const alternates = [
      플랫폼 개요(.wr-page)·예지보전 등이 쓰는 값(1280/48)과 같다.
      .cmp-page 스코프라 .ind-container를 쓰는 다른 페이지에는 영향이 없다. */
   .cmp-page .ind-container { max-width: 1600px; padding: 0 48px; }
+  /* 무대만 띠를 좁힌다 — 그림 바깥 끝이 이 띠 끝에 붙으므로, 띠가 헤더 내용
+     너비와 같으면 그림이 화면 끝까지 닿아 보인다.
+     값은 메인 히어로의 기본 모습(--hero-p = 0)에서 카피가 서는 띠와 같다 —
+     저쪽 max-width 가 calc(1600 - 48*2 - 200) = 1304px 이고, 1440px 화면에서
+     68 ~ 1372 에 선다. 여기서는 패딩 48 을 그대로 쓰므로 1400 이 같은 값이다.
+     ⚠️ 저쪽은 스크롤하면 그래픽이 자라며 띠가 바뀐다. 맞추는 건 기본 모습뿐이다. */
+  .cmp-page .cmp-stage .ind-container { max-width: 1400px; }
   @media (max-width: 900px) {
     .cmp-page .ind-container { padding: 0 24px; }
   }
@@ -726,7 +733,12 @@ const alternates = [
         1440px 에서 양 끝이 36px 씩 들어온다. */
   .cmp-scene-l { grid-column: 1; }
   .cmp-scene-r { grid-column: 2; }
-  .cmp-stage .cmp-scene { max-width: 560px; }
+  /* 바깥 끝을 무대 띠 끝에 붙인다 — 왼쪽 칸이면 왼쪽 끝, 오른쪽 칸이면 오른쪽 끝.
+     가운데 정렬로 두면 그림이 칸 안에서 떠 글(.cmp-stage-l/-r 도 바깥에 붙는다)과
+     바깥선이 어긋난다(실측 36px). 다섯 장이 같은 폭이고 칸을 꽉 채운다. */
+  .cmp-stage .cmp-scene { margin-inline: 0; }
+  .cmp-stage .cmp-scene-l { justify-self: start; }
+  .cmp-stage .cmp-scene-r { justify-self: end; }
   .cmp-scene {
     position: relative;
     width: 100%;
@@ -816,7 +828,8 @@ const alternates = [
     color: var(--text-muted); word-break: keep-all;
   }
   @media (max-width: 900px) {
-    .cmp-stage .cmp-story-lede, .cmp-stage .cmp-story-sig { font-size: 16px; }
+    .cmp-stage .cmp-story-lede, .cmp-stage .cmp-story-sig,
+    .cmp-stage .cmp-stat-label { font-size: 16px; }
   }
   /* 좁은 폭에서는 세 칸을 풀고 그래픽을 맨 위에 한 번만 둔다 — 붙여 두면
      화면 절반을 그래픽이 차지해 글이 들어올 자리가 없다. */
@@ -826,12 +839,15 @@ const alternates = [
     .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; justify-self: start; }
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
-    .cmp-stage .cmp-scene { max-width: min(440px, 100%); }
+    .cmp-stage .cmp-scene { max-width: min(440px, 100%); margin-inline: 0; }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
   .cmp-stat-num { font-size: clamp(40px, 5.6vw, 80px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
-  .cmp-stat-label { margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--text-muted); word-break: keep-all; }
+  /* 소제목(.cmp-story-lede · .cmp-story-sig)과 같은 값이다 — 18px / 행간 1.7 /
+     --text-muted. 같은 무대 위의 작은 글이라 크기를 따로 둘 이유가 없다.
+     ⚠️ 900px 이하도 저쪽과 함께 16px 로 내린다(아래 미디어쿼리). */
+  .cmp-stat-label { margin-top: 10px; font-size: 18px; line-height: 1.7; color: var(--text-muted); word-break: keep-all; }
   /* ⚠️ label 은 set:html 로 넣어 span 에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
   .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
 </style>
