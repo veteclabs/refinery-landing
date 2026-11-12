@@ -18,17 +18,15 @@ type Lang = 'ko' | 'en';
 export const navMenu: Record<Lang, NavMenu[]> = {
   ko: [
     {
-      label: '솔루션',
+      // 제품이 무엇인지 말하는 자리. 하위 패널 없이 바로 /why-refinery 로 간다.
+      // 솔루션(산업별 · 과제별)은 그 제품을 '어디에' 쓰는지로 쪼갠 축이라 아래에 둔다.
+      label: '플랫폼',
       href: '/why-refinery',
+    },
+    {
+      label: '솔루션',
+      href: '/#industries',
       groups: [
-        {
-          // 제품 본문으로 들어가는 문. 자료실(백서 · 리포트 서랍)에만 있어 들어갈 길이
-          // 사실상 없었다 — 솔루션 패널 맨 앞으로 옮긴다.
-          title: '플랫폼',
-          items: [
-            { label: '플랫폼 개요', href: '/why-refinery' },
-          ],
-        },
         {
           // VETEC이 실제 수행한 100+ 현장의 산업 대분류. 실제 페이지가 있는 곳만 링크, 나머지는 '예정' 배지.
           title: '산업별',
@@ -96,15 +94,13 @@ export const navMenu: Record<Lang, NavMenu[]> = {
   // 한국어와 같은 3축 구조(솔루션·리소스·회사). 영어 페이지가 없는 항목만 Soon 배지다.
   en: [
     {
-      label: 'Solutions',
+      label: 'Platform',
       href: '/en/why-refinery',
+    },
+    {
+      label: 'Solutions',
+      href: '/en#industries',
       groups: [
-        {
-          title: 'Platform',
-          items: [
-            { label: 'Platform overview', href: '/en/why-refinery' },
-          ],
-        },
         {
           title: 'By industry',
           items: [
