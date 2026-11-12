@@ -74,20 +74,12 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       ],
     },
     {
-      label: '회사',
+      // 패널을 열어도 갈 수 있는 곳이 회사 소개 하나뿐이었다(나머지 셋은 '예정').
+      // 한 장을 위해 패널을 여는 값을 못 해 단독 링크로 둔다.
+      // 연혁 · 팀 · 채용 · 뉴스룸 페이지가 생기면 패널을 되살린다.
+      // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
+      label: '회사 소개',
       href: '/company',
-      groups: [
-        {
-          // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
-          title: '회사',
-          items: [
-            { label: '회사 소개', href: '/company', icon: 'buildings', desc: '하는 일과 걸어온 길' },
-            { label: '연혁 ⁠· 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
-            { label: '채용', badge: '예정', icon: 'user-plus', desc: '함께할 동료를 찾습니다' },
-            { label: '뉴스룸', badge: '예정', icon: 'newspaper', desc: '보도자료와 새소식' },
-          ],
-        },
-      ],
     },
   ],
 
@@ -144,19 +136,8 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       ],
     },
     {
-      label: 'Company',
+      label: 'About',
       href: '/en/company',
-      groups: [
-        {
-          title: 'Company',
-          items: [
-            { label: 'About', href: '/en/company', icon: 'buildings', desc: 'What we do and where we came from' },
-            { label: 'History & team', badge: 'Soon', icon: 'users-three', desc: 'Milestones and the people' },
-            { label: 'Careers', badge: 'Soon', icon: 'user-plus', desc: 'Roles we\'re hiring for' },
-            { label: 'Newsroom', badge: 'Soon', icon: 'newspaper', desc: 'Press releases and updates' },
-          ],
-        },
-      ],
     },
   ],
 };
