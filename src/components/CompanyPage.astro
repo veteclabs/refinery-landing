@@ -148,7 +148,7 @@ const alternates = [
         그림 순서는 DOM 순서이기도 하다(큐브가 이 순서로 옮겨 다닌다). */}
     <section class="cmp-stage">
       <div class="ind-container cmp-stage-grid">
-        <div class="cmp-scene" data-row="1" style={sceneVars(SCENES.rows[0])} aria-hidden="true">
+        <div class="cmp-scene cmp-scene-r" data-row="1" style={sceneVars(SCENES.rows[0])} aria-hidden="true">
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[0].file}`} alt=""
                width={SCENES.rows[0].w} height={SCENES.rows[0].h} loading="lazy" decoding="async" />
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
@@ -162,7 +162,7 @@ const alternates = [
 
         {T.stats.map((st, i) => (
           <>
-            <div class="cmp-scene" data-row={i + 2} style={sceneVars(SCENES.rows[i + 1])} aria-hidden="true">
+            <div class={`cmp-scene ${i % 2 === 0 ? 'cmp-scene-l' : 'cmp-scene-r'}`} data-row={i + 2} style={sceneVars(SCENES.rows[i + 1])} aria-hidden="true">
               <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[i + 1].file}`} alt=""
                    width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
@@ -175,7 +175,7 @@ const alternates = [
           </>
         ))}
 
-        <div class="cmp-scene" data-row="5" style={sceneVars(SCENES.rows[4])} aria-hidden="true">
+        <div class="cmp-scene cmp-scene-l" data-row="5" style={sceneVars(SCENES.rows[4])} aria-hidden="true">
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[4].file}`} alt=""
                width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
@@ -255,41 +255,23 @@ const alternates = [
       upd();
     })();
 
-    // 무대 — 글과 그림이 읽는 자리로 올라올 때 떠오른다. 한 번 뜨면 그대로 둔다.
-    // ⚠️ IntersectionObserver 로 상자를 보면 안 된다. 상자는 40vh 인데 글은 그 한가운데라,
-    //    윗변이 화면에 걸리는 순간 글은 아직 화면 맨 아래다 — 눈에 들어올 때는 이미 끝나 있다.
-    //    그래서 상자가 아니라 '글이 실제로 놓인 자리'(상자 한가운데)로 잰다.
+    // 무대 — 글과 그림이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
     (function () {
-      var items = [].slice.call(document.querySelectorAll('.cmp-stage-item, .cmp-scene'));
+      var items = document.querySelectorAll('.cmp-stage-item, .cmp-scene');
       if (!items.length) return;
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (!('IntersectionObserver' in window) ||
+          matchMedia('(prefers-reduced-motion: reduce)').matches) {
         items.forEach(function (el) { el.classList.add('is-in'); });
         return;
       }
-      var left = items.length, ticking = false;
-      function upd() {
-        ticking = false;
-        var vh = window.innerHeight || 800;
-        for (var i = 0; i < items.length; i++) {
-          var el = items[i];
-          if (el.classList.contains('is-in')) continue;
-          var r = el.getBoundingClientRect();
-          // 화면 아래 80% — 다 뜨고 나서도 읽는 자리까지 한참 더 올라온다.
-          if (r.top + r.height / 2 < vh * 0.80) { el.classList.add('is-in'); left--; }
-        }
-        if (left <= 0) {
-          removeEventListener('scroll', onScroll);
-          removeEventListener('resize', onScroll);
-        }
-      }
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(upd);
-      }
-      addEventListener('scroll', onScroll, { passive: true });
-      addEventListener('resize', onScroll);
-      upd();
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -25% 0px', threshold: 0.2 });
+      items.forEach(function (el) { io.observe(el); });
     })();
 
     // 카드 줄 — 스크롤하는 만큼 가운데에서 제자리로 펼쳐진다.
@@ -762,22 +744,25 @@ const alternates = [
   /* 아래 여백은 두지 않는다 — 마지막 줄(40vh)이 글 아래로 이미 여유를 남기고,
      다음 섹션이 위로 180px 을 쥔다. 130px 을 더 두면 화면 하나가 비었다. */
   .cmp-stage { padding: 60px 0 0; }
+  /* 두 칸이 줄마다 자리를 바꾼다 — 글이 왼쪽이면 그림이 오른쪽, 글이 오른쪽이면
+     그림이 왼쪽. 큐브는 그 사이를 가로질러 날아간다. */
   .cmp-stage-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) min(44vw, 620px) minmax(0, 1fr);
-    column-gap: 64px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 80px;
     align-items: center;
   }
-  /* 장면 — 줄마다 가운데 칸에 한 장. 폭은 그림마다 다르다(--rel). */
-  .cmp-stage-grid > .cmp-scene { grid-column: 2; }
+  /* 장면 — 글 반대쪽 칸에 한 장. 폭은 그림마다 다르다(--rel). */
+  .cmp-scene-l { grid-column: 1; }
+  .cmp-scene-r { grid-column: 2; }
   .cmp-scene {
     position: relative;
     width: calc(var(--rel, 1) * 100%);
+    max-width: 620px;
     margin-inline: auto;
-    /* 글과 같은 등장 — 아래에서 떠오른다. 글보다 한 박자(.08s) 늦게 따라온다. */
-    opacity: 0; transform: translateY(32px);
-    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
-    transition-delay: .08s;
+    /* 글과 같은 등장 — 아래에서 떠오른다. */
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
   }
   .cmp-scene.is-in { opacity: 1; transform: none; }
   .cmp-scene .cmp-scene-art { display: block; width: 100%; height: auto; }
@@ -811,18 +796,18 @@ const alternates = [
   }
   /* 글 한 줄 — 높이를 화면의 절반쯤으로 줘 스크롤하는 동안 하나씩 들어온다. */
   .cmp-stage-item {
-    /* 한 줄이 화면 들어올 만큼만 — 수치는 한 줄짜리라 56vh 는 과했다. */
-    min-height: 40vh;
+    /* 한 줄씩 화면을 채우며 지나가게 — 줄 사이를 화면 절반 넘게 띄운다. */
+    min-height: 56vh;
     display: flex; flex-direction: column; justify-content: center;
     /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
        들어오므로 가로로도 움직인다. */
     opacity: 0;
-    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+    transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
   }
-  /* 좌 · 우 칸에서 각자 바깥쪽에서 들어온다. 40px 은 글자 두 칸쯤 — 이보다 작으면
-     다 뜨고 나서도 떴는지 모른다. */
-  .cmp-stage-l { grid-column: 1; align-items: flex-start; text-align: left; transform: translate(-40px, 20px); }
-  .cmp-stage-r { grid-column: 3; align-items: flex-start; text-align: left; transform: translate(40px, 20px); }
+  /* 좌 · 우 칸에서 각자 바깥쪽에서 들어온다. */
+  .cmp-stage-item { max-width: 460px; }
+  .cmp-stage-l { grid-column: 1; justify-self: start; align-items: flex-start; text-align: left; transform: translate(-24px, 16px); }
+  .cmp-stage-r { grid-column: 2; justify-self: end;   align-items: flex-start; text-align: left; transform: translate(24px, 16px); }
   .cmp-stage-item.is-in { opacity: 1; transform: none; }
   /* 줄 번호는 마크업이 들고 있다 — 좌우가 같은 줄에 겹치지 않게 한 줄씩 내려간다. */
   .cmp-stage-grid > [data-row="1"] { grid-row: 1; }
@@ -857,8 +842,8 @@ const alternates = [
   @media (max-width: 980px) {
     .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
     /* 줄 번호 · 칸 지정을 모두 풀면 마크업 순서(그림 → 글)대로 쌓인다. */
-    .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; }
-    .cmp-stage-item { min-height: 0; }
+    .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; justify-self: start; }
+    .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
     .cmp-scene { width: min(440px, 100%); }
   }
