@@ -154,30 +154,19 @@ const alternates = [
       <div class="ind-container">
         {/* 머리는 메인 솔루션 섹션(#industries)처럼 가운데에 크게 세운다. */}
         <header class="ind-head cmp-head-row cmp-head-big">
-          <h2>{T.strengthsTitle}</h2>
+          {/* 줄을 span 으로 감싼다 — 먹이 차오르는 처리는 줄 단위로 건다. */}
+          <h2 class="cmp-fill-title"><span class="cmp-fill-line">{T.strengthsTitle}</span></h2>
           <p>{T.strengthsSub}</p>
         </header>
-        {/* 아코디언 — 카드가 섹션 가로폭을 쓰며 세로로 쌓이고 항상 하나만 펼쳐진다.
-            처음에는 1번이 펼쳐진 상태. */}
-        <div class="cmp-acc">
-          {T.strengths.map((it, i) => (
-            <div class="cmp-acc-item" data-open={i === 0 ? 'true' : 'false'}>
-              <button type="button" class="cmp-acc-head" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`cmp-acc-p${i}`}>
-                <span class="cmp-acc-tag">{it.tag}</span>
-                <span class="cmp-acc-title" set:html={it.title}></span>
-              </button>
-              {/* 패널 밖에 둔다. 패널 안에 넣으면 .cmp-acc-inner의 overflow:hidden이
-                  절대배치된 그림을 잘라 데스크톱 잘림이 달라진다(아래 잘림 162 -> 300px).
-                  좁은 화면에서 본문 아래로 보내는 일은 CSS order가 맡는다. */}
-              {it.illust && (
-                <img class="cmp-acc-illust" src={it.illust}
-                     style={[it.illustTop && `top:${it.illustTop}`, it.illustRight && `right:${it.illustRight}`].filter(Boolean).join(";") || undefined}
-                     alt="" aria-hidden="true" width="1020" height="1020" loading="lazy" decoding="async" />
-              )}
-              <div class="cmp-acc-panel" id={`cmp-acc-p${i}`} role="region">
-                <div class="cmp-acc-inner"><p set:html={it.description}></p></div>
-              </div>
-            </div>
+        {/* 카드 셋 — 처음에는 가운데로 뭉쳐 있다가 스크롤하면 제자리로 펼쳐진다.
+            펼침 정도(--spread 0→1)는 아래 스크립트가 스크롤에서 뽑는다. */}
+        <div class="cmp-cards">
+          {T.strengths.map((it) => (
+            <article class="cmp-card">
+              <span class="cmp-card-tag">{it.tag}</span>
+              <h3 class="cmp-card-title" set:html={it.title}></h3>
+              <p class="cmp-card-desc" set:html={it.description}></p>
+            </article>
           ))}
         </div>
       </div>
@@ -209,6 +198,36 @@ const alternates = [
   <Footer />
 
   <script is:inline>
+    // 제목에 먹이 차오른다 — 줄이 화면을 올라오는 만큼 왼쪽부터 채운다.
+    // 메인 솔루션 섹션과 같은 처리지만, 그쪽은 핀 구간 진행도를 쓰고 여기는
+    // 줄의 화면 위치만 본다(붙는 구간이 없다).
+    (function () {
+      var lines = document.querySelectorAll('.cmp-fill-line');
+      if (!lines.length) return;
+      // 동작 줄이기에서는 CSS 가 100% 로 세워 둔다 — 손대지 않는다.
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ticking = false;
+      function upd() {
+        ticking = false;
+        var vh = window.innerHeight || 800;
+        for (var i = 0; i < lines.length; i++) {
+          var r = lines[i].getBoundingClientRect();
+          // 화면 아래 85% 에 닿을 때 차기 시작해 45% 에서 다 찬다.
+          var p = (vh * 0.85 - r.top) / (vh * 0.40) - i * 0.15;
+          p = p < 0 ? 0 : (p > 1 ? 1 : p);
+          lines[i].style.setProperty('--sol-fill', (p * 100).toFixed(1) + '%');
+        }
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(upd);
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+      upd();
+    })();
+
     // 무대 — 글 한 줄이 화면에 들어오면 떠오른다. 한 번 뜨면 그대로 둔다.
     (function () {
       var items = document.querySelectorAll('.cmp-stage-item');
@@ -228,21 +247,31 @@ const alternates = [
       items.forEach(function (el) { io.observe(el); });
     })();
 
-    // 항상 하나만 펼쳐 둔다. 이미 열린 항목을 다시 눌러도 닫히지 않는다.
-    document.querySelectorAll('.cmp-acc').forEach(function (acc) {
-      acc.addEventListener('click', function (e) {
-        var btn = e.target.closest('.cmp-acc-head');
-        if (!btn || !acc.contains(btn)) return;
-        var item = btn.closest('.cmp-acc-item');
-        if (item.dataset.open === 'true') return;
-        acc.querySelectorAll('.cmp-acc-item').forEach(function (x) {
-          x.dataset.open = 'false';
-          x.querySelector('.cmp-acc-head').setAttribute('aria-expanded', 'false');
-        });
-        item.dataset.open = 'true';
-        btn.setAttribute('aria-expanded', 'true');
-      });
-    });
+    // 카드 셋 — 스크롤하는 만큼 가운데에서 제자리로 펼쳐진다.
+    (function () {
+      var wrap = document.querySelector('.cmp-cards');
+      if (!wrap) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // 한 줄에 세 장일 때만 뭉친다 — 세로로 쌓이는 폭에서는 CSS 가 transform 을 끈다.
+      var ticking = false;
+      function upd() {
+        ticking = false;
+        var vh = window.innerHeight || 800;
+        var r = wrap.getBoundingClientRect();
+        // 카드 윗변이 화면 아래 92% 에 닿을 때부터 48% 에 이를 때까지 펼친다.
+        var p = (vh * 0.92 - r.top) / (vh * 0.44);
+        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+        wrap.style.setProperty('--spread', p.toFixed(3));
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(upd);
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+      upd();
+    })();
   </script>
 </BaseLayout>
 
@@ -422,7 +451,11 @@ const alternates = [
   /* ───────── 섹션 여백·제목 — /why-refinery(플랫폼 개요)와 같은 값 ─────────
      공통값은 섹션 84px · 대제목 clamp(26,3.4vw,38)/650/-0.02em/1.25 ·
      소제목 16px이라, 같은 자리에서 한 단계씩 작았다. */
-  .cmp-page .ind-section { padding: 130px 0; }
+  /* 섹션 사이 구분선을 걷는다 — 공통 .ind-section 이 아래 테두리를 긋는데,
+     이 페이지는 면 색이 모두 흰색이라 선만 남아 칸막이처럼 보인다.
+     ⚠️ 마지막 섹션의 아래 선은 그대로 둔다 — 그 선이 곧 푸터 위 선이다. */
+  .cmp-page .ind-section { padding: 130px 0; border-bottom: none; }
+  .cmp-page .ind-section:last-of-type { border-bottom: 1px solid var(--border); }
   @media (max-width: 900px) {
     .cmp-page .ind-section { padding: 60px 0; }
   }
@@ -453,6 +486,32 @@ const alternates = [
   .cmp-page .cmp-head-big p { max-width: none; }
   @media (max-width: 900px) {
     .cmp-page .cmp-head-big { display: flex; }
+  }
+  /* 먹이 차오르는 제목 — 메인 솔루션 섹션(#industries .sol-title .sol-line)과
+     같은 방식이다. 두 겹을 깔고 글자 모양으로만 오려 낸다.
+       위층  왼쪽부터 --sol-fill 까지 먹색, 그 뒤는 투명
+       아래층 45도 빗금 — 아직 안 찬 글자가 견본지의 빈 글자처럼 보인다
+     ⚠️ background-clip: text 라 글자 자체에는 색이 없다(color: transparent).
+        스크립트가 막히면 --sol-fill 이 없어 100% 로 서므로 그냥 먹색 제목이 된다.
+     ⚠️ 폭은 글자만큼이다(fit-content). 칸 폭을 쓰면 빗금이 섹션 끝까지 번진다. */
+  .cmp-fill-title { margin: 0; }
+  .cmp-fill-line {
+    display: block; width: fit-content; margin-inline: auto;
+    background-image:
+      linear-gradient(to right,
+        #16202C 0 var(--sol-fill, 100%),
+        rgba(22,32,44,0) var(--sol-fill, 100%) 100%),
+      repeating-linear-gradient(45deg,
+        #F6F8FA 0 1px,
+        #EFF2F5 1px 6px);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    /* 받침 · 꼬리가 잘리지 않게 칠할 칸을 조금 넓힌다. */
+    padding-bottom: .06em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-fill-line { --sol-fill: 100% !important; }
   }
   .cmp-head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; max-width: none; }
   .cmp-head-row h2 { margin-bottom: 0; }
@@ -505,8 +564,8 @@ const alternates = [
     /* 원을 --accent로 채우고 숫자는 흰색. 테두리는 같은 색으로 남겨 두면
        border-box 기준 지름 30px이 그대로 유지된다. */
     background: var(--accent); border: 1px solid var(--accent);
-    /* 글꼴은 뿌리 태그라인(.cmp-acc-tag)과 같은 본문 글꼴을 그대로 물려받는다. */
-    /* 크기·굵기는 아코디언 태그라인(.cmp-acc-tag)과 같다. 자간만 다르다 —
+    /* 글꼴은 뿌리 카드 태그라인(.cmp-card-tag)과 같은 본문 글꼴을 그대로 물려받는다. */
+    /* 크기·굵기는 뿌리 카드 태그라인(.cmp-card-tag)과 같다. 자간만 다르다 —
        저쪽은 0.4px 이고 여기는 숫자 한 글자라 아래 -0.2px 을 그대로 쓴다.
        양수 자간은 마지막 글자 뒤에도 붙어 원 안에서 글자가 왼쪽으로 치우친다
        (1.2px 일 때 0.6px 밀려 padding-left 로 보정했던 자리다). */
@@ -536,12 +595,12 @@ const alternates = [
      간격(위 50.6 · 아래 52.2px)을 지키려면 아래 margin 은 40 이 아니라 32 다. */
   :global(.cmp-rule-icon) { display: block; width: 160px; height: 160px; margin: 31px auto 32px; }
   .cmp-rule-card h3 {
-    /* 제목 28 / 1.3 — .cmp-acc-title과 동일. 20px일 때의 5px 간격은 28px에서 너무
+    /* 제목 28 / 1.3. 20px일 때의 5px 간격은 28px에서 너무
        붙어 보여, 아코디언의 제목-본문 간격(12px)을 함께 가져온다. */
     margin: 0 0 12px; font-size: 26px; font-weight: 600; line-height: 1.3;
     color: var(--text); word-break: keep-all; text-wrap: balance;
   }
-  /* 본문 16 / 1.7 — .cmp-acc-inner p와 동일. 아코디언에 모바일 축소가 없으므로
+  /* 본문 16 / 1.7. 뿌리 카드에 모바일 축소가 없으므로
      여기서도 폭이 줄어도 크기를 낮추지 않는다. */
   /* keep-all 필수: 없으면 한글이 어절 한가운데서 잘린다(1024px·375px에서 확인). */
   .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-muted); text-wrap: pretty; word-break: keep-all; }
@@ -557,149 +616,50 @@ const alternates = [
     .cmp-rule { grid-template-columns: 1fr; }
   }
 
-  /* ───────── 강점 아코디언 ───────── */
-  /* 카드 간격은 기준 섹션(.cmp-rule)과 같은 18px. */
-  .cmp-acc { display: grid; gap: 18px; }
-  /* 랜딩 솔루션 섹션(#industries)의 .industry-card와 같은 값 —
-     흰 배경 · 1px 테두리 · radius 12px · 안쪽 여백 30px,
-     제목 20px/600(아래 5px), 설명 15px/1.5. */
-  .cmp-acc-item {
-    background: #ffffff; border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden;
-    position: relative;
+  /* ───────── 강점 카드 셋 ─────────
+     세 장이 같은 크기로 한 줄에 선다. 처음에는 가운데로 포개져 있다가
+     스크롤하면 제자리로 펼쳐진다 — 펼침 정도는 --spread(0~1)다.
+     ⚠️ 스크립트가 막히면 --spread 가 없어 1 로 읽힌다. 그러면 처음부터
+        펼쳐진 모습이라 내용이 가려지는 일이 없다. */
+  .cmp-cards {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;
   }
-  /* 카드 오른쪽 일러스트. 접힌 카드(121px)에서는 위아래가 크게 잘려 어색하므로
-     펼친 카드에서만 보이게 하고, 열릴 때 함께 서서히 나타난다. */
-  .cmp-acc-illust {
-    /* SVG 자체를 카드 오른쪽 끝에 붙이고 세로는 카드 위에 맞춘다.
-       파일마다 안쪽 여백이 달라(2번은 아래 107px, 왼쪽 84px) 그림이
-       내려앉아 보이는 경우가 있어, 필요한 카드만 데이터의 illustTop으로
-       위치를 덮어쓴다. */
-    position: absolute; right: 0; top: 0; transform: none;
-    /* ⚠️ 세로 기준(height 고정 + width auto)이다. width: 50%였을 때는 카드가
-       좁아질수록 그림이 같이 줄어 카드 밖으로 잘려 나가는 부분이 폭마다 달랐다.
-       높이를 못 박으면 폭이 줄어도 그림 크기가 그대로라 잘리는 부분이 같다.
-       값은 1440px에서의 기존 렌더와 같게 뷰박스 비율로 환산했다
-       (1번 592 x 1034.16/1020.47 = 600). */
-    height: 600px; width: auto; pointer-events: none; user-select: none;
-    /* 카드가 좁아지면 크기가 고정된 그림이 본문 자리까지 들어온다.
-       줄이면 잘리는 부분이 폭마다 달라지므로, 대신 그림을 글 뒤로 보낸다. */
-    z-index: 0;
-    opacity: 0; transition: opacity .34s cubic-bezier(.22,1,.36,1);
+  .cmp-card {
+    display: flex; flex-direction: column;
+    padding: 32px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    /* 뭉칠 때는 한 칸 폭(100% + 칸 사이 18px)만큼 가운데로 당기고, 그 위에서
+       장마다 오른쪽 · 아래로 한 칸씩 더 어긋나게 둔다 — 종이를 비스듬히 포갠
+       모습이다. 기울이지는 않는다. 펼쳐지면(--spread 1) 어긋남이 0 이 된다. */
+    transform: translate(
+      calc((var(--dx, 0px) + var(--ox, 0px)) * (1 - var(--spread, 1))),
+      calc(var(--oy, 0px) * (1 - var(--spread, 1))));
+    will-change: transform;
   }
-  .cmp-acc-item[data-open="true"] .cmp-acc-illust { opacity: 1; }
-  /* ⚠️ 숨김 기준이 900이 아니라 1150이다. 그림 폭이 592px으로 고정됐으므로
-     본문(카드의 46%)과 겹치지 않으려면 카드가 592 / (1 - 0.46) = 1096px 이상
-     이어야 하고, 컨테이너 좌우 여백 24를 더하면 뷰포트 1144px이 경계다.
-     그 아래에서는 그림을 줄이는 대신 감춘다 — 줄이면 잘리는 부분이 다시
-     폭마다 달라져 세로 기준으로 바꾼 이유가 없어진다. */
-  /* 카드별 크기. 값은 1440px에서의 기존 렌더와 같게 뷰박스 비율로 환산했다
-     (2번 591 정사각 · 3번 621 x 1089.57/1020.47 = 663). */
-  .cmp-acc-item:nth-child(2) .cmp-acc-illust { height: 591px; }
-  .cmp-acc-item:nth-child(3) .cmp-acc-illust { height: 663px; }
-  /* 좁은 화면에서는 감추지 않고 본문 아래로 내린다. 그림은 패널 밖에 있으므로
-     (패널 안에 두면 .cmp-acc-inner의 overflow:hidden이 데스크톱 잘림을 바꾼다)
-     카드를 flex 열로 만들고 order로 맨 뒤에 보낸다. 접힌 카드는 공간을 차지하지
-     않도록 아예 감춘다. 벡터라 확대해도 깨지지 않는다.
-     ⚠️ 기준이 900이 아니라 980이다. 980px 아래에서는 본문 상자가 399px까지
-     좁아져 3줄짜리 글이 7줄로 감긴다. 그 전에 그림을 내려 본문이 카드 폭을
-     쓰게 한다. 카드 나머지(패딩·글자 크기)의 기준은 그대로 900px이다. */
-  @media (max-width: 980px) {
-    .cmp-acc-item { display: flex; flex-direction: column; }
-    /* ⚠️ nth-child 규칙(특정도 0,2,0)을 같이 적으로 잡지 않으면 데스크톱용
-       height: 591px/663px가 그대로 남아 그림이 세로로 늘어난다(325x591로 확인). */
-    .cmp-acc-illust,
-    .cmp-acc-item:nth-child(2) .cmp-acc-illust,
-    .cmp-acc-item:nth-child(3) .cmp-acc-illust {
-      /* 데스크톱처럼 카드 가장자리까지 채운다. 좌우 여백이나 아래 여백을 두면
-         잘린 선과 카드 하단 선 사이가 떠 보인다. 카드에 overflow:hidden과
-         radius가 있어 모서리는 그대로 둥글게 잘린다. */
-      order: 1; position: static; width: 100%; height: auto;
-      margin: 4px 0 0; padding: 0; box-sizing: border-box; display: block;
-      /* 폭 상한 420px. 없으면 720px 카드에서 그림이 718x532까지 커져 카드가
-         807px이 된다. 상한에 걸리면 카드보다 좁아지므로, 데스크톱처럼
-         오른쪽 아래 모서리에 붙여 의도한 배치로 읽히게 한다.
-         카드가 420px보다 좁으면(375px 등) 상한이 걸리지 않아 그대로 꽉 찬다. */
-      max-width: 420px; align-self: flex-end;
-      /* 데스크톱과 같은 부분만 보이게 자른다.
-         데스크톱은 그림(592x600 등)을 열린 카드 높이 439px이 잘라내므로,
-         상자 비율을 <그림 폭> / 439로 잡고 object-fit: cover로 세로만 자른다.
-         object-position의 세로값은 데스크톱 top 오프셋을 비율로 옮긴 값이다
-         (2번 65 / (591-439) = 42.8% · 3번 75 / (663-439) = 33.5%). */
-      aspect-ratio: 592 / 439; object-fit: cover; object-position: 50% 0%;
-    }
-    .cmp-acc-item:nth-child(2) .cmp-acc-illust { aspect-ratio: 591 / 439; object-position: 50% 42.8%; }
-    .cmp-acc-item:nth-child(3) .cmp-acc-illust { aspect-ratio: 621 / 439; object-position: 50% 33.5%; }
-    .cmp-acc-item[data-open="false"] .cmp-acc-illust { display: none; }
+  /* 뒤에서 앞으로 오면서 오른쪽 · 아래로 내려간다 — 앞 장이 위에 온다. */
+  .cmp-card:nth-child(1) { --dx: calc(100% + 18px); --ox: -58px; --oy: -42px; z-index: 1; }
+  .cmp-card:nth-child(2) { --ox: 0px; --oy: 0px; z-index: 2; }
+  .cmp-card:nth-child(3) { --dx: calc(-100% - 18px); --ox: 58px; --oy: 42px; z-index: 3; }
+  .cmp-card-tag {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.4px;
+    color: #76a6d7; margin-bottom: 14px;
   }
-  .cmp-acc-head {
-    position: relative; z-index: 1;
-    width: 100%; display: block;
-    padding: 30px; background: none; border: 0; cursor: pointer;
-    text-align: left; font: inherit; color: inherit;
-    transition: padding-bottom .34s cubic-bezier(.22,1,.36,1);
+  .cmp-card-title {
+    margin: 0 0 16px; font-size: clamp(18px, 1.6vw, 22px); font-weight: 600;
+    line-height: 1.45; letter-spacing: -0.3px; color: var(--text);
   }
-  /* 펼쳤을 때 제목과 설명 사이를 카드와 같은 5px로 좁힌다. */
-  .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
-  /* 랜딩 .industry-name과 같은 값. 행간은 그쪽이 선언 없이 body 1.6을
-     물려받는데 여기는 .ind-section 문맥의 1.65가 와서 1px 어긋나 못 박는다. */
-  /* 랜딩 #teams는 태그라인 12 / 제목 24 / 설명 15였는데 제목·설명을 각각
-     x1.17, x1.2로 키웠다. 태그라인도 같은 비율로 14px에 맞춘다. */
-  /* 자간 0.4px — 라벨로 읽히되 벌어지지 않는 자리. 메인 랜딩 태그라인
-     (#platform .series-tagline)은 1.2px 이지만 거기는 글자가 12px 이라
-     같은 값을 15px 인 여기에 주면 더 벌어 보인다. 다섯 값을 렌더해 골랐다. */
-  .cmp-acc-tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: 0.4px; color: var(--accent); margin-bottom: 8px; }
-  /* text-wrap balance/pretty: <br>로 잡아 둔 줄이 좁은 폭에서 다시 감길 때
-     마지막 줄에 단어 하나만 남는 것을 막는다. 영문에서 특히 눈에 띈다. */
-  .cmp-acc-title { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; color: var(--text); word-break: keep-all; text-wrap: balance; }
-  /* 접힌 카드는 제목만 보이므로 한 줄로 이어 붙인다. 데이터의 <br> 앞에 공백이
-     있어 br을 숨겨도 단어가 붙지 않는다. 펼치면 다시 두 줄이 된다. */
-  .cmp-acc-title :global(br) { display: none; }
-  /* 크기는 접힘·펼침이 같다. 누를 때 글자만 순간이동하듯 바뀌면
-     카드 높이는 부드럽게 열리는데 제목만 튀어 어색하다. */
-  .cmp-acc-item[data-open="true"] .cmp-acc-title :global(br) { display: block; }
-  /* 높이 애니메이션 — grid-template-rows 0fr→1fr이면 내용 높이를 몰라도 부드럽게 열린다. */
-  .cmp-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.22,1,.36,1); }
-  .cmp-acc-item[data-open="true"] .cmp-acc-panel { grid-template-rows: 1fr; }
-  /* 소제목을 패널 아래쪽에 붙인다. min-height(299px)로 확보한 공간이 본문보다
-     176px 커서 그대로 두면 왼쪽 아래가 뚫리는데, 오른쪽 일러스트는 그 아래까지
-     내려온다. 하단 정렬하면 본문 마지막 줄이 일러스트 바닥선과 나란해진다. */
-  /* 본문을 그림 위에 세운다. static이면 절대배치된 그림이 항상 위에 그려진다. */
-  .cmp-acc-inner p { position: relative; z-index: 1; }
-  .cmp-acc-inner { overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
-  /* 펼친 카드 높이 440px. 일러스트(591px)를 다 담으면 카드가 592px로 커져
-     바닥판 아래 빈 여백까지 떠안는다. 그 빈 부분만 잘리게 맞춘 값이다.
-     440 = 머리 141 + 패널 299. min-height를 카드가 아니라 패널 안쪽에 걸어야
-     grid-template-rows 0fr→1fr 전환이 그대로 살아 있다.
-     일러스트가 없는 900px 미만에서는 걸지 않는다. */
-  @media (min-width: 901px) {
-    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 299px; }
+  .cmp-card-desc {
+    margin: 0; font-size: 15px; line-height: 1.7; color: var(--text-muted);
   }
-  /* 펼친 카드가 접힌 카드와 확실히 구분되도록 아래 여백을 키운다. */
-  /* 설명을 카드 아래쪽으로 내린다 — 위 여백을 크게 주고 아래는 머리쪽과 같은 30px.
-     카드 전체 높이는 그대로 두면서 글만 아래로 밀리는 방식이다. */
-  /* 설명을 제목 바로 아래로 올린다(머리쪽 padding-bottom 8 + 여기 12 = 20px).
-     카드가 높아진 만큼 아래가 비는데, 그 자리를 일러스트가 온전히 차지한다. */
-  .cmp-acc-inner p { margin: 0; padding: 12px 30px 30px; font-size: 16px; line-height: 1.7; color: var(--text-muted); text-wrap: pretty; word-break: keep-all;
-    /* 일러스트가 카드 오른쪽 절반을 차지하므로 글 상자를 그 앞에서 끊는다.
-       줄바꿈은 <br>로 고정이라 실제 줄 길이는 이 값보다 짧다. */
-    max-width: 46%; }
+  /* 좁은 폭에서는 한 줄에 셋이 들어가지 않는다 — 세로로 쌓고 뭉침도 푼다. */
   @media (max-width: 900px) {
-    .cmp-acc-head { padding: 22px 20px; }
-    .cmp-acc-item[data-open="true"] .cmp-acc-head { padding-bottom: 8px; }
-    .cmp-acc-title { font-size: 21px; }
-    .cmp-acc-inner p { padding: 48px 20px 22px; font-size: 16px; max-width: none; }
+    .cmp-cards { grid-template-columns: minmax(0, 1fr); }
+    .cmp-card { transform: none; }
   }
-  /* ⚠️ 위 .cmp-acc-inner p(max-width 46%)와 min-width:901 min-height 규칙보다
-     반드시 뒤에 와야 한다. 특정도가 같아 순서로 결정된다 — 앞에 뒀을 때는
-     980px에서 그림만 내려가고 글은 46%로 묶여 오른쪽이 통째로 비었다. */
-  @media (max-width: 980px) {
-    /* 그림이 본문 아래로 내려갔으므로 글이 카드 폭을 다 쓰게 푼다. */
-    .cmp-acc-inner p { max-width: none; }
-    /* 그림 자리를 비워 두던 min-height도 함께 푼다. */
-    .cmp-acc-item[data-open="true"] .cmp-acc-inner { min-height: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .cmp-card { transform: none; }
   }
-  @media (max-width: 900px) { .cmp-page .ind-head p { font-size: 16px; } }
 
   /* ───────── 무대(stage) — 가운데 그래픽 + 좌 · 우로 떠오르는 글 ─────────
      세 칸 격자다. 가운데 칸에 그래픽이 붙어 있고(sticky), 글은 양쪽 칸에
