@@ -812,6 +812,21 @@ const alternates = [
   .cmp-stage-grid > [data-row="3"] { grid-row: 3; }
   .cmp-stage-grid > [data-row="4"] { grid-row: 4; }
   .cmp-stage-grid > [data-row="5"] { grid-row: 5; }
+  /* 맺음 줄만 두 칸을 통째로 쓰고 세로로 쌓는다 — 글이 위, 그림이 아래, 둘 다 가운데.
+     앞 네 줄의 좌우 교차를 여기서 풀어 이야기를 가운데로 모은다. */
+  .cmp-stage-grid > .cmp-stage-item[data-row="5"] {
+    grid-column: 1 / -1; grid-row: 5;
+    justify-self: center; align-items: center; text-align: center;
+    max-width: none; min-height: 0;
+    /* 가운데 선 글은 옆이 아니라 아래에서 떠오른다. */
+    transform: translateY(20px);
+  }
+  .cmp-stage-grid > .cmp-scene[data-row="5"] {
+    grid-column: 1 / -1; grid-row: 6;
+    justify-self: center; margin-inline: auto; margin-top: 40px;
+    /* 두 칸을 쓰지만 크기는 앞 네 장과 같다 — 칸 하나 폭(띠에서 사이 80px 을 뺀 절반)이다. */
+    max-width: calc((100% - 80px) / 2);
+  }
 
   .cmp-stage h2 {
     margin: 0; color: var(--text);
@@ -837,13 +852,38 @@ const alternates = [
     .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
     /* 줄 번호 · 칸 지정을 모두 풀면 마크업 순서(그림 → 글)대로 쌓인다. */
     .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; justify-self: start; }
+    /* ⚠️ 맺음 줄(5)은 넓은 폭에서 두 칸을 쓰고 자리를 못 박아 둔다. 그 규칙이
+       여기까지 따라오면(선택자가 더 세다) 5줄만 2 · 3줄 사이로 끼어든다 —
+       실측 y 2015 로 올라가 겹쳤다. 같은 세기로 풀어 준다. */
+    .cmp-stage-grid > .cmp-stage-item[data-row="5"] {
+      grid-column: 1; grid-row: auto; justify-self: start;
+      align-items: flex-start; text-align: left; max-width: none;
+    }
+    .cmp-stage-grid > .cmp-scene[data-row="5"] {
+      grid-column: 1; grid-row: auto; justify-self: start;
+      margin-inline: 0; margin-top: 0; max-width: min(440px, 100%);
+    }
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
     .cmp-stage .cmp-scene { max-width: min(440px, 100%); margin-inline: 0; }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
-  .cmp-stat-num { font-size: clamp(40px, 5.6vw, 80px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
+  /* 아래로 갈수록 브랜드색이 배어 나온다 — 히어로 'floor' 의 빛과 같은 결이되,
+     여기는 글자가 한 줄이라 세로 그라데이션으로 둔다.
+     ⚠️ background-clip: text 라 color 가 아니라 배경이 글자색이다. 색을 고치려면
+        아래 linear-gradient 를 본다(color 만 바꾸면 아무 일도 일어나지 않는다). */
+  .cmp-stat-num {
+    font-size: clamp(56px, 8vw, 120px);
+    font-weight: 500;
+    line-height: 1.15; letter-spacing: -0.02em;
+    white-space: nowrap;
+    background-image: linear-gradient(180deg, #16202C 0%, #16202C 52%, #76A6D7 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    /* 글자 아랫부분이 잘리지 않게 — clip 한 배경은 줄상자를 넘지 못한다. */
+    padding-bottom: 0.06em;
+  }
   /* 소제목(.cmp-story-lede · .cmp-story-sig)과 같은 값이다 — 18px / 행간 1.7 /
      --text-muted. 같은 무대 위의 작은 글이라 크기를 따로 둘 이유가 없다.
      ⚠️ 900px 이하도 저쪽과 함께 16px 로 내린다(아래 미디어쿼리). */
