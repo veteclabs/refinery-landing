@@ -747,22 +747,20 @@ const alternates = [
     .cmp-page .cmp-head-big { display: flex; }
   }
   /* 먹이 차오르는 제목 — 메인 솔루션 섹션(#industries .sol-title .sol-line)과
-     같은 방식이다. 두 겹을 깔고 글자 모양으로만 오려 낸다.
-       위층  왼쪽부터 --sol-fill 까지 먹색, 그 뒤는 투명
-       아래층 45도 빗금 — 아직 안 찬 글자가 견본지의 빈 글자처럼 보인다
+     같은 방식이다. 띠 하나를 깔고 글자 모양으로만 오려 낸다 —
+     왼쪽부터 --sol-fill 까지 먹색, 그 뒤는 아직 안 찬 색(--border)이다.
+     ⚠️ 빗금은 쓰지 않는다. 차기 전 글자가 견본지처럼 보여 제목이 미완성으로
+        읽혔다. 한 가지 옅은 색으로 두면 글자 모양만 조용히 서 있다.
      ⚠️ background-clip: text 라 글자 자체에는 색이 없다(color: transparent).
         스크립트가 막히면 --sol-fill 이 없어 100% 로 서므로 그냥 먹색 제목이 된다.
-     ⚠️ 폭은 글자만큼이다(fit-content). 칸 폭을 쓰면 빗금이 섹션 끝까지 번진다. */
+     ⚠️ 폭은 글자만큼이다(fit-content). */
   .cmp-fill-title { margin: 0; }
   .cmp-fill-line {
     display: block; width: fit-content; margin-inline: auto;
     background-image:
       linear-gradient(to right,
         #16202C 0 var(--sol-fill, 100%),
-        rgba(22,32,44,0) var(--sol-fill, 100%) 100%),
-      repeating-linear-gradient(45deg,
-        #F6F8FA 0 1px,
-        #EFF2F5 1px 6px);
+        var(--border) var(--sol-fill, 100%) 100%);
     -webkit-background-clip: text;
             background-clip: text;
     color: transparent;
