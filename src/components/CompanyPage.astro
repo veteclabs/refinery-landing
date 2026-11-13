@@ -1316,8 +1316,11 @@ const alternates = [
     margin-top: auto;
     font-size: clamp(52px, 8vw, 100px);
     line-height: 1.1;
-    background-image: none;
-    -webkit-text-fill-color: var(--text); color: var(--text);
+    /* 글자가 아래로 갈수록 카드 면에 흡수된다 — 아래 .cmp-stat-num 이 쥔
+       그라데이션(먹색 -> 흰색)을 그대로 쓴다. 한때 여기서 background-image:
+       none 으로 껐었는데, 카드 면이 흰색이라 끝 색(#FFFFFF)이 그대로 맞는다.
+       ⚠️ -webkit-text-fill-color 를 주면 안 된다 — color: transparent 를
+          이겨서 그라데이션이 안 보인다. */
   }
   .cmp-stat-card .cmp-stat-label {
     align-self: flex-start;
