@@ -114,18 +114,35 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         (function () {
           var fr = document.getElementById('hmFrame');
           if (!fr) return;
-          function nudge() {
-            fr.style.opacity = '0.999';
-            void fr.offsetWidth;
-            fr.style.opacity = '';
+          /* 눈에 보이지 않는 값으로 한 프레임 바꿨다 되돌린다. 0 으로 내리면 깜빡인다. */
+          var flip = false;
+          function nudge() { flip = !flip; fr.style.opacity = flip ? '0.999' : ''; }
+
+          /* ⚠️ 뜰 때 몇 번 건드리는 것으로는 모자랐다. 넓은 화면에서는 첫 프레임이
+             늦게 그려져, 마지막 재촉이 지나간 뒤에 다시 묵은 레이어로 남았다.
+             그래서 '캔버스가 실제로 다시 그려졌을 때' 를 보고 건드린다 —
+             패키지가 내주는 __dbg().lastDrawn 이 바뀌면 그 프레임에 재합성한다.
+             히어로가 화면 밖이면 아무 일도 하지 않는다. */
+          var seen = '', visible = true, running = false;
+          function loop() {
+            if (!visible) { running = false; return; }
+            var mark = null;
+            try { var w = fr.contentWindow; if (w && w.__dbg) mark = w.__dbg().lastDrawn; } catch (e) {}
+            if (mark === null) nudge();               /* 아직 못 읽으면 그냥 건드린다 */
+            else if (mark !== seen) { seen = mark; nudge(); }
+            requestAnimationFrame(loop);
           }
-          function kick() {
-            requestAnimationFrame(function () { requestAnimationFrame(nudge); });
+          function start() { if (running) return; running = true; requestAnimationFrame(loop); }
+
+          fr.addEventListener('load', start);
+          addEventListener('pageshow', start);
+          if (window.IntersectionObserver) {
+            new IntersectionObserver(function (es) {
+              visible = es.some(function (e) { return e.isIntersecting; });
+              if (visible) start();
+            }, { rootMargin: '300px' }).observe(fr);
           }
-          fr.addEventListener('load', kick);
-          if (fr.contentDocument && fr.contentDocument.readyState === 'complete') kick();
-          [400, 1200, 2500].forEach(function (ms) { setTimeout(kick, ms); });
-          addEventListener('pageshow', kick);
+          start();
         })();
       </script>
 
