@@ -53,10 +53,10 @@ function webpSize(name: string) {
 
 /* 그림이 바뀌기 전에 눈으로 맞춰 둔 값. meta 와 파일이 어긋날 때만 쓴다. */
 const FALLBACK: Record<string, { cx: number; cy: number; cs: number }> = {
-  '1': { cx: 0.2939, cy: 0.1053, cs: 0.1318 },
-  '2': { cx: 0.5000, cy: 0.0247, cs: 0.1185 },
-  '3': { cx: 0.6425, cy: 0.1544, cs: 0.0930 },
-  '4': { cx: 0.5626, cy: 0.2504, cs: 0.1105 },
+  '1': { cx: 0.2939, cy: 0.1122, cs: 0.1179 },
+  '2': { cx: 0.6542, cy: 0.1345, cs: 0.1185 },
+  '3': { cx: 0.6425, cy: 0.2891, cs: 0.0930 },
+  '4': { cx: 0.5345, cy: 0.2510, cs: 0.1105 },
   '5': { cx: 0.4998, cy: 0.0637, cs: 0.1698 },
 };
 
@@ -87,20 +87,20 @@ type Layer = { file: string; cls: string; ox: string; oy: string };
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [
     { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.36%' },
-    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '39.77%' },
-    { file: '3-up1.webp', cls: 'ov-up1', ox: '43.53%', oy: '43.18%' },
-    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.56%', oy: '41.50%' },
+    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '35.20%' },
+    { file: '3-up1.webp', cls: 'ov-up1', ox: '43.53%', oy: '33.05%' },
+    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.56%', oy: '33.21%' },
   ],
   4: [
-    { file: '4-arc.webp', cls: 'ov-arc', ox: '51.54%', oy: '39.06%' },
-    { file: '4-up0.webp', cls: 'ov-up0', ox: '50.16%', oy: '16.61%' },
-    { file: '4-up1.webp', cls: 'ov-up1', ox: '70.49%', oy: '1.94%' },
-    { file: '4-up2.webp', cls: 'ov-up2', ox: '37.31%', oy: '15.75%' },
+    { file: '4-arc.webp', cls: 'ov-arc', ox: '48.78%', oy: '39.26%' },
+    { file: '4-up0.webp', cls: 'ov-up0', ox: '47.42%', oy: '17.64%' },
+    { file: '4-up1.webp', cls: 'ov-up1', ox: '67.53%', oy: '1.99%' },
+    { file: '4-up2.webp', cls: 'ov-up2', ox: '34.73%', oy: '17.60%' },
   ],
+  /* 링은 r0 한 장만 쓴다 — 한 겹이 안쪽에서 바깥 링 너머까지 퍼진다.
+     5-r1 · 5-r2 는 쓰지 않는다. */
   5: [
     { file: '5-r0.webp', cls: 'ov-r0', ox: '50.00%', oy: '57.56%' },
-    { file: '5-r1.webp', cls: 'ov-r1', ox: '50.00%', oy: '57.29%' },
-    { file: '5-r2.webp', cls: 'ov-r2', ox: '50.00%', oy: '56.88%' },
     { file: '5-b0.webp', cls: 'ov-b0', ox: '69.94%', oy: '16.83%' },
     { file: '5-b1.webp', cls: 'ov-b1', ox: '31.42%', oy: '9.95%' },
     { file: '5-b2.webp', cls: 'ov-b2', ox: '29.99%', oy: '48.91%' },
@@ -123,13 +123,13 @@ const statParts = (num: string) => {
 };
 
 /* 그려지는 폭. 초안(preview.html)이 1425px 페이지에 놓은 폭을 가장 넓은 줄에
-   대한 비율로 옮긴 값이다 — 721 / 802 / 860 / 860 / 707 이므로 860 이 기준이다.
+   대한 비율로 옮긴 값이다 — 806 / 802 / 860 / 860 / 707 이므로 860 이 기준이다.
    장면마다 원근이 달라 폭을 따로 쥔다. 바깥 끝은 어차피 띠 끝에 붙으므로
    폭이 달라도 줄마다 바깥선은 한 자리에 선다.
    ⚠️ 기준이 802 에서 860 으로 바뀌었다 — 초안에서 3 · 4 번 장면이 커졌기
       때문이다. 가장 넓은 장면이 칸을 꽉 채우고 나머지는 초안의 비례 그대로
       줄어든다. 2 번은 1 -> 0.9326 으로 한 단 작아진다. */
-const SCENE_REL: Record<number, number> = { 1: 0.8384, 2: 0.9326, 3: 1, 4: 1, 5: 0.8221 };
+const SCENE_REL: Record<number, number> = { 1: 0.937, 2: 0.933, 3: 1, 4: 1, 5: 0.822 };
 
 const SCENES = { hero: scene(0), rows: [scene(1), scene(2), scene(3), scene(4), scene(5)] };
 const sceneVars = (sc: { w: number; h: number; cx: number; cy: number; cs: number }, rel?: number) =>
@@ -470,9 +470,10 @@ const alternates = [
       });
     })();
 
-    // 큐브 — 장면과 장면 사이를 날아 옮겨 간다.
+    // 큐브 — 장면과 장면 사이를 포물선으로 날아가 다음 자리에 사뿐히 내려앉는다.
     // 끼울 자리는 그림마다 --cx · --cyh · --cs 로 박혀 있다(모두 그림 크기에 대한 비율).
-    // 읽는 줄(화면 55%)이 한 자리에서 다음 자리로 가는 동안 포물선을 그리며 건너간다.
+    // 읽는 줄(화면 55%)이 목표 자리를 정하고, 큐브는 그 목표를 관성으로 따라간다.
+    // ⚠️ 스크롤 때만 그리면 관성이 살지 않는다 — requestAnimationFrame 으로 계속 그린다.
     (function () {
       var page = document.querySelector('.cmp-page');
       var cube = document.querySelector('.cmp-cube');
@@ -490,9 +491,28 @@ const alternates = [
         };
       });
       var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
-      var ticking = false, lit = false;
-      function upd() {
-        ticking = false;
+      var cur = null, lit = false;
+
+      function target(A, mid) {
+        var x = A[0].x, y = A[0].y, s = A[0].s, r = 0, q = 1;
+        for (var i = 0; i < A.length - 1; i++) {
+          var a = A[i], b = A[i + 1], span = b.y - a.y;
+          // 앞 15% 는 제자리에 머물고, 남은 구간 동안 건너간다.
+          var t0 = a.y + span * 0.15, t1 = b.y - span * 0.05;
+          if (mid <= t0) break;
+          var t = Math.min(1, (mid - t0) / Math.max(1, t1 - t0)), e = ease(t);
+          x = a.x + (b.x - a.x) * e;
+          y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * Math.min(span * 0.12, 90);
+          s = a.s + (b.s - a.s) * e;
+          r = Math.sin(Math.PI * e) * (i % 2 ? -70 : 70) * (1 - e * 0.2);
+          // 착지 순간 살짝 눌린다 — 마지막 10% 구간에서만 q 가 1 아래로 내려간다.
+          q = t > 0.9 ? 1 - Math.sin((t - 0.9) / 0.1 * Math.PI) * 0.08 : 1;
+          if (t < 1) break;
+        }
+        return { x: x, y: y, s: s, r: r, q: q };
+      }
+
+      function frame() {
         var pr = page.getBoundingClientRect();
         var A = F.map(function (f) {
           var r = f.el.getBoundingClientRect();
@@ -500,35 +520,25 @@ const alternates = [
                    y: r.top - pr.top + f.y * r.height,
                    s: f.s * r.width };
         });
-        var mid = (window.innerHeight || 800) * 0.55 - pr.top;
-        var x = A[0].x, y = A[0].y, s = A[0].s, rot = 0;
-        for (var i = 0; i < A.length - 1; i++) {
-          var a = A[i], b = A[i + 1], span = b.y - a.y;
-          // 자리마다 머문다 — 앞쪽 20% · 뒤쪽 10% 를 비워 둔다(초안과 같은 값).
-          var y0 = a.y + span * 0.20, y1 = b.y - span * 0.10;
-          if (mid <= y0) break;
-          var t = Math.min(1, (mid - y0) / Math.max(1, y1 - y0)), e = ease(t);
-          x = a.x + (b.x - a.x) * e;
-          y = a.y + (b.y - a.y) * e - Math.sin(Math.PI * e) * Math.min(span * 0.14, 80);
-          s = a.s + (b.s - a.s) * e;
-          rot = Math.sin(Math.PI * e) * 90 * (i % 2 ? -1 : 1);
-          if (t < 1) break;
-        }
+        var T = target(A, (window.innerHeight || 800) * 0.55 - pr.top);
+        // 첫 프레임은 목표 자리에서 시작한다 — 관성으로 끌려오는 모습을 보이지 않는다.
+        if (!cur) cur = { x: T.x, y: T.y, s: T.s, r: T.r, q: T.q };
+        var k = 0.14;
+        cur.x += (T.x - cur.x) * k; cur.y += (T.y - cur.y) * k;
+        cur.s += (T.s - cur.s) * k; cur.r += (T.r - cur.r) * k;
+        cur.q += (T.q - cur.q) * k;
+        var s = cur.s;
         cube.style.width = s.toFixed(1) + 'px';
-        cube.style.transform = 'translate(' + (x - s / 2).toFixed(1) + 'px,' +
-                               (y - s * 0.54).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
+        cube.style.transformOrigin = '50% 90%';
+        cube.style.transform =
+          'translate(' + (cur.x - s / 2).toFixed(1) + 'px,' + (cur.y - s * 0.54).toFixed(1) + 'px)' +
+          ' rotate(' + cur.r.toFixed(2) + 'deg)' +
+          ' scale(' + (1 + (1 - cur.q) * 0.6).toFixed(4) + ',' + cur.q.toFixed(4) + ')';
         // 첫 장면(히어로 그림)은 늘 떠 있으므로 큐브도 바로 켠다.
         if (!lit) { lit = true; cube.classList.add('is-on'); }
+        requestAnimationFrame(frame);
       }
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(upd);
-      }
-      addEventListener('scroll', onScroll, { passive: true });
-      addEventListener('resize', onScroll);
-      addEventListener('load', onScroll);
-      upd();
+      requestAnimationFrame(frame);
     })();
   </script>
 </BaseLayout>
@@ -1045,37 +1055,36 @@ const alternates = [
   /* 마지막 장면 — 떠 있는 배지 넷이 천천히 오르내린다.
      ⚠️ 이 도형들도 바탕 그림에 없다. */
   .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2, .cmp-scene .ov-b3 {
-    opacity: 1; animation: cmp-bob 3.4s ease-in-out infinite;
+    animation: cmp-bob 3.4s ease-in-out infinite;
   }
   .cmp-scene .ov-b1 { animation-delay: -.85s; }
   .cmp-scene .ov-b2 { animation-delay: -1.7s; }
   .cmp-scene .ov-b3 { animation-delay: -2.55s; }
-  @keyframes cmp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes cmp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4.5%); } }
 
-  /* 마지막 장면 링 — 가운데에서 바깥으로 차례로 퍼지고, 바깥 링일수록 희미하다.
-     봉우리 밝기(--pk)를 링마다 달리 준다. */
-  .cmp-scene .ov-r0, .cmp-scene .ov-r1, .cmp-scene .ov-r2 {
-    opacity: 0; animation: cmp-ripple 3.2s cubic-bezier(.25,.6,.35,1) infinite;
+  /* 마지막 장면 링 — 한 겹이 안쪽에서 바깥 링 너머까지 퍼지며 흐려진다.
+     바탕 그림에 링 셋이 정지 상태로 그려져 있고, 이 한 겹이 그 위를 지나간다. */
+  .cmp-scene .ov-r0 {
+    opacity: 0; animation: cmp-wave 3.2s cubic-bezier(.3,.55,.4,1) infinite;
   }
-  .cmp-scene .ov-r0 { --pk: 1; }
-  .cmp-scene .ov-r1 { --pk: .55; animation-delay: .5s; }
-  .cmp-scene .ov-r2 { --pk: .25; animation-delay: 1s; }
-  @keyframes cmp-ripple {
-    0%   { opacity: 0; transform: scale(.92); }
-    20%  { opacity: var(--pk); }
-    55%  { opacity: 0; transform: scale(1.08); }
-    100% { opacity: 0; transform: scale(1.08); }
+  @keyframes cmp-wave {
+    0%   { opacity: 0; transform: scale(1); }
+    10%  { opacity: 1; }
+    80%  { opacity: 0; transform: scale(1.75); }
+    100% { opacity: 0; transform: scale(1.75); }
   }
 
   /* 동작 줄이기 — 움직임만 끈다. 바탕에 없는 레이어(스포크 · 배지)는 그대로 보여야
      그래픽이 빠지지 않으므로 숨기지 않고 제자리에 세운다. */
   @media (prefers-reduced-motion: reduce) {
-    .cmp-scene .ov-grid, .cmp-scene .ov-arc, .cmp-scene .ov-up0, .cmp-scene .ov-up1,
-    .cmp-scene .ov-up2, .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2,
-    .cmp-scene .ov-b3, .cmp-scene .ov-r0, .cmp-scene .ov-r1, .cmp-scene .ov-r2 {
-      animation: none; opacity: 1;
+    /* 그리드 · 공중선 · 네모 · 링은 바탕 그림에도 정지 상태로 그려져 있다 —
+       겹쳐 세우면 두 겹이 되므로 아예 숨긴다. */
+    .cmp-scene .ov-grid, .cmp-scene .ov-arc, .cmp-scene .ov-up0,
+    .cmp-scene .ov-up1, .cmp-scene .ov-up2, .cmp-scene .ov-r0 { display: none; }
+    /* 떠 있는 도형 넷은 바탕에 없다 — 숨기면 그래픽이 빈다. 제자리에 세운다. */
+    .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2, .cmp-scene .ov-b3 {
+      animation: none;
     }
-    .cmp-scene .ov-grid, .cmp-scene .ov-arc { -webkit-mask-image: none; mask-image: none; }
   }
   /* 그림에 박아 둔 큐브. 보통은 옮겨 다니는 .cmp-cube 가 대신하므로 숨어 있다.
      ⚠️ top 은 높이 기준이라 --cyh 는 폭 비율을 높이 비율로 환산한 값이다. */
