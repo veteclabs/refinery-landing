@@ -1207,13 +1207,18 @@ const alternates = [
         떨어뜨리면 그림자처럼 읽힌다.
      모서리 12px 은 과제별 '푸는 방식' 큰 카드(.uc-template)에서 가져온 값이다. */
   .cmp-stat-card {
+    /* 카드 상자는 글 칸(460px)보다 좁게 세운다 — 칸을 꽉 채우면 수치 하나를
+       담은 판치고 너무 크게 선다. 글줄과 같은 왼쪽 선에 맞춰 선다
+       (바깥 칸이 align-items: flex-start 라 좁혀도 자리는 그대로다).
+       라벨은 가장 긴 것이 224px 이라 이 폭에서도 한 줄로 선다. */
     width: 100%;
+    max-width: 380px;
     background: #FFFFFF;
     border-radius: 12px;
-    /* 상하좌우 같은 48px. */
-    padding: 48px;
+    /* 상하좌우 같은 36px. */
+    padding: 36px;
     /* 라벨은 좌측 위, 수치는 우측 아래 — 대각으로 앉힌다. */
-    display: flex; flex-direction: column; gap: 20px;
+    display: flex; flex-direction: column; gap: 16px;
     box-shadow:
       0 -26px 58px -24px rgba(118, 166, 215, 0.55),
       0 -6px 20px -14px rgba(118, 166, 215, 0.30);
@@ -1239,7 +1244,7 @@ const alternates = [
     margin-top: 0;
   }
   @media (max-width: 900px) {
-    .cmp-stat-card { padding: 32px; }
+    .cmp-stat-card { padding: 26px; }
   }
 
   /* 수치 — 무대 안에서 쓴다. */
