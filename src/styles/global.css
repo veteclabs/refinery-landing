@@ -229,7 +229,11 @@
        어법이다. 60px 못 박고 900 아래에서만 clamp 를 걸었더니, 1280~900 에서는
        히어로만 줄고 섹션 제목은 그대로여서 둘의 급이 뒤집혔다.
        5.6vw 는 1071px 에서 60px 에 닿는 값이다. */
-    #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+    /* ⚠️ 하한은 28px 이다. 32px 로 두면 390px 화면에서 제목이 3줄, 360 에서
+       솔루션이 4줄이 됐다 — 글자가 더 줄지 못하고 멈춰 서기 때문이다.
+       실측으로 2줄이 되는 가장 큰 값은 390 에서 31px · 360 에서 28px 이라
+       28 로 잡는다. 5.6vw 가 32px 에 닿는 571px 위로는 달라지는 것이 없다. */
+    #industries .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     /* 소제목은 제목 오른쪽이 아니라 아래에 둔다 — 60px 제목 옆에 18px 글이 서면
        줄 끝이 서로 멀어 한 덩어리로 읽히지 않는다. 둘 다 가운데에 세운다. */
     #industries .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
@@ -300,7 +304,7 @@
     }
 
     @media (max-width: 900px) {
-      #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+      #industries .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     }
     .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: var(--lh-body); }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
@@ -1959,7 +1963,7 @@
           모션이 두 번 나와 둘 다 흐려져 걷었다. */
     /* 대제목은 솔루션 섹션과 같은 활자·같은 배치다 — 두 섹션이 멀지 않으므로
        크기나 정렬이 다르면 한쪽이 급이 낮아 보인다. */
-    #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+    #security .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     /* 제목 · 소제목 · 카드 사이를 한 값(28px)으로 둔다 — 셋이 같은 간격으로 쌓인다.
        ⚠️ 소제목과 카드 사이는 머리글의 margin-bottom 과 덱의 margin-top 이 합쳐지는
           자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
@@ -1974,7 +1978,7 @@
     #security .section-header-row > * { align-self: center; margin-inline: auto; }
     #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
-      #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+      #security .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     }
     /* 제목은 줄마다 늦춰 아래에서 떠오른다 — 페이지의 다른 등장과 같은 어법이다.
        ⚠️ blur(7px)가 걷히는 연출을 함께 걸었다가 2026-10-30 에 걷었다. 페이지에서
