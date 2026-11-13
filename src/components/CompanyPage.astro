@@ -145,7 +145,7 @@ const T = {
     jsonLdName: '회사 소개 | Refinery',
     /* 한 줄로 둔다. 1440px 에서 613px 짜리 한 줄이다 — 폭이 좁아지면 글자가
        함께 줄어들어(clamp 36~60px) 390px 까지 한 줄을 지킨다. */
-    h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-l2"><span class="cmp-title-accent">floor</span> up</span>',
+    h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-l2">floor <span class="cmp-title-accent">up</span></span>',
     storyTitle: '현장 바닥에서부터<br>올라온 산업 AI',
     storyLede: '리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다. 개발자도 여러 산업의 현장을 직접 겪으며, 현장의 언어로 문제를 정의하고 풉니다.',
     storySig: '30년 현장의 (주)베텍이 만든 제품',
@@ -574,7 +574,7 @@ const alternates = [
     padding: 244px 0 100px;
     background: none; border-bottom: none;
   }
-  /* '현장'에만 브랜드 빛을 둔다 — 메인 히어로의 .hero-title-accent 와 같은 처리다.
+  /* 'up' 에만 브랜드 빛을 둔다 — 메인 히어로의 .hero-title-accent 와 같은 처리다.
      발밑 바깥에서 올라오는 작은 원이라 글자 윗부분은 제 색 그대로이고 아래쪽만
      브랜드색으로 번진다. 가장 바깥 색(#16202C)이 대제목 색과 같아 경계가 없다.
      ⚠️ 순서를 지킨다 — background 단축 속성이 background-clip 을 초기화하므로
@@ -586,9 +586,8 @@ const alternates = [
         상자 안에서만 칠한다). 0.25em 이면 대제목 줄 높이(1.25)와 같아진다.
      ⚠️ 가로 중심 50% — 메인은 여섯 글자짜리 낱말이라 60% 였지만 여기는 두 글자라
         가운데가 맞다. 세로 82% 는 메인과 같은 값이다.
-     ⚠️ 빛은 '현장'이 아니라 '언어'에 둔다. 메인 첫 줄의 '흩어진 현장을'은 빛 없이
-        두고 '하나의 운영체제'에 주므로, 같은 낱말을 여기서 빛내면 규칙이 어긋난다.
-        이 문장에서 새로 말하는 것도 '언어' 쪽이다. */
+     ⚠️ 빛은 'floor' 가 아니라 'up' 에 둔다. 문장이 말하는 것은 바닥이 아니라
+        거기서 '올라온' 쪽이고, 마지막 낱말에 빛이 맺혀야 문장이 거기서 닫힌다. */
   /* 영문 줄만 크게 둔다 — 국문 줄(clamp 36~60)의 1.67배다.
      ⚠️ :global — 대제목은 set:html 로 넣어 Astro 스코프 속성이 붙지 않는다.
      ⚠️ line-height 1.1 — h1 의 1.25 를 그대로 받으면 큰 글자만큼 줄 사이가
