@@ -184,8 +184,15 @@
         var t = p / 0.2; if (t > 1) t = 1;
         var size = CLIP_S + (1 - CLIP_S) * t;
         var r = boxEl.getBoundingClientRect();
-        var radius = parseFloat(getComputedStyle(hero).getPropertyValue('--hero-base-w')) * 0.0968;
-        if (!(radius > 0)) radius = 58;
+        /* ⚠️ --hero-base-w 를 parseFloat 하면 안 된다. 값이
+           min(620px, 100vw - 96px, 100vh - 170px) 이라 계산되지 않은 식
+           문자열로 돌아와 늘 NaN 이고, 아래 폴백 58px 이 그대로 쓰였다.
+           데스크톱은 58/620 = 0.094 라 우연히 맞았지만 모바일은 58/294 =
+           0.197 로 두 배가 돼, 처음 화면의 모서리가 과하게 둥글었다.
+           칸에 걸린 border-radius 는 이미 px 로 풀린 값이고 같은 식
+           (--hero-base-w x 0.0968)에서 나온다 — 그걸 그대로 읽는다. */
+        var radius = parseFloat(getComputedStyle(boxEl).borderTopLeftRadius);
+        if (!(radius > 0)) radius = r.width * 0.0968;
         var rx = r.width ? Math.min(0.5, radius / r.width) : 0.0968;
         var ry = r.height ? Math.min(0.5, radius / r.height) : 0.0968;
         for (var i = 0; i < clipRects.length; i++) {
