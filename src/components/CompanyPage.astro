@@ -1205,7 +1205,9 @@ const alternates = [
   .cmp-stage .cmp-story-sig :global(.cmp-sig-logo) {
     display: inline-block;
     height: 0.74em; width: auto;
-    margin: 0 0.12em;
+    /* 왼쪽은 낱말 사이라 띄우고, 오른쪽은 조사 '이' 가 붙는 자리라 바싹 붙인다.
+       왼쪽에는 글 안의 띄어쓰기(0.25em 안팎)가 이미 있고 거기에 0.3em 을 더한다. */
+    margin: 0 0.04em 0 0.3em;
   }
   .cmp-stage .cmp-story-sig {
     margin: 0; color: var(--text);
