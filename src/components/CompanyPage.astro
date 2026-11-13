@@ -1198,12 +1198,13 @@ const alternates = [
   /* 문장 안에 들어가는 베텍 로고 — 대문자 글자 높이에 맞추고 밑선에 앉힌다.
      ⚠️ :global — set:html 로 넣은 글에는 Astro 스코프 속성이 붙지 않는다.
      ⚠️ 높이는 em 이다. 이 줄이 clamp(28~45px)를 오가므로 px 로 두면 좁은
-        화면에서 로고만 커 보인다.
+        화면에서 로고만 커 보인다. 0.62em 은 작아 보여 0.74em 으로 올렸다 —
+        한글 글자 높이(0.72em 안팎)와 거의 같아진다.
      ⚠️ vertical-align 은 baseline 이 기본이고, 그러면 상자 아랫변이 밑선에
         앉는다 — 워드마크는 그 자리가 맞다. 내림꼴이 없어 더 내릴 것이 없다. */
   .cmp-stage .cmp-story-sig :global(.cmp-sig-logo) {
     display: inline-block;
-    height: 0.62em; width: auto;
+    height: 0.74em; width: auto;
     margin: 0 0.12em;
   }
   .cmp-stage .cmp-story-sig {
