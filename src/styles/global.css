@@ -2041,6 +2041,13 @@
       /* 1열에서는 두 장 사이를 조금 더 띄운다 — 카드가 세로로 길어져서다.
          무대를 푸는 일은 이제 기본값이라 여기서 따로 하지 않는다. */
       #security .sec-deck > .security-grid + .security-grid { margin-top: 16px; }
+      /* 1열에서는 카드 안여백을 한 단 줄인다. 20/24/24 는 2~3열에서 카드가
+         좁을 때 쓰던 값인데, 1열에서는 카드가 342px 로 넓어 글이 가운데로
+         몰리고 아래가 비어 보인다(글 아랫변에서 카드 아랫변까지 46px 실측).
+         16/18/18 이면 글 칸이 292 -> 306px 이 되고 아래 흰 자리도 6px 줄어든다. */
+      #security .sec-card-body { padding: 16px 18px 18px; }
+      /* 제목도 한 단 내린다 — 20px 은 342px 카드에서 본문(14px)과 격차가 크다. */
+      #security .sec-card-body h3 { font-size: 18px; }
     }
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     /* ⚠️ 호버 확대(scale 1.07)는 2026-10-30 에 뺐다. 네 장 모두 <div> 이고 링크가
