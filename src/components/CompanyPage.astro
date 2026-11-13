@@ -761,7 +761,7 @@ const alternates = [
   /* 섹션 소제목은 랜딩 .section-header p(18px / 1.7)에 맞춘다 —
      이 페이지 히어로 소제목도 같은 값이라, 16px로 두면 한 페이지 안에서
      두 크기가 섞인다. */
-  .cmp-page .ind-head p { font-size: 18px; line-height: 1.7; }
+  .cmp-page .ind-head p { font-size: 18px; line-height: 1.5; }
   /* 랜딩 .section-header-row와 같은 값 — 대제목 왼쪽, 소제목 오른쪽 아래 정렬.
      랜딩은 섹션마다 소제목 max-width가 360~680px로 다른데, 기본값 360px을 쓴다. */
   /* ⚠️ max-width: none 필수. industry.css의 .ind-head가 640px로 묶고 있어
@@ -894,8 +894,11 @@ const alternates = [
   /* 본문 16 / 1.5. 뿌리 카드에 모바일 축소가 없으므로
      여기서도 폭이 줄어도 크기를 낮추지 않는다. */
   /* keep-all 필수: 없으면 한글이 어절 한가운데서 잘린다(1024px·375px에서 확인). */
-  /* 행간은 체계 값(--lh-body 1.5)을 쓴다 — 1.7 은 어디에도 없는 값이었다. */
-  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: var(--lh-body); color: var(--text-muted); text-wrap: pretty; word-break: keep-all; }
+  /* 행간은 체계 값 1.5(본문)를 쓴다 — 1.7 은 어디에도 없는 값이었다.
+     ⚠️ var(--lh-body) 로 쓰면 안 된다. --lh-* 는 global.css 의 랜딩 :root 에만
+        있고 이 페이지는 그 파일을 불러오지 않아 빈 값이다 — 행간이 무효가 돼
+        상속값 1.65 로 떨어진다(실측 26.4px). 숫자를 직접 적는다. */
+  .cmp-rule-card p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-muted); text-wrap: pretty; word-break: keep-all; }
   /* ⚠️ 열이 줄어드는 기준이 랜딩(900/600)과 다르다. 랜딩 카드는 제목이 20px인데
      여기는 26px이라 더 일찍 감긴다. 실측으로 카드가 290px 아래로 내려가면
      '얹거나, 새로 세우거나'가 2줄이 되고 본문도 2 -> 4줄로 늘어난다
@@ -1209,7 +1212,7 @@ const alternates = [
     word-break: keep-all; text-wrap: balance;
   }
   .cmp-stage .cmp-story-lede {
-    margin: 20px 0 0; font-size: 18px; line-height: 1.7;
+    margin: 20px 0 0; font-size: 18px; line-height: 1.5;
     color: var(--text-muted); word-break: keep-all;
   }
   /* 맺음 글 — 무대 대제목(.cmp-stage h2)과 같은 값이다. 소제목 크기로 두면
@@ -1287,8 +1290,8 @@ const alternates = [
     /* 라벨은 좌측 위, 수치는 우측 아래 — 대각으로 앉힌다. */
     display: flex; flex-direction: column; gap: 16px;
     box-shadow:
-      0 -26px 58px -24px rgba(118, 166, 215, 0.55),
-      0 -6px 20px -14px rgba(118, 166, 215, 0.30);
+      0 -26px 58px -24px rgba(118, 166, 215, 0.34),
+      0 -6px 20px -14px rgba(118, 166, 215, 0.18);
   }
   /* 수치 — 크기는 히어로 대제목(.cmp-title-l1 · l2)과 같은 clamp(52~100px)다.
      ⚠️ 그라데이션은 걷었다. 먹색 카드 위에서는 흰색 단색이다 —
@@ -1341,7 +1344,7 @@ const alternates = [
   /* 소제목(.cmp-story-lede · .cmp-story-sig)과 같은 값이다 — 18px / 행간 1.7 /
      --text-muted. 같은 무대 위의 작은 글이라 크기를 따로 둘 이유가 없다.
      ⚠️ 900px 이하도 저쪽과 함께 16px 로 내린다(아래 미디어쿼리). */
-  .cmp-stat-label { margin-top: 10px; font-size: 18px; line-height: 1.7; color: var(--text-muted); word-break: keep-all; }
+  .cmp-stat-label { margin-top: 10px; font-size: 18px; line-height: 1.5; color: var(--text-muted); word-break: keep-all; }
   /* ⚠️ label 은 set:html 로 넣어 span 에 Astro 스코프 속성이 붙지 않는다. :global 필수. */
   .cmp-stat-label :global(.cmp-stat-hl) { color: inherit; }
 </style>
