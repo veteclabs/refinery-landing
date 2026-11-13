@@ -2025,13 +2025,17 @@
        가 215px 이라 740px 에서 여유가 8px 뿐이다. 배치는 두 언어가 같아야 하므로
        영문 쪽에 맞춰 780px 로 둔다(영문 24px · 국문 37px). */
     @media (max-width: 779.98px) {
-      /* 1열에서는 카드 높이를 서로 맞춘다. flex column 은 교차축이 가로라 높이를
-         맞출 방법이 없어 grid + grid-auto-rows: 1fr 로 둔다. */
-      .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 16px; margin: 28px 0 0; padding: 0; }
-      /* 칸 비율도 하나로 통일한다. 398/180 과 606/180 이 섞여 있으면 폭이 같은 1열에서
-         1·4번 카드만 일러스트가 1.5배 높아 카드 크기가 어긋난다. 가로로 더 긴 쪽에
-         맞춰야 1·4번 일러스트가 세로를 꽉 채운 채 좌우로만 여백을 남긴다. */
-      #security .sec-card-img { aspect-ratio: 606 / 180; }
+      /* ⚠️ 1열에서는 카드 높이를 맞추지 않는다. 세로로 쌓이므로 나란히 놓일 때와
+         달리 높이가 같을 이유가 없는데, 1fr 로 묶으면 그림이 짧은 카드(2·3번,
+         3.37:1)가 가장 큰 카드에 맞춰 늘어나 글 아래가 72~74px 비었다.
+         auto 로 두면 각자 제 높이로 선다(284 / 231). */
+      .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: auto; gap: 16px; margin: 28px 0 0; padding: 0; }
+      /* ⚠️ 칸 비율을 하나로 묶지 않는다. 한때 606/180 으로 통일했는데, 그러면
+         1·4번 삽화(300x136 = 2.21:1)가 3.37:1 칸 안에서 contain 으로 줄어
+         좌우로 117px 씩 비었다(390px 실측). cover 로 채우면 위가 잘려 더 나쁘다.
+         기본값 398/180 은 1·4번 삽화와, 아래 606/180 은 2·3번 삽화와 비율이
+         이미 같다 — 각자 제 비율을 쓰면 넷 다 빈 자리 없이 꽉 찬다.
+         1열이라 카드 높이가 서로 달라도 괜찮다(284 / 231 / 229 / 284). */
       /* 1열에서는 카드가 본문 폭을 그대로 쓴다. 예전 max-width 320px 는 넓은 폭에서
          카드만 가운데 좁게 남겨 좌우가 휑했다. */
       /* 폭이 넓어졌으니 좁은 카드용 줄 나눔(mobile-br)도 필요 없다 — 켜 두면
@@ -2093,10 +2097,12 @@
        "차단합니 / 다." 로 끊겼다. 기본값이 inline 이라 가장 좁은 폭에서 켜지고 아래
        580px 에서 꺼진다 — 국문만 보면 515px 이면 되지만(500px 여유 6px) 영문은
        같은 문장이 길어 560px 에서 이미 여유가 3px 이다. */
-    #security .sec-card-body p br.sec-br-narrow { display: inline; }
-    @media (min-width: 580px) {
-      #security .sec-card-body p br.sec-br-narrow { display: none; }
-    }
+    /* ⚠️ 이제 어느 폭에서도 쓰지 않는다. 1열 카드의 안여백을 20/24 에서
+       16/18 로 줄이면서 글 칸이 292 -> 304px 이 됐고, 걱정하던 '차단합니 / 다.'
+       끊김이 사라졌다(390 · 360 · 320 실측 — keep-all 이라 낱말째 내려간다).
+       켜 두면 오히려 '교차 접근을 / 차단합니다.' 로 한 줄을 더 먹는다
+       (네 줄 -> 세 줄). 마크업의 br 은 남겨 둔다 — 글이 길어지면 다시 쓴다. */
+    #security .sec-card-body p br.sec-br-narrow { display: none; }
     @media (min-width: 780px) {
       #security .sec-card-body p br.sec-br { display: inline; }
     }
