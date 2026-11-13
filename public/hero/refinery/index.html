@@ -457,7 +457,29 @@ function placeTags(s){
 }
 /* ---------- live layer: moving parts drawn in 3D over the rendered frames ---------- */
 const liveCv=document.getElementById('live');let lr=null;
-try{lr=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:true});lr.setPixelRatio(Math.min(devicePixelRatio||1,1.5));lr.outputEncoding=THREE.sRGBEncoding;lr.setClearColor(0x000000,0);}catch(e){lr=null;}
+/* ⚠️ WebGL 생성은 실패할 수 있다. Chrome 은 한 번에 살아 있는 WebGL 컨텍스트
+   수에 상한이 있고(보통 16), 그 자리는 창을 넘어 브라우저 전체가 같이 쓴다.
+   3D 쓰는 탭이 많으면 여기서 거절당한다 — 콘솔에 THREE.WebGLRenderer:
+   Error creating WebGL context. 한 줄만 남는다.
+   그때 이 레이어(빛줄기 · 흐르는 점 · 카드)가 통째로 빠지는데, 아래 drawLive
+   가 if(!lr) return 으로 조용히 넘어가므로 배경 프레임만 남아 '그림 일부가
+   안 보인다' 로 보인다. 2026-11-13 에 실제로 그렇게 보고됐다(브라우저를
+   완전히 종료했다 켜니 돌아왔다).
+   ⚠️ 한 번 실패하면 영영 포기하지 않는다. 자리가 나면 살아나도록 몇 번 더
+      시도하고, 컨텍스트를 잃었다가 되찾는 경우도 받는다.
+   ⚠️ 요구를 낮춰 거절 확률을 줄인다 — antialias 는 끄고(이 장면은 선이
+      가늘어 차이가 거의 없다) powerPreference 는 low-power 로 둔다. */
+function mkRenderer(){
+  try{
+    const r=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:false,powerPreference:'low-power'});
+    r.setPixelRatio(Math.min(devicePixelRatio||1,1.5));r.outputEncoding=THREE.sRGBEncoding;r.setClearColor(0x000000,0);
+    return r;
+  }catch(e){return null;}
+}
+lr=mkRenderer();
+if(!lr){let tries=0;const again=()=>{if(lr||tries++>=5)return;lr=mkRenderer();if(!lr)setTimeout(again,2000*tries);};setTimeout(again,2000);}
+liveCv.addEventListener('webglcontextlost',e=>{e.preventDefault();lr=null;},false);
+liveCv.addEventListener('webglcontextrestored',()=>{lr=mkRenderer();},false);
 const LS=new THREE.Scene(),LV=DATA.live;
 LS.add(new THREE.HemisphereLight(0xF6F8FA,0xC8CED5,.95));const ldl=new THREE.DirectionalLight(0xffffff,.55);ldl.position.set(30,60,40);LS.add(ldl);
 const lin=h=>new THREE.Color(h).convertSRGBToLinear();
