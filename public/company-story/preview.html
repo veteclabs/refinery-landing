@@ -1,6 +1,6 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 body{margin:0;font-family:"Noto Sans KR",Pretendard,sans-serif;background:#fff;color:#16202C}
-.page{position:relative;width:1425px;height:3520px;margin:0 auto;overflow:hidden}
+.page{position:relative;width:1425px;height:3800px;margin:0 auto;overflow:hidden}
 h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;line-height:1.25;margin:0}
 .lede{position:absolute;left:0;right:0;top:370px;text-align:center;color:#5A6776;font-size:18px}
 .t{position:absolute;width:340px;font-weight:700;font-size:36px;line-height:1.35}
@@ -23,29 +23,33 @@ h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;l
 /* 마지막: 떠 있는 4개 배지가 천천히 위아래로 */
 #s5 .ov-b0,#s5 .ov-b1,#s5 .ov-b2,#s5 .ov-b3{opacity:1;animation:bob 3.4s ease-in-out infinite}
 #s5 .ov-b1{animation-delay:-.85s}#s5 .ov-b2{animation-delay:-1.7s}#s5 .ov-b3{animation-delay:-2.55s}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4.5%)}}
 /* 링: 하나씩 차례대로 퍼져 나감 */
-#s4 .ov-r0,#s4 .ov-r1,#s5 .ov-r0,#s5 .ov-r1,#s5 .ov-r2{opacity:0;animation:ring 3.6s ease-in-out infinite}
-#s4 .ov-r1{animation-delay:1.8s}#s5 .ov-r1{animation-delay:1.2s}#s5 .ov-r2{animation-delay:2.4s}
+#s4 .ov-r0,#s4 .ov-r1{opacity:0;animation:ring 3.6s ease-in-out infinite}
+#s4 .ov-r1{animation-delay:1.8s}
+/* 6번 링: 안쪽부터 차례로 바깥으로 번져 나간다 */
+#s5 .ov-r0,#s5 .ov-r1,#s5 .ov-r2{opacity:0;animation:spread 3.6s cubic-bezier(.25,.6,.35,1) infinite}
+#s5 .ov-r1{animation-delay:.45s}#s5 .ov-r2{animation-delay:.9s}
+@keyframes spread{0%{opacity:0;transform:scale(.88)}18%{opacity:1}55%{opacity:0;transform:scale(1.16)}100%{opacity:0;transform:scale(1.16)}}
 @keyframes ring{0%{opacity:0;transform:scale(.96)}30%{opacity:1;transform:scale(1)}60%{opacity:0;transform:scale(1.03)}100%{opacity:0}}
 #cube{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform;z-index:5}
 </style></head><body><div class="page" id="pg">
 <h1>From the floor up<br>현장 바닥에서 올라온 산업 AI</h1>
 <p class="lede">리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.</p>
-<div class="t" style="left:84px;top:960px"><small>회사 소개</small>현장을 아는 팀이 만든<br>솔루션, 산업 AI</div>
-<div class="t" style="left:1061px;top:1470px">30년+<span>산업 현장에서 쌓은 경험</span></div>
-<div class="t" style="left:84px;top:1975px">100+<span>데이터를 다룬 현장 수</span></div>
-<div class="t" style="left:1061px;top:2480px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
-<div class="t" style="left:1061px;top:3010px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
-<div class="s in" id="s0" style="left:262px;top:468px;width:900px;height:465px"><img src="scene-0-site.webp"></div>
-<div class="s" id="s1" style="left:618px;top:915px;width:525px;height:358px"><img src="scene-1-team.webp"></div>
-<div class="s" id="s2" style="left:330px;top:1419px;width:459px;height:322px"><img src="scene-2-30years.webp"></div>
-<div class="s" id="s3" style="left:520px;top:1897px;width:680px;height:320px"><img src="scene-3-100sites.webp"><img class="ov ov-grid" src="3-grid.webp" style="--ox:50.00%;--oy:53.12%"><img class="ov ov-up0" src="3-up0.webp" style="--ox:41.64%;--oy:32.87%"><img class="ov ov-up1" src="3-up1.webp" style="--ox:56.56%;--oy:40.85%"><img class="ov ov-up2" src="3-up2.webp" style="--ox:48.20%;--oy:41.40%"></div>
-<div class="s" id="s4" style="left:220px;top:2425px;width:680px;height:299px"><img src="scene-4-20industries.webp"><img class="ov spk-base" src="4-spoke-base.webp" style="--ox:49.97%;--oy:50.00%"><div class="ov spk-fade" style="--ox:49.97%;--oy:50.00%"><img class="spk-flow" src="4-spoke.webp" style="--ox:49.97%;--oy:50.00%"></div><img class="ov ov-r0" src="4-r0.webp" style="--ox:49.97%;--oy:50.00%"><img class="ov ov-r1" src="4-r1.webp" style="--ox:50.00%;--oy:50.00%"></div>
-<div class="s" id="s5" style="left:270px;top:2926px;width:580px;height:297px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.47%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.13%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:50.00%;--oy:56.79%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.92%;--oy:16.78%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.44%;--oy:10.46%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:30.01%;--oy:48.78%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.52%;--oy:55.30%"></div>
+<div class="t" style="left:84px;top:1180px"><small>회사 소개</small>현장을 아는 팀이 만든<br>솔루션, 산업 AI</div>
+<div class="t" style="left:1061px;top:1820px">30년+<span>산업 현장에서 쌓은 경험</span></div>
+<div class="t" style="left:84px;top:2330px">100+<span>데이터를 다룬 현장 수</span></div>
+<div class="t" style="left:1061px;top:2840px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
+<div class="t" style="left:1061px;top:3380px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
+<div class="s in" id="s0" style="left:162px;top:440px;width:1100px;height:568px"><img src="scene-0-site.webp"></div>
+<div class="s" id="s1" style="left:552px;top:1040px;width:757px;height:560px"><img src="scene-1-team.webp"></div>
+<div class="s" id="s2" style="left:119px;top:1640px;width:802px;height:496px"><img src="scene-2-30years.webp"></div>
+<div class="s" id="s3" style="left:520px;top:2230px;width:680px;height:320px"><img src="scene-3-100sites.webp"><img class="ov ov-grid" src="3-grid.webp" style="--ox:50.00%;--oy:53.12%"><img class="ov ov-up0" src="3-up0.webp" style="--ox:41.64%;--oy:32.87%"><img class="ov ov-up1" src="3-up1.webp" style="--ox:56.56%;--oy:40.85%"><img class="ov ov-up2" src="3-up2.webp" style="--ox:48.20%;--oy:41.40%"></div>
+<div class="s" id="s4" style="left:220px;top:2740px;width:680px;height:299px"><img src="scene-4-20industries.webp"><img class="ov spk-base" src="4-spoke-base.webp" style="--ox:49.97%;--oy:50.00%"><div class="ov spk-fade" style="--ox:49.97%;--oy:50.00%"><img class="spk-flow" src="4-spoke.webp" style="--ox:49.97%;--oy:50.00%"></div><img class="ov ov-r0" src="4-r0.webp" style="--ox:49.97%;--oy:50.00%"><img class="ov ov-r1" src="4-r1.webp" style="--ox:50.00%;--oy:50.00%"></div>
+<div class="s" id="s5" style="left:270px;top:3260px;width:580px;height:297px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.47%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.13%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:50.00%;--oy:56.79%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.92%;--oy:16.78%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.44%;--oy:10.46%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:30.01%;--oy:48.78%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.52%;--oy:55.30%"></div>
 <img id="cube" src="cube.webp">
 </div><script>
-const S=[[346.5, 844.0, 74.1], [745.4, 987.9, 96.9], [562.8, 1409.6, 95.3], [961.5, 2037.4, 31.6], [560.0, 2550.0, 34.0], [559.9, 2962.9, 98.4]];
+const S=[[265.3, 899.6, 90.6], [767.5, 1162.3, 163.7], [520.0, 1623.0, 168.5], [961.5, 2370.4, 31.6], [560.0, 2865.0, 34.0], [559.9, 3296.9, 98.4]];
 const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('div.s')];
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function frame(){
