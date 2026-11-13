@@ -179,6 +179,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     transform: none;
     will-change: opacity;
   }
+  /* ───────── 모바일(900px 이하) — 카피를 흐름으로 되돌린다 ─────────
+     위 .hv-copy 는 absolute 로 무대 한가운데에 떠 있다. 데스크톱에서는 그래픽
+     창이 화면만 해서 글이 그 왼쪽 위 빈 자리에 앉지만, 좁은 폭에서는 창이
+     294x294 로 줄어 글이 설비 그림 한가운데에 얹힌다(390px 에서 242px 겹쳤다).
+     흐름으로 되돌리면 글 -> 그래픽 순으로 쌓인다. 무대가 flex 세로 칸이고
+     그래픽이 flex: 1 1 auto 라, 남는 높이는 그래픽이 가져간다.
+     ⚠️ 901px 위는 손대지 않는다 — 데스크톱 배치는 그대로다. */
+  @media (max-width: 900px) {
+    #hero.hv .hv-copy {
+      position: static;
+      height: auto;
+      margin-block: 0;
+    }
+  }
+
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
      대제목은 탭 칸의 왼쪽 끝 · 아래끝에, 소제목은 화면 오른쪽에 같은 여백(88px)
      으로 선다. 1440 x 900 에서 대제목 88~502, 소제목 912~1352 라 겹치지 않는다.
