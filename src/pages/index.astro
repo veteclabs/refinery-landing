@@ -997,6 +997,22 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       padding-bottom: 0;
       transition: opacity var(--t-quick), filter var(--t-quick);
     }
+    /* ⚠️ 좁은 폭에서는 바닥을 함께 내린다. 위 세 값(글자 10px · 안여백 6px ·
+       높이 23.5px)은 칸이 627px 일 때 걸리는데, 폰에서는 칸이 342px 까지
+       줄어도 이름표만 그대로라 알약이 그림의 12.5% -> 21.1% 로 부풀었다.
+       판 위 이름표(Unify · Refine · Collect · Refinery Ontology)도 같은 이유로
+       판 가장자리를 넘어갔다.
+       비례대로 줄이면 글자가 5.5px 이 돼 못 읽는다 — 읽히는 선(8px)까지만
+       내린다. 알약은 21% -> 16% 안팎이 된다.
+       ⚠️ 901px 위는 그대로다. */
+    @media (max-width: 900px) {
+      #platform .pf-label {
+        font-size: clamp(8px, 1.594cqw, 13px);
+        padding-inline: max(4px, 0.9cqw);
+        height: max(17px, 3.75cqw);
+      }
+      #platform .pf-labels .pf-label--iso { font-size: clamp(6.5px, 1.33cqw, 11px); }
+    }
     /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
     #platform .pf-labels.rf-sel .pf-label { opacity: .18; }
     #platform .pf-labels.rf-sel .pf-label.rf-on {
