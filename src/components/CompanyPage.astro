@@ -53,8 +53,8 @@ function webpSize(name: string) {
 
 /* 그림이 바뀌기 전에 눈으로 맞춰 둔 값. meta 와 파일이 어긋날 때만 쓴다. */
 const FALLBACK: Record<string, { cx: number; cy: number; cs: number }> = {
-  '1': { cx: 0.2939, cy: 0.1153, cs: 0.1117 },
-  '2': { cx: 0.6542, cy: 0.1189, cs: 0.1496 },
+  '1': { cx: 0.2872, cy: 0.1152, cs: 0.1128 },
+  '2': { cx: 0.6542, cy: 0.1089, cs: 0.1696 },
   '3': { cx: 0.6427, cy: 0.3034, cs: 0.0640 },
   '4': { cx: 0.5360, cy: 0.2523, cs: 0.1047 },
   '5': { cx: 0.4998, cy: 0.0638, cs: 0.1701 },
@@ -123,13 +123,13 @@ const statParts = (num: string) => {
 };
 
 /* 그려지는 폭. 초안(preview.html)이 1425px 페이지에 놓은 폭을 가장 넓은 줄에
-   대한 비율로 옮긴 값이다 — 806 / 802 / 860 / 860 / 707 이므로 860 이 기준이다.
+   대한 비율로 옮긴 값이다 — 798 / 802 / 860 / 860 / 800 이므로 860 이 기준이다.
    장면마다 원근이 달라 폭을 따로 쥔다. 바깥 끝은 어차피 띠 끝에 붙으므로
    폭이 달라도 줄마다 바깥선은 한 자리에 선다.
    ⚠️ 기준이 802 에서 860 으로 바뀌었다 — 초안에서 3 · 4 번 장면이 커졌기
       때문이다. 가장 넓은 장면이 칸을 꽉 채우고 나머지는 초안의 비례 그대로
       줄어든다. 2 번은 1 -> 0.9326 으로 한 단 작아진다. */
-const SCENE_REL: Record<number, number> = { 1: 0.937, 2: 0.933, 3: 1, 4: 1, 5: 0.822 };
+const SCENE_REL: Record<number, number> = { 1: 0.928, 2: 0.933, 3: 1, 4: 1, 5: 0.930 };
 
 const SCENES = { hero: scene(0), rows: [scene(1), scene(2), scene(3), scene(4), scene(5)] };
 const sceneVars = (sc: { w: number; h: number; cx: number; cy: number; cs: number }, rel?: number) =>

@@ -1,6 +1,6 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 body{margin:0;font-family:"Noto Sans KR",Pretendard,sans-serif;background:#fff;color:#16202C}
-.page{position:relative;width:1425px;height:4000px;margin:0 auto;overflow:hidden}
+.page{position:relative;width:1425px;height:4100px;margin:0 auto;overflow:hidden}
 h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;line-height:1.25;margin:0}
 .lede{position:absolute;left:0;right:0;top:370px;text-align:center;color:#5A6776;font-size:18px}
 .t{position:absolute;width:340px;font-weight:700;font-size:36px;line-height:1.35}
@@ -50,14 +50,14 @@ h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;l
 <div class="t" style="left:1061px;top:2950px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
 <div class="t" style="left:1061px;top:3440px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
 <div class="s in" id="s0" style="left:162px;top:440px;width:1100px;height:571px"><img src="scene-0-site.webp"></div>
-<div class="s" id="s1" style="left:527px;top:1040px;width:806px;height:536px"><img src="scene-1-team.webp"></div>
+<div class="s" id="s1" style="left:531px;top:1040px;width:798px;height:535px"><img src="scene-1-team.webp"></div>
 <div class="s" id="s2" style="left:119px;top:1640px;width:802px;height:496px"><img src="scene-2-30years.webp"></div>
 <div class="s" id="s3" style="left:450px;top:2150px;width:860px;height:536px"><img src="scene-3-100sites.webp"><img class="ov ov-grid" src="3-grid.webp" style="--ox:50.00%;--oy:35.29%"><img class="ov ov-up0" src="3-up0.webp" style="--ox:46.34%;--oy:35.14%"><img class="ov ov-up1" src="3-up1.webp" style="--ox:43.52%;--oy:33.04%"><img class="ov ov-up2" src="3-up2.webp" style="--ox:35.54%;--oy:33.14%"></div>
 <div class="s" id="s4" style="left:130px;top:2720px;width:860px;height:583px"><img src="scene-4-20industries.webp"><img class="ov ov-arc" src="4-arc.webp" style="--ox:48.95%;--oy:39.15%"><img class="ov ov-up0" src="4-up0.webp" style="--ox:47.59%;--oy:17.59%"><img class="ov ov-up1" src="4-up1.webp" style="--ox:67.61%;--oy:1.91%"><img class="ov ov-up2" src="4-up2.webp" style="--ox:34.95%;--oy:17.55%"></div>
-<div class="s" id="s5" style="left:206px;top:3310px;width:707px;height:362px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.64%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.44%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:49.97%;--oy:57.03%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.97%;--oy:16.85%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.39%;--oy:9.96%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:29.96%;--oy:48.98%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.58%;--oy:55.53%"></div>
+<div class="s" id="s5" style="left:160px;top:3310px;width:800px;height:409px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.64%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.44%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:49.97%;--oy:57.03%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.97%;--oy:16.85%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.39%;--oy:9.96%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:29.96%;--oy:48.98%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.58%;--oy:55.53%"></div>
 <img id="cube" src="cube.webp">
 </div><script>
-const S=[[266.0, 905.0, 120.0], [763.9, 1133.0, 90.0], [643.7, 1735.4, 120.0], [1002.7, 2410.9, 55.0], [590.9, 2937.0, 90.0], [559.9, 3355.1, 120.2]];
+const S=[[266.0, 896.6, 136.0], [760.2, 1131.9, 90.0], [643.7, 1727.4, 136.0], [1002.7, 2410.9, 55.0], [590.9, 2937.0, 90.0], [559.9, 3361.0, 136.1]];
 const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('div.s')];
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 // 큐브: 장면 사이를 포물선으로 날아가 다음 자리에 사뿐히 내려앉는다.
@@ -68,8 +68,8 @@ function target(mid){
   let x=S[0][0],y=S[0][1],s=S[0][2],r=0,q=1;
   for(let i=0;i<S.length-1;i++){
     const a=S[i],b=S[i+1],span=b[1]-a[1];
-    // 앞 15% 는 제자리에 머물고, 남은 구간 동안 이동해 도착 직전 살짝 눌렸다 펴진다.
-    const t0=a[1]+span*.15,t1=b[1]-span*.05;
+    // 앞 35% 는 제자리에 머물고, 남은 구간 동안 이동해 도착 직전 살짝 눌렸다 펴진다.
+    const t0=a[1]+span*.35,t1=b[1]-span*.05;
     if(mid<=t0)break;
     const t=Math.min(1,(mid-t0)/(t1-t0)),e=easeIO(t);
     x=a[0]+(b[0]-a[0])*e;
