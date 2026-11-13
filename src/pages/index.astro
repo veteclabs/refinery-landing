@@ -1296,9 +1296,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         border-radius: var(--radius) var(--radius) 0 0 !important;
         scroll-snap-type: none;
       }
-      #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
-      #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
-      #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
+      /* ⚠️ .teams-menu-horizontal 을 반드시 붙인다. 빼면 모바일의 원형 메뉴
+         (.teams-menu-vertical)까지 끌려와, 원 테두리의 위·오른쪽만 --border 로
+         덮여 네 변 색이 갈린다(실측 — 위·오 #E3E7EC · 아래·왼 #C8CED5).
+         border-right: none 이 걸리는 원은 오른쪽 변이 아예 빠진다. */
+      #teams .teams-menu-horizontal .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(3n) { border-right: none; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
     }
     /* 바깥으로 빼는 일은 .teams-split 이 맡으므로 상자 자신의 margin 은 0 이다.
        ⚠️ 둥글기는 위 묶음과 같은 까닭으로 왼쪽 둘만 둔다 — 오른쪽 변은 화면 끝에
@@ -1310,10 +1314,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       }
     }
     @media (max-width: 520px) {
-      #teams .teams-tab-btn { flex-basis: 50%; }
-      #teams .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
-      #teams .teams-tab-btn:nth-child(2n) { border-right: none; }
-      #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
+      #teams .teams-menu-horizontal .teams-tab-btn { flex-basis: 50%; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(2n) { border-right: none; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
     }
 
     /* AI Agent 탭 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
