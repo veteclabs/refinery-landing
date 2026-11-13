@@ -69,6 +69,37 @@ const jsonLd = [orgSchema, websiteSchema];
       <iframe class="hm-frame" id="hmFrame" src="/hero/refinery/index.html"
         title="Refinery field motion" aria-hidden="true" tabindex="-1" loading="eager"></iframe>
 
+      {/* ⚠️ Chrome 전용 — 히어로 그림이 통째로 안 보이던 것을 막는다.
+          iframe 안 #vid 캔버스에는 그림이 제대로 들어 있다(화소를 직접 찍어
+          확인했다 — frame 0 그려짐 · 193장 수신 · 2560x1440 디코드 성공).
+          그런데 Chrome 이 이 iframe 의 합성 레이어를 다시 칠하지 않아 화면에는
+          빈 판으로 남는다. 사파리는 매번 칠해서 멀쩡하다.
+          부모의 clip-path(url(#rf-symbol-clip))를 꺼도, will-change: transform
+          을 줘도 낫지 않았다. opacity 를 한 프레임 건드렸다 되돌리면 그 순간
+          곧바로 나타난다 — 캔버스는 손대지 않았는데도. 그래서 뜰 때 몇 번
+          '툭' 건드려 다시 칠하게 한다.
+          ⚠️ 0.999 는 눈에 보이지 않는다. 0 으로 내렸다 올리면 깜빡인다.
+          ⚠️ 두 번 겹친 rAF 안에서 한다. 한 번으로는 같은 프레임에 묶여
+             레이어가 그대로 재사용된다. */}
+      <script is:inline>
+        (function () {
+          var fr = document.getElementById('hmFrame');
+          if (!fr) return;
+          function nudge() {
+            fr.style.opacity = '0.999';
+            void fr.offsetWidth;
+            fr.style.opacity = '';
+          }
+          function kick() {
+            requestAnimationFrame(function () { requestAnimationFrame(nudge); });
+          }
+          fr.addEventListener('load', kick);
+          if (fr.contentDocument && fr.contentDocument.readyState === 'complete') kick();
+          [400, 1200, 2500].forEach(function (ms) { setTimeout(kick, ms); });
+          addEventListener('pageshow', kick);
+        })();
+      </script>
+
       {/* 장면 1·2·3 글과 위치 표시. 창이 다 자란 뒤에만 보이고(.is-grown),
           그 뒤로도 첫 장면이 올라오기 전까지는 비워 둔다(.is-scene). */}
       <div class="hm-text">
