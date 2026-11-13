@@ -5,6 +5,7 @@ import '../../styles/vetec-hero.css';
 // 헤더·푸터는 한국어와 같은 공용 컴포넌트를 쓴다(라벨·IA는 src/i18n/nav.ts에서 로케일별로).
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import AgentAuthoring from '../../components/AgentAuthoring.astro';
 import { legal } from '../../data/legal';
 import { heroCards } from '../../data/heroMarkers';
 import ScrollReveal from '../../components/ScrollReveal.astro';
@@ -2332,6 +2333,9 @@ the ontology finds the answer</h3>
   </div>
   </div>
 </section>
+
+<!-- AGENT AUTHORING (준비 중 · 샘플 UI) -->
+<AgentAuthoring lang="en" />
 
 <!-- INTEGRATIONS -->
 <section id="integrations" style="background:#151B23;">
