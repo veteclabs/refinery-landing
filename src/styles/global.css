@@ -101,6 +101,11 @@
     }
 
     .mobile-br { display: none; }
+    /* 통합 섹션 소제목의 지정 단락 — 넓은 폭에서만 쓴다. 900px 이하에서는
+       한 줄에 들어갈 자리가 없어 지정 단락까지 더하면 네 줄이 된다
+       (390px 실측 4줄). 끄면 자연 감김으로 두 줄 몫만 쓴다. */
+    .int-br { display: inline; }
+    @media (max-width: 900px) { .int-br { display: none; } }
     /* 히어로 소제목 2번째 문장(18px 기준 687px)은 964px 부터 한 줄에 들어간다.
        그 아래 901px 까지는 감기면서 `지원합니다.` 한 어절만 다음 줄에 떨어지므로,
        절 경계인 `자율 운전까지` 뒤에서 끊어 두 줄을 고르게 나눈다.
@@ -229,7 +234,11 @@
        어법이다. 60px 못 박고 900 아래에서만 clamp 를 걸었더니, 1280~900 에서는
        히어로만 줄고 섹션 제목은 그대로여서 둘의 급이 뒤집혔다.
        5.6vw 는 1071px 에서 60px 에 닿는 값이다. */
-    #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+    /* ⚠️ 하한은 28px 이다. 32px 로 두면 390px 화면에서 제목이 3줄, 360 에서
+       솔루션이 4줄이 됐다 — 글자가 더 줄지 못하고 멈춰 서기 때문이다.
+       실측으로 2줄이 되는 가장 큰 값은 390 에서 31px · 360 에서 28px 이라
+       28 로 잡는다. 5.6vw 가 32px 에 닿는 571px 위로는 달라지는 것이 없다. */
+    #industries .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     /* 소제목은 제목 오른쪽이 아니라 아래에 둔다 — 60px 제목 옆에 18px 글이 서면
        줄 끝이 서로 멀어 한 덩어리로 읽히지 않는다. 둘 다 가운데에 세운다. */
     #industries .section-header-row { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
@@ -300,7 +309,7 @@
     }
 
     @media (max-width: 900px) {
-      #industries .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+      #industries .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     }
     .section-header p { font-size: 18px; color: #5A6776; max-width: 600px; margin: 12px 0 0; line-height: var(--lh-body); }
     @media (max-width: 900px) { .section-header p { font-size: 16px; } }
@@ -1959,7 +1968,7 @@
           모션이 두 번 나와 둘 다 흐려져 걷었다. */
     /* 대제목은 솔루션 섹션과 같은 활자·같은 배치다 — 두 섹션이 멀지 않으므로
        크기나 정렬이 다르면 한쪽이 급이 낮아 보인다. */
-    #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+    #security .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     /* 제목 · 소제목 · 카드 사이를 한 값(28px)으로 둔다 — 셋이 같은 간격으로 쌓인다.
        ⚠️ 소제목과 카드 사이는 머리글의 margin-bottom 과 덱의 margin-top 이 합쳐지는
           자리다(이웃 마진은 큰 쪽으로 붙는다). 머리글 쪽을 0 으로 두고 덱 하나가
@@ -1974,7 +1983,7 @@
     #security .section-header-row > * { align-self: center; margin-inline: auto; }
     #security .section-header { margin-bottom: 0; }
     @media (max-width: 900px) {
-      #security .section-header-row h2 { font-size: clamp(32px, 5.6vw, 60px); }
+      #security .section-header-row h2 { font-size: clamp(28px, 5.6vw, 60px); }
     }
     /* 제목은 줄마다 늦춰 아래에서 떠오른다 — 페이지의 다른 등장과 같은 어법이다.
        ⚠️ blur(7px)가 걷히는 연출을 함께 걸었다가 2026-10-30 에 걷었다. 페이지에서
@@ -2016,13 +2025,17 @@
        가 215px 이라 740px 에서 여유가 8px 뿐이다. 배치는 두 언어가 같아야 하므로
        영문 쪽에 맞춰 780px 로 둔다(영문 24px · 국문 37px). */
     @media (max-width: 779.98px) {
-      /* 1열에서는 카드 높이를 서로 맞춘다. flex column 은 교차축이 가로라 높이를
-         맞출 방법이 없어 grid + grid-auto-rows: 1fr 로 둔다. */
-      .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 16px; margin: 28px 0 0; padding: 0; }
-      /* 칸 비율도 하나로 통일한다. 398/180 과 606/180 이 섞여 있으면 폭이 같은 1열에서
-         1·4번 카드만 일러스트가 1.5배 높아 카드 크기가 어긋난다. 가로로 더 긴 쪽에
-         맞춰야 1·4번 일러스트가 세로를 꽉 채운 채 좌우로만 여백을 남긴다. */
-      #security .sec-card-img { aspect-ratio: 606 / 180; }
+      /* ⚠️ 1열에서는 카드 높이를 맞추지 않는다. 세로로 쌓이므로 나란히 놓일 때와
+         달리 높이가 같을 이유가 없는데, 1fr 로 묶으면 그림이 짧은 카드(2·3번,
+         3.37:1)가 가장 큰 카드에 맞춰 늘어나 글 아래가 72~74px 비었다.
+         auto 로 두면 각자 제 높이로 선다(284 / 231). */
+      .security-grid { display: grid; grid-template-columns: 1fr; grid-auto-rows: auto; gap: 16px; margin: 28px 0 0; padding: 0; }
+      /* ⚠️ 칸 비율을 하나로 묶지 않는다. 한때 606/180 으로 통일했는데, 그러면
+         1·4번 삽화(300x136 = 2.21:1)가 3.37:1 칸 안에서 contain 으로 줄어
+         좌우로 117px 씩 비었다(390px 실측). cover 로 채우면 위가 잘려 더 나쁘다.
+         기본값 398/180 은 1·4번 삽화와, 아래 606/180 은 2·3번 삽화와 비율이
+         이미 같다 — 각자 제 비율을 쓰면 넷 다 빈 자리 없이 꽉 찬다.
+         1열이라 카드 높이가 서로 달라도 괜찮다(284 / 231 / 229 / 284). */
       /* 1열에서는 카드가 본문 폭을 그대로 쓴다. 예전 max-width 320px 는 넓은 폭에서
          카드만 가운데 좁게 남겨 좌우가 휑했다. */
       /* 폭이 넓어졌으니 좁은 카드용 줄 나눔(mobile-br)도 필요 없다 — 켜 두면
@@ -2032,6 +2045,13 @@
       /* 1열에서는 두 장 사이를 조금 더 띄운다 — 카드가 세로로 길어져서다.
          무대를 푸는 일은 이제 기본값이라 여기서 따로 하지 않는다. */
       #security .sec-deck > .security-grid + .security-grid { margin-top: 16px; }
+      /* 1열에서는 카드 안여백을 한 단 줄인다. 20/24/24 는 2~3열에서 카드가
+         좁을 때 쓰던 값인데, 1열에서는 카드가 342px 로 넓어 글이 가운데로
+         몰리고 아래가 비어 보인다(글 아랫변에서 카드 아랫변까지 46px 실측).
+         16/18/18 이면 글 칸이 292 -> 306px 이 되고 아래 흰 자리도 6px 줄어든다. */
+      #security .sec-card-body { padding: 16px 18px 18px; }
+      /* 제목도 한 단 내린다 — 20px 은 342px 카드에서 본문(14px)과 격차가 크다. */
+      #security .sec-card-body h3 { font-size: 18px; }
     }
     .sec-card { background: #ffffff; border: 1px solid #E3E7EC; border-radius: var(--radius); overflow: hidden; position: relative; }
     /* ⚠️ 호버 확대(scale 1.07)는 2026-10-30 에 뺐다. 네 장 모두 <div> 이고 링크가
@@ -2077,10 +2097,12 @@
        "차단합니 / 다." 로 끊겼다. 기본값이 inline 이라 가장 좁은 폭에서 켜지고 아래
        580px 에서 꺼진다 — 국문만 보면 515px 이면 되지만(500px 여유 6px) 영문은
        같은 문장이 길어 560px 에서 이미 여유가 3px 이다. */
-    #security .sec-card-body p br.sec-br-narrow { display: inline; }
-    @media (min-width: 580px) {
-      #security .sec-card-body p br.sec-br-narrow { display: none; }
-    }
+    /* ⚠️ 이제 어느 폭에서도 쓰지 않는다. 1열 카드의 안여백을 20/24 에서
+       16/18 로 줄이면서 글 칸이 292 -> 304px 이 됐고, 걱정하던 '차단합니 / 다.'
+       끊김이 사라졌다(390 · 360 · 320 실측 — keep-all 이라 낱말째 내려간다).
+       켜 두면 오히려 '교차 접근을 / 차단합니다.' 로 한 줄을 더 먹는다
+       (네 줄 -> 세 줄). 마크업의 br 은 남겨 둔다 — 글이 길어지면 다시 쓴다. */
+    #security .sec-card-body p br.sec-br-narrow { display: none; }
     @media (min-width: 780px) {
       #security .sec-card-body p br.sec-br { display: inline; }
     }

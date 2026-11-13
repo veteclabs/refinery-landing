@@ -179,6 +179,50 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     transform: none;
     will-change: opacity;
   }
+  /* ───────── 모바일(900px 이하) — 카피를 흐름으로 되돌린다 ─────────
+     위 .hv-copy 는 absolute 로 무대 한가운데에 떠 있다. 데스크톱에서는 그래픽
+     창이 화면만 해서 글이 그 왼쪽 위 빈 자리에 앉지만, 좁은 폭에서는 창이
+     294x294 로 줄어 글이 설비 그림 한가운데에 얹힌다(390px 에서 242px 겹쳤다).
+     흐름으로 되돌리면 글 -> 그래픽 순으로 쌓인다. 무대가 flex 세로 칸이고
+     그래픽이 flex: 1 1 auto 라, 남는 높이는 그래픽이 가져간다.
+     ⚠️ 901px 위는 손대지 않는다 — 데스크톱 배치는 그대로다. */
+  @media (max-width: 900px) {
+    #hero.hv .hv-copy {
+      position: static;
+      height: auto;
+      margin-block: 0;
+      /* 자라기 시작하면 바로 걷힌다 — 머문 뒤의 진행도(--hero-mp)가 아니라
+         자라는 진행도(--hero-p)를 쓴다. 데스크톱은 글이 모서리로 내려가며
+         버티지만, 모바일은 글 아래에 그래픽이 있어 같이 서 있을 자리가 없다. */
+      opacity: clamp(0, calc(1 - var(--hero-p, 0) / 0.08), 1);
+      /* 흐려지는 것만으로는 모자란다 — 자리를 내줘야 그래픽이 화면을 채운다.
+         상한만 줄이므로 멈춰 있을 때(p=0)는 제 높이 그대로다(390 에서 211px ·
+         360 에서 234px, 둘 다 320 아래라 깎이지 않는다). */
+      /* ⚠️ 흐려짐이 끝난 뒤에 접기 시작해야 한다. 둘을 같이 돌렸더니 아직 보이는
+         글이 overflow: hidden 에 가로로 잘려 마지막 줄이 중간에 끊긴 채 흐려졌다
+         (p 0.12 에서 실측 — 보이는 높이 187 / 제 높이 211, 투명도 0.17).
+         실제로 깎이기 시작하는 건 상한이 211 아래로 내려가는 p 0.155 부터라,
+         그때는 이미 투명도가 0 이다. */
+      max-height: calc(320px * (1 - min(1, max(0, var(--hero-p, 0) - 0.08) / 0.42)));
+      overflow: hidden;
+    }
+    /* 가로도 세로와 같은 박자로 자란다.
+       ⚠️ 세로는 글이 접히며 비는 자리를 flex 가 바로 받아 p 0.5 에 끝나는데,
+          가로는 원래 식이 p 1 까지 끌어 둘이 따로 놀았다 — p 0.25 에서
+          294x294 -> 298x621 로 세로만 327px 자라고 가로는 4px 이었다.
+          '자란다' 가 아니라 '세로로 늘어났다가 옆으로 벌어진다' 로 보였다.
+       가로도 0 ~ 0.5 에 끝내 둘을 같은 자리에서 멈춘다. 남는 구간(0.5~1)은
+       다 자란 창이 머무는 데 쓴다 — 그 뒤에 장면 글이 올라온다. */
+    .hero-motion-placeholder {
+      max-width: calc(var(--hero-base-w)
+        + (100% - var(--hero-base-w)) * min(1, var(--hero-p, 0) / 0.5));
+    }
+    /* 위 여백도 좌우 · 아래와 같게 둔다. 머리에는 고정 헤더가 얹히므로 그
+       높이에 같은 여백(--hero-pad)을 더해야 눈에 보이는 틈이 네 변 같아진다.
+       ⚠️ .hero-stage 의 padding 단축 속성 뒤에 와야 한다. */
+    .hero-stage { padding-top: calc(var(--header-h) + var(--hero-pad)); }
+  }
+
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
      대제목은 탭 칸의 왼쪽 끝 · 아래끝에, 소제목은 화면 오른쪽에 같은 여백(88px)
      으로 선다. 1440 x 900 에서 대제목 88~502, 소제목 912~1352 라 겹치지 않는다.
@@ -964,6 +1008,25 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       padding-bottom: 0;
       transition: opacity var(--t-quick), filter var(--t-quick);
     }
+    /* ⚠️ 좁은 폭에서는 바닥을 함께 내린다. 위 세 값(글자 10px · 안여백 6px ·
+       높이 23.5px)은 칸이 627px 일 때 걸리는데, 폰에서는 칸이 342px 까지
+       줄어도 이름표만 그대로라 알약이 그림의 12.5% -> 21.1% 로 부풀었다.
+       판 위 이름표(Unify · Refine · Collect · Refinery Ontology)도 같은 이유로
+       판 가장자리를 넘어갔다.
+       비례대로 줄이면 글자가 5.5px 이 돼 못 읽는다 — 읽히는 선(8px)까지만
+       내린다. 알약은 21% -> 16% 안팎이 된다.
+       ⚠️ 901px 위는 그대로다. */
+    @media (max-width: 900px) {
+      #platform .pf-label {
+        font-size: clamp(8px, 1.594cqw, 13px);
+        padding-inline: max(4px, 0.9cqw);
+        height: max(17px, 3.75cqw);
+      }
+      /* ⚠️ 판 위에 눕는 여섯(.pf-label--iso)의 좁은 폭 값은 여기 두지 않는다.
+         아래 .pf-label--iso 기본 규칙과 특이도가 같아(1,0,2) 뒤에 선언된
+         그쪽이 이겨, 여기 적어 둔 값이 통째로 무시된다 — 한동안 그래 왔다.
+         .pf-label--data 블록 다음에 따로 놓았다. */
+    }
     /* 고르면 그림과 같이 옅어지고, 고른 쪽만 남는다. */
     #platform .pf-labels.rf-sel .pf-label { opacity: .18; }
     #platform .pf-labels.rf-sel .pf-label.rf-on {
@@ -1042,6 +1105,28 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          ⚠️ 300 은 Roboto 가 들고 있는 가장 가는 굵기다 — 더 내릴 자리가 없다. */
       font-weight: 300;
       letter-spacing: var(--ls-wide-xs);
+    }
+
+    /* 좁은 폭에서 판 위에 눕는 여섯은 바닥을 두지 않는다 — 비례 그대로 간다.
+       ⚠️ 자리가 여기인 이유: 위 @media (max-width: 900px) 안에 적으면 바로 앞
+          .pf-label--iso 기본 규칙과 특이도가 같아(1,0,2) 뒤에 선언된 그쪽이
+          이긴다. 실제로 한동안 그래서 기본값 clamp(8px, …) 의 8px 바닥이
+          342px 칸에도 그대로 걸려 있었다.
+       바닥 8px 이 걸리면 글자가 데스크탑 대비 1.43배가 되고, 전단으로 눕힌
+       글자라 폭이 더 불어 실측 1.76배가 됐다. 그 탓에 Refinery Ontology 가
+       판 오른쪽 밖으로 나가고 Unify · Refine · Collect 가 비탈을 넘어 겹쳤다.
+       비례로 두면 342px 칸에서 4.55px 이라 읽히지는 않는다. 그래도 그쪽이
+       맞다 — 이 여섯은 애초에 그림 안에 눕혀 둔 '그림의 일부'이고, 같은
+       내용은 바로 위 아코디언이 한글로 말한다.
+       ⚠️ 위 알약 셋(.pf-label)의 바닥(8px · 17px · 4px)은 그대로 둔다. 제품
+          이름이라 읽혀야 하기 때문이다(비례로 내리면 5.45px). 대신 알약은
+          1.30~1.35배로 남아 받침판에 조금 크게 얹힌다 — 받아들인 결과다.
+       실측(그래픽 폭 대비 %) — 데스크탑 / 고치기 전 / 고친 뒤:
+         Refinery Ontology 10.76 / 18.94 / 10.75   Work flow 5.11 / 8.95 / 4.99
+         Unify 5.35 / 9.36 / 5.19   Refine 6.07 / 10.60 / 5.87
+         Collect 6.37 / 11.13 / 6.14   Data 2.83 / 4.98 / 2.83 */
+    @media (max-width: 900px) {
+      #platform .pf-labels .pf-label--iso { font-size: 1.33cqw; }
     }
 
     /* 한 장을 두 번에 나눠 보여 준다. 처음에는 위 31% 만 보이고(카드 세 장과
@@ -1236,9 +1321,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         border-radius: var(--radius) var(--radius) 0 0 !important;
         scroll-snap-type: none;
       }
-      #teams .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
-      #teams .teams-tab-btn:nth-child(3n) { border-right: none; }
-      #teams .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
+      /* ⚠️ .teams-menu-horizontal 을 반드시 붙인다. 빼면 모바일의 원형 메뉴
+         (.teams-menu-vertical)까지 끌려와, 원 테두리의 위·오른쪽만 --border 로
+         덮여 네 변 색이 갈린다(실측 — 위·오 #E3E7EC · 아래·왼 #C8CED5).
+         border-right: none 이 걸리는 원은 오른쪽 변이 아예 빠진다. */
+      #teams .teams-menu-horizontal .teams-tab-btn { flex: 1 1 33.333%; scroll-snap-align: none; padding: 16px 8px; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(3n) { border-right: none; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(n+4) { border-top: 1px solid var(--border); }
     }
     /* 바깥으로 빼는 일은 .teams-split 이 맡으므로 상자 자신의 margin 은 0 이다.
        ⚠️ 둥글기는 위 묶음과 같은 까닭으로 왼쪽 둘만 둔다 — 오른쪽 변은 화면 끝에
@@ -1250,10 +1339,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       }
     }
     @media (max-width: 520px) {
-      #teams .teams-tab-btn { flex-basis: 50%; }
-      #teams .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
-      #teams .teams-tab-btn:nth-child(2n) { border-right: none; }
-      #teams .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
+      #teams .teams-menu-horizontal .teams-tab-btn { flex-basis: 50%; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(3n) { border-right: 1px solid var(--border); }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(2n) { border-right: none; }
+      #teams .teams-menu-horizontal .teams-tab-btn:nth-child(n+3) { border-top: 1px solid var(--border); }
     }
 
     /* AI Agent 탭 캡처는 위쪽에 가로 실선이 들어 있다(원본 y≈136px).
@@ -2369,7 +2458,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     <div class="section-header">
       <div class="section-header-row">
         <h2>기존 위에 얹거나 <br class="mobile-br">처음부터 새로 <br class="desktop-br">어느 쪽이든 <br class="mobile-br">끊김 없이</h2>
-        <p>이미 쓰는 레거시 ⁠· 클라우드 ⁠· AI 도구와 양방향으로 통합하고,<br>시스템이 없는 현장은 데이터 수집부터 새로 구축합니다.</p>
+        {/* ⚠️ <br> 앞에 공백을 둔다. 좁은 폭에서 이 <br> 을 끄는데 공백이 없으면
+            '통합하고,시스템이' 로 붙는다(FAQ 에서 같은 일이 있었다). */}
+        <p>이미 쓰는 레거시 ⁠· 클라우드 ⁠· AI 도구와 양방향으로 통합하고, <br class="int-br">시스템이 없는 현장은 데이터 수집부터 새로 구축합니다.</p>
       </div>
     </div>
     <style is:global>
@@ -2736,10 +2827,10 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       <div class="faq-list" style="max-width:none;margin:0;">
       <div class="faq-item"><div class="faq-q">도입까지 얼마나 걸리나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">PoC부터 전사 확장까지 현장 규모와 기존 시스템 복잡도에 따라 <br class="faq-br">달라집니다. <br>정확한 일정은 상담을 통해 안내드립니다.</div></div>
       <div class="faq-item"><div class="faq-q">보안은 어떻게 보장되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">전송 구간은 TLS 1.3, 저장 데이터는 <span style="white-space:nowrap">AES-256</span>으로 암호화하고, <br class="faq-keep">조직별 데이터 격리(PostgreSQL RLS)와 RBAC ⁠· 감사 로그를 <br class="faq-br">적용합니다. <br>온프레미스 배포 옵션도 제공하며, 이 경우 데이터가 <br class="faq-br">사내를 벗어나지 않습니다.</div></div>
-      <div class="faq-item"><div class="faq-q">현장 데이터를 AI 학습에 사용하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다.<br>각 고객의 데이터는 완전히 격리되어 관리됩니다.</div></div>
-      <div class="faq-item"><div class="faq-q">기존 SCADA/MES/ERP는 어떻게 되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">기존 시스템이 있으면 걷어내지 않고 그 위에 통합 지능 레이어로 얹혀 <br class="faq-br">양방향 연동합니다. <br>시스템이 없는 현장은 30년 경험으로 만든 템플릿<br class="faq-br">(예: 에너지경영시스템)에서 새로 구축합니다. 두 방식 모두 지원합니다.</div></div>
-      <div class="faq-item"><div class="faq-q">어떤 언어를 지원하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">인터페이스와 AI 에이전트의 답변은 현재 한국어로 제공됩니다.<br>영어 지원은 추후 확대할 예정입니다.</div></div>
-      <div class="faq-item"><div class="faq-q">클라우드와 온프레미스 중 선택할 수 있나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">클라우드, 온프레미스, 하이브리드 모두 지원합니다.<br>보안 정책에 따라 유연하게 선택 가능합니다.</div></div>
+      <div class="faq-item"><div class="faq-q">현장 데이터를 AI 학습에 사용하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다. <br>각 고객의 데이터는 완전히 격리되어 관리됩니다.</div></div>
+      <div class="faq-item"><div class="faq-q">기존 SCADA/MES/ERP는 어떻게 되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a faq-long">기존 시스템이 있으면 걷어내지 않고 그 위에 통합 지능 레이어로 얹혀 <br class="faq-br">양방향 연동합니다. <br>시스템이 없는 현장은 30년 경험으로 만든 템플릿 <br class="faq-br">(예: 에너지경영시스템)에서 새로 구축합니다. 두 방식 모두 지원합니다.</div></div>
+      <div class="faq-item"><div class="faq-q">어떤 언어를 지원하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">인터페이스와 AI 에이전트의 답변은 현재 한국어로 제공됩니다. <br>영어 지원은 추후 확대할 예정입니다.</div></div>
+      <div class="faq-item"><div class="faq-q">클라우드와 온프레미스 중 선택할 수 있나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">클라우드, 온프레미스, 하이브리드 모두 지원합니다. <br>보안 정책에 따라 유연하게 선택 가능합니다.</div></div>
       </div>
     </div>
   </div>
