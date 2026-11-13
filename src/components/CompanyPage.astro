@@ -841,9 +841,17 @@ const alternates = [
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   }
   .cmp-rule-card {
-    /* 카드 면은 --bg-soft 하나로 선다. 섹션 배경이 흰색이라 면만으로 충분히
-       떠 보이고, 테두리까지 두르면 선이 한 겹 더 생겨 무거워진다. */
+    /* 카드 면은 --bg-soft 하나로 선다. 테두리는 두르지 않는다 — 선이 한 겹
+       더 생겨 무거워진다. 대신 아래로 짧은 그림자를 옅게 깔아 면이 뜨는 것을
+       거든다(면만으로도 떠 보이므로 그림자는 거들기만 한다).
+       ⚠️ 넓게 깔지 않는다 — 40px 넘게 번지면 세 카드 아래가 한 덩어리로
+          이어져 보인다. 사방으로 고르게 깔면 카드가 공중에 뜬 것처럼 된다. */
+    /* ⚠️ 변수로 둔다. 아래 .cmp-spread > * 가 모일 때의 경계를 box-shadow 로
+       그리는데, 같은 속성이라 여기서 바로 적으면 통째로 덮인다. 세 자리
+       (여기 · 모임 규칙 · 모션 끈 자리)에서 이 변수를 함께 쓴다. */
+    --card-shadow: 0 10px 24px -12px rgba(22, 32, 44, 0.10);
     background: var(--bg-soft); border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
     padding: 30px; position: relative; overflow: hidden;
     transition: background .2s;
     text-align: center;
@@ -989,17 +997,19 @@ const alternates = [
   .cmp-spread > * {
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, calc(1 - var(--spread, 1))),
-      0 18px 40px -16px rgba(22, 32, 44, calc(0.16 * (1 - var(--spread, 1))));
+      0 18px 40px -16px rgba(22, 32, 44, calc(0.16 * (1 - var(--spread, 1)))),
+      var(--card-shadow);
   }
   /* 들어온 순간 한 번 재생한다. 전이는 --spread 하나에 걸고, 자리 · 기울기 ·
      크기 · 경계가 모두 그 값에서 나오므로 넷이 같이 따라온다.
      곡선은 사이트 공통 등장 곡선과 같다. */
   .cmp-spread.cmp-spread-go { transition: --spread .75s cubic-bezier(.2, .7, .2, 1); }
+  /* 모션을 끄는 자리에서도 기본 그림자는 남긴다 — 모일 때만 서는 경계만 뺀다. */
   @media (max-width: 900px) {
-    .cmp-spread > * { transform: none; box-shadow: none; }
+    .cmp-spread > * { transform: none; box-shadow: var(--card-shadow); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cmp-spread > * { transform: none; box-shadow: none; }
+    .cmp-spread > * { transform: none; box-shadow: var(--card-shadow); }
   }
 
   /* ───────── 무대(stage) — 가운데 그래픽 + 좌 · 우로 떠오르는 글 ─────────
