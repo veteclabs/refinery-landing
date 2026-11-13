@@ -191,7 +191,20 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       position: static;
       height: auto;
       margin-block: 0;
+      /* 자라기 시작하면 바로 걷힌다 — 머문 뒤의 진행도(--hero-mp)가 아니라
+         자라는 진행도(--hero-p)를 쓴다. 데스크톱은 글이 모서리로 내려가며
+         버티지만, 모바일은 글 아래에 그래픽이 있어 같이 서 있을 자리가 없다. */
+      opacity: clamp(0, calc(1 - var(--hero-p, 0) / 0.15), 1);
+      /* 흐려지는 것만으로는 모자란다 — 자리를 내줘야 그래픽이 화면을 채운다.
+         상한만 줄이므로 멈춰 있을 때(p=0)는 제 높이 그대로다(390 에서 211px ·
+         360 에서 234px, 둘 다 320 아래라 깎이지 않는다). */
+      max-height: calc(320px * (1 - min(1, var(--hero-p, 0) / 0.3)));
+      overflow: hidden;
     }
+    /* 위 여백도 좌우 · 아래와 같게 둔다. 머리에는 고정 헤더가 얹히므로 그
+       높이에 같은 여백(--hero-pad)을 더해야 눈에 보이는 틈이 네 변 같아진다.
+       ⚠️ .hero-stage 의 padding 단축 속성 뒤에 와야 한다. */
+    .hero-stage { padding-top: calc(var(--header-h) + var(--hero-pad)); }
   }
 
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
