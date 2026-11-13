@@ -722,7 +722,9 @@ const alternates = [
        560px 이하에서 60px 으로 줄이는 것도 저쪽과 같다. */
     display: flex; align-items: center;
     padding: 110px 0;
-    border-bottom: 1px solid var(--border);
+    /* 아래 구분선은 두지 않는다 — 바닥에서 올라온 빛이 띠 아랫변에서 가장
+       진한데, 그 위에 선을 그으면 빛이 선에서 잘린 것처럼 보인다.
+       푸터와는 색이 달라 선 없이도 경계가 선다. */
     background: #FFFFFF radial-gradient(62% 100% at 50% 100%,
       rgba(238, 244, 251, 1) 0%,
       rgba(238, 244, 251, 0.995) 8.33%,
@@ -854,11 +856,12 @@ const alternates = [
     /* 흰색 유지. #3f76ae를 시도했으나 그 4.71:1은 흰 배경 기준 값이었고,
        실제 바탕인 #76A6D7 위에서는 1.86:1로 흰색(2.56:1)보다 낮았다. */
     color: #ffffff; letter-spacing: -0.2px;
-    /* 번호는 흐름에서 빼서 카드 위쪽 가운데에 고정한다. 흐름에 두면 이 배지가
+    /* 번호는 흐름에서 빼서 카드 왼쪽 위에 고정한다. 흐름에 두면 이 배지가
        아이콘을 아래로 밀어, '카드 윗선 -> 아이콘' 여백만 48px 더 벌어진다.
-       위에서 30px 은 카드 패딩과 같다. 카드 안이 모두 가운데 정렬이라
-       번호만 왼쪽에 서 있으면 혼자 어긋나 보인다. */
-    position: absolute; top: 30px; left: 50%; transform: translateX(-50%); margin: 0;
+       위치값(30px)은 카드 패딩과 같아 안쪽 내용과 같은 선에 선다.
+       ⚠️ 가운데로 옮겨 본 적이 있다(482c353d). 아이콘 바로 위에 번호가 겹쳐
+          서서 머리가 무거워 보여 되돌렸다 — 번호는 모서리에 둔다. */
+    position: absolute; top: 30px; left: 30px; margin: 0;
     /* 글리프를 원 한가운데로 내린다. align-items: center 는 글자 상자를 가운데 두는데,
        숫자 글리프는 그 상자 안에서 baseline 위에 놓여 1.3px 떠 보였다(1·2·3 모두 같은 값).
        border-box 라 padding 을 줘도 원 지름 30px 은 그대로다.
@@ -909,7 +912,9 @@ const alternates = [
      여기는 흰 면이라 먹색만 다르다. */
   .cmp-outro-title {
     margin: 0;
-    font-size: clamp(26px, 3.6vw, 40px); font-weight: 500;
+    /* 굵기만 500 -> 600 으로 한 단 올린다. 크기 · 자간 · 행간은 솔루션 CTA 와
+       같은 값 그대로다. */
+    font-size: clamp(26px, 3.6vw, 40px); font-weight: 600;
     letter-spacing: -0.8px; line-height: 1.35;
     color: var(--text); word-break: keep-all;
   }
