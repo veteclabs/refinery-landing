@@ -53,11 +53,11 @@ function webpSize(name: string) {
 
 /* 그림이 바뀌기 전에 눈으로 맞춰 둔 값. meta 와 파일이 어긋날 때만 쓴다. */
 const FALLBACK: Record<string, { cx: number; cy: number; cs: number }> = {
-  '1': { cx: 0.2565, cy: 0.1177, cs: 0.1563 },
-  '2': { cx: 0.5065, cy: -0.0217, cs: 0.2074 },
-  '3': { cx: 0.6485, cy: 0.2603, cs: 0.0510 },
-  '4': { cx: 0.5000, cy: 0.1735, cs: 0.0649 },
-  '5': { cx: 0.5000, cy: 0.0638, cs: 0.1697 },
+  '1': { cx: 0.2939, cy: 0.0577, cs: 0.2268 },
+  '2': { cx: 0.5000, cy: -0.0211, cs: 0.2101 },
+  '3': { cx: 0.6425, cy: 0.3134, cs: 0.0444 },
+  '4': { cx: 0.5252, cy: 0.2078, cs: 0.1173 },
+  '5': { cx: 0.5002, cy: 0.0638, cs: 0.1702 },
 };
 
 const scene = (i: number) => {
@@ -79,33 +79,32 @@ const scene = (i: number) => {
 };
 /* 모션 레이어. 바탕 그림 위에 같은 크기로 겹쳐 깐다(모두 전체 캔버스다).
    자리값(--ox · --oy)과 움직임은 public/company-story/preview.html 이 정본이고
-   그대로 옮겼다 — meta.json 의 ov 와는 4 번 스포크 한 자리가 다르다(거기선
-   48.81% 인데 초안이 링 중심과 같은 50% 로 맞춰 뒀다).
-   ⚠️ 20+ 의 연결선(4-spoke*)과 마지막 장면의 떠 있는 도형(5-b0~b3)은 바탕
-      그림에 없다 — 이 레이어를 빼면 그래픽 자체가 빈다. 나머지(링 · 그리드 ·
-      데이터 선)는 바탕에도 정지 상태로 있어 빠지면 움직임만 없어진다. */
-type Layer = { file: string; cls: string; ox: string; oy: string; flow?: boolean };
+   그대로 옮겼다.
+   ⚠️ 마지막 장면의 떠 있는 도형(5-b0~b3)은 바탕 그림에 없다 — 이 레이어를
+      빼면 그래픽 자체가 빈다. 나머지(링 · 그리드 · 공중 연결선 · 업링크)는
+      바탕에도 정지 상태로 있어 빠지면 움직임만 없어진다. */
+type Layer = { file: string; cls: string; ox: string; oy: string };
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [
-    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '53.12%' },
-    { file: '3-up0.webp', cls: 'ov-up0', ox: '41.64%', oy: '32.87%' },
-    { file: '3-up1.webp', cls: 'ov-up1', ox: '56.56%', oy: '40.85%' },
-    { file: '3-up2.webp', cls: 'ov-up2', ox: '48.20%', oy: '41.40%' },
+    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.36%' },
+    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '39.77%' },
+    { file: '3-up1.webp', cls: 'ov-up1', ox: '43.53%', oy: '43.18%' },
+    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.56%', oy: '41.50%' },
   ],
   4: [
-    { file: '4-spoke-base.webp', cls: 'spk-base', ox: '49.97%', oy: '50.00%' },
-    { file: '4-spoke.webp', cls: 'spk-flow', ox: '49.97%', oy: '50.00%', flow: true },
-    { file: '4-r0.webp', cls: 'ov-r0', ox: '49.97%', oy: '50.00%' },
-    { file: '4-r1.webp', cls: 'ov-r1', ox: '50.00%', oy: '50.00%' },
+    { file: '4-arc.webp', cls: 'ov-arc', ox: '47.85%', oy: '40.23%' },
+    { file: '4-up0.webp', cls: 'ov-up0', ox: '46.48%', oy: '18.01%' },
+    { file: '4-up1.webp', cls: 'ov-up1', ox: '66.64%', oy: '1.99%' },
+    { file: '4-up2.webp', cls: 'ov-up2', ox: '33.71%', oy: '17.47%' },
   ],
   5: [
-    { file: '5-r0.webp', cls: 'ov-r0', ox: '49.97%', oy: '57.47%' },
-    { file: '5-r1.webp', cls: 'ov-r1', ox: '49.97%', oy: '57.13%' },
-    { file: '5-r2.webp', cls: 'ov-r2', ox: '50.00%', oy: '56.79%' },
-    { file: '5-b0.webp', cls: 'ov-b0', ox: '69.92%', oy: '16.78%' },
-    { file: '5-b1.webp', cls: 'ov-b1', ox: '31.44%', oy: '10.46%' },
-    { file: '5-b2.webp', cls: 'ov-b2', ox: '30.01%', oy: '48.78%' },
-    { file: '5-b3.webp', cls: 'ov-b3', ox: '68.52%', oy: '55.30%' },
+    { file: '5-r0.webp', cls: 'ov-r0', ox: '50.00%', oy: '57.64%' },
+    { file: '5-r1.webp', cls: 'ov-r1', ox: '50.00%', oy: '57.44%' },
+    { file: '5-r2.webp', cls: 'ov-r2', ox: '50.00%', oy: '56.96%' },
+    { file: '5-b0.webp', cls: 'ov-b0', ox: '70.02%', oy: '16.85%' },
+    { file: '5-b1.webp', cls: 'ov-b1', ox: '31.41%', oy: '9.96%' },
+    { file: '5-b2.webp', cls: 'ov-b2', ox: '29.98%', oy: '48.98%' },
+    { file: '5-b3.webp', cls: 'ov-b3', ox: '68.62%', oy: '55.53%' },
   ],
 };
 const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
@@ -124,10 +123,13 @@ const statParts = (num: string) => {
 };
 
 /* 그려지는 폭. 초안(preview.html)이 1425px 페이지에 놓은 폭을 가장 넓은 줄에
-   대한 비율로 옮긴 값이다 — 757 / 802 / 680 / 680 / 580 이므로 802 가 기준이다.
+   대한 비율로 옮긴 값이다 — 721 / 802 / 860 / 860 / 580 이므로 860 이 기준이다.
    장면마다 원근이 달라 폭을 따로 쥔다. 바깥 끝은 어차피 띠 끝에 붙으므로
-   폭이 달라도 줄마다 바깥선은 한 자리에 선다. */
-const SCENE_REL: Record<number, number> = { 1: 0.944, 2: 1, 3: 0.848, 4: 0.848, 5: 0.723 };
+   폭이 달라도 줄마다 바깥선은 한 자리에 선다.
+   ⚠️ 기준이 802 에서 860 으로 바뀌었다 — 초안에서 3 · 4 번 장면이 커졌기
+      때문이다. 가장 넓은 장면이 칸을 꽉 채우고 나머지는 초안의 비례 그대로
+      줄어든다. 2 번은 1 -> 0.9326 으로 한 단 작아진다. */
+const SCENE_REL: Record<number, number> = { 1: 0.8384, 2: 0.9326, 3: 1, 4: 1, 5: 0.6744 };
 
 const SCENES = { hero: scene(0), rows: [scene(1), scene(2), scene(3), scene(4), scene(5)] };
 const sceneVars = (sc: { w: number; h: number; cx: number; cy: number; cs: number }, rel?: number) =>
@@ -259,13 +261,8 @@ const alternates = [
               <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[i + 1].file}`} alt=""
                    width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
               {layersOf(i + 2).map((l) => (
-                l.flow
-                  ? <div class="cmp-ov spk-fade" style={`--ox:${l.ox};--oy:${l.oy}`}>
-                      <img class={l.cls} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                           style={`--ox:${l.ox};--oy:${l.oy}`} />
-                    </div>
-                  : <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                         style={`--ox:${l.ox};--oy:${l.oy}`} />
+                <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
+                     style={`--ox:${l.ox};--oy:${l.oy}`} />
               ))}
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                    width="350" height="385" loading="lazy" decoding="async" />
@@ -289,13 +286,8 @@ const alternates = [
           <img class="cmp-scene-art" src={`/company-story/${SCENES.rows[4].file}`} alt=""
                width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
           {layersOf(5).map((l) => (
-            l.flow
-              ? <div class="cmp-ov spk-fade" style={`--ox:${l.ox};--oy:${l.oy}`}>
-                  <img class={l.cls} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                       style={`--ox:${l.ox};--oy:${l.oy}`} />
-                </div>
-              : <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                     style={`--ox:${l.ox};--oy:${l.oy}`} />
+            <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
+                 style={`--ox:${l.ox};--oy:${l.oy}`} />
           ))}
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                width="350" height="385" loading="lazy" decoding="async" />
@@ -1013,13 +1005,12 @@ const alternates = [
   .cmp-scene .cmp-scene-art { display: block; width: 100%; height: auto; }
   /* 모션 레이어 — 바탕 그림 위에 같은 크기로 겹친다. 전부 전체 캔버스 그림이라
      상자를 꽉 채우면 자리가 맞는다. 상자 높이는 바탕 그림이 쥔다. */
-  .cmp-ov, .spk-flow {
+  .cmp-ov {
     position: absolute; inset: 0; width: 100%; height: 100%;
     pointer-events: none;
     transform-origin: var(--ox) var(--oy);
   }
   /* 아래 모션은 public/company-story/preview.html 에서 그대로 옮겼다. */
-  @property --p { syntax: '<percentage>'; inherits: false; initial-value: 60%; }
 
   /* 100+ 그리드 — 데이터 스캔 빛이 대각선으로 지나간다. */
   .cmp-scene .ov-grid {
@@ -1040,18 +1031,14 @@ const alternates = [
   .cmp-scene .ov-up2 { animation-delay: 1.6s; }
   @keyframes cmp-blink { 0%, 100% { opacity: 0; } 40%, 55% { opacity: 1; } }
 
-  /* 20+ 스포크 — 바깥으로 갈수록 투명해지고, 현장에서 허브로 흐름이 모여든다.
-     ⚠️ 연결선은 바탕 그림에 없다. 이 두 레이어가 곧 그래픽이다. */
-  .cmp-scene .spk-base, .cmp-scene .spk-fade {
-    -webkit-mask-image: radial-gradient(ellipse at var(--ox) var(--oy), #000 6%, rgba(0,0,0,.55) 22%, transparent 46%);
-            mask-image: radial-gradient(ellipse at var(--ox) var(--oy), #000 6%, rgba(0,0,0,.55) 22%, transparent 46%);
+  /* 20+ 공중 연결선 — 빛이 선을 따라 지나간다. 그리드와 같은 스캔이되
+     각도와 주기가 다르다(100deg · 3.6s). */
+  .cmp-scene .ov-arc {
+    -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
+            mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
+    -webkit-mask-size: 300% 100%; mask-size: 300% 100%;
+    animation: cmp-scan 3.6s linear infinite;
   }
-  .cmp-scene .spk-flow {
-    -webkit-mask-image: radial-gradient(ellipse at var(--ox) var(--oy), transparent calc(var(--p) - 14%), #000 var(--p), transparent calc(var(--p) + 4%));
-            mask-image: radial-gradient(ellipse at var(--ox) var(--oy), transparent calc(var(--p) - 14%), #000 var(--p), transparent calc(var(--p) + 4%));
-    animation: cmp-inflow 2.2s cubic-bezier(.4,0,.6,1) infinite;
-  }
-  @keyframes cmp-inflow { from { --p: 50%; } to { --p: 6%; } }
 
   /* 마지막 장면 — 떠 있는 배지 넷이 천천히 오르내린다.
      ⚠️ 이 도형들도 바탕 그림에 없다. */
@@ -1063,30 +1050,30 @@ const alternates = [
   .cmp-scene .ov-b3 { animation-delay: -2.55s; }
   @keyframes cmp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
-  /* 링 — 하나씩 차례로 퍼져 나간다. */
+  /* 마지막 장면 링 — 가운데에서 바깥으로 차례로 퍼지고, 바깥 링일수록 희미하다.
+     봉우리 밝기(--pk)를 링마다 달리 준다. */
   .cmp-scene .ov-r0, .cmp-scene .ov-r1, .cmp-scene .ov-r2 {
-    opacity: 0; animation: cmp-ring 3.6s ease-in-out infinite;
+    opacity: 0; animation: cmp-ripple 3.2s cubic-bezier(.25,.6,.35,1) infinite;
   }
-  .cmp-scene[data-row="4"] .ov-r1 { animation-delay: 1.8s; }
-  .cmp-scene[data-row="5"] .ov-r1 { animation-delay: 1.2s; }
-  .cmp-scene[data-row="5"] .ov-r2 { animation-delay: 2.4s; }
-  @keyframes cmp-ring {
-    0%   { opacity: 0; transform: scale(.96); }
-    30%  { opacity: 1; transform: scale(1); }
-    60%  { opacity: 0; transform: scale(1.03); }
-    100% { opacity: 0; }
+  .cmp-scene .ov-r0 { --pk: 1; }
+  .cmp-scene .ov-r1 { --pk: .55; animation-delay: .5s; }
+  .cmp-scene .ov-r2 { --pk: .25; animation-delay: 1s; }
+  @keyframes cmp-ripple {
+    0%   { opacity: 0; transform: scale(.92); }
+    20%  { opacity: var(--pk); }
+    55%  { opacity: 0; transform: scale(1.08); }
+    100% { opacity: 0; transform: scale(1.08); }
   }
 
   /* 동작 줄이기 — 움직임만 끈다. 바탕에 없는 레이어(스포크 · 배지)는 그대로 보여야
      그래픽이 빠지지 않으므로 숨기지 않고 제자리에 세운다. */
   @media (prefers-reduced-motion: reduce) {
-    .cmp-scene .ov-grid, .cmp-scene .ov-up0, .cmp-scene .ov-up1, .cmp-scene .ov-up2,
-    .cmp-scene .spk-flow, .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2,
+    .cmp-scene .ov-grid, .cmp-scene .ov-arc, .cmp-scene .ov-up0, .cmp-scene .ov-up1,
+    .cmp-scene .ov-up2, .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2,
     .cmp-scene .ov-b3, .cmp-scene .ov-r0, .cmp-scene .ov-r1, .cmp-scene .ov-r2 {
       animation: none; opacity: 1;
     }
-    .cmp-scene .ov-grid { -webkit-mask-image: none; mask-image: none; }
-    .cmp-scene .spk-flow { -webkit-mask-image: none; mask-image: none; }
+    .cmp-scene .ov-grid, .cmp-scene .ov-arc { -webkit-mask-image: none; mask-image: none; }
   }
   /* 그림에 박아 둔 큐브. 보통은 옮겨 다니는 .cmp-cube 가 대신하므로 숨어 있다.
      ⚠️ top 은 높이 기준이라 --cyh 는 폭 비율을 높이 비율로 환산한 값이다. */
