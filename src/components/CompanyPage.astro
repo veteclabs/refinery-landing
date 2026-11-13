@@ -970,7 +970,9 @@ const alternates = [
      ⚠️ 그래픽은 아직 회색 판이다. 이미지를 받으면 .cmp-stage-art 안을 바꾼다. */
   /* 아래 여백은 두지 않는다 — 마지막 줄(40vh)이 글 아래로 이미 여유를 남기고,
      다음 섹션이 위로 180px 을 쥔다. 130px 을 더 두면 화면 하나가 비었다. */
-  .cmp-stage { padding: 60px 0 0; }
+  /* 윗여백 60 -> 70px. 히어로 -> 1번 구간은 줄 높이에서 절반(+10px)만 받으므로
+     여기서 +10px 을 보태야 다른 구간과 같은 +20px 이 된다. */
+  .cmp-stage { padding: 70px 0 0; }
   /* 두 칸이 줄마다 자리를 바꾼다 — 글이 왼쪽이면 그림이 오른쪽, 글이 오른쪽이면
      그림이 왼쪽. 큐브는 그 사이를 가로질러 날아간다. */
   .cmp-stage-grid {
@@ -1122,8 +1124,9 @@ const alternates = [
   .cmp-stage-item {
     /* 56vh 는 그림 사이가 97 / 129 / 209px 이라 두 구간이 함께 보였고,
        100vh 는 한 구간만 보이는 대신 빈 자리가 너무 컸고(사이 493~629px),
-       76vh 도 넓었다. 그보다 한 단 좁게 잡는다. */
-    min-height: 64vh;
+       76vh 도 넓었다. 그보다 한 단 좁게 잡는다.
+       64 -> 66vh 는 구간 사이를 조금만 넓힌 것이다(1000px 화면에서 +20px). */
+    min-height: 66vh;
     display: flex; flex-direction: column; justify-content: center;
     /* 등장 — 사이트 공통값(16px · .55s · 같은 베지어)과 같은 결이되, 좌우에서
        들어오므로 가로로도 움직인다. */
@@ -1147,8 +1150,11 @@ const alternates = [
     grid-column: 1 / -1; grid-row: 5;
     justify-self: center; align-items: center; text-align: center;
     max-width: none;
-    /* 맺는 자리라 앞 네 줄보다 넉넉히 — 글 위아래로 화면 삼분의 일이 빈다. */
-    min-height: 34vh;
+    /* 맺는 자리라 앞 네 줄보다 넉넉히 — 글 위아래로 화면 삼분의 일이 빈다.
+       34 -> 35vh. 이 줄은 4번 그림과 5번 그림 사이에 통째로 끼어 있어 늘린
+       만큼이 그대로 틈이 된다 — 앞 줄에서 받는 +10px 에 여기서 +10px 만
+       보태면 다른 구간과 같은 +20px 이다(36vh 로 두면 혼자 +30px 이 된다). */
+    min-height: 35vh;
     /* 가운데 선 글은 옆이 아니라 아래에서 떠오른다. */
     transform: translateY(20px);
   }
