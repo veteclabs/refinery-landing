@@ -924,28 +924,40 @@ const alternates = [
   }
 
   /* ───────── 뭉쳤다 펼쳐지는 줄 (.cmp-spread) ─────────
-     한 줄에 선 카드 셋이 처음에는 가운데로 모여 오른쪽 · 아래로 한 칸씩
-     어긋난 채 포개져 있다가, 스크롤하면 제자리로 펼쳐진다(--spread 0→1).
-     기울이지는 않는다.
+     한 줄에 선 카드 셋이 처음에는 가운데로 모여 포개져 있다가, 스크롤하면
+     제자리로 펼쳐진다(--spread 0→1). 2번은 제자리에서 정면으로 서 있고
+     1 · 3번만 좌우로 기운 채 뒤에 깔린다 — 가운데에 중심이 하나 선다.
      ⚠️ 칸이 셋일 때를 전제로 한 값이다(바깥 두 장을 한 칸 폭만큼 당긴다).
         2열 · 1열로 접히는 폭에서는 아래에서 모션을 끈다.
      ⚠️ 스크립트가 막히면 --spread 가 없어 1 로 읽힌다 — 처음부터 펼쳐진
         모습이라 내용이 가려지는 일이 없다. */
   .cmp-spread > * {
     transform: translate(
-      calc((var(--dx, 0px) + var(--ox, 0px)) * (1 - var(--spread, 1))),
-      calc(var(--oy, 0px) * (1 - var(--spread, 1))));
+        calc((var(--dx, 0px) + var(--ox, 0px)) * (1 - var(--spread, 1))),
+        calc(var(--oy, 0px) * (1 - var(--spread, 1))))
+      rotate(calc(var(--rot, 0deg) * (1 - var(--spread, 1))))
+      scale(calc(1 - (1 - var(--sc, 1)) * (1 - var(--spread, 1))));
     will-change: transform;
   }
-  /* 뒤에서 앞으로 오면서 오른쪽 · 아래로 내려간다 — 앞 장이 위에 온다. */
-  .cmp-spread > *:nth-child(1) { --dx: calc(100% + 18px); --ox: -58px; --oy: -42px; z-index: 1; }
-  .cmp-spread > *:nth-child(2) { --ox: 0px; --oy: 0px; z-index: 2; }
-  .cmp-spread > *:nth-child(3) { --dx: calc(-100% - 18px); --ox: 58px; --oy: 42px; z-index: 3; }
+  /* 2번이 더미 한가운데에 제자리 그대로 · 정면으로 서고(--ox/--oy/--rot 모두 0),
+     1 · 3번이 좌우로 −12° · +12° 눕고 0.93배로 물러나 그 뒤에 깔린다.
+     2번이 맨 앞이라 z 가 가장 크다. */
+  .cmp-spread > *:nth-child(1) { --dx: calc(100% + 18px); --ox: -52px; --oy: -16px; --rot: -12deg; --sc: 0.93; z-index: 1; }
+  .cmp-spread > *:nth-child(2) { --ox: 0px; --oy: 0px; z-index: 3; }
+  .cmp-spread > *:nth-child(3) { --dx: calc(-100% - 18px); --ox: 50px; --oy: -12px; --rot: 12deg; --sc: 0.93; z-index: 2; }
+  /* 겹칠 때만 서는 경계 — 세 장의 면이 같은 --bg-soft 라 포개지면 한 덩어리로
+     뭉쳐 보인다. 흰 테두리 1px 과 옅은 그림자를 (1 - spread) 로 넣어, 펼쳐지는
+     만큼 저절로 사라지게 한다(펼친 뒤에는 투명도 0 이라 자국이 남지 않는다). */
+  .cmp-spread > * {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, calc(1 - var(--spread, 1))),
+      0 18px 40px -16px rgba(22, 32, 44, calc(0.16 * (1 - var(--spread, 1))));
+  }
   @media (max-width: 900px) {
-    .cmp-spread > * { transform: none; }
+    .cmp-spread > * { transform: none; box-shadow: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cmp-spread > * { transform: none; }
+    .cmp-spread > * { transform: none; box-shadow: none; }
   }
 
   /* ───────── 무대(stage) — 가운데 그래픽 + 좌 · 우로 떠오르는 글 ─────────
