@@ -53,11 +53,11 @@ function webpSize(name: string) {
 
 /* 그림이 바뀌기 전에 눈으로 맞춰 둔 값. meta 와 파일이 어긋날 때만 쓴다. */
 const FALLBACK: Record<string, { cx: number; cy: number; cs: number }> = {
-  '1': { cx: 0.2939, cy: 0.1122, cs: 0.1179 },
-  '2': { cx: 0.6542, cy: 0.1345, cs: 0.1185 },
-  '3': { cx: 0.6425, cy: 0.2891, cs: 0.0930 },
-  '4': { cx: 0.5345, cy: 0.2510, cs: 0.1105 },
-  '5': { cx: 0.4998, cy: 0.0637, cs: 0.1698 },
+  '1': { cx: 0.2939, cy: 0.1153, cs: 0.1117 },
+  '2': { cx: 0.6542, cy: 0.1189, cs: 0.1496 },
+  '3': { cx: 0.6427, cy: 0.3034, cs: 0.0640 },
+  '4': { cx: 0.5360, cy: 0.2523, cs: 0.1047 },
+  '5': { cx: 0.4998, cy: 0.0638, cs: 0.1701 },
 };
 
 const scene = (i: number) => {
@@ -86,25 +86,25 @@ const scene = (i: number) => {
 type Layer = { file: string; cls: string; ox: string; oy: string };
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [
-    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.36%' },
-    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '35.20%' },
-    { file: '3-up1.webp', cls: 'ov-up1', ox: '43.53%', oy: '33.05%' },
-    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.56%', oy: '33.21%' },
+    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.29%' },
+    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '35.14%' },
+    { file: '3-up1.webp', cls: 'ov-up1', ox: '43.52%', oy: '33.04%' },
+    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.54%', oy: '33.14%' },
   ],
   4: [
-    { file: '4-arc.webp', cls: 'ov-arc', ox: '48.78%', oy: '39.26%' },
-    { file: '4-up0.webp', cls: 'ov-up0', ox: '47.42%', oy: '17.64%' },
-    { file: '4-up1.webp', cls: 'ov-up1', ox: '67.53%', oy: '1.99%' },
-    { file: '4-up2.webp', cls: 'ov-up2', ox: '34.73%', oy: '17.60%' },
+    { file: '4-arc.webp', cls: 'ov-arc', ox: '48.95%', oy: '39.15%' },
+    { file: '4-up0.webp', cls: 'ov-up0', ox: '47.59%', oy: '17.59%' },
+    { file: '4-up1.webp', cls: 'ov-up1', ox: '67.61%', oy: '1.91%' },
+    { file: '4-up2.webp', cls: 'ov-up2', ox: '34.95%', oy: '17.55%' },
   ],
   /* 링은 r0 한 장만 쓴다 — 한 겹이 안쪽에서 바깥 링 너머까지 퍼진다.
      5-r1 · 5-r2 는 쓰지 않는다. */
   5: [
-    { file: '5-r0.webp', cls: 'ov-r0', ox: '50.00%', oy: '57.56%' },
-    { file: '5-b0.webp', cls: 'ov-b0', ox: '69.94%', oy: '16.83%' },
-    { file: '5-b1.webp', cls: 'ov-b1', ox: '31.42%', oy: '9.95%' },
-    { file: '5-b2.webp', cls: 'ov-b2', ox: '29.99%', oy: '48.91%' },
-    { file: '5-b3.webp', cls: 'ov-b3', ox: '68.55%', oy: '55.45%' },
+    { file: '5-r0.webp', cls: 'ov-r0', ox: '49.97%', oy: '57.64%' },
+    { file: '5-b0.webp', cls: 'ov-b0', ox: '69.97%', oy: '16.85%' },
+    { file: '5-b1.webp', cls: 'ov-b1', ox: '31.39%', oy: '9.96%' },
+    { file: '5-b2.webp', cls: 'ov-b2', ox: '29.96%', oy: '48.98%' },
+    { file: '5-b3.webp', cls: 'ov-b3', ox: '68.58%', oy: '55.53%' },
   ],
 };
 const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
