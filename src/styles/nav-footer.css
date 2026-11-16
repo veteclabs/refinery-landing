@@ -104,10 +104,17 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
          터치 영역 40px은 그대로 두고 버튼만 밖으로 빼 아이콘을 로고와 같은 24px 선에 세운다. */
       margin-right: -9px;
     }
-    /* 버튼 박스는 KO/EN 과 중심이 정확히 같은데(실측 0.0px 차) 글리프가 em 박스 안에서
-       아래로 치우쳐 그려져, 세 줄이 글자보다 1px 내려앉아 보였다. 글리프만 올린다 —
-       버튼 박스를 건드리면 40px 터치 영역이 따라 움직인다. */
-    .nav-hamburger i { transform: translateY(-1px); }
+    /* 세 줄은 인라인 SVG 다(Nav.astro). 글꼴 아이콘일 때는 글리프가 em 상자 안
+       어디에 놓이는지가 엔진마다 달라, 한 보정값으로 Chrome 과 iPhone Safari 를
+       함께 맞출 수 없었다 — translateY(-1px) 를 두면 Chrome 은 맞고 iPhone 은
+       1.3px 위로 떴고, 빼면 그 반대가 됐다(실기 사진 실측).
+       SVG 는 상자가 곧 그림이라 양쪽이 같은 자리에 놓인다.
+       ⚠️ 버튼 박스는 건드리지 않는다 — 40px 터치 영역이 따라 움직인다. */
+    /* ⚠️ 0.6px 올린다. 상자끼리는 이미 가운데가 같은데(flex), KO/EN 은 대문자라
+       글자의 잉크 가운데가 줄 상자 가운데보다 그만큼 위에 있다 — 눈은 상자가
+       아니라 잉크를 본다. SVG 는 모양이 곧 상자라 이 값이 엔진을 타지 않는다
+       (실측 390px: 0.61px -> 0.01px). */
+    .nav-hamburger svg { display: block; transform: translateY(-0.6px); }
 .mobile-nav-panel {
       display: none;
       flex-direction: column;
