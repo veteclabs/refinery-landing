@@ -332,9 +332,20 @@ const NF=DATA.cams.length,VW=1280,VH=720;
 /* frames are fetched as compressed blobs and decoded off the main thread into ImageBitmaps; only a
    window of frames around the scroll position is kept decoded, so drawing never stalls on a decode */
 const blobs=new Array(NF).fill(null),bm=new Map(),pend=new Set();let ready=false,curF=0;
+/* ⚠️ 좁은 화면은 작은 한 벌(1280x720)을 받는다. 무대가 358px(장치 화소 716)
+   이라 2560 은 필요 없는데, 값이 작지 않다 —
+     디코드   12ms -> 3ms  (한 장, 실측)
+     메모리   14.7MB -> 3.7MB (ImageBitmap 한 장. 창에 12장을 쥐므로 177 -> 44MB)
+     내려받기 11MB -> 3.7MB
+   폰에서 '그래픽이 틀어져 보이던' 것이 이 디코드 비용이다. 창(keepWindow)이
+   스크롤을 못 따라가면 nearestOk 가 멀리 있는 프레임을 그리고, 그 사이 카메라
+   · 3D 겹침은 그 프레임을 따라가므로 장면이 통째로 어긋나 보인다.
+   ⚠️ 데스크탑은 그대로 frames/ 다. 넓은 화면에서는 2560 이 다 쓰인다.
+   ⚠️ 시작할 때 한 번 정한다. 도중에 바꾸면 이미 받아 둔 blob 과 섞인다. */
+const FDIR=(innerWidth<=900?'frames-m/':'frames/');
 (function load(){const req=new Uint8Array(NF);const pick=()=>{for(let d=0;d<NF;d++){for(const i of [curF+d,curF-d])if(i>=0&&i<NF&&!req[i])return i;}return -1;};
   const one=()=>{const i=pick();if(i<0)return;req[i]=1;
-  fetch('frames/f'+String(i).padStart(3,'0')+'.webp').then(r=>r.ok?r.blob():null).then(b=>{blobs[i]=b;want(i);}).catch(()=>{}).finally(one);};
+  fetch(FDIR+'f'+String(i).padStart(3,'0')+'.webp').then(r=>r.ok?r.blob():null).then(b=>{blobs[i]=b;want(i);}).catch(()=>{}).finally(one);};
   for(let k=0;k<4;k++)one();})();
 function want(i){if(i<0||i>=NF||bm.has(i)||pend.has(i)||!blobs[i]||Math.abs(i-curF)>9)return;pend.add(i);
   createImageBitmap(blobs[i]).then(b=>{pend.delete(i);if(Math.abs(i-curF)>11){b.close&&b.close();return;}bm.set(i,b);lastDrawn='';
@@ -741,7 +752,22 @@ function frame(now){
      따로 놀아 장면이 통째로 어긋나 보인다. 프레임이 도착하면 제자리로
      돌아오므로 '괜찮다가 다시 스크롤하면 틀어지는' 들쭉날쭉한 증상이 된다.
      ⚠️ 데스크탑은 대개 다 받아 둔 뒤라 shown === fi 이고 동작이 같다. */
-  if(window.__EMBED&&VW*sc>W+1){const shown=nearestOk(Math.floor(fi));const ci=shown<0?Math.round(fi):shown;
+  /* ⚠️ 창을 밀기 전에 '이번에 그릴 프레임' 을 먼저 확정한다.
+     0b0a4447 에서 nearestOk 로 고르게 했는데도 어긋남이 남았다 — drawFrame 이
+     제 안에서 keepWindow 를 먼저 부르고, keepWindow 는 창 밖(|i-c|>11)의
+     ImageBitmap 을 그 자리에서 지운다. 그래서 여기서 고른 프레임이 drawFrame
+     안에서 다시 고를 때는 이미 없어져, 둘이 다른 프레임을 가리킬 수 있었다.
+     폰에서 특히 잦다. 감속을 뺀 뒤로는 플릭 한 번에 curF 가 멀리 뛰어
+     keepWindow 가 한꺼번에 많이 비우기 때문이다.
+     keepWindow 를 여기서 먼저 부르고 그 뒤에 고르면 둘이 같은 프레임이 된다 —
+     drawFrame 안의 keepWindow 는 같은 값으로 다시 불려 아무것도 바꾸지 않는다. */
+  keepWindow(Math.round(fi));
+  const shown=nearestOk(Math.floor(fi));
+  /* ⚠️ 쓸 수 있는 프레임이 하나도 없으면(shown < 0) drawFrame 은 아무것도 다시
+     그리지 않고 직전에 그린 프레임(shownF)을 그대로 둔다. 그때 요청한 fi 로
+     창을 밀면 그림은 옛 프레임인데 창만 먼저 가 버린다 — 가장 크게 틀어지는
+     자리다. 그 경우에는 직전에 그린 프레임을 따른다. */
+  if(window.__EMBED&&VW*sc>W+1){const ci=shown<0?shownF:shown;
     const c=DATA.cams[ci],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
   const sf=drawFrame(fi);setCam(sf);updateFocus();drawFlows(time,sf);   /* overlays follow the frame actually on screen */
   drawLive(time);placeTags(s);
