@@ -566,6 +566,14 @@ const jsonLd = [orgSchema, websiteSchema];
     var fr = document.getElementById('hmFrame');
     if (!hero || !fr) return;
     var railEl = document.getElementById('hmRail');
+    /* ⚠️ 링은 CSS 의 calc(62.83px * (1 - var(--ring))) 에 기대지 않는다.
+       iOS Safari 는 SVG 의 stroke-dashoffset 에서 var() 를 품은 calc() 를
+       제대로 다시 계산하지 않아, 폰에서는 링이 처음 값에 멈춰 있었다
+       (Chrome 은 멀쩡해 여기서는 재현되지 않는다 — 실기 보고로 찾았다).
+       값을 스크립트가 직접 써 넣는다. 인라인 스타일이라 어느 엔진에서도 이긴다.
+       ⚠️ 62.83 은 둘레 2πr(r = 10)이다. CSS 의 stroke-dasharray 와 한 벌이다. */
+    var arcs = [].slice.call(hero.querySelectorAll('.hm-node-arc'));
+    var RING_C = 62.83;
     var rail = [].slice.call(hero.querySelectorAll('.hm-row'));
     var N = 3;                       /* 장면 수 — 모션 패키지와 같다 */
     /* 모션 패키지가 쓰는 장면 좌표. 진행도 p 를 장면값 s(0~3) 로 옮긴다.
@@ -691,6 +699,9 @@ const jsonLd = [orgSchema, websiteSchema];
       f = peak;
       /* 링은 매 프레임 채운다 — 아래 이르게 빠져나가는 길보다 앞에 둔다. */
       if (railEl) railEl.style.setProperty('--ring', f.toFixed(3));
+      for (var ai = 0; ai < arcs.length; ai++) {
+        arcs[ai].style.strokeDashoffset = (RING_C * (1 - f)).toFixed(2);
+      }
       if (i === last) return;
       last = i;
       hero.classList.toggle('is-scene', i > 0);
