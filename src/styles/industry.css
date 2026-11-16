@@ -1612,6 +1612,23 @@ img { max-width: 100%; height: auto; }
   -webkit-appearance: none;
   appearance: none;
 }
+/* 좁은 화면에서는 아랫변을 가로로 꽉 채운다.
+   그림(1440x270)은 오른쪽으로 모이는 원근 격자라 왼쪽 절반이 거의 비어 있다.
+   폭 100% 로 깔면 358px 안에서 세로가 67px 밖에 안 되고, 격자의 성긴 쪽까지
+   다 들어와 '오른쪽 아래 구석에만' 있는 그림이 된다.
+   높이를 130px 로 세우고 object-fit: cover + object-position: 100% 100% 로
+   오른쪽 아래를 잘라 넓힌다 — 배율이 0.48 로 올라가며 원본의 오른쪽 56%
+   (격자가 촘촘한 쪽)만 카드 폭 전체에 깔린다.
+   ⚠️ 좁은 화면의 이 요소는 <img> 다(아래 전환 규칙). object-fit 은 거기서 먹는다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 거기서는 판이 납작해 폭 100% 로도 격자가
+      판을 가로지른다. */
+@media (max-width: 900px) {
+  .ind-page .ind-sys-deco {
+    height: 130px;
+    object-fit: cover;
+    object-position: 100% 100%;
+  }
+}
 /* 넓은 화면은 <video>, 좁은 화면은 <img>. 한 자리에 둘을 두고 하나만 보인다.
    ⚠️ iOS Safari 는 알파 있는 webm 을 못 읽고, 재생할 수 없는 <video> 를 검은
       판으로 깔아 카드 위에 검은 네모가 생긴다. 폰에서는 같은 그림을 <img> 로 둔다.
