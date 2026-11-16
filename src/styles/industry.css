@@ -1588,6 +1588,14 @@ img { max-width: 100%; height: auto; }
   -webkit-appearance: none;
   appearance: none;
 }
+/* 좁은 화면에서는 오른쪽 위 모서리로 옮긴다.
+   ⚠️ 넓은 화면에서는 판이 납작해 그림(1329x249)이 위아래로 잘리며 판을
+      가로지르는 띠가 된다. 좁은 화면에서는 판이 세로로 길어지고 폭이 342px
+      뿐이라, 같은 자리에 두면 아래쪽 칩 줄(IEC 61850 · ERP)과 겹친다.
+   ⚠️ 폭을 72% 로 줄인다. 100% 로 두면 모서리 장식이 아니라 가로줄이 된다. */
+@media (max-width: 900px) {
+  .ind-page video.ind-sys-deco { top: 0; bottom: auto; width: 72%; }
+}
 /* 글 · 칩을 한 층 올린다. */
 .ind-page .ind-systems-head,
 .ind-page .ind-systems { position: relative; z-index: 1; }
