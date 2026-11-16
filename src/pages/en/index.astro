@@ -621,7 +621,10 @@ const jsonLd = [orgSchema, websiteSchema];
       lastT = now;
       if (slow) cur = target;
       else {
-        cur += (target - cur) * (1 - Math.exp(-dt * 7));
+        /* ⚠️ 상수는 모션 패키지와 한 벌이다. 세로 화면에서는 패키지도 16 을 쓴다 —
+           폰은 입력이 빨라 7 로 좇으면 한 장면 뒤처져 끌려온다. */
+        var EK = (window.matchMedia && matchMedia('(max-width: 900px)').matches) ? 16 : 7;
+        cur += (target - cur) * (1 - Math.exp(-dt * EK));
         if (Math.abs(target - cur) < 1e-4) cur = target;
       }
       paint(cur);
