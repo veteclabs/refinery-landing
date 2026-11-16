@@ -265,10 +265,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       max-width: calc(var(--hero-base-w)
         + (100% - var(--hero-base-w)) * min(1, var(--hero-p, 0) / 0.5));
     }
-    /* 위 여백도 좌우 · 아래와 같게 둔다. 머리에는 고정 헤더가 얹히므로 그
-       높이에 같은 여백(--hero-pad)을 더해야 눈에 보이는 틈이 네 변 같아진다.
-       ⚠️ .hero-stage 의 padding 단축 속성 뒤에 와야 한다. */
-    .hero-stage { padding-top: calc(var(--header-h) + var(--hero-pad)); }
+    /* ⚠️ 위에는 여백을 두지 않는다 — 헤더 높이만 비우고 그래픽을 바로 붙인다.
+       한때 좌우 · 아래와 같은 --hero-pad 를 헤더 높이에 더했는데(86px), 다 자란
+       그래픽 위에만 16px 짜리 빈 띠가 남아 헤더와 그래픽 사이가 떠 보였다.
+       좌우 · 아래는 그래픽이 화면 가장자리와 만나는 자리라 여백이 필요하지만,
+       위는 헤더가 이미 경계를 긋고 있어 한 번 더 띄울 이유가 없다.
+       ⚠️ .hero-stage 의 padding 단축 속성 뒤에 와야 한다.
+       ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
+    .hero-stage { padding-top: var(--header-h); }
   }
 
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
