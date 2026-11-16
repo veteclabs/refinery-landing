@@ -646,11 +646,31 @@ const jsonLd = [orgSchema, websiteSchema];
     function isPortrait() {
       return !!stage && stage.clientHeight > 0 && stage.clientWidth / stage.clientHeight <= 0.8;
     }
+    /* ⚠️ 세로 화면에서는 '다 자란 창' 기준으로 잡는다. 무대 크기를 그대로 쓰면
+       안쪽이 cover 로 높이를 먼저 채워 가로가 1230px 로 그려지고 32% 만 보였다.
+       폭은 다 자란 창의 폭(무대 - 좌우 16x2), 높이는 그 창 높이의 53.5% 다.
+       53.5% 는 「위 여백 = 아래 여백, 나머지를 그래픽에」 규칙에서 나온 값이다 —
+       390x778 에서 창 692 · 글 블록이 아랫변에서 띄우는 40 · 글 첫 줄이 가장
+       올라오는 자리 410 이라, 40 + 370 + (410-370-40=0) + 242 + 40 = 692.
+       ⚠️ 가로는 54% 만 보인다(370 x 16/9 = 658 중 358). 양옆이 잘리는 것을
+          받아들인 값이다 — 16:9 원본이라 세로를 키우면 가로가 그만큼 줄고,
+          둘을 동시에 가질 수 없다. 가로를 다 보려면 높이가 201px 이 된다.
+       ⚠️ 다 자란 폭으로 잡아 두면, 자라는 동안에는 아래 fitFrame 의 contain 이
+          창에 맞춰 함께 줄여 준다. */
     function sizeFrame() {
       if (!stage) return;
-      var w = stage.clientWidth;
-      fr.style.width = w + 'px';
-      fr.style.height = (isPortrait() ? Math.round(w * 9 / 16) : stage.clientHeight) + 'px';
+      if (isPortrait()) {
+        var cs = getComputedStyle(hero);
+        var headerH = parseFloat(cs.getPropertyValue('--header-h')) || 70;
+        var edge = parseFloat(cs.getPropertyValue('--hero-edge')) || 16;
+        var grownW = stage.clientWidth - edge * 2;
+        var grownH = stage.clientHeight - headerH - edge;
+        fr.style.width = grownW + 'px';
+        fr.style.height = Math.round(grownH * 0.535) + 'px';
+      } else {
+        fr.style.width = stage.clientWidth + 'px';
+        fr.style.height = stage.clientHeight + 'px';
+      }
     }
     sizeFrame();
     addEventListener('resize', sizeFrame);
