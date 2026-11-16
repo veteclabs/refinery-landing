@@ -275,19 +275,32 @@
       step();
       addEventListener('scroll', onScroll, { passive: true });
       addEventListener('resize', function () { measure(); step(); }, { passive: true });
-      /* ⚠️ iOS 는 주소창이 접히고 펴질 때 window resize 를 주지 않는다. 그런데
-         무대 높이(100dvh)는 그때 바뀌므로, 다시 재지 않으면 --hero-full-h 가
-         옛 높이로 굳어 상자 아래에 틈이 남는다. visualViewport 로 그 순간을 받는다.
-         ⚠️ 매 프레임 들어오므로 rAF 로 한 번만 묶는다. */
-      if (window.visualViewport) {
-        var vvQueued = false;
-        var onVV = function () {
-          if (vvQueued) return;
-          vvQueued = true;
-          requestAnimationFrame(function () { vvQueued = false; measure(); step(); });
-        };
-        visualViewport.addEventListener('resize', onVV, { passive: true });
+      /* 무대 높이를 '보이는 화면' 에 맞춘다(--hero-vh). iOS 는 100vh 가 주소창을
+         포함한 높이라 실제보다 짧게 잡힌다 — 아이폰에서 창 778 에 무대 670 이었다.
+         ⚠️ 스크롤 중에는 절대 건드리지 않는다. 주소창이 접히는 동안 높이를 따라
+            움직이면 무대 -> 상자 -> iframe 이 매 프레임 리사이즈되고, 그 안 캔버스는
+            크기가 바뀔 때 비워져 그래픽이 깨져 보인다. 그래서 변화가 '멈춘 뒤'
+            한 번만 넣는다(250ms).
+         ⚠️ 2px 이내 변화는 무시한다. 주소창 애니메이션 끝자락의 잔떨림으로
+            무대가 다시 잡히는 것을 막는다. */
+      var vhApplied = 0, vhTimer = 0;
+      function applyVh() {
+        var h = (window.visualViewport ? visualViewport.height : innerHeight) || 0;
+        if (!h || Math.abs(h - vhApplied) < 2) return;
+        vhApplied = h;
+        hero.style.setProperty('--hero-vh', Math.round(h) + 'px');
+        measure();
+        step();
       }
+      function queueVh() {
+        clearTimeout(vhTimer);
+        vhTimer = setTimeout(applyVh, 250);
+      }
+      applyVh();
+      if (window.visualViewport) {
+        visualViewport.addEventListener('resize', queueVh, { passive: true });
+      }
+      addEventListener('orientationchange', queueVh, { passive: true });
       // 글꼴이 늦게 와서 카피 높이가 바뀌면 다시 잰다.
       if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { measure(); step(); });
     }
