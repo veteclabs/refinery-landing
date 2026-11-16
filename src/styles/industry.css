@@ -2246,9 +2246,11 @@ img { max-width: 100%; height: auto; }
       (.ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline })이
       763~900px 구간에 걸쳐 있고 특정도가 더 높다.
    ⚠️ 데스크탑은 건드리지 않는다 — 900px 이하에서만 건다.
-*/
+   ⚠️ 과제별 페이지(.uc-page)도 같이 건다. 그쪽 <style> 은 스코프가 걸려 있어
+      set:html 로 들어간 <br> 에는 속성이 안 붙는다 — 전역인 이 파일에서 건다. */
 @media (max-width: 900px) {
-  .ind-page br { display: none !important; }
+  .ind-page br,
+  .uc-page br { display: none !important; }
 }
 
 /* ───────── 좁은 화면 — 캡션의 덩어리 나눔도 푼다

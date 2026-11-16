@@ -373,7 +373,7 @@ const jsonLd = [
               <span class="ind-sec-label">02</span>
               {/* 줄 나눔은 사전의 개행을 <br> 로 낸다 — 산업별 제목과 같은 방식이다.
                   칸이 400px 이라 두면 '리파이너리로 푸는 / 방식' 으로 끊겼다. */}
-              <h2>{T.how.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+              <h2>{T.how.split('\n').map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
             </div>
             <ol class="ind-uc-list">
               {uc.how.map((h, i) => (
@@ -1854,6 +1854,32 @@ const jsonLd = [
      시절의 column 48 · row 32 를 대신한다. */
   .uc-redesigned .uc-cta-bg .ind-container { gap: 40px; }
   .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
+  /* ───────── 좁은 화면 모음 (2026-11-16)
+     ⚠️ 데스크탑은 건드리지 않는다 — 전부 900px 이하에서만 건다. */
+  @media (max-width: 900px) {
+    /* 신호 카드 — 아이콘 그림자와 라벨 사이를 넓힌다.
+       그림자는 아이콘 상자 아래 26px 자리에 깔리므로, 칸 사이(24px)에서
+       그만큼을 빼면 눈에 보이는 틈이 거의 남지 않는다. */
+    .uc-signal,
+    .uc-en .uc-signal { gap: 36px; }
+
+    /* 템플릿 밴드의 우상단 장식 — 좁은 화면에서는 보이지 않았다.
+       밴드가 358px 로 좁아지면 40% 가 143px(세로 83px)인데 위로 64px 을
+       빼 두어 19px 만 남는다. 폭을 키우고 뺀 만큼을 비율대로 되돌린다
+       (데스크탑은 제 높이의 34% 를 뺀다 — 62% x 358 = 222px 이면 44px). */
+    .uc-template-deco { width: 62%; top: -44px; opacity: .34; }
+
+    /* 더 살펴보기 카드 — 손가락에는 hover 가 없다. 넓은 화면에서 올렸을 때
+       나오던 것(설명 · 화살표 · 커진 이름)을 처음부터 펴 둔다.
+       ⚠️ 폭으로 가른다. (hover: none) 으로 가르면 터치 되는 노트북까지
+          함께 걸린다 — 이 사이트는 폭 기준으로 모바일을 가르고 있다. */
+    .uc-case .uc-case-label { font-size: var(--uc-fs-20); }
+    .uc-case .uc-case-fold { grid-template-rows: 1fr; }
+    .uc-case .uc-case-fold > span { opacity: 1; }
+    .uc-case .uc-case-go { opacity: 1; transform: none; }
+    .uc-case--img .uc-case-go { color: #F6F8FA; }
+  }
+
   /* iOS 의 재생 단추를 숨긴다 — 장식 영상인데 누르는 것처럼 보인다.
      Safari 는 autoplay 를 거절하거나(저전력 모드) 알파 webm 을 못 읽을 때
      한가운데에 제 재생 단추를 그린다. controls 를 안 달아도 따로 나온다.
