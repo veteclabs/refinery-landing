@@ -403,6 +403,15 @@ const ucShift = (h: number) =>
                  poster={`/industries/systems-corner/systems-${sysDeco}.webp`}>
             <source src={`/industries/systems-corner/systems-${sysDeco}.webm`} type="video/webm" />
           </video>
+          {/* 좁은 화면이 쓰는 정지 그림. 위 <video> 와 한 자리를 쓰고 CSS 가 하나만 보인다.
+              ⚠️ 폰에서 <video> 를 쓰면 안 된다. iOS Safari 는 알파 있는 webm 을 못 읽는데,
+                 재생할 수 없는 영상을 '검은 판' 으로 깔고 그 위에 poster 를 얹는다 —
+                 투명한 그림인데도 카드 위에 검은 네모가 생긴다(2026-11-16 실기 확인).
+                 어차피 거기서는 움직이지 않으므로 같은 그림을 <img> 로 둔다.
+              ⚠️ 데스크탑은 그대로 <video> 다 — 거기서는 알파 webm 이 돈다. */}
+          <img class="ind-sys-deco ind-sys-deco-still" aria-hidden="true"
+               src={`/industries/systems-corner/systems-${sysDeco}.webp`} alt=""
+               width="1440" height="270" loading="lazy" decoding="async" />
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
         {ind.integrations.note && <p class="ind-systems-note" set:html={ind.integrations.note} />}
