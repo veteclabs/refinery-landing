@@ -274,13 +274,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
     .hero-stage { padding-top: var(--header-h); }
     /* ⚠️ 무대 높이를 보이는 화면에 맞춘다. 기본값 100vh 는 iOS 에서 주소창·툴바를
-       포함한 높이로 잡혀, 실제 보이는 화면보다 짧게 나온다 — 아이폰 실측에서
+       포함한 높이로 잡혀 실제 보이는 화면보다 짧게 나온다 — 아이폰 실측에서
        창은 390x778 인데 무대가 670 이었다(108px 모자람). 그 차이가 그대로 상자
        아래 틈으로 쌓여 좌우 16px 에 아래만 124px 이 됐다.
-       dvh 는 주소창이 접히고 펴지는 것을 따라가므로 늘 보이는 화면과 같다.
-       ⚠️ 100vh 를 먼저 적어 dvh 를 모르는 브라우저가 옛 값으로 떨어지게 한다.
+       ⚠️ dvh 는 쓰지 않는다. 주소창이 접히고 펴지는 '내내' 값이 바뀌어
+          무대 -> 상자 -> iframe 이 연쇄로 리사이즈되고, 그 안 캔버스는 크기가
+          바뀌는 순간 비워진다 — 스크롤 중에 그래픽이 깨져 보였다.
+       스크립트가 잰 값을 --hero-vh 에 px 로 한 번 박아 둔다. 주소창이 다 접히고
+       '멈춘 뒤'에만 다시 넣으므로 스크롤 중에는 흔들리지 않는다.
        ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
-    .hero-stage { height: 100vh; height: 100dvh; }
+    .hero-stage { height: var(--hero-vh, 100vh); }
   }
 
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
@@ -346,6 +349,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        때문에 점이 영영 안 깨어났다. 안쪽은 볼 것만 있고 누를 것이 없다
        (aria-hidden · tabindex -1 · embed 모드에서 제 UI 를 숨긴다). */
     pointer-events: none;
+  }
+
+  /* ⚠️ 세로 화면에서는 띠를 상자 위쪽에 붙인다. 위 .hm-frame 은 상자 한가운데에
+     두는데(top 50% + translateY(-50%)), 16:9 로 잡아 둔 띠는 상자보다 훨씬 낮아
+     가운데에 두면 위아래로 빈 자리가 갈린다. 위에 붙여 아래를 한 덩어리로
+     비워 두고 그 자리를 장면 글이 쓴다.
+     ⚠️ 40px 은 글 블록이 상자 아랫변에서 띄우는 값과 같다 — 위아래가 같아진다.
+     ⚠️ 바로 위 .hm-frame 규칙 다음에 둔다. 다른 미디어쿼리 안에 떨어뜨려 두면
+        순서가 어긋나 top 50% 가 그대로 이긴다. */
+  @media (max-width: 900px) {
+    #hero .hm-frame {
+      top: 40px;
+      transform: translate(-50%, 0) scale(var(--hm-s, 1));
+      transform-origin: top center;
+    }
   }
   /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
      iframe 을 visibility:hidden 으로 숨겼는데, is-grown 이 늦거나 안 붙는
@@ -709,10 +727,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           overflow:hidden 이라 가장자리가 잘릴 뿐, 보이는 그림은 같다. */
     var stage = hero.querySelector('.hero-stage');
     var box = hero.querySelector('.hero-motion-placeholder');
+    /* ⚠️ 세로 화면에서는 iframe 을 16:9 로 잡는다. 무대 크기(세로로 긴 상자)로
+       두면 안쪽이 cover 로 높이를 먼저 채우고 가로가 넘쳐 41% 가 잘린다.
+       16:9 로 두면 배율이 가로 기준이 되어 장면의 가로가 통째로 보인다.
+       ⚠️ 가로 화면(데스크탑)은 지금 그대로 무대 크기를 쓴다. */
+    function isPortrait() {
+      return !!stage && stage.clientHeight > 0 && stage.clientWidth / stage.clientHeight <= 0.8;
+    }
     function sizeFrame() {
       if (!stage) return;
-      fr.style.width = stage.clientWidth + 'px';
-      fr.style.height = stage.clientHeight + 'px';
+      var w = stage.clientWidth;
+      fr.style.width = w + 'px';
+      fr.style.height = (isPortrait() ? Math.round(w * 9 / 16) : stage.clientHeight) + 'px';
     }
     sizeFrame();
     addEventListener('resize', sizeFrame);
@@ -790,7 +816,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     var lastS = 0;
     function fitFrame() {
       if (box && fr.offsetWidth) {
-        var sc = Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
+        /* ⚠️ 세로 화면에서는 contain(작은 쪽)이다. cover 로 키우면 16:9 로 잡아 둔
+           띠가 다시 상자 높이에 맞춰 커지며 가로가 잘린다 — 잡아 둔 뜻이 없어진다. */
+        var sc = isPortrait()
+          ? Math.min(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight)
+          : Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
         sc = Math.round(sc * 1000) / 1000;
         if (sc && sc !== lastS) { lastS = sc; hero.style.setProperty('--hm-s', sc); }
       }

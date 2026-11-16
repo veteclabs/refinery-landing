@@ -262,6 +262,21 @@ const jsonLd = [orgSchema, websiteSchema];
        (aria-hidden · tabindex -1 · embed 모드에서 제 UI 를 숨긴다). */
     pointer-events: none;
   }
+
+  /* ⚠️ 세로 화면에서는 띠를 상자 위쪽에 붙인다. 위 .hm-frame 은 상자 한가운데에
+     두는데(top 50% + translateY(-50%)), 16:9 로 잡아 둔 띠는 상자보다 훨씬 낮아
+     가운데에 두면 위아래로 빈 자리가 갈린다. 위에 붙여 아래를 한 덩어리로
+     비워 두고 그 자리를 장면 글이 쓴다.
+     ⚠️ 40px 은 글 블록이 상자 아랫변에서 띄우는 값과 같다 — 위아래가 같아진다.
+     ⚠️ 바로 위 .hm-frame 규칙 다음에 둔다. 다른 미디어쿼리 안에 떨어뜨려 두면
+        순서가 어긋나 top 50% 가 그대로 이긴다. */
+  @media (max-width: 900px) {
+    #hero .hm-frame {
+      top: 40px;
+      transform: translate(-50%, 0) scale(var(--hm-s, 1));
+      transform-origin: top center;
+    }
+  }
   /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
      iframe 을 visibility:hidden 으로 숨겼는데, is-grown 이 늦거나 안 붙는
      환경에서는 정지 그림만 남아 '스크롤이 안 먹고 그래픽이 안 보이는' 꼴이 된다.
@@ -624,10 +639,18 @@ const jsonLd = [orgSchema, websiteSchema];
           overflow:hidden 이라 가장자리가 잘릴 뿐, 보이는 그림은 같다. */
     var stage = hero.querySelector('.hero-stage');
     var box = hero.querySelector('.hero-motion-placeholder');
+    /* ⚠️ 세로 화면에서는 iframe 을 16:9 로 잡는다. 무대 크기(세로로 긴 상자)로
+       두면 안쪽이 cover 로 높이를 먼저 채우고 가로가 넘쳐 41% 가 잘린다.
+       16:9 로 두면 배율이 가로 기준이 되어 장면의 가로가 통째로 보인다.
+       ⚠️ 가로 화면(데스크탑)은 지금 그대로 무대 크기를 쓴다. */
+    function isPortrait() {
+      return !!stage && stage.clientHeight > 0 && stage.clientWidth / stage.clientHeight <= 0.8;
+    }
     function sizeFrame() {
       if (!stage) return;
-      fr.style.width = stage.clientWidth + 'px';
-      fr.style.height = stage.clientHeight + 'px';
+      var w = stage.clientWidth;
+      fr.style.width = w + 'px';
+      fr.style.height = (isPortrait() ? Math.round(w * 9 / 16) : stage.clientHeight) + 'px';
     }
     sizeFrame();
     addEventListener('resize', sizeFrame);
@@ -705,7 +728,11 @@ const jsonLd = [orgSchema, websiteSchema];
     var lastS = 0;
     function fitFrame() {
       if (box && fr.offsetWidth) {
-        var sc = Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
+        /* ⚠️ 세로 화면에서는 contain(작은 쪽)이다. cover 로 키우면 16:9 로 잡아 둔
+           띠가 다시 상자 높이에 맞춰 커지며 가로가 잘린다 — 잡아 둔 뜻이 없어진다. */
+        var sc = isPortrait()
+          ? Math.min(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight)
+          : Math.max(box.clientWidth / fr.offsetWidth, box.clientHeight / fr.offsetHeight);
         sc = Math.round(sc * 1000) / 1000;
         if (sc && sc !== lastS) { lastS = sc; hero.style.setProperty('--hm-s', sc); }
       }
