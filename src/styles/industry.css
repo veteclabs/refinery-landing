@@ -1583,7 +1583,10 @@ img { max-width: 100%; height: auto; }
       단추만 없애는 것이라 그림 · 자리는 어느 폭에서도 그대로다. */
 .ind-page video.ind-sys-deco::-webkit-media-controls,
 .ind-page video.ind-sys-deco::-webkit-media-controls-start-playback-button,
-.ind-page video.ind-sys-deco::-webkit-media-controls-panel {
+.ind-page video.ind-sys-deco::-webkit-media-controls-panel,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls-start-playback-button,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls-panel {
   display: none !important;
   -webkit-appearance: none;
   appearance: none;
@@ -2242,7 +2245,8 @@ img { max-width: 100%; height: auto; }
    ⚠️ !important 가 필요하다. 산업별로 폭 구간을 좁게 잡아 둔 규칙
       (.ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline })이
       763~900px 구간에 걸쳐 있고 특정도가 더 높다.
-   ⚠️ 데스크탑은 건드리지 않는다 — 900px 이하에서만 건다. */
+   ⚠️ 데스크탑은 건드리지 않는다 — 900px 이하에서만 건다.
+*/
 @media (max-width: 900px) {
   .ind-page br { display: none !important; }
 }

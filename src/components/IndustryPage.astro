@@ -530,6 +530,30 @@ const ucShift = (h: number) =>
         v.pause();
       });
     }
+
+    /* 장식 영상이 안 도는 화면을 깨운다.
+       iOS 는 저전력 모드에서 autoplay 를 거절한다. 그러면 poster 만 남고
+       한가운데에 재생 단추가 뜬다(그 단추는 CSS 로 숨겨 두었다).
+       화면에 들어올 때 한 번, 첫 손짓에 한 번 재생을 청한다 — 손짓 뒤에는
+       대개 허락된다. 거절당하면 조용히 넘어가 poster 가 그대로 남는다.
+       ⚠️ 움직임 줄이기를 켠 화면에서는 하지 않는다. 위에서 세운 영상이다. */
+    (function () {
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var vids = [].slice.call(document.querySelectorAll('video.ind-sys-deco, video.ind-cta-bg-img'));
+      if (!vids.length) return;
+      var ask = function (v) { if (!v.paused) return; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+      var kick = function () { vids.forEach(ask); };
+      kick();
+      addEventListener('touchstart', kick, { passive: true, once: true });
+      addEventListener('click', kick, { once: true });
+      if (window.IntersectionObserver) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) ask(e.target); });
+        }, { rootMargin: '200px' });
+        vids.forEach(function (v) { io.observe(v); });
+      }
+    })();
+
     (function () {
       if (!('IntersectionObserver' in window)) return;
       var nodes = document.querySelectorAll('.ind-chal-track, .ind-flow');

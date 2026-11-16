@@ -611,6 +611,30 @@ const jsonLd = [
       v.pause();
     });
   }
+
+  /* 장식 영상이 안 도는 화면을 깨운다.
+     iOS 는 저전력 모드에서 autoplay 를 거절한다. 그러면 poster 만 남고
+     한가운데에 재생 단추가 뜬다(그 단추는 CSS 로 숨겨 두었다).
+     화면에 들어올 때 한 번, 첫 손짓에 한 번 재생을 청한다 — 손짓 뒤에는
+     대개 허락된다. 거절당하면 조용히 넘어가 poster 가 그대로 남는다.
+     ⚠️ 움직임 줄이기를 켠 화면에서는 하지 않는다. 위에서 세운 영상이다. */
+  (function () {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var vids = [].slice.call(document.querySelectorAll('video.uc-template-deco, video.uc-cta-bg-img'));
+    if (!vids.length) return;
+    var ask = function (v) { if (!v.paused) return; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+    var kick = function () { vids.forEach(ask); };
+    kick();
+    addEventListener('touchstart', kick, { passive: true, once: true });
+    addEventListener('click', kick, { once: true });
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) ask(e.target); });
+      }, { rootMargin: '200px' });
+      vids.forEach(function (v) { io.observe(v); });
+    }
+  })();
+
   // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
   document.querySelectorAll('.uc-faq-q').forEach(function (q) {
     q.addEventListener('click', function () {
@@ -1830,4 +1854,19 @@ const jsonLd = [
      시절의 column 48 · row 32 를 대신한다. */
   .uc-redesigned .uc-cta-bg .ind-container { gap: 40px; }
   .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
+  /* iOS 의 재생 단추를 숨긴다 — 장식 영상인데 누르는 것처럼 보인다.
+     Safari 는 autoplay 를 거절하거나(저전력 모드) 알파 webm 을 못 읽을 때
+     한가운데에 제 재생 단추를 그린다. controls 를 안 달아도 따로 나온다.
+     ⚠️ 폭으로 가르지 않는다 — 데스크탑 Safari 도 같은 단추를 그린다.
+        단추만 없애는 것이라 그림 · 자리는 어느 폭에서도 그대로다. */
+  video.uc-template-deco::-webkit-media-controls,
+  video.uc-template-deco::-webkit-media-controls-start-playback-button,
+  video.uc-template-deco::-webkit-media-controls-panel,
+  video.uc-cta-bg-img::-webkit-media-controls,
+  video.uc-cta-bg-img::-webkit-media-controls-start-playback-button,
+  video.uc-cta-bg-img::-webkit-media-controls-panel {
+    display: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
 </style>
