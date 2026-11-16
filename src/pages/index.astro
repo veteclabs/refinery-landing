@@ -360,7 +360,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         순서가 어긋나 top 50% 가 그대로 이긴다. */
   @media (max-width: 900px) {
     #hero .hm-frame {
-      top: 40px;
+      top: 0;
       transform: translate(-50%, 0) scale(var(--hm-s, 1));
       transform-origin: top center;
     }
@@ -738,8 +738,9 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        안쪽이 cover 로 높이를 먼저 채워 가로가 1230px 로 그려지고 32% 만 보였다.
        폭은 다 자란 창의 폭(무대 - 좌우 16x2), 높이는 그 창 높이의 53.5% 다.
        53.5% 는 「위 여백 = 아래 여백, 나머지를 그래픽에」 규칙에서 나온 값이다 —
-       390x778 에서 창 692 · 글 블록이 아랫변에서 띄우는 40 · 글 첫 줄이 가장
-       올라오는 자리 410 이라, 40 + 370 + (410-370-40=0) + 242 + 40 = 692.
+       ⚠️ 위에는 여백을 두지 않는다(.hm-frame top: 0). 띠가 창 윗변에서 바로
+          시작해 글 첫 줄 자리까지 내려온다 — 390x778 에서 창 692 · 글 첫 줄이
+          가장 올라오는 자리 410 이라 410/692 = 0.592 다.
        ⚠️ 가로는 54% 만 보인다(370 x 16/9 = 658 중 358). 양옆이 잘리는 것을
           받아들인 값이다 — 16:9 원본이라 세로를 키우면 가로가 그만큼 줄고,
           둘을 동시에 가질 수 없다. 가로를 다 보려면 높이가 201px 이 된다.
@@ -754,7 +755,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var grownW = stage.clientWidth - edge * 2;
         var grownH = stage.clientHeight - headerH - edge;
         fr.style.width = grownW + 'px';
-        fr.style.height = Math.round(grownH * 0.535) + 'px';
+        fr.style.height = Math.round(grownH * 0.592) + 'px';
       } else {
         fr.style.width = stage.clientWidth + 'px';
         fr.style.height = stage.clientHeight + 'px';
