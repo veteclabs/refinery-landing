@@ -751,12 +751,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
     function ease(now) {
       var dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0;
       lastT = now;
-      if (slow) cur = target;
+      /* ⚠️ 좁은 화면은 그림도 좇지 않고 바로 간다(패키지 frame()). 글과 링이
+         여기서 좇으면 이번엔 글이 그림보다 늦는다 — 같이 붙인다.
+         상수는 모션 패키지와 한 벌이다. 한쪽을 고치면 다른 쪽도 고친다. */
+      if (slow || (window.matchMedia && matchMedia('(max-width: 900px)').matches)) cur = target;
       else {
-        /* ⚠️ 상수는 모션 패키지와 한 벌이다. 세로 화면에서는 패키지도 16 을 쓴다 —
-           폰은 입력이 빨라 7 로 좇으면 한 장면 뒤처져 끌려온다. */
-        var EK = (window.matchMedia && matchMedia('(max-width: 900px)').matches) ? 16 : 7;
-        cur += (target - cur) * (1 - Math.exp(-dt * EK));
+        cur += (target - cur) * (1 - Math.exp(-dt * 7));
         if (Math.abs(target - cur) < 1e-4) cur = target;
       }
       paint(cur);

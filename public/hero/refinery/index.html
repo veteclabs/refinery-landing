@@ -722,15 +722,16 @@ function drawLive(t){if(!lr)return;const w=Math.round(VW*sc),h=Math.round(VH*sc)
 let pCur=scrollP(),last=performance.now(),time=0;
 function frame(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;if(!reduce)time+=dt;if(window.__TIME!=null)time=window.__TIME;
-  /* ⚠️ 세로 화면에서는 7 대신 16 으로 좇는다. 7 은 95% 따라잡는 데 0.43초가 걸리는데,
-     폰의 플릭은 2000~4000px/s 라 그 0.43초 동안 1300px 을 간다 — 모션 구간보다
-     긴 거리라 '한 장면 뒤처져 끌려오는' 느낌이 된다. 휠(200~300px/s)인 데스크탑은
-     같은 0.43초에 100px 뿐이라 '부드럽다'로 읽힌다. 그래서 입력이 빠른 쪽만 올린다.
-     ⚠️ 부모 페이지의 ease() 상수와 한 벌이다 — 한쪽을 고치면 다른 쪽도 고친다. */
-  /* ⚠️ 세로비로 가르지 않는다. 무대가 띠(358x410, 0.87)라 세로 판정에 걸리지
-     않는다 — 폭으로 가른다. 폰은 358, 데스크탑은 1440 이다. */
-  const EK=(W<=900)?16:7;
-  const pT=scrollP();pCur=reduce?pT:pCur+(pT-pCur)*(1-Math.exp(-dt*EK));if(Math.abs(pT-pCur)<1e-4)pCur=pT;
+  /* ⚠️ 좁은 화면은 좇지 않고 스크롤 값을 그대로 쓴다 — 손가락과 함께 움직여야 한다.
+     데스크탑은 휠(200~300px/s)이라 7 로 좇는 것이 '부드럽다'로 읽히지만, 폰의
+     플릭은 2000~4000px/s 라 좇는 순간 '한참 있다가 움직이는' 느낌이 된다.
+     16 으로 올려 봤으나(0.19초) 그래도 늦다 — 아예 붙인다.
+     ⚠️ 부모 페이지의 ease() 와 한 벌이다 — 한쪽을 고치면 다른 쪽도 고친다.
+     ⚠️ 세로비로 가르지 않는다. 무대가 띠(358x410, 0.87)라 세로 판정에 걸리지
+        않는다 — 폭으로 가른다. 폰은 358, 데스크탑은 1440 이다. */
+  const pT=scrollP();
+  if(reduce||W<=900){pCur=pT;}
+  else{pCur=pCur+(pT-pCur)*(1-Math.exp(-dt*7));if(Math.abs(pT-pCur)<1e-4)pCur=pT;}
   const s=sOf(pCur);updateUI(pCur,s);
   const fi=Math.round(clamp(s/3)*(NF-1));
   curS=s;scrollPos=pCur;
