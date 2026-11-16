@@ -2229,3 +2229,19 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 24px 20px; }
 }
+
+/* ───────── 좁은 화면 — 박아 둔 단락 나눔을 전부 푼다
+   데이터와 템플릿이 넣은 <br> 은 넓은 폭의 칸 너비를 보고 고른 자리다.
+   폭이 342px 로 줄면 그 자리가 뜻을 잃는다 — 나뉜 반쪽이 다시 감겨 줄 수만
+   늘고, 어중간한 자리에서 끊긴다. 좁은 화면에서는 브라우저에 맡긴다.
+   낱말이 한가운데서 쪼개지는 것은 text-wrap.css 의 word-break: keep-all 이 막는다.
+   ⚠️ <br> 뒤에는 공백이 있다(데이터는 ' <br>', 템플릿은 <br />{' '}).
+      display:none 으로 지우면 br 이 흐름에서 빠지므로, 공백이 없으면 앞뒤
+      글자가 '분산되어전체' 처럼 붙는다.
+   ⚠️ !important 가 필요하다. 산업별로 폭 구간을 좁게 잡아 둔 규칙
+      (.ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline })이
+      763~900px 구간에 걸쳐 있고 특정도가 더 높다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 900px 이하에서만 건다. */
+@media (max-width: 900px) {
+  .ind-page br { display: none !important; }
+}

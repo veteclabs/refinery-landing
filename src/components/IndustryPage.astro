@@ -116,9 +116,9 @@ const ucShift = (h: number) =>
           <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
             {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
             {/* 태그라인도 개행을 <br>로 낸다 — 'A 및 / B' 두 줄이 기본이다. */}
-            <span>{lines(ind.hero.eyebrow).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</span>
+            <span>{lines(ind.hero.eyebrow).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</span>
           </p>
-          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
+          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h1>
           {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         </div>
         {/* 히어로에는 버튼을 두지 않는다. 전환은 페이지 맨 아래 CTA 섹션(ind-cta)이
@@ -189,7 +189,7 @@ const ucShift = (h: number) =>
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
           <span class="ind-sec-label">{T.diagnose}</span>
           {/* 제목은 데이터의 개행을 <br>로 낸다. */}
-          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
           {/* ⚠️ 소제목은 화면에 내지 않는다. 라벨 줄이 같은 말을 더 구체적으로
               하고 있어 한 번 더 쓸 자리가 아니다. 데이터(challenges.subtitle)는
               열네 파일에 그대로 두었다 — 되살릴 때 다시 쓰면 된다. */}
@@ -248,7 +248,7 @@ const ucShift = (h: number) =>
           <div class="ind-uc-aside">
             <span class="ind-sec-label">{T.act}</span>
             {/* 제목은 데이터의 개행을 <br>로 낸다 — 과제 섹션 제목과 같은 방식이다. */}
-            <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+            <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
             {/* ⚠️ 소제목은 화면에 내지 않는다. 제목이 이미 'Refinery가 문제를 푸는
                 방법'이라 같은 말을 한 번 더 할 자리가 아니다. 데이터
                 (useCases.subtitle)는 열네 파일에 그대로 두었다. */}
@@ -262,7 +262,7 @@ const ucShift = (h: number) =>
                 <div class="ind-uc-text">
                   {/* 제목의 개행은 lines() 가 <br> 로 낸다 — 섹션 제목과 같은 방식이다.
                       데이터에 \n 이 없는 제목은 그대로 한 덩어리로 흐른다. */}
-                  <h3>{lines(u.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h3>
+                  <h3>{lines(u.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h3>
                   {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
                       세 문장은 데이터 그대로다. */}
                   <dl class="ind-uc-dl">
@@ -428,7 +428,7 @@ const ucShift = (h: number) =>
               {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}
               <h3>{b.title}</h3>
               {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
-              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</p>
             </div>
           ))}
         </div>
@@ -455,7 +455,7 @@ const ucShift = (h: number) =>
         <source src="/cta/page-cta/industry-cta-terrain.mp4" type="video/mp4" />
       </video>
       <div class="ind-container">
-        <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+        <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
       </div>
     </section>
