@@ -644,7 +644,12 @@ const jsonLd = [orgSchema, websiteSchema];
        밀도가 달라진다.
        ⚠️ 국문 랜딩과 같은 값이다 — 한쪽을 고치면 다른 쪽도 고친다. */
     if (window.matchMedia && matchMedia('(max-width: 900px)').matches) RUN = 0.811;
+    /* 03 의 링이 차기 시작하는 자리를 스크롤 진행도(p)로 둔 값.
+       OPEN[0..1] 은 mp 기준인데 03 은 모션이 끝난 뒤의 꼬리까지 쓰므로 p 로 잰다.
+       ⚠️ 국문 랜딩과 같은 값이다 — 한쪽을 고치면 다른 쪽도 고친다. */
+    var OPEN3P = HOLDC + pAt(SEG[2][0] * 3 / 192) * (RUN - HOLDC);
     var last = -1, ticking = false;
+    var lastP = 0;                /* tick() 이 잰 스크롤 진행도 — 03 링이 쓴다 */
     var peak = 0, peakFor = -1;   /* 줄마다 지금까지 찬 최대치 — 링이 거꾸로 비지 않게 */
 
     function paint(mp) {
@@ -664,6 +669,14 @@ const jsonLd = [orgSchema, websiteSchema];
              끝(st[1])은 그대로다 — 시작만 줄이 열리는 자리(OPEN)로 당겼다. */
           var o = OPEN[i - 1];
           f = Math.max(0, Math.min(1, (mp - o) / (st[1] - o)));
+        } else if (narrow) {
+          /* ⚠️ 좁은 화면의 03 은 프레임으로 재면 열리자마자 꽉 찬다. 03 은 모션이
+             거의 끝난 자리에서 열리는데(p 0.78) 모션이 끝나는 0.811 까지 90px
+             밖에 남지 않아, 프레임 160 -> 192 가 그 안에서 다 지나간다. 그 뒤
+             꼬리 500px 동안 fi 는 192 에 고정이라 링도 1 에 멈춰 선다.
+             꼬리까지 포함해 히어로를 벗어날 때 꽉 차게 한다(약 590px).
+             ⚠️ 데스크탑은 아래 프레임 기준 그대로다. */
+          f = Math.max(0, Math.min(1, (lastP - OPEN3P) / (1 - OPEN3P)));
         } else {
           /* 03 은 회로선이 내려오지 않는다 — 장면이 오는 프레임으로 잰다. */
           var a = SEG[i - 1][0], b = SEG[i - 1][1];
@@ -691,6 +704,7 @@ const jsonLd = [orgSchema, websiteSchema];
       var r = hero.getBoundingClientRect();
       var span = hero.offsetHeight - window.innerHeight;
       var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      lastP = p;   /* 03 링이 꼬리까지 쓰려면 mp 가 아니라 이 값이 있어야 한다 */
       /* 창이 다 자랄 때까지는 모션을 세워 둔다 — 첫 프레임만 보인다.
          폭을 꽉 채운 뒤부터 스크롤이 모션을 돌린다. */
       var mp = p <= HOLDC ? 0 : Math.min(1, (p - HOLDC) / (RUN - HOLDC));
