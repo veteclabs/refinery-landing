@@ -1629,14 +1629,17 @@ img { max-width: 100%; height: auto; }
     object-position: 100% 100%;
   }
 }
-/* 넓은 화면은 <video>, 좁은 화면은 <img>. 한 자리에 둘을 두고 하나만 보인다.
-   ⚠️ iOS Safari 는 알파 있는 webm 을 못 읽고, 재생할 수 없는 <video> 를 검은
-      판으로 깔아 카드 위에 검은 네모가 생긴다. 폰에서는 같은 그림을 <img> 로 둔다.
-   ⚠️ 데스크탑은 건드리지 않는다 — 거기서는 <video> 가 그대로 돈다. */
-.ind-page img.ind-sys-deco { display: none; }
+/* 한 자리에 두 판을 두고 하나만 보인다 —
+   넓은 화면은 알파 webm(.ind-sys-deco-d) · 좁은 화면은 검은 바탕 H.264(-m).
+   ⚠️ iOS Safari 는 알파 webm 을 못 읽고, 재생할 수 없는 <video> 를 검은 판으로
+      깔아 카드 위에 검은 네모를 만든다. 폰에서는 알파를 포기하고
+      mix-blend-mode: screen 으로 검은 바탕을 지운다 — screen 은 검은 화소를
+      그대로 통과시키고 밝은 곳만 더하므로 결과가 투명 영상과 같다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 거기서는 알파 webm 이 그대로 돈다. */
+.ind-page .ind-sys-deco-m { display: none; }
 @media (max-width: 900px) {
-  .ind-page video.ind-sys-deco { display: none; }
-  .ind-page img.ind-sys-deco { display: block; }
+  .ind-page .ind-sys-deco-d { display: none; }
+  .ind-page .ind-sys-deco-m { display: block; mix-blend-mode: screen; }
 }
 /* 글 · 칩을 한 층 올린다. */
 .ind-page .ind-systems-head,
