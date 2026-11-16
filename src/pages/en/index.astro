@@ -275,6 +275,16 @@ const jsonLd = [orgSchema, websiteSchema];
       top: 0;
       transform: translate(-50%, 0) scale(var(--hm-s, 1));
       transform-origin: top center;
+      /* ⚠️ 아랫변을 바탕으로 녹인다. 띠는 장면의 아래쪽에서 끊기는데, 그 자리에
+         도로나 설비가 걸쳐 있으면 수평으로 싹둑 잘린 선이 보인다 — 프레임마다
+         달라 어떤 장면은 티가 안 나고 어떤 장면은 크게 난다.
+         마지막 120px 을 서서히 투명으로 보내면 그 선이 사라지고 바닥이
+         이어져 보인다. 띠 아래는 그림 가장자리와 같은 색(#EEF4FB)이라
+         녹는 자리가 눈에 띄지 않는다.
+         ⚠️ 가운데쯤(60%)부터 꺾는 두 단 그라데이션이다. 한 단으로 두면
+            경계가 '흐린 띠' 로 보여 또 다른 선이 된다. */
+      -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 120px), rgba(0,0,0,.55) calc(100% - 48px), transparent 100%);
+      mask-image: linear-gradient(180deg, #000 calc(100% - 120px), rgba(0,0,0,.55) calc(100% - 48px), transparent 100%);
     }
   }
   /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
