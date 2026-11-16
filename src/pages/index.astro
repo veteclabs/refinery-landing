@@ -748,9 +748,18 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ 상수 7 은 패키지와 같아야 한다. 한쪽을 고치면 다른 쪽도 고친다. */
     var target = 0, cur = 0, lastT = 0;
     var slow = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var narrow = window.matchMedia && matchMedia('(max-width: 900px)').matches;
     function ease(now) {
       var dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0;
       lastT = now;
+      /* ⚠️ 좁은 화면에서는 스크롤 이벤트를 기다리지 않고 매 프레임 직접 읽는다.
+         진행도는 onScroll -> tick() 으로만 건너가는데, 폰의 관성 스크롤에서는
+         그 이벤트가 듬성듬성 온다 — 재 보니 1.76초 플릭 동안 iframe 은 50fps 로
+         도는데 그림이 다시 그려진 것은 두세 번뿐이었다. 그래서 '뚝뚝 끊겨' 보인다.
+         scrollY 는 이벤트와 상관없이 늘 지금 값이라, 매 프레임 읽으면 60Hz 로 간다.
+         ⚠️ 데스크탑은 건드리지 않는다. 휠은 이벤트가 촘촘하고, 매 프레임
+            getBoundingClientRect 를 부르는 값을 치를 이유가 없다. */
+      if (narrow) tick();
       /* ⚠️ 좁은 화면은 그림도 좇지 않고 바로 간다(패키지 frame()). 글과 링이
          여기서 좇으면 이번엔 글이 그림보다 늦는다 — 같이 붙인다.
          상수는 모션 패키지와 한 벌이다. 한쪽을 고치면 다른 쪽도 고친다. */
