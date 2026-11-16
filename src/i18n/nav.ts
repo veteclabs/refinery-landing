@@ -18,6 +18,14 @@ type Lang = 'ko' | 'en';
 export const navMenu: Record<Lang, NavMenu[]> = {
   ko: [
     {
+      // 제품이 무엇인지 말하는 자리. 하위 패널 없이 바로 /why-refinery 로 간다.
+      // 솔루션(산업별 · 과제별)은 그 제품을 '어디에' 쓰는지로 쪼갠 축이라 아래에 둔다.
+      // 라벨을 '플랫폼'에서 '제품'으로 바꿨다 — 아래 '회사 소개'와 짝이 되어
+      // 제품(리파이너리)과 회사(베텍)가 서로 다른 것임을 라벨 둘이 설명한다.
+      label: '제품',
+      href: '/why-refinery',
+    },
+    {
       label: '솔루션',
       href: '/#industries',
       groups: [
@@ -60,33 +68,27 @@ export const navMenu: Record<Lang, NavMenu[]> = {
             // 푸터에는 있는데 헤더에만 빠져 있었다. 페이지는 한국어로 있다.
             { label: '에너지관리시스템', href: '/energy-management', icon: 'gauge', desc: '전기 ⁠· 가스 ⁠· 스팀 ⁠· 용수 통합 관리' },
             { label: '블로그', href: '/blog', icon: 'article', desc: '현장 적용 사례와 기술 노트' },
-            // 초안만 있고 아직 공개 전이라 링크를 두지 않는다. 페이지는 그대로 있다(noindex).
-            { label: '문서', badge: '예정', icon: 'file-text', desc: '설치 ⁠· 연동 ⁠· 운영 안내' },
             { label: '자료실', href: '/resources', icon: 'folder-open', desc: '백서 ⁠· 리포트 ⁠· 제품 자료' },
           ],
         },
       ],
     },
     {
-      label: '회사',
+      // 패널을 열어도 갈 수 있는 곳이 회사 소개 하나뿐이었다(나머지 셋은 '예정').
+      // 한 장을 위해 패널을 여는 값을 못 해 단독 링크로 둔다.
+      // 연혁 · 팀 · 채용 · 뉴스룸 페이지가 생기면 패널을 되살린다.
+      // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
+      label: '회사 소개',
       href: '/company',
-      groups: [
-        {
-          // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
-          title: '회사',
-          items: [
-            { label: '회사 소개', href: '/company', icon: 'buildings', desc: '하는 일과 걸어온 길' },
-            { label: '연혁 ⁠· 팀', badge: '예정', icon: 'users-three', desc: '주요 이력과 구성원' },
-            { label: '채용', badge: '예정', icon: 'user-plus', desc: '함께할 동료를 찾습니다' },
-            { label: '뉴스룸', badge: '예정', icon: 'newspaper', desc: '보도자료와 새소식' },
-          ],
-        },
-      ],
     },
   ],
 
   // 한국어와 같은 3축 구조(솔루션·리소스·회사). 영어 페이지가 없는 항목만 Soon 배지다.
   en: [
+    {
+      label: 'Product',
+      href: '/en/why-refinery',
+    },
     {
       label: 'Solutions',
       href: '/en#industries',
@@ -128,26 +130,14 @@ export const navMenu: Record<Lang, NavMenu[]> = {
             { label: 'Industrial AI', href: '/en/industrial-ai', icon: 'sparkle', desc: 'AI that fits any industry' },
             { label: 'Energy management', href: '/en/energy-management', icon: 'gauge', desc: 'All utilities in one view' },
             { label: 'Blog', href: '/en/blog', icon: 'article', desc: 'Field notes and case studies' },
-            { label: 'Docs', badge: 'Soon', icon: 'file-text', desc: 'Setup, integration and operation' },
             { label: 'Resource library', href: '/en/resources', icon: 'folder-open', desc: 'Whitepapers and reports' },
           ],
         },
       ],
     },
     {
-      label: 'Company',
+      label: 'About',
       href: '/en/company',
-      groups: [
-        {
-          title: 'Company',
-          items: [
-            { label: 'About', href: '/en/company', icon: 'buildings', desc: 'What we do and where we came from' },
-            { label: 'History & team', badge: 'Soon', icon: 'users-three', desc: 'Milestones and the people' },
-            { label: 'Careers', badge: 'Soon', icon: 'user-plus', desc: 'Roles we\'re hiring for' },
-            { label: 'Newsroom', badge: 'Soon', icon: 'newspaper', desc: 'Press releases and updates' },
-          ],
-        },
-      ],
     },
   ],
 };

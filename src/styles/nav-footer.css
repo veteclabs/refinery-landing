@@ -232,6 +232,12 @@ footer { padding: 60px 0 20px; overflow: hidden; }
 /* ===== 메가메뉴 ===== */
 .mm-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .mm-item { position: relative; }
+/* 캐럿은 글자가 아니라 흐린 표식이다(12px · opacity .55). 글자끝에서 캐럿끝까지 15px 을
+   차지하지만 그만큼의 먹으로는 읽히지 않는다 — 그래서 캐럿이 달린 항목 뒤는 넓어 보이고
+   캐럿 없는 항목 뒤는 좁아 보인다. 실측 글자끝→글자시작 28 / 43 / 43px 이었다.
+   왼쪽 항목에 캐럿이 없을 때만 8px 을 더해(15px 중 먹으로 읽히는 몫을 뺀 값) 눈에 보이는
+   간격을 맞춘다. 캐럿이 있든 없든 같은 규칙이 먹으므로 항목이 늘거나 줄어도 유지된다. */
+.mm-item:not(.has-panel) + .mm-item > .mm-top { margin-left: 8px; }
 /* 15px — 로고(30) → 상단 메뉴(15) → 패널 항목(14)으로 한 단계씩 내려간다.
    14px이면 패널 항목과 같아져 주 내비게이션과 그 하위가 구분되지 않았다. */
 .mm-top { display: inline-flex; align-items: center; gap: 3px; font-size: 15px; color: var(--ink-700); padding: 10px 12px; border-radius: 8px; transition: color .2s, background .2s; }
