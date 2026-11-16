@@ -310,7 +310,7 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
          ⚠️ GROW/HOLDC/RUN 은 고치지 않는다. 셋 다 span 의 '비율' 이고
             span = --hero-run x 화면 높이 라, 구간을 늘리면 자라는 구간도
             같은 비율로 함께 늘어나 자리가 그대로 맞는다. */
-      --hero-run: calc(3.01 * var(--hero-vh, 100vh));
+      --hero-run: calc(3.40 * var(--hero-vh, 100vh));
       height: calc(var(--hero-vh, 100vh) + var(--hero-run));
     }
   }
@@ -668,6 +668,16 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           몫 35vh(92/215 = 0.4279) · 모션 몫 93vh(185/215 = 0.8605) · 끝에 머무는
           몫 30vh 다. 한쪽을 고치면 네 군데를 다 고친다. */
     var RUN = 0.8605;
+    /* ⚠️ 좁은 화면에서는 모션이 끝나는 자리를 당겨, 다 끝난 뒤 '멈춰 서는 꼬리'를
+       늘린다. 03(People)이 뜨는 것은 모션이 다 끝난 뒤인데, 꼬리가 327px 뿐이라
+       03 이 열리고 136px 만에 무대가 올라가 버렸다 — 읽을 틈이 없다.
+       RUN 0.811 + --hero-run 3.40 으로 두면
+         모션 구간 (0.811-0.4279) x 2645 = 1013px  (지금과 같다)
+         꼬리     (1-0.811)  x 2645 =  500px  (327 -> 500)
+       둘이 한 벌이라 한쪽만 고치면 모션 밀도가 달라진다.
+       ⚠️ 패키지는 건드리지 않는다. RUN 은 '부모의 p 를 패키지의 0~1 로 옮기는'
+          값이라, 패키지 안의 장면 배분(KEYS)은 그대로다. */
+    if (window.matchMedia && matchMedia('(max-width: 900px)').matches) RUN = 0.811;
     var last = -1, ticking = false;
     var peak = 0, peakFor = -1;   /* 줄마다 지금까지 찬 최대치 — 링이 거꾸로 비지 않게 */
 
