@@ -862,6 +862,18 @@ img { max-width: 100%; height: auto; }
   object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
 }
+/* 좁은 화면에서는 그래픽의 가운데 오른쪽(마루와 핀 둘)이 보이게 당긴다.
+   그래픽은 2880x600(4.8:1)이고 폰의 CTA 섹션은 390x313(1.25:1)이라, 세로를
+   채우며 가로의 26% 만 남는다. 넓은 화면의 자리(상자 110% · 오른쪽 끝 맞춤)를
+   그대로 쓰면 보이는 구간이 원본의 71~97% 라 — 왼쪽 1/3 이 비어 있고 마루와
+   핀 두 개가 45~80% 에 몰린 그림에서 가장 허전한 자리만 남는다.
+   폭을 100% 로 되돌리고 object-position 을 65% 로 당겨 48~74% 를 보인다.
+   ⚠️ 65% 는 '보이는 구간의 왼쪽 끝' 에서 거꾸로 푼 값이다 —
+      보이는 폭이 26% 이므로 시작 s 에 대해 object-position = s / (1 - 0.26).
+   ⚠️ 데스크탑은 건드리지 않는다. 거기서는 섹션이 넓어 그림이 거의 다 보인다. */
+@media (max-width: 900px) {
+  .ind-cta-bg-img { width: 100%; object-position: 65% center; }
+}
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
 .ind-cta-bg::after {
   /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
