@@ -283,7 +283,13 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        스크립트가 잰 값을 --hero-vh 에 px 로 한 번 박아 둔다. 주소창이 다 접히고
        '멈춘 뒤'에만 다시 넣으므로 스크롤 중에는 흔들리지 않는다.
        ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
-    .hero-stage { height: var(--hero-vh, 100vh); }
+    /* ⚠️ 무대는 '보이는 화면' 을 따라간다(min-height: 100dvh). 주소창이 접히면
+       화면이 커지는데 무대가 고정이면 아래에 빈 자리가 생긴다.
+       ⚠️ 그런데 계산 기준(--hero-vh)은 따라가지 않는다 — 아래 섹션 높이와
+          sizeFrame 이 그 값을 쓴다. 둘을 따라가게 두면 주소창이 움직일 때마다
+          스크롤 변환이 튀고 iframe 이 다시 잡혀 캔버스가 비워진다.
+          '보이는 크기'는 따라가고 '계산 기준'은 고정하는 것이 요점이다. */
+    .hero-stage { height: var(--hero-vh, 100vh); min-height: 100dvh; }
     /* ⚠️ 섹션 높이도 같은 값으로 잰다. global.css 는 height: calc(100vh + 215vh)
        인데, iOS 에서 vh 는 670 인 반면 window.innerHeight 는 778 이다.
        높이는 vh 로 재고 스크롤 변환은 innerHeight 로 빼기 때문에
@@ -775,8 +781,12 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
         var cs = getComputedStyle(hero);
         var headerH = parseFloat(cs.getPropertyValue('--header-h')) || 70;
         var edge = parseFloat(cs.getPropertyValue('--hero-edge')) || 16;
+        /* ⚠️ 높이는 무대의 '지금' 크기가 아니라 고정 기준(--hero-vh)에서 낸다.
+           무대는 주소창을 따라 늘었다 줄었다 하는데, 그 값을 쓰면 iframe 이
+           그때마다 다시 잡혀 안쪽 캔버스가 비워진다(그래픽이 깨져 보인다). */
+        var baseH = parseFloat(cs.getPropertyValue('--hero-vh')) || stage.clientHeight;
         var grownW = stage.clientWidth - edge * 2;
-        var grownH = stage.clientHeight - headerH - edge;
+        var grownH = baseH - headerH - edge;
         fr.style.width = grownW + 'px';
         fr.style.height = Math.round(grownH * 0.592) + 'px';
       } else {
