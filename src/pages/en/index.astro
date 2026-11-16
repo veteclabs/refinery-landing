@@ -366,8 +366,15 @@ const jsonLd = [orgSchema, websiteSchema];
          녹는 자리가 눈에 띄지 않는다.
          ⚠️ 가운데쯤(60%)부터 꺾는 두 단 그라데이션이다. 한 단으로 두면
             경계가 '흐린 띠' 로 보여 또 다른 선이 된다. */
-      -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 120px), rgba(0,0,0,.55) calc(100% - 48px), transparent 100%);
-      mask-image: linear-gradient(180deg, #000 calc(100% - 120px), rgba(0,0,0,.55) calc(100% - 48px), transparent 100%);
+      /* ⚠️ 녹이는 구간을 120 -> 40px 으로 줄였다. 410px 짜리 띠에서 120px 은
+         아래 29% 라, 02 로 들어가는 자리에서 대시보드 카드('Velocity RMS')가
+         그 안에 들어와 글씨가 통째로 사라졌다 — 장면이 바뀌며 카드가 올라오면
+         다시 보이지만, 들어오는 몇 백 px 동안 '안 보이는 그래픽' 이 된다.
+         40px 이면 카드가 읽히고, 아랫변을 녹이는 본래 일(가로로 싹둑 잘린 선을
+         감추는 것)도 그대로 한다. 중간 정지점도 48 -> 16px · .55 -> .7 로 당겼다.
+         ⚠️ 901px 위는 이 마스크 자체가 없다. */
+      -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 40px), rgba(0,0,0,.7) calc(100% - 16px), transparent 100%);
+      mask-image: linear-gradient(180deg, #000 calc(100% - 40px), rgba(0,0,0,.7) calc(100% - 16px), transparent 100%);
     }
   }
   /* ⚠️ 포스터(poster.jpg)로 가리지 않는다. 한때 다 자라기 전에는 포스터만 보이고
