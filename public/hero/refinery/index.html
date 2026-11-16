@@ -725,7 +725,13 @@ function frame(now){
   const fi=Math.round(clamp(s/3)*(NF-1));
   curS=s;scrollPos=pCur;
   /* embedded in a narrower box than 16:9: keep the scene's subject (shifted right for the old caption space) in view */
-  if(window.__EMBED&&VW*sc>W+1){const c=DATA.cams[Math.round(fi)],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
+  /* ⚠️ '그려질' 프레임의 카메라로 민다. 요청한 fi 로 밀면, 그 프레임이 아직
+     디코드되지 않아 drawFrame 이 다른 프레임(nearestOk)을 그릴 때 그림과 창이
+     따로 놀아 장면이 통째로 어긋나 보인다. 프레임이 도착하면 제자리로
+     돌아오므로 '괜찮다가 다시 스크롤하면 틀어지는' 들쭉날쭉한 증상이 된다.
+     ⚠️ 데스크탑은 대개 다 받아 둔 뒤라 shown === fi 이고 동작이 같다. */
+  if(window.__EMBED&&VW*sc>W+1){const shown=nearestOk(Math.floor(fi));const ci=shown<0?Math.round(fi):shown;
+    const c=DATA.cams[ci],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
   const sf=drawFrame(fi);setCam(sf);updateFocus();drawFlows(time,sf);   /* overlays follow the frame actually on screen */
   drawLive(time);placeTags(s);
   requestAnimationFrame(frame);
