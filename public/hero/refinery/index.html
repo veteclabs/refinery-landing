@@ -467,11 +467,13 @@ const liveCv=document.getElementById('live');let lr=null;
    완전히 종료했다 켜니 돌아왔다).
    ⚠️ 한 번 실패하면 영영 포기하지 않는다. 자리가 나면 살아나도록 몇 번 더
       시도하고, 컨텍스트를 잃었다가 되찾는 경우도 받는다.
-   ⚠️ 요구를 낮춰 거절 확률을 줄인다 — antialias 는 끄고(이 장면은 선이
-      가늘어 차이가 거의 없다) powerPreference 는 low-power 로 둔다. */
+   ⚠️ 설정은 원본 그대로 둔다. antialias 를 끄고 powerPreference 를 low-power 로
+      내려 거절 확률을 낮춰 봤으나(2026-11-16), 데스크탑에서 가는 선이 계단지고
+      빛줄기가 점선처럼 끊겨 보였다 — 이 장면은 1px 선이 많아 AA 차이가 그대로
+      드러난다. 거절은 재시도로 받고, 그림의 질은 건드리지 않는다. */
 function mkRenderer(){
   try{
-    const r=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:false,powerPreference:'low-power'});
+    const r=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:true});
     r.setPixelRatio(Math.min(devicePixelRatio||1,1.5));r.outputEncoding=THREE.sRGBEncoding;r.setClearColor(0x000000,0);
     return r;
   }catch(e){return null;}
