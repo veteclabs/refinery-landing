@@ -6,6 +6,8 @@ import CookieConsent from '../components/CookieConsent.astro';
 // ⚠️ 예외 하나 — 좁은 화면의 줄 나눔 규칙은 모든 페이지에 똑같이 깔려야 하므로
 //    여기서 받는다. 페이지마다 넣으면 새 페이지에서 또 빠진다.
 import '../styles/text-wrap.css';
+// ⚠️ 두 번째 예외 — 장식 영상의 재생 단추를 숨기는 규칙도 모든 페이지에 깔린다.
+import '../styles/media-controls.css';
 
 export interface Props {
   title: string;

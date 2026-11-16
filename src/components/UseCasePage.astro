@@ -633,6 +633,31 @@ const jsonLd = [
       }, { rootMargin: '200px' });
       vids.forEach(function (v) { io.observe(v); });
     }
+
+    /* ⚠️ 그래도 안 돌면 그림으로 바꾼다. iOS 는 저전력 모드에서 손짓 뒤에도
+       거절할 때가 있고, 그러면 재생 단추가 다시 그려질 수 있다(그림자 DOM
+       이름이 판마다 달라 CSS 로 다 막는다고 장담할 수 없다).
+       1.5초 뒤에도 멈춰 있으면 같은 그림(poster)을 <img> 로 갈아 끼운다 —
+       단추가 나올 자리 자체가 없어진다. 클래스와 스코프 속성을 그대로 옮겨
+       자리 · 크기 규칙이 그대로 먹게 한다. */
+    setTimeout(function () {
+      vids.forEach(function (v) {
+        if (!v.paused || !v.parentNode) return;
+        var poster = v.getAttribute('poster');
+        if (!poster) return;
+        var img = document.createElement('img');
+        img.src = poster;
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        img.setAttribute('decoding', 'async');
+        img.className = v.className;
+        for (var i = 0; i < v.attributes.length; i++) {
+          var a = v.attributes[i];
+          if (a.name.indexOf('data-astro-cid-') === 0) img.setAttribute(a.name, a.value);
+        }
+        v.parentNode.replaceChild(img, v);
+      });
+    }, 1500);
   })();
 
   // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
