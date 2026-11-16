@@ -578,6 +578,11 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
       gap: 14px;
     }
     .hm-row { gap: 16px; }
+    /* 줄 간격이 18 → 14 로 좁아진 만큼 잇는 선도 짧게 끊는다.
+       (줄 높이 - 25) + 줄 간격 14 + (12 - 13) = 줄 높이 - 12.
+       100% - 8 을 그대로 두면 선이 다음 원 중심에서 9px 까지 내려와
+       링(반지름 13)을 파고든다 — 선과 원이 붙어 보이던 자리다. */
+    .hm-row:not(:last-child) .hm-dot::after { height: calc(100% - 12px); }
     .hm-title { font-size: 24px; }
     .hm-desc { font-size: 16px; }
   }

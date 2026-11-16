@@ -461,6 +461,9 @@ const jsonLd = [orgSchema, websiteSchema];
       gap: 14px;
     }
     .hm-row { gap: 16px; }
+    /* 줄 간격이 18 → 14 로 좁아진 만큼 잇는 선도 짧게 끊는다.
+       (줄 높이 - 25) + 줄 간격 14 + (12 - 13) = 줄 높이 - 12. */
+    .hm-row:not(:last-child) .hm-dot::after { height: calc(100% - 12px); }
     .hm-title { font-size: 24px; }
     .hm-desc { font-size: 16px; }
   }
