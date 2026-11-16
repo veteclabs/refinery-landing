@@ -373,7 +373,7 @@ const jsonLd = [
               <span class="ind-sec-label">02</span>
               {/* 줄 나눔은 사전의 개행을 <br> 로 낸다 — 산업별 제목과 같은 방식이다.
                   칸이 400px 이라 두면 '리파이너리로 푸는 / 방식' 으로 끊겼다. */}
-              <h2>{T.how.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+              <h2>{T.how.split('\n').map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
             </div>
             <ol class="ind-uc-list">
               {uc.how.map((h, i) => (
@@ -611,6 +611,55 @@ const jsonLd = [
       v.pause();
     });
   }
+
+  /* 장식 영상이 안 도는 화면을 깨운다.
+     iOS 는 저전력 모드에서 autoplay 를 거절한다. 그러면 poster 만 남고
+     한가운데에 재생 단추가 뜬다(그 단추는 CSS 로 숨겨 두었다).
+     화면에 들어올 때 한 번, 첫 손짓에 한 번 재생을 청한다 — 손짓 뒤에는
+     대개 허락된다. 거절당하면 조용히 넘어가 poster 가 그대로 남는다.
+     ⚠️ 움직임 줄이기를 켠 화면에서는 하지 않는다. 위에서 세운 영상이다. */
+  (function () {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var vids = [].slice.call(document.querySelectorAll('video.uc-template-deco, video.uc-cta-bg-img'));
+    if (!vids.length) return;
+    var ask = function (v) { if (!v.paused) return; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+    var kick = function () { vids.forEach(ask); };
+    kick();
+    addEventListener('touchstart', kick, { passive: true, once: true });
+    addEventListener('click', kick, { once: true });
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) ask(e.target); });
+      }, { rootMargin: '200px' });
+      vids.forEach(function (v) { io.observe(v); });
+    }
+
+    /* ⚠️ 그래도 안 돌면 그림으로 바꾼다. iOS 는 저전력 모드에서 손짓 뒤에도
+       거절할 때가 있고, 그러면 재생 단추가 다시 그려질 수 있다(그림자 DOM
+       이름이 판마다 달라 CSS 로 다 막는다고 장담할 수 없다).
+       1.5초 뒤에도 멈춰 있으면 같은 그림(poster)을 <img> 로 갈아 끼운다 —
+       단추가 나올 자리 자체가 없어진다. 클래스와 스코프 속성을 그대로 옮겨
+       자리 · 크기 규칙이 그대로 먹게 한다. */
+    setTimeout(function () {
+      vids.forEach(function (v) {
+        if (!v.paused || !v.parentNode) return;
+        var poster = v.getAttribute('poster');
+        if (!poster) return;
+        var img = document.createElement('img');
+        img.src = poster;
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        img.setAttribute('decoding', 'async');
+        img.className = v.className;
+        for (var i = 0; i < v.attributes.length; i++) {
+          var a = v.attributes[i];
+          if (a.name.indexOf('data-astro-cid-') === 0) img.setAttribute(a.name, a.value);
+        }
+        v.parentNode.replaceChild(img, v);
+      });
+    }, 1500);
+  })();
+
   // 랜딩 #faq와 같은 동작 — 하나를 열면 나머지는 닫힌다.
   document.querySelectorAll('.uc-faq-q').forEach(function (q) {
     q.addEventListener('click', function () {
@@ -1791,12 +1840,12 @@ const jsonLd = [
     gap: 40px;
   }
   .uc-redesigned .uc-cta-bg .ind-container > * { flex: none; }
-  /* 좁은 폭에서 상하 여백과 글-버튼 간격을 줄인다. 95px 고정이면 375px에서
-     섹션 337px 중 190px이 여백이라 내용보다 빈 자리가 크다. 값은 사이트 공통
-     규칙(industry.css의 .ind-section이 560px 이하에서 84 -> 60px)을 따른다. */
-  @media (max-width: 560px) {
-    .uc-cta-bg { padding: 60px 0; }
-  }
+  /* ⚠️ 좁은 폭에서 60px 으로 줄이던 규칙을 걷었다.
+     이 섹션의 110px 은 메인 CTA(#cta)와 같은 값으로 맞춘 것인데, 메인은 좁은
+     폭에서도 110px 을 그대로 쓴다(global.css 의 #cta — 폭별 조정이 없다).
+     560px 아래에서만 둘이 110 : 60 으로 갈려, 같은 48px 버튼이 이쪽에서 더
+     커 보였다 — 버튼이 아니라 둘레가 달랐던 것이다.
+     데스크탑처럼 둘을 같은 값으로 둔다. 산업별 CTA(.ind-cta-bg)도 같이 걷었다. */
 
   /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
   .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 0; }
@@ -1830,4 +1879,63 @@ const jsonLd = [
      시절의 column 48 · row 32 를 대신한다. */
   .uc-redesigned .uc-cta-bg .ind-container { gap: 40px; }
   .uc-redesigned .uc-cta-bg h2 { margin-bottom: 0; }
+  /* ───────── 좁은 화면 모음 (2026-11-16)
+     ⚠️ 데스크탑은 건드리지 않는다 — 전부 900px 이하에서만 건다. */
+  @media (max-width: 900px) {
+    /* 신호 카드 — 아이콘 그림자와 라벨 사이를 넓힌다.
+       그림자는 아이콘 상자 아래 26px 자리에 깔리므로, 칸 사이(24px)에서
+       그만큼을 빼면 눈에 보이는 틈이 거의 남지 않는다. */
+    .uc-signal,
+    .uc-en .uc-signal { gap: 36px; }
+
+    /* 템플릿 밴드의 우상단 장식 — 좁은 화면에서는 보이지 않았다.
+       밴드가 358px 로 좁아지면 40% 가 143px(세로 83px)인데 위로 64px 을
+       빼 두어 19px 만 남는다. 폭을 키우고 뺀 만큼을 비율대로 되돌린다
+       (데스크탑은 제 높이의 34% 를 뺀다 — 62% x 358 = 222px 이면 44px). */
+    .uc-template-deco { width: 88%; top: -62px; opacity: .34; }
+
+    /* 템플릿 밴드 — 제목과 본문의 크기 위계를 데스크탑과 같게 둔다.
+       --uc-fs-20 은 clamp(16px, 1.83vw, 20px), --uc-fs-15 는
+       clamp(14px, 1.38vw, 15px) 이라 좁은 화면에서는 둘 다 하한에 붙는다 —
+       20/15 = 1.33 이던 위계가 16/14 = 1.14 로 납작해져 제목이 본문과 같은
+       크기로 읽힌다. 본문은 14px 그대로 두고 제목만 19px 로 올린다(1.36).
+       ⚠️ --uc-fs-20 자체는 건드리지 않는다. 더 살펴보기 카드 이름 등
+          다른 자리도 같은 변수를 쓴다 — 여기만 값으로 덮는다. */
+    .uc-redesigned .uc-template h3 { font-size: 19px; }
+
+    /* 푸는 방식 목록의 차례 배지 — 제목 글자의 세로 가운데에 맞춘다.
+       바깥 여백 5.08px 은 제목이 24px(줄 상자 31.2px)일 때 잰 값이다.
+       --uc-fs-24 는 clamp(19px, 2.2vw, 24px) 이라 864px 아래에서는 19px 로
+       내려앉고 줄 상자가 24.7px 이 된다 — 그만큼 배지가 3.58px 아래로 처졌다
+       (실측 390px: 글자 가운데 1809.22 · 배지 가운데 1812.80).
+       19px 기준 값은 줄 상자 절반 12.35 - 반 줄 간격 0.85 - 배지 절반 10 = 1.5px.
+       ⚠️ 데스크탑은 그대로 5.08px 이다(1440px 실측 차 0.08px). */
+    .uc-redesigned .uc-card-no { margin-top: 1.5px; }
+
+    /* 더 살펴보기 카드 — 손가락에는 hover 가 없다. 넓은 화면에서 올렸을 때
+       나오던 것(설명 · 화살표 · 커진 이름)을 처음부터 펴 둔다.
+       ⚠️ 폭으로 가른다. (hover: none) 으로 가르면 터치 되는 노트북까지
+          함께 걸린다 — 이 사이트는 폭 기준으로 모바일을 가르고 있다. */
+    .uc-case .uc-case-label { font-size: var(--uc-fs-20); }
+    .uc-case .uc-case-fold { grid-template-rows: 1fr; }
+    .uc-case .uc-case-fold > span { opacity: 1; }
+    .uc-case .uc-case-go { opacity: 1; transform: none; }
+    .uc-case--img .uc-case-go { color: #F6F8FA; }
+  }
+
+  /* iOS 의 재생 단추를 숨긴다 — 장식 영상인데 누르는 것처럼 보인다.
+     Safari 는 autoplay 를 거절하거나(저전력 모드) 알파 webm 을 못 읽을 때
+     한가운데에 제 재생 단추를 그린다. controls 를 안 달아도 따로 나온다.
+     ⚠️ 폭으로 가르지 않는다 — 데스크탑 Safari 도 같은 단추를 그린다.
+        단추만 없애는 것이라 그림 · 자리는 어느 폭에서도 그대로다. */
+  video.uc-template-deco::-webkit-media-controls,
+  video.uc-template-deco::-webkit-media-controls-start-playback-button,
+  video.uc-template-deco::-webkit-media-controls-panel,
+  video.uc-cta-bg-img::-webkit-media-controls,
+  video.uc-cta-bg-img::-webkit-media-controls-start-playback-button,
+  video.uc-cta-bg-img::-webkit-media-controls-panel {
+    display: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
 </style>
