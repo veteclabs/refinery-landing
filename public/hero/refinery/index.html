@@ -732,8 +732,17 @@ const fpCss=document.createElement('style');fpCss.textContent=`
 const fpPins=DATA.tags.filter(t=>t.st===3).map((t,i)=>{const el=document.createElement('div');el.className='fp-pin';el.innerHTML='<i class="dot"></i>';el.firstChild.style.animationDelay=(i*.6)+'s';stage.appendChild(el);
  return {el,p:new THREE.Vector3(t.p[0],t.p[1]-.4,t.p[2])};});
 /* spreading rings: the exact ring used in the other scenes (light brand, .022 thick, three rings fading outward) */
+/* ⚠️ 좁은 화면에서는 링을 2.2 배로 키운다.
+   핀은 두 겹이다 — 점은 CSS 22px 로 고정(.fp-pin .dot)이고, 퍼지는 링은 3D 라
+   장면 배율(sc)을 따른다. 그 배율이 데스크탑 1.25 · 폰 0.569 이라 링만 2.2 배
+   작아져, 폰에서는 링이 22px 짜리 점보다 작게 퍼지다 끝난다 — 점에 가려
+   '아무것도 안 움직이는' 것처럼 보였다(실기 보고).
+   화면에서 데스크탑과 같은 크기로 퍼지도록 그 비를 그대로 곱한다.
+   ⚠️ 데스크탑은 1 이라 달라지는 것이 없다.
+   ⚠️ 균등 배율이라 테두리 두께도 같은 비로 커진다 — 모양이 그대로다. */
+const FPR=(W<=900)?2.2:1;
 fpPins.forEach((f,i)=>{for(let k=0;k<1;k++){const r=KIT.ring(.35,.022);r.material=new THREE.MeshBasicMaterial({color:lin(0x76A6D7),transparent:true,depthWrite:false});r.position.copy(f.p);LS.add(r);
- anim.push(t=>{r.quaternion.copy(cam.quaternion);const D=2.2,cyc=D*fpPins.length,l=((t-i*D)%cyc+cyc)%cyc;if(l>=D){r.visible=false;return;}r.visible=true;const q=l/D,e=1-Math.pow(1-q,2);r.scale.setScalar(1+e*2.6);r.material.opacity=.6*Math.pow(1-q,1.6);});}});
+ anim.push(t=>{r.quaternion.copy(cam.quaternion);const D=2.2,cyc=D*fpPins.length,l=((t-i*D)%cyc+cyc)%cyc;if(l>=D){r.visible=false;return;}r.visible=true;const q=l/D,e=1-Math.pow(1-q,2);r.scale.setScalar((1+e*2.6)*FPR);r.material.opacity=.6*Math.pow(1-q,1.6);});}});
 anim.push(()=>{fpPins.forEach(f=>{const q=toScreen(f.p);if(!q||q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20){f.el.style.display='none';return;}f.el.style.display='';f.el.style.transform=`translate(${q[0].toFixed(1)}px,${q[1].toFixed(1)}px)`;});});
 let liveKey='';
 function drawLive(t){if(!lr)return;const w=Math.round(VW*sc),h=Math.round(VH*sc),key=w+'x'+h+'@'+offX+','+offY;
