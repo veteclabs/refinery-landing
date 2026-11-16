@@ -273,6 +273,14 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        ⚠️ .hero-stage 의 padding 단축 속성 뒤에 와야 한다.
        ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
     .hero-stage { padding-top: var(--header-h); }
+    /* ⚠️ 무대 높이를 보이는 화면에 맞춘다. 기본값 100vh 는 iOS 에서 주소창·툴바를
+       포함한 높이로 잡혀, 실제 보이는 화면보다 짧게 나온다 — 아이폰 실측에서
+       창은 390x778 인데 무대가 670 이었다(108px 모자람). 그 차이가 그대로 상자
+       아래 틈으로 쌓여 좌우 16px 에 아래만 124px 이 됐다.
+       dvh 는 주소창이 접히고 펴지는 것을 따라가므로 늘 보이는 화면과 같다.
+       ⚠️ 100vh 를 먼저 적어 dvh 를 모르는 브라우저가 옛 값으로 떨어지게 한다.
+       ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
+    .hero-stage { height: 100vh; height: 100dvh; }
   }
 
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.

@@ -275,6 +275,19 @@
       step();
       addEventListener('scroll', onScroll, { passive: true });
       addEventListener('resize', function () { measure(); step(); }, { passive: true });
+      /* ⚠️ iOS 는 주소창이 접히고 펴질 때 window resize 를 주지 않는다. 그런데
+         무대 높이(100dvh)는 그때 바뀌므로, 다시 재지 않으면 --hero-full-h 가
+         옛 높이로 굳어 상자 아래에 틈이 남는다. visualViewport 로 그 순간을 받는다.
+         ⚠️ 매 프레임 들어오므로 rAF 로 한 번만 묶는다. */
+      if (window.visualViewport) {
+        var vvQueued = false;
+        var onVV = function () {
+          if (vvQueued) return;
+          vvQueued = true;
+          requestAnimationFrame(function () { vvQueued = false; measure(); step(); });
+        };
+        visualViewport.addEventListener('resize', onVV, { passive: true });
+      }
       // 글꼴이 늦게 와서 카피 높이가 바뀌면 다시 잰다.
       if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { measure(); step(); });
     }
