@@ -124,20 +124,8 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
              패키지가 내주는 __dbg().lastDrawn 이 바뀌면 그 프레임에 재합성한다.
              히어로가 화면 밖이면 아무 일도 하지 않는다. */
           var seen = '', visible = true, running = false;
-          /* ⚠️ 좁은 화면에서는 '그림이 바뀔 때' 가 아니라 매 프레임 건드린다.
-             안쪽 live 레이어(카드 · 흐름선 · 모터 위 링 셋)는 스크롤과 무관하게
-             시간으로 도는데, 그때는 baked 프레임이 그대로라 lastDrawn 이 바뀌지
-             않는다 — 바뀔 때만 건드리면 '가만히 있을 때는 아무것도 안 움직이는'
-             화면이 된다. 데스크탑 Chrome 에서 찾은 합성 문제(4a2f04d7)가 폰에서는
-             이 조건 때문에 live 레이어까지 번진 것으로 보인다(실기 보고 —
-             동작 줄이기는 꺼져 있었다).
-             ⚠️ 데스크탑은 그대로 둔다. 거기서는 지금 조건으로 충분했다.
-             ⚠️ 값은 눈에 보이지 않는다(0.999 ↔ 빈 값). 히어로가 화면 밖이면
-                IntersectionObserver 가 루프를 멈춘다. */
-          var always = window.matchMedia && matchMedia('(max-width: 900px)').matches;
           function loop() {
             if (!visible) { running = false; return; }
-            if (always) { nudge(); requestAnimationFrame(loop); return; }
             var mark = null;
             try { var w = fr.contentWindow; if (w && w.__dbg) mark = w.__dbg().lastDrawn; } catch (e) {}
             if (mark === null) nudge();               /* 아직 못 읽으면 그냥 건드린다 */
