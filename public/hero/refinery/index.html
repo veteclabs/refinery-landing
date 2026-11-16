@@ -342,7 +342,7 @@ const blobs=new Array(NF).fill(null),bm=new Map(),pend=new Set();let ready=false
    · 3D 겹침은 그 프레임을 따라가므로 장면이 통째로 어긋나 보인다.
    ⚠️ 데스크탑은 그대로 frames/ 다. 넓은 화면에서는 2560 이 다 쓰인다.
    ⚠️ 시작할 때 한 번 정한다. 도중에 바꾸면 이미 받아 둔 blob 과 섞인다. */
-const FDIR=(innerWidth<=900?'frames-m/':'frames/');
+const FDIR=(innerWidth<=900?'frames-m/':'frames/');   /* frames-m 은 1920x1080 이다 */
 (function load(){const req=new Uint8Array(NF);const pick=()=>{for(let d=0;d<NF;d++){for(const i of [curF+d,curF-d])if(i>=0&&i<NF&&!req[i])return i;}return -1;};
   const one=()=>{const i=pick();if(i<0)return;req[i]=1;
   fetch(FDIR+'f'+String(i).padStart(3,'0')+'.webp').then(r=>r.ok?r.blob():null).then(b=>{blobs[i]=b;want(i);}).catch(()=>{}).finally(one);};
@@ -374,7 +374,12 @@ const flows=DATA.flows.map((f,i)=>({lane:i===0,spoke:i>=1&&i<=6,g:f.g,pts:f.pts.
 const tagEls=DATA.tags.filter(t=>t.st===0).map(t=>{const el=document.createElement('div');el.className='tag '+t.cls;el.textContent=t.text;tagLayer.appendChild(el);return {el,st:t.st,p:new THREE.Vector3(t.p[0],t.p[1],t.p[2])};});
 const tv=new THREE.Vector3();
 let W=1,H=1,DPR=1,sc=1,offX=0,offY=0;
-function resize(){W=stage.clientWidth;H=stage.clientHeight;DPR=Math.min(devicePixelRatio||1,2);ov.width=W*DPR;ov.height=H*DPR;vid.width=W*DPR;vid.height=H*DPR;lastDrawn='';
+/* ⚠️ 좁은 화면에서는 상한을 3 으로 올린다. 2 로 두면 폰(dpr 3)에서 캔버스가
+   화면의 2/3 해상도로 잡혀 브라우저가 1.5 배로 늘린다 — 그림 전체가 흐려 보인다.
+   데스크탑(dpr 2)은 2 가 곧 1:1 이라 달라지는 것이 없다.
+   ⚠️ 모바일 프레임 한 벌을 1920 으로 둔 것과 한 벌이다. 상한만 올리고 원본이
+      작으면 이번엔 원본에서 늘어난다. */
+function resize(){W=stage.clientWidth;H=stage.clientHeight;DPR=Math.min(devicePixelRatio||1,W<=900?3:2);ov.width=W*DPR;ov.height=H*DPR;vid.width=W*DPR;vid.height=H*DPR;lastDrawn='';
   sc=Math.max(W/VW,H/VH);offX=(W-VW*sc)/2;offY=(H-VH*sc)/2;}
 addEventListener('resize',resize);if(window.ResizeObserver)new ResizeObserver(()=>resize()).observe(stage);resize();
 function toScreen(v){tv.copy(v).project(cam);if(tv.z>1||tv.z<-1)return null;return [offX+(tv.x*.5+.5)*VW*sc,offY+(-tv.y*.5+.5)*VH*sc];}
@@ -485,7 +490,11 @@ const liveCv=document.getElementById('live');let lr=null;
 function mkRenderer(){
   try{
     const r=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:true});
-    r.setPixelRatio(Math.min(devicePixelRatio||1,1.5));r.outputEncoding=THREE.sRGBEncoding;r.setClearColor(0x000000,0);
+    /* ⚠️ 좁은 화면에서는 2.5 까지 올린다. 1.5 로 두면 폰(dpr 3)에서 live 레이어
+       (카드 · 흐름선 · 태그)가 화면의 절반 해상도로 잡혀, 카드 글씨가 회색으로
+       번진다 — '왼쪽 판이 흐리다' 가 이것이다. 장면이 선 몇 개라 올려도 그릴 양이
+       크지 않다. 데스크탑(dpr 2)은 1.5 그대로다. */
+    r.setPixelRatio(Math.min(devicePixelRatio||1,W<=900?2.5:1.5));r.outputEncoding=THREE.sRGBEncoding;r.setClearColor(0x000000,0);
     return r;
   }catch(e){return null;}
 }
