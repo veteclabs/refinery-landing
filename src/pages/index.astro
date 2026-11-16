@@ -284,6 +284,21 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
        '멈춘 뒤'에만 다시 넣으므로 스크롤 중에는 흔들리지 않는다.
        ⚠️ 901px 위는 그대로다 — 이 블록은 @media (max-width: 900px) 안이다. */
     .hero-stage { height: var(--hero-vh, 100vh); }
+    /* ⚠️ 섹션 높이도 같은 값으로 잰다. global.css 는 height: calc(100vh + 215vh)
+       인데, iOS 에서 vh 는 670 인 반면 window.innerHeight 는 778 이다.
+       높이는 vh 로 재고 스크롤 변환은 innerHeight 로 빼기 때문에
+         span = 315x670 - 778 = 1332   (설계값 315x778 - 778 = 1672)
+       같은 모션이 20% 짧은 거리에 압축돼, 장면이 빨리 지나가고 멈춤 구간
+       (HOLDC 0.4279 · RUN 0.8605)의 자리도 어긋났다.
+       무대 높이를 --hero-vh 로 고치면서 섹션은 vh 로 남겨 둔 탓에 차이가 더
+       벌어졌다 — 둘은 한 벌이라 같이 고쳐야 한다.
+       ⚠️ 2.15 와 1 의 비는 global.css 의 215vh · 100vh 와 같아야 한다.
+          한쪽을 고치면 다른 쪽도 고친다.
+       ⚠️ 901px 위는 그대로다 — vh 와 innerHeight 가 같아 값이 바뀌지 않는다. */
+    #hero {
+      --hero-run: calc(2.15 * var(--hero-vh, 100vh));
+      height: calc(var(--hero-vh, 100vh) + var(--hero-run));
+    }
   }
 
   /* 자라는 동안 둘이 화면 아래 양쪽 끝으로 내려간다.
