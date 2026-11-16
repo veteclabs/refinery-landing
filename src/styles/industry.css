@@ -2246,3 +2246,37 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 900px) {
   .ind-page br { display: none !important; }
 }
+
+/* ───────── 좁은 화면 — 캡션의 덩어리 나눔도 푼다
+   흐름 · 연동 캡션(.ind-flow-note · .ind-systems-note)은 <br> 이 아니라
+   문장마다 <span class="note-s"> 를 두고 flex 로 띄워 '한 문장이 한 덩어리로
+   움직이게' 해 둔 자리다. 넓은 폭에서는 그 덕에 문장 경계에서 끊기지만,
+   폰에서는 한 문장이 한 줄에 못 들어가므로 덩어리마다 줄을 차지하고 그 안에서
+   또 감긴다 — '… API로 연동 / 가능합니다. / 자세한 내용은 …' 처럼 보인다.
+   좁은 화면에서는 덩어리를 풀어 글 전체를 한 단락으로 흘린다.
+   ⚠️ 덩어리 사이의 공백은 column-gap 이 내던 것이라, inline 으로 바꾸면
+      사라진다(마크업에 </span><span> 로 붙어 있다). ::before 로 넣어 준다.
+   ⚠️ 특정도를 .ind-page .ind-systems-note .note-s(0,3,0)로 맞춘다 —
+      산업별 규칙(.ind-page.ind-energy .note-s)이 같은 값이라 뒤에 와야 이긴다.
+   ⚠️ 데스크탑은 건드리지 않는다. */
+@media (max-width: 900px) {
+  .ind-page .ind-flow-note,
+  .ind-page .ind-systems-note {
+    display: block;
+    width: auto;
+    margin-left: 0;
+  }
+  .ind-page .ind-flow-note .note-s,
+  .ind-page .ind-systems-note .note-s,
+  .ind-page .ind-flow-note .note-s2,
+  .ind-page .ind-systems-note .note-s2 {
+    display: inline;
+    max-width: none;
+  }
+  .ind-page .ind-flow-note .note-s + .note-s::before,
+  .ind-page .ind-systems-note .note-s + .note-s::before,
+  .ind-page .ind-flow-note .note-s2 + .note-s2::before,
+  .ind-page .ind-systems-note .note-s2 + .note-s2::before {
+    content: ' ';
+  }
+}
