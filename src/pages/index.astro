@@ -296,7 +296,15 @@ const jsonLd = [orgSchema, websiteSchema, faqSchema];
           한쪽을 고치면 다른 쪽도 고친다.
        ⚠️ 901px 위는 그대로다 — vh 와 innerHeight 가 같아 값이 바뀌지 않는다. */
     #hero {
-      --hero-run: calc(2.15 * var(--hero-vh, 100vh));
+      /* ⚠️ 세로 화면에서는 구간을 1.4배로 늘린다(2.15 -> 3.01). 모션 구간이
+         724px 인데 193장을 넘겨야 해서 3.75px 마다 한 장이었다 — 손가락을
+         빠르게 쓸면 초당 수백 장을 요구해 중간이 버려지고 뚝뚝 끊겨 보였다.
+         늘리면 5.2px 마다 한 장이 되어 건너뛰는 양이 40% 줄어든다.
+         대신 히어로를 지나는 데 손가락을 그만큼 더 써야 한다.
+         ⚠️ GROW/HOLDC/RUN 은 고치지 않는다. 셋 다 span 의 '비율' 이고
+            span = --hero-run x 화면 높이 라, 구간을 늘리면 자라는 구간도
+            같은 비율로 함께 늘어나 자리가 그대로 맞는다. */
+      --hero-run: calc(3.01 * var(--hero-vh, 100vh));
       height: calc(var(--hero-vh, 100vh) + var(--hero-run));
     }
   }
