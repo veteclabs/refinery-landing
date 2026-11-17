@@ -98,6 +98,12 @@ const capabilityGroups = [
             자리값(칸 56% · 이미지 1180px · -140px · -205px · 불투명도 .3)도
             옛 히어로에서 그대로 가져왔다. */}
         <div class="wr-figure-face">
+          {/* 바탕 사진도 옛 히어로 그대로다 — 랜딩 CTA(#cta)와 같은 파일이고,
+              #191F27 면 위에 .9 로 얹는 것이 전부다(어두운 막을 따로 덮지
+              않는다). 사진 자체의 결이 질감을 맡는다. 그 위에 대시보드가
+              옅게 올라간다. */}
+          <img class="wr-figure-bg" src="/img_login-bg.webp" alt="" aria-hidden="true"
+               width="3840" height="2160" decoding="async" fetchpriority="high" />
           <div class="wr-hero-fx" aria-hidden="true">
             <div class="wr-hero-fx-inner">
               <img src="/why-refinery-dash.webp" alt="" width="2586" height="3512" decoding="async" />
@@ -286,6 +292,14 @@ const capabilityGroups = [
     background: #191F27;
     /* 모서리는 띠와 함께 펴진다 — 솔루션 사진과 같은 식이다. */
     border-radius: calc(var(--radius) * (1 - var(--grow, 0)));
+  }
+  .wr-page .wr-figure-bg {
+    /* 옛 .wr-hero-bg-img 와 같은 값이다. 100% = 위로 올릴 수 있는 끝 —
+       이미지가 16:9 이고 띠는 그보다 납작해 cover 가 가로에 맞추므로,
+       남는 세로가 전부 위로 빠진다. */
+    position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
+    object-fit: cover; object-position: center 100%;
+    pointer-events: none; user-select: none;
   }
   .wr-page .wr-hero-fx {
     position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
