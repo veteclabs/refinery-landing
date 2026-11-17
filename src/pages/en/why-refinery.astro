@@ -167,7 +167,10 @@ const capabilityGroups = [
 
     <!-- STORY BLOCKS -->
     {/* ⚠️ 섹션 머리글을 두지 않는다 — 제목은 왼쪽 칸이 들고 있다(국문과 같다). */}
-    <section class="ind-section ind-usecases">
+    {/* ⚠️ 섹션에 ind-usecases 를 달지 않는다 — 그 클래스는 display: grid 라
+        안의 .ind-container 가 격자 칸이 되어 폭이 1440 에서 1402px 으로
+        줄었다(실측). 아래 .ind-uc-* 규칙들은 그 클래스를 필요로 하지 않는다. */}
+    <section class="ind-section wr-flow">
       <div class="ind-container">
         <div class="ind-uc-shell">
           <div class="ind-uc-aside">
