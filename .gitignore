@@ -25,6 +25,11 @@ Thumbs.db
 refinery-icons/*
 !refinery-icons/source/
 !refinery-icons/README.md
+# 왜 운영체제인가 카드 한 벌 — 생성기와 설명만 담는다(산출물은 위와 같이 뺀다).
+!refinery-icons/why-os-icons/
+refinery-icons/why-os-icons/*
+!refinery-icons/why-os-icons/source/
+!refinery-icons/why-os-icons/README.md
 캡처/
 
 # 소개서에서 꺼낸 원본 JPEG(4.3MB). 사이트가 쓰는 건 변환된 public/ 의 WebP다.

@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/industry.css';
+import RfIcon from '../components/RfIcon.astro';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
@@ -53,15 +54,14 @@ const stories = [
 
 // 왜 운영체제인가 — 연결부터 판단까지 네 개의 층. 아래 기능 카드와 같은 틀에 칩 대신 설명을 둔다.
 // 아이콘은 기능 카드(capabilityGroups)와 겹치지 않게 골랐다.
-/* ⚠️ img 는 3D 아이콘 파일의 경로 앞머리다(확장자 · @2x 는 마크업이 붙인다).
-   넉 장이 준비되면 public/icons/layers/ 에 두고 여기에 적는다 —
-   예: img: '/icons/layers/layer-connect'  ->  layer-connect.webp · layer-connect@2x.webp
-   비워 두면 같은 160x160 상자 안에 글꼴 아이콘이 대신 선다. */
+/* 아이콘은 이 섹션만의 한 벌이다(src/icons/light/os-*.svg) — 호버하면
+   도는 인라인 SVG 라 RfIcon 으로 넣는다. 기능 카드의 Phosphor 글꼴과는
+   다른 것이니 섞지 말 것. */
 const layers = [
-  { title: '연결', icon: 'ph-plugs-connected', img: null, desc: '설비 ⁠· 센서와 SCADA ⁠· MES ⁠· ERP를 게이트웨이와 커넥터로 잇습니다. 쓰던 시스템은 그대로 둡니다.' },
-  { title: '온톨로지', icon: 'ph-tree-structure', img: null, desc: '설비 ⁠· 업무 ⁠· 문서를 하나의 모델로 정의합니다. 모든 앱과 AI가 이 모델 하나를 함께 씁니다.' },
-  { title: '앱', icon: 'ph-grid-four', img: null, desc: '대시보드 ⁠· 분석 ⁠· 워크플로우가 같은 모델 위에서 돌아갑니다. 새 앱이 더해져도 데이터와 권한은 그대로 이어집니다.' },
-  { title: 'AI 에이전트', icon: 'ph-chat-circle-dots', img: null, desc: '사람이 묻고 AI가 근거를 들어 답합니다. 조치는 권한과 승인을 거치고 기록으로 남습니다.' },
+  { title: '연결', icon: 'os-connect', desc: '설비 ⁠· 센서와 SCADA ⁠· MES ⁠· ERP를 게이트웨이와 커넥터로 잇습니다. 쓰던 시스템은 그대로 둡니다.' },
+  { title: '온톨로지', icon: 'os-ontology', desc: '설비 ⁠· 업무 ⁠· 문서를 하나의 모델로 정의합니다. 모든 앱과 AI가 이 모델 하나를 함께 씁니다.' },
+  { title: '앱', icon: 'os-app', desc: '대시보드 ⁠· 분석 ⁠· 워크플로우가 같은 모델 위에서 돌아갑니다. 새 앱이 더해져도 데이터와 권한은 그대로 이어집니다.' },
+  { title: 'AI 에이전트', icon: 'os-agent', desc: '사람이 묻고 AI가 근거를 들어 답합니다. 조치는 권한과 승인을 거치고 기록으로 남습니다.' },
 ];
 
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
@@ -163,20 +163,15 @@ const capabilityGroups = [
             옅은 면 · 두 겹 그림자 · 왼쪽 위 번호 배지 · 가운데 정렬 · 큰 아이콘.
             ⚠️ 저쪽은 카드가 셋이고 여기는 넷이다. 칸 수만 다르다. */}
         <div class="wr-layers">
+        {/* ⚠️ rf-ic-host 를 카드에 함께 준다 — 아이콘 모션은 조상에 이 클래스가
+            있을 때만 돈다. 빠뜨리면 영영 0% 자세로 서 있다.
+            회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
-            <div class="wr-layer">
+            <div class="wr-layer rf-ic-host">
               <span class="wr-layer-num">{i + 1}</span>
-              {/* 그래픽 자리 — 160x160 이다(회사 소개 기준 카드와 같은 값).
-                  3D 아이콘이 들어오면 layers 의 img 에 경로 앞머리만 적으면 된다
-                  (예: '/icons/layers/layer-connect'). 그 전까지는 같은 상자 안에
-                  글꼴 아이콘이 가운데 선다 — 상자 크기가 같아 카드 높이와 제목
-                  자리는 지금과 달라지지 않는다. */}
-              <span class="wr-layer-fig" aria-hidden="true">
-                {l.img
-                  ? <img src={`${l.img}.webp`} srcset={`${l.img}.webp 1x, ${l.img}@2x.webp 2x`}
-                         width="160" height="160" alt="" decoding="async" loading="lazy" />
-                  : <i class={`ph ${l.icon}`}></i>}
-              </span>
+              {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
+                  이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
+              <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
               <h3>{l.title}</h3>
               <p>{l.desc}</p>
             </div>
@@ -395,15 +390,14 @@ const capabilityGroups = [
   /* '1' 만 따로 민다 — Roboto 의 '1' 은 제 폭 한가운데가 아니라 왼쪽에
      그려져 있다. 들여쓴 만큼 글줄 상자도 넓어져 글자는 절반만 움직인다. */
   .wr-layer:first-child .wr-layer-num { text-indent: 0.105em; }
-  /* 그래픽 자리 — 회사 소개 기준 카드(.cmp-rule-icon)와 같은 160x160 ·
-     위 31 · 아래 32px 이다. 3D 아이콘이 들어오기 전까지는 같은 상자 안에
-     글꼴 아이콘이 가운데 선다. */
-  .wr-layer-fig {
-    display: grid; place-items: center;
+  /* 그래픽 — 회사 소개 기준 카드(.cmp-rule-icon)와 같은 160x160 ·
+     위 31 · 아래 32px 이다.
+     ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프
+        속성이 붙지 않는다. 평범한 선택자로 두면 규칙이 통째로 빗나간다. */
+  :global(.wr-layer-fig) {
+    display: block;
     width: 160px; height: 160px; margin: 31px auto 32px;
   }
-  .wr-layer-fig img { display: block; width: 160px; height: 160px; }
-  .wr-layer-fig i { font-size: 64px; line-height: 1; color: var(--accent); }
   .wr-page .wr-layer h3 {
     margin: 0 0 12px; font-size: 26px; font-weight: 600; line-height: 1.3;
     color: var(--text); word-break: keep-all; text-wrap: balance;
