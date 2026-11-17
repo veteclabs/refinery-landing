@@ -14,17 +14,23 @@ const ui = navUi[lang];
         <img src="/logo_Refinery_symbol.svg" alt="Refinery" style="height:36px;">
         <p set:html={ui.tagline}></p>
       </div>
-      {/* 열 구성·이름은 헤더(Nav.astro)와 같은 축이다. href 없는 항목은 쿠키 설정 버튼으로 렌더된다. */}
+      {/* 이름·묶음은 헤더(Nav.astro)와 같은 축이다. 차례만 다르다(nav.ts 주석).
+          한 칸에 묶음이 둘 이상이면 배열로 적혀 온다 — 위아래로 쌓는다.
+          href 없는 항목은 쿠키 설정 버튼으로 렌더된다. */}
       {cols.map((col) => (
-        <div>
-          <div class="footer-col-title">{col.title}</div>
-          <div class="footer-links">
-            {col.items.map((it) => (
-              it.href
-                ? <a href={it.href}>{it.label}</a>
-                : <button type="button" data-cookie-settings onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>
-            ))}
-          </div>
+        <div class="footer-colstack">
+          {(Array.isArray(col) ? col : [col]).map((g) => (
+            <div>
+              <div class="footer-col-title">{g.title}</div>
+              <div class="footer-links">
+                {g.items.map((it) => (
+                  it.href
+                    ? <a href={it.href}>{it.label}</a>
+                    : <button type="button" data-cookie-settings onclick="if(window.openCookieSettings){openCookieSettings();}">{it.label}</button>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ))}
 
