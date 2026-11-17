@@ -83,7 +83,7 @@ const scene = (i: number) => {
    ⚠️ 마지막 장면의 떠 있는 도형(5-b0~b3)은 바탕 그림에 없다 — 이 레이어를
       빼면 그래픽 자체가 빈다. 나머지(링 · 그리드 · 공중 연결선 · 업링크)는
       바탕에도 정지 상태로 있어 빠지면 움직임만 없어진다. */
-type Layer = { file: string; cls: string; ox: string; oy: string };
+type Layer = { file: string; cls: string; ox?: string; oy?: string; i?: number; pk?: string };
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [
     { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.29%' },
@@ -92,15 +92,19 @@ const SCENE_LAYERS: Record<number, Layer[]> = {
     { file: '3-up2.webp', cls: 'ov-up2', ox: '35.54%', oy: '33.14%' },
   ],
   4: [
-    { file: '4-arc.webp', cls: 'ov-arc', ox: '48.95%', oy: '39.15%' },
-    { file: '4-up0.webp', cls: 'ov-up0', ox: '47.59%', oy: '17.59%' },
-    { file: '4-up1.webp', cls: 'ov-up1', ox: '67.61%', oy: '1.91%' },
-    { file: '4-up2.webp', cls: 'ov-up2', ox: '34.95%', oy: '17.55%' },
+    { file: '4-arc.webp', cls: 'ov-arc', ox: '50.03%', oy: '25.94%' },
+    { file: '4-up0.webp', cls: 'ov-up0', ox: '54.25%', oy: '21.78%' },
+    { file: '4-up1.webp', cls: 'ov-up1', ox: '57.40%', oy: '2.33%' },
+    { file: '4-up2.webp', cls: 'ov-up2', ox: '34.13%', oy: '12.50%' },
   ],
-  /* 링은 r0 한 장만 쓴다 — 한 겹이 안쪽에서 바깥 링 너머까지 퍼진다.
-     5-r1 · 5-r2 는 쓰지 않는다. */
+  /* 링은 같은 굵기의 열세 겹(5-w0 ~ 5-w12)이다. 안쪽에서 바깥으로 한 칸씩
+     차례로 켜졌다 꺼지며, 바깥으로 갈수록 연해진다(--pk = 0.32 x (1 - i/12)).
+     ⚠️ 한 겹을 키워 퍼뜨리던 옛 방식(5-r0 ~ r2)은 쓰지 않는다 — 새 그림은
+        링을 겹겹이 따로 뽑아 두었다. */
   5: [
-    { file: '5-r0.webp', cls: 'ov-r0', ox: '49.97%', oy: '57.64%' },
+    ...Array.from({ length: 13 }, (_, i) => ({
+      file: `5-w${i}.webp`, cls: 'ov-w', i, pk: (0.32 * (1 - i / 12)).toFixed(3),
+    })),
     { file: '5-b0.webp', cls: 'ov-b0', ox: '69.97%', oy: '16.85%' },
     { file: '5-b1.webp', cls: 'ov-b1', ox: '31.39%', oy: '9.96%' },
     { file: '5-b2.webp', cls: 'ov-b2', ox: '29.96%', oy: '48.98%' },
@@ -108,6 +112,11 @@ const SCENE_LAYERS: Record<number, Layer[]> = {
   ],
 };
 const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
+/* 레이어가 쓰는 변수만 적는다 — 자리를 잡는 레이어는 --ox · --oy 를, 퍼지는
+   링은 차례(--i)와 가장 진할 때의 세기(--pk)를 쓴다. */
+const layerVars = (l: Layer) =>
+  (l.ox ? `--ox:${l.ox};--oy:${l.oy};` : '') +
+  (l.i !== undefined ? `--i:${l.i};--pk:${l.pk};` : '');
 
 /* 수치를 숫자 덩이와 나머지로 쪼갠다 — '30년+' -> '' · '30' · '년+'.
    나머지(단위 · 기호)는 숫자보다 작게 둔다. 숫자 덩이는 올라가는 모션이
@@ -133,13 +142,14 @@ const statParts = (num: string) => {
 };
 
 /* 그려지는 폭. 초안(preview.html)이 1425px 페이지에 놓은 폭을 가장 넓은 줄에
-   대한 비율로 옮긴 값이다 — 798 / 802 / 860 / 860 / 800 이므로 860 이 기준이다.
+   대한 비율로 옮긴 값이다 — meta.json 의 dw 가 787 / 801 / 860 / 860 / 800 이라
+   860 이 기준이다(히어로 한 장은 dw 1100 으로 따로 선다).
    장면마다 원근이 달라 폭을 따로 쥔다. 바깥 끝은 어차피 띠 끝에 붙으므로
    폭이 달라도 줄마다 바깥선은 한 자리에 선다.
    ⚠️ 기준이 802 에서 860 으로 바뀌었다 — 초안에서 3 · 4 번 장면이 커졌기
       때문이다. 가장 넓은 장면이 칸을 꽉 채우고 나머지는 초안의 비례 그대로
       줄어든다. 2 번은 1 -> 0.9326 으로 한 단 작아진다. */
-const SCENE_REL: Record<number, number> = { 1: 0.928, 2: 0.933, 3: 1, 4: 1, 5: 0.930 };
+const SCENE_REL: Record<number, number> = { 1: 0.915, 2: 0.931, 3: 1, 4: 1, 5: 0.930 };
 
 const SCENES = { hero: scene(0), rows: [scene(1), scene(2), scene(3), scene(4), scene(5)] };
 const sceneVars = (sc: { w: number; h: number; cx: number; cy: number; cs: number }, rel?: number) =>
@@ -279,7 +289,7 @@ const alternates = [
                    width={SCENES.rows[i + 1].w} height={SCENES.rows[i + 1].h} loading="lazy" decoding="async" />
               {layersOf(i + 2).map((l) => (
                 <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                     style={`--ox:${l.ox};--oy:${l.oy}`} />
+                     style={layerVars(l)} />
               ))}
               <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                    width="350" height="385" loading="lazy" decoding="async" />
@@ -307,7 +317,7 @@ const alternates = [
                width={SCENES.rows[4].w} height={SCENES.rows[4].h} loading="lazy" decoding="async" />
           {layersOf(5).map((l) => (
             <img class={`cmp-ov ${l.cls}`} src={`/company-story/${l.file}`} alt="" loading="lazy" decoding="async"
-                 style={`--ox:${l.ox};--oy:${l.oy}`} />
+                 style={layerVars(l)} />
           ))}
           <img class="cmp-scene-cube" src="/company-story/cube.webp" alt=""
                width="350" height="385" loading="lazy" decoding="async" />
@@ -521,8 +531,8 @@ const alternates = [
         var x = A[0].x, y = A[0].y, s = A[0].s, r = 0, q = 1;
         for (var i = 0; i < A.length - 1; i++) {
           var a = A[i], b = A[i + 1], span = b.y - a.y;
-          // 앞 15% 는 제자리에 머물고, 남은 구간 동안 건너간다.
-          var t0 = a.y + span * 0.15, t1 = b.y - span * 0.05;
+          // 앞 35% 는 제자리에 머물고(착지 뒤 잠시 머문다), 남은 구간 동안 건너간다.
+          var t0 = a.y + span * 0.35, t1 = b.y - span * 0.05;
           if (mid <= t0) break;
           var t = Math.min(1, (mid - t0) / Math.max(1, t1 - t0)), e = ease(t);
           x = a.x + (b.x - a.x) * e;
@@ -1127,16 +1137,19 @@ const alternates = [
   .cmp-scene .ov-b3 { animation-delay: -2.55s; }
   @keyframes cmp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4.5%); } }
 
-  /* 마지막 장면 링 — 한 겹이 안쪽에서 바깥 링 너머까지 퍼지며 흐려진다.
-     바탕 그림에 링 셋이 정지 상태로 그려져 있고, 이 한 겹이 그 위를 지나간다. */
-  .cmp-scene .ov-r0 {
-    opacity: 0; animation: cmp-wave 3.2s cubic-bezier(.3,.55,.4,1) infinite;
+  /* 마지막 장면 링 — 같은 굵기의 링 열세 겹이 안쪽에서 바깥으로 한 칸씩
+     옮겨 가며 연해지다 사라진다. 겹마다 제 차례(--i)만큼 늦게 시작한다.
+     ⚠️ 크기를 키우지 않는다(옛 방식). 링 자리는 그림마다 따로 그려져 있고
+        여기서는 켜고 끄기만 한다 — 그래서 굵기가 퍼져도 흐려지지 않는다. */
+  .cmp-scene .ov-w {
+    opacity: 0; animation: cmp-wstep 3.9s linear infinite;
+    animation-delay: calc(var(--i) * .3s);
   }
-  @keyframes cmp-wave {
-    0%   { opacity: 0; transform: scale(1); }
-    10%  { opacity: 1; }
-    80%  { opacity: 0; transform: scale(1.75); }
-    100% { opacity: 0; transform: scale(1.75); }
+  @keyframes cmp-wstep {
+    0%   { opacity: 0; }
+    2%   { opacity: var(--pk); }
+    10%  { opacity: 0; }
+    100% { opacity: 0; }
   }
 
   /* 동작 줄이기 — 움직임만 끈다. 바탕에 없는 레이어(스포크 · 배지)는 그대로 보여야
@@ -1145,7 +1158,7 @@ const alternates = [
     /* 그리드 · 공중선 · 네모 · 링은 바탕 그림에도 정지 상태로 그려져 있다 —
        겹쳐 세우면 두 겹이 되므로 아예 숨긴다. */
     .cmp-scene .ov-grid, .cmp-scene .ov-arc, .cmp-scene .ov-up0,
-    .cmp-scene .ov-up1, .cmp-scene .ov-up2, .cmp-scene .ov-r0 { display: none; }
+    .cmp-scene .ov-up1, .cmp-scene .ov-up2, .cmp-scene .ov-w { display: none; }
     /* 떠 있는 도형 넷은 바탕에 없다 — 숨기면 그래픽이 빈다. 제자리에 세운다. */
     .cmp-scene .ov-b0, .cmp-scene .ov-b1, .cmp-scene .ov-b2, .cmp-scene .ov-b3 {
       animation: none;
