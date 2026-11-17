@@ -1,0 +1,96 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+body{margin:0;font-family:"Noto Sans KR",Pretendard,sans-serif;background:#fff;color:#16202C}
+.page{position:relative;width:1425px;height:4100px;margin:0 auto;overflow:hidden}
+h1{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:56px;line-height:1.25;margin:0}
+.lede{position:absolute;left:0;right:0;top:370px;text-align:center;color:#5A6776;font-size:18px}
+.t{position:absolute;width:340px;font-weight:700;font-size:36px;line-height:1.35}
+.t small{display:block;font-size:18px;color:#76A6D7;margin-bottom:12px}.t span{display:block;font-size:18px;font-weight:500;color:#5A6776;margin-top:8px}
+.s{position:absolute;opacity:0;transform:translateY(40px);transition:opacity .7s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.s.in{opacity:1;transform:none}
+.s img{position:absolute;left:0;top:0;width:100%;height:100%}
+.ov{transform-origin:var(--ox) var(--oy)}
+@property --p{syntax:'<percentage>';inherits:false;initial-value:60%}
+/* 100+ 그리드: 데이터 스캔 빛이 대각선으로 지나감 */
+.ov-grid{-webkit-mask-image:linear-gradient(110deg,transparent 40%,#000 50%,transparent 60%);mask-image:linear-gradient(110deg,transparent 40%,#000 50%,transparent 60%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:scan 4.5s linear infinite}
+@keyframes scan{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+/* 업링크·포트: 순차 점멸 */
+.ov-up0,.ov-up1,.ov-up2{opacity:0;animation:blink 2.4s ease-in-out infinite}.ov-up1{animation-delay:.8s}.ov-up2{animation-delay:1.6s}
+@keyframes blink{0%,100%{opacity:0}40%,55%{opacity:1}}
+/* 20+ 스포크: 바깥으로 갈수록 투명 + 현장 → 허브로 모여드는 흐름 */
+.spk-base,.spk-fade{-webkit-mask-image:radial-gradient(ellipse at var(--ox) var(--oy),#000 6%,rgba(0,0,0,.55) 22%,transparent 46%);mask-image:radial-gradient(ellipse at var(--ox) var(--oy),#000 6%,rgba(0,0,0,.55) 22%,transparent 46%)}
+.spk-flow{-webkit-mask-image:radial-gradient(ellipse at var(--ox) var(--oy),transparent calc(var(--p) - 14%),#000 var(--p),transparent calc(var(--p) + 4%));mask-image:radial-gradient(ellipse at var(--ox) var(--oy),transparent calc(var(--p) - 14%),#000 var(--p),transparent calc(var(--p) + 4%));animation:inflow 2.2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes inflow{from{--p:50%}to{--p:6%}}
+/* 마지막: 떠 있는 4개 배지가 천천히 위아래로 */
+#s5 .ov-b0,#s5 .ov-b1,#s5 .ov-b2,#s5 .ov-b3{opacity:1;animation:bob 3.4s ease-in-out infinite}
+#s5 .ov-b1{animation-delay:-.85s}#s5 .ov-b2{animation-delay:-1.7s}#s5 .ov-b3{animation-delay:-2.55s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4.5%)}}
+/* 링: 하나씩 차례대로 퍼져 나감 */
+#s4 .ov-r0,#s4 .ov-r1{opacity:0;animation:ring 3.6s ease-in-out infinite}
+#s4 .ov-r1{animation-delay:1.8s}
+/* 6번 링: 안쪽부터 차례로 바깥으로 번져 나간다 */
+#s5 .ov-rX{opacity:0;animation:spread 3.6s cubic-bezier(.25,.6,.35,1) infinite}
+#s5 .ov-r1{animation-delay:.45s}#s5 .ov-r2{animation-delay:.9s}
+@keyframes spread{0%{opacity:0;transform:scale(.88)}18%{opacity:1}55%{opacity:0;transform:scale(1.16)}100%{opacity:0;transform:scale(1.16)}}
+@keyframes ring{0%{opacity:0;transform:scale(.96)}30%{opacity:1;transform:scale(1)}60%{opacity:0;transform:scale(1.03)}100%{opacity:0}}
+/*V7*/
+/* 5번 공중 연결선 — 빛이 선을 따라 지나감 */
+#s4 .ov-arc{-webkit-mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:scan 3.6s linear infinite}
+/* 6번 링 — 가운데에서 바깥으로 차례로 퍼지고, 바깥 링일수록 희미하게 */
+/* 6번 링 — 같은 굵기의 링 13장이 차례로 이어받으며, 각자 다음 링 자리까지 미끄러지듯 커지고 서서히 사라진다(끊김 없이 흐름) */
+#s5 .ov-r0,#s5 .ov-r1,#s5 .ov-r2{display:none}
+#s5 .ov-w{opacity:0;transform-origin:var(--ox) var(--oy);animation:wflow 3.6s linear infinite;animation-delay:calc(var(--i)*.24s - 3.6s)}
+@keyframes wflow{0%{opacity:0;transform:scale(1)}7%{opacity:var(--pk)}13.3%{opacity:0;transform:scale(var(--sc))}100%{opacity:0;transform:scale(var(--sc))}}
+#cube{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform;z-index:5}
+</style></head><body><div class="page" id="pg">
+<h1>From the floor up<br>현장 바닥에서 올라온 산업 AI</h1>
+<p class="lede">리파이너리는 (주)베텍이 30년 넘게 산업 현장에서 쌓아 온 경험으로 만들었습니다.</p>
+<div class="t" style="left:84px;top:1180px"><small>회사 소개</small>현장을 아는 팀이 만든<br>솔루션, 산업 AI</div>
+<div class="t" style="left:1061px;top:1820px">30년+<span>산업 현장에서 쌓은 경험</span></div>
+<div class="t" style="left:60px;top:2330px">100+<span>데이터를 다룬 현장 수</span></div>
+<div class="t" style="left:1061px;top:2950px">20+<span>철강 · 반도체 · 식품 등 산업군 수</span></div>
+<div class="t" style="left:1061px;top:3440px;font-size:26px">30년 현장의 (주)베텍이<br>만든 제품</div>
+<div class="s in" id="s0" style="left:162px;top:440px;width:1100px;height:556px"><img src="scene-0-site.webp"></div>
+<div class="s" id="s1" style="left:536px;top:1040px;width:787px;height:585px"><img src="scene-1-team.webp"></div>
+<div class="s" id="s2" style="left:120px;top:1640px;width:801px;height:497px"><img src="scene-2-30years.webp"></div>
+<div class="s" id="s3" style="left:450px;top:2150px;width:860px;height:536px"><img src="scene-3-100sites.webp"><img class="ov ov-grid" src="3-grid.webp" style="--ox:50.00%;--oy:35.30%"><img class="ov ov-up0" src="3-up0.webp" style="--ox:46.32%;--oy:35.17%"><img class="ov ov-up1" src="3-up1.webp" style="--ox:43.52%;--oy:33.04%"><img class="ov ov-up2" src="3-up2.webp" style="--ox:35.50%;--oy:33.20%"></div>
+<div class="s" id="s4" style="left:130px;top:2720px;width:860px;height:507px"><img src="scene-4-20industries.webp"><img class="ov ov-arc" src="4-arc.webp" style="--ox:50.03%;--oy:25.94%"><img class="ov ov-up0" src="4-up0.webp" style="--ox:54.25%;--oy:21.78%"><img class="ov ov-up1" src="4-up1.webp" style="--ox:57.40%;--oy:2.33%"><img class="ov ov-up2" src="4-up2.webp" style="--ox:34.13%;--oy:12.50%"></div>
+<div class="s" id="s5" style="left:160px;top:3310px;width:800px;height:409px"><img src="scene-5-refinery.webp"><img class="ov ov-r0" src="5-r0.webp" style="--ox:49.97%;--oy:57.64%"><img class="ov ov-r1" src="5-r1.webp" style="--ox:49.97%;--oy:57.44%"><img class="ov ov-r2" src="5-r2.webp" style="--ox:49.97%;--oy:57.03%"><img class="ov ov-b0" src="5-b0.webp" style="--ox:69.97%;--oy:16.85%"><img class="ov ov-b1" src="5-b1.webp" style="--ox:31.39%;--oy:9.96%"><img class="ov ov-b2" src="5-b2.webp" style="--ox:29.96%;--oy:48.98%"><img class="ov ov-b3" src="5-b3.webp" style="--ox:68.58%;--oy:55.53%"><img class="ov ov-w" src="5-w0.webp" style="--i:0;--pk:0.320;--sc:1.0789;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w1.webp" style="--i:1;--pk:0.295;--sc:1.0732;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w2.webp" style="--i:2;--pk:0.271;--sc:1.0682;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w3.webp" style="--i:3;--pk:0.246;--sc:1.0638;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w4.webp" style="--i:4;--pk:0.222;--sc:1.0600;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w5.webp" style="--i:5;--pk:0.197;--sc:1.0566;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w6.webp" style="--i:6;--pk:0.172;--sc:1.0536;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w7.webp" style="--i:7;--pk:0.148;--sc:1.0508;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w8.webp" style="--i:8;--pk:0.123;--sc:1.0484;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w9.webp" style="--i:9;--pk:0.098;--sc:1.0462;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w10.webp" style="--i:10;--pk:0.074;--sc:1.0441;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w11.webp" style="--i:11;--pk:0.049;--sc:1.0423;--ox:49.97%;--oy:57.03%"><img class="ov ov-w" src="5-w12.webp" style="--i:12;--pk:0.025;--sc:1.0405;--ox:49.97%;--oy:57.03%"></div>
+<img id="cube" src="cube.webp">
+</div><script>
+const S=[[263.4, 883.2, 136.0], [765.5, 1132.1, 90.0], [643.6, 1727.1, 136.0], [1002.9, 2411.4, 55.0], [557.9, 2936.5, 90.0], [559.9, 3361.0, 136.1]];
+const cube=document.getElementById('cube'),imgs=[...document.querySelectorAll('div.s')];
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+// 큐브: 장면 사이를 포물선으로 날아가 다음 자리에 사뿐히 내려앉는다.
+// 스크롤 위치로 목표 자리를 정하고, 실제 큐브는 그 목표를 부드럽게 따라간다(관성).
+const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const cur={x:S[0][0],y:S[0][1],s:S[0][2],r:0,q:1};
+function target(mid){
+  let x=S[0][0],y=S[0][1],s=S[0][2],r=0,q=1;
+  for(let i=0;i<S.length-1;i++){
+    const a=S[i],b=S[i+1],span=b[1]-a[1];
+    // 앞 35% 는 제자리에 머물고, 남은 구간 동안 이동해 도착 직전 살짝 눌렸다 펴진다.
+    const t0=a[1]+span*.35,t1=b[1]-span*.05;
+    if(mid<=t0)break;
+    const t=Math.min(1,(mid-t0)/(t1-t0)),e=easeIO(t);
+    x=a[0]+(b[0]-a[0])*e;
+    y=a[1]+(b[1]-a[1])*e-Math.sin(Math.PI*e)*Math.min(span*.12,90);
+    s=a[2]+(b[2]-a[2])*e;
+    r=Math.sin(Math.PI*e)*(i%2?-70:70)*(1-e*.2);
+    q=t>.9?1-Math.sin((t-.9)/.1*Math.PI)*.08:1;   // 착지 순간 살짝 눌림
+    if(t<1)break;
+  }
+  return {x,y,s,r,q};
+}
+function frame(){
+  const pg=document.getElementById('pg').getBoundingClientRect(),mid=innerHeight*.55-pg.top;
+  imgs.forEach((im,i)=>{if(mid>S[i][1]-innerHeight*.35)im.classList.add('in');});
+  const T=target(mid),k=.14;
+  for(const key of ['x','y','s','r','q'])cur[key]+=(T[key]-cur[key])*k;
+  const s=cur.s;
+  cube.style.width=s+'px';
+  cube.style.transformOrigin='50% 90%';
+  cube.style.transform=`translate(${cur.x-s/2}px,${cur.y-s*.54}px) rotate(${cur.r}deg) scale(${1+(1-cur.q)*.6},${cur.q})`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script></body></html>
