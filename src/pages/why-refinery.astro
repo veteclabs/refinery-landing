@@ -416,6 +416,31 @@ const capabilityGroups = [
   @media (max-width: 1023px) { .wr-layers { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 639px) { .wr-layers { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
 
+  /* 섹션 면 — 과제별 페이지 02번 섹션(.uc-redesigned .ind-soft)에서 그대로
+     떠 왔다. 흰 면 위에 윗변 가운데에서 퍼지는 원형 빛 한 겹이다.
+     ⚠️ 정지점 열셋은 smootherstep 으로 뽑은 값이다. 두 점짜리 radial 로
+        줄이면 색이 사라지는 자리에 동그란 테가 보인다.
+     ⚠️ --bg-soft 단색(#F6F8FA)이 아니다. 저쪽도 클래스 이름만 .ind-soft 이고
+        면은 이 그라데이션으로 덮여 있다. */
+  .wr-page .wr-flow {
+    position: relative;
+    background: #FFFFFF radial-gradient(62% 50% at 50% 0%,
+      rgba(238, 244, 251, 1) 0%,
+      rgba(238, 244, 251, 0.995) 8.33%,
+      rgba(238, 244, 251, 0.965) 16.67%,
+      rgba(238, 244, 251, 0.896) 25%,
+      rgba(238, 244, 251, 0.79) 33.33%,
+      rgba(238, 244, 251, 0.653) 41.67%,
+      rgba(238, 244, 251, 0.5) 50%,
+      rgba(238, 244, 251, 0.347) 58.33%,
+      rgba(238, 244, 251, 0.21) 66.67%,
+      rgba(238, 244, 251, 0.104) 75%,
+      rgba(238, 244, 251, 0.035) 83.33%,
+      rgba(238, 244, 251, 0.005) 91.67%,
+      rgba(238, 244, 251, 0) 100%);
+  }
+  .wr-page .wr-flow > .ind-container { position: relative; z-index: 1; }
+
   /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글(.ind-uc-dl dd)과 같은
      값이다. 표식(·)은 두지 않는다 — 저쪽도 라벨 칸만 있고 글머리 기호가 없다. */
   .wr-page .wr-flow-points {
