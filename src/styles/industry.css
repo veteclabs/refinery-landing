@@ -77,7 +77,11 @@ img { max-width: 100%; height: auto; }
 .ind-industry .ind-cta,
 .uc-page .ind-hero,
 .uc-page .ind-section,
-.uc-page .ind-cta { border-bottom: 0; }
+.uc-page .ind-cta,
+/* 제품 소개(/why-refinery)도 솔루션과 같은 구성이라 선을 두지 않는다. */
+.wr-page .ind-hero,
+.wr-page .ind-section,
+.wr-page .ind-cta { border-bottom: 0; }
 .ind-soft { background: var(--bg-soft); }
 .ind-head { max-width: 640px; margin-bottom: 44px; }
 .ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
