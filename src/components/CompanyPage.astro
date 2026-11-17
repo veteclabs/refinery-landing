@@ -1429,6 +1429,26 @@ const alternates = [
        ⚠️ 1024px 이상(넓은 폭)에는 걸지 않는다. */
     .cmp-stage .cmp-stat-card .cmp-stat-label { margin-top: -0.425em; }
     .cmp-stage .cmp-stat-card .cmp-stat-num { margin-bottom: -0.21em; }
+    /* 카드는 넓은 폭의 카드(380x225)를 통째로 줄인 모습이어야 한다.
+       패딩(36 -> 26)과 글자만 따로 줄여 뒀더니 390px 에서 342x131 이 돼
+       가로:세로가 1.69 에서 2.61 로 납작해졌다.
+       카드 폭 하나(--cw)에 패딩 · 칸 · 라벨 · 수치를 모두 매달아 비례시킨다 —
+       380px 기준의 36 / 44.7 / 18 / 100 을 그대로 나눠 쓴다.
+       ⚠️ 칸(라벨 ↔ 수치)만 16 이 아니라 44.7 이다. 위에서 행간 몫을 28.7px
+          덜어냈으므로(네 변 맞추기) 그대로 두면 카드가 그만큼 납작해진다
+          (1.69 -> 1.94). 덜어낸 만큼을 가운데로 돌려 넓은 폭의 1.69 를 지킨다 —
+          라벨은 좌측 위 · 수치는 우측 아래로 앉히는 카드라 가운데가 벌어지는
+          편이 맞다. 둘레로 돌리면 패딩이 36 -> 50px 이 돼 혼자 헐렁해진다.
+       ⚠️ 바깥 칸(.cmp-stage-item)을 재는 자리로 삼는다. 카드 자신을 재면
+          패딩이 cqw 에서 빠져 식이 제 꼬리를 문다. */
+    .cmp-stage .cmp-stage-item { container-type: inline-size; }
+    .cmp-stage .cmp-stat-card {
+      --cw: min(100cqw, 380px);
+      padding: calc(var(--cw) * 36 / 380);
+      gap: calc(var(--cw) * 44.7 / 380);
+    }
+    .cmp-stage .cmp-stat-card .cmp-stat-label { font-size: calc(var(--cw) * 18 / 380); }
+    .cmp-stage .cmp-stat-card .cmp-stat-num { font-size: calc(var(--cw) * 100 / 380); }
   }
 
   /* 칸은 글 길이만큼만 넓어진다(shrink-to-fit) — 그대로 두면 카드 셋이
