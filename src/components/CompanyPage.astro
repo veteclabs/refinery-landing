@@ -1455,7 +1455,9 @@ const alternates = [
       padding: calc(var(--cw) * 36 / 380);
       gap: calc(var(--cw) * 44.7 / 380);
     }
-    .cmp-stage .cmp-stat-card .cmp-stat-label { font-size: calc(var(--cw) * 18 / 380); }
+    /* 라벨만 12px 바닥을 둔다 — 비례 그대로면 430px 이하에서 10.1px 까지
+       내려가 읽기 힘들다. 바닥이 걸리는 건 카드가 253px 아래일 때다. */
+    .cmp-stage .cmp-stat-card .cmp-stat-label { font-size: max(12px, calc(var(--cw) * 18 / 380)); }
     .cmp-stage .cmp-stat-card .cmp-stat-num { font-size: calc(var(--cw) * 100 / 380); }
   }
 
