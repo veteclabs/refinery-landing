@@ -11,6 +11,8 @@ export type NavLink = { label: string; href?: string; badge?: string; icon?: str
 export type NavGroup = { title?: string; items: NavLink[] };
 export type NavMenu = { label: string; href: string; groups?: NavGroup[] };
 export type FooterCol = { title: string; items: NavLink[] };
+/** 푸터 한 칸. 배열이면 한 칸 안에 묶음을 위아래로 쌓는다(제품 + 리소스). */
+export type FooterColumn = FooterCol | FooterCol[];
 
 type Lang = 'ko' | 'en';
 
@@ -22,7 +24,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       // 솔루션(산업별 · 과제별)은 그 제품을 '어디에' 쓰는지로 쪼갠 축이라 아래에 둔다.
       // 라벨을 '플랫폼'에서 '제품'으로 바꿨다 — 아래 '회사 소개'와 짝이 되어
       // 제품(리파이너리)과 회사(베텍)가 서로 다른 것임을 라벨 둘이 설명한다.
-      label: '제품',
+      // 라벨은 푸터 항목 · 페이지 이름과 같은 '제품 소개' 다. 아래 '회사 소개'
+      // 와 짝이 되어 제품(리파이너리)과 회사(베텍)가 다름을 라벨 둘이 말한다.
+      label: '제품 소개',
       href: '/why-refinery',
     },
     {
@@ -86,7 +90,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
   // 한국어와 같은 3축 구조(솔루션·리소스·회사). 영어 페이지가 없는 항목만 Soon 배지다.
   en: [
     {
-      label: 'Product',
+      label: 'Product overview',
       href: '/en/why-refinery',
     },
     {
@@ -165,7 +169,14 @@ export const legalLinks: Record<Lang, NavLink[]> = {
   ],
 };
 
-export const footerCols: Record<Lang, FooterCol[]> = {
+/* 칸 차례는 헤더와 다르다 — 헤더는 읽는 순서(제품 → 솔루션 → 리소스 → 회사)로
+   세우고, 푸터는 다 둘러본 뒤 찾는 색인이라 링크가 많은 칸부터 둔다.
+   ⚠️ 차례는 달라도 이름과 묶음은 헤더와 같아야 한다 — 같은 곳인지 알아보는
+      근거가 그 둘이다. 헤더의 네 축(제품 · 솔루션 · 리소스 · 회사)이 모두
+      푸터에 있어야 하고, 산업별 · 과제별은 헤더에서 한 묶음이라 붙여 둔다.
+   ⚠️ '제품' 은 항목이 하나뿐이라 제 칸을 세우면 그 칸만 한 줄로 비어 보인다.
+      리소스 위에 얹어 한 칸을 같이 쓴다(배열로 적으면 Footer 가 쌓아 준다). */
+export const footerCols: Record<Lang, FooterColumn[]> = {
   ko: [
     {
       // 헤더 메가메뉴의 '산업별'과 같은 목록·순서다.
@@ -193,7 +204,9 @@ export const footerCols: Record<Lang, FooterCol[]> = {
         { label: '품질 예측', href: '/use-cases/quality-prediction' },
       ],
     },
-    {
+    [
+      { title: '제품', items: [{ label: '제품 소개', href: '/why-refinery' }] },
+      {
       title: '리소스',
       items: [
         { label: '산업 AI', href: '/industrial-ai' },
@@ -201,7 +214,8 @@ export const footerCols: Record<Lang, FooterCol[]> = {
         { label: '블로그', href: '/blog' },
         { label: '자료실', href: '/resources' },
       ],
-    },
+      },
+    ],
     {
       title: '회사',
       items: [
@@ -239,7 +253,9 @@ export const footerCols: Record<Lang, FooterCol[]> = {
         { label: 'Quality prediction', href: '/en/use-cases/quality-prediction' },
       ],
     },
-    {
+    [
+      { title: 'Product', items: [{ label: 'Product overview', href: '/en/why-refinery' }] },
+      {
       title: 'Resources',
       items: [
         // 한국어 푸터와 같은 목록·순서다.
@@ -248,7 +264,8 @@ export const footerCols: Record<Lang, FooterCol[]> = {
         { label: 'Blog', href: '/en/blog' },
         { label: 'Resource library', href: '/en/resources' },
       ],
-    },
+      },
+    ],
     {
       title: 'Company',
       items: [
