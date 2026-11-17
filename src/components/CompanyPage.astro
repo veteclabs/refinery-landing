@@ -479,8 +479,12 @@ const alternates = [
         if (!span) return;
         var target = parseInt(span.textContent.replace(/,/g, ''), 10);
         if (!(target > 0)) return;
-        // 끝 모습 그대로일 때의 폭을 먼저 잰다.
+        /* 끝 값에서, 자릿폭을 고정한 상태의 폭을 잰다 — 올라가는 동안 쓰는
+           모습이라 이 폭이면 상자가 넘치지 않는다. 다 오른 뒤에는 비례 폭으로
+           돌아가 상자보다 글자가 조금 좁아지는데, 오른끝 정렬이라 티가 안 난다. */
+        el.classList.add('is-counting');
         el.style.minWidth = Math.ceil(el.getBoundingClientRect().width) + 'px';
+        el.classList.remove('is-counting');
         items.push({ el: el, span: span, target: target, done: false });
       });
       if (!items.length) return;
@@ -490,13 +494,14 @@ const alternates = [
       var DUR = 1100;
       function run(it) {
         var t0 = 0;
+        it.el.classList.add('is-counting');
         function step(now) {
           if (!t0) t0 = now;
           var p = Math.min(1, (now - t0) / DUR);
           var e = 1 - Math.pow(1 - p, 3);   /* 처음이 빠르고 끝이 느리다 */
           it.span.textContent = String(Math.round(it.target * e));
           if (p < 1) requestAnimationFrame(step);
-          else it.span.textContent = String(it.target);
+          else { it.span.textContent = String(it.target); it.el.classList.remove('is-counting'); }
         }
         requestAnimationFrame(step);
       }
@@ -514,7 +519,9 @@ const alternates = [
           items.forEach(function (it) {
             it.el.style.minWidth = '';
             if (it.span.textContent === String(it.target)) {
+              it.el.classList.add('is-counting');
               it.el.style.minWidth = Math.ceil(it.el.getBoundingClientRect().width) + 'px';
+              it.el.classList.remove('is-counting');
             }
           });
         }, 150);
@@ -1587,10 +1594,19 @@ const alternates = [
     font-weight: 400;
     line-height: 1.15; letter-spacing: -0.02em;
     white-space: nowrap; width: fit-content;
-    /* 숫자가 요동치는 동안 1 과 7 의 폭이 달라 글자가 떨린다 — 자릿폭을 고정한다. */
-    font-variant-numeric: tabular-nums;
+    /* ⚠️ 서 있는 동안에는 자릿폭을 고정하지 않는다. tabular-nums 는 '1' 에도
+       '0' 과 같은 폭을 주는데 Roboto 의 '1' 은 글자가 좁아, 남는 자리가
+       그대로 틈이 된다 — '100+' 에서 1 과 0 사이가 벌어져 보였다.
+       올라가는 동안에만 .is-counting 으로 켠다(아래). */
+    /* ⚠️ 오른끝 정렬이다. 아래 min-width 는 자릿폭 고정 상태로 재 두므로
+       서 있을 때는 상자가 글자보다 조금 넓다 — 남는 자리를 왼쪽으로 보내
+       숫자가 카드 오른쪽 선에 그대로 붙게 한다. */
+    text-align: right;
     color: #16202C;
   }
+  /* 올라가는 동안만 자릿폭을 고정한다 — 1 과 7 의 폭이 달라 글자가 떨린다. */
+  .cmp-stat-num.is-counting { font-variant-numeric: tabular-nums; }
+
   /* 빛을 쥔 상자 — 숫자 덩이('30+')까지다. 꼬리의 낱말('years')은 이 밖에 선다.
      ⚠️ inline-block 이다. inline 으로 두면 상자가 줄 전체로 번져 가로 50% 가
         낱말까지 포함한 가운데가 된다 — 빛이 숫자에서 밀려난다.
