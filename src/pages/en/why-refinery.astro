@@ -425,6 +425,44 @@ const capabilityGroups = [
   }
   .wr-page .wr-flow > .ind-container { position: relative; z-index: 1; }
 
+  /* 항목 안 배치 — 그림이 위, 글이 아래다.
+     산업별 02번(글 왼쪽 · 그림 오른쪽, industry.css 의 .ind-uc-item)과
+     다른 점이 여기뿐이다. 그림이 16:9 한 장짜리라 옆에 세우면 작아진다.
+     ⚠️ 한 칸 두 줄이다. 칸을 둘로 두고 둘 다 1칸에 몰면 그림 칸의 상한
+        (560px)이 그대로 남아 폭이 늘지 않는다. */
+  .wr-page .wr-flow .ind-uc-item {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 28px;
+  }
+  .wr-page .wr-flow .ind-uc-item > .ind-uc-card { grid-area: 1 / 1; }
+  .wr-page .wr-flow .ind-uc-item > .ind-uc-text { grid-area: 2 / 1; }
+
+  /* 그림 카드 — 글 칸 폭을 꽉 채운다.
+     ⚠️ max-width 를 풀어야 한다. industry.css 가 560px 을 박아 두어
+        칸만 넓혀서는 그림이 따라 커지지 않는다.
+     ⚠️ 비율은 그림 원본 그대로(1920:1080)다. 저쪽 560:320 은 잘라 낸
+        판에 맞춘 값이라, 여기에 두면 위아래로 면이 남는다. */
+  .wr-page .wr-flow .ind-uc-card {
+    max-width: none;
+    aspect-ratio: 1920 / 1080;
+    /* ⚠️ 900px 이하에서 industry.css 가 카드를 글 아래로 내리며 margin-top: 20px
+       을 준다. 여기서는 카드가 첫 줄이라 그 여백이 그림 위에 얹힌다. */
+    margin-top: 0;
+  }
+  /* 그림은 카드를 변까지 채운다 — 좌우 28px 들여쓰기도, 아래로 사라지는
+     마스크도 걷는다. 둘 다 잘라 낸 판(폭 464 고정)을 카드 가운데에 앉히려고
+     있던 것이라, 제 비율로 꽉 차는 그림에는 쓸 데가 없다. */
+  .wr-page .wr-flow .ind-uc-img {
+    position: static;
+    left: auto; top: auto;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: none;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+
   /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글과 같은 값이다(국문과 같다). */
   .wr-page .wr-flow-points {
     list-style: none; padding: 0; margin: 14px 0 0;
