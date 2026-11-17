@@ -1303,9 +1303,7 @@ const alternates = [
       0 -26px 58px -24px rgba(118, 166, 215, 0.22),
       0 -6px 20px -14px rgba(118, 166, 215, 0.11);
   }
-  /* 수치 — 크기는 히어로 대제목(.cmp-title-l1 · l2)과 같은 clamp(52~100px)다.
-     ⚠️ 그라데이션은 걷었다. 먹색 카드 위에서는 흰색 단색이다 —
-        background-clip: text 를 풀어야 하므로 배경을 none 으로 되돌린다. */
+  /* 수치 — 크기는 히어로 대제목(.cmp-title-l1 · l2)과 같은 clamp(52~100px)다. */
   /* 단위 · 기호는 숫자보다 작다. 0.68 은 숫자가 주인공이 되면서도 '년+' 가
      받침으로 읽히는 자리다 — 0.55 까지 내리면 '+' 가 윗첨자처럼 떠 보인다
      (특히 100+ 처럼 기호만 남는 수치에서 그렇다). */
@@ -1316,9 +1314,9 @@ const alternates = [
     margin-top: auto;
     font-size: clamp(52px, 8vw, 100px);
     line-height: 1.1;
-    /* 글자가 아래로 갈수록 카드 면에 흡수된다 — 아래 .cmp-stat-num 이 쥔
-       그라데이션(먹색 -> 흰색)을 그대로 쓴다. 한때 여기서 background-image:
-       none 으로 껐었는데, 카드 면이 흰색이라 끝 색(#FFFFFF)이 그대로 맞는다.
+    /* 글자가 아래로 갈수록 사라진다 — 아래 .cmp-stat-num 이 쥔 그라데이션
+       (먹색 -> 투명)을 그대로 쓴다. 끝 색이 투명이라 카드 면이 무슨 색이든
+       맞는다(한때 흰색으로 두어 흰 카드에만 맞았다).
        ⚠️ -webkit-text-fill-color 를 주면 안 된다 — color: transparent 를
           이겨서 그라데이션이 안 보인다. */
   }
@@ -1331,12 +1329,17 @@ const alternates = [
   }
 
   /* 수치 — 무대 안에서 쓴다. */
-  /* 글자가 아래로 갈수록 바탕색에 흡수된다 — 먹색에서 시작해 아랫변에서 흰색이
-     되므로 숫자의 발밑이 페이지에 녹아든다.
+  /* 글자가 아래로 갈수록 사라진다 — 먹색에서 시작해 발밑에서 투명이 되므로
+     숫자의 아랫부분이 바탕 위로 녹아든다.
      ⚠️ background-clip: text 다. 글자색은 color 가 아니라 아래 그라데이션에서
         온다 — color 만 고치면 아무 일도 일어나지 않는다.
-     ⚠️ 끝 색은 페이지 바탕과 같은 흰색이어야 한다. 섹션에 색을 깔면 여기도 함께
-        바꿔야 흡수되어 보인다. */
+     ⚠️ 끝 색은 흰색이 아니라 같은 먹색의 투명(alpha 0)이다. 흰색으로 두면 흰
+        바탕에서만 맞고, 색을 깐 면에서는 글자 아래가 희뿌옇게 뜬다. 투명으로
+        두면 어떤 면에 놓아도 맞는다. 색을 다른 것으로 바꿀 때도 끝 색의 RGB 는
+        시작 색과 같게 둔다 — 다르면 중간에서 그 색이 비친다.
+     ⚠️ 정지점은 글자 상자가 아니라 숫자의 몸에 맞춰 잡는다. line-height 1.1 ·
+        Roboto 에서 숫자는 상자의 16~81% 를 차지한다. 그래서 24% 까지 먹색을
+        쥐고(숫자 머리 쪽 약간) 83% 에서 투명이 된다(발끝 바로 아래). */
   .cmp-stat-num {
     /* 수치는 Roboto 한 벌로 묶는다 — 물려받지 않고 여기서 못 박는다.
        ⚠️ Roboto 에 한글 글리프가 없다. 'Roboto' 만 적으면 '년' 이 시스템
@@ -1350,7 +1353,7 @@ const alternates = [
     white-space: nowrap; width: fit-content;
     /* 숫자가 요동치는 동안 1 과 7 의 폭이 달라 글자가 떨린다 — 자릿폭을 고정한다. */
     font-variant-numeric: tabular-nums;
-    background-image: linear-gradient(180deg, #16202C 0%, #16202C 34%, #FFFFFF 100%);
+    background-image: linear-gradient(180deg, #16202C 0%, #16202C 24%, rgba(22, 32, 44, 0) 83%);
     -webkit-background-clip: text; background-clip: text;
     color: transparent;
   }
