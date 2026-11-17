@@ -24,7 +24,9 @@ export const navMenu: Record<Lang, NavMenu[]> = {
       // 솔루션(산업별 · 과제별)은 그 제품을 '어디에' 쓰는지로 쪼갠 축이라 아래에 둔다.
       // 라벨을 '플랫폼'에서 '제품'으로 바꿨다 — 아래 '회사 소개'와 짝이 되어
       // 제품(리파이너리)과 회사(베텍)가 서로 다른 것임을 라벨 둘이 설명한다.
-      label: '제품',
+      // 라벨은 푸터 항목 · 페이지 이름과 같은 '제품 소개' 다. 아래 '회사 소개'
+      // 와 짝이 되어 제품(리파이너리)과 회사(베텍)가 다름을 라벨 둘이 말한다.
+      label: '제품 소개',
       href: '/why-refinery',
     },
     {
@@ -88,7 +90,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
   // 한국어와 같은 3축 구조(솔루션·리소스·회사). 영어 페이지가 없는 항목만 Soon 배지다.
   en: [
     {
-      label: 'Product',
+      label: 'Product overview',
       href: '/en/why-refinery',
     },
     {
