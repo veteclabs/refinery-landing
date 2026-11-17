@@ -1282,19 +1282,46 @@ const alternates = [
   /* 좁은 폭에서는 세 칸을 풀고 그래픽을 맨 위에 한 번만 둔다 — 붙여 두면
      화면 절반을 그래픽이 차지해 글이 들어올 자리가 없다. */
   @media (max-width: 980px) {
-    .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
-    /* 줄 번호 · 칸 지정을 모두 풀면 마크업 순서(그림 → 글)대로 쌓인다. */
-    .cmp-stage-grid > [data-row] { grid-column: 1; grid-row: auto; justify-self: start; }
+    /* 줄 안(글 ↔ 그림)은 좁게, 줄 사이는 넓게 둔다 — 한때 24px 대 32px 이라
+       8px 차이뿐이어서 어디까지가 한 쌍인지 안 읽혔다. 줄 사이는 그림의
+       아래 여백이 맡는다(맺음 줄은 뒤에 올 줄이 없어 뺀다). */
+    .cmp-stage-grid { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+    .cmp-stage-grid > .cmp-scene { margin-bottom: 52px; }
+    .cmp-stage-grid > .cmp-scene[data-row="5"] { margin-bottom: 0; }
+    .cmp-stage-grid > [data-row] { grid-column: 1; justify-self: start; }
+    /* 글이 먼저 · 그림이 뒤다. 마크업은 그림 → 글 순이라(넓은 폭에서 그림이
+       글보다 앞 칸에 서는 줄이 있다) 줄마다 자리를 못 박는다. 자동으로 두면
+       마크업 순서대로 그림이 먼저 선다. */
+    .cmp-stage-grid > .cmp-stage-item[data-row="1"] { grid-row: 1; }
+    .cmp-stage-grid > .cmp-scene[data-row="1"]      { grid-row: 2; }
+    .cmp-stage-grid > .cmp-stage-item[data-row="2"] { grid-row: 3; }
+    .cmp-stage-grid > .cmp-scene[data-row="2"]      { grid-row: 4; }
+    .cmp-stage-grid > .cmp-stage-item[data-row="3"] { grid-row: 5; }
+    .cmp-stage-grid > .cmp-scene[data-row="3"]      { grid-row: 6; }
+    .cmp-stage-grid > .cmp-stage-item[data-row="4"] { grid-row: 7; }
+    .cmp-stage-grid > .cmp-scene[data-row="4"]      { grid-row: 8; }
+    .cmp-stage-grid > .cmp-stage-item[data-row="5"] { grid-row: 9; }
+    .cmp-stage-grid > .cmp-scene[data-row="5"]      { grid-row: 10; }
+    /* 그림은 넓은 폭의 좌우 교차를 그대로 가져온다 — 1 · 3번 줄은 오른쪽,
+       2 · 4번 줄은 왼쪽이다(넓은 폭에서 그림이 서던 칸과 같다).
+       ⚠️ 전부 왼쪽에 두면 글은 칸을 꽉 채우는데 그림만 440px 이라 오른쪽이
+          늘 빈다(850px 에서 362px). 교차시키면 한쪽만 계속 비는 일이 없다.
+       ⚠️ 맺음 줄(5)은 교차에서 빠진다 — 어느 폭에서도 가운데다(아래). */
+    .cmp-stage-grid > .cmp-scene[data-row="1"],
+    .cmp-stage-grid > .cmp-scene[data-row="3"] { justify-self: end; }
     /* ⚠️ 맺음 줄(5)은 넓은 폭에서 두 칸을 쓰고 자리를 못 박아 둔다. 그 규칙이
        여기까지 따라오면(선택자가 더 세다) 5줄만 2 · 3줄 사이로 끼어든다 —
-       실측 y 2015 로 올라가 겹쳤다. 같은 세기로 풀어 준다. */
+       실측 y 2015 로 올라가 겹쳤다. 같은 세기로 풀어 준다.
+       ⚠️ 가운데는 폭을 가리지 않는다 — 「30년 현장의 VETEC이 만든 제품」은
+          이야기를 닫는 한 줄이라 어느 화면에서도 가운데에 선다. */
     .cmp-stage-grid > .cmp-stage-item[data-row="5"] {
-      grid-column: 1; grid-row: auto; justify-self: start;
-      align-items: flex-start; text-align: left; max-width: none; min-height: 0;
+      grid-column: 1; justify-self: center;
+      align-items: center; text-align: center; max-width: none; min-height: 0;
     }
     .cmp-stage-grid > .cmp-scene[data-row="5"] {
-      grid-column: 1; grid-row: auto; justify-self: start;
-      margin-inline: 0; margin-top: 0; margin-bottom: 0; max-width: min(440px, 100%);
+      grid-column: 1; justify-self: center;
+      margin-inline: auto; margin-top: 0;
+      max-width: min(100%, clamp(320px, 58vw, 440px));
       /* ⚠️ width 도 함께 푼다. 넓은 폭에서 이 줄은 두 칸을 쓰므로 100% 가 띠
          전체여서 (100% - 80px) / 2 로 칸 하나 몫을 되찾는데, 한 칸으로 접히면
          그 식이 한 번 더 반으로 줄인다 — 390px 에서 다른 줄이 342px 일 때 이
@@ -1303,7 +1330,12 @@ const alternates = [
     }
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
-    .cmp-stage .cmp-scene { max-width: min(440px, 100%); margin-inline: 0; }
+    /* 그림 폭은 화면을 따라 줄어든다. 한때 min(440px, 100%) 이라 980 ~ 560px
+       구간에서 440px 에 그대로 멈춰 있었다 — 칸은 884 에서 512px 로 줄어드는데
+       그림만 그대로라 칸 대비 비중이 50% 에서 86% 로 널뛰었다.
+       58vw 로 따라 줄이되 위는 440px(넓은 폭의 값) · 아래는 320px 에서 멈춘다.
+       아래쪽을 더 내리면 390px 화면에서 그림이 글보다 작아진다. */
+    .cmp-stage .cmp-scene { max-width: min(100%, clamp(320px, 58vw, 440px)); margin-inline: 0; }
   }
 
   /* 칸은 글 길이만큼만 넓어진다(shrink-to-fit) — 그대로 두면 카드 셋이
