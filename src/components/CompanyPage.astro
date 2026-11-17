@@ -1338,7 +1338,13 @@ const alternates = [
     }
     .cmp-stage-grid > .cmp-scene[data-row="5"] {
       grid-column: 1; justify-self: center;
-      margin-inline: auto; margin-top: 0;
+      /* 맺음 줄만 글 ↔ 그림 사이를 따로 벌린다. 다른 줄의 32px 을 그대로 쓰면
+         넓은 폭에서 117px 이던 자리가 좁은 폭에서 12px 로 떨어져 글이 그림에
+         얹힌 것처럼 보였다(실측). 화면을 따라 줄이되 넓은 폭의 값(117)에
+         가깝게 둔다 — 980px 에서 110 · 390px 에서 84 다(실측).
+         ⚠️ 이 자리의 기본 간격은 줄 사이 32px 이 아니라 12px 이다 — 화면에
+            보이는 간격은 여기 값 + 12 로 읽는다. */
+      margin-inline: auto; margin-top: clamp(72px, 10vw, 98px);
       max-width: min(100%, clamp(320px, 58vw, 440px));
       /* ⚠️ width 도 함께 푼다. 넓은 폭에서 이 줄은 두 칸을 쓰므로 100% 가 띠
          전체여서 (100% - 80px) / 2 로 칸 하나 몫을 되찾는데, 한 칸으로 접히면
