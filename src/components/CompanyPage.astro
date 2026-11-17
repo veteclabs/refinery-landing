@@ -204,7 +204,10 @@ const T = {
     description: 'Refinery is built on more than 30 years of VETEC’s experience on industrial sites. Software engineers and field engineers work as one team, layering onto existing systems or building from scratch where none exist.',
     canonical: '/en/company',
     jsonLdName: 'About | Refinery',
-    h1: 'Hello, we’re Refinery',
+    /* 국문과 같은 대제목이다 — 이미 영어 문장이라 그대로 쓴다. 두 줄 계단
+       배치와 'up' 의 브랜드색도 같은 마크업에서 나온다(.cmp-title-l1 · l2 ·
+       accent). 한때 'Hello, we’re Refinery' 한 줄이라 국문과 히어로가 달랐다. */
+    h1: '<span class="cmp-title-l1">From the</span><span class="cmp-title-l2">floor <span class="cmp-title-accent">up</span></span>',
     storyTitle: 'Industrial AI,<br>from the floor up.',
     storyLede: '<span translate="no">Refinery</span> is built on more than 30 years of experience VETEC gathered on industrial sites. Our developers have worked across many industrial sites, and we define and solve problems in the language of the site.',
     /* 국문과 같이 이름 자리에 워드마크를 놓는다(.cmp-sig-logo).
