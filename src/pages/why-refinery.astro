@@ -76,7 +76,10 @@ const capabilityGroups = [
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="ind wr-page">
+  {/* ind-page — 솔루션(산업별 · 과제별)과 같은 값을 쓰는 갈고리다. 섹션 여백 ·
+      카드 · 머리글 · 솔루션 구조 카드가 이 클래스 아래에 정의돼 있다.
+      ⚠️ ind-industry 는 달지 않는다 — 그쪽은 산업 상세 전용이다. */}
+  <main class="ind ind-page wr-page">
     <!-- HERO -->
     {/* 히어로는 솔루션(산업별 · 과제별)과 같은 구성이다 — 밝은 면에 태그라인 ·
         대제목 · 소제목을 한 줄로 세우고, 그림은 글 뒤가 아니라 글 아래에 둔다.
@@ -166,27 +169,34 @@ const capabilityGroups = [
     </section>
 
     <!-- STORY BLOCKS -->
-    <section class="ind-section ind-soft">
+    {/* ⚠️ 섹션 머리글을 두지 않는다 — 제목은 아래 왼쪽 칸(.ind-uc-aside)이
+        들고 있다. 산업별 02번 섹션과 같은 처리다(같은 문장을 머리와 칸에 두 번
+        두지 않는다). 소제목 '모아서 붙이고 묻고 실행하기까지' 도 함께 걷었다. */}
+    <section class="ind-section ind-usecases">
       <div class="ind-container">
-        <header class="ind-head wr-head-row">
-          <h2>하나의 운영체제에서 이어지는 흐름</h2>
-          <p>모아서 붙이고 묻고 실행하기까지</p>
-        </header>
-        <div class="wr-stories">
-          {stories.map((s, i) => (
-            <article class="ind-card wr-story">
-              <div class="wr-story-media">
-                <img src={s.image} alt="" aria-hidden="true" width="1920" height="1080" loading="lazy" decoding="async" />
-                <span class="wr-story-tag">{s.eyebrow}</span>
-              </div>
-              <div class="wr-story-body">
-                <h3>{s.title}</h3>
-                <ul>
-                  {s.points.map((p) => <li>{p}</li>)}
-                </ul>
-              </div>
-            </article>
-          ))}
+        {/* 산업별 02번 섹션(.ind-usecases 의 표 배치)과 같은 구성이다 —
+            왼쪽에 머물러 있는 제목 칸, 오른쪽에 항목이 줄줄이 선다.
+            항목마다 이름 · 할 일 목록 · 그림 카드다. */}
+        <div class="ind-uc-shell">
+          <div class="ind-uc-aside">
+            <h2>하나의 운영체제에서<br>이어지는 흐름</h2>
+          </div>
+          <ol class="ind-uc-list">
+            {stories.map((s) => (
+              <li class="ind-uc-item">
+                <div class="ind-uc-text">
+                  <span class="ind-sec-label">{s.eyebrow}</span>
+                  <h3>{s.title}</h3>
+                  <ul class="wr-flow-points">
+                    {s.points.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+                <div class="ind-uc-card">
+                  <img class="ind-uc-img" src={s.image} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
@@ -198,14 +208,16 @@ const capabilityGroups = [
           <h2>하나의 운영체제에 담긴 기능</h2>
           <p>현장 운영에 필요한 기능이 한곳에</p>
         </header>
-        <div class="wr-caps">
+        {/* 카드는 산업별 '솔루션 구조'(.ind-flow)와 같은 것이다 — 번호 배지 ·
+            이름 · 가운뎃점 목록. 다만 네 묶음은 차례가 아니라 갈래라 사이에
+            화살표를 두지 않는다. */}
+        <div class="ind-flow wr-caps">
           {capabilityGroups.map((g) => (
-            <div class="ind-card wr-cap-group">
-              <div class="wr-cap-head">
-                <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
-                <h3>{g.title}</h3>
+            <div class="ind-flow-step">
+              <div class="ind-flow-head">
+                <span class="ind-flow-label">{g.title}</span>
               </div>
-              <ul>
+              <ul class="ind-flow-detail">
                 {g.items.map((it) => <li>{it}</li>)}
               </ul>
             </div>
@@ -331,6 +343,16 @@ const capabilityGroups = [
   }
 
 
+  /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글(.ind-uc-dl dd)과 같은
+     값이다. 표식(·)은 두지 않는다 — 저쪽도 라벨 칸만 있고 글머리 기호가 없다. */
+  .wr-page .wr-flow-points {
+    list-style: none; padding: 0; margin: 14px 0 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .wr-page .wr-flow-points li {
+    font-size: 15.5px; line-height: 1.6; color: var(--text-muted);
+  }
+
   /* ───────── CTA — 솔루션(.ind-cta-bg)과 같은 스타일 ─────────
      여백 · 면색 · 배치 · 어두운 겹 · 버튼은 전부 industry.css 의 .ind-cta-bg
      계열이 쥔다. 여기서는 이 페이지 그래픽의 자리값만 들고 있는다.
@@ -440,7 +462,9 @@ const capabilityGroups = [
   /* 예지보전 '푸는 방식' 카드(.uc-redesigned .ind-card)와 같은 형태·글자값.
      제목 아래 밑줄만 있던 목록을 카드로 감쌌다.
      hover 효과는 넣지 않는다 — 링크가 아닌 카드라 누를 수 있다는 신호를 주지 않는다. */
-  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  /* 칸 사이는 산업별 '솔루션 구조' 와 같은 20px 이다(저쪽은 flex, 여기는 격자 —
+     네 묶음이 차례가 아니라 갈래라 화살표를 두지 않는다). */
+  .wr-caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).

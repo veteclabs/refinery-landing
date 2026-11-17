@@ -78,7 +78,8 @@ const capabilityGroups = [
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="ind wr-page">
+  {/* ind-page — 솔루션(산업별 · 과제별)과 같은 값을 쓰는 갈고리다. 국문과 같다. */}
+  <main class="ind ind-page wr-page">
     <!-- HERO -->
     {/* 히어로는 솔루션(산업별 · 과제별)과 같은 구성이다 — 국문과 같다.
         값은 전부 industry.css 의 .ind-hero-bg 계열이 쥔다.
@@ -165,27 +166,29 @@ const capabilityGroups = [
     </section>
 
     <!-- STORY BLOCKS -->
-    <section class="ind-section ind-soft">
+    {/* ⚠️ 섹션 머리글을 두지 않는다 — 제목은 왼쪽 칸이 들고 있다(국문과 같다). */}
+    <section class="ind-section ind-usecases">
       <div class="ind-container">
-        <header class="ind-head wr-head-row">
-          <h2>One flow across one operating system</h2>
-          <p>Gather, connect, ask and execute</p>
-        </header>
-        <div class="wr-stories">
-          {stories.map((s, i) => (
-            <article class="ind-card wr-story">
-              <div class="wr-story-media">
-                <img src={s.image} alt="" aria-hidden="true" width="1920" height="1080" loading="lazy" decoding="async" />
-                <span class="wr-story-tag">{s.eyebrow}</span>
-              </div>
-              <div class="wr-story-body">
-                <h3 set:html={s.title}></h3>
-                <ul>
-                  {s.points.map((p) => <li>{p}</li>)}
-                </ul>
-              </div>
-            </article>
-          ))}
+        <div class="ind-uc-shell">
+          <div class="ind-uc-aside">
+            <h2>One flow across<br>one operating system</h2>
+          </div>
+          <ol class="ind-uc-list">
+            {stories.map((s) => (
+              <li class="ind-uc-item">
+                <div class="ind-uc-text">
+                  <span class="ind-sec-label">{s.eyebrow}</span>
+                  <h3 set:html={s.title}></h3>
+                  <ul class="wr-flow-points">
+                    {s.points.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+                <div class="ind-uc-card">
+                  <img class="ind-uc-img" src={s.image} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
@@ -197,14 +200,14 @@ const capabilityGroups = [
           <h2>The capabilities<br>one operating system holds</h2>
           <p>The capabilities your field operations need, in one place</p>
         </header>
-        <div class="wr-caps">
+        {/* 카드는 산업별 '솔루션 구조'(.ind-flow)와 같다 — 국문과 같은 구성. */}
+        <div class="ind-flow wr-caps">
           {capabilityGroups.map((g) => (
-            <div class="ind-card wr-cap-group">
-              <div class="wr-cap-head">
-                <span class="wr-cap-icon" aria-hidden="true"><i class={`ph ${g.icon}`}></i></span>
-                <h3>{g.title}</h3>
+            <div class="ind-flow-step">
+              <div class="ind-flow-head">
+                <span class="ind-flow-label">{g.title}</span>
               </div>
-              <ul>
+              <ul class="ind-flow-detail">
                 {g.items.map((it) => <li>{it}</li>)}
               </ul>
             </div>
@@ -323,6 +326,15 @@ const capabilityGroups = [
     .wr-page .wr-hero-fx-inner img { right: -60px; width: 820px; transform: translateY(-120px); }
   }
 
+
+  /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글과 같은 값이다(국문과 같다). */
+  .wr-page .wr-flow-points {
+    list-style: none; padding: 0; margin: 14px 0 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .wr-page .wr-flow-points li {
+    font-size: 15.5px; line-height: 1.6; color: var(--text-muted);
+  }
 
   /* ───────── CTA — 솔루션(.ind-cta-bg)과 같은 스타일 ─────────
      여백 · 면색 · 배치 · 어두운 겹 · 버튼은 industry.css 가 쥔다. 여기서는
@@ -454,7 +466,8 @@ const capabilityGroups = [
      항목 수가 6 · 6 · 4 · 3 으로 달라 4열에서는 가장 긴 Data 에 높이가 맞춰져
      Trust 카드 아래가 크게 비었다(격자 404px). 2열은 행마다 높이가 맞는다.
      900px 이하 2열 · 520px 이하 1열은 아래 규칙 그대로다. */
-  .wr-caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  /* 칸 사이는 산업별 '솔루션 구조' 와 같은 20px 이다. */
+  .wr-caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .wr-page .wr-cap-group { padding: 24px; }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
