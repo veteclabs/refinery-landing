@@ -1421,6 +1421,14 @@ const alternates = [
        58vw 로 따라 줄이되 위는 440px(넓은 폭의 값) · 아래는 320px 에서 멈춘다.
        아래쪽을 더 내리면 390px 화면에서 그림이 글보다 작아진다. */
     .cmp-stage .cmp-scene { max-width: min(100%, clamp(320px, 58vw, 440px)); margin-inline: 0; }
+    /* 수치 카드 안쪽 여백을 글자 기준으로 고른다. 패딩은 사방 26px 로 같은데도
+       위 · 아래가 더 벌어져 보인다 — 글줄 상자가 글자보다 크기 때문이다(행간이
+       위아래로 남긴 몫). 실측 390px 에서 좌우 26 대 위 32.8 · 아래 37.0 이었다.
+       남는 몫만큼 당겨 네 변을 26px 로 맞춘다 — 라벨 위 0.425em · 수치 아래
+       0.21em 이다(글자 크기에 비례하므로 em 으로 쥔다).
+       ⚠️ 1024px 이상(넓은 폭)에는 걸지 않는다. */
+    .cmp-stage .cmp-stat-card .cmp-stat-label { margin-top: -0.425em; }
+    .cmp-stage .cmp-stat-card .cmp-stat-num { margin-bottom: -0.21em; }
   }
 
   /* 칸은 글 길이만큼만 넓어진다(shrink-to-fit) — 그대로 두면 카드 셋이
