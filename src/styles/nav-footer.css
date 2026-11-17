@@ -89,6 +89,12 @@ body:has(.mm-nav.is-shut) .mm-scrim { opacity: 0 !important; visibility: hidden 
 .btn-primary {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 18px; font-size: 14px; font-weight: 400;
+      /* ⚠️ 행간을 여기서 못 박는다. 물려받게 두면 페이지마다 높이가 달라진다 —
+         랜딩(global.css)의 body 는 1.5 인데, industry.css 를 함께 부르는
+         페이지(회사 소개 · 산업별 · 과제별)는 그쪽 body 의 1.65 가 이긴다.
+         글자 상자가 21px 대 23.1px 이 되어 버튼이 35px 대 37px 로 갈렸다.
+         홈 쪽 값(1.5 → 35px)으로 묶는다. */
+      line-height: 1.5;
       /* 면을 브랜드 색으로 채운 주 행동 버튼. 테두리는 같은 색으로 둬야
          호버에서 색이 바뀔 때 높이가 흔들리지 않는다. */
       background: #76A6D7; color: #ffffff; border: 1px solid #76A6D7; border-radius: 6px;
