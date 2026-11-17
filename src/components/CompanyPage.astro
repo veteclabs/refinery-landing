@@ -494,6 +494,23 @@ const alternates = [
       /* 시작 신호는 따로 보지 않는다 — 카드가 뜨는 그 순간에 올라탄다.
          한때 제 관찰자를 따로 뒀는데(-20% · 0.4) 등장 관찰자(-25% · 0.2)와
          기준이 달라 숫자가 카드보다 늦게 올라갔다. */
+      /* ⚠️ 위에서 못 박은 폭은 그때 화면 기준이다 — 수치 글자가 화면 폭을 따라
+            커지므로(clamp 52~100px) 창을 줄이면 그 폭이 그대로 남아 숫자 오른쪽에
+            빈칸이 생긴다(390px 에서 12.6px). 창 크기가 바뀌면 다시 잰다.
+            ⚠️ 올라가는 중에는 글자가 짧아 좁게 잡힌다 — 끝 값일 때만 다시 박는다. */
+      var rsz;
+      window.addEventListener('resize', function () {
+        clearTimeout(rsz);
+        rsz = setTimeout(function () {
+          items.forEach(function (it) {
+            it.el.style.minWidth = '';
+            if (it.span.textContent === String(it.target)) {
+              it.el.style.minWidth = Math.ceil(it.el.getBoundingClientRect().width) + 'px';
+            }
+          });
+        }, 150);
+      });
+
       items.forEach(function (it) {
         var host = it.el.closest('.cmp-stage-item');
         if (!host) return;
