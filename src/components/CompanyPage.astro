@@ -985,6 +985,15 @@ const alternates = [
       height: auto; aspect-ratio: 1 / 1;
       margin: calc(100cqw * 31 / 356) auto calc(100cqw * 32 / 356);
     }
+    /* 번호 배지도 카드 폭을 따라 준다 — 넓은 폭의 안쪽 폭 356px 에 지름 30 ·
+       글자 15 · 글리프 내림 2px 이다.
+       ⚠️ 자리(top · left)는 30px 그대로 둔다. 카드 패딩이 좁은 폭에서도 30px
+          이라, 여기까지 줄이면 배지가 제목 · 본문의 왼쪽 선에서 안으로 들어온다. */
+    .cmp-rule-num {
+      width: calc(100cqw * 30 / 356); height: calc(100cqw * 30 / 356);
+      font-size: calc(100cqw * 15 / 356);
+      padding-top: calc(100cqw * 2 / 356);
+    }
     /* 글자도 카드 폭을 따라 줄어든다. 넓은 폭의 값(26 / 16)을 위 끝으로 두고
        카드가 좁아진 만큼만 내린다 — 282px 카드에서 20.3 / 14px 이다. */
     .cmp-rule-card h3 { font-size: clamp(20px, 9.1cqw, 26px); }
