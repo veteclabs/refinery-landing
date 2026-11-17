@@ -1439,11 +1439,19 @@ const alternates = [
           (1.69 -> 1.94). 덜어낸 만큼을 가운데로 돌려 넓은 폭의 1.69 를 지킨다 —
           라벨은 좌측 위 · 수치는 우측 아래로 앉히는 카드라 가운데가 벌어지는
           편이 맞다. 둘레로 돌리면 패딩이 36 -> 50px 이 돼 혼자 헐렁해진다.
-       ⚠️ 바깥 칸(.cmp-stage-item)을 재는 자리로 삼는다. 카드 자신을 재면
-          패딩이 cqw 에서 빠져 식이 제 꼬리를 문다. */
-    .cmp-stage .cmp-stage-item { container-type: inline-size; }
+       ⚠️ 바깥 칸을 재는 자리로 삼는다. 카드 자신을 재면 패딩이 cqw 에서
+          빠져 식이 제 꼬리를 문다.
+       ⚠️ 재는 자리는 수치 줄(.cmp-stage-stat)에만 준다. 글만 있는 줄(1 · 5)에
+          주면 글 상자가 제 내용만큼 넓어지던 것이 막혀(inline-size 가둠) 폭이
+          0 으로 주저앉는다 — 이 칸들은 width 가 auto 이기 때문이다.
+       ⚠️ 카드 폭도 화면을 따라 줄인다. 380px 에 고정해 두면 화면이 줄어도
+          카드만 그대로라 같은 줄의 그래픽보다 커 보인다. 넓은 폭의
+          카드:그래픽 = 380:569(0.668)을 좁은 폭에서도 지킨다 — 그래픽이
+          clamp(320, 58vw, 440) 이므로 그 0.668 배다. */
+    .cmp-stage .cmp-stage-stat { container-type: inline-size; }
     .cmp-stage .cmp-stat-card {
-      --cw: min(100cqw, 380px);
+      --cw: min(100cqw, clamp(214px, 38.7vw, 294px));
+      width: var(--cw); max-width: 100%;
       padding: calc(var(--cw) * 36 / 380);
       gap: calc(var(--cw) * 44.7 / 380);
     }
