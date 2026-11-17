@@ -1295,6 +1295,11 @@ const alternates = [
     .cmp-stage-grid > .cmp-scene[data-row="5"] {
       grid-column: 1; grid-row: auto; justify-self: start;
       margin-inline: 0; margin-top: 0; margin-bottom: 0; max-width: min(440px, 100%);
+      /* ⚠️ width 도 함께 푼다. 넓은 폭에서 이 줄은 두 칸을 쓰므로 100% 가 띠
+         전체여서 (100% - 80px) / 2 로 칸 하나 몫을 되찾는데, 한 칸으로 접히면
+         그 식이 한 번 더 반으로 줄인다 — 390px 에서 다른 줄이 342px 일 때 이
+         줄만 122px 이었다(실측). 접힌 뒤에는 제 비율만 쓴다. */
+      width: calc(var(--rel, 1) * 100%);
     }
     .cmp-stage-item { min-height: 0; max-width: none; }
     .cmp-stage-l, .cmp-stage-r { transform: translateY(16px); }
