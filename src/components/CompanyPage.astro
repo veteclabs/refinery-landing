@@ -168,8 +168,12 @@ const T = {
       { num: '100+', label: '데이터를 다룬 <span class="cmp-stat-hl">현장 수</span>', icon: 'stat-sites' },
       { num: '20+', label: '철강 ⁠· 반도체 ⁠· 식품 등 <span class="cmp-stat-hl">산업군 수</span>', icon: 'stat-industries' },
     ],
+    /* 소제목은 두지 않는다. 「현장에서 확인한 것만 제품에 넣습니다」 였는데,
+       바로 앞 무대의 맺음(「30년 현장의 VETEC이 만든 제품」)과 '현장 · 제품'
+       을 연달아 말했고, 카드 1('현장에서 나온 문제')이 같은 주장을 더
+       구체적으로 한다 — 셋 중 하나를 미리 말해 세 기준의 무게가 어긋났다.
+       제목이 이미 셋을 예고하므로 바로 카드로 잇는다. */
     principlesTitle: '일하는 세 가지 기준',
-    principlesSub: '현장에서 확인한 것만 제품에 넣습니다.',
     /* '현장의 문제' 는 바로 위 카드 1 의 제목('현장에서 나온 문제')과 겹쳐
        맺음말이 새 말을 하지 않았다. 주어를 읽는 사람 쪽으로 돌린다. */
     outro: '지금 겪고 계신 문제를<br>리파이너리 팀과 함께 풀어보세요.',
@@ -195,7 +199,6 @@ const T = {
       { num: '20+', label: '<span class="cmp-stat-hl">industries</span>, from steel to food', icon: 'stat-industries' },
     ],
     principlesTitle: 'Three standards we work by',
-    principlesSub: 'Only what we have confirmed on site goes into the product.',
     outro: 'Solve what you’re facing now<br>with the <span translate="no">Refinery</span> team.',
     outroCta: 'Contact', contactHref: '/en/contact',
     principles: [
@@ -325,7 +328,6 @@ const alternates = [
             줄을 span 으로 감싼다 — 먹이 차오르는 처리는 줄 단위로 건다. */}
         <header class="ind-head cmp-head-row cmp-head-big">
           <h2 class="cmp-fill-title"><span class="cmp-fill-line">{T.principlesTitle}</span></h2>
-          <p>{T.principlesSub}</p>
         </header>
         {/* 랜딩 솔루션 섹션(#industries)의 .industries-grid / .industry-card 규격을 그대로 따른다.
             3열 · gap 18 · 900px에서 2열 · 600px에서 1열. */}
