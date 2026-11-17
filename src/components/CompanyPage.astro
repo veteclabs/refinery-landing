@@ -850,8 +850,12 @@ const alternates = [
      ⚠️ 카드 본문폭이 323px(아코디언 544px)이라 같은 크기여도 줄 수가 다르다.
         02번 제목 2줄, 01번 본문 4줄이 되는 것은 이 폭 차이 때문이지 오류가 아니다. */
   .cmp-rule {
+    /* ⚠️ 칸 사이는 --rule-gap 하나로 쥔다. 모였다 펼쳐지는 모션이 바깥 두 장을
+       '한 칸 폭 + 칸 사이' 만큼 당겨 가운데에 포개므로(아래 --dx), 여기만
+       고치면 모임 자리가 어긋난다. */
+    --rule-gap: 28px;
     list-style: none; margin: 0; padding: 0;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--rule-gap);
   }
   .cmp-rule-card {
     /* 카드 면은 --bg-soft 하나로 선다. 테두리는 두르지 않는다 — 선이 한 겹
@@ -1008,9 +1012,9 @@ const alternates = [
   /* 2번이 더미 한가운데에 제자리 그대로 · 정면으로 서고(--ox/--oy/--rot 모두 0),
      1 · 3번이 좌우로 −12° · +12° 눕고 0.93배로 물러나 그 뒤에 깔린다.
      2번이 맨 앞이라 z 가 가장 크다. */
-  .cmp-spread > *:nth-child(1) { --dx: calc(100% + 18px); --ox: -52px; --oy: -16px; --rot: -12deg; --sc: 0.93; z-index: 1; }
+  .cmp-spread > *:nth-child(1) { --dx: calc(100% + var(--rule-gap, 18px)); --ox: -52px; --oy: -16px; --rot: -12deg; --sc: 0.93; z-index: 1; }
   .cmp-spread > *:nth-child(2) { --ox: 0px; --oy: 0px; z-index: 3; }
-  .cmp-spread > *:nth-child(3) { --dx: calc(-100% - 18px); --ox: 50px; --oy: -12px; --rot: 12deg; --sc: 0.93; z-index: 2; }
+  .cmp-spread > *:nth-child(3) { --dx: calc(-100% - var(--rule-gap, 18px)); --ox: 50px; --oy: -12px; --rot: 12deg; --sc: 0.93; z-index: 2; }
   /* 겹칠 때만 서는 경계 — 세 장의 면이 같은 --bg-soft 라 포개지면 한 덩어리로
      뭉쳐 보인다. 흰 테두리 1px 과 옅은 그림자를 (1 - spread) 로 넣어, 펼쳐지는
      만큼 저절로 사라지게 한다(펼친 뒤에는 투명도 0 이라 자국이 남지 않는다). */
