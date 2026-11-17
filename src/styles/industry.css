@@ -862,6 +862,23 @@ img { max-width: 100%; height: auto; }
   object-fit: cover; object-position: right center;
   pointer-events: none; user-select: none;
 }
+/* 좁은 화면에서는 그래픽의 가운데 오른쪽(마루와 핀 둘)이 보이게 당긴다.
+   그래픽은 2880x600(4.8:1)이고 폰의 CTA 섹션은 390x313(1.25:1)이라, 세로를
+   채우며 가로의 26% 만 남는다. 넓은 화면의 자리(상자 110% · 오른쪽 끝 맞춤)를
+   그대로 쓰면 보이는 구간이 원본의 71~97% 라 — 왼쪽 1/3 이 비어 있고 마루와
+   핀 두 개가 45~80% 에 몰린 그림에서 가장 허전한 자리만 남는다.
+   폭을 100% 로 되돌리고 object-position 을 69% 로 당겨 51~77% 를 보인다 —
+   핀 둘 중 오른쪽 것(74% 자리)만 들어오고, 화면에서는 오른쪽 88% 지점에 선다.
+   왼쪽 핀(49% 자리)은 창 밖이다.
+   ⚠️ 65 · 74 를 거쳐 온 값이다. 65 는 핀 둘이 양 끝에 걸렸고, 74 는 핀이
+      글줄 뒤까지 들어와 너무 안쪽이었다. 67 은 핀이 오른쪽 변에서 잘린다.
+   ⚠️ 74% 는 '보이는 구간의 왼쪽 끝' 에서 거꾸로 푼 값이다 —
+      보이는 폭이 26% 이므로 시작 s 에 대해 object-position = s / (1 - 0.26).
+      값을 키울수록 그림이 왼쪽으로 가고 더 오른쪽 구간이 보인다.
+   ⚠️ 데스크탑은 건드리지 않는다. 거기서는 섹션이 넓어 그림이 거의 다 보인다. */
+@media (max-width: 900px) {
+  .ind-cta-bg-img { width: 100%; object-position: 69% center; }
+}
 .ind-cta-bg .ind-container { position: relative; z-index: 1; }
 .ind-cta-bg::after {
   /* 막 — 배경 영상 위에 어두운 겹을 깐다. 메인 CTA(#cta::after)와 같은 값이다.
@@ -899,11 +916,15 @@ img { max-width: 100%; height: auto; }
   background: #76a6d7; color: #fff; border-color: #76a6d7; margin-top: 0;
 }
 .ind-cta-bg .ind-btn-primary:hover { background: #5a8fc5; border-color: #5a8fc5; transform: none; }
-/* 좁은 폭에서 상하 여백을 줄인다. 95px 고정이면 375px에서 빈 자리가 내용보다 크다.
-   값은 .ind-section이 560px 이하에서 쓰는 60px과 같다. */
-@media (max-width: 560px) {
-  .ind-cta-bg { padding: 60px 0; }
-}
+/* ⚠️ 좁은 폭에서 60px 으로 줄이던 규칙을 걷었다.
+   이 섹션의 위아래 여백 110px 은 메인 CTA(#cta)와 같은 값으로 맞춘 것인데,
+   메인은 좁은 폭에서도 110px 을 그대로 쓴다(global.css 의 #cta — 폭별 조정이
+   없다). 그래서 560px 아래에서만 둘이 110 : 60 으로 갈렸고, 같은 48px 버튼이
+   솔루션 쪽에서 더 커 보였다 — 버튼이 아니라 둘레가 달랐던 것이다.
+   실측(390px): 섹션 높이 메인 473 · 솔루션 313, 버튼은 둘 다 140.9x48.
+   데스크탑처럼 둘을 같은 값으로 둔다. 60px 은 95px 시절에 '빈 자리가 내용보다
+   크다' 고 보아 내린 값인데, 같은 화면의 메인 CTA 가 110px 로 서 있으므로
+   그 기준을 따른다. */
 
 /* ───────── 섹션 배경 사진 (challenges.backgroundImage 지정 시)
    밝은 면(#F6F8FA) 위에 옅게 깔아 결로만 남긴다. 글은 .ind-container의
@@ -1553,7 +1574,7 @@ img { max-width: 100%; height: auto; }
    @2x)이라 폭은 비율대로 따라온다.
    ⚠️ 글 · 칩보다 뒤에 둔다. 같은 층이면 나중에 온 장식이 위를 덮는다.
    ⚠️ video 는 inline 이라 그대로 두면 아래에 글줄만큼 빈 칸이 생긴다. */
-.ind-page video.ind-sys-deco {
+.ind-page .ind-sys-deco {
   display: block;
   position: absolute; right: 0; bottom: 0;
   /* 판 폭을 그대로 쓴다(100%). 높이는 비율대로 따라와 판보다 커지고, 넘친
@@ -1574,6 +1595,51 @@ img { max-width: 100%; height: auto; }
      ⚠️ 판 높이가 줄면서(214 -> 158px) 그림 249px 중 아래쪽만 남은 것도
         겹쳤다. 더 보이게 하려면 판을 키우거나 그림을 더 키운다. */
   filter: brightness(1.6);
+}
+/* iOS 의 재생 단추를 숨긴다.
+   ⚠️ Safari 는 알파 있는 webm 을 못 읽는다. 그러면 iOS 는 이 <video> 를
+      '아직 안 튼 영상' 으로 보고 한가운데에 제 재생 단추를 그린다 — 장식인데
+      누르는 것처럼 보인다. controls 를 안 달아도 이 단추는 따로 나온다.
+   ⚠️ 폭으로 가르지 않는다. 데스크탑 Safari 도 같은 단추를 그린다.
+      단추만 없애는 것이라 그림 · 자리는 어느 폭에서도 그대로다. */
+.ind-page video.ind-sys-deco::-webkit-media-controls,
+.ind-page video.ind-sys-deco::-webkit-media-controls-start-playback-button,
+.ind-page video.ind-sys-deco::-webkit-media-controls-panel,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls-start-playback-button,
+.ind-page video.ind-cta-bg-img::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* 좁은 화면에서는 아랫변을 가로로 꽉 채운다.
+   그림(1440x270)은 오른쪽으로 모이는 원근 격자라 왼쪽 절반이 거의 비어 있다.
+   폭 100% 로 깔면 358px 안에서 세로가 67px 밖에 안 되고, 격자의 성긴 쪽까지
+   다 들어와 '오른쪽 아래 구석에만' 있는 그림이 된다.
+   높이를 130px 로 세우고 object-fit: cover + object-position: 100% 100% 로
+   오른쪽 아래를 잘라 넓힌다 — 배율이 0.48 로 올라가며 원본의 오른쪽 56%
+   (격자가 촘촘한 쪽)만 카드 폭 전체에 깔린다.
+   ⚠️ 좁은 화면의 이 요소는 <img> 다(아래 전환 규칙). object-fit 은 거기서 먹는다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 거기서는 판이 납작해 폭 100% 로도 격자가
+      판을 가로지른다. */
+@media (max-width: 900px) {
+  .ind-page .ind-sys-deco {
+    height: 130px;
+    object-fit: cover;
+    object-position: 100% 100%;
+  }
+}
+/* 한 자리에 두 판을 두고 하나만 보인다 —
+   넓은 화면은 알파 webm(.ind-sys-deco-d) · 좁은 화면은 검은 바탕 H.264(-m).
+   ⚠️ iOS Safari 는 알파 webm 을 못 읽고, 재생할 수 없는 <video> 를 검은 판으로
+      깔아 카드 위에 검은 네모를 만든다. 폰에서는 알파를 포기하고
+      mix-blend-mode: screen 으로 검은 바탕을 지운다 — screen 은 검은 화소를
+      그대로 통과시키고 밝은 곳만 더하므로 결과가 투명 영상과 같다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 거기서는 알파 webm 이 그대로 돈다. */
+.ind-page .ind-sys-deco-m { display: none; }
+@media (max-width: 900px) {
+  .ind-page .ind-sys-deco-d { display: none; }
+  .ind-page .ind-sys-deco-m { display: block; mix-blend-mode: screen; }
 }
 /* 글 · 칩을 한 층 올린다. */
 .ind-page .ind-systems-head,
@@ -2207,4 +2273,57 @@ img { max-width: 100%; height: auto; }
 
 @media (max-width: 640px) {
   .ind-uc-shell { padding: 24px 20px; }
+}
+
+/* ───────── 좁은 화면 — 박아 둔 단락 나눔을 전부 푼다
+   데이터와 템플릿이 넣은 <br> 은 넓은 폭의 칸 너비를 보고 고른 자리다.
+   폭이 342px 로 줄면 그 자리가 뜻을 잃는다 — 나뉜 반쪽이 다시 감겨 줄 수만
+   늘고, 어중간한 자리에서 끊긴다. 좁은 화면에서는 브라우저에 맡긴다.
+   낱말이 한가운데서 쪼개지는 것은 text-wrap.css 의 word-break: keep-all 이 막는다.
+   ⚠️ <br> 뒤에는 공백이 있다(데이터는 ' <br>', 템플릿은 <br />{' '}).
+      display:none 으로 지우면 br 이 흐름에서 빠지므로, 공백이 없으면 앞뒤
+      글자가 '분산되어전체' 처럼 붙는다.
+   ⚠️ !important 가 필요하다. 산업별로 폭 구간을 좁게 잡아 둔 규칙
+      (.ind-page.ind-electronics .ind-grid-3 .ind-card p br { display: inline })이
+      763~900px 구간에 걸쳐 있고 특정도가 더 높다.
+   ⚠️ 데스크탑은 건드리지 않는다 — 900px 이하에서만 건다.
+   ⚠️ 과제별 페이지(.uc-page)도 같이 건다. 그쪽 <style> 은 스코프가 걸려 있어
+      set:html 로 들어간 <br> 에는 속성이 안 붙는다 — 전역인 이 파일에서 건다. */
+@media (max-width: 900px) {
+  .ind-page br,
+  .uc-page br { display: none !important; }
+}
+
+/* ───────── 좁은 화면 — 캡션의 덩어리 나눔도 푼다
+   흐름 · 연동 캡션(.ind-flow-note · .ind-systems-note)은 <br> 이 아니라
+   문장마다 <span class="note-s"> 를 두고 flex 로 띄워 '한 문장이 한 덩어리로
+   움직이게' 해 둔 자리다. 넓은 폭에서는 그 덕에 문장 경계에서 끊기지만,
+   폰에서는 한 문장이 한 줄에 못 들어가므로 덩어리마다 줄을 차지하고 그 안에서
+   또 감긴다 — '… API로 연동 / 가능합니다. / 자세한 내용은 …' 처럼 보인다.
+   좁은 화면에서는 덩어리를 풀어 글 전체를 한 단락으로 흘린다.
+   ⚠️ 덩어리 사이의 공백은 column-gap 이 내던 것이라, inline 으로 바꾸면
+      사라진다(마크업에 </span><span> 로 붙어 있다). ::before 로 넣어 준다.
+   ⚠️ 특정도를 .ind-page .ind-systems-note .note-s(0,3,0)로 맞춘다 —
+      산업별 규칙(.ind-page.ind-energy .note-s)이 같은 값이라 뒤에 와야 이긴다.
+   ⚠️ 데스크탑은 건드리지 않는다. */
+@media (max-width: 900px) {
+  .ind-page .ind-flow-note,
+  .ind-page .ind-systems-note {
+    display: block;
+    width: auto;
+    margin-left: 0;
+  }
+  .ind-page .ind-flow-note .note-s,
+  .ind-page .ind-systems-note .note-s,
+  .ind-page .ind-flow-note .note-s2,
+  .ind-page .ind-systems-note .note-s2 {
+    display: inline;
+    max-width: none;
+  }
+  .ind-page .ind-flow-note .note-s + .note-s::before,
+  .ind-page .ind-systems-note .note-s + .note-s::before,
+  .ind-page .ind-flow-note .note-s2 + .note-s2::before,
+  .ind-page .ind-systems-note .note-s2 + .note-s2::before {
+    content: ' ';
+  }
 }
