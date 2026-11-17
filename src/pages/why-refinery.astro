@@ -93,8 +93,17 @@ const capabilityGroups = [
         </div>
       </div>
       <div class="ind-hero-figure">
-        <img class="ind-hero-figure-img" src="/why-refinery-dash.webp" alt="" aria-hidden="true"
-             width="2586" height="3512" decoding="async" fetchpriority="high" />
+        {/* 띠 안의 모습은 옛 히어로 그대로다 — 어두운 면 위에 대시보드를 옅게
+            얹고, 왼쪽으로 갈수록 사라지는 가로 그라데이션과 아래쪽 흐림을 건다.
+            자리값(칸 56% · 이미지 1180px · -140px · -205px · 불투명도 .3)도
+            옛 히어로에서 그대로 가져왔다. */}
+        <div class="wr-figure-face">
+          <div class="wr-hero-fx" aria-hidden="true">
+            <div class="wr-hero-fx-inner">
+              <img src="/why-refinery-dash.webp" alt="" width="2586" height="3512" decoding="async" />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <script is:inline>
@@ -264,9 +273,49 @@ const capabilityGroups = [
      ⚠️ 어두운 전면 배경(.wr-hero-bg)·우측 대시보드 장식(.wr-hero-fx)·
         태그라인(.wr-tag)·히어로 버튼 규칙은 함께 걷었다. 되살리려면 git
         이력에서 가져온다. */
-  /* 대시보드는 위쪽(에너지 흐름 · 소비량 카드)이 보여야 한다 — 가운데로 두면
-     트리맵만 남고, 원본이 세로로 길어 아래쪽은 빈 먹색이다. */
-  .wr-page .ind-hero-figure-img { object-position: top center; }
+  /* 띠 안의 모습 — 옛 히어로 그대로다.
+     ⚠️ 구도(글 아래 띠 · 스크롤에 따라 화면을 채움)는 솔루션 것이고, 띠 안의
+        그림만 옛 히어로 값이다. 아래 세 규칙은 옛 .wr-hero-fx 계열을 그대로
+        옮긴 것이다 — 칸 56% · 왼쪽 420px 그라데이션 · 아래 78% 흐림 ·
+        이미지 1180px / right -140px / -205px / 불투명도 .3.
+     ⚠️ 띠의 높이는 이제 이 면이 쥔다(옛 히어로의 min-height 615px 자리).
+        값은 솔루션 사진과 같은 1920:720 이고, 좁은 폭에서는 16:10 이다. */
+  .wr-page .wr-figure-face {
+    position: relative; overflow: hidden;
+    aspect-ratio: 1920 / 720;
+    background: #191F27;
+    /* 모서리는 띠와 함께 펴진다 — 솔루션 사진과 같은 식이다. */
+    border-radius: calc(var(--radius) * (1 - var(--grow, 0)));
+  }
+  .wr-page .wr-hero-fx {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    overflow: hidden; pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+            mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+  }
+  .wr-page .wr-hero-fx-inner {
+    position: absolute; inset: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  }
+  .wr-page .wr-hero-fx-inner img {
+    position: absolute; right: -140px; left: auto; top: 0;
+    max-width: none; width: 1180px; height: auto;
+    transform: translateY(-205px);
+    opacity: .3;
+  }
+  @media (max-width: 900px) {
+    .wr-page .wr-figure-face { aspect-ratio: 16 / 10; }
+    /* 좁은 폭에서는 칸을 띠 전체로 넓히고 그라데이션도 짧게 — 56% 로 두면
+       대시보드가 오른쪽 구석에만 몰린다. */
+    .wr-page .wr-hero-fx {
+      width: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 160px);
+              mask-image: linear-gradient(to right, transparent 0px, #000 160px);
+    }
+    .wr-page .wr-hero-fx-inner img { right: -60px; width: 820px; transform: translateY(-120px); }
+  }
+
 
   /* ───────── CTA — 솔루션(.ind-cta-bg)과 같은 스타일 ─────────
      여백 · 면색 · 배치 · 어두운 겹 · 버튼은 전부 industry.css 의 .ind-cta-bg
