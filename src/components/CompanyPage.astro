@@ -112,13 +112,23 @@ const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
 /* 수치를 숫자 덩이와 나머지로 쪼갠다 — '30년+' -> '' · '30' · '년+'.
    나머지(단위 · 기호)는 숫자보다 작게 둔다. 숫자 덩이는 올라가는 모션이
    글자를 바꿔 끼우는 자리이기도 하다(.cmp-stat-count). */
+/* 수치를 네 덩이로 가른다 — 앞머리 · 숫자 · 기호 · 낱말.
+   ⚠️ 낱말(unit)은 빛 바깥에 둔다. 영문은 '30+ years' 라 꼬리에 낱말이 붙는데,
+      그 낱말까지 한 상자에 넣으면 상자가 두 배로 넓어져 발밑의 빛이 숫자가
+      아니라 'years' 에 맺힌다. 국문(30+)과 같은 자리에 맺히게 하려면 빛을 쥔
+      상자가 '30+' 까지여야 한다.
+   ⚠️ 라틴 글자만 뗀다. '30년+' 처럼 한글이 숫자에 바로 붙는 자리는 국문에서
+      수치의 일부로 읽히므로 빛 안에 그대로 둔다. */
 const statParts = (num: string) => {
   const m = /(\d[\d,]*)/.exec(num);
-  if (!m) return { before: num, digits: '', after: '' };
+  if (!m) return { before: num, digits: '', after: '', unit: '' };
+  const tail = num.slice(m.index + m[1].length);
+  const w = /[A-Za-z]/.exec(tail);
   return {
     before: num.slice(0, m.index),
     digits: m[1],
-    after: num.slice(m.index + m[1].length),
+    after: (w ? tail.slice(0, w.index) : tail).trim(),
+    unit: w ? tail.slice(w.index).trim() : '',
   };
 };
 
@@ -277,9 +287,12 @@ const alternates = [
               <div class="cmp-stat-card">
                 <div class="cmp-stat-label"><span set:html={st.label}></span></div>
                 <div class="cmp-stat-num">
-                  {statParts(st.num).before && <span class="cmp-stat-rest">{statParts(st.num).before}</span>}
-                  <span class="cmp-stat-count">{statParts(st.num).digits}</span>
-                  {statParts(st.num).after && <span class="cmp-stat-rest">{statParts(st.num).after}</span>}
+                  <span class="cmp-stat-fig">
+                    {statParts(st.num).before && <span class="cmp-stat-rest">{statParts(st.num).before}</span>}
+                    <span class="cmp-stat-count">{statParts(st.num).digits}</span>
+                    {statParts(st.num).after && <span class="cmp-stat-rest">{statParts(st.num).after}</span>}
+                  </span>
+                  {statParts(st.num).unit && <span class="cmp-stat-unit">{statParts(st.num).unit}</span>}
                 </div>
               </div>
             </div>
@@ -1332,7 +1345,8 @@ const alternates = [
      같은 처리이고 색 정지점도 그쪽과 같은 네 값이다. 두 페이지의 큰 글이 같은
      빛을 쓴다.
      ⚠️ background-clip: text 다. 글자색은 color 가 아니라 이 그라데이션에서
-        온다 — color 만 고치면 아무 일도 일어나지 않는다.
+        온다 — color 만 고치면 아무 일도 일어나지 않는다. 빛을 쥔 것은
+        .cmp-stat-num 이 아니라 그 안의 .cmp-stat-fig 다(아래).
      ⚠️ 가장 바깥 색(#16202C)은 글자 제 색이다. 다른 값을 넣으면 빛이 닿지 않는
         윗부분이 통째로 그 색이 된다.
      ⚠️ 반지름은 em 이다. 글자가 clamp 로 56~120px 을 오가므로 px 로 두면 좁은
@@ -1356,6 +1370,15 @@ const alternates = [
     white-space: nowrap; width: fit-content;
     /* 숫자가 요동치는 동안 1 과 7 의 폭이 달라 글자가 떨린다 — 자릿폭을 고정한다. */
     font-variant-numeric: tabular-nums;
+    color: #16202C;
+  }
+  /* 빛을 쥔 상자 — 숫자 덩이('30+')까지다. 꼬리의 낱말('years')은 이 밖에 선다.
+     ⚠️ inline-block 이다. inline 으로 두면 상자가 줄 전체로 번져 가로 50% 가
+        낱말까지 포함한 가운데가 된다 — 빛이 숫자에서 밀려난다.
+     ⚠️ 높이는 건드리지 않는다. line-height 를 물려받아 상자 높이가
+        .cmp-stat-num 과 같으므로 아래 세로 값(86% · 0.85em)이 그대로 맞는다. */
+  .cmp-stat-fig {
+    display: inline-block;
     background-image: radial-gradient(
       circle 0.85em at 50% 86%,
       #76A6D7 0%,
@@ -1366,6 +1389,9 @@ const alternates = [
     -webkit-background-clip: text; background-clip: text;
     color: transparent;
   }
+  /* 낱말은 빛 없이 글자 제 색으로 선다. 기호(.cmp-stat-rest)와 같은 크기다.
+     ⚠️ 사이 간격은 margin 으로 준다 — 마크업의 개행은 빌드가 지운다. */
+  .cmp-stat-num :global(.cmp-stat-unit) { font-size: 0.68em; margin-left: 0.22em; }
   /* 소제목(.cmp-story-lede · .cmp-story-sig)과 같은 값이다 — 18px / 행간 1.7 /
      --text-muted. 같은 무대 위의 작은 글이라 크기를 따로 둘 이유가 없다.
      ⚠️ 900px 이하도 저쪽과 함께 16px 로 내린다(아래 미디어쿼리). */
