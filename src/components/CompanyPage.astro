@@ -83,13 +83,13 @@ const scene = (i: number) => {
    ⚠️ 마지막 장면의 떠 있는 도형(5-b0~b3)은 바탕 그림에 없다 — 이 레이어를
       빼면 그래픽 자체가 빈다. 나머지(링 · 그리드 · 공중 연결선 · 업링크)는
       바탕에도 정지 상태로 있어 빠지면 움직임만 없어진다. */
-type Layer = { file: string; cls: string; ox?: string; oy?: string; i?: number; pk?: string };
+type Layer = { file: string; cls: string; ox?: string; oy?: string; i?: number; pk?: string; sc?: string };
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [
-    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.29%' },
-    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.34%', oy: '35.14%' },
+    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.30%' },
+    { file: '3-up0.webp', cls: 'ov-up0', ox: '46.32%', oy: '35.17%' },
     { file: '3-up1.webp', cls: 'ov-up1', ox: '43.52%', oy: '33.04%' },
-    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.54%', oy: '33.14%' },
+    { file: '3-up2.webp', cls: 'ov-up2', ox: '35.50%', oy: '33.20%' },
   ],
   4: [
     { file: '4-arc.webp', cls: 'ov-arc', ox: '50.03%', oy: '25.94%' },
@@ -97,13 +97,18 @@ const SCENE_LAYERS: Record<number, Layer[]> = {
     { file: '4-up1.webp', cls: 'ov-up1', ox: '57.40%', oy: '2.33%' },
     { file: '4-up2.webp', cls: 'ov-up2', ox: '34.13%', oy: '12.50%' },
   ],
-  /* 링은 같은 굵기의 열세 겹(5-w0 ~ 5-w12)이다. 안쪽에서 바깥으로 한 칸씩
-     차례로 켜졌다 꺼지며, 바깥으로 갈수록 연해진다(--pk = 0.32 x (1 - i/12)).
-     ⚠️ 한 겹을 키워 퍼뜨리던 옛 방식(5-r0 ~ r2)은 쓰지 않는다 — 새 그림은
-        링을 겹겹이 따로 뽑아 두었다. */
+  /* 링은 같은 굵기의 열세 겹(5-w0 ~ 5-w12)이다. 겹마다 제 차례(--i)에 켜져
+     다음 링 자리까지 미끄러지듯 커지며(--sc) 사라진다 — 열셋이 이어받아
+     끊김 없이 흐른다. 바깥으로 갈수록 연해진다(--pk).
+     ⚠️ 배율은 '제 반지름 -> 다음 링 반지름' 이다. 링 간격이 1.5 라
+        sc = (19 + 1.5i + 1.5) / (19 + 1.5i) — 안쪽일수록 많이 커진다.
+     ⚠️ 한 겹을 키워 퍼뜨리던 옛 방식(5-r0 ~ r2)은 쓰지 않는다. */
   5: [
     ...Array.from({ length: 13 }, (_, i) => ({
-      file: `5-w${i}.webp`, cls: 'ov-w', i, pk: (0.32 * (1 - i / 12)).toFixed(3),
+      file: `5-w${i}.webp`, cls: 'ov-w', i,
+      pk: (0.32 * (1 - i / 13)).toFixed(3),
+      sc: ((19 + 1.5 * i + 1.5) / (19 + 1.5 * i)).toFixed(4),
+      ox: '49.97%', oy: '57.03%',
     })),
     { file: '5-b0.webp', cls: 'ov-b0', ox: '69.97%', oy: '16.85%' },
     { file: '5-b1.webp', cls: 'ov-b1', ox: '31.39%', oy: '9.96%' },
@@ -116,7 +121,7 @@ const layersOf = (i: number) => SCENE_LAYERS[i] ?? [];
    링은 차례(--i)와 가장 진할 때의 세기(--pk)를 쓴다. */
 const layerVars = (l: Layer) =>
   (l.ox ? `--ox:${l.ox};--oy:${l.oy};` : '') +
-  (l.i !== undefined ? `--i:${l.i};--pk:${l.pk};` : '');
+  (l.i !== undefined ? `--i:${l.i};--pk:${l.pk};--sc:${l.sc};` : '');
 
 /* 수치를 숫자 덩이와 나머지로 쪼갠다 — '30년+' -> '' · '30' · '년+'.
    나머지(단위 · 기호)는 숫자보다 작게 둔다. 숫자 덩이는 올라가는 모션이
@@ -1217,19 +1222,24 @@ const alternates = [
   .cmp-scene .ov-b3 { animation-delay: -2.55s; }
   @keyframes cmp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4.5%); } }
 
-  /* 마지막 장면 링 — 같은 굵기의 링 열세 겹이 안쪽에서 바깥으로 한 칸씩
-     옮겨 가며 연해지다 사라진다. 겹마다 제 차례(--i)만큼 늦게 시작한다.
-     ⚠️ 크기를 키우지 않는다(옛 방식). 링 자리는 그림마다 따로 그려져 있고
-        여기서는 켜고 끄기만 한다 — 그래서 굵기가 퍼져도 흐려지지 않는다. */
+  /* 마지막 장면 링 — 열세 겹이 차례로 이어받으며 다음 링 자리까지 미끄러지듯
+     커지고 사라진다. 한 겹의 수명은 전체의 13.3% 뿐이고 0.24s 씩 어긋나 있어,
+     앞 겹이 꺼질 때 다음 겹이 이미 켜져 있다 — 그래서 끊기지 않고 흐른다.
+     ⚠️ 시작 지연이 음수다(-3.6s = 한 바퀴). 쪽이 뜨자마자 열셋이 제 위상에
+        들어가 있어야 첫 바퀴부터 흐름이 보인다 — 양수로 두면 처음 3.6초 동안
+        링이 하나씩 늘어난다.
+     ⚠️ 배율 기준점은 .cmp-ov 가 쥔 --ox · --oy 다(링 중심). 빠뜨리면 상자
+        복판을 기준으로 커져 링이 한쪽으로 쏠린다. */
   .cmp-scene .ov-w {
-    opacity: 0; animation: cmp-wstep 3.9s linear infinite;
-    animation-delay: calc(var(--i) * .3s);
+    opacity: 0;
+    animation: cmp-wflow 3.6s linear infinite;
+    animation-delay: calc(var(--i) * .24s - 3.6s);
   }
-  @keyframes cmp-wstep {
-    0%   { opacity: 0; }
-    2%   { opacity: var(--pk); }
-    10%  { opacity: 0; }
-    100% { opacity: 0; }
+  @keyframes cmp-wflow {
+    0%    { opacity: 0; transform: scale(1); }
+    7%    { opacity: var(--pk); }
+    13.3% { opacity: 0; transform: scale(var(--sc)); }
+    100%  { opacity: 0; transform: scale(var(--sc)); }
   }
 
   /* 동작 줄이기 — 움직임만 끈다. 바탕에 없는 레이어(스포크 · 배지)는 그대로 보여야

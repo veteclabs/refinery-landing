@@ -19,10 +19,10 @@ const SCENE_REL: Record<number, number> = { 1: 0.915, 2: 0.931, 3: 1.000, 4: 1.0
 ```ts
 const SCENE_LAYERS: Record<number, Layer[]> = {
   3: [ // 100+
-    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.36%' },
-    { file: '3-up0.webp',  cls: 'ov-up0',  ox: '46.34%', oy: '35.20%' },
-    { file: '3-up1.webp',  cls: 'ov-up1',  ox: '43.53%', oy: '33.05%' },
-    { file: '3-up2.webp',  cls: 'ov-up2',  ox: '35.56%', oy: '33.21%' },
+    { file: '3-grid.webp', cls: 'ov-grid', ox: '50.00%', oy: '35.30%' },
+    { file: '3-up0.webp',  cls: 'ov-up0',  ox: '46.32%', oy: '35.17%' },
+    { file: '3-up1.webp',  cls: 'ov-up1',  ox: '43.52%', oy: '33.04%' },
+    { file: '3-up2.webp',  cls: 'ov-up2',  ox: '35.50%', oy: '33.20%' },
   ],
   4: [ // 20+  (예전 4-spoke-base / 4-spoke / 4-r0 / 4-r1 은 삭제 — 새 그림에 없음)
     { file: '4-arc.webp', cls: 'ov-arc', ox: '50.03%', oy: '25.94%' },
@@ -56,9 +56,10 @@ const SCENE_LAYERS: Record<number, Layer[]> = {
 .ov-up0,.ov-up1,.ov-up2{opacity:0;animation:blink 2.4s ease-in-out infinite}
 .ov-up1{animation-delay:.8s}.ov-up2{animation-delay:1.6s}
 @keyframes blink{0%,100%{opacity:0}40%,55%{opacity:1}}
-/* 6번 링 — 같은 굵기의 링이 한 칸씩(같은 간격) 바깥으로 옮겨 가며 연해지다 사라짐 */
-.ov-w{opacity:0;animation:wstep 3.9s linear infinite;animation-delay:calc(var(--i)*.3s)}
-@keyframes wstep{0%{opacity:0}2%{opacity:var(--pk)}10%{opacity:0}100%{opacity:0}}
+/* 6번 링 — 13장이 차례로 이어받으며 다음 링 자리까지 미끄러지듯 커지고 서서히 사라짐(끊김 없이 흐름) */
+.ov-w{opacity:0;transform-origin:var(--ox) var(--oy);animation:wflow 3.6s linear infinite;animation-delay:calc(var(--i)*.24s - 3.6s)}
+@keyframes wflow{0%{opacity:0;transform:scale(1)}7%{opacity:var(--pk)}13.3%{opacity:0;transform:scale(var(--sc))}100%{opacity:0;transform:scale(var(--sc))}}
+/* 각 5-wN 레이어 style: --i:N; --pk:0.32×(1−N/13); --sc:(19+1.5N+1.5)/(19+1.5N); --ox:49.97%; --oy:57.03% (preview.html 참고) */
 /* 6번 떠 있는 도형 4개 — 천천히 위아래로 */
 .ov-b0,.ov-b1,.ov-b2,.ov-b3{animation:bob 3.4s ease-in-out infinite}
 .ov-b1{animation-delay:-.85s}.ov-b2{animation-delay:-1.7s}.ov-b3{animation-delay:-2.55s}
