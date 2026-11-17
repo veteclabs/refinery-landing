@@ -99,7 +99,17 @@ const home = lang === 'en' ? '/en' : '/';
       <LanguageSwitcher />
       <a href={ui.ctaHref} class="btn-primary">{ui.cta}</a>
       <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label={ui.openMenu} aria-expanded="false">
-        <i class="ph ph-list"></i>
+        {/* ⚠️ 글꼴 아이콘(ph-list)이 아니라 인라인 SVG 다. 글리프는 em 상자 안에서
+            엔진마다 다른 자리에 놓인다 — Chrome 은 KO/EN 보다 1px 아래, iPhone
+            Safari 는 0.3px 위였다. 한 보정값으로 둘을 맞출 수 없어 모양을 직접
+            그린다. 치수는 Phosphor regular 의 list 와 같다(256 격자 · 획 16 ·
+            둥근 끝 · y 64/128/192 · x 40→216). */}
+        <svg class="nav-burger-ic" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true"
+             fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round">
+          <line x1="40" y1="64" x2="216" y2="64" />
+          <line x1="40" y1="128" x2="216" y2="128" />
+          <line x1="40" y1="192" x2="216" y2="192" />
+        </svg>
       </button>
     </div>
   </div>
@@ -141,8 +151,13 @@ const home = lang === 'en' ? '/en' : '/';
     var btn = document.getElementById('navHamburgerBtn');
     var panel = document.getElementById('mobileNavPanel');
     if (!btn || !panel) return;
-    function close() { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.innerHTML = '<i class="ph ph-list"></i>'; }
-    function open() { panel.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.innerHTML = '<i class="ph ph-x"></i>'; }
+    /* 열고 닫을 때 바꿔 끼우는 두 모양. 마크업의 것과 같은 치수다(Phosphor
+       regular 의 list · x — 256 격자 · 획 16 · 둥근 끝). */
+    var SVG = '<svg class="nav-burger-ic" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round">';
+    var ICON_LIST = SVG + '<line x1="40" y1="64" x2="216" y2="64"/><line x1="40" y1="128" x2="216" y2="128"/><line x1="40" y1="192" x2="216" y2="192"/></svg>';
+    var ICON_X = SVG + '<line x1="200" y1="56" x2="56" y2="200"/><line x1="200" y1="200" x2="56" y2="56"/></svg>';
+    function close() { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.innerHTML = ICON_LIST; }
+    function open() { panel.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.innerHTML = ICON_X; }
     btn.addEventListener('click', function () { panel.classList.contains('open') ? close() : open(); });
     panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
     window.addEventListener('resize', function () { if (window.innerWidth > 980) close(); });

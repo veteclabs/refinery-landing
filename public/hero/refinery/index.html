@@ -332,9 +332,20 @@ const NF=DATA.cams.length,VW=1280,VH=720;
 /* frames are fetched as compressed blobs and decoded off the main thread into ImageBitmaps; only a
    window of frames around the scroll position is kept decoded, so drawing never stalls on a decode */
 const blobs=new Array(NF).fill(null),bm=new Map(),pend=new Set();let ready=false,curF=0;
+/* ⚠️ 좁은 화면은 작은 한 벌(1280x720)을 받는다. 무대가 358px(장치 화소 716)
+   이라 2560 은 필요 없는데, 값이 작지 않다 —
+     디코드   12ms -> 3ms  (한 장, 실측)
+     메모리   14.7MB -> 3.7MB (ImageBitmap 한 장. 창에 12장을 쥐므로 177 -> 44MB)
+     내려받기 11MB -> 3.7MB
+   폰에서 '그래픽이 틀어져 보이던' 것이 이 디코드 비용이다. 창(keepWindow)이
+   스크롤을 못 따라가면 nearestOk 가 멀리 있는 프레임을 그리고, 그 사이 카메라
+   · 3D 겹침은 그 프레임을 따라가므로 장면이 통째로 어긋나 보인다.
+   ⚠️ 데스크탑은 그대로 frames/ 다. 넓은 화면에서는 2560 이 다 쓰인다.
+   ⚠️ 시작할 때 한 번 정한다. 도중에 바꾸면 이미 받아 둔 blob 과 섞인다. */
+const FDIR=(innerWidth<=900?'frames-m/':'frames/');   /* frames-m 은 1920x1080 이다 */
 (function load(){const req=new Uint8Array(NF);const pick=()=>{for(let d=0;d<NF;d++){for(const i of [curF+d,curF-d])if(i>=0&&i<NF&&!req[i])return i;}return -1;};
   const one=()=>{const i=pick();if(i<0)return;req[i]=1;
-  fetch('frames/f'+String(i).padStart(3,'0')+'.webp').then(r=>r.ok?r.blob():null).then(b=>{blobs[i]=b;want(i);}).catch(()=>{}).finally(one);};
+  fetch(FDIR+'f'+String(i).padStart(3,'0')+'.webp').then(r=>r.ok?r.blob():null).then(b=>{blobs[i]=b;want(i);}).catch(()=>{}).finally(one);};
   for(let k=0;k<4;k++)one();})();
 function want(i){if(i<0||i>=NF||bm.has(i)||pend.has(i)||!blobs[i]||Math.abs(i-curF)>9)return;pend.add(i);
   createImageBitmap(blobs[i]).then(b=>{pend.delete(i);if(Math.abs(i-curF)>11){b.close&&b.close();return;}bm.set(i,b);lastDrawn='';
@@ -363,7 +374,12 @@ const flows=DATA.flows.map((f,i)=>({lane:i===0,spoke:i>=1&&i<=6,g:f.g,pts:f.pts.
 const tagEls=DATA.tags.filter(t=>t.st===0).map(t=>{const el=document.createElement('div');el.className='tag '+t.cls;el.textContent=t.text;tagLayer.appendChild(el);return {el,st:t.st,p:new THREE.Vector3(t.p[0],t.p[1],t.p[2])};});
 const tv=new THREE.Vector3();
 let W=1,H=1,DPR=1,sc=1,offX=0,offY=0;
-function resize(){W=stage.clientWidth;H=stage.clientHeight;DPR=Math.min(devicePixelRatio||1,2);ov.width=W*DPR;ov.height=H*DPR;vid.width=W*DPR;vid.height=H*DPR;lastDrawn='';
+/* ⚠️ 좁은 화면에서는 상한을 3 으로 올린다. 2 로 두면 폰(dpr 3)에서 캔버스가
+   화면의 2/3 해상도로 잡혀 브라우저가 1.5 배로 늘린다 — 그림 전체가 흐려 보인다.
+   데스크탑(dpr 2)은 2 가 곧 1:1 이라 달라지는 것이 없다.
+   ⚠️ 모바일 프레임 한 벌을 1920 으로 둔 것과 한 벌이다. 상한만 올리고 원본이
+      작으면 이번엔 원본에서 늘어난다. */
+function resize(){W=stage.clientWidth;H=stage.clientHeight;DPR=Math.min(devicePixelRatio||1,W<=900?3:2);ov.width=W*DPR;ov.height=H*DPR;vid.width=W*DPR;vid.height=H*DPR;lastDrawn='';
   sc=Math.max(W/VW,H/VH);offX=(W-VW*sc)/2;offY=(H-VH*sc)/2;}
 addEventListener('resize',resize);if(window.ResizeObserver)new ResizeObserver(()=>resize()).observe(stage);resize();
 function toScreen(v){tv.copy(v).project(cam);if(tv.z>1||tv.z<-1)return null;return [offX+(tv.x*.5+.5)*VW*sc,offY+(-tv.y*.5+.5)*VH*sc];}
@@ -457,7 +473,35 @@ function placeTags(s){
 }
 /* ---------- live layer: moving parts drawn in 3D over the rendered frames ---------- */
 const liveCv=document.getElementById('live');let lr=null;
-try{lr=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:true});lr.setPixelRatio(Math.min(devicePixelRatio||1,1.5));lr.outputEncoding=THREE.sRGBEncoding;lr.setClearColor(0x000000,0);}catch(e){lr=null;}
+/* ⚠️ WebGL 생성은 실패할 수 있다. Chrome 은 한 번에 살아 있는 WebGL 컨텍스트
+   수에 상한이 있고(보통 16), 그 자리는 창을 넘어 브라우저 전체가 같이 쓴다.
+   3D 쓰는 탭이 많으면 여기서 거절당한다 — 콘솔에 THREE.WebGLRenderer:
+   Error creating WebGL context. 한 줄만 남는다.
+   그때 이 레이어(빛줄기 · 흐르는 점 · 카드)가 통째로 빠지는데, 아래 drawLive
+   가 if(!lr) return 으로 조용히 넘어가므로 배경 프레임만 남아 '그림 일부가
+   안 보인다' 로 보인다. 2026-11-13 에 실제로 그렇게 보고됐다(브라우저를
+   완전히 종료했다 켜니 돌아왔다).
+   ⚠️ 한 번 실패하면 영영 포기하지 않는다. 자리가 나면 살아나도록 몇 번 더
+      시도하고, 컨텍스트를 잃었다가 되찾는 경우도 받는다.
+   ⚠️ 설정은 원본 그대로 둔다. antialias 를 끄고 powerPreference 를 low-power 로
+      내려 거절 확률을 낮춰 봤으나(2026-11-16), 데스크탑에서 가는 선이 계단지고
+      빛줄기가 점선처럼 끊겨 보였다 — 이 장면은 1px 선이 많아 AA 차이가 그대로
+      드러난다. 거절은 재시도로 받고, 그림의 질은 건드리지 않는다. */
+function mkRenderer(){
+  try{
+    const r=new THREE.WebGLRenderer({canvas:liveCv,alpha:true,antialias:true});
+    /* ⚠️ 좁은 화면에서는 2.5 까지 올린다. 1.5 로 두면 폰(dpr 3)에서 live 레이어
+       (카드 · 흐름선 · 태그)가 화면의 절반 해상도로 잡혀, 카드 글씨가 회색으로
+       번진다 — '왼쪽 판이 흐리다' 가 이것이다. 장면이 선 몇 개라 올려도 그릴 양이
+       크지 않다. 데스크탑(dpr 2)은 1.5 그대로다. */
+    r.setPixelRatio(Math.min(devicePixelRatio||1,W<=900?2.5:1.5));r.outputEncoding=THREE.sRGBEncoding;r.setClearColor(0x000000,0);
+    return r;
+  }catch(e){return null;}
+}
+lr=mkRenderer();
+if(!lr){let tries=0;const again=()=>{if(lr||tries++>=5)return;lr=mkRenderer();if(!lr)setTimeout(again,2000*tries);};setTimeout(again,2000);}
+liveCv.addEventListener('webglcontextlost',e=>{e.preventDefault();lr=null;},false);
+liveCv.addEventListener('webglcontextrestored',()=>{lr=mkRenderer();},false);
 const LS=new THREE.Scene(),LV=DATA.live;
 LS.add(new THREE.HemisphereLight(0xF6F8FA,0xC8CED5,.95));const ldl=new THREE.DirectionalLight(0xffffff,.55);ldl.position.set(30,60,40);LS.add(ldl);
 const lin=h=>new THREE.Color(h).convertSRGBToLinear();
@@ -688,8 +732,17 @@ const fpCss=document.createElement('style');fpCss.textContent=`
 const fpPins=DATA.tags.filter(t=>t.st===3).map((t,i)=>{const el=document.createElement('div');el.className='fp-pin';el.innerHTML='<i class="dot"></i>';el.firstChild.style.animationDelay=(i*.6)+'s';stage.appendChild(el);
  return {el,p:new THREE.Vector3(t.p[0],t.p[1]-.4,t.p[2])};});
 /* spreading rings: the exact ring used in the other scenes (light brand, .022 thick, three rings fading outward) */
+/* ⚠️ 좁은 화면에서는 링을 2.2 배로 키운다.
+   핀은 두 겹이다 — 점은 CSS 22px 로 고정(.fp-pin .dot)이고, 퍼지는 링은 3D 라
+   장면 배율(sc)을 따른다. 그 배율이 데스크탑 1.25 · 폰 0.569 이라 링만 2.2 배
+   작아져, 폰에서는 링이 22px 짜리 점보다 작게 퍼지다 끝난다 — 점에 가려
+   '아무것도 안 움직이는' 것처럼 보였다(실기 보고).
+   화면에서 데스크탑과 같은 크기로 퍼지도록 그 비를 그대로 곱한다.
+   ⚠️ 데스크탑은 1 이라 달라지는 것이 없다.
+   ⚠️ 균등 배율이라 테두리 두께도 같은 비로 커진다 — 모양이 그대로다. */
+const FPR=(W<=900)?2.2:1;
 fpPins.forEach((f,i)=>{for(let k=0;k<1;k++){const r=KIT.ring(.35,.022);r.material=new THREE.MeshBasicMaterial({color:lin(0x76A6D7),transparent:true,depthWrite:false});r.position.copy(f.p);LS.add(r);
- anim.push(t=>{r.quaternion.copy(cam.quaternion);const D=2.2,cyc=D*fpPins.length,l=((t-i*D)%cyc+cyc)%cyc;if(l>=D){r.visible=false;return;}r.visible=true;const q=l/D,e=1-Math.pow(1-q,2);r.scale.setScalar(1+e*2.6);r.material.opacity=.6*Math.pow(1-q,1.6);});}});
+ anim.push(t=>{r.quaternion.copy(cam.quaternion);const D=2.2,cyc=D*fpPins.length,l=((t-i*D)%cyc+cyc)%cyc;if(l>=D){r.visible=false;return;}r.visible=true;const q=l/D,e=1-Math.pow(1-q,2);r.scale.setScalar((1+e*2.6)*FPR);r.material.opacity=.6*Math.pow(1-q,1.6);});}});
 anim.push(()=>{fpPins.forEach(f=>{const q=toScreen(f.p);if(!q||q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20){f.el.style.display='none';return;}f.el.style.display='';f.el.style.transform=`translate(${q[0].toFixed(1)}px,${q[1].toFixed(1)}px)`;});});
 let liveKey='';
 function drawLive(t){if(!lr)return;const w=Math.round(VW*sc),h=Math.round(VH*sc),key=w+'x'+h+'@'+offX+','+offY;
@@ -698,12 +751,42 @@ function drawLive(t){if(!lr)return;const w=Math.round(VW*sc),h=Math.round(VH*sc)
 let pCur=scrollP(),last=performance.now(),time=0;
 function frame(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;if(!reduce)time+=dt;if(window.__TIME!=null)time=window.__TIME;
-  const pT=scrollP();pCur=reduce?pT:pCur+(pT-pCur)*(1-Math.exp(-dt*7));if(Math.abs(pT-pCur)<1e-4)pCur=pT;
+  /* ⚠️ 좁은 화면은 좇지 않고 스크롤 값을 그대로 쓴다 — 손가락과 함께 움직여야 한다.
+     데스크탑은 휠(200~300px/s)이라 7 로 좇는 것이 '부드럽다'로 읽히지만, 폰의
+     플릭은 2000~4000px/s 라 좇는 순간 '한참 있다가 움직이는' 느낌이 된다.
+     16 으로 올려 봤으나(0.19초) 그래도 늦다 — 아예 붙인다.
+     ⚠️ 부모 페이지의 ease() 와 한 벌이다 — 한쪽을 고치면 다른 쪽도 고친다.
+     ⚠️ 세로비로 가르지 않는다. 무대가 띠(358x410, 0.87)라 세로 판정에 걸리지
+        않는다 — 폭으로 가른다. 폰은 358, 데스크탑은 1440 이다. */
+  const pT=scrollP();
+  if(reduce||W<=900){pCur=pT;}
+  else{pCur=pCur+(pT-pCur)*(1-Math.exp(-dt*7));if(Math.abs(pT-pCur)<1e-4)pCur=pT;}
   const s=sOf(pCur);updateUI(pCur,s);
   const fi=Math.round(clamp(s/3)*(NF-1));
   curS=s;scrollPos=pCur;
   /* embedded in a narrower box than 16:9: keep the scene's subject (shifted right for the old caption space) in view */
-  if(window.__EMBED&&VW*sc>W+1){const c=DATA.cams[Math.round(fi)],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
+  /* ⚠️ '그려질' 프레임의 카메라로 민다. 요청한 fi 로 밀면, 그 프레임이 아직
+     디코드되지 않아 drawFrame 이 다른 프레임(nearestOk)을 그릴 때 그림과 창이
+     따로 놀아 장면이 통째로 어긋나 보인다. 프레임이 도착하면 제자리로
+     돌아오므로 '괜찮다가 다시 스크롤하면 틀어지는' 들쭉날쭉한 증상이 된다.
+     ⚠️ 데스크탑은 대개 다 받아 둔 뒤라 shown === fi 이고 동작이 같다. */
+  /* ⚠️ 창을 밀기 전에 '이번에 그릴 프레임' 을 먼저 확정한다.
+     0b0a4447 에서 nearestOk 로 고르게 했는데도 어긋남이 남았다 — drawFrame 이
+     제 안에서 keepWindow 를 먼저 부르고, keepWindow 는 창 밖(|i-c|>11)의
+     ImageBitmap 을 그 자리에서 지운다. 그래서 여기서 고른 프레임이 drawFrame
+     안에서 다시 고를 때는 이미 없어져, 둘이 다른 프레임을 가리킬 수 있었다.
+     폰에서 특히 잦다. 감속을 뺀 뒤로는 플릭 한 번에 curF 가 멀리 뛰어
+     keepWindow 가 한꺼번에 많이 비우기 때문이다.
+     keepWindow 를 여기서 먼저 부르고 그 뒤에 고르면 둘이 같은 프레임이 된다 —
+     drawFrame 안의 keepWindow 는 같은 값으로 다시 불려 아무것도 바꾸지 않는다. */
+  keepWindow(Math.round(fi));
+  const shown=nearestOk(Math.floor(fi));
+  /* ⚠️ 쓸 수 있는 프레임이 하나도 없으면(shown < 0) drawFrame 은 아무것도 다시
+     그리지 않고 직전에 그린 프레임(shownF)을 그대로 둔다. 그때 요청한 fi 로
+     창을 밀면 그림은 옛 프레임인데 창만 먼저 가 버린다 — 가장 크게 틀어지는
+     자리다. 그 경우에는 직전에 그린 프레임을 따른다. */
+  if(window.__EMBED&&VW*sc>W+1){const ci=shown<0?shownF:shown;
+    const c=DATA.cams[ci],fx=.5+.8*(c.ox||0);offX=Math.min(0,Math.max(W-VW*sc,W/2-fx*VW*sc));}
   const sf=drawFrame(fi);setCam(sf);updateFocus();drawFlows(time,sf);   /* overlays follow the frame actually on screen */
   drawLive(time);placeTags(s);
   requestAnimationFrame(frame);

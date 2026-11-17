@@ -116,9 +116,9 @@ const ucShift = (h: number) =>
           <p class={ind.hero.icon ? 'ind-eyebrow ind-eyebrow-icon' : 'ind-eyebrow'}>
             {ind.hero.icon && <img class="ind-hero-icon" src={ind.hero.icon} alt="" aria-hidden="true" width="65" height="65" decoding="async" />}
             {/* 태그라인도 개행을 <br>로 낸다 — 'A 및 / B' 두 줄이 기본이다. */}
-            <span>{lines(ind.hero.eyebrow).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</span>
+            <span>{lines(ind.hero.eyebrow).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</span>
           </p>
-          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
+          <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h1>
           {ind.hero.lede && <p class="ind-lede">{ind.hero.lede}</p>}
         </div>
         {/* 히어로에는 버튼을 두지 않는다. 전환은 페이지 맨 아래 CTA 섹션(ind-cta)이
@@ -189,7 +189,7 @@ const ucShift = (h: number) =>
         <header class={ind.challenges.dark ? 'ind-head ind-head-light' : 'ind-head'}>
           <span class="ind-sec-label">{T.diagnose}</span>
           {/* 제목은 데이터의 개행을 <br>로 낸다. */}
-          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+          <h2>{lines(ind.challenges.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
           {/* ⚠️ 소제목은 화면에 내지 않는다. 라벨 줄이 같은 말을 더 구체적으로
               하고 있어 한 번 더 쓸 자리가 아니다. 데이터(challenges.subtitle)는
               열네 파일에 그대로 두었다 — 되살릴 때 다시 쓰면 된다. */}
@@ -248,7 +248,7 @@ const ucShift = (h: number) =>
           <div class="ind-uc-aside">
             <span class="ind-sec-label">{T.act}</span>
             {/* 제목은 데이터의 개행을 <br>로 낸다 — 과제 섹션 제목과 같은 방식이다. */}
-            <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+            <h2>{lines(ind.useCases.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
             {/* ⚠️ 소제목은 화면에 내지 않는다. 제목이 이미 'Refinery가 문제를 푸는
                 방법'이라 같은 말을 한 번 더 할 자리가 아니다. 데이터
                 (useCases.subtitle)는 열네 파일에 그대로 두었다. */}
@@ -262,7 +262,7 @@ const ucShift = (h: number) =>
                 <div class="ind-uc-text">
                   {/* 제목의 개행은 lines() 가 <br> 로 낸다 — 섹션 제목과 같은 방식이다.
                       데이터에 \n 이 없는 제목은 그대로 한 덩어리로 흐른다. */}
-                  <h3>{lines(u.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h3>
+                  <h3>{lines(u.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h3>
                   {/* 표가 아니라 한 덩어리 안의 정의 목록이다 — 라벨 한 칸, 문장 한 칸.
                       세 문장은 데이터 그대로다. */}
                   <dl class="ind-uc-dl">
@@ -398,10 +398,26 @@ const ucShift = (h: number) =>
                  <picture> 로 바꾼다(그만큼 무거워진다).
               ⚠️ 움직임을 줄여 달라고 한 화면에서는 아래 스크립트가 세운다 —
                  autoplay 는 CSS 로 끌 수 없다. */}
-          <video class="ind-sys-deco" autoplay muted loop playsinline
+          <video class="ind-sys-deco ind-sys-deco-d" autoplay muted loop playsinline
                  preload="metadata" aria-hidden="true"
                  poster={`/industries/systems-corner/systems-${sysDeco}.webp`}>
             <source src={`/industries/systems-corner/systems-${sysDeco}.webm`} type="video/webm" />
+          </video>
+          {/* 좁은 화면이 쓰는 판 — 같은 그림을 '검은 바탕 + 흰 격자' 로 구운 H.264 다.
+              ⚠️ 폰에서 알파 webm 을 쓰면 안 된다. iOS Safari 는 그 형식을 못 읽고,
+                 재생할 수 없는 영상을 검은 판으로 깔아 카드 위에 검은 네모를 만든다
+                 (2026-11-16 실기 확인).
+              ⚠️ 알파를 포기하고 mix-blend-mode: screen 으로 검은 바탕을 지운다.
+                 screen 은 검은 화소를 그대로 통과시키고 밝은 곳만 더하므로, 투명
+                 영상과 결과가 같다 — 템플릿 밴드 장식(.uc-template-deco)이 쓰는 방식이다.
+              ⚠️ 그래서 용량이 54KB 다. 같은 길이를 알파로 담으면 WebP 281KB(게다가
+                 선이 뭉갠다) · 알파 HEVC 697KB 였다. 검은 바탕은 H.264 가 거의
+                 공짜로 압축한다.
+                 만드는 법: ffmpeg 로 검은 면에 overlay 한 뒤 libx264 crf 20. */}
+          <video class="ind-sys-deco ind-sys-deco-m" autoplay muted loop playsinline
+                 preload="metadata" aria-hidden="true"
+                 poster={`/industries/systems-corner/systems-${sysDeco}.webp`}>
+            <source src={`/industries/systems-corner/systems-${sysDeco}-screen.mp4`} type="video/mp4" />
           </video>
         </div>
         {/* 노트는 카드 밖, 카드 아래에 둔다 — 흐름 노트와 같은 자리다. */}
@@ -428,7 +444,7 @@ const ucShift = (h: number) =>
               {b.icon && <span class="ind-card-icon" aria-hidden="true"><i class={`ph ${b.icon}`}></i></span>}
               <h3>{b.title}</h3>
               {/* 개행은 <br>로 낸다. 좁은 폭에서는 CSS가 br을 숨겨 단락을 푼다. */}
-              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+              <p>{lines(b.description).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</p>
             </div>
           ))}
         </div>
@@ -455,7 +471,7 @@ const ucShift = (h: number) =>
         <source src="/cta/page-cta/industry-cta-terrain.mp4" type="video/mp4" />
       </video>
       <div class="ind-container">
-        <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+        <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <><br />{' '}</>}{l}</>))}</h2>
         <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
       </div>
     </section>
@@ -521,6 +537,59 @@ const ucShift = (h: number) =>
         v.pause();
       });
     }
+
+    /* 장식 영상이 안 도는 화면을 깨운다.
+       iOS 는 저전력 모드에서 autoplay 를 거절한다. 그러면 poster 만 남고
+       한가운데에 재생 단추가 뜬다(그 단추는 CSS 로 숨겨 두었다).
+       화면에 들어올 때 한 번, 첫 손짓에 한 번 재생을 청한다 — 손짓 뒤에는
+       대개 허락된다. 거절당하면 조용히 넘어가 poster 가 그대로 남는다.
+       ⚠️ 움직임 줄이기를 켠 화면에서는 하지 않는다. 위에서 세운 영상이다. */
+    (function () {
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var vids = [].slice.call(document.querySelectorAll('video.ind-sys-deco, video.ind-cta-bg-img'));
+      if (!vids.length) return;
+      var ask = function (v) { if (!v.paused) return; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+      var kick = function () { vids.forEach(ask); };
+      kick();
+      addEventListener('touchstart', kick, { passive: true, once: true });
+      addEventListener('click', kick, { once: true });
+      if (window.IntersectionObserver) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) ask(e.target); });
+        }, { rootMargin: '200px' });
+        vids.forEach(function (v) { io.observe(v); });
+      }
+
+      /* ⚠️ 그래도 안 돌면 그림으로 바꾼다. iOS 는 저전력 모드에서 손짓 뒤에도
+         거절할 때가 있고, 그러면 재생 단추가 다시 그려질 수 있다(그림자 DOM
+         이름이 판마다 달라 CSS 로 다 막는다고 장담할 수 없다).
+         1.5초 뒤에도 멈춰 있으면 같은 그림(poster)을 <img> 로 갈아 끼운다 —
+         단추가 나올 자리 자체가 없어진다. 클래스와 스코프 속성을 그대로 옮겨
+         자리 · 크기 규칙이 그대로 먹게 한다. */
+      setTimeout(function () {
+        vids.forEach(function (v) {
+          if (!v.paused || !v.parentNode) return;
+          /* ⚠️ 넓은 화면용 알파 webm(.ind-sys-deco-d)은 건너뛴다. 좁은 화면용
+             판이 마크업에 따로 있고, 넓은 화면에서는 CSS 가 그쪽을 숨기므로
+             여기서 갈아 끼우면 장식이 사라진다. */
+          if (v.classList.contains('ind-sys-deco-d')) return;
+          var poster = v.getAttribute('poster');
+          if (!poster) return;
+          var img = document.createElement('img');
+          img.src = poster;
+          img.alt = '';
+          img.setAttribute('aria-hidden', 'true');
+          img.setAttribute('decoding', 'async');
+          img.className = v.className;
+          for (var i = 0; i < v.attributes.length; i++) {
+            var a = v.attributes[i];
+            if (a.name.indexOf('data-astro-cid-') === 0) img.setAttribute(a.name, a.value);
+          }
+          v.parentNode.replaceChild(img, v);
+        });
+      }, 1500);
+    })();
+
     (function () {
       if (!('IntersectionObserver' in window)) return;
       var nodes = document.querySelectorAll('.ind-chal-track, .ind-flow');
