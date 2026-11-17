@@ -48,7 +48,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     heroTitle: '흩어진 현장의 데이터를<br>근거 있는 판단으로 잇는 산업 AI',
     ctaPrimary: '문의하기',
     contactHref: '/contact',
-    ctaGhost: '플랫폼 개요',
+    ctaGhost: '제품 소개',
     ghostHref: '/why-refinery',
     /* 데모는 언어별 파일이 따로 있다. 시나리오·구조는 같고 문구만 다르다. */
     demoSrc: '/agent-replay-demo',
@@ -112,7 +112,7 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     heroTitle: 'Industrial AI that turns scattered<br>field data into grounded decisions',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
-    ctaGhost: 'Platform overview',
+    ctaGhost: 'Product overview',
     /* 영어 /why-refinery는 없다. 랜딩의 플랫폼 구간으로 보낸다. */
     ghostHref: '/en#platform',
     demoSrc: '/agent-replay-demo-en',

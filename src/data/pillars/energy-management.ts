@@ -11,7 +11,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     heroTitle: '전력 ⁠· 에너지 데이터를 근거로<br>이상과 절감 기회를 찾는 에너지관리시스템',
     ctaPrimary: '문의하기',
     contactHref: '/contact',
-    ctaGhost: '플랫폼 개요',
+    ctaGhost: '제품 소개',
     ghostHref: '/why-refinery',
     /* 히어로에는 영상 대신 그래픽을 넣는다(PillarPage가 demoSrc로 판정). */
     demoSrc: '',
@@ -70,7 +70,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     heroTitle: 'An energy management system that finds anomalies<br>and savings in your power and energy data',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
-    ctaGhost: 'Platform overview',
+    ctaGhost: 'Product overview',
     /* 영어 /why-refinery는 없다. 랜딩의 플랫폼 구간으로 보낸다. */
     ghostHref: '/en#platform',
     demoSrc: '',
