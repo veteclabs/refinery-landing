@@ -202,7 +202,11 @@ const T = {
     h1: 'Hello, we’re Refinery',
     storyTitle: 'Industrial AI,<br>from the floor up.',
     storyLede: '<span translate="no">Refinery</span> is built on more than 30 years of experience VETEC gathered on industrial sites. Our developers have worked across many industrial sites, and we define and solve problems in the language of the site.',
-    storySig: 'A product built by VETEC, 30 years in the field',
+    /* 국문과 같이 이름 자리에 워드마크를 놓는다(.cmp-sig-logo).
+       ⚠️ 쉼표를 로고와 한 덩이(.cmp-sig-nb)로 묶는다 — 로고가 <img> 라 그
+          뒤에서 줄이 넘어가면 쉼표가 다음 줄 머리에 혼자 선다.
+       ⚠️ alt 는 'VETEC' 이라 읽어 주는 문장은 그대로다. */
+    storySig: 'A product built by <span class="cmp-sig-nb"><img class="cmp-sig-logo" src="/logo_VETEC.svg" alt="VETEC" width="217" height="57">,</span> 30 years in the field',
     stats: [
       { num: '30+ years', label: 'on industrial <span class="cmp-stat-hl">sites</span>', icon: 'stat-experience' },
       { num: '100+', label: '<span class="cmp-stat-hl">sites</span> where we handled data', icon: 'stat-sites' },
