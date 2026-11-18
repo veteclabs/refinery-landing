@@ -420,6 +420,21 @@ const capabilityGroups = [
   @media (max-width: 900px) {
     .wr-page .ind-section { padding: 84px 0; }
   }
+  /* 본문 세 섹션(네 개의 층 · 흐름 · 기능) 사이만 180px 으로 좁힌다.
+     위 값은 섹션마다 아래 180 · 위 180 이라 사이가 360px 이 된다. 셋이
+     한 묶음으로 읽혀야 하는 자리라 양쪽에서 90px 씩 나눠 가진다.
+     ⚠️ 히어로 아래와 CTA 위는 건드리지 않는다 — 거기는 묶음의 바깥이라
+        360px 그대로다.
+     ⚠️ .wr-flow 하나만 짚어 앞뒤를 가리킨다. 가운데 섹션이라 :has(+ ...) 로
+        앞 섹션을, + 로 뒤 섹션을 잡을 수 있다. 나머지 둘은 클래스가
+        .ind-section 뿐이라 따로 짚을 수가 없다.
+     ⚠️ 901px 이상에서만 건다. 아래로는 위 미디어쿼리의 84px(사이 168px)이
+        이미 좁고, 여기서 90 을 주면 오히려 넓어진다. */
+  @media (min-width: 901px) {
+    .wr-page .ind-section:has(+ .wr-flow) { padding-bottom: 90px; }
+    .wr-page .wr-flow { padding-top: 90px; padding-bottom: 90px; }
+    .wr-page .wr-flow + .ind-section { padding-top: 90px; }
+  }
   .wr-page .ind-head { margin-bottom: 64px; }
   .wr-page .ind-head h2 {
     font-size: clamp(28px, 4vw, 45px); font-weight: 600;
