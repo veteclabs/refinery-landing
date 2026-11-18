@@ -194,6 +194,93 @@ const capabilityGroups = [
       </div>
     </section>
 
+    {/* 섹션 카드가 하나씩 떠오르는 등장 모션. 과제별 '읽는 데이터와 신호'
+        섹션(.uc-signal)과 같은 값이다 — 16px 아래에서 올라오고, 0.55s
+        cubic-bezier(.2,.7,.2,1), 한 줄에 놓인 형제끼리 차례로 늦춘다.
+        화면 아래 12% 에 걸린 것은 두고 그 위로 올라온 것부터 켜는 것도 같다.
+        ⚠️ 공용 ScrollReveal 을 쓰지 않는다. 그쪽은 선택자 목록이 한 벌로 묶여
+           있어(.ind-head · .ind-uc-aside · .ind-uc-item 등) 이 페이지에서만
+           카드를 빼낼 수 없다 — 들이면 섹션 머리와 흐름 항목까지 함께 뜬다.
+           목록을 고치면 산업별 · 과제별 페이지가 같이 바뀐다.
+        ⚠️ 숨기는 일을 CSS 가 아니라 이 스크립트가 맡는다. CSS 로 숨겨 두면
+           JS 가 막혔을 때 카드가 영영 안 보인다 — 숨기는 쪽을 기본값으로
+           두지 않는 까닭이다(공용 모션이 .rv-on 을 붙이는 것과 같다).
+        ⚠️ 각 섹션 바로 뒤에서 부른다. 파싱이 그 자리에 닿는 순간 카드는 이미
+           있고 아직 그려지기 전이라, 첫 페인트부터 숨은 채로 시작한다. 뒤로
+           미루면 보였다가 사라지는 깜빡임이 난다 — 그래서 기능 섹션은 제
+           자리에서 따로 부른다. */}
+    <script is:inline>
+      window.wrReveal = function (rowSel, cardSel, step) {
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var row = document.querySelector(rowSel);
+        if (!row) return;
+        var cards = [].slice.call(row.querySelectorAll(cardSel));
+        if (!cards.length) return;
+
+        var STEP = step, DUR = 550, EASE = 'cubic-bezier(.2,.7,.2,1)';
+
+        cards.forEach(function (n) {
+          n.style.opacity = '0';
+          n.style.transform = 'translateY(16px)';
+          n.style.transition = 'opacity ' + DUR + 'ms ' + EASE + ', transform ' + DUR + 'ms ' + EASE;
+        });
+
+        /* 다 뜨고 나면 인라인 값을 통째로 걷는다. 남겨 두면 여기서 건 지연이
+           카드 제 호버 효과까지 늦춘다(네 개의 층은 아이콘 호버가 걸려 있다). */
+        function clean(n) {
+          n.style.transition = ''; n.style.transitionDelay = '';
+          n.style.opacity = ''; n.style.transform = '';
+        }
+
+        /* 끝내 한 장도 안 떴더라도 글은 보여야 한다. */
+        var guard = setTimeout(function () { cards.forEach(clean); cards.length = 0; }, 6000);
+
+        /* ⚠️ 지연은 처음에 박지 않고 선에 걸리는 순간에 준다. 한 번에 걸린
+           것끼리만 차례를 매긴다 — 넓은 폭에서는 넉 장이 한 줄이라 같은
+           순간에 걸려 0 · 60 · 120 · 180ms 로 뜨고, 좁은 폭에서 한 열로
+           쌓이면 카드마다 제 차례에 혼자 걸려 지연 없이 뜬다.
+           처음에 i * STEP 을 박아 두면 좁은 폭에서 아래 카드들이 화면 밖에
+           있는 동안 다 떠 버려 모션이 사라진다. */
+        function sweep() {
+          if (!cards.length) return;
+          var line = (window.innerHeight || 0) * 0.88, k = 0;
+          for (var i = cards.length - 1; i >= 0; i--) {
+            if (cards[i].getBoundingClientRect().top >= line) continue;
+            cards[i].__k = k++;
+            cards[i].__go = true;
+          }
+          if (!k) return;
+          clearTimeout(guard);
+          for (var j = cards.length - 1; j >= 0; j--) {
+            var n = cards[j];
+            if (!n.__go) continue;
+            /* 뒤에서부터 훑어 위 카드가 큰 번호를 받았다 — 뒤집어 준다. */
+            n.style.transitionDelay = (k - 1 - n.__k) * STEP + 'ms';
+            n.addEventListener('transitionend', function () { clean(this); }, { once: true });
+            n.style.opacity = ''; n.style.transform = '';
+            cards.splice(j, 1);
+          }
+          if (!cards.length) {
+            removeEventListener('scroll', onScroll);
+            removeEventListener('resize', onScroll);
+          }
+        }
+
+        var ticking = false;
+        function onScroll() {
+          if (ticking || !cards.length) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; sweep(); });
+        }
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sweep);
+        else sweep();
+      };
+      /* 네 개의 층 — 늦추는 간격 60ms 는 과제별 신호 카드와 같은 값이다. */
+      window.wrReveal('.wr-layers', '.wr-layer', 60);
+    </script>
+
     <!-- STORY BLOCKS -->
     {/* ⚠️ 섹션 머리글을 두지 않는다 — 제목은 아래 왼쪽 칸(.ind-uc-aside)이
         들고 있다. 산업별 02번 섹션과 같은 처리다(같은 문장을 머리와 칸에 두 번
@@ -337,77 +424,11 @@ const capabilityGroups = [
            그려지기 전이라, 첫 페인트부터 숨은 채로 시작한다. 뒤로 미루면
            보였다가 사라지는 깜빡임이 난다. */}
     <script is:inline>
-      (function () {
-        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var row = document.querySelector('.wr-caps');
-        if (!row) return;
-        var cards = [].slice.call(row.querySelectorAll('.ind-flow-step'));
-        if (!cards.length) return;
-
-        /* 한 장씩 뜨는 간격. 공용 모션의 기본 60ms 보다 한 박자 느리다 — 한
-           장씩 뜨는 것이 읽혀야 한다. 산업별 솔루션 구조의 300ms 는 쓰지
-           않는다. 그 값은 한 칸씩 짚어 가는 '차례' 를 보이려는 것이라,
-           번호를 걷어 낸 이 카드에 없는 순서를 있는 것처럼 읽히게 한다. */
-        var STEP = 120, DUR = 550, EASE = 'cubic-bezier(.2,.7,.2,1)';
-
-        cards.forEach(function (n) {
-          n.style.opacity = '0';
-          n.style.transform = 'translateY(16px)';
-          n.style.transition = 'opacity ' + DUR + 'ms ' + EASE + ', transform ' + DUR + 'ms ' + EASE;
-        });
-
-        /* 다 뜨고 나면 인라인 값을 통째로 걷는다. 남겨 두면 여기서 건 지연이
-           카드 제 호버 효과까지 늦춘다. */
-        function clean(n) {
-          n.style.transition = ''; n.style.transitionDelay = '';
-          n.style.opacity = ''; n.style.transform = '';
-        }
-
-        /* 끝내 한 장도 안 떴더라도 글은 보여야 한다. */
-        var guard = setTimeout(function () { cards.forEach(clean); cards.length = 0; }, 6000);
-
-        /* ⚠️ 지연은 처음에 박지 않고 선에 걸리는 순간에 준다. 한 번에 걸린
-           것끼리만 차례를 매긴다 — 넓은 폭에서는 넉 장이 한 줄이라 같은
-           순간에 걸려 0 · 120 · 240 · 360ms 로 뜨고, 좁은 폭에서 한 열로
-           쌓이면 카드마다 제 차례에 혼자 걸려 지연 없이 뜬다.
-           처음에 i * STEP 을 박아 두면 좁은 폭에서 아래 카드들이 화면 밖에
-           있는 동안 다 떠 버려 모션이 사라진다. */
-        function sweep() {
-          if (!cards.length) return;
-          var line = (window.innerHeight || 0) * 0.88, k = 0;
-          for (var i = cards.length - 1; i >= 0; i--) {
-            if (cards[i].getBoundingClientRect().top >= line) continue;
-            cards[i].__k = k++;
-            cards[i].__go = true;
-          }
-          if (!k) return;
-          clearTimeout(guard);
-          for (var j = cards.length - 1; j >= 0; j--) {
-            var n = cards[j];
-            if (!n.__go) continue;
-            /* 뒤에서부터 훑어 위 카드가 큰 번호를 받았다 — 뒤집어 준다. */
-            n.style.transitionDelay = (k - 1 - n.__k) * STEP + 'ms';
-            n.addEventListener('transitionend', function () { clean(this); }, { once: true });
-            n.style.opacity = ''; n.style.transform = '';
-            cards.splice(j, 1);
-          }
-          if (!cards.length) {
-            removeEventListener('scroll', onScroll);
-            removeEventListener('resize', onScroll);
-          }
-        }
-
-        var ticking = false;
-        function onScroll() {
-          if (ticking || !cards.length) return;
-          ticking = true;
-          requestAnimationFrame(function () { ticking = false; sweep(); });
-        }
-        addEventListener('scroll', onScroll, { passive: true });
-        addEventListener('resize', onScroll, { passive: true });
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sweep);
-        else sweep();
-      })();
+      /* 기능 카드 — 간격만 120ms 다. 공용 60ms 보다 한 박자 느리다. 한 장씩
+         뜨는 것이 읽혀야 한다. 산업별 솔루션 구조의 300ms 는 쓰지 않는다 —
+         그 값은 한 칸씩 짚어 가는 '차례' 를 보이려는 것이라, 번호를 걷어 낸
+         이 카드에 없는 순서를 있는 것처럼 읽히게 한다. */
+      window.wrReveal('.wr-caps', '.ind-flow-step', 120);
     </script>
 
     <!-- CTA -->
