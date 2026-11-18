@@ -658,7 +658,15 @@ const capabilityGroups = [
         그라데이션이었다. 되돌리려면 git 이력에서 가져온다. */
   .wr-page .wr-flow .ind-uc-item {
     border-top: 0;
-    padding: 40px;
+    /* 위아래 여백은 선을 기준으로 잰 값이다 — 산업별 02번(.ind-uc-item,
+       선 안 위아래 44px)과 같게 맞춘다.
+       선이 카드 윗변에서 10px 떨어져 떠 있으므로, 선 아랫변에서 글까지
+       44px 이 되려면 위 35px(35 + 9), 글 밑에서 다음 선 윗변까지 44px 이
+       되려면 아래 34px(34 + 10)이다. 1px 짜리 선이라 위아래 값이 한 칸
+       어긋나는데, 저쪽도 같은 까닭으로 45 / 44 다.
+       ⚠️ 좌우 40px 은 카드 면이 있어 필요한 값이다. 저쪽은 면이 없어
+          padding: 44px 0 이다. */
+    padding: 35px 40px 34px;
     border-radius: var(--radius);
     align-items: center;
     background: linear-gradient(to bottom right,
@@ -674,7 +682,17 @@ const capabilityGroups = [
       rgba(238, 244, 251, 0.991) 90%,
       rgba(238, 244, 251, 1) 100%);
   }
-  /* 카드가 셋이므로 사이를 여백으로 띄운다 — 선으로 가르던 자리다. */
+  /* 카드 사이를 20px 여백으로 띄우고, 그 한가운데에 선을 한 줄 긋는다.
+     ⚠️ 항목의 border-top 으로는 안 된다. 그 선은 카드 윗변에 얹혀 둥근
+        모서리를 가로지른다 — 여백 한가운데(top: -10px)에 따로 띄운다.
+     ⚠️ 첫 카드 위에도 긋는다. 그 선이 왼쪽 대제목 상자 윗변과 같은 자리에
+        오도록 목록 위 여백이 10px 더 있다(아래).
+     ⚠️ 색은 흐름 항목이 쓰던 윗선과 같은 --border(#E3E7EC)다. */
+  .wr-page .wr-flow .ind-uc-item { position: relative; }
+  .wr-page .wr-flow .ind-uc-item::before {
+    content: ''; position: absolute; top: -10px; left: 0; right: 0;
+    height: 1px; background: var(--border);
+  }
   /* 그림 칸 — 이제 면이 없다. 비율만 원본(1920:1080)으로 쥔다.
      ⚠️ 저쪽 560:320 을 그대로 두면 안 된다. 겹쳐 놓은 모션 레이어가
         inset: 0 이라 상자를 따라가는데, 바탕 그림은 object-fit: cover 로
@@ -688,9 +706,10 @@ const capabilityGroups = [
      industry.css 가 목록에 위 50px, 항목에 위아래 44px 을 주는데, 저쪽은 그
      50px 이 라벨 칩 높이를 받아 선이 곧 제목 윗변이었다. 여기는 칩이
      라벨 자리에 없어 둘 다 0 으로 두어야 선이 제목과 같은 자리에 온다. */
-  /* 50px = 번호 배지 높이 34 + 아래 여백 16. 첫 카드 윗변이 제목 상자
-     윗변과 같은 선에 선다 — 산업별 02번이 쓰는 값이고 그쪽과 같은 결이다. */
-  .wr-page .wr-flow .ind-uc-list { margin-top: 50px; gap: 20px; }
+  /* 60px = 번호 배지 높이 34 + 아래 여백 16 + 선이 카드 위로 떠 있는 10.
+     첫 선이 제목 상자 윗변과 같은 자리에 온다 — 산업별 02번이 50px 으로
+     같은 일을 하는데, 저쪽은 선이 항목 윗변에 얹혀 있어 10 이 없다. */
+  .wr-page .wr-flow .ind-uc-list { margin-top: 60px; gap: 20px; }
   /* ⚠️ 첫 항목의 위 여백은 건드리지 않는다. 선은 항목 상자의 윗변이라
      여백을 줘도 자리가 그대로고, 안쪽 내용만 내려와 선 안이 위아래 44px 로
      같아진다(산업별 02번과 같다). 한때 0 으로 두어 첫 칸만 위가 붙어
