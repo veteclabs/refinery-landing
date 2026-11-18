@@ -550,8 +550,17 @@ const capabilityGroups = [
     display: block;
     width: 160px; height: 160px; margin: 31px auto 32px;
   }
+  /* 글자값은 과제별 '읽는 데이터와 신호' 카드 라벨(.uc-signal-label)과 같다 —
+     20px / 600 / 줄높이 1.6 / 자간 -0.2px / balance. 저쪽은 그 값을 다시
+     '푸는 방식' 카드 제목에서 받아 온 것이라, 사이트 안의 카드 글 한 규격이다.
+     ⚠️ 크기는 clamp 를 그대로 적는다. 저쪽은 --uc-fs-20 토큰을 쓰는데 그
+        토큰은 .uc-page 에만 선언되어 있어, 여기서 이름만 가져오면 선언이
+        통째로 무효가 된다(저쪽 주석이 --ls-* 로 같은 함정을 적어 두었다).
+     ⚠️ 여백(margin)은 글자값이 아니라 이 카드의 배치값이라 그대로 둔다. */
   .wr-page .wr-layer h3 {
-    margin: 0 0 12px; font-size: 26px; font-weight: 600; line-height: 1.3;
+    margin: 0 0 12px;
+    font-size: clamp(16px, 1.83vw, 20px); font-weight: 600;
+    line-height: 1.6; letter-spacing: -0.2px;
     color: var(--text); word-break: keep-all; text-wrap: balance;
   }
   .wr-page .wr-layer p {
