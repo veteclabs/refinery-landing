@@ -1,0 +1,29 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>흐름 카드 조형물 미리보기</title><style>
+body{margin:0;background:#f6f8fa;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;color:#111}
+main{max-width:760px;margin:0 auto;padding:48px 20px;display:grid;gap:56px}
+.tx span{font-size:13px;color:#5A8FC5;font-weight:600}.tx h3{margin:6px 0 16px;font-size:22px}
+.card{aspect-ratio:1920/1080;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e6eaf0}
+.card img.base{position:absolute;inset:0;width:100%;height:100%}
+.wr-flow-art{position:relative}
+.wr-ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* 공중선 · 화살표 — 빛이 지나감 */
+.wr-ov-arc{-webkit-mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:wrScan 3.6s linear infinite}
+@keyframes wrScan{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+/* 01 — 선 위 네모 차례로 깜빡, 지식 그래프 둥실 */
+.wr-flow-art[data-flow="1"] .wr-ov-up0,.wr-flow-art[data-flow="1"] .wr-ov-up1,.wr-flow-art[data-flow="1"] .wr-ov-up2{opacity:0;animation:wrBlink 2.4s ease-in-out infinite}
+.wr-flow-art[data-flow="1"] .wr-ov-up1{animation-delay:.8s}.wr-flow-art[data-flow="1"] .wr-ov-up2{animation-delay:1.6s}
+@keyframes wrBlink{0%,100%{opacity:0}40%,55%{opacity:1}}
+.wr-ov-nodes{animation:wrBob 3.4s ease-in-out infinite}
+@keyframes wrBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.2%)}}
+/* 02 — 설비 위 원인 고리 깜빡, 답 카드 떠오름 */
+.wr-flow-art[data-flow="2"] .wr-ov-up0{opacity:0;animation:wrBlink 2.4s ease-in-out infinite}
+/* 02 · 03 — 카드가 차례로 살짝 떠올랐다 내려옴 (03: 감지 0s → 분석 1.2s → 보고 2.4s) */
+.wr-ov-s0,.wr-ov-s1,.wr-ov-s2{animation:wrStep 3.6s ease-in-out infinite}
+.wr-ov-s1{animation-delay:1.2s}.wr-ov-s2{animation-delay:2.4s}
+@keyframes wrStep{0%,45%,100%{transform:translateY(0)}15%,28%{transform:translateY(-3.2%)}}
+/* 03 — 카드가 떠오를 때 라인으로 내려가는 선과 표시가 함께 켜짐 */
+.wr-flow-art[data-flow="3"] .wr-ov-up0,.wr-flow-art[data-flow="3"] .wr-ov-up1,.wr-flow-art[data-flow="3"] .wr-ov-up2{opacity:0;animation:wrOn 3.6s ease-in-out infinite}
+.wr-flow-art[data-flow="3"] .wr-ov-up1{animation-delay:1.2s}.wr-flow-art[data-flow="3"] .wr-ov-up2{animation-delay:2.4s}
+@keyframes wrOn{0%,45%,100%{opacity:0}15%,28%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.wr-ov-arc,.wr-ov-up0,.wr-ov-up1,.wr-ov-up2{display:none}.wr-ov-nodes,.wr-ov-s0,.wr-ov-s1,.wr-ov-s2{animation:none}}
+</style></head><body><main><section><div class="tx"><span>통합</span><h3>흩어진 데이터가 하나의 지식으로</h3></div><div class="card wr-flow-art" data-flow="1"><img class="base" src="story-01.webp" alt=""><img class="wr-ov wr-ov-arc" src="story-01-arc.webp" alt=""><img class="wr-ov wr-ov-nodes" src="story-01-nodes.webp" alt=""><img class="wr-ov wr-ov-up0" src="story-01-up0.webp" alt=""><img class="wr-ov wr-ov-up1" src="story-01-up1.webp" alt=""><img class="wr-ov wr-ov-up2" src="story-01-up2.webp" alt=""></div></section><section><div class="tx"><span>AI 에이전트</span><h3>물으면 답하는 현장</h3></div><div class="card wr-flow-art" data-flow="2"><img class="base" src="story-02.webp" alt=""><img class="wr-ov wr-ov-arc" src="story-02-arc.webp" alt=""><img class="wr-ov wr-ov-s0" src="story-02-s0.webp" alt=""><img class="wr-ov wr-ov-up0" src="story-02-up0.webp" alt=""></div></section><section><div class="tx"><span>자동화</span><h3>사람 없이 돌아가는 운영</h3></div><div class="card wr-flow-art" data-flow="3"><img class="base" src="story-03.webp" alt=""><img class="wr-ov wr-ov-arc" src="story-03-arc.webp" alt=""><img class="wr-ov wr-ov-s0" src="story-03-s0.webp" alt=""><img class="wr-ov wr-ov-s1" src="story-03-s1.webp" alt=""><img class="wr-ov wr-ov-s2" src="story-03-s2.webp" alt=""><img class="wr-ov wr-ov-up0" src="story-03-up0.webp" alt=""><img class="wr-ov wr-ov-up1" src="story-03-up1.webp" alt=""><img class="wr-ov wr-ov-up2" src="story-03-up2.webp" alt=""></div></section></main></body></html>
