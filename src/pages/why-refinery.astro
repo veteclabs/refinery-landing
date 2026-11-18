@@ -657,9 +657,12 @@ const capabilityGroups = [
   .wr-page .wr-flow .ind-uc-card {
     max-width: none;
     aspect-ratio: 1920 / 1080;
-    /* 면은 흰색이다. 그림에 제 바탕이 없어(획과 점무늬만 그려져 있다)
-       카드 면이 곧 그림 배경이 된다 — industry.css 의 #F6F8FA 를 덮는다. */
-    background: #FFFFFF;
+    /* 면색은 산업별 02번 섹션 카드(.ind-uc-card)와 같은 --bg-soft 다.
+       그림에 제 바탕이 없어 카드 면이 곧 그림 배경이 된다.
+       ⚠️ 한때 흰색으로 덮었다. 그때는 그림이 선만 있는 평면이라 흰 면이
+          맞았는데, 3D 조형물로 바뀌면서 조형의 흰 면과 카드 면이 붙어
+          경계가 사라졌다. 되돌리려면 이 한 줄을 #FFFFFF 로 바꾼다. */
+    background: var(--bg-soft);
     /* ⚠️ 900px 이하에서 industry.css 가 카드를 글 아래로 내리며 margin-top: 20px
        을 준다. 여기서는 카드가 첫 줄이라 그 여백이 그림 위에 얹힌다. */
     margin-top: 0;
