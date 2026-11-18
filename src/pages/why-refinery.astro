@@ -920,6 +920,24 @@ const capabilityGroups = [
      커지면 카드가 그만큼 길어 보인다. */
   @media (max-width: 900px) {
     .wr-page .wr-flow .ind-uc-card { transform: none; }
+    /* 라벨을 그림 아래로 내린다. 넓은 폭에서는 글 칸 바닥에 붙어 그림의
+       아랫변과 같은 줄에 서지만, 좁은 폭에서는 글 위 · 그림 아래로 쌓여
+       라벨이 글과 그림 사이에 끼었다.
+       ⚠️ 라벨은 글 칸(.ind-uc-text) 안에 있어 order 만으로는 칸 밖으로
+          못 나간다 — 글 칸을 display: contents 로 풀어 세 아이도 항목의
+          직접 아이가 되게 한 뒤 차례를 매긴다.
+       ⚠️ 항목을 flex 로 바꾼다. industry.css 가 좁은 폭에서 쥐는 격자
+          자리값(grid-area 1/1 · 2/1)은 글 칸이 풀리면서 뜻을 잃는다. */
+    .wr-page .wr-flow .ind-uc-list .ind-uc-item { display: flex; flex-direction: column; }
+    /* ⚠️ 선택자를 한 단 길게 잡는다. 넓은 폭 규칙(.wr-page .wr-flow .ind-uc-text)
+       이 이 블록보다 아래에 있어, 같은 자릿수면 그쪽이 이긴다. */
+    .wr-page .wr-flow .ind-uc-item > .ind-uc-text { display: contents; }
+    .wr-page .wr-flow .ind-uc-item .ind-uc-text > h3 { order: 1; }
+    .wr-page .wr-flow .ind-uc-item .wr-flow-points { order: 2; }
+    .wr-page .wr-flow .ind-uc-item > .ind-uc-card { order: 3; }
+    .wr-page .wr-flow .ind-uc-item .ind-uc-text > .ind-sec-label {
+      order: 4; align-self: flex-start; margin: 20px 0 0;
+    }
   }
 
   @media (min-width: 901px) {
