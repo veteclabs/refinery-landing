@@ -336,6 +336,16 @@ const capabilityGroups = [
         ⚠️ 좁은 폭(1200px 이하)에서는 칸이 static 이라 따라오지 않는다 — 그때는
            지우지 않는다. 미디어 쿼리를 또 적지 않고 계산된 position 을 본다. */}
     <script is:inline>
+      /* 왼쪽 대제목(라벨 02 + 제목) — 산업별 02번 섹션의 같은 칸(.ind-uc-aside)과
+         같은 값으로 뜬다. 저쪽은 공용 ScrollReveal 이 띄우는 자리라 16px ·
+         0.55s · cubic-bezier(.2,.7,.2,1) · 지연 0 이다.
+         ⚠️ 아래 따라오다 사라지는 처리와 같은 칸을 쓴다. 뜨는 동안에는 이쪽이
+            인라인 opacity 를 쥐고 있어 .is-faded 가 먹지 않지만, 다 뜨면
+            인라인 값을 통째로 걷으므로(clean) 그 뒤로는 저쪽이 쥔다.
+            둘 중 하나를 고칠 때는 이 맞물림을 함께 본다. */
+      window.wrReveal('.wr-flow .ind-uc-shell', '.ind-uc-aside', 60);
+    </script>
+    <script is:inline>
       (function () {
         var aside = document.querySelector('.wr-flow .ind-uc-aside');
         var shell = aside && aside.closest('.ind-uc-shell');
