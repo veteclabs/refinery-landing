@@ -1,0 +1,22 @@
+.wr-flow-art{position:relative}
+.wr-ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* 공중선 · 화살표 — 빛이 지나감 */
+.wr-ov-arc{-webkit-mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:wrScan 3.6s linear infinite}
+@keyframes wrScan{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+/* 01 — 선 위 네모 차례로 깜빡, 지식 그래프 둥실 */
+.wr-flow-art[data-flow="1"] .wr-ov-up0,.wr-flow-art[data-flow="1"] .wr-ov-up1,.wr-flow-art[data-flow="1"] .wr-ov-up2{opacity:0;animation:wrBlink 2.4s ease-in-out infinite}
+.wr-flow-art[data-flow="1"] .wr-ov-up1{animation-delay:.8s}.wr-flow-art[data-flow="1"] .wr-ov-up2{animation-delay:1.6s}
+@keyframes wrBlink{0%,100%{opacity:0}40%,55%{opacity:1}}
+.wr-ov-nodes{animation:wrBob 3.4s ease-in-out infinite}
+@keyframes wrBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.2%)}}
+/* 02 — 설비 위 원인 고리 깜빡, 답 카드 떠오름 */
+.wr-flow-art[data-flow="2"] .wr-ov-up0{opacity:0;animation:wrBlink 2.4s ease-in-out infinite}
+/* 02 · 03 — 카드가 차례로 살짝 떠올랐다 내려옴 (03: 감지 0s → 분석 1.2s → 보고 2.4s) */
+.wr-ov-s0,.wr-ov-s1,.wr-ov-s2{animation:wrStep 3.6s ease-in-out infinite}
+.wr-ov-s1{animation-delay:1.2s}.wr-ov-s2{animation-delay:2.4s}
+@keyframes wrStep{0%,45%,100%{transform:translateY(0)}15%,28%{transform:translateY(-3.2%)}}
+/* 03 — 카드가 떠오를 때 라인으로 내려가는 선과 표시가 함께 켜짐 */
+.wr-flow-art[data-flow="3"] .wr-ov-up0,.wr-flow-art[data-flow="3"] .wr-ov-up1,.wr-flow-art[data-flow="3"] .wr-ov-up2{opacity:0;animation:wrOn 3.6s ease-in-out infinite}
+.wr-flow-art[data-flow="3"] .wr-ov-up1{animation-delay:1.2s}.wr-flow-art[data-flow="3"] .wr-ov-up2{animation-delay:2.4s}
+@keyframes wrOn{0%,45%,100%{opacity:0}15%,28%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.wr-ov-arc,.wr-ov-up0,.wr-ov-up1,.wr-ov-up2{display:none}.wr-ov-nodes,.wr-ov-s0,.wr-ov-s1,.wr-ov-s2{animation:none}}
