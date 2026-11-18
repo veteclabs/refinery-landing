@@ -1179,4 +1179,14 @@ const capabilityGroups = [
   @media (max-width: 520px) {
     .wr-caps { grid-template-columns: 1fr; }
   }
+  /* 제품 소개 CTA 의 그래픽만 가운데로 세운다. 글과 버튼은 산업별 · 과제별과
+     같은 왼쪽 맞춤 그대로다(465b497e 에서 셋을 함께 가운데로 세웠다가
+     47ff4685 로 되돌렸고, 이번에는 그래픽만 다시 넣는다).
+     ⚠️ 공통값(.ind-cta-bg-img)은 '상자 110% · 오른쪽 끝 맞춤' 이라 그림이
+        오른쪽으로 밀려 있다. 폭만 100% 로 되돌리면 된다 — 그림 안에서 돔이
+        가로 65% 자리에 있어, 상자를 섹션 폭에 맞추고 오른쪽 끝을 맞추면
+        1440px 에서 돔이 화면 가운데(51%)에 온다.
+     ⚠️ object-position 은 건드리지 않는다. right 그대로다 — center 로 두면
+        돔이 도로 오른쪽 70% 로 간다(실측). */
+  .wr-page .ind-cta-bg-img { width: 100%; }
 </style>
