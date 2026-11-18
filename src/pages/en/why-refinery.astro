@@ -575,11 +575,16 @@ const capabilityGroups = [
     border-radius: calc(var(--radius) * (1 - var(--grow, 0)));
   }
   .wr-page .wr-figure-bg {
-    /* 옛 .wr-hero-bg-img 와 같은 값이다. 100% = 위로 올릴 수 있는 끝 —
-       이미지가 16:9 이고 띠는 그보다 납작해 cover 가 가로에 맞추므로,
-       남는 세로가 전부 위로 빠진다. */
+    /* 이미지가 16:9 이고 띠는 그보다 납작해(2.67:1) cover 가 가로에 맞추므로,
+       남는 세로를 어디서 자를지 object-position 이 정한다. 100% 는 그림의
+       맨 아래를 보이는 값이었다.
+       ⚠️ 20% 로 올렸다(2026-11-18). 이 그림(/img_login-bg.webp)은 왼쪽 위가
+          먹색이고 오른쪽 아래가 하얗게 번진 그라데이션인데, 맨 아래 띠가
+          하필 가장 밝고 입자가 거친 자리다 — 오른쪽 아래가 뿌옇게 뜨고
+          그 위의 대시보드가 묻혔다. 20 · 46 · 72 · 100 을 나란히 놓고 골랐다.
+       ⚠️ 그림을 바꾸면 이 값도 다시 본다. 숫자만으로는 뜻이 남지 않는다. */
     position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9;
-    object-fit: cover; object-position: center 100%;
+    object-fit: cover; object-position: center 20%;
     pointer-events: none; user-select: none;
   }
   /* 칸은 띠 전체다. 56% 로 두었을 때는 왼쪽 420px 이 흐림으로 지워져
