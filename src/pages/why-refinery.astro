@@ -929,12 +929,19 @@ const capabilityGroups = [
        ⚠️ 항목을 flex 로 바꾼다. industry.css 가 좁은 폭에서 쥐는 격자
           자리값(grid-area 1/1 · 2/1)은 글 칸이 풀리면서 뜻을 잃는다. */
     .wr-page .wr-flow .ind-uc-list .ind-uc-item { display: flex; flex-direction: column; }
+    /* ⚠️ 줄 높이를 맞추지 않는다. 넓은 폭에서는 카드 셋이 나란히 서서 아랫변을
+       맞추려고 1fr 로 묶지만, 세로로 쌓이면 글이 짧은 카드의 아래만 비어
+       버린다(390px 에서 라벨 밑이 40 이어야 할 자리에 66px 이었다). */
+    .wr-page .wr-flow .ind-uc-shell .ind-uc-list { grid-auto-rows: auto; }
     /* ⚠️ 선택자를 한 단 길게 잡는다. 넓은 폭 규칙(.wr-page .wr-flow .ind-uc-text)
        이 이 블록보다 아래에 있어, 같은 자릿수면 그쪽이 이긴다. */
     .wr-page .wr-flow .ind-uc-item > .ind-uc-text { display: contents; }
     .wr-page .wr-flow .ind-uc-item .ind-uc-text > h3 { order: 1; }
     .wr-page .wr-flow .ind-uc-item .wr-flow-points { order: 2; }
-    .wr-page .wr-flow .ind-uc-item > .ind-uc-card { order: 3; }
+    /* ⚠️ align-self 를 되돌린다. 넓은 폭에서는 항목이 가로 격자라 end 가
+       '아래 맞춤' 이지만, 여기서는 세로 flex 라 교차축이 가로로 바뀌어
+       그림이 오른쪽으로 밀린다(900px 에서 왼쪽 372 · 오른쪽 80px 이었다). */
+    .wr-page .wr-flow .ind-uc-item > .ind-uc-card { order: 3; align-self: stretch; }
     .wr-page .wr-flow .ind-uc-item .ind-uc-text > .ind-sec-label {
       order: 4; align-self: flex-start; margin: 20px 0 0;
     }
