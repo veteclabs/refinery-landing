@@ -812,13 +812,19 @@ const capabilityGroups = [
      ⚠️ mr · mb 는 그림마다 다르다 — 캔버스 안 빈 테두리를 알파로 재서 넣은
         값이다(01 우 307 · 하 179 · 02 우 453 · 하 77 · 03 우 337 · 하 162px).
         그림을 다시 뽑으면 이 여섯 값과 k 세 값을 다시 재야 한다.
-     ⚠️ k 는 01 · 03 은 조형이 칸 폭을 꽉 채우는 값이고(1 / 폭비), 02 는
-        세로로 먼저 차서 높이에 맞춘 값이다(1440px 기준). 02 만 폭이 조금
-        남는다 — 폭에 맞추면 조형 높이가 366px 이 되어 카드 위로 넘친다.
+     ⚠️ 배율은 셋이 한 값이다 — 카드마다 달리 주면 캔버스에 맞춰 그려 둔
+        셋의 크기 비례가 어긋난다.
      ⚠️ transform 은 배치를 바꾸지 않는다 — 칸 크기와 카드 높이는 그대로다. */
   .wr-page .wr-flow .ind-uc-card {
+    /* ⚠️ 배율은 세 카드가 한 값을 쓴다. 그림 셋이 같은 1920x1080 캔버스에
+       덩어리 면적을 맞춰 그려져 있어, 카드마다 다른 배율을 주면 그 맞춰 둔
+       크기가 어긋난다. 카드마다 다른 것은 자리(translate)뿐이다.
+       --wr-max 는 셋 중 가장 넓은 01 이 칸 폭에 꼭 차는 배율(1 / 0.6807)이고,
+       --wr-fit 이 그중 얼마를 쓸지 정하는 손잡이다 — 크기는 이 하나만 만진다. */
+    --wr-max: 1.469;
+    --wr-fit: 0.85;
     transform-origin: 100% 100%;
-    transform: scale(var(--wr-k)) translate(var(--wr-mr), var(--wr-mb));
+    transform: scale(calc(var(--wr-max) * var(--wr-fit))) translate(var(--wr-mr), var(--wr-mb));
     aspect-ratio: 1920 / 1080;
     background: none;
     /* 그림은 카드 아랫변에 붙는다 — 글은 위, 그림은 아래다. 항목 격자의
@@ -829,9 +835,9 @@ const capabilityGroups = [
      위아래가 빠듯해, 글 위 · 그림 아래로 갈라 세울 자리가 안 난다.
      ⚠️ 좁은 폭에서는 두지 않는다. 900px 이하는 글 위 · 그림 아래로 쌓여
         이미 높고, 여기에 하한까지 걸면 아래가 비어 버린다. */
-  .wr-page .wr-flow .ind-uc-card[data-flow="1"] { --wr-mr: 15.99%; --wr-mb: 16.57%; --wr-k: 1.469; }
-  .wr-page .wr-flow .ind-uc-card[data-flow="2"] { --wr-mr: 23.59%; --wr-mb: 7.13%;  --wr-k: 1.750; }
-  .wr-page .wr-flow .ind-uc-card[data-flow="3"] { --wr-mr: 17.55%; --wr-mb: 15.00%; --wr-k: 1.541; }
+  .wr-page .wr-flow .ind-uc-card[data-flow="1"] { --wr-mr: 15.99%; --wr-mb: 16.57%; }
+  .wr-page .wr-flow .ind-uc-card[data-flow="2"] { --wr-mr: 23.59%; --wr-mb: 7.13%;  }
+  .wr-page .wr-flow .ind-uc-card[data-flow="3"] { --wr-mr: 17.55%; --wr-mb: 15.00%; }
   /* 좁은 폭에서는 키우지 않는다 — 글 위 · 그림 아래로 쌓이는 자리라 그림이
      커지면 카드가 그만큼 길어 보인다. */
   @media (max-width: 900px) {
