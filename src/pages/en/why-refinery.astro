@@ -828,9 +828,12 @@ const capabilityGroups = [
     align-self: flex-start;
     padding: 3px 9px; margin: auto 0 0;
     font-size: 12px; font-weight: 500; letter-spacing: .04em; line-height: 1.4;
-    color: #5A6776;
-    background: #EFF2F5;
-    border: 1px solid #EFF2F5;
+    /* 면은 브랜드색, 글자는 흰색 — CTA 주 버튼(#76a6d7 / #fff)과 같은 짝이다.
+       ⚠️ 본래 글자 #5A6776 · 면 #EFF2F5 였다. 그 글자색을 브랜드 면 위에
+          그대로 두면 2.2:1 이라 읽히지 않는다 — 면을 바꾸면 글자도 함께 바꾼다. */
+    color: #ffffff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
     border-radius: 6px;
   }
 
