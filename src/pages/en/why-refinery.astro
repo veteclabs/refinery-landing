@@ -563,8 +563,10 @@ const capabilityGroups = [
     line-height: 1.6; letter-spacing: -0.2px;
     color: var(--text); word-break: keep-all; text-wrap: balance;
   }
+  /* 14px — 회사 소개 기준 카드 본문(16px)에서 한 단 내린 값이다. 제목이
+     26 -> 20px 으로 내려오면서 둘의 차가 10px 로 벌어져 있었다. */
   .wr-page .wr-layer p {
-    margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-muted);
+    margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-muted);
     text-wrap: pretty; word-break: keep-all;
   }
   /* 열이 줄어드는 기준은 기능 카드(.wr-caps)와 같다. */
