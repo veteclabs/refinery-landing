@@ -602,10 +602,12 @@ const capabilityGroups = [
     line-height: 1.6; letter-spacing: -0.2px;
     color: var(--text); word-break: keep-all; text-wrap: balance;
   }
-  /* 14px — 회사 소개 기준 카드 본문(16px)에서 한 단 내린 값이다. 제목이
-     26 -> 20px 으로 내려오면서 둘의 차가 10px 로 벌어져 있었다. */
+  /* 15.5px — 회사 소개 기준 카드 본문(16px)에서 한 단 내린 값이다. 제목이
+     26 -> 20px 으로 내려오면서 둘의 차가 10px 로 벌어져 있었다.
+     ⚠️ 16 -> 14 -> 15.5 로 왔다. 14px 에서는 영문 둘째 · 셋째 카드가 두 줄로
+        줄어 넉 장을 세 줄로 맞춰 둔 것이 어긋났다. */
   .wr-page .wr-layer p {
-    margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-muted);
+    margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--text-muted);
     text-wrap: pretty; word-break: keep-all;
   }
   /* 단락 줄 나눔 — 컨테이너가 최대(1600px)일 때의 칸 295px 에 맞춰 박은
