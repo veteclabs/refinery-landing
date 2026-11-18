@@ -414,27 +414,36 @@ const capabilityGroups = [
     object-fit: cover; object-position: center 100%;
     pointer-events: none; user-select: none;
   }
+  /* 칸은 띠 전체다. 56% 로 두었을 때는 왼쪽 420px 이 흐림으로 지워져
+     띠의 왼쪽 절반 가까이가 빈 어두운 면이었다.
+     흐림은 왼쪽 260px 한쪽뿐이다 — 그림이 오른쪽 변에 붙어 있어 그쪽은
+     자를 것이 없다. */
   .wr-page .wr-hero-fx {
-    position: absolute; right: 0; top: 0; bottom: 0; width: 56%;
+    position: absolute; right: 0; top: 0; bottom: 0; width: 100%;
     overflow: hidden; pointer-events: none; user-select: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 420px);
-            mask-image: linear-gradient(to right, transparent 0px, #000 420px);
+    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 260px);
+            mask-image: linear-gradient(to right, transparent 0px, #000 260px);
   }
   .wr-page .wr-hero-fx-inner {
     position: absolute; inset: 0; overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
   }
+  /* 오른쪽 변에 붙이고 1180 -> 1420px 로 키운다(1.2배). 띠가 채워지면서도
+     글자는 흐린 채로 남아 히어로 글과 다투지 않는다.
+     ⚠️ 세로 자리는 폭에 비례한다 — 1180px 에서 -205px 이었으니 같은 자리를
+        보려면 -247px 이다(-205 x 1420 / 1180). 폭만 바꾸면 보이는 칸이
+        달라진다. */
   .wr-page .wr-hero-fx-inner img {
-    position: absolute; right: -140px; left: auto; top: 0;
-    max-width: none; width: 1180px; height: auto;
-    transform: translateY(-205px);
+    position: absolute; right: 0; left: auto; top: 0;
+    max-width: none; width: 1420px; height: auto;
+    transform: translateY(-247px);
     opacity: .3;
   }
   @media (max-width: 900px) {
     .wr-page .wr-figure-face { aspect-ratio: 16 / 10; }
-    /* 좁은 폭에서는 칸을 띠 전체로 넓히고 그라데이션도 짧게 — 56% 로 두면
-       대시보드가 오른쪽 구석에만 몰린다. */
+    /* 좁은 폭의 값은 그대로 둔다 — 칸은 원래부터 띠 전체였고, 흐림 160px ·
+       그림 820px / right -60px / -120px 도 손대지 않았다. 넓은 폭만 바뀐다. */
     .wr-page .wr-hero-fx {
       width: 100%;
       -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 160px);
