@@ -689,11 +689,11 @@ const capabilityGroups = [
      ⚠️ 항목의 border-top 으로는 안 된다. 그 선은 카드 윗변에 얹혀 둥근
         모서리를 가로지른다 — 여백 한가운데(top: -10px)에 따로 띄운다.
      ⚠️ 첫 카드 위에도 긋는다. 그 선이 왼쪽 대제목 상자 윗변과 같은 자리에
-        오도록 목록 위 여백이 10px 더 있다(아래).
+        오도록 목록 위 여백이 44px 더 있다(아래).
      ⚠️ 색은 흐름 항목이 쓰던 윗선과 같은 --border(#E3E7EC)다. */
   .wr-page .wr-flow .ind-uc-item { position: relative; }
   .wr-page .wr-flow .ind-uc-item::before {
-    content: ''; position: absolute; top: -10px; left: 0; right: 0;
+    content: ''; position: absolute; top: -44px; left: 0; right: 0;
     height: 1px; background: var(--border);
   }
   /* 그림 칸 — 이제 면이 없다. 비율만 원본(1920:1080)으로 쥔다.
@@ -709,10 +709,14 @@ const capabilityGroups = [
      industry.css 가 목록에 위 50px, 항목에 위아래 44px 을 주는데, 저쪽은 그
      50px 이 라벨 칩 높이를 받아 선이 곧 제목 윗변이었다. 여기는 칩이
      라벨 자리에 없어 둘 다 0 으로 두어야 선이 제목과 같은 자리에 온다. */
-  /* 60px = 번호 배지 높이 34 + 아래 여백 16 + 선이 카드 위로 떠 있는 10.
-     첫 선이 제목 상자 윗변과 같은 자리에 온다 — 산업별 02번이 50px 으로
-     같은 일을 하는데, 저쪽은 선이 항목 윗변에 얹혀 있어 10 이 없다. */
-  .wr-page .wr-flow .ind-uc-list { margin-top: 60px; gap: 20px; }
+  /* 카드 사이 88px — 선을 한가운데에 두어 위아래로 44px 씩 빈다. 산업별
+     02번의 선 둘레가 빈 44px 인 것과 같은 값이다.
+     ⚠️ 저쪽은 선 바로 아래가 글이라 그 44px 이 곧 선과 글 사이지만, 여기는
+        카드 면이 먼저 온다. 같은 44 를 '선과 카드 면 사이' 로 둔다 — 20px
+        이었을 때는 면이 선에 붙어 선이 눌려 보였다.
+     94px = 번호 배지 높이 34 + 아래 여백 16 + 선이 카드 위로 떠 있는 44.
+     첫 선이 제목 상자 윗변과 같은 자리에 온다. */
+  .wr-page .wr-flow .ind-uc-list { margin-top: 94px; gap: 88px; }
   /* ⚠️ 첫 항목의 위 여백은 건드리지 않는다. 선은 항목 상자의 윗변이라
      여백을 줘도 자리가 그대로고, 안쪽 내용만 내려와 선 안이 위아래 44px 로
      같아진다(산업별 02번과 같다). 한때 0 으로 두어 첫 칸만 위가 붙어
