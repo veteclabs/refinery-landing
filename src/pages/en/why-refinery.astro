@@ -173,7 +173,9 @@ const capabilityGroups = [
             회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
-              <span class="wr-layer-num">{i + 1}</span>
+              {/* ⚠️ 숫자를 한 겹 더 감싼다 — 가운데 정렬은 이 안쪽 span 의
+                  transform 이 한다(아래 .wr-layer-num-d). 벗기지 말 것. */}
+              <span class="wr-layer-num"><span class="wr-layer-num-d">{i + 1}</span></span>
               {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
                   이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
@@ -560,18 +562,20 @@ const capabilityGroups = [
     font-size: 12.5px; font-weight: 600; line-height: 1;
     letter-spacing: 0; color: #ffffff;
     font-variant-numeric: tabular-nums;
-    /* 글리프를 원 한가운데로 내린다(회사 소개 배지와 같은 값). */
-    padding-top: 0.09em;
   }
-  /* '1' 만 따로 민다 — Roboto 의 '1' 은 제 폭 한가운데가 아니라 왼쪽에
-     그려져 있다. 들여쓴 만큼 글줄 상자도 넓어져 글자는 절반만 움직인다. */
-  .wr-layer:first-child .wr-layer-num { text-indent: 0.105em; }
-  /* ⚠️ 지름 30 / 글자 15px 이던 때는 글자가 원 한가운데보다 0.35px 위에
-     있어, 숫자를 한 겹 더 감싸고 transform 으로 내렸다(패딩으로는 못 준다 —
-     크롬이 글줄의 세로 자리를 정수 픽셀에 붙여 0.09em 과 0.15em 사이에서
-     -0.35px 이 +0.65px 으로 한 번에 건너뛴다). 25 / 12.5px 에서는 그 반올림이
-     반대로 떨어져 아무것도 하지 않아야 맞는다 — 실측 ±0.05px. 크기를 다시
-     바꾸면 여기부터 재 볼 것. */
+  /* 숫자를 원 한가운데에 둔다.
+     ⚠️ padding / text-indent / line-height 로는 못 맞춘다 — 크롬이 글줄의
+        세로 자리를 정수 픽셀에 붙여, 값을 조금 올리면 어느 지점에서 1px 을
+        한 번에 건너뛴다(0.09em 과 0.15em 사이에서 -0.35 가 +0.65 로 뛰었다).
+        transform 은 그 반올림을 타지 않는 유일한 수단이라 여기로 고정한다.
+     ⚠️ 값은 눈대중이 아니라 실측이다 — DPR 4 로 배지를 찍어 흰 글자 잉크의
+        경계 상자와 원의 중심을 견주어 뽑았다(아래 숫자별 보정).
+        가로는 숫자마다 다르다. Roboto 의 '1' 은 제 폭(tabular 라 모두 같다)
+        한가운데가 아니라 왼쪽에 그려져 있어 혼자 더 많이 민다.
+     ⚠️ 글자 크기 · 지름 · 폰트를 바꾸면 이 값은 전부 무효다. 바꿀 때는
+        반드시 다시 재고, 안 재겠으면 크기를 건드리지 말 것. */
+  .wr-layer-num-d { display: block; transform: translate(0, 0.86px); }
+  .wr-layer:nth-child(1) .wr-layer-num-d { transform: translate(0.67px, 0.86px); }
   /* 그래픽 — 132x132 · 위아래 26px.
      회사 소개 기준 카드(.cmp-rule-icon)에서 그대로 떠 온 160x160 이었는데,
      저쪽은 셋이 한 줄이라 카드 안쪽이 356px 이고 여기는 넷이라 295px 이다.
