@@ -6,6 +6,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import '../../styles/industry.css';
 import RfIcon from '../../components/RfIcon.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
@@ -84,6 +85,15 @@ const capabilityGroups = [
   <Nav />
   {/* ind-page — 솔루션(산업별 · 과제별)과 같은 값을 쓰는 갈고리다. 국문과 같다. */}
   <main class="ind ind-page wr-page">
+    {/* 섹션 머리 · 흐름 항목 · 기능 카드가 16px 아래에서 차례로 올라온다.
+        대상은 선택자로 찾으므로 마크업은 건드릴 것이 없다 — 산업별 · 과제별
+        페이지와 같은 한 벌이다.
+        ⚠️ 본문 맨 위에 둔다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+           섹션들의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다. 늦으면
+           보였다가 사라지는 깜빡임이 난다.
+        ⚠️ 히어로와 '왜 운영체제인가' 카드(.wr-layer)는 대상이 아니다. 앞은
+           첫 화면이고, 뒤는 모션을 두지 않기로 한 자리다. */}
+    <ScrollReveal />
     <!-- HERO -->
     {/* 히어로는 솔루션(산업별 · 과제별)과 같은 구성이다 — 국문과 같다.
         값은 전부 industry.css 의 .ind-hero-bg 계열이 쥔다.
@@ -215,8 +225,9 @@ const capabilityGroups = [
           <h2>All in one place</h2>
           {/* ⚠️ 소제목은 화면에 내지 않는다 — 위 '왜 운영체제인가' 와 같다. */}
         </header>
-        {/* 카드는 산업별 '솔루션 구조'(.ind-flow)와 같다 — 국문과 같은 구성. */}
-        <div class="ind-flow wr-caps">
+        {/* 카드는 산업별 '솔루션 구조'(.ind-flow)와 같다 — 국문과 같은 구성.
+            data-rv-step 은 카드가 하나씩 뜨는 간격이다(국문 주석 참고). */}
+        <div class="ind-flow wr-caps" data-rv-step="120">
           {capabilityGroups.map((g) => (
             <div class="ind-flow-step">
               <div class="ind-flow-head">
