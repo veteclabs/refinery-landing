@@ -35,7 +35,7 @@ const stories = [
     ],
   },
   {
-    flow: 'story-02', layers: ['arc', 'up0', 'up1', 'up2', 'ans'],
+    flow: 'story-02', layers: ['arc', 'up0', 's0'],
     eyebrow: 'AI 에이전트',
     title: '물으면 답하는 현장',
     points: [
@@ -45,7 +45,7 @@ const stories = [
     ],
   },
   {
-    flow: 'story-03', layers: ['arc', 'up0', 'up1', 'ans'],
+    flow: 'story-03', layers: ['arc', 'up0', 'up1', 'up2', 's0', 's1', 's2'],
     eyebrow: '자동화',
     title: '사람 없이 돌아가는 운영',
     points: [
@@ -212,7 +212,7 @@ const capabilityGroups = [
             <h2>리파이너리에서<br>이어지는 흐름</h2>
           </div>
           <ol class="ind-uc-list">
-            {stories.map((s) => (
+            {stories.map((s, i) => (
               <li class="ind-uc-item">
                 <div class="ind-uc-text">
                   <h3>{s.title}</h3>
@@ -222,12 +222,14 @@ const capabilityGroups = [
                   {/* 라벨은 글 아래에 둔다 — 제목 위가 아니다. */}
                   <span class="ind-sec-label">{s.eyebrow}</span>
                 </div>
-                <div class="ind-uc-card wr-flow-art">
+                {/* ⚠️ data-flow 가 있어야 한다 — 모션이 카드마다 다르고, CSS 가
+                    그 번호로 갈라 본다(.wr-flow-art[data-flow="2"] 등). */}
+                <div class="ind-uc-card wr-flow-art" data-flow={i + 1}>
                   <img class="ind-uc-img" src={`/why-refinery/flow/${s.flow}.webp`} alt=""
                        width="1920" height="1080" loading="lazy" decoding="async" />
                   {s.layers.map((g) => (
                     <img
-                      class={`wr-ov wr-ov-${g === 'nodes' || g === 'ans' ? 'keep' : g}`}
+                      class={`wr-ov wr-ov-${g}`}
                       src={`/why-refinery/flow/${s.flow}-${g}.webp`}
                       alt="" aria-hidden="true" loading="lazy" decoding="async"
                     />
@@ -857,15 +859,21 @@ const capabilityGroups = [
   }
 
   /* ───────── 흐름 카드 조형물 — 바탕 한 장 + 모션 레이어 ─────────
+     public/why-refinery/flow/motion.css 를 그대로 옮긴 것이다. 그 파일과
+     HANDOFF.md · meta.json · preview.html 이 정본이니, 그림을 다시 뽑으면
+     여기도 거기서 다시 옮긴다(손으로 고치지 말 것).
      모든 그림이 같은 1920x1080 캔버스에 투명 배경이라 겹쳐 놓기만 하면
-     자리가 맞는다(public/why-refinery/flow/HANDOFF.md 가 정본이다).
+     자리가 맞는다.
      ⚠️ arc · upN 은 바탕에도 정지 상태로 그려져 있다 — 빠지면 움직임만
-        없어진다. nodes(01 지식 그래프) · ans(02 차트 카드 · 03 문서 카드)는
-        바탕에 없다 — 빼면 그 조형이 사라진다.
-     ⚠️ 카드 면은 흰색 그대로 둔다. 그림에 제 바탕이 없다. */
+        없어진다. nodes(01 지식 그래프) · s0~s2(02 추세선 카드 · 03 감지 ·
+        분석 · 보고 카드)는 바탕에 없다 — 빼면 그 조형이 사라진다.
+     ⚠️ 카드 면은 흰색 그대로 둔다. 그림에 제 바탕이 없다.
+     ⚠️ upN 의 움직임은 카드마다 다르다 — 01 은 차례로 깜빡이고(wrBlink),
+        03 은 카드가 떠오를 때 함께 켜진다(wrOn). 그래서 마크업의
+        data-flow 로 갈라 본다. */
   .wr-flow-art { position: relative; }
   .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  /* 공중선 — 빛이 선을 따라 지나간다. */
+  /* 공중선 · 화살표 — 빛이 선을 따라 지나간다. */
   .wr-ov-arc {
     -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
             mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
@@ -876,17 +884,42 @@ const capabilityGroups = [
     from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
     to   { -webkit-mask-position: 0 0;    mask-position: 0 0; }
   }
-  /* 선 위 네모 · 점 — 차례로 깜빡인다. */
-  .wr-ov-up0, .wr-ov-up1, .wr-ov-up2 { opacity: 0; animation: wrBlink 2.4s ease-in-out infinite; }
-  .wr-ov-up1 { animation-delay: .8s; }
-  .wr-ov-up2 { animation-delay: 1.6s; }
+  /* 01 — 선 위 네모가 차례로 깜빡이고, 지식 그래프가 둥실거린다. */
+  .wr-flow-art[data-flow="1"] .wr-ov-up0,
+  .wr-flow-art[data-flow="1"] .wr-ov-up1,
+  .wr-flow-art[data-flow="1"] .wr-ov-up2 {
+    opacity: 0; animation: wrBlink 2.4s ease-in-out infinite;
+  }
+  .wr-flow-art[data-flow="1"] .wr-ov-up1 { animation-delay: .8s; }
+  .wr-flow-art[data-flow="1"] .wr-ov-up2 { animation-delay: 1.6s; }
   @keyframes wrBlink { 0%, 100% { opacity: 0; } 40%, 55% { opacity: 1; } }
-  /* 떠 있는 조형 — 천천히 위아래로. */
-  .wr-ov-keep { animation: wrBob 3.4s ease-in-out infinite; }
+  .wr-ov-nodes { animation: wrBob 3.4s ease-in-out infinite; }
   @keyframes wrBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.2%); } }
+  /* 02 — 설비 위 원인 고리가 깜빡인다. */
+  .wr-flow-art[data-flow="2"] .wr-ov-up0 {
+    opacity: 0; animation: wrBlink 2.4s ease-in-out infinite;
+  }
+  /* 02 · 03 — 카드가 차례로 살짝 떠올랐다 내려온다
+     (03 은 감지 0s -> 분석 1.2s -> 보고 2.4s). */
+  .wr-ov-s0, .wr-ov-s1, .wr-ov-s2 { animation: wrStep 3.6s ease-in-out infinite; }
+  .wr-ov-s1 { animation-delay: 1.2s; }
+  .wr-ov-s2 { animation-delay: 2.4s; }
+  @keyframes wrStep {
+    0%, 45%, 100% { transform: translateY(0); }
+    15%, 28%      { transform: translateY(-3.2%); }
+  }
+  /* 03 — 카드가 떠오를 때 라인으로 내려가는 선과 표시가 함께 켜진다. */
+  .wr-flow-art[data-flow="3"] .wr-ov-up0,
+  .wr-flow-art[data-flow="3"] .wr-ov-up1,
+  .wr-flow-art[data-flow="3"] .wr-ov-up2 {
+    opacity: 0; animation: wrOn 3.6s ease-in-out infinite;
+  }
+  .wr-flow-art[data-flow="3"] .wr-ov-up1 { animation-delay: 1.2s; }
+  .wr-flow-art[data-flow="3"] .wr-ov-up2 { animation-delay: 2.4s; }
+  @keyframes wrOn { 0%, 45%, 100% { opacity: 0; } 15%, 28% { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     .wr-ov-arc, .wr-ov-up0, .wr-ov-up1, .wr-ov-up2 { display: none; }
-    .wr-ov-keep { animation: none; }
+    .wr-ov-nodes, .wr-ov-s0, .wr-ov-s1, .wr-ov-s2 { animation: none; }
   }
 
   /* 항목 라벨(통합 · AI 에이전트 · 자동화) — 산업별 02번 섹션의 내용 라벨
