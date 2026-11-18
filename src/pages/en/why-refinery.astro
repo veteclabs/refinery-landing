@@ -608,26 +608,18 @@ const capabilityGroups = [
         — 두 점짜리 radial 로 줄이면 색이 사라지는 자리에 테가 보인다. */
   .wr-page .wr-flow { background: #FFFFFF; }
 
-  /* 항목 안 배치 — 그림이 위, 글이 아래다.
-     산업별 02번(글 왼쪽 · 그림 오른쪽, industry.css 의 .ind-uc-item)과
-     다른 점이 여기뿐이다. 그림이 16:9 한 장짜리라 옆에 세우면 작아진다.
-     ⚠️ 한 칸 두 줄이다. 칸을 둘로 두고 둘 다 1칸에 몰면 그림 칸의 상한
-        (560px)이 그대로 남아 폭이 늘지 않는다. */
-  .wr-page .wr-flow .ind-uc-item {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    row-gap: 28px;
-  }
-  .wr-page .wr-flow .ind-uc-item > .ind-uc-card { grid-area: 1 / 1; }
-  .wr-page .wr-flow .ind-uc-item > .ind-uc-text { grid-area: 2 / 1; }
+  /* 항목 안 배치는 산업별 02번(industry.css 의 .ind-uc-item)을 그대로 쓴다 —
+     글 왼쪽 · 그림 오른쪽, 칸 1 : 1.4, 사이 56px.
+     ⚠️ 한때 한 칸 두 줄(그림 위 · 글 아래)로 두고 그림을 글 칸 폭까지
+        키웠다. 되살리려면 칸을 하나로 두고 grid-area 로 차례를 뒤집은 뒤
+        카드의 max-width 를 풀어야 한다 — 상한 560px 이 남으면 폭이 늘지
+        않는다. */
 
-  /* 그림 카드 — 글 칸 폭을 꽉 채운다.
-     ⚠️ max-width 를 풀어야 한다. industry.css 가 560px 을 박아 두어
-        칸만 넓혀서는 그림이 따라 커지지 않는다.
-     ⚠️ 비율은 그림 원본 그대로(1920:1080)다. 저쪽 560:320 은 잘라 낸
-        판에 맞춘 값이라, 여기에 두면 위아래로 면이 남는다. */
+  /* 그림 카드 — 비율만 원본(1920:1080)으로 바꾼다.
+     ⚠️ 저쪽 560:320 을 그대로 두면 안 된다. 겹쳐 놓은 모션 레이어가
+        inset: 0 이라 카드 상자를 따라가는데, 바탕 그림은 object-fit: cover 로
+        잘려 둘이 어긋난다. */
   .wr-page .wr-flow .ind-uc-card {
-    max-width: none;
     aspect-ratio: 1920 / 1080;
     /* 면색은 산업별 02번 섹션 카드(.ind-uc-card)와 같은 --bg-soft 다.
        그림에 제 바탕이 없어 카드 면이 곧 그림 배경이 된다.
@@ -635,19 +627,16 @@ const capabilityGroups = [
           맞았는데, 3D 조형물로 바뀌면서 조형의 흰 면과 카드 면이 붙어
           경계가 사라졌다. 되돌리려면 이 한 줄을 #FFFFFF 로 바꾼다. */
     background: var(--bg-soft);
-    /* ⚠️ 900px 이하에서 industry.css 가 카드를 글 아래로 내리며 margin-top: 20px
-       을 준다. 여기서는 카드가 첫 줄이라 그 여백이 그림 위에 얹힌다. */
-    margin-top: 0;
   }
 
   /* 항목 사이 가로선을 걷는다 — 그림이 이미 한 덩어리로 보여 선까지 두면
      칸막이가 둘이 된다. 산업별 02번은 글만 있어 선이 경계를 맡는다.
      ⚠️ 선을 걷으면 항목 사이가 위아래 44px 씩 88px 로 남는다. 그대로 둔다. */
   .wr-page .wr-flow .ind-uc-item { border-top: 0; }
-  /* 첫 그림의 윗변을 왼쪽 제목(.ind-uc-aside h2)의 윗변에 맞춘다.
+  /* 첫 항목의 윗변을 왼쪽 제목(.ind-uc-aside h2)의 윗변에 맞춘다.
      industry.css 가 목록에 위 50px, 항목에 위아래 44px 을 주는데, 저쪽은 그
      50px 이 라벨 칩 높이를 받아 선이 곧 제목 윗변이었다. 여기서는 선을
-     걷었으니 둘 다 0 으로 두어야 그림이 제목과 같은 선에서 시작한다. */
+     걷었으니 둘 다 0 으로 두어야 첫 항목이 제목과 같은 선에서 시작한다. */
   .wr-page .wr-flow .ind-uc-list { margin-top: 0; }
   .wr-page .wr-flow .ind-uc-item:first-child { padding-top: 0; }
   /* 상자끼리 맞추면 글자는 그만큼 내려와 있다 — 줄높이 1.3 의 위쪽 반여백
