@@ -312,7 +312,14 @@ img { max-width: 100%; height: auto; }
    ⚠️ margin 의 auto 를 0 으로 바꾼 것이다. 가운데로 되돌리려면 auto 로 둔다. */
 .ind-page .ind-flow-img {
   display: block;
-  width: var(--ind-flow-ic, 200px); height: var(--ind-flow-ic, 200px);
+  /* ⚠️ 높이를 박지 않는다. 가로 · 세로를 둘 다 박아 두면, 카드가 그림보다
+     좁아질 때 전역 img { max-width: 100% } 가 가로만 줄여 그림이 눌린다
+     (901px 에서 136x150 · 521px 에서 175x200 — 원본은 정사각 200x200).
+     height: auto 로 두면 가로를 따라 세로도 줄어 비율이 지켜진다.
+     aspect-ratio 는 그 보험이다 — 그림이 아직 안 받아졌을 때도 자리를
+     정사각으로 잡아 둔다(CLS 방지). */
+  width: var(--ind-flow-ic, 200px); height: auto;
+  max-width: 100%; aspect-ratio: 1 / 1;
   /* 제목과 내용 사이, 카드 가로 가운데 — 좌우 margin 의 auto 가 남은 폭을
      양쪽으로 똑같이 나눈다. 위아래로 20px 씩 띄운다.
      ⚠️ 오른쪽 아래에 두던 때는 margin 이 auto 0 0 auto 였다(위 · 왼쪽 auto).
