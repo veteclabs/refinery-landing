@@ -1,0 +1,16 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>흐름 카드 조형물 미리보기</title>
+<style>
+body{margin:0;background:#f6f8fa;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;color:#111}
+main{max-width:760px;margin:0 auto;padding:48px 20px;display:grid;gap:56px}
+.tx span{font-size:13px;color:#5A8FC5;font-weight:600}.tx h3{margin:6px 0 16px;font-size:22px}
+.card{position:relative;aspect-ratio:1920/1080;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e6eaf0}
+.card img{position:absolute;inset:0;width:100%;height:100%}
+.ov-arc{-webkit-mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);mask-image:linear-gradient(100deg,transparent 38%,#000 50%,transparent 62%);-webkit-mask-size:300% 100%;mask-size:300% 100%;animation:scan 3.6s linear infinite}
+@keyframes scan{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+.ov-up0,.ov-up1,.ov-up2{opacity:0;animation:blink 2.4s ease-in-out infinite}
+.ov-up1{animation-delay:.8s}.ov-up2{animation-delay:1.6s}
+@keyframes blink{0%,100%{opacity:0}40%,55%{opacity:1}}
+.ov-keep{animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.2%)}}
+@media (prefers-reduced-motion:reduce){.ov-arc,.ov-up0,.ov-up1,.ov-up2{display:none}.ov-keep{animation:none}}
+</style></head><body><main><section><div class="tx"><span>통합</span><h3>흩어진 데이터가 하나의 지식으로</h3></div><div class="card"><img class="base" src="story-01.webp" alt=""><img class="ov ov-arc" style="--ox:50.05%;--oy:43.01%" src="story-01-arc.webp" alt=""><img class="ov ov-keep" style="--ox:78.72%;--oy:19.68%" src="story-01-nodes.webp" alt=""><img class="ov ov-up0" style="--ox:49.48%;--oy:20.83%" src="story-01-up0.webp" alt=""><img class="ov ov-up1" style="--ox:59.17%;--oy:34.63%" src="story-01-up1.webp" alt=""><img class="ov ov-up2" style="--ox:62.21%;--oy:22.18%" src="story-01-up2.webp" alt=""></div></section><section><div class="tx"><span>AI 에이전트</span><h3>물으면 답하는 현장</h3></div><div class="card"><img class="base" src="story-02.webp" alt=""><img class="ov ov-keep" style="--ox:51.02%;--oy:23.33%" src="story-02-ans.webp" alt=""><img class="ov ov-arc" style="--ox:59.87%;--oy:26.48%" src="story-02-arc.webp" alt=""><img class="ov ov-up0" style="--ox:60.65%;--oy:24.72%" src="story-02-up0.webp" alt=""><img class="ov ov-up1" style="--ox:59.9%;--oy:17.04%" src="story-02-up1.webp" alt=""><img class="ov ov-up2" style="--ox:59.09%;--oy:16.44%" src="story-02-up2.webp" alt=""></div></section><section><div class="tx"><span>자동화</span><h3>사람 없이 돌아가는 운영</h3></div><div class="card"><img class="base" src="story-03.webp" alt=""><img class="ov ov-keep" style="--ox:84.79%;--oy:23.47%" src="story-03-ans.webp" alt=""><img class="ov ov-arc" style="--ox:69.43%;--oy:35.46%" src="story-03-arc.webp" alt=""><img class="ov ov-up0" style="--ox:68.72%;--oy:21.16%" src="story-03-up0.webp" alt=""><img class="ov ov-up1" style="--ox:78.26%;--oy:29.4%" src="story-03-up1.webp" alt=""></div></section></main></body></html>
