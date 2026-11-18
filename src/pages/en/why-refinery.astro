@@ -646,8 +646,9 @@ const capabilityGroups = [
      ⚠️ 면은 왼쪽 위가 흰색이고 오른쪽 아래로 가며 브랜드 50(#EEF4FB)으로
         짙어지는 대각선 그라데이션이다. 글이 앉는 왼쪽 위가 가장 밝고,
         그림이 있는 오른쪽 아래가 가장 짙다.
-     ⚠️ 투명이 아니라 흰 색이다. 알파로 두면 섹션 면이 비쳐 카드가 그 위에
-        서지 않는다.
+     ⚠️ 흰 끝은 알파 0.65 다. 아주 비치게 두면 카드가 섹션 면에 녹고,
+        완전히 불투명하면 흰 판이 뚝 떨어져 보인다 — 그 사이 값이다.
+        오른쪽 아래로 갈수록 알파도 1 로 차오른다.
      ⚠️ 정지점 열하나는 smootherstep 이다. 두 점짜리 선형은 색이 바뀌는
         자리에 띠가 보인다.
      ⚠️ 방향은 to bottom right 다. 135deg 로 박으면 각이 45도로 고정되어,
@@ -673,17 +674,17 @@ const capabilityGroups = [
        선에서 글까지가 44px 이 아니라 100px 남짓이 됐다 — 산업별 02번은
        글과 그림이 모두 위에서 시작한다. */
     background: linear-gradient(to bottom right,
-      #FFFFFF 0%,
-      #FFFFFF 10%,
-      #FEFEFF 20%,
-      #FCFDFE 30%,
-      #FAFCFE 40%,
-      #F6FAFD 50%,
-      #F3F7FC 60%,
-      #F1F6FC 70%,
-      #EFF5FB 80%,
-      #EEF4FB 90%,
-      #EEF4FB 100%);
+      rgba(255, 255, 255, 0.65) 0%,
+      rgba(255, 255, 255, 0.653) 10%,
+      rgba(254, 254, 255, 0.67) 20%,
+      rgba(252, 253, 254, 0.707) 30%,
+      rgba(250, 252, 254, 0.761) 40%,
+      rgba(246, 250, 253, 0.825) 50%,
+      rgba(243, 247, 252, 0.889) 60%,
+      rgba(241, 246, 252, 0.943) 70%,
+      rgba(239, 245, 251, 0.98) 80%,
+      rgba(238, 244, 251, 0.997) 90%,
+      rgba(238, 244, 251, 1) 100%);
   }
   /* 카드 사이를 20px 여백으로 띄우고, 그 한가운데에 선을 한 줄 긋는다.
      ⚠️ 항목의 border-top 으로는 안 된다. 그 선은 카드 윗변에 얹혀 둥근
@@ -787,6 +788,24 @@ const capabilityGroups = [
   @media (prefers-reduced-motion: reduce) {
     .wr-ov-arc, .wr-ov-up0, .wr-ov-up1, .wr-ov-up2 { display: none; }
     .wr-ov-keep { animation: none; }
+  }
+
+  /* 항목 라벨(통합 · AI 에이전트 · 자동화) — 산업별 02번 섹션의 내용 라벨
+     (문제 · 접근 · 성과, .ind-uc-dl dt)과 같은 조형이다.
+     12px / 500 / 자간 .04em / 줄높이 1.4 · 회색 면 #EFF2F5 에 글자 #5A6776
+     (5.11:1) · 같은 색 테두리 1px · 둥글기 6px.
+     ⚠️ 테두리는 면과 같은 색으로 남긴다 — 1px 을 걷으면 상자가 2px 작아진다.
+     ⚠️ 여백 3px 9px 은 테두리 1px 을 더해도 상자가 전과 같게 하는 값이다.
+     ⚠️ 기본값(.ind-sec-label, 18px · 브랜드 테두리)은 섹션 머리 번호 배지의
+        것이다. 같은 클래스를 쓰므로 여기서 덮는다. */
+  .wr-page .wr-flow .ind-uc-text > .ind-sec-label {
+    display: inline-block;
+    padding: 3px 9px; margin: 0 0 12px;
+    font-size: 12px; font-weight: 500; letter-spacing: .04em; line-height: 1.4;
+    color: #5A6776;
+    background: #EFF2F5;
+    border: 1px solid #EFF2F5;
+    border-radius: 6px;
   }
 
   /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글과 같은 값이다(국문과 같다). */
