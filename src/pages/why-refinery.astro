@@ -213,7 +213,10 @@ const capabilityGroups = [
            미루면 보였다가 사라지는 깜빡임이 난다 — 그래서 기능 섹션은 제
            자리에서 따로 부른다. */}
     <script is:inline>
-      window.wrReveal = function (rowSel, cardSel, step) {
+      /* fixed 를 주면 지연을 형제 순서로 미리 박는다 — 공용 ScrollReveal 과
+         같은 방식이다. 세로로 멀리 떨어져 혼자 선을 넘는 항목도 제 차례만큼
+         기다린다. 안 주면 선에 걸리는 순간 함께 걸린 것끼리 차례를 매긴다. */
+      window.wrReveal = function (rowSel, cardSel, step, fixed) {
         if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         var row = document.querySelector(rowSel);
         if (!row) return;
@@ -222,10 +225,13 @@ const capabilityGroups = [
 
         var STEP = step, DUR = 550, EASE = 'cubic-bezier(.2,.7,.2,1)';
 
-        cards.forEach(function (n) {
+        cards.forEach(function (n, i) {
           n.style.opacity = '0';
           n.style.transform = 'translateY(16px)';
           n.style.transition = 'opacity ' + DUR + 'ms ' + EASE + ', transform ' + DUR + 'ms ' + EASE;
+          /* 저쪽과 같이 일곱 번째에서 멈춘다 — 긴 목록의 끝이 한참 기다리지
+             않게 두는 제한이다. */
+          if (fixed && i) n.style.transitionDelay = Math.min(i, 7) * STEP + 'ms';
         });
 
         /* 다 뜨고 나면 인라인 값을 통째로 걷는다. 남겨 두면 여기서 건 지연이
@@ -257,8 +263,9 @@ const capabilityGroups = [
           for (var j = cards.length - 1; j >= 0; j--) {
             var n = cards[j];
             if (!n.__go) continue;
-            /* 뒤에서부터 훑어 위 카드가 큰 번호를 받았다 — 뒤집어 준다. */
-            n.style.transitionDelay = (k - 1 - n.__k) * STEP + 'ms';
+            /* 뒤에서부터 훑어 위 카드가 큰 번호를 받았다 — 뒤집어 준다.
+               fixed 면 위에서 이미 박아 두었으므로 건드리지 않는다. */
+            if (!fixed) n.style.transitionDelay = (k - 1 - n.__k) * STEP + 'ms';
             n.addEventListener('transitionend', function () { clean(this); }, { once: true });
             n.style.opacity = ''; n.style.transform = '';
             cards.splice(j, 1);
@@ -358,11 +365,10 @@ const capabilityGroups = [
       window.wrReveal('.wr-flow .ind-uc-shell', '.ind-uc-aside', 60);
       /* 항목 셋 — 산업별 02번 섹션의 내용(.ind-uc-item)과 같은 값이다.
          16px · 0.55s · cubic-bezier(.2,.7,.2,1) · 간격 60ms.
-         ⚠️ 항목이 세로로 멀리 떨어져 있어 실제로는 저마다 제 차례에 혼자
-            선을 넘는다 — 그때는 지연 없이 바로 뜬다. 저쪽은 지연을 형제
-            순서로 미리 박아 두어 셋째 항목이 혼자 넘어도 120ms 를 기다린다.
-            눈에 보이는 차이는 그 한 박자뿐이고 나머지 값은 같다. */
-      window.wrReveal('.wr-flow .ind-uc-list', '.ind-uc-item', 60);
+         ⚠️ 네 번째 인자 fixed 를 준다 — 지연을 형제 순서로 미리 박는 저쪽
+            방식이다. 항목이 세로로 멀리 떨어져 있어 저마다 혼자 선을 넘는데,
+            그때도 둘째는 60ms · 셋째는 120ms 를 기다린다. */
+      window.wrReveal('.wr-flow .ind-uc-list', '.ind-uc-item', 60, true);
     </script>
     <script is:inline>
       (function () {
