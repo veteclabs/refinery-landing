@@ -1235,6 +1235,19 @@ const capabilityGroups = [
      ⚠️ content: none 이라야 상자까지 사라진다. '' 로 두면 빈 20px 사각이
         남아 이름이 그만큼 들어간다. */
   .wr-page .wr-caps .ind-flow-head::before { content: none; }
+  /* 그림이 카드 폭을 따라 줄게 한다. 200px 고정이던 때는 카드 안쪽 폭이
+     138~424px 을 오가는 바람에 그림이 안쪽 폭의 41~99% 를 오갔다 —
+     901px 에서 98.6% · 521px 에서 98.9% 로 카드를 거의 꽉 채웠다.
+     73.3cqi 는 1440px 에서의 비례 그대로이고(안쪽 273 · 그림 200), 위 끝이
+     200px 이라 넓은 폭의 모습은 바뀌지 않는다.
+     ⚠️ 화면 폭이 아니라 카드 폭(cqi)으로 잰다. 열이 4 -> 2 -> 1 로 접히면서
+        카드가 되레 넓어지는 구간이 있다(901px 에서 138 · 900px 에서 366px).
+     ⚠️ .wr-caps 로 좁힌다 — 산업별 '솔루션 구조' 는 같은 .ind-flow-step 을
+        쓰지만 거기까지 건드리지 않는다. */
+  .wr-page .wr-caps .ind-flow-step { container-type: inline-size; }
+  .wr-page .wr-caps .ind-flow-img {
+    width: clamp(96px, 73.3cqi, 200px); height: auto;
+  }
   /* 아이콘과 제목을 한 줄에 나란히 둔다(예지보전은 아이콘을 위에 띄우고 제목을
      아래에 모으지만, 여기는 아래에 항목 칸이 여러 줄 붙어 그 구성이 헐거워진다).
      박스 30x30 · 라운드 8px, 글리프 17px. 제목(20px) 옆에 붙는 표식이라
