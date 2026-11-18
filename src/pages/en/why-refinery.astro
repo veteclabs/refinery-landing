@@ -69,10 +69,10 @@ const layers = [
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
 // 이 페이지 다른 곳에서 쓰는 것과 겹치지 않게 골랐다.
 const capabilityGroups = [
-  { title: 'Data', icon: 'ph-database', items: ['Ontology', 'Unified dashboard', 'Pipeline', 'Time-series analysis', 'Turning documents into knowledge', 'Connecting to existing systems'] },
-  { title: 'Intelligence', icon: 'ph-sparkle', items: ['AI agent', 'Anomaly detection', 'Alarms', 'Predictive maintenance', 'Quality prediction', 'Energy optimization'] },
-  { title: 'Operations', icon: 'ph-gear-six', items: ['Automation', 'Workflows', 'Report automation', 'ESG reports'] },
-  { title: 'Trust', icon: 'ph-shield-check', items: ['On-premises deployment', 'Permissions', 'Encryption'] },
+  { title: 'Data', icon: 'cap-data', items: ['Ontology', 'Unified dashboard', 'Pipeline', 'Time-series analysis', 'Turning documents into knowledge', 'Connecting to existing systems'] },
+  { title: 'Intelligence', icon: 'cap-ai', items: ['AI agent', 'Anomaly detection', 'Alarms', 'Predictive maintenance', 'Quality prediction', 'Energy optimization'] },
+  { title: 'Operations', icon: 'cap-ops', items: ['Automation', 'Workflows', 'Report automation', 'ESG reports'] },
+  { title: 'Trust', icon: 'cap-trust', items: ['On-premises deployment', 'Permissions', 'Encryption'] },
 ];
 ---
 <BaseLayout
@@ -222,6 +222,20 @@ const capabilityGroups = [
               <div class="ind-flow-head">
                 <span class="ind-flow-label">{g.title}</span>
               </div>
+              {/* 차례는 제목 · 그림 · 내용이다 — 산업별 '솔루션 구조' 카드와 같다.
+                  ⚠️ RfIcon(인라인 SVG)이 아니라 그림 파일이다. 3D 아이소메트릭이라
+                     SVG 로 그릴 수 있는 것이 아니다 — public/icons/capability 아래
+                     512px webp 와 1024px @2x 를 둔다.
+                  ⚠️ 원본은 src/icons/capability-3d 에 세 벌(어두운 면 · 흰 면 ·
+                     선 없는 plain)이 있다. 카드 면이 흰색이라 저쪽 솔루션 구조와
+                     같은 plain 을 골라 여기로 복사했다. */}
+              <img
+                class="ind-flow-img"
+                src={`/icons/capability/${g.icon}.webp`}
+                srcset={`/icons/capability/${g.icon}.webp 1x, /icons/capability/${g.icon}@2x.webp 2x`}
+                width="200" height="200"
+                alt="" aria-hidden="true" loading="lazy" decoding="async"
+              />
               <ul class="ind-flow-detail">
                 {g.items.map((it) => <li>{it}</li>)}
               </ul>
