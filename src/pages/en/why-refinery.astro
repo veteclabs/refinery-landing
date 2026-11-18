@@ -416,28 +416,33 @@ const capabilityGroups = [
   }
   /* 칸은 띠 전체다. 56% 로 두었을 때는 왼쪽 420px 이 흐림으로 지워져
      띠의 왼쪽 절반 가까이가 빈 어두운 면이었다.
-     흐림은 왼쪽 260px 한쪽뿐이다 — 그림이 오른쪽 변에 붙어 있어 그쪽은
-     자를 것이 없다. */
+     흐림은 왼쪽 한쪽뿐이다 — 그림이 오른쪽 변에 붙어 있어 그쪽은 자를 것이
+     없다. 길이는 띠 폭의 26% 로, 1600px 에서 416px 이라 옛 420px 과 같다.
+     ⚠️ px 이 아니라 % 다. 띠는 다 펴지면 화면 폭만큼 넓어지는데, px 으로
+        박으면 넓은 화면에서 흐림이 짧아져 그림이 툭 시작한다. */
   .wr-page .wr-hero-fx {
     position: absolute; right: 0; top: 0; bottom: 0; width: 100%;
     overflow: hidden; pointer-events: none; user-select: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0px, #000 260px);
-            mask-image: linear-gradient(to right, transparent 0px, #000 260px);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26%);
+            mask-image: linear-gradient(to right, transparent 0, #000 26%);
   }
   .wr-page .wr-hero-fx-inner {
     position: absolute; inset: 0; overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
   }
-  /* 오른쪽 변에 붙이고 1180 -> 1420px 로 키운다(1.2배). 띠가 채워지면서도
-     글자는 흐린 채로 남아 히어로 글과 다투지 않는다.
-     ⚠️ 세로 자리는 폭에 비례한다 — 1180px 에서 -205px 이었으니 같은 자리를
-        보려면 -247px 이다(-205 x 1420 / 1180). 폭만 바꾸면 보이는 칸이
-        달라진다. */
+  /* 그림을 띠 폭에 맞춘다.
+     ⚠️ 폭을 px 으로 박으면 왼쪽 변이 띠 안에 들어와 칼선으로 드러난다 —
+        흐림이 그 자리에서 이미 반쯤 진해져 있어 가려지지 않는다. 100% 면
+        왼쪽 변이 띠 밖(또는 변 위)이라 흐림이 칼선이 아니라 내용을 녹인다.
+     ⚠️ translateY 는 % 다. <img> 의 translateY % 는 제 높이 기준이고 높이는
+        폭을 따라가므로, 폭이 달라져도 늘 같은 칸을 본다. 값은 옛 기준에서
+        옮긴 것이다 — 1180px 에서 -205px 이고 그림이 2586x3512 라
+        -205 / 1180 / (3512/2586) = -12.792%. */
   .wr-page .wr-hero-fx-inner img {
     position: absolute; right: 0; left: auto; top: 0;
-    max-width: none; width: 1420px; height: auto;
-    transform: translateY(-247px);
+    max-width: none; width: 100%; height: auto;
+    transform: translateY(-12.792%);
     opacity: .3;
   }
   @media (max-width: 900px) {
