@@ -1045,14 +1045,4 @@ const capabilityGroups = [
   @media (max-width: 520px) {
     .wr-caps { grid-template-columns: 1fr; }
   }
-  /* 제품 소개 CTA 만 글 · 버튼 · 그래픽을 가운데로 세운다.
-     ⚠️ 산업별 · 과제별 CTA 는 그대로 왼쪽 맞춤이다(.ind-cta-bg 공통값) —
-        여기만 .wr-page 로 묶어 덮는다.
-     ⚠️ 그래픽은 공통값이 '상자 110% · 오른쪽 끝 맞춤' 이라 그림이 오른쪽에
-        치우쳐 있다. 폭을 100% 로 되돌리고 object-position 을 가운데로 둔다. */
-  .wr-page .ind-cta-bg { text-align: center; }
-  /* ⚠️ text-align 만으로는 안 된다 — 컨테이너가 flex column · align-items:
-     flex-start 라 제목과 버튼이 제 글 폭만큼만 차지한 채 왼쪽에 선다. */
-  .wr-page .ind-cta-bg .ind-container { align-items: center; }
-  .wr-page .ind-cta-bg-img { width: 100%; object-position: right center; }
 </style>
