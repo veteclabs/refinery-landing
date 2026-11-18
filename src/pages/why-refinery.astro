@@ -833,7 +833,14 @@ const capabilityGroups = [
   /* ⚠️ display 를 되돌리려면 특정도가 .ind-page .ind-head(0,2,0) 보다
      높아야 한다. industry.css 가 거기서 가로 flex 를 걸어 두어, 클래스
      하나짜리 .wr-head-row 로는 덮이지 않는다. */
-  .wr-page .ind-head.wr-head-row { display: block; max-width: none; }
+  /* 01 · 03 섹션 머리는 가운데로 모은다 — 아래 내용(카드 넷 · 카드 넷)이
+     가로로 고르게 펼쳐져 있어 머리도 가운데가 맞는다.
+     ⚠️ 02(흐름)는 제외다. 그쪽은 왼쪽 칸에 머리가 붙어 따라다니는 구성
+        (.ind-uc-aside, sticky)이라 왼쪽 그대로 둔다.
+     ⚠️ 배지는 inline-block 이라 text-align 으로 함께 가운데에 선다. */
+  .wr-page .ind-head.wr-head-row {
+    display: block; max-width: none; text-align: center;
+  }
   .wr-head-row h2 { margin-bottom: 0; }
   .wr-page .wr-head-row > .ind-sec-label { margin-bottom: 16px; }
   .wr-page .wr-head-row p { max-width: 360px; margin: 0; }
