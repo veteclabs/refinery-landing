@@ -542,13 +542,17 @@ const capabilityGroups = [
   .wr-layer:first-child .wr-layer-num { text-indent: 0.105em; }
   /* 패딩이 주지 못한 0.35px — 국문 주석에 까닭이 있다. */
   .wr-layer-num > span { display: block; transform: translateY(0.35px); }
-  /* 그래픽 — 회사 소개 기준 카드(.cmp-rule-icon)와 같은 160x160 ·
-     위 31 · 아래 32px 이다.
+  /* 그래픽 — 132x132 · 위아래 26px.
+     회사 소개 기준 카드(.cmp-rule-icon)에서 그대로 떠 온 160x160 이었는데,
+     저쪽은 셋이 한 줄이라 카드 안쪽이 356px 이고 여기는 넷이라 295px 이다.
+     아이콘만 안 따라와 안쪽 폭 대비 45% 가 54% 로 커져 있었다 — 저쪽과 같은
+     비례로 되돌린다(295 x 0.449 = 132). 섹션 대제목(60 -> 45px) · 카드 제목
+     (26 -> 20px) · 본문(16 -> 15.5px)이 이미 한 단씩 작은 자리다.
      ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프
         속성이 붙지 않는다. 평범한 선택자로 두면 규칙이 통째로 빗나간다. */
   :global(.wr-layer-fig) {
     display: block;
-    width: 160px; height: 160px; margin: 31px auto 32px;
+    width: 132px; height: 132px; margin: 26px auto 26px;
   }
   /* 글자값은 과제별 '읽는 데이터와 신호' 카드 라벨(.uc-signal-label)과 같다 —
      20px / 600 / 줄높이 1.6 / 자간 -0.2px / balance. 저쪽은 그 값을 다시
