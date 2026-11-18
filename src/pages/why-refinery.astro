@@ -356,6 +356,13 @@ const capabilityGroups = [
             인라인 값을 통째로 걷으므로(clean) 그 뒤로는 저쪽이 쥔다.
             둘 중 하나를 고칠 때는 이 맞물림을 함께 본다. */
       window.wrReveal('.wr-flow .ind-uc-shell', '.ind-uc-aside', 60);
+      /* 항목 셋 — 산업별 02번 섹션의 내용(.ind-uc-item)과 같은 값이다.
+         16px · 0.55s · cubic-bezier(.2,.7,.2,1) · 간격 60ms.
+         ⚠️ 항목이 세로로 멀리 떨어져 있어 실제로는 저마다 제 차례에 혼자
+            선을 넘는다 — 그때는 지연 없이 바로 뜬다. 저쪽은 지연을 형제
+            순서로 미리 박아 두어 셋째 항목이 혼자 넘어도 120ms 를 기다린다.
+            눈에 보이는 차이는 그 한 박자뿐이고 나머지 값은 같다. */
+      window.wrReveal('.wr-flow .ind-uc-list', '.ind-uc-item', 60);
     </script>
     <script is:inline>
       (function () {
