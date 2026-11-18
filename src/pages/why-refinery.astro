@@ -871,8 +871,13 @@ const capabilityGroups = [
 
   /* 흐름 항목의 목록 — 산업별 02번 섹션의 내용 글(.ind-uc-dl dd)과 같은
      값이다. 표식(·)은 두지 않는다 — 저쪽도 라벨 칸만 있고 글머리 기호가 없다. */
+  /* ⚠️ 위 여백을 두지 않는다 — 제목과 내용 사이는 제목의 아래 여백 24px
+     하나로 잰다(산업별 02번 .ind-uc-text h3 가 쥔 값이다, 저쪽 .ind-uc-dl 도
+     margin: 0 이다). 여기에 14px 을 더 얹었더니 38px 이 됐다.
+     ⚠️ 글 칸이 flex column 이라 margin 이 합쳐지지 않는다 — 두 값이 그대로
+        더해진다. 평범한 블록이던 때의 감으로 고치지 말 것. */
   .wr-page .wr-flow-points {
-    list-style: none; padding: 0; margin: 14px 0 0;
+    list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: 6px;
   }
   /* 17px — 과제별 02번 섹션의 내용 글(.uc-redesigned .ind-uc-text p)과 같다.
