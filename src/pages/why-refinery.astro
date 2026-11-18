@@ -381,7 +381,9 @@ const capabilityGroups = [
     </script>
 
     <!-- CAPABILITIES -->
-    <section class="ind-section">
+    {/* ⚠️ wr-caps-sec 는 아래 등장 모션이 이 섹션의 머리만 집어내려고 쓰는
+        고리다(01 섹션의 wr-os 와 같은 몫). */}
+    <section class="ind-section wr-caps-sec">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
           <span class="ind-sec-label">03</span>
@@ -433,7 +435,12 @@ const capabilityGroups = [
            그려지기 전이라, 첫 페인트부터 숨은 채로 시작한다. 뒤로 미루면
            보였다가 사라지는 깜빡임이 난다. */}
     <script is:inline>
-      /* 기능 카드 — 간격만 120ms 다. 공용 60ms 보다 한 박자 느리다. 한 장씩
+      /* 머리(라벨 03 + 대제목) — 산업별 솔루션 구조 섹션의 머리와 같은 값이다.
+         저쪽은 공용 ScrollReveal 이 .ind-head 를 띄우는 자리라 16px · 0.55s ·
+         cubic-bezier(.2,.7,.2,1) · 지연 0 이다. 여기도 같다.
+         ⚠️ 머리는 한 덩어리다 — 라벨과 대제목을 따로 띄우지 않는다. */
+      window.wrReveal('.wr-caps-sec .ind-container', '.ind-head', 60);
+      /* 카드 — 간격만 120ms 다. 공용 60ms 보다 한 박자 느리다. 한 장씩
          뜨는 것이 읽혀야 한다. 산업별 솔루션 구조의 300ms 는 쓰지 않는다 —
          그 값은 한 칸씩 짚어 가는 '차례' 를 보이려는 것이라, 번호를 걷어 낸
          이 카드에 없는 순서를 있는 것처럼 읽히게 한다. */
