@@ -656,6 +656,12 @@ const capabilityGroups = [
         겹친다. 두 섹션이 다른 것을 말하므로 '옅은 면' 과 '흰 면 + 테두리' 로
         갈라 둔다. */
   .wr-layer {
+    /* ⚠️ 카드를 컨테이너로 선언한다. 안의 아이콘 · 제목 · 본문을 화면 폭이
+       아니라 '카드 폭' 에 맞춰 줄이기 위해서다(cqi = 이 카드의 안쪽 폭).
+       화면 폭으로 재면 안 된다 — 열이 4 -> 2 -> 1 로 접히면서 카드가
+       255 -> 450px 으로 되레 넓어지는 구간이 있다(1200px 에서 255 ·
+       1023px 에서 450). 화면이 좁아진다고 카드가 좁아지는 것이 아니다. */
+    container-type: inline-size;
     position: relative; overflow: hidden; text-align: center;
     background: var(--bg-soft); border-radius: var(--radius); padding: 30px;
   }
@@ -701,7 +707,10 @@ const capabilityGroups = [
         속성이 붙지 않는다. 평범한 선택자로 두면 규칙이 통째로 빗나간다. */
   :global(.wr-layer-fig) {
     display: block;
-    width: 130px; height: 130px; margin: 26px auto 26px;
+    /* 130px 은 카드 안쪽 폭 255px(1440px 화면)에서의 값이고, 51cqi 가 그
+       비례다. 카드가 좁아지면 따라 줄고, 넓어져도 130 을 넘지 않는다. */
+    width: clamp(88px, 51cqi, 130px); height: clamp(88px, 51cqi, 130px);
+    margin: 26px auto 26px;
   }
   /* 글자값은 과제별 '읽는 데이터와 신호' 카드 라벨(.uc-signal-label)과 같다 —
      20px / 600 / 줄높이 1.6 / 자간 -0.2px / balance. 저쪽은 그 값을 다시
@@ -717,7 +726,8 @@ const capabilityGroups = [
         nowrap 은 카드를 넘친다 — balance · keep-all 을 그대로 둔다. */
   .wr-page .wr-layer h3 {
     margin: 0 0 12px;
-    font-size: 24px; font-weight: 600;
+    /* 24px 은 카드 안쪽 폭 255px 에서의 값이다(9.4cqi). 좁아지면 따라 준다. */
+    font-size: clamp(19px, 9.4cqi, 24px); font-weight: 600;
     line-height: 1.3; letter-spacing: -0.01em;
     color: var(--text); word-break: keep-all; text-wrap: balance;
   }
@@ -726,7 +736,8 @@ const capabilityGroups = [
      ⚠️ 14px 에서는 영문 둘째 · 셋째 카드가 두 줄로 줄어 넉 장을 세 줄로
         맞춰 둔 것이 어긋났다 — 줄 수는 바꿀 때마다 국·영문 둘 다 본다. */
   .wr-page .wr-layer p {
-    margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-muted);
+    /* 16px 은 카드 안쪽 폭 255px 에서의 값이다(6.3cqi). */
+    margin: 0; font-size: clamp(14px, 6.3cqi, 16px); line-height: 1.5; color: var(--text-muted);
     text-wrap: pretty; word-break: keep-all;
   }
   /* 열이 줄어드는 기준은 기능 카드(.wr-caps)와 같다. */
