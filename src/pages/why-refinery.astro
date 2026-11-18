@@ -733,8 +733,12 @@ const capabilityGroups = [
     list-style: none; padding: 0; margin: 14px 0 0;
     display: flex; flex-direction: column; gap: 6px;
   }
+  /* 17px — 과제별 02번 섹션의 내용 글(.uc-redesigned .ind-uc-text p)과 같다.
+     ⚠️ 산업별 02번(.ind-uc-dl dd)은 15.5px 이고 처음엔 그 값으로 뒀다.
+        저쪽은 라벨 칸이 따로 있어 글이 보조 역할이지만, 과제별과 여기는
+        그 문단이 본문이라 한 단 키운다(저쪽 주석에 적힌 까닭 그대로다). */
   .wr-page .wr-flow-points li {
-    font-size: 15.5px; line-height: 1.6; color: var(--text-muted);
+    font-size: 17px; line-height: 1.6; color: var(--text-muted);
   }
 
   /* ───────── CTA — 솔루션(.ind-cta-bg)과 같은 스타일 ─────────
