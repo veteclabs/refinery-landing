@@ -617,18 +617,25 @@ const capabilityGroups = [
      띠의 왼쪽 절반 가까이가 빈 어두운 면이었다.
      흐림은 왼쪽 한쪽뿐이다 — 그림이 오른쪽 변에 붙어 있어 그쪽은 자를 것이
      없다. 길이는 옛 값 그대로 420px 이다.
-     ⚠️ 0 에서 시작하지 않는다. 그림(1420px)이 오른쪽에 붙어 있어 왼쪽 변이
-        띠 안쪽, 곧 calc(100% - 1420px) 자리에 있다. 거기서부터 흐려야
-        그 변이 흐림의 투명한 끝에 놓여 사라진다. 0 에서 시작하면 변에
-        닿을 때 이미 진해져 있어 세로 칼선으로 드러난다 — 그래서 흐림이
-        안 걸린 것처럼 보였다. */
+     ⚠️ 흐림이 시작하는 자리는 '그림의 왼쪽 변' 과 '띠의 왼쪽 변' 중 오른쪽
+        것이다 — max(0px, 100% - 1420px).
+        그림(1420px)이 띠보다 좁으면 그 변이 띠 안쪽에 있어 거기서부터
+        흐려야 변이 투명한 끝에 놓인다. 반대로 띠가 그림보다 좁으면(1440px
+        화면에서 띠는 1344px 이다) 그 변은 띠 밖이라, 거기서부터 재면 띠의
+        왼쪽 변에 닿을 때 이미 18% 쯤 진해져 세로 칼선이 된다.
+        calc(100% - 1420px) 하나로 두었던 때가 그랬다 — 2026-11-18 실측.
+     ⚠️ 1420 이라는 수는 아래 그림 폭과 같아야 한다. 한쪽만 고치면 변이
+        흐림의 투명한 끝에서 벗어난다. */
   .wr-page .wr-hero-fx {
     position: absolute; right: 0; top: 0; bottom: 0; width: 100%;
     overflow: hidden; pointer-events: none; user-select: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0,
-      transparent calc(100% - 1420px), #000 calc(100% - 1000px));
-            mask-image: linear-gradient(to right, transparent 0,
-      transparent calc(100% - 1420px), #000 calc(100% - 1000px));
+    --wr-fade-from: max(0px, 100% - 1420px);
+    -webkit-mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) var(--wr-fade-from),
+      rgb(0, 0, 0) calc(var(--wr-fade-from) + 420px));
+            mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) var(--wr-fade-from),
+      rgb(0, 0, 0) calc(var(--wr-fade-from) + 420px));
   }
   .wr-page .wr-hero-fx-inner {
     position: absolute; inset: 0; overflow: hidden;
