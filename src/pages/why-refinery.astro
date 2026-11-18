@@ -58,10 +58,10 @@ const stories = [
    도는 인라인 SVG 라 RfIcon 으로 넣는다. 기능 카드의 Phosphor 글꼴과는
    다른 것이니 섞지 말 것. */
 const layers = [
-  { title: '연결', icon: 'os-connect', desc: '설비 ⁠· 센서와 SCADA ⁠· MES ⁠· ERP를 게이트웨이와 커넥터로 잇습니다. 쓰던 시스템은 그대로 둡니다.' },
-  { title: '온톨로지', icon: 'os-ontology', desc: '설비 ⁠· 업무 ⁠· 문서를 하나의 모델로 정의합니다. 모든 앱과 AI 에이전트가 이 모델 하나를 함께 씁니다.' },
-  { title: '앱', icon: 'os-app', desc: '대시보드 ⁠· 분석 ⁠· 워크플로우가 같은 모델 위에서 돌아갑니다. 새 앱이 더해져도 데이터와 권한은 그대로 이어집니다.' },
-  { title: 'AI 에이전트', icon: 'os-agent', desc: '사람이 묻고 AI가 근거를 들어 답합니다. 조치는 권한과 승인을 거쳐 실행되고, 한 건씩 기록으로 남습니다.' },
+  { title: '연결', icon: 'os-connect', desc: '설비 ⁠· 센서와 SCADA ⁠· MES ⁠· ERP를 <br>게이트웨이와 커넥터로 잇습니다. <br>쓰던 시스템은 그대로 둡니다.' },
+  { title: '온톨로지', icon: 'os-ontology', desc: '설비 ⁠· 업무 ⁠· 문서를 하나의 모델로 정의합니다. <br>모든 앱과 AI 에이전트가 <br>이 모델 하나를 함께 씁니다.' },
+  { title: '앱', icon: 'os-app', desc: '대시보드 ⁠· 분석 ⁠· 워크플로우가 같은 <br>모델 위에서 돌아갑니다. 새 앱이 더해져도 <br>데이터와 권한은 그대로 이어집니다.' },
+  { title: 'AI 에이전트', icon: 'os-agent', desc: '사람이 묻고 AI가 근거를 들어 답합니다. <br>조치는 권한과 승인을 거쳐 실행되고, <br>한 건씩 기록으로 남습니다.' },
 ];
 
 // 아이콘은 예지보전 '푸는 방식' 카드와 같은 Phosphor 폰트를 쓴다.
@@ -168,12 +168,19 @@ const capabilityGroups = [
             회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
-              <span class="wr-layer-num">{i + 1}</span>
+              {/* ⚠️ 숫자를 한 겹 더 감싼다. 글자를 원 한가운데로 내리는 데
+                  0.35px 이 모자란데, 패딩으로는 못 준다 — 크롬이 글줄의
+                  세로 자리를 정수 픽셀에 붙여 0.09em 과 0.15em 사이에서
+                  -0.35px 이 +0.65px 으로 한 번에 건너뛴다. transform 은
+                  그 반올림을 타지 않아서 안쪽 요소에만 건다. */}
+              <span class="wr-layer-num"><span>{i + 1}</span></span>
               {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
                   이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
               <h3>{l.title}</h3>
-              <p>{l.desc}</p>
+              {/* ⚠️ set:html 이라야 desc 안의 <br> 가 태그로 들어간다. 그냥
+                  {l.desc} 로 두면 글자 그대로 찍힌다. */}
+              <p set:html={l.desc}></p>
             </div>
           ))}
         </div>
@@ -490,6 +497,15 @@ const capabilityGroups = [
   /* '1' 만 따로 민다 — Roboto 의 '1' 은 제 폭 한가운데가 아니라 왼쪽에
      그려져 있다. 들여쓴 만큼 글줄 상자도 넓어져 글자는 절반만 움직인다. */
   .wr-layer:first-child .wr-layer-num { text-indent: 0.105em; }
+  /* 패딩이 주지 못한 0.35px 을 여기서 준다. 실측(화면 배율 10배)에서 글자
+     한가운데가 원 한가운데보다 0.35px 위에 있었고, 이 값으로 ±0.05px 안에
+     든다.
+     ⚠️ padding-top 을 더 주는 길은 막혀 있다 — 0.09em 과 0.15em 사이에서
+        어긋남이 -0.35px 에서 +0.65px 으로 한 번에 건너뛴다. 크롬이 글줄의
+        세로 자리를 정수 픽셀에 붙이기 때문이고, 그 사이 값은 없다.
+     ⚠️ position: relative + top 으로는 안 된다. 같은 반올림을 탄다(실측에서
+        0.35px 을 주어도 -0.35px 그대로였다). transform 만 듣는다. */
+  .wr-layer-num > span { display: block; transform: translateY(0.35px); }
   /* 그래픽 — 회사 소개 기준 카드(.cmp-rule-icon)와 같은 160x160 ·
      위 31 · 아래 32px 이다.
      ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프
@@ -505,6 +521,19 @@ const capabilityGroups = [
   .wr-page .wr-layer p {
     margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-muted);
     text-wrap: pretty; word-break: keep-all;
+  }
+  /* 단락 줄 나눔 — 컨테이너가 최대(1600px)일 때의 칸 295px 에 맞춰 박은
+     <br> 다. 가장 긴 줄이 286px 이라 9px 이 남는다.
+     ⚠️ 그 아래 폭에서는 칸이 같이 줄어 글자가 넘치므로 풀어 브라우저에
+        맡긴다. 1600px 이 컨테이너 상한이라, 바로 거기서부터 칸이 좁아진다.
+     ⚠️ <br> 앞에는 공백이 하나씩 들어 있다. 풀렸을 때 낱말이 붙지 않게
+        하는 자리다 — 박혀 있는 동안에는 줄 끝 공백이라 보이지 않는다.
+     ⚠️ 영문은 박지 않는다. 같은 칸에서 제 줄 나눔으로 이미 세 줄이다. */
+  @media (max-width: 1599px) {
+    /* ⚠️ :global 필수 — <br> 는 set:html 로 들어가서 Astro 스코프 속성이
+       붙지 않는다. 그냥 br 로 쓰면 규칙이 통째로 빗나가 넓은 폭의 줄
+       나눔이 좁은 폭까지 그대로 따라온다(실측: 1440px 에서 넉 줄). */
+    .wr-page .wr-layer p :global(br) { display: none; }
   }
   /* 열이 줄어드는 기준은 기능 카드(.wr-caps)와 같다. */
   @media (max-width: 1023px) { .wr-layers { grid-template-columns: repeat(2, 1fr); } }

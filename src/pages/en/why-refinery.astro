@@ -165,7 +165,10 @@ const capabilityGroups = [
             회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
-              <span class="wr-layer-num">{i + 1}</span>
+              {/* ⚠️ 숫자를 한 겹 더 감싼다 — 국문과 같다. 글자를 원 한가운데로
+                  내리는 데 0.35px 이 모자란데 패딩으로는 못 준다(크롬이 글줄의
+                  세로 자리를 정수 픽셀에 붙인다). transform 만 듣는다. */}
+              <span class="wr-layer-num"><span>{i + 1}</span></span>
               {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
                   이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
@@ -473,6 +476,8 @@ const capabilityGroups = [
   /* '1' 만 따로 민다 — Roboto 의 '1' 은 제 폭 한가운데가 아니라 왼쪽에
      그려져 있다. 들여쓴 만큼 글줄 상자도 넓어져 글자는 절반만 움직인다. */
   .wr-layer:first-child .wr-layer-num { text-indent: 0.105em; }
+  /* 패딩이 주지 못한 0.35px — 국문 주석에 까닭이 있다. */
+  .wr-layer-num > span { display: block; transform: translateY(0.35px); }
   /* 그래픽 — 회사 소개 기준 카드(.cmp-rule-icon)와 같은 160x160 ·
      위 31 · 아래 32px 이다.
      ⚠️ :global 필수 — RfIcon 은 set:html 로 넣는 인라인 SVG라 Astro 스코프
