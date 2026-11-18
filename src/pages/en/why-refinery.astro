@@ -668,7 +668,10 @@ const capabilityGroups = [
           padding: 44px 0 이다. */
     padding: 35px 40px 34px;
     border-radius: var(--radius);
-    align-items: center;
+    /* ⚠️ align-items 는 industry.css 의 start 를 그대로 둔다. center 로
+       두었더니 글 칸이 그림(278px) 높이에 맞춰 세로 가운데로 내려가,
+       선에서 글까지가 44px 이 아니라 100px 남짓이 됐다 — 산업별 02번은
+       글과 그림이 모두 위에서 시작한다. */
     background: linear-gradient(to bottom right,
       rgba(238, 244, 251, 0) 0%,
       rgba(238, 244, 251, 0.009) 10%,
