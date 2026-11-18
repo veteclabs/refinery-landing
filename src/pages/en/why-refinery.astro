@@ -420,19 +420,18 @@ const capabilityGroups = [
   @media (max-width: 900px) {
     .wr-page .ind-section { padding: 84px 0; }
   }
-  /* 본문 세 섹션(네 개의 층 · 흐름 · 기능) 사이만 180px 으로 좁힌다.
-     위 값은 섹션마다 아래 180 · 위 180 이라 사이가 360px 이 된다. 셋이
-     한 묶음으로 읽혀야 하는 자리라 양쪽에서 90px 씩 나눠 가진다.
-     ⚠️ 히어로 아래와 CTA 위는 건드리지 않는다 — 거기는 묶음의 바깥이라
-        360px 그대로다.
-     ⚠️ .wr-flow 하나만 짚어 앞뒤를 가리킨다. 가운데 섹션이라 :has(+ ...) 로
-        앞 섹션을, + 로 뒤 섹션을 잡을 수 있다. 나머지 둘은 클래스가
+  /* 흐름 ↔ 기능 사이만 180px 으로 좁힌다. 위 값은 섹션마다 아래 180 ·
+     위 180 이라 사이가 360px 이 되는데, 그 둘은 양쪽에서 90px 씩 나눠 가진다.
+     ⚠️ 네 개의 층 ↔ 흐름 은 360px 그대로다. 한때 여기도 180 으로 좁혔다 —
+        되살리려면 .wr-page .ind-section:has(+ .wr-flow) 에 padding-bottom:
+        90px 을 주고 .wr-flow 의 위 여백도 90px 으로 내린다.
+     ⚠️ 히어로 아래와 CTA 위도 건드리지 않는다.
+     ⚠️ .wr-flow 하나만 짚어 뒤 섹션을 가리킨다. 기능 섹션은 클래스가
         .ind-section 뿐이라 따로 짚을 수가 없다.
      ⚠️ 901px 이상에서만 건다. 아래로는 위 미디어쿼리의 84px(사이 168px)이
         이미 좁고, 여기서 90 을 주면 오히려 넓어진다. */
   @media (min-width: 901px) {
-    .wr-page .ind-section:has(+ .wr-flow) { padding-bottom: 90px; }
-    .wr-page .wr-flow { padding-top: 90px; padding-bottom: 90px; }
+    .wr-page .wr-flow { padding-bottom: 90px; }
     .wr-page .wr-flow + .ind-section { padding-top: 90px; }
   }
   .wr-page .ind-head { margin-bottom: 64px; }
@@ -600,13 +599,32 @@ const capabilityGroups = [
   @media (max-width: 1023px) { .wr-layers { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 639px) { .wr-layers { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
 
-  /* 섹션 면 — 흰색이다.
-     ⚠️ 한때 과제별 02번 섹션(.uc-redesigned .ind-soft)의 원형 빛을 그대로
-        떠 왔다(흰 면 + 윗변 가운데에서 퍼지는 #EEF4FB, 정지점 열셋짜리
-        smootherstep). 카드가 --bg-soft 로 바뀌면서 그 빛과 카드 면이 비슷한
-        밝기로 겹쳐 카드 경계가 흐려졌다. 되살리려면 git 이력에서 가져온다
-        — 두 점짜리 radial 로 줄이면 색이 사라지는 자리에 테가 보인다. */
-  .wr-page .wr-flow { background: #FFFFFF; }
+  /* 섹션 면 — 과제별 페이지 02번 섹션(.uc-redesigned .ind-soft)에서 그대로
+     떠 왔다. 흰 면 위에 윗변 가운데에서 퍼지는 원형 빛 한 겹이다.
+     ⚠️ 정지점 열셋은 smootherstep 으로 뽑은 값이다. 두 점짜리 radial 로
+        줄이면 색이 사라지는 자리에 동그란 테가 보인다.
+     ⚠️ --bg-soft 단색(#F6F8FA)이 아니다. 저쪽도 클래스 이름만 .ind-soft 이고
+        면은 이 그라데이션으로 덮여 있다.
+     ⚠️ 카드 면(--bg-soft)과 밝기가 가까워 빛이 짙은 윗부분에서는 카드
+        경계가 옅어진다. 한때 그래서 흰 면으로 걷었다가 되돌린 자리다. */
+  .wr-page .wr-flow {
+    position: relative;
+    background: #FFFFFF radial-gradient(62% 50% at 50% 0%,
+      rgba(238, 244, 251, 1) 0%,
+      rgba(238, 244, 251, 0.995) 8.33%,
+      rgba(238, 244, 251, 0.965) 16.67%,
+      rgba(238, 244, 251, 0.896) 25%,
+      rgba(238, 244, 251, 0.79) 33.33%,
+      rgba(238, 244, 251, 0.653) 41.67%,
+      rgba(238, 244, 251, 0.5) 50%,
+      rgba(238, 244, 251, 0.347) 58.33%,
+      rgba(238, 244, 251, 0.21) 66.67%,
+      rgba(238, 244, 251, 0.104) 75%,
+      rgba(238, 244, 251, 0.035) 83.33%,
+      rgba(238, 244, 251, 0.005) 91.67%,
+      rgba(238, 244, 251, 0) 100%);
+  }
+  .wr-page .wr-flow > .ind-container { position: relative; z-index: 1; }
 
   /* 항목 안 배치는 산업별 02번(industry.css 의 .ind-uc-item)을 그대로 쓴다 —
      글 왼쪽 · 그림 오른쪽, 칸 1 : 1.4, 사이 56px.
