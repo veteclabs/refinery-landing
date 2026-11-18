@@ -227,6 +227,48 @@ const capabilityGroups = [
         </div>
       </div>
     </section>
+    {/* 흐름 섹션의 왼쪽 대제목은 붙어서 따라오다가 목록이 끝나 갈 때 사라진다.
+        산업별 02번 섹션과 같은 처리다 — CSS(.ind-uc-aside 의 sticky · transition ·
+        .is-faded)는 industry.css 가 이미 들고 있고, 여기 없던 것은 그 클래스를
+        붙였다 떼는 이 스크립트뿐이다. IndustryPage.astro 의 같은 조각을 그대로
+        옮겼다(두 곳을 함께 고친다).
+        ⚠️ IntersectionObserver 를 쓰지 않는다. 빠르게 굴리면 상태 변화가 한
+           프레임에 합쳐져 콜백을 놓치는 일이 있어, 프레임마다 제 자리를 직접
+           잰다.
+        ⚠️ 좁은 폭(1200px 이하)에서는 칸이 static 이라 따라오지 않는다 — 그때는
+           지우지 않는다. 미디어 쿼리를 또 적지 않고 계산된 position 을 본다. */}
+    <script is:inline>
+      (function () {
+        var aside = document.querySelector('.wr-flow .ind-uc-aside');
+        var shell = aside && aside.closest('.ind-uc-shell');
+        if (!aside || !shell) return;
+        var ticking = false;
+        function upd() {
+          if (getComputedStyle(aside).position !== 'sticky') {
+            aside.classList.remove('is-faded');
+            return;
+          }
+          /* 통의 아랫변이 화면 절반 위로 올라오면 지운다 — 마지막 항목이 다
+             보이고 그 아래로 다음 섹션이 올라오기 시작하는 자리다.
+             ⚠️ 칸이 붙기를 그만두는 자리(a.bottom)보다 늦출 수는 없다. 둘 중
+                늦은 쪽을 기준으로 잡아야 화면이 아주 낮을 때도 붙은 채로
+                흘러 나가지 않는다 — Math.max 가 그 몫이다. */
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var a = aside.getBoundingClientRect();
+          var sh = shell.getBoundingClientRect();
+          var done = sh.bottom <= Math.max(a.bottom + 8, vh * 0.5);
+          aside.classList.toggle('is-faded', done);
+        }
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; upd(); });
+        }
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+        upd();
+      })();
+    </script>
 
     <!-- CAPABILITIES -->
     <section class="ind-section">
