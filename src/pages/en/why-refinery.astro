@@ -824,11 +824,10 @@ const capabilityGroups = [
      (.wr-caps .ind-flow-detail li)과 같다 — 15px / 400 / 줄높이 1.5 /
      자간 없음 / 글자 #7E8A98 / 면 #F6F8FA / 테두리 없음 / 안여백 6·10px /
      둥글기 8px.
-     ⚠️ 면만 다르다 — 브랜드색을 반만 깐다(--accent 의 알파 0.5). 12px ·
-        #EFF2F5 · 브랜드 100% + 흰 글자를 거쳐 온 자리다(2026-11-18).
-     ⚠️ 알파라 카드 면이 비친다. 카드가 흰색 -> #EEF4FB 대각 그라데이션이라
-        라벨이 선 자리(왼쪽 아래)에서 실제 면은 #B6D0EA 언저리가 된다 —
-        색을 바꿀 때는 이 '비쳐 나온 색' 으로 대비를 재야 한다. */
+     ⚠️ 12px · 면 #EFF2F5 를 거쳐 브랜드 면(#76a6d7 · 흰 글자)까지 갔다가
+        여기로 왔다(2026-11-18). 브랜드 면으로 되살리려면 color 와 background
+        두 줄만 되돌린다 — 그 면 위에서 #7E8A98 은 2.2:1 이라 읽히지 않으므로
+        글자는 반드시 흰색으로 함께 바꾼다. */
   .wr-page .wr-flow .ind-uc-text > .ind-sec-label {
     display: inline-block;
     /* 바닥에 붙인다 — 위 여백을 auto 로 두면 남는 자리를 전부 먹는다.
@@ -837,7 +836,7 @@ const capabilityGroups = [
     padding: 6px 10px; margin: auto 0 0;
     font-size: 15px; font-weight: 400; letter-spacing: normal; line-height: 1.5;
     color: #7E8A98;
-    background: rgba(118, 166, 215, 0.5);
+    background: #F6F8FA;
     border: 0;
     border-radius: 8px;
   }
