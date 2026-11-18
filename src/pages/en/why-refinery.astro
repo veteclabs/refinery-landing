@@ -560,30 +560,13 @@ const capabilityGroups = [
   @media (max-width: 1023px) { .wr-layers { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 639px) { .wr-layers { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
 
-  /* 섹션 면 — 과제별 페이지 02번 섹션(.uc-redesigned .ind-soft)에서 그대로
-     떠 왔다. 흰 면 위에 윗변 가운데에서 퍼지는 원형 빛 한 겹이다.
-     ⚠️ 정지점 열셋은 smootherstep 으로 뽑은 값이다. 두 점짜리 radial 로
-        줄이면 색이 사라지는 자리에 동그란 테가 보인다.
-     ⚠️ --bg-soft 단색(#F6F8FA)이 아니다. 저쪽도 클래스 이름만 .ind-soft 이고
-        면은 이 그라데이션으로 덮여 있다. */
-  .wr-page .wr-flow {
-    position: relative;
-    background: #FFFFFF radial-gradient(62% 50% at 50% 0%,
-      rgba(238, 244, 251, 1) 0%,
-      rgba(238, 244, 251, 0.995) 8.33%,
-      rgba(238, 244, 251, 0.965) 16.67%,
-      rgba(238, 244, 251, 0.896) 25%,
-      rgba(238, 244, 251, 0.79) 33.33%,
-      rgba(238, 244, 251, 0.653) 41.67%,
-      rgba(238, 244, 251, 0.5) 50%,
-      rgba(238, 244, 251, 0.347) 58.33%,
-      rgba(238, 244, 251, 0.21) 66.67%,
-      rgba(238, 244, 251, 0.104) 75%,
-      rgba(238, 244, 251, 0.035) 83.33%,
-      rgba(238, 244, 251, 0.005) 91.67%,
-      rgba(238, 244, 251, 0) 100%);
-  }
-  .wr-page .wr-flow > .ind-container { position: relative; z-index: 1; }
+  /* 섹션 면 — 흰색이다.
+     ⚠️ 한때 과제별 02번 섹션(.uc-redesigned .ind-soft)의 원형 빛을 그대로
+        떠 왔다(흰 면 + 윗변 가운데에서 퍼지는 #EEF4FB, 정지점 열셋짜리
+        smootherstep). 카드가 --bg-soft 로 바뀌면서 그 빛과 카드 면이 비슷한
+        밝기로 겹쳐 카드 경계가 흐려졌다. 되살리려면 git 이력에서 가져온다
+        — 두 점짜리 radial 로 줄이면 색이 사라지는 자리에 테가 보인다. */
+  .wr-page .wr-flow { background: #FFFFFF; }
 
   /* 항목 안 배치 — 그림이 위, 글이 아래다.
      산업별 02번(글 왼쪽 · 그림 오른쪽, industry.css 의 .ind-uc-item)과
