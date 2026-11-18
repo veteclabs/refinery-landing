@@ -156,7 +156,7 @@ const capabilityGroups = [
 
 
     <!-- WHY AN OS -->
-    <section class="ind-section">
+    <section class="ind-section wr-why">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
           {/* ⚠️ 물음('왜 운영체제인가')이 아니라 이름씨다. 아래 두 섹션 제목
@@ -176,9 +176,9 @@ const capabilityGroups = [
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
               <span class="wr-layer-num">{i + 1}</span>
-              {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
-                  이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
-              <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
+              {/* 그래픽 — 이 섹션은 어두운 면(#151B23)이라 dark 세트를 쓴다.
+                  테마는 OS 설정이 아니라 놓이는 면의 밝기로 고른다. */}
+              <RfIcon name={l.icon} theme="dark" class="wr-layer-fig" />
               <h3>{l.title}</h3>
               {/* ⚠️ set:html 이라야 desc 안의 <br> 가 태그로 들어간다. 그냥
                   {l.desc} 로 두면 글자 그대로 찍힌다. */}
@@ -556,6 +556,22 @@ const capabilityGroups = [
      ⚠️ 저쪽은 카드가 셋이고 여기는 넷이라 칸 수만 다르다.
      ⚠️ 저쪽 그래픽은 160px 짜리 3D 아이콘(RfIcon)이다. 네 층(연결 · 온톨로지 ·
         앱 · AI 에이전트)에 맞는 그림이 없어 글꼴 아이콘을 그 자리에 크게 둔다. */
+  /* 섹션 면 — 랜딩 플랫폼 섹션(#platform)과 같은 먹색 #151B23 이다.
+     ⚠️ 어두운 면이 되면서 안의 것이 모두 뒤집힌다. 카드 · 글자 · 아이콘
+        테마를 함께 보지 않으면 글이 안 보인다.
+     ⚠️ 값은 산업별 .ind-soft-dark 와 같은 한 벌을 쓴다 — 면 #151B23 ·
+        카드 #292F37 · 카드 테두리 #353C44 · 제목 #F6F8FA · 본문 #A0A8B3.
+        그 주석에 따르면 카드 면을 #191F27 로 두면 바탕과 휘도가 같아
+        카드가 앞으로 나오지 않는다(대비 1.00:1). */
+  .wr-page .wr-why { background: #151B23; }
+  .wr-page .wr-why .ind-head h2 { color: #F6F8FA; }
+  .wr-page .wr-why .wr-layer {
+    background: #292F37;
+    border: 1px solid #353C44;
+  }
+  .wr-page .wr-why .wr-layer h3 { color: #F6F8FA; }
+  .wr-page .wr-why .wr-layer p { color: #A0A8B3; }
+
   .wr-layers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
   /* 테두리도 그림자도 두지 않는다 — 흰 섹션 위 --bg-soft 면이라 면색만으로
      갈린다.
