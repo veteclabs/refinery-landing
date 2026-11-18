@@ -156,7 +156,10 @@ const capabilityGroups = [
 
 
     <!-- WHY AN OS -->
-    <section class="ind-section">
+    {/* ⚠️ wr-os 는 아래 등장 모션이 이 섹션의 머리만 집어내려고 쓰는 고리다.
+        .wr-head-row 는 03 기능 섹션의 머리도 같이 달고 있어 그것만으로는
+        둘이 함께 걸린다. */}
+    <section class="ind-section wr-os">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
           {/* 섹션 번호 — 산업별 페이지(.ind-sec-label, 과제 01 · 유즈케이스 02)와
@@ -277,7 +280,13 @@ const capabilityGroups = [
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sweep);
         else sweep();
       };
-      /* 네 개의 층 — 늦추는 간격 60ms 는 과제별 신호 카드와 같은 값이다. */
+      /* 네 개의 층 — 늦추는 간격 60ms 는 과제별 신호 카드와 같은 값이다.
+         머리(라벨 + 대제목)와 카드를 따로 부른다. 과제별도 .ind-head 와
+         .uc-signal 이 각각 제 차례에 걸린다 — 머리가 카드보다 위에 있어
+         먼저 선을 넘고, 그 뒤 카드 넷이 차례로 뜬다.
+         ⚠️ 머리는 한 덩어리다. 라벨과 대제목을 따로 띄우지 않는다 — 저쪽도
+            .ind-head 통째로 띄운다. */
+      window.wrReveal('.wr-os .ind-container', '.ind-head', 60);
       window.wrReveal('.wr-layers', '.wr-layer', 60);
     </script>
 
