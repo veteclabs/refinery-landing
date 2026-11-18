@@ -156,6 +156,8 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
+          {/* 섹션 번호 — 산업별 페이지와 같은 배지다(국문과 같다). */}
+          <span class="ind-sec-label">01</span>
           {/* ⚠️ 국문과 같이 물음에서 이름씨로 바꿨다. 두 생각(넷으로 되어 있다 ·
               하나다)을 한 줄에 담아 다른 섹션 제목만큼 짧게 둔다. */}
           <h2>Four layers, one operating system</h2>
@@ -192,6 +194,7 @@ const capabilityGroups = [
       <div class="ind-container">
         <div class="ind-uc-shell">
           <div class="ind-uc-aside">
+            <span class="ind-sec-label">02</span>
             <h2>One flow across<br>Refinery</h2>
           </div>
           <ol class="ind-uc-list">
@@ -226,6 +229,7 @@ const capabilityGroups = [
     <section class="ind-section">
       <div class="ind-container">
         <header class="ind-head wr-head-row">
+          <span class="ind-sec-label">03</span>
           <h2>All in one place</h2>
           {/* ⚠️ 소제목은 화면에 내지 않는다 — 위 '왜 운영체제인가' 와 같다. */}
         </header>
@@ -684,19 +688,16 @@ const capabilityGroups = [
      industry.css 가 목록에 위 50px, 항목에 위아래 44px 을 주는데, 저쪽은 그
      50px 이 라벨 칩 높이를 받아 선이 곧 제목 윗변이었다. 여기는 칩이
      라벨 자리에 없어 둘 다 0 으로 두어야 선이 제목과 같은 자리에 온다. */
-  .wr-page .wr-flow .ind-uc-list { margin-top: 0; gap: 20px; }
+  /* 50px = 번호 배지 높이 34 + 아래 여백 16. 첫 카드 윗변이 제목 상자
+     윗변과 같은 선에 선다 — 산업별 02번이 쓰는 값이고 그쪽과 같은 결이다. */
+  .wr-page .wr-flow .ind-uc-list { margin-top: 50px; gap: 20px; }
   /* ⚠️ 첫 항목의 위 여백은 건드리지 않는다. 선은 항목 상자의 윗변이라
      여백을 줘도 자리가 그대로고, 안쪽 내용만 내려와 선 안이 위아래 44px 로
      같아진다(산업별 02번과 같다). 한때 0 으로 두어 첫 칸만 위가 붙어
      있었다. */
-  /* 상자끼리 맞추면 글자는 그만큼 내려와 있다 — 줄높이 1.3 의 위쪽 반여백
-     (0.15em)과 글리프 위 빈자리가 제목 잉크를 아래로 민다. 그만큼 제목을
-     끌어올려 글자 윗변을 첫 항목의 윗선에 세운다.
-     ⚠️ em 으로 적는다. 제목이 clamp(28px, 4vw, 45px) 이라 px 로 박으면
-        폭이 바뀔 때 어긋난다(측정: 45px·44px 어느 쪽에서도 0.287em 이다).
-     ⚠️ 값이 국·영문에서 다르다 — 한글 획이 라틴 대문자보다 위로 더 올라와
-        같은 글꼴에서도 빈자리가 다르다(한글 0.287 · 라틴 0.323). */
-  .wr-page .wr-flow .ind-uc-aside h2 { margin-top: -0.323em; }
+  /* ⚠️ 제목에 음수 여백(-0.287em)을 걸어 글자 윗변을 첫 항목에 맞추던
+     때가 있었다. 번호 배지가 생기면서 걷었다 — 그 값이 배지와 제목 사이
+     16px 까지 함께 좁혔다. 지금은 산업별 02번과 같이 상자 윗변끼리 맞춘다. */
   /* 그림은 카드를 변까지 채운다 — 좌우 28px 들여쓰기도, 아래로 사라지는
      마스크도 걷는다. 둘 다 잘라 낸 판(폭 464 고정)을 카드 가운데에 앉히려고
      있던 것이라, 제 비율로 꽉 차는 그림에는 쓸 데가 없다. */
@@ -773,12 +774,18 @@ const capabilityGroups = [
   /* 랜딩 .section-header-row와 같은 배치 — 대제목 오른쪽 끝에 소제목을 두고
      아랫선을 맞춘다(align-items: flex-end). 소제목 폭 360px도 같은 값이다.
      .ind-head의 max-width 640px은 두 칸을 나란히 두기엔 좁아 푼다. */
-  .wr-head-row {
-    max-width: none;
-    display: flex; justify-content: space-between; align-items: flex-end;
-    gap: 32px; flex-wrap: wrap;
-  }
+  /* 번호 배지와 제목을 세로로 쌓는다. 아래 여백 16px 은 산업별
+     (.ind-uc-aside > .ind-sec-label)과 같은 값이다.
+     ⚠️ 한때 가로 flex 였다(제목 왼쪽 · 소제목 오른쪽). 소제목을 화면에서
+        걷으면서 쓸 데가 없어졌고, 그대로 두니 번호 배지가 제목 옆에 섰다.
+        되살리려면 display: flex; justify-content: space-between;
+        align-items: flex-end; gap: 32px; flex-wrap: wrap 을 되돌린다. */
+  /* ⚠️ display 를 되돌리려면 특정도가 .ind-page .ind-head(0,2,0) 보다
+     높아야 한다. industry.css 가 거기서 가로 flex 를 걸어 두어, 클래스
+     하나짜리 .wr-head-row 로는 덮이지 않는다. */
+  .wr-page .ind-head.wr-head-row { display: block; max-width: none; }
   .wr-head-row h2 { margin-bottom: 0; }
+  .wr-page .wr-head-row > .ind-sec-label { margin-bottom: 16px; }
   /* 소제목 칸을 360 -> 500px 으로 올린다. 영문은 'The team, the adoption and the data,
      all measured by the field'가 499px 이라 360px 칸에서 두 줄이 됐다. 제목 409 + gap 32 +
      499 = 940 으로 머리 폭 1184px 안에 여유 244px 이 있다.
