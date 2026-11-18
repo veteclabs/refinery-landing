@@ -823,8 +823,15 @@ const capabilityGroups = [
        --wr-fit 이 그중 얼마를 쓸지 정하는 손잡이다 — 크기는 이 하나만 만진다. */
     --wr-max: 1.469;
     --wr-fit: 0.85;
+    /* 조형을 카드 안여백 선에서 더 안쪽으로 물린다. 왼쪽과 위로 같은 값이
+       움직여야 하므로 한 변수로 쥔다 — 둘을 따로 적으면 어긋난다.
+       ⚠️ 이 translate 는 scale 보다 왼쪽에 적는다. 그래야 배율을 타지 않고
+          화면 픽셀 그대로 10px 움직인다(오른쪽에 적으면 k 배로 커진다). */
+    --wr-shift: 10px;
     transform-origin: 100% 100%;
-    transform: scale(calc(var(--wr-max) * var(--wr-fit))) translate(var(--wr-mr), var(--wr-mb));
+    transform: translate(calc(var(--wr-shift) * -1), calc(var(--wr-shift) * -1))
+               scale(calc(var(--wr-max) * var(--wr-fit)))
+               translate(var(--wr-mr), var(--wr-mb));
     aspect-ratio: 1920 / 1080;
     background: none;
     /* 그림은 카드 아랫변에 붙는다 — 글은 위, 그림은 아래다. 항목 격자의
