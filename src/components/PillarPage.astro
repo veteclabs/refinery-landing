@@ -1261,6 +1261,12 @@ const faqSchema = {
   .pillar-industrial-ai .ai-hero-stage {
     border: 0;
     border-radius: var(--radius);
+    /* 안여백 40 -> 56px. 네 면 모두 같은 값이다 — 한 값만 적어 어긋날 자리를
+       남기지 않는다. 좁은 폭은 20 -> 24px 로 같이 올린다. */
+    padding: 56px;
+  }
+  @media (max-width: 900px) {
+    .pillar-industrial-ai .ai-hero-stage { padding: 24px; }
   }
 
   /* ───────── 히어로 카드 글 — 메인 운영체제 섹션(#teams)과 같은 값으로 둔다
