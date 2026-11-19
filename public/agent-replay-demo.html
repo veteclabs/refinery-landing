@@ -206,6 +206,33 @@ body {
 .session-when { display: none; font-size: 10.5px; color: var(--ink-500); margin-top: 1px; }
 
 .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+/* 앱 상단 바 — 실측 56px · 면 #FAFBFC · 아래 테 1px #E3E7EC · 좌우 여백 24px. */
+.topbar {
+  flex: none; display: flex; align-items: center; justify-content: space-between;
+  min-height: 56px; background: #FAFBFC; border-bottom: 1px solid var(--ink-200);
+}
+.stage:not(.is-light) .topbar { background: var(--ink-50); }
+.topbar-left { display: flex; align-items: center; gap: 8px; padding: 0 24px; min-width: 0; }
+.topbar-mark { width: 18px; height: 18px; display: block; flex: none; }
+.topbar-title { font-size: 14px; font-weight: 600; color: var(--ink-900); white-space: nowrap; }
+.topbar-actions { display: flex; align-items: center; gap: 6px; padding: 0 24px; }
+.topbar-ic {
+  width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center;
+  color: var(--ink-900); flex: none;
+}
+.topbar-ic.is-dim { color: var(--ink-600); }
+.topbar-org {
+  display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 8px;
+  border: 1px solid var(--ink-200); border-radius: 9px; font-size: 13px; color: var(--ink-900);
+  white-space: nowrap;
+}
+.topbar-av {
+  width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; flex: none;
+  font-size: 11px; font-weight: 700; color: #FFFFFF;
+  background: linear-gradient(135deg, var(--brand), var(--brand-700));
+}
+.topbar-org svg { color: var(--ink-400); flex: none; }
+
 .chatbar {
   flex: none; display: flex; align-items: center; gap: 10px;
   padding: 7px 16px; border-bottom: 1px solid var(--ink-100);
@@ -223,8 +250,6 @@ body {
 .chat-await { color: var(--warn); font-weight: 600; }
 .chat-done { color: var(--good); font-weight: 600; }
 .bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.density { display: flex; gap: 2px; background: var(--ink-100); border-radius: 8px; padding: 2px; }
-.stage.is-light .density { background: var(--ink-50); }
 .density-btn {
   font-family: inherit; font-size: 11px; font-weight: 500; color: var(--ink-500);
   background: transparent; border: 0; border-radius: 6px; padding: 3px 9px; cursor: pointer;
@@ -258,13 +283,13 @@ body {
 }
 @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 .empty-title { font-size: 21px; font-weight: 700; color: var(--ink-900); margin: 0 0 4px; letter-spacing: -.01em; }
-.empty-sub { font-size: 13px; line-height: 1.55; color: var(--ink-500); margin: 0 0 18px; max-width: 574px; }
-/* 수치만 굵고 진하게 — 앱의 '진행 중 0 · 승인 대기 0 …' 줄과 같은 꼴. */
-.empty-sub b { font-weight: 700; color: var(--ink-900); }
+.empty-sub { font-size: 13px; line-height: 1.55; color: var(--ink-500); margin: 0 0 18px; max-width: 800px; }
+/* 수치는 브랜드색이다 — 앱 실측 13px/600 #3F76AE(--brand-700). 먹색이 아니다. */
+.empty-sub b { font-weight: 600; color: var(--brand-700); }
 /* 앱은 카드를 넷 두고 폭이 되면 두 열로 깐다(실측 — 카드 288 · 사이 9). */
 .empty-cards {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 9px; width: 100%; max-width: 574px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 9px; width: 100%; max-width: 800px;
 }
 .empty-card {
   display: flex; align-items: center; gap: 11px; text-align: left;
@@ -273,7 +298,12 @@ body {
   padding: 13px 14px; cursor: pointer;
 }
 .empty-card-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.empty-card-desc { font-size: 12px; line-height: 1.45; color: var(--ink-500); }
+/* 설명은 한 줄로 둔다 — 칸을 넓혀 두었으므로 접히지 않는다. */
+.empty-card-desc {
+  font-size: 12px; line-height: 1.45; color: var(--ink-500);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.empty-card-title > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* 아이콘은 맨몸이 아니라 옅은 브랜드색 타일 안에 든다. */
 .empty-card-ic {
   flex: none; width: 34px; height: 34px; border-radius: 8px;
@@ -288,7 +318,7 @@ body {
 /* 비어 있는 동안 입력 카드가 이 안으로 들어온다 — 바닥 띠가 아니라 흐름의 한 칸이
    되므로 위 테와 면, 바깥 여백을 걷는다. */
 .empty > .composer {
-  width: 100%; max-width: 574px;
+  width: 100%; max-width: 800px;
   border-top: 0; background: none; padding: 0; margin: 0 0 14px;
   /* 가운데 정렬은 마크 · 제목 · 한 줄 설명까지다. 입력 카드와 제안 카드 안은
      앱처럼 왼쪽에서 시작한다. */
@@ -505,7 +535,7 @@ body {
   box-shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.10);
 }
 .empty .input {
-  max-width: 574px; gap: 7px; border-radius: 12px; padding: 11px 11px 9px 13px;
+  max-width: 800px; gap: 7px; border-radius: 12px; padding: 11px 11px 9px 13px;
   box-shadow: 0 8px 28px rgba(20,30,45,.07);
 }
 .input-ph {
@@ -793,15 +823,28 @@ body {
 
       <main class="main">
         <div id="chatView" style="display:flex;flex-direction:column;flex:1;min-height:0;">
+          <!-- 앱 상단 바. 왼쪽에 앱 표시와 이름, 오른쪽에 알림 · 글자 크기 ·
+               전체화면 · 조직 칩. 앱 실측 — 56px · 면 #FAFBFC · 아래 테 1px. -->
+          <div class="topbar">
+            <div class="topbar-left">
+              <img class="topbar-mark" src="data:image/webp;base64,UklGRpAFAABXRUJQVlA4WAoAAAAQAAAAXwAAXwAAQUxQSPMBAAABkATbtmk7e59zn/Fj27bRsm3bdtK0bdu2bdu2bZ7ue2ufSiupiogJoP92ulNkyxHpbMnd8kI15l169/NXpH++vTi7akCUp/1VE/1LrV1ysu83mLsySSn3zKA+LiGj5AeD+6aYhLSPDfLdFHjORoO9QsFVM+B/yqI5+9HMNgWW9wfc16xgfQ1+Z7C1ApZguc8JOKahAjcFXPJAhW4LuOy13XHHdqvJdv1t96uo7U75bNeKLHc8xHb7VIzAQ3fA/rQlBnOfwfrZixShj4B6UpcUwae4ifNlfgZSBM+UYx/Gt0tjCihSJJApWLJT96h3qJknFpFiEsmKMJViEsuQ9NfOTuSVBdxF+i4/dDbyh1f0L+YV5W12/LeJ9p9Trfxy8h4wmEcKyWCq/cagvm8kgup8NbjfG0so8M4gfyyOFzpmsM/Ggmtn0LujhS7AXY/NWKX+wJlKhMw0xOCPJUbSmwXscUGFzgq4EhsqznUBdxMgqViXBNxLCOXfbznWM2zHzSxHOv1z23kmW45dOV/YjRxPV8uxJ/YstLtgpHwJ54MdDSos0r4EAz5C9dFopH3hMpu/4+xI7GI0Ut5AgnITTr789jv6Px9NTO3VhM+OLxBOlrtE+fIVolu+fOmsMX6HRLJ2+/wBQL/fo1kGEbFSGlAx/WsdAFZQOCB2AwAAUBQAnQEqYABgAD5hLJJGJCKhoSc0DEiADAljANacM3quBnbKjAbZTzAfrN1D/OA6hHeVP3CwVXRRdzcu0GCmd/8D7gPa59Qewd+qBpwfLmoIAsIG2uNyUHpimz1XZNj33TbdYlM4sBnQtpJFf6XFnCz8E+2DlGFCpIPqPbMQTSYeQcC2zcZOZjTZS8NJtwcF3cYzHHUnyYuhsTqgBrdEcgdLean2WRMGdlZwAP79Nmjh//P/UI8c11z0sUEWCHhZYEl6whu8l16Y0xsRQD28eL/4fMTWS9gTGLqhevnPkE6G8h9Kpvn89jX/QuElx29HujbRDj4p/DfawMfwSwAoePjUI/abm4REhCPinizDjKWBA97D5nQ3MbX4QdYNN7PiAB4Do6/w77/+Qx//I4f/+QyYUwBjJrcsf3LStBbhhefwy/8mZ/5ininCM5imlvwIjKsp6lNxiIG9ZG+ZC5ylj6lQHUDSOekQuwSQ79O+f3G1vA9Rqa0/CnQ8HWuXQdt1qtYbG0KvLcPy1rRuwBXrhy31WKOcf5Yw7ymbGdAr+3cPWST3I7PzvPGUptttuaNf65q/cvRp2LtcgoAYgpvrm6fi9dZg/iDzcMv+9e1qu98GjSIRmKRnhCPL+rhO8km9X8+wRX/NhnfhJudbUx5VUPYEY9GyH4afHrruIPoeVyUI3x6Pc/hDhuGnUNnD5fmvmEbaXKX9fycgLt9cPu4Mg6b+8bmHiB0nF2LJmNy/uLVJPFEE/gJ/DP/VSBOC6AJ4Lttk6QKFXfG+okhZpdpXgh9Atfrzg6W4sRvfnaKPuuzUq9Z3ifMc/TDH+qJSoEAxmeKRTRfIxvkR6kPOTYlVii8H34/PONM+zdD2KMQkkedPVrp9k6LDEZ/ZdUvkmEBTn35XaVI32p4ofoO05ixnfc+wXAOrvo2IQp9pnxwE5wnXbr9j5GSUQteUruf2KsX0xpJQw4y2+8eofpCL1vUYtPUZ52o5l61eECG9VMG6QenXOE++oSmXPJfie1t4X/AUr9CPdmnic/29SfcuNQ2xpZRgi7rrhIS912QbI+UHbhYlsTDlnM55URuKGTvtLZW4D8t+6qO7iurf1sxxOcDDXkL+thyH8U+HdiJW/RKJ+s2YFyO0buwpX25NPIuem9M8LNvXJ/L0djlDgK2tpZv/SLoAAAAAAA==" alt="" aria-hidden="true" width="18" height="18" decoding="async" />
+              <span class="topbar-title" data-t="appTitle"></span>
+            </div>
+            <div class="topbar-actions">
+              <span class="topbar-ic"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/></svg></span>
+              <span class="topbar-ic"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z"/></svg></span>
+              <span class="topbar-ic is-dim"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V88a8,8,0,0,1-16,0V56H168a8,8,0,0,1,0-16h40A8,8,0,0,1,216,48ZM88,200H56V168a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H88a8,8,0,0,0,0-16Zm120-40a8,8,0,0,0-8,8v32H168a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V168A8,8,0,0,0,208,160ZM88,40H48a8,8,0,0,0-8,8V88a8,8,0,0,0,16,0V56H88a8,8,0,0,0,0-16Z"/></svg></span>
+              <span class="topbar-org">
+                <span class="topbar-av" data-t="orgInitial"></span>
+                <span class="topbar-org-name" data-t="orgName"></span>
+                <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z"/></svg>
+              </span>
+            </div>
+          </div>
           <div class="chatbar">
             <span class="chat-title" id="chatTitle" style="display:none;"></span>
             <span class="chat-status" id="chatStatus"></span>
             <div class="bar-right">
-              <div class="density">
-                <button class="density-btn" type="button" tabindex="-1" data-t="dCompact"></button>
-                <button class="density-btn is-active" type="button" tabindex="-1" data-t="dNormal"></button>
-                <button class="density-btn" type="button" tabindex="-1" data-t="dDetailed"></button>
-              </div>
             </div>
           </div>
 
@@ -950,7 +993,7 @@ body {
       s2t: "불량 3배 급증, 공통 원인", s2w: "1시간 전 · 제조",
       s3t: "12개 사이트 공조 낭비 찾기", s3w: "어제 · 빌딩·시설",
       s4t: "누수 의심 4구간 좁히기", s4w: "3일 전 · 공공 인프라",
-      dCompact: "간결", dNormal: "보통", dDetailed: "상세",
+      appTitle: "AI 에이전트", orgInitial: "R", orgName: "Refinery",
       emptyTitle: "안녕하세요, Refinery님",
       emptySub: "진행 중 <b>0</b> · 승인 대기 <b>0</b> · 답변 대기 <b>0</b> · 오늘 완료 <b>5</b>",
       sug1T: "연결 관계 살펴보기", sug1D: "객체들이 서로 어떻게 이어져 있는지 훑어봅니다.", sug2T: "이상 신호 분석하기", sug2D: "추세를 이탈한 날·대상을 찾아 원인을 짚습니다.", sug3T: "요약 리포트 만들기", sug3D: "핵심 지표만 뽑아 한 장짜리 산출물로 남깁니다.", sug4T: "실행할 작업 찾기", sug4D: "지금 내 데이터로 할 수 있는 작업을 확인합니다.",
@@ -1054,7 +1097,7 @@ body {
       s2t: "Defects up 3x, common cause", s2w: "1 hr ago · Manufacturing",
       s3t: "HVAC waste across 12 sites", s3w: "yesterday · Buildings",
       s4t: "4 suspected leak zones", s4w: "3 days ago · Public infrastructure",
-      dCompact: "Compact", dNormal: "Normal", dDetailed: "Detailed",
+      appTitle: "AI Agent", orgInitial: "R", orgName: "Refinery",
       emptyTitle: "Hello, Refinery",
       emptySub: "In progress <b>0</b> · Awaiting approval <b>0</b> · Awaiting reply <b>0</b> · Done today <b>5</b>",
       sug1T: "Trace the connections", sug1D: "See how objects actually link to one another.", sug2T: "Find what broke trend", sug2D: "Pick out the days and assets that left the trend, and why.", sug3T: "Write a short report", sug3D: "Pull the few numbers that matter into one page.", sug4T: "Find work worth doing", sug4D: "See what your data can act on right now.",
