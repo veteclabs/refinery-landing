@@ -264,11 +264,13 @@ const faqSchema = {
       }
 
       function upd() {
-        /* 카드 칸의 문서상 윗변 — 여기까지 내려오면 무대가 화면에 붙는다.
-           그 거리를 0 -> 1 로 쓴다. 첫 화면에서는 0 이고, 붙는 순간 1 이다. */
+        /* 카드가 화면 맨 위에 붙은 뒤부터 자란다. 붙기 전에는 0 이라 쉬는
+           모습 그대로 흐르고, 붙고 나서 360px 을 더 내리는 동안 0 -> 1 이 된다.
+           ⚠️ 붙기 전부터 재면(= y / docTop) 자라는 동안 윗변이 위로 끌려
+              올라간다. 윗변은 고정하고 아래로만 자라야 한다. */
         var y = window.scrollY || window.pageYOffset;
         var docTop = pin.getBoundingClientRect().top + y;
-        var p = docTop > 0 ? Math.min(1, Math.max(0, y / docTop)) : 1;
+        var p = Math.min(1, Math.max(0, (y - docTop) / 360));
         p = Math.round(p * 1000) / 1000;
         if (p !== last) {
           last = p;
@@ -1567,7 +1569,10 @@ const faqSchema = {
 
   @media (min-width: 901px) {
     .pillar-industrial-ai .ai-hero-pin {
-      height: calc(100vh + 360px);
+      /* 한 화면 + 자라는 거리 360 + 다 자란 채로 머무는 거리 360.
+         ⚠️ 머무는 거리가 없으면 다 자라는 순간 곧바로 고정이 풀려, 꽉 찬 모습이
+            한 프레임만 스치고 지나간다. */
+      height: calc(100vh + 720px);
     }
     /* 카드 위 여백도 자라는 만큼 닫힌다 — 다 자라면 화면 맨 위에 닿는다. */
     .pillar-industrial-ai .ai-hero-pin > .ai-hero-sticky > .ai-hero-stage {
