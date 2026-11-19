@@ -2305,6 +2305,21 @@ img { max-width: 100%; height: auto; }
   .uc-page br { display: none !important; }
 }
 
+/* ───────── CTA 문구만 폰 아래까지 내려가서 풀린다
+   위 규칙이 900px 이하에서 <br> 을 통째로 숨기는데, CTA 제목은 그러면 한 줄로
+   붙는다 — 글이 짧아 601~900px 에서는 한 줄에 다 들어가기 때문이다(768px 에서
+   실측 1줄). 넓은 폭의 두 줄 단락이 그 구간에서만 사라져 어색했다.
+   폰(600px 이하)에서는 그대로 풀어 둔다. 거기서는 두 줄로 묶어도 각 줄이 칸보다
+   길어 다시 감기고, 글자를 줄여 맞추면 CTA 가 본문보다 작아진다(2026-11-18 에
+   그렇게 했다가 되돌렸다).
+   ⚠️ !important 다. 과제별 · 문서 등은 페이지 쪽 <style> 에서 이 자리를 잡는데
+      Astro 스코프 속성 때문에 자릿수가 한 단 높다 — 그냥은 위 규칙을 못 이긴다.
+   ⚠️ 메인(#cta)은 .ind-page 가 아니라 걸리지 않는다. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .ind-page .ind-cta h2 br,
+  .uc-page .ind-cta h2 br { display: inline !important; }
+}
+
 /* ───────── 좁은 화면 — 캡션의 덩어리 나눔도 푼다
    흐름 · 연동 캡션(.ind-flow-note · .ind-systems-note)은 <br> 이 아니라
    문장마다 <span class="note-s"> 를 두고 flex 로 띄워 '한 문장이 한 덩어리로
