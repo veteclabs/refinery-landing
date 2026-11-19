@@ -1513,8 +1513,9 @@ const faqSchema = {
             넘지 않는다. */
       width: max(min(100%, 760px), calc(1045px * var(--grow, 0)));
       max-width: none;
-      /* 아래에 붙인다 — 저쪽 상자처럼 아랫변이 화면 아랫변에 닿는다. */
-      align-self: end;
+      /* 글과 함께 세로 가운데에 선다. 저쪽 상자는 아랫변이 화면에 닿지만
+         여기 카드는 창 높이를 통째로 쓰므로, 둘을 가운데에 모은다. */
+      align-self: center;
     }
     /* 왼쪽 글은 세로 가운데에 선다. 카드가 길어져도 위로 끌려가지 않는다. */
     .pillar-industrial-ai .ai-demo-cap { align-self: center; }
