@@ -1803,6 +1803,19 @@ const faqSchema = {
     padding: 11px 26px;
     font-size: 16px; line-height: 24px;
   }
+  /* 안쪽 배치도 같게 둔다 — 문구 위 · 버튼 아래로 왼쪽에 쌓는다. 메인 CTA 와
+     같은 배치이고, 사이 40px 도 그쪽 값이다. 여기는 제목 왼쪽 · 버튼 오른쪽
+     한 줄(space-between)이었다.
+     ⚠️ 공통 규칙이 .ai-cta-bg .ind-container 에 가로 flex 를 걸어 두었다 —
+        align-items · justify-content · flex-wrap 까지 되돌려야 한다. 셋 중
+        하나라도 남기면 세로로 쌓이면서도 가운데에 서거나 줄이 접힌다. */
+  .pillar-industrial-ai .ai-cta-bg .ind-container {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 40px;
+  }
 
   /* 4열이 2열로 접히는 1100px부터는 단락 나눔을 푼다 — 칸이 넓어져 억지로 끊긴다.
      (산업별 도입 효과 카드도 같은 폭에서 br을 숨긴다.) */
