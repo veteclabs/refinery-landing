@@ -508,6 +508,37 @@ body {
 .modelname svg:last-child { color: var(--ink-400); }
 .advisor { gap: 5px; font-weight: 500; color: var(--ink-500); }
 .advisor svg { flex: none; }
+
+/* 권한 고르는 판. 흐름에서 떠 있어 열려도 아래가 밀리지 않는다. */
+.modewrap { position: relative; display: inline-flex; }
+.modemenu {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 30;
+  width: 238px; padding: 6px;
+  background: var(--card); border: 1px solid var(--ink-200); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(20,30,45,.06), 0 12px 32px rgba(20,30,45,.14);
+  opacity: 0; transform: translateY(-4px); pointer-events: none;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.modemenu.is-on { opacity: 1; transform: none; }
+.modeopt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 9px; border-radius: 9px;
+}
+.modeopt.is-on { background: var(--brand-50); }
+.modeopt-ic {
+  flex: none; width: 26px; height: 26px; border-radius: 7px;
+  display: grid; place-items: center; background: var(--ink-50); color: var(--ink-500);
+}
+.modeopt.is-on .modeopt-ic { background: var(--brand-100); color: var(--brand-700); }
+.modeopt-t { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.modeopt-n { font-size: 12.5px; font-weight: 600; color: var(--ink-900); }
+.modeopt.is-on .modeopt-n { color: var(--brand-700); }
+.modeopt-d { font-size: 11px; line-height: 1.35; color: var(--ink-500); }
+.modeopt-ck { margin-left: auto; color: var(--brand-700); flex: none; }
+.modemenu-foot {
+  margin: 4px 0 0; padding: 7px 9px 3px; font-size: 11px; line-height: 1.4;
+  color: var(--ink-400); border-top: 1px solid var(--ink-100);
+}
 .attach-btn {
   flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
   border: 0; background: transparent; color: var(--ink-500);
@@ -805,11 +836,31 @@ body {
                   <span class="attach-btn" aria-hidden="true">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10.8 5.2 5.9 10a1.8 1.8 0 0 0 2.5 2.5l5.1-5.1a3.2 3.2 0 0 0-4.5-4.5L3.6 8.3a4.6 4.6 0 0 0 6.5 6.5"/></svg>
                   </span>
-                  <button class="modelpick" id="modes" type="button" tabindex="-1">
-                    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg>
-                    <span>Auto</span>
-                    <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
-                  </button>
+                  <div class="modewrap">
+                    <button class="modelpick" id="modes" type="button" tabindex="-1">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg>
+                      <span>Auto</span>
+                      <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
+                    </button>
+                    <!-- 권한 고르는 판. 01 장면에서만 열린다 — 그때 강조가 단추와 이 판을
+                         함께 덮는다. 평소에는 닫혀 있고 자리도 차지하지 않는다. -->
+                    <div class="modemenu" id="modeMenu" aria-hidden="true">
+                      <span class="modeopt">
+                        <span class="modeopt-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.4 8S3.8 3.8 8 3.8 14.6 8 14.6 8 12.2 12.2 8 12.2 1.4 8 1.4 8Z"/><circle cx="8" cy="8" r="2"/></svg></span>
+                        <span class="modeopt-t"><span class="modeopt-n">Plan</span><span class="modeopt-d" data-t="mPlanD"></span></span>
+                      </span>
+                      <span class="modeopt is-on">
+                        <span class="modeopt-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg></span>
+                        <span class="modeopt-t"><span class="modeopt-n">Auto</span><span class="modeopt-d" data-t="mAutoD"></span></span>
+                        <svg class="modeopt-ck" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3.4 8.4 3 3 6.2-6.8"/></svg>
+                      </span>
+                      <span class="modeopt">
+                        <span class="modeopt-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.8 13 3.6v4.1c0 3.2-2.1 5.3-5 6.5-2.9-1.2-5-3.3-5-6.5V3.6z"/><path d="M6 8l1.5 1.5L10.2 6.8"/></svg></span>
+                        <span class="modeopt-t"><span class="modeopt-n">Manual</span><span class="modeopt-d" data-t="mManualD"></span></span>
+                      </span>
+                      <p class="modemenu-foot" data-t="mFoot"></p>
+                    </div>
+                  </div>
                 </div>
                 <div class="ctools-r">
                   <!-- 모델 이름과 '자문'은 대화 중에만 선다 — 앱 홈 입력창에는 없다. -->
@@ -883,6 +934,8 @@ body {
       emptySub: "최근 다룬 객체를 기반으로 제안합니다. 계획을 세우고, 근거를 남기고, 결과를 산출물로 남깁니다.",
       sug1T: "연결 관계 살펴보기", sug1D: "객체들이 서로 어떻게 이어져 있는지 훑어봅니다.", sug2T: "이상 신호 분석하기", sug2D: "추세를 이탈한 날·대상을 찾아 원인을 짚습니다.", sug3T: "요약 리포트 만들기", sug3D: "핵심 지표만 뽑아 한 장짜리 산출물로 남깁니다.", sug4T: "실행할 작업 찾기", sug4D: "지금 내 데이터로 할 수 있는 작업을 확인합니다.",
       modeHint: "읽기 자동, 쓰기 승인", modelChip: "모델 선택", advisor: "자문",
+      mPlanD: "읽기만, 변경 없음", mAutoD: "읽기 자동 · 쓰기 승인", mManualD: "모든 도구 승인",
+      mFoot: "대화 중에 바꾸면 다음 요청부터 적용됩니다.",
       phIdle: "무엇을 분석할까요?", phFollow: "이어서 질문하기",
       endT: "데이터의 맥락을 아는 AI는 여기까지 합니다",
       endS: "묻고 답하는 데서 끝나지 않습니다. 전수로 분석하고, 표와 차트와 보고서를 만들고, 고쳐 달라면 고치고, 승인받은 것은 실행합니다.",
@@ -985,6 +1038,8 @@ body {
       emptySub: "Suggestions come from objects you have worked with. It plans, keeps its evidence, and leaves results as files.",
       sug1T: "Trace the connections", sug1D: "See how objects actually link to one another.", sug2T: "Find what broke trend", sug2D: "Pick out the days and assets that left the trend, and why.", sug3T: "Write a short report", sug3D: "Pull the few numbers that matter into one page.", sug4T: "Find work worth doing", sug4D: "See what your data can act on right now.",
       modeHint: "Reads on its own, asks before writing", modelChip: "Model", advisor: "Advisor",
+      mPlanD: "Read only, no changes", mAutoD: "Reads on its own, asks before writing", mManualD: "Approve every tool",
+      mFoot: "Change it mid-conversation and it applies from the next request.",
       phIdle: "What should we look into?", phFollow: "Ask a follow-up",
       endT: "This is how far an agent that knows your context can go",
       endS: "It does not stop at answering. It analyses exhaustively, builds the tables, charts and reports, reworks them when you ask, and executes only what you approve.",
@@ -1473,6 +1528,17 @@ body {
      무엇을 가리키는지 흐려진다. 모서리는 rectOf 가 대상에서 읽어 온다. */
   const PAD = 0;
   function rectOf(sel) {
+    /* 여럿을 받으면 그 사각형들의 합집합을 돌려준다 — 단추와 그 아래 열린 판처럼
+       따로 떨어진 둘을 한 번에 강조할 때 쓴다. */
+    if (Array.isArray(sel)) {
+      const rs = sel.map(rectOf).filter(Boolean);
+      if (!rs.length) return null;
+      const L = Math.min.apply(null, rs.map((r) => r.x));
+      const T = Math.min.apply(null, rs.map((r) => r.y));
+      const R = Math.max.apply(null, rs.map((r) => r.x + r.w));
+      const B = Math.max.apply(null, rs.map((r) => r.y + r.h));
+      return { x: L, y: T, w: R - L, h: B - T, r: rs[0].r, radCss: rs[0].radCss };
+    }
     // 선택자 또는 요소. 같은 클래스의 산출물이 여럿이라 선택자로는 특정할 수 없다.
     const node = typeof sel === "string" ? document.querySelector(sel) : sel;
     if (!node) return null;
@@ -1669,6 +1735,7 @@ body {
     /* 앱 홈은 입력창이 제안 카드 위에 있다. 비어 있는 동안만 그 자리로 옮기고,
        대화가 시작되면 제자리(바닥)로 돌려놓는다. */
     $("empty").insertBefore($("composer"), $("emptyCards"));
+    $("modeMenu").classList.remove("is-on");
     $("chatTitle").style.display = "none";
     $("activeSessionTitle").textContent = T.s0idle;
     $("activeSessionWhen").textContent = T.s0w;
@@ -1683,8 +1750,10 @@ body {
   async function run() {
     resetStage();
 
-    /* 01 통제 */
-    await chapter(0, "#modes");
+    /* 01 통제 — 권한 판을 열어 두고 단추와 판을 함께 강조한다. */
+    $("modeMenu").classList.add("is-on");
+    await chapter(0, ["#modes", "#modeMenu"]);
+    $("modeMenu").classList.remove("is-on");
 
     $("inputPh").textContent = T.prompt;
     await wait(700);
