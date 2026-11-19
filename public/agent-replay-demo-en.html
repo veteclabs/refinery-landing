@@ -592,10 +592,12 @@ body {
   width: 238px; padding: 6px;
   background: var(--card); border: 1px solid var(--ink-200); border-radius: 12px;
   box-shadow: 0 1px 2px rgba(20,30,45,.06), 0 12px 32px rgba(20,30,45,.14);
-  opacity: 0; transform: translateY(-4px); pointer-events: none;
-  transition: opacity .14s ease, transform .14s ease;
+  /* ⚠️ 들어올 때 옮기지 않는다(transform 금지). 강조는 판이 뜨자마자 자리를
+     재는데, 그때 아직 -4px 에 있으면 그만큼 어긋난 채로 굳는다. */
+  opacity: 0; pointer-events: none;
+  transition: opacity .14s ease;
 }
-.modemenu.is-on { opacity: 1; transform: none; }
+.modemenu.is-on { opacity: 1; }
 .modeopt {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 9px; border-radius: 9px;
@@ -1860,7 +1862,11 @@ body {
 
     /* 01 통제 — 권한 판을 열어 두고 단추와 판을 함께 강조한다. */
     $("modeMenu").classList.add("is-on");
-    await chapter(0, ["#modes", "#modeMenu"]);
+    /* ⚠️ 단추와 판을 함께 강조하지 않는다. 둘이 떨어져 있어 합집합 사각형에 그
+       사이의 빈 자리까지 들어가고, 입력창 윗줄이 가로로 잘린 듯 밝아진다(첨부
+       아이콘만 어둡게 남았다). 판 하나만 덮는다 — 판 안에 Auto 체크가 있어
+       '버튼 하나로 정한다'는 이야기는 그대로 읽힌다. */
+    await chapter(0, "#modeMenu");
     $("modeMenu").classList.remove("is-on");
 
     $("inputPh").textContent = T.prompt;
