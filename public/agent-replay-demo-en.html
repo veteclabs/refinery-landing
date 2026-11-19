@@ -1031,8 +1031,12 @@ body {
   /* 시나리오가 한 번이라도 시작됐는지. 아래 화면 감지(IntersectionObserver)가
      뒤늦게 또 시작시켜 처음부터 다시 도는 것을 막는다. */
   let scenarioStarted = false;
+  /* goto 로 건너뛸 목적지(0 이면 없음). 이 값이 서 있는 동안에는 기다림을
+     모두 건너뛰어, 앞 장면들이 눈 깜짝할 사이에 지나간다. */
+  let startAt = 0;
 
   function wait(ms) {
+    if (startAt > 0) return Promise.resolve();
     const my = epoch;
     return new Promise((resolve, reject) => {
       let remain = ms, last = performance.now();
@@ -1054,6 +1058,7 @@ body {
 
   /* 설명 카드 체류. 실시간(1배)으로 흐른다 — 재생 배속(SPEED)을 곱하지 않는다. */
   function dwell(ms) {
+    if (startAt > 0) return Promise.resolve();
     const my = epoch;
     return new Promise((resolve, reject) => {
       let remain = ms * DWELL, last = performance.now();
@@ -1444,12 +1449,47 @@ body {
     try { parent.postMessage({ type: "refinery-hero-focus", box: payload, cap: text || null }, "*"); } catch (e) {}
   }
 
+  /* 장면이 머무는 동안 진행률을 알린다(0 -> 1). 멈춰 있으면 멈춘다 —
+     부모가 이 값으로 구간 막대를 채운다. */
+  function dwellP(i, ms) {
+    if (startAt > 0) return Promise.resolve();
+    const my = epoch;
+    const tell = (p) => {
+      if (parent === window) return;
+      try { parent.postMessage({ type: "refinery-hero-progress", i: i, p: p }, "*"); } catch (e) {}
+    };
+    return new Promise((resolve, reject) => {
+      const total = ms * DWELL;
+      let remain = total, last = performance.now(), acc = 0;
+      tell(0);
+      const tick = (now) => {
+        if (my !== epoch) return reject(ABORT);
+        if (paused) { last = now; return requestAnimationFrame(tick); }
+        const dt = now - last; last = now;
+        remain -= dt; acc += dt;
+        /* 60ms 마다만 알린다 — 매 프레임 보내면 메시지가 과하다. */
+        if (acc >= 60) { acc = 0; tell(Math.max(0, Math.min(1, 1 - remain / total))); }
+        if (remain <= 0) { tell(1); return resolve(); }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
   async function chapter(i, sel) {
+    /* 건너뛰는 중이면 목적지 앞 장면은 그리지 않고 지나간다. */
+    if (startAt > 0) {
+      if (i < startAt) return;
+      startAt = 0;
+    }
     await wait(reduce ? 60 : 260);
     const c = T.chapters[i];
     showSpot(sel, i + 1, c[0], c[1], c[2]);
+    if (parent !== window) {
+      try { parent.postMessage({ type: "refinery-hero-chapter", i: i, total: T.chapters.length }, "*"); } catch (e) {}
+    }
     const chars = c[2].replace(/<[^>]+>/g, "").length + c[1].length;
-    await dwell(Math.min(Math.max(1100 + chars * 17, 1900), 3800));
+    await dwellP(i, Math.min(Math.max(1100 + chars * 17, 1900), 3800));
     hideSpot();
     await wait(reduce ? 60 : 320);
   }
@@ -1657,9 +1697,17 @@ body {
           부모가 곧바로 pause 를 보내도 그 사이에 장면이 흘러간다.
        ⚠️ epoch 를 올려 돌던 바퀴를 끊는다(wait · dwell 이 이 값을 보고 ABORT).
           scenarioStarted 도 내려 두어야 다음에 다시 시작할 수 있다. */
+    /* 막대의 칸을 눌렀을 때. 그 장면부터 다시 돈다 — 앞 장면은 기다림 없이
+       지나가므로 눈에는 곧바로 건너뛴 것으로 보인다. */
+    else if (t === "refinery-hero-goto") {
+      startAt = Math.max(0, Number(e.data.i) || 0);
+      paused = false;
+      start();
+    }
     else if (t === "refinery-hero-rewind") {
       paused = true;
       epoch += 1;
+      startAt = 0;
       scenarioStarted = false;
       try { $("endcard").classList.remove("is-on"); } catch (err) {}
       applyStatic();
