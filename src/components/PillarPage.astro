@@ -254,9 +254,22 @@ const faqSchema = {
         var docTop = pin.getBoundingClientRect().top + y;
         var p = docTop > 0 ? Math.min(1, Math.max(0, y / docTop)) : 1;
         p = Math.round(p * 1000) / 1000;
-        if (p === last) return;
-        last = p;
-        box.style.setProperty('--grow', p);
+        if (p !== last) {
+          last = p;
+          box.style.setProperty('--grow', p);
+        }
+        /* 다 자라 화면을 덮고 있는 동안에만 내비 면을 걷는다.
+           ⚠️ p 만 보면 안 된다. p 는 한 번 1 이 되면 아래로 내려가도 1 이라,
+              히어로를 지난 뒤에도 내비가 투명한 채로 남는다. 칸이 아직 화면을
+              덮고 있는지(아랫변이 창 아래에 있는지)를 함께 본다.
+           ⚠️ 0.98 은 끝에 거의 닿은 자리다 — 1 로 두면 부동소수 반올림에 걸려
+              안 붙는 프레임이 생긴다.
+           ⚠️ p 가 안 바뀌어도 이 줄은 매번 돈다. 위 early return 안에 두었더니
+              p 가 1 로 굳은 뒤로는 영영 다시 재지 않아, 히어로를 지나도 내비가
+              투명한 채였다. */
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var covering = p > 0.98 && pin.getBoundingClientRect().bottom > vh;
+        document.documentElement.classList.toggle('ai-hero-full', covering);
       }
       function onScroll() {
         if (ticking) return;
@@ -1392,9 +1405,23 @@ const faqSchema = {
      ⚠️ 901px 아래에서는 걸지 않는다 — 폰에서는 종전대로 흐른다.
      ⚠️ 에너지관리에서는 겹친 <div> 둘이 아무 규칙도 받지 않아 보이는 것이
         달라지지 않는다. */
+  /* 카드가 다 자라면 고정 내비의 흰 면을 걷는다. 내비가 z-index 100 짜리
+     불투명 흰 띠라, 그대로 두면 카드 맨 위 70px 이 가려져 '헤더 자리가 남은'
+     모습이 된다. 글자는 어두운 색이고 카드는 밝은 면이라 그대로 읽힌다.
+     ⚠️ :global 이 필요하다. 내비는 다른 컴포넌트라 이 파일의 스코프가 닿지
+        않는다.
+     ⚠️ 클래스는 아래 스크립트가 <html> 에 건다 — 다 자란 구간에서만이다. */
+  :global(html.ai-hero-full) :global(.mm-nav) {
+    background: transparent;
+  }
+
   @media (min-width: 901px) {
     .pillar-industrial-ai .ai-hero-pin {
       height: calc(100vh + 360px);
+    }
+    /* 카드 위 여백도 자라는 만큼 닫힌다 — 다 자라면 화면 맨 위에 닿는다. */
+    .pillar-industrial-ai .ai-hero-pin > .ai-hero-sticky > .ai-hero-stage {
+      margin-top: calc(64px * (1 - var(--grow, 0)));
     }
     .pillar-industrial-ai .ai-hero-sticky {
       position: sticky; top: 0;
@@ -1515,7 +1542,21 @@ const faqSchema = {
        1440x900 에서 1414px 이 될 것이 칸 폭 955px 에 묶였다. */
     /* ⚠️ 왼쪽을 붙든다. 가운데로 두면 다 자란 데모(1414px)가 칸(955px)보다
        넓어 좌우로 230px 씩 넘쳐, 왼쪽 글 위로 올라탄다. */
-    .pillar-industrial-ai .ai-hero-figure { justify-self: start; }
+    .pillar-industrial-ai .ai-hero-figure {
+      justify-self: start;
+      /* 다 자라면 오른쪽 두 모서리가 펴진다 — 저쪽 상자(.teams-preview)가
+         화면 오른쪽 끝에 닿으며 왼쪽 둘만 둥근 그 모습이다. */
+      border-radius: var(--radius)
+                     calc(var(--radius) * (1 - var(--grow, 0)))
+                     calc(var(--radius) * (1 - var(--grow, 0)))
+                     var(--radius);
+      /* 그림자도 같이 걷는다. 저쪽 상자는 테 한 겹뿐이다 — 알파를 --grow 로
+         내려 자라는 동안 매끄럽게 사라지게 한다. */
+      box-shadow:
+        0 1px 2px rgba(16, 32, 44, calc(.03 * (1 - var(--grow, 0)))),
+        0 4px 10px rgba(16, 32, 44, calc(.03 * (1 - var(--grow, 0)))),
+        0 12px 28px rgba(16, 32, 44, calc(.04 * (1 - var(--grow, 0))));
+    }
   }
 
   /* ───────── 자주 묻는 질문 — 과제별(.uc-redesigned .uc-faq-*)과 같은 모습
