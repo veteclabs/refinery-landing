@@ -982,7 +982,7 @@ body {
   const $ = (id) => document.getElementById(id);
   const stage = $("stage"), app = $("app"), thread = $("thread"), canvas = $("canvas");
   const spot = $("spot"), cap = $("cap"), toastEl = $("toast");
-  const SPOT_R = 12;
+  const SPOT_R = 10;   // 대상이 모서리를 안 내줄 때만 쓰는 예비값. CSS --spot-r 과 같이 둔다.
   const scrim = $("scrim");
   const blurT = $("blurT"), blurB = $("blurB"), blurL = $("blurL"), blurR = $("blurR");
   const veil = [scrim, blurT, blurB, blurL, blurR];
@@ -1368,13 +1368,18 @@ body {
 
 
   /* ─────────────────────── 스포트라이트 ─────────────────────── */
-  const PAD = 10;
+  /* 강조 테는 대상 요소에 딱 맞춘다(PAD 0). 여백을 주면 테와 카드 사이가 비어
+     무엇을 가리키는지 흐려진다. 모서리는 rectOf 가 대상에서 읽어 온다. */
+  const PAD = 0;
   function rectOf(sel) {
     // 선택자 또는 요소. 같은 클래스의 산출물이 여럿이라 선택자로는 특정할 수 없다.
     const node = typeof sel === "string" ? document.querySelector(sel) : sel;
     if (!node) return null;
     const sr = stage.getBoundingClientRect(), r = node.getBoundingClientRect();
-    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: r.width / K, h: r.height / K };
+    // 모서리는 대상이 가진 값을 그대로 가져온다. 고정값을 박으면 둥글기가 다른
+    // 대상에서 테와 카드의 모서리가 어긋나 떠 보인다.
+    const rad = parseFloat(getComputedStyle(node).borderTopLeftRadius) || 0;
+    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: r.width / K, h: r.height / K, r: rad };
   }
   /* 부모 창이 설명 카드를 자기 화면에 직접 그리는 모드. 켜지면 데모 안의 카드는
      숨기고, 강조 범위와 카드 내용을 부모에 넘긴다. 산업 AI 페이지가 쓴다. */
@@ -1404,8 +1409,10 @@ body {
     const x2 = Math.min(raw.x + raw.w + PAD, STAGE_W - M);
     const y2 = Math.min(raw.y + raw.h + PAD, STAGE_H - M);
     const box = { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+    const R = raw.r != null ? raw.r : SPOT_R;
+    spot.style.borderRadius = R + "px";
     place(spot, box.x, box.y, box.w, box.h);
-    const p = "path(evenodd, '" + holePath(box.x, box.y, box.w, box.h, SPOT_R) + "')";
+    const p = "path(evenodd, '" + holePath(box.x, box.y, box.w, box.h, R) + "')";
     scrim.style.clipPath = p;
     scrim.style.webkitClipPath = p;
     place(blurT, 0, 0, STAGE_W, box.y);
