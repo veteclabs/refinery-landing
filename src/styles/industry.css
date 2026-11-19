@@ -2303,23 +2303,6 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 900px) {
   .ind-page br,
   .uc-page br { display: none !important; }
-  /* ⚠️ CTA 문구만 빼 준다. 이 한 줄은 '앞 문장 -> 쉼표 -> 청하는 말' 로
-     단락이 지어져 있어, 좁은 폭에서 풀리면 두 생각이 한 덩어리로 붙는다.
-     나머지 <br> 은 폭에 맞춰 넣은 줄 나눔이라 풀리는 쪽이 맞다.
-     메인(#cta)은 .ind-page 가 아니라 여기에 걸리지 않는다 — 그대로다. */
-  .ind-page .ind-cta h2 br,
-  .uc-page .ind-cta h2 br { display: inline !important; }
-  /* 줄 나눔을 살리는 것만으로는 두 줄이 안 된다 — 글자가 26px 에 묶여 있어
-     한 줄이 칸보다 길면 그 줄이 다시 감긴다(360px 에서 줄 폭 354~406px ·
-     칸 312px). 폭을 따라 줄여 두 줄에 들어오게 한다.
-     ⚠️ 하한 18px 은 가장 긴 영문 CTA 가 360px 에서 들어오는 값이다
-        (실측 20px 이 한계, 한 단 여유를 둔다). 5.4vw 는 481px 위에서
-        26px 에 걸려 넓은 폭의 모습을 바꾸지 않는다. */
-  /* ⚠️ !important 다. 과제별 · 문서 등은 페이지 쪽 <style> 에서 이 글자를
-     잡는데, Astro 가 스코프 속성을 붙여 자릿수가 한 단 높다 — 전역인 이
-     파일에서는 그냥은 못 이긴다. 위 br 규칙도 같은 까닭으로 !important 다. */
-  .ind-page .ind-cta h2,
-  .uc-page .ind-cta h2 { font-size: clamp(18px, 5.4vw, 26px) !important; }
 }
 
 /* ───────── 좁은 화면 — 캡션의 덩어리 나눔도 푼다
