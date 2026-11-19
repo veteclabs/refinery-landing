@@ -343,6 +343,10 @@ body {
   font-size: 11.5px; padding: 1.5px 0; animation: itemin .22s var(--ease-out) both;
 }
 .tool-ic { display: flex; align-self: center; color: var(--good); flex: none; }
+/* 생각 줄 — 빈 원에 옅은 글. 도구 줄과 같은 목록 안에 선다. */
+.tool.is-think { align-items: flex-start; }
+.tool.is-think .tool-ic { align-self: flex-start; color: var(--ink-300); margin-top: 2px; }
+.tool-think { flex: 1; min-width: 0; line-height: 1.45; color: var(--ink-500); }
 .tool.is-running .tool-ic { color: var(--brand); }
 .tool-name { font-weight: 500; color: var(--ink-700); flex: none; }
 .tool-args { color: var(--ink-400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46%; }
@@ -481,11 +485,11 @@ body {
 }
 .followup svg { color: var(--brand); flex: none; }
 
+/* 앱 실측 — 입력창 위에 구분선도 면도 없다. 여백만 2px 16px 16px. */
 .composer {
-  flex: none; border-top: 1px solid var(--ink-200);
-  padding: 12px 16px 14px; background: color-mix(in srgb, var(--white) 82%, transparent);
+  flex: none; border-top: 0; background: none;
+  padding: 2px 16px 16px;
 }
-.stage.is-light .composer { border-top-color: var(--ink-100); }
 /* 앱의 입력 카드. 글줄이 위, 도구줄이 아래로 한 상자 안에 든다(실측 — R12,
    안여백 11/11/9/13, 사이 7, 그림자 0 8px 28px rgba(20,30,45,.07)). */
 /* 대화 중 입력부. 앱은 홈과 값이 다르다 — 모서리가 16 으로 커지고 안여백이
@@ -1312,35 +1316,30 @@ body {
     thread.appendChild(row); follow();
   }
 
-  function addThinking() {
-    const n = el("div", "think is-live");
-    n.innerHTML =
-      '<button class="fold-head" type="button" tabindex="-1">' + ic.brain +
-      '<span class="tlabel">' + T.thinkLive + '</span>' +
-      '<span class="caret is-open">' + ic.caret + '</span></button>' +
-      '<div class="fold is-open"><div class="fold-clip"><div class="think-body"></div></div></div>';
-    thread.appendChild(n); follow();
-    return n;
+  /* 생각한 내용은 따로 상자를 갖지 않는다 — 앱은 생각과 도구 실행을 한 묶음
+     안에 섞어 내므로, 실행 묶음의 줄 하나로 들어간다. 동그라미는 빈 원이고,
+     도구 줄은 채워진다. */
+  function addThinkRow(group) {
+    const row = el("div", "tool is-think");
+    row.innerHTML = '<span class="tool-ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.2"/></svg></span><span class="tool-think"></span>';
+    group.querySelector(".tools-list").appendChild(row);
+    follow();
+    return row;
   }
   async function think(node, chunk, ms) {
-    node.querySelector(".think-body").textContent += chunk;
+    node.querySelector(".tool-think").textContent += chunk;
     follow();
     await wait(ms);
   }
-  function thinkDone(node, sec) {
-    node.classList.remove("is-live");
-    node.querySelector(".tlabel").textContent = T.thinkDone(sec);
-    node.querySelector(".fold").classList.remove("is-open");
-    node.querySelector(".caret").classList.remove("is-open");
-  }
+  function thinkDone() { /* 생각 줄은 접지 않는다 — 묶음이 끝날 때 함께 접힌다. */ }
 
   function addTools() {
     const n = el("div", "tools is-live");
     n.innerHTML =
       '<button class="fold-head" type="button" tabindex="-1" style="width:100%;">' +
       '<span class="tools-ic spin">' + ic.notch + '</span>' +
-      '<span class="tools-label"></span>' +
-      '<span class="tools-count">0/0</span>' +
+      '<span class="tools-label">' + T.stWorking + '</span>' +
+      '<span class="tools-count"></span>' +
       '<span class="caret is-open">' + ic.caret + '</span></button>' +
       '<div class="fold is-open"><div class="fold-clip"><div class="tools-list"></div></div></div>';
     thread.appendChild(n); follow();
@@ -1353,7 +1352,6 @@ body {
       '<span class="tool-name">' + name + '</span>' +
       '<span class="tool-args">' + args + '</span>';
     group.querySelector(".tools-list").appendChild(row);
-    group.querySelector(".tools-label").textContent = name;
     updCount(group); follow();
     return row;
   }
@@ -1365,16 +1363,19 @@ body {
     row.appendChild(el("span", "tool-sum", summary));
     updCount(group); follow();
   }
+  /* 머리 오른쪽에는 도는 동안 '단계 N개'가 선다 — 생각 줄은 세지 않는다.
+     끝나면 그 글이 왼쪽으로 옮겨 가고 오른쪽은 비운다(앱이 그렇다). */
   function updCount(g) {
-    const rows = g.querySelectorAll(".tool");
-    const done = g.querySelectorAll(".tool:not(.is-running)").length;
-    g.querySelector(".tools-count").textContent = done + "/" + rows.length;
+    const n = g.querySelectorAll(".tool:not(.is-think)").length;
+    g.querySelector(".tools-count").textContent = n ? T.stepsRan(n) : "";
   }
   function toolsDone(group) {
     group.classList.remove("is-live");
     const i = group.querySelector(".tools-ic");
     i.classList.remove("spin"); i.innerHTML = ic.check;
-    group.querySelector(".tools-label").textContent = T.stepsRan(group.querySelectorAll(".tool").length);
+    group.querySelector(".tools-label").textContent =
+      T.stepsRan(group.querySelectorAll(".tool:not(.is-think)").length);
+    group.querySelector(".tools-count").textContent = "";
     group.querySelector(".fold").classList.remove("is-open");
     group.querySelector(".caret").classList.remove("is-open");
   }
@@ -1780,18 +1781,19 @@ body {
     setPhase("running"); startClock();
     await wait(420);
 
-    const th = addThinking();
+    /* 묶음을 먼저 연다 — 생각한 내용이 그 안의 줄로 들어간다. */
+    const g1 = addTools();
+    const th = addThinkRow(g1);
     await think(th, T.think[0], 460);
     await think(th, T.think[1], 500);
     await think(th, T.think[2], 480);
-    thinkDone(th, 4);
+    thinkDone();
     await wait(240);
 
     setPlan(["in_progress", "pending", "pending", "pending"]);
     await wait(380);
 
     /* 전수 탐색 + 제약 교차검증 */
-    const g1 = addTools();
     const delays = [620, 900, 820, 980];
     for (let i = 0; i < T.steps.length; i++) {
       const s = T.steps[i];
