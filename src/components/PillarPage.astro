@@ -1718,7 +1718,12 @@ const faqSchema = {
      칩 · 제목이 세로 가운데에서 그만큼 위로 밀린다 — 글은 글대로 가운데에
      서고 막대만 데모 아랫변으로 내려간다. */
   .pillar-industrial-ai .ai-demo-cap { position: relative; }
-  .ai-demo-bar { position: absolute; left: 0; right: 0; display: flex; gap: 6px; margin-top: 22px; }
+  /* 글 칸(341px)을 다 쓰지 않고 한 단 좁게 둔다 — 칸마다 이름이 붙어 꽉 차면
+     글줄처럼 길어 보인다. 왼쪽 선은 글과 맞춘다. */
+  .ai-demo-bar {
+    position: absolute; left: 0; right: 0; max-width: 260px;
+    display: flex; gap: 6px; margin-top: 22px;
+  }
   .ai-demo-bar :global(.ai-demo-seg) {
     flex: 1; height: 16px; padding: 0; border: 0; background: none;
     display: flex; align-items: center; cursor: pointer;
