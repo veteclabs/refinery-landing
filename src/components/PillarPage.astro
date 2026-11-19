@@ -5,6 +5,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
+import ScrollReveal from './ScrollReveal.astro';
 import type { PillarContent } from '../data/pillars/industrial-ai';
 import '../styles/industry.css';
 
@@ -47,6 +48,14 @@ const faqSchema = {
   alternates={alternates}
   jsonLd={faqSchema}
 >
+  {/* 스크롤 등장. 과제별과 같은 모션이다 — 머리 칸 · 문답 · 활용 카드가 16px
+      아래에서 올라오고, 한 줄에 놓인 것은 60ms 씩 차례로 뜬다.
+      ⚠️ 본문보다 앞에 놓는다. 스크립트가 <html> 에 rv-on 을 붙이는 시점이 아래
+         섹션의 파싱보다 앞서야 첫 페인트부터 숨은 채로 그려진다.
+      ⚠️ 산업 AI 에만 넣는다. 에너지관리는 같은 컴포넌트를 쓰지만 모션을 요청받지
+         않았고, ScrollReveal 의 .ind-head 선택자가 전역이라 넣는 순간 그쪽
+         섹션 머리까지 같이 뜬다. */}
+  {pillarSlug === 'industrial-ai' && <ScrollReveal />}
   <Nav />
   <main class:list={['ind', 'ind-page', `pillar-${pillarSlug}`, lang === 'en' && 'ind-en']}>
     <!-- HERO -->
