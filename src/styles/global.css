@@ -1186,10 +1186,14 @@
       /* 오른쪽에 남는 자리가 없으므로 그쪽 테두리와 둥글기는 두지 않는다.
          ⚠️ 특정도를 id 한 단까지 올린다. 900px 묶음의 #teams .teams-preview 가
             border-radius 를 !important 로 걸어 두어 클래스만으로는 진다. */
+      /* ⚠️ 둥글기는 공통값(12px)이 아니라 4px 이다. 상자가 1019x637 에서
+         366x230 으로 줄어드는데 12px 을 그대로 두면 짧은 변 대비 1.88% 가
+         5.22% 로 세 배 가까이 커져, 데스크탑보다 훨씬 둥글어 보인다.
+         4px 은 데스크탑과 같은 비례로 옮긴 값이다(12 x 230 / 637 = 4.33). */
       #teams .teams-split .teams-preview {
         border: 1px solid var(--border) !important;
         border-right: 0 !important;
-        border-radius: var(--radius) 0 0 var(--radius) !important;
+        border-radius: 4px 0 0 4px !important;
       }
       .teams-copy { margin-top: 24px; }
     }
