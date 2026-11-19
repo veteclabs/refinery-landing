@@ -246,6 +246,7 @@ const faqSchema = {
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var last = -1, ticking = false, wasCovering = false;
+      var stageEl = document.querySelector('.pillar-industrial-ai .ai-hero-stage');
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
          scrollY 로 재던 때는 360px 에서 다 자랐는데 무대는 700px 에서야 붙어,
@@ -292,7 +293,11 @@ const faqSchema = {
               p 가 1 로 굳은 뒤로는 영영 다시 재지 않아, 히어로를 지나도 내비가
               투명한 채였다. */
         var vh = window.innerHeight || document.documentElement.clientHeight;
-        var covering = p > 0.98 && pin.getBoundingClientRect().bottom > vh;
+        /* ⚠️ 다 자랐는지(p)가 아니라 '카드가 화면을 실제로 덮고 있는지' 를 본다.
+           p 만 보면 카드가 아직 143px 아래에 있는데도 내비 면을 걷어, 그 틈으로
+           히어로 대제목이 내비 글자 뒤에 비쳤다(올라올 때 났다). */
+        var sr = stageEl ? stageEl.getBoundingClientRect() : null;
+        var covering = !!sr && sr.top <= 0 && sr.bottom >= vh - 1;
         document.documentElement.classList.toggle('ai-hero-full', covering);
         /* 자라는 동안 데모 배율을 다시 잡는다(칸 크기가 바뀐다). */
         if (window.__aiHeroResize) window.__aiHeroResize();
