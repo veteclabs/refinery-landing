@@ -1143,12 +1143,11 @@ const faqSchema = {
         var fit = bw / FRAME_W;                    /* 무대 전체를 담는 배율 */
         /* 설명이 데모 위로 올라가는 폭에서는 데모가 칸을 넓게 쓰므로 당기지 않고
            전체를 보여준다. 좁은 화면에서 당기면 화면 대부분이 잘려 나간다. */
-        /* 데모 본래 동작으로 되돌린다 — 장면마다 화면을 당겨서 보여준다.
-           한때 늘 true 로 두어 앱 화면 전체를 한 배율로만 보여줬는데(메인
-           운영체제 섹션과 배율을 맞추려고), 데모가 제 이야기를 못 했다.
+        /* ⚠️ 늘 true 다. 데모 화면을 원본 그대로 보여준다 — 당겨서 자르거나
+           따라다니지 않고, 한 배율로 화면 전체를 담는다.
            ⚠️ 데모 안의 설명 카드는 그대로 숨긴다(extcap). 설명은 왼쪽 글과
               구간 막대가 맡는다. */
-        var stacked = window.innerWidth <= 1024;
+        var stacked = true;
 
         var s, cx, cy;
         if (holding) {
@@ -1278,7 +1277,10 @@ const faqSchema = {
         }
 
         function apply(d) {
-          if (!reduce) { focusBox = d.box || null; render(true); }
+          /* ⚠️ 장면이 가리키는 상자(focusBox)를 받지 않는다. 받으면 그 자리로
+             확대 · 이동해 화면 일부만 보인다 — 데모 화면은 원본 그대로, 한
+             배율로 전체를 보여준다. 글과 구간 막대는 그대로 바뀐다. */
+          if (!reduce) { focusBox = null; render(true); }
 
           if (!card) return;
           if (d.cap) {
