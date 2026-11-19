@@ -1656,11 +1656,10 @@ const faqSchema = {
        넓어 좌우로 230px 씩 넘쳐, 왼쪽 글 위로 올라탄다. */
     .pillar-industrial-ai .ai-hero-figure {
       justify-self: start;
-      /* 다 자라면 오른쪽 두 모서리가 펴진다. */
-      border-radius: var(--radius)
-                     calc(var(--radius) * (1 - var(--grow, 0)))
-                     calc(var(--radius) * (1 - var(--grow, 0)))
-                     var(--radius);
+      /* 오른쪽 두 모서리는 늘 펴 둔다 — 데모가 카드 오른쪽 변에 붙어 있어,
+         쉴 때만 둥글면 변과 모서리 사이에 빈 자리가 생긴다.
+         왼쪽 둘은 저쪽 상자(.teams-preview)처럼 둥글게 남는다. */
+      border-radius: var(--radius) 0 0 var(--radius);
       /* 그림자도 같이 걷는다. 저쪽 상자는 테 한 겹뿐이다 — 알파를 --grow 로
          내려 자라는 동안 매끄럽게 사라지게 한다. */
       box-shadow:
