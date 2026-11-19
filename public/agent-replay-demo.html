@@ -255,7 +255,20 @@ body {
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); animation: pulse 1.4s ease-in-out infinite; }
 .chat-await { color: var(--warn); font-weight: 600; }
 .chat-done { color: var(--good); font-weight: 600; }
-.bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.bar-right { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.seg {
+  display: flex; align-items: center; gap: 2px; padding: 2px;
+  background: var(--ink-100); border: 1px solid var(--ink-200); border-radius: 8px;
+}
+.seg-btn {
+  width: 26px; height: 22px; border-radius: 6px; display: grid; place-items: center;
+  color: var(--ink-600);
+}
+.seg-btn.is-on { background: var(--white); color: var(--ink-900); box-shadow: 0 1px 2px rgba(20,30,45,.08); }
+.barbtn {
+  width: 26px; height: 26px; border-radius: 6px; display: grid; place-items: center;
+  color: var(--ink-500);
+}
 .density-btn {
   font-family: inherit; font-size: 11px; font-weight: 500; color: var(--ink-500);
   background: transparent; border: 0; border-radius: 6px; padding: 3px 9px; cursor: pointer;
@@ -854,6 +867,13 @@ body {
             <span class="chat-title" id="chatTitle" style="display:none;"></span>
             <span class="chat-status" id="chatStatus"></span>
             <div class="bar-right">
+              <!-- 대화 보기 방식. 앱 실측 — 묶음 R8 · 면 #EFF2F5 · 테 1px ·
+                   안여백 2 · 사이 2, 고른 칸만 흰 면에 그림자 한 겹. -->
+              <div class="seg">
+                <span class="seg-btn"><svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M184,72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V88A16,16,0,0,0,184,72Zm0,128H40V88H184V200ZM232,56V176a8,8,0,0,1-16,0V56H64a8,8,0,0,1,0-16H216A16,16,0,0,1,232,56Z"/></svg></span>
+                <span class="seg-btn is-on"><svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M208,136H48a16,16,0,0,0-16,16v40a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,56H48V152H208v40Zm0-144H48A16,16,0,0,0,32,64v40a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V64A16,16,0,0,0,208,48Zm0,56H48V64H208v40Z"/></svg></span>
+              </div>
+              <span class="barbtn"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M216,44H40A20,20,0,0,0,20,64V192a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V64A20,20,0,0,0,216,44ZM44,68H212v48H136a12,12,0,0,0-12,12v60H44ZM148,188V140h64v48Z"/></svg></span>
             </div>
           </div>
 
