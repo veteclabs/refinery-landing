@@ -1336,25 +1336,20 @@ const faqSchema = {
         holding = true;
         pendingFocus = null;
         focusBox = null;
+        /* ⚠️ card 는 이 바깥에 없다 — 다른 함수들이 저마다 제 안에서 찾아 쓴다.
+           그냥 쓰면 ReferenceError 가 나고, 그 뒤 setCap 도 안 돌아 왼쪽 글이
+           장면 글에 머문다(한참 그 꼴이었다). */
+        var card = document.getElementById('ai-demo-cap');
         if (card) card.classList.add('is-opening');
         setCap(OPENING);
         render(true);
         var f = document.getElementById('ai-demo-iframe');
         if (!f || !f.src) return;
-        /* 먼저 세운다. 되감기(replay)는 한 박자 뒤에 보낸다 — 둘을 붙여 보내면
-           replay 가 풀어 둔 상태에서 장면이 한두 칸 흘러가 버린다. */
-        try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
-        setTimeout(function () {
-          if (demoStarted) return;
-          try { f.contentWindow.postMessage({ type: 'refinery-hero-replay' }, '*'); } catch (e) {}
-          try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
-          /* 되감기가 보낸 첫 장면이 왼쪽 글을 덮어쓰므로 여는 글을 다시 올린다. */
-          holding = true;
-          pendingFocus = null;
-          if (card) card.classList.add('is-opening');
-          setCap(OPENING);
-          render(true);
-        }, 260);
+        /* 데모 쪽에 둔 신호 하나로 끝낸다 — 첫 화면으로 되감고 멈춘 채로 둔다.
+           ⚠️ replay + pause 로는 안 됐다. replay 가 paused 를 풀고 한 바퀴를
+              시작하므로, 곧바로 pause 를 보내도 그 사이에 장면이 흘러간다.
+              260ms 를 띄워 봐도 마찬가지였다 — 그래서 받는 쪽에 신호를 더했다. */
+        try { f.contentWindow.postMessage({ type: 'refinery-hero-rewind' }, '*'); } catch (e) {}
       };
 
       window.__aiHeroStartDemo = function () {
@@ -1661,8 +1656,7 @@ const faqSchema = {
        넓어 좌우로 230px 씩 넘쳐, 왼쪽 글 위로 올라탄다. */
     .pillar-industrial-ai .ai-hero-figure {
       justify-self: start;
-      /* 다 자라면 오른쪽 두 모서리가 펴진다 — 저쪽 상자(.teams-preview)가
-         화면 오른쪽 끝에 닿으며 왼쪽 둘만 둥근 그 모습이다. */
+      /* 다 자라면 오른쪽 두 모서리가 펴진다. */
       border-radius: var(--radius)
                      calc(var(--radius) * (1 - var(--grow, 0)))
                      calc(var(--radius) * (1 - var(--grow, 0)))

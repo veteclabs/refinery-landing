@@ -1651,6 +1651,20 @@ body {
     else if (t === "refinery-hero-resume") paused = false;
     else if (t === "refinery-hero-toggle") paused = !paused;
     else if (t === "refinery-hero-replay") { paused = false; start(); }
+    /* 첫 화면으로 되감고 멈춘 채로 둔다. 산업 AI 페이지가 쓴다 — 카드가 작아져
+       쉬는 모습으로 돌아가면 처음 그 화면에 다시 세워야 한다.
+       ⚠️ replay 로는 안 된다. 그쪽은 paused 를 풀고 한 바퀴를 시작하므로,
+          부모가 곧바로 pause 를 보내도 그 사이에 장면이 흘러간다.
+       ⚠️ epoch 를 올려 돌던 바퀴를 끊는다(wait · dwell 이 이 값을 보고 ABORT).
+          scenarioStarted 도 내려 두어야 다음에 다시 시작할 수 있다. */
+    else if (t === "refinery-hero-rewind") {
+      paused = true;
+      epoch += 1;
+      scenarioStarted = false;
+      try { $("endcard").classList.remove("is-on"); } catch (err) {}
+      applyStatic();
+      setPhase("idle");
+    }
     else return;
     /* 부모가 아이콘 상태를 맞출 수 있도록 결과를 돌려준다. */
     try { e.source && e.source.postMessage({ type: "refinery-hero-state", paused: paused }, "*"); } catch (err) {}
