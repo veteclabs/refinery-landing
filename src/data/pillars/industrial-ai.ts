@@ -56,8 +56,9 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     /* 시작 화면에 띄우는 좌측 글. \n에서 두 줄로 나뉜다. */
     openTitle: '묻는 것으로 시작하는\nAI 에이전트',
     faqHead: '자주 묻는 질문',
-    usesHead: '현장에서 바로 쓰는 활용',
-    usesLede: '산업 AI가 실제 현장에서 어떻게 쓰이는지 살펴보세요.',
+    usesHead: '현장에서 바로 쓰는 대표 활용',
+    /* 소제목은 두지 않는다 — 대제목의 '대표' 가 셋뿐이 아님을 이미 말한다. */
+    usesLede: '',
     more: '자세히보기',
     ctaTitle: '지금 바로<br>리파이너리를 경험해보세요.',
     faq: [
@@ -102,7 +103,6 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       { label: '예지보전', desc: '무선 진동센서로 설비 고장을 \n미리 예측하고 모터 예지보전까지', href: '/use-cases/predictive-maintenance' },
       { label: '전력관리', desc: '전력 데이터로 피크 ⁠· 이상 ⁠· \n절감 기회를 찾는 에너지 AI', href: '/use-cases/power-management' },
       { label: '품질 예측', desc: '공정 데이터로 불량을 \n사전에 잡는 제조 AI', href: '/use-cases/quality-prediction' },
-      { label: '에너지관리시스템(EMS)', desc: 'EMS ⁠· 전력관리 ⁠· 전력감시 ⁠· \n정전감시 개념을 한눈에', href: '/energy-management' },
     ],
   },
   en: {
@@ -119,8 +119,8 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     demoTitle: 'Refinery AI agent demo',
     openTitle: 'AI that starts\nwith a question',
     faqHead: 'FAQ',
-    usesHead: 'Ready-to-run uses on site',
-    usesLede: 'See how industrial AI works in real plants.',
+    usesHead: 'Key uses, ready to run on site',
+    usesLede: '',
     more: 'Learn more',
     ctaTitle: 'See what Refinery<br>can do for your site.',
     faq: [
@@ -165,7 +165,6 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
       { label: 'Predictive maintenance', desc: 'Predict equipment failure early with wireless vibration sensors, down to motor predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
       { label: 'Power management', desc: 'Energy AI that finds peaks, anomalies\nand savings in power data', href: '/en/use-cases/power-management' },
       { label: 'Quality prediction', desc: 'Manufacturing AI that catches defects\nin process data before they happen', href: '/en/use-cases/quality-prediction' },
-      { label: 'Energy management system (EMS)', desc: 'The concepts of EMS, power management, power monitoring and outage detection at a glance', href: '/en/energy-management' },
     ],
   },
 };
