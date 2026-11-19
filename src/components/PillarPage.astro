@@ -1301,6 +1301,45 @@ const faqSchema = {
        지정하지 않으면 3x2px 으로 찌그러진다. */
     .pillar-industrial-ai .ai-hero-figure { width: 100%; max-width: 760px; justify-self: center; }
   }
+
+  /* ───────── 자주 묻는 질문 — 과제별(.uc-redesigned .uc-faq-*)과 같은 모습
+     저쪽은 '제목이 위 · 질문 판이 아래' 한 칸이고, 목록이 옅은 면 판 위에 앉는다.
+     여기는 '제목 왼쪽 · 목록 오른쪽' 두 칸에 판이 없었다.
+     ⚠️ 마크업은 <details>/<summary> 그대로 둔다. 저쪽은 div + JS 로 여닫는데,
+        이 페이지는 답변이 검색 · 답변엔진에 읽히는 것이 목적이라 JS 없이도
+        열리고 키보드로 조작되는 <details> 쪽이 맞다. 보이는 값만 옮긴다.
+     ⚠️ 질문 · 답변 크기는 저쪽 토큰(--uc-fs-17 · --uc-fs-15)이 내는 값을 그대로
+        적는다. 그 토큰은 .uc-page 에만 선언되어 있어 이름으로는 못 가져온다. */
+  .pillar-industrial-ai .qa-head { grid-template-columns: 1fr; gap: 64px; }
+  .pillar-industrial-ai .qa-list {
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    padding: 32px 48px;
+    text-align: left;
+  }
+  .pillar-industrial-ai .qa-item { overflow: hidden; }
+  /* 저쪽 질문 줄은 좌우 4px 안여백을 갖는다(판 안에서 조금 들여 선다). */
+  .pillar-industrial-ai .qa-item summary { padding: 20px 4px; gap: 12px; }
+  .pillar-industrial-ai .qa-item h3 {
+    font-size: clamp(15px, 1.56vw, 17px); font-weight: 500; line-height: 1.5;
+  }
+  .pillar-industrial-ai .qa-caret {
+    font-size: 14px; color: #7E858F;
+    /* 저쪽은 ph-bold 를 쓰는데 여기 아이콘은 ph(보통)다. 획을 0.3px 덧대
+       같은 굵기로 보이게 한다. */
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+  .pillar-industrial-ai .qa-item p {
+    /* ⚠️ 색은 #5A6776 이 아니다. 저쪽은 var(--text-muted, #5A6776) 로 적혀
+       있지만 그 페이지에서 토큰이 실제로 내는 값은 #7E8A98 이다 — 예비값만
+       보고 옮기면 한 단 어두워진다. */
+    font-size: clamp(14px, 1.38vw, 15px); line-height: 1.5; color: #7E8A98;
+    padding: 0 4px 20px;
+  }
+  @media (max-width: 900px) {
+    .pillar-industrial-ai .qa-head { gap: 40px; }
+    .pillar-industrial-ai .qa-list { padding: 24px; }
+  }
   @media (max-width: 900px) {
     .pillar-industrial-ai .ai-hero-stage { border-radius: var(--radius); }
   }
