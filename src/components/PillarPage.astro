@@ -266,7 +266,7 @@ const faqSchema = {
            두고 그 안을 데모가 다 쓴다. 카드 폭은 칸 폭(= min(창,1600) - 좌우 96).
            ⚠️ 데모는 제 비율(1320:840)을 지키므로 폭을 키우면 카드도 그만큼
               높아진다 — 1440px 에서 701 -> 896. */
-        var PAD = 56;
+        var PAD = 112;
         var cardW = Math.min(vw, 1600) - 96;
         var demoRest = Math.max(0, cardW - PAD * 2);
         box.style.setProperty('--demo-rest', demoRest + 'px');
@@ -1717,13 +1717,18 @@ const faqSchema = {
          빨리 닫히기 때문이다. 고정해 두면 높이가 내내 늘기만 한다.
          데모는 세로 가운데에 서므로 다 자란 카드(900)에서는 이 여백이 보이지도
          않는다. */
-      /* 오른쪽 안여백은 쉴 때만 있다. 그 값(--rest-gap)은 스크롤 고리가 재서
-         넘긴다 — 데모를 카드 한가운데에 세우는 폭이다(= (카드폭 - 데모폭) / 2).
-         자라면 0 이 되어 데모가 오른쪽 변에 닿는다. */
-      padding: 56px
-               calc(var(--rest-gap, 0px) * (1 - var(--grow, 0)))
-               56px
-               calc(56px - 8px * var(--grow, 0) + var(--out, 0px) * var(--grow, 0));
+      /* 쉴 때는 네 면이 모두 --rest-gap 이다 — 스크롤 고리가 재서 넘기는 값으로,
+         데모를 카드 한가운데에 세우는 폭(= (카드폭 - 데모폭) / 2)이자 위·좌·우가
+         같아지는 값이다. 자라면 위아래는 56px, 왼쪽은 내용 너비 선(48px + 바깥
+         여백), 오른쪽은 0 이 되어 데모가 화면 변에 닿는다.
+         ⚠️ 다 자란 값은 건드리지 않는다. 위아래 56px 은 데모가 세로 가운데에
+            서는 자리를 받치고, 왼쪽 48px + --out 은 글을 다른 섹션과 같은 선에
+            세운다. */
+      padding:
+        calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + 56px * var(--grow, 0))
+        calc(var(--rest-gap, 0px) * (1 - var(--grow, 0)))
+        calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + 56px * var(--grow, 0))
+        calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + (48px + var(--out, 0px)) * var(--grow, 0));
     }
     /* 카드 높이는 데모가 끌고 간다. 데모는 제 비율(1320:840)을 지킨 채 폭이
        자라고, 다 자라면 높이가 창 높이와 같아진다 — 그 폭(창높이 x 1320/840)은
