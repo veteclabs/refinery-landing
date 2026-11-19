@@ -210,6 +210,10 @@ body {
 .topbar {
   flex: none; display: flex; align-items: center; justify-content: space-between;
   min-height: 56px; background: #FAFBFC; border-bottom: 1px solid var(--ink-200);
+  /* ⚠️ .app::before 가 상태별 번짐을 앱 전체에 깐다. 그 중심이 오른쪽 위라
+     상단 바가 통째로 물든다(승인 대기에서 노랗게 떴다). 앱의 상단 바는 단색
+     면이므로 이 층보다 위에 세운다. */
+  position: relative; z-index: 2;
 }
 .stage:not(.is-light) .topbar { background: var(--ink-50); }
 .topbar-left { display: flex; align-items: center; gap: 8px; padding: 0 24px; min-width: 0; }
@@ -698,7 +702,7 @@ body {
      바깥으로 빼면 대상 테와 나란히 두 줄이 된다. 띠는 대상 바깥 변에서 시작한다.
      둘 다 자리를 차지하지 않아 강조 영역의 크기는 대상 그대로이고,
      spot(z-index 40)이 딤(39) 위에 있어 바깥이 어두워져도 색이 그대로 선다. */
-  box-shadow: inset 0 0 0 1px #76A6D7, 0 0 0 8px #EEF4FB;
+  box-shadow: inset 0 0 0 1.5px #76A6D7, 0 0 0 8px #EEF4FB;
   opacity: 0;
   transition: opacity .3s ease;
   z-index: 40;
