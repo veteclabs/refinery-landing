@@ -279,9 +279,11 @@ body {
 .canvas { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
 .canvas::-webkit-scrollbar { width: 8px; }
 .canvas::-webkit-scrollbar-thumb { background: var(--ink-300); border-radius: 4px; }
-/* 앱 실측 — 글 칸은 칸 폭에서 좌우 19px 씩 뺀 것이고, 넓어지면 736px 에서 멈춘다
-   (입력창 최대폭과 같은 값이다). 사이 10px. */
-.thread { max-width: 736px; margin: 0 auto; padding: 16px 19px 28px; display: flex; flex-direction: column; gap: 10px; }
+/* 글 칸의 보이는 폭이 입력창과 같아야 좌우 선이 맞는다.
+   ⚠️ max-width 는 안여백까지 포함한 바깥 폭이다. 입력창과 같은 736 을 적으면
+      실제 글 폭은 736 - 32 = 704 가 되어 입력창보다 좁아진다(한 번 그렇게 났다).
+      바깥 폭을 736 + 좌우 안여백(32) = 768 로 둔다. */
+.thread { max-width: 768px; margin: 0 auto; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 10px; }
 
 /* 여는 화면은 앱(app.refinery.kr/ai-agent)의 홈과 같은 구성이다 — 마크 · 제목 ·
    한 줄 설명이 가운데에 서고, 그 아래 입력 카드, 그 아래 제안 카드가 온다.
