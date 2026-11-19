@@ -242,7 +242,7 @@ const faqSchema = {
       var pin = document.querySelector('.pillar-industrial-ai .ai-hero-pin');
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var last = -1, ticking = false;
+      var last = -1, ticking = false, wasCovering = false;
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
          scrollY 로 재던 때는 360px 에서 다 자랐는데 무대는 700px 에서야 붙어,
@@ -285,8 +285,14 @@ const faqSchema = {
         document.documentElement.classList.toggle('ai-hero-full', covering);
         /* 자라는 동안 데모 배율을 다시 잡는다(칸 크기가 바뀐다). */
         if (window.__aiHeroResize) window.__aiHeroResize();
-        /* 꽉 찬 순간 데모를 돌리기 시작한다. 안에서 한 번만 돌게 막아 둔다. */
-        if (covering && window.__aiHeroStartDemo) window.__aiHeroStartDemo();
+        /* 꽉 찬 순간 돌리기 시작하고, 쉬는 모습으로 돌아오면 첫 장면에 세운다.
+           ⚠️ 상태가 '바뀔 때만' 부른다. 매 프레임 부르면 스크롤 도중 켜짐과
+              꺼짐이 엇갈려, 올렸는데도 돌고 있는 상태로 끝나는 일이 생긴다. */
+        if (covering !== wasCovering) {
+          wasCovering = covering;
+          if (covering) { if (window.__aiHeroStartDemo) window.__aiHeroStartDemo(); }
+          else if (window.__aiHeroStopDemo) window.__aiHeroStopDemo();
+        }
       }
       function onScroll() {
         if (ticking) return;
@@ -1317,6 +1323,40 @@ const faqSchema = {
             1045px 로 커져도 안쪽이 작게 그려진다. */
       window.__aiHeroResize = function () { resize(); };
 
+      /* 위로 다시 올려 카드가 쉬는 모습으로 돌아가면 데모를 첫 장면에 되돌려
+         세운다. 그대로 두면 작아진 카드 안에서 영상만 계속 돌았다.
+         ⚠️ replay 로 첫 장면으로 되감고 곧바로 pause 로 세운다. pause 만 보내면
+            돌던 자리에 멈출 뿐 첫 장면으로 돌아가지 않는다.
+         ⚠️ 세우는 신호를 한 번 더 보낸다. 되감기가 한 박자 뒤에 끝나 그 사이에
+            다시 흘러가는 프레임이 있다. */
+      window.__aiHeroStopDemo = function () {
+        if (!demoStarted) return;
+        demoStarted = false;
+        if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+        holding = true;
+        pendingFocus = null;
+        focusBox = null;
+        if (card) card.classList.add('is-opening');
+        setCap(OPENING);
+        render(true);
+        var f = document.getElementById('ai-demo-iframe');
+        if (!f || !f.src) return;
+        /* 먼저 세운다. 되감기(replay)는 한 박자 뒤에 보낸다 — 둘을 붙여 보내면
+           replay 가 풀어 둔 상태에서 장면이 한두 칸 흘러가 버린다. */
+        try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
+        setTimeout(function () {
+          if (demoStarted) return;
+          try { f.contentWindow.postMessage({ type: 'refinery-hero-replay' }, '*'); } catch (e) {}
+          try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
+          /* 되감기가 보낸 첫 장면이 왼쪽 글을 덮어쓰므로 여는 글을 다시 올린다. */
+          holding = true;
+          pendingFocus = null;
+          if (card) card.classList.add('is-opening');
+          setCap(OPENING);
+          render(true);
+        }, 260);
+      };
+
       window.__aiHeroStartDemo = function () {
         if (demoStarted) return;
         demoStarted = true;
@@ -1507,8 +1547,11 @@ const faqSchema = {
       /* 왼쪽은 내용 너비 선에 맞춘다 — 창이 1600px 보다 넓으면 그 바깥 여백
          (--out)만큼 더 들어와, 글이 다른 섹션과 같은 선에서 시작한다.
          나머지 세 면은 0 으로 닫혀 데모가 화면 변에 닿는다. */
+      /* ⚠️ 오른쪽은 늘 0 이다. 쉬는 모습에서도 데모가 카드 오른쪽 변에 닿아야
+         다 자란 모습과 같은 배치가 된다(56px 을 남기면 쉴 때만 안쪽으로
+         들어와 보인다). */
       padding: calc(56px * (1 - var(--grow, 0)))
-               calc(56px * (1 - var(--grow, 0)))
+               0
                calc(56px * (1 - var(--grow, 0)))
                calc(56px - 8px * var(--grow, 0) + var(--out, 0px) * var(--grow, 0));
     }
