@@ -1206,6 +1206,7 @@ const faqSchema = {
           if (!e.data) return;
 
           /* 한 바퀴가 새로 시작한다는 신호. 매 바퀴 시작 화면에 다시 머문다. */
+          if (e.data.type === 'refinery-hero-chapters') { barNames(e.data.names); return; }
           if (e.data.type === 'refinery-hero-chapter') { barChapter(e.data.i, e.data.total); return; }
           if (e.data.type === 'refinery-hero-progress') { barProgress(e.data.i, e.data.p); return; }
           if (e.data.type === 'refinery-hero-cycle') { started = true; beginHold(); return; }
@@ -1346,7 +1347,8 @@ const faqSchema = {
           b.type = 'button';
           b.className = 'ai-demo-seg';
           b.setAttribute('aria-label', (i + 1) + ' / ' + total);
-          b.innerHTML = '<span class="ai-demo-track"><span class="ai-demo-fill"></span></span>';
+          b.innerHTML = '<span class="ai-demo-track"><span class="ai-demo-fill"></span></span>'
+                      + '<span class="ai-demo-nm"></span>';
           (function (k, el) {
             el.addEventListener('click', function () {
               /* 아직 안 돌고 있으면 먼저 켜고 간다. */
@@ -1362,13 +1364,28 @@ const faqSchema = {
           segs.push(b);
         }
       }
+      /* 장면 이름 — 데모가 extcap 을 받고 보내 준다(언어마다 다르다). */
+      var chapterNames = [];
+      function barNames(names) {
+        chapterNames = names || [];
+        barBuild(chapterNames.length || 7);
+        for (var k = 0; k < segs.length; k++) {
+          var el = segs[k].querySelector('.ai-demo-nm');
+          if (el) el.textContent = chapterNames[k] || '';
+          if (chapterNames[k]) segs[k].setAttribute('aria-label', chapterNames[k]);
+        }
+        alignBar();
+      }
+
       function barChapter(i, total) {
         barBuild(total || 7);
         for (var k = 0; k < segs.length; k++) {
           segs[k].classList.toggle('is-done', k < i);
+          segs[k].classList.toggle('is-on', k === i);
           if (k !== i) segs[k].querySelector('.ai-demo-fill').style.width = k < i ? '' : '0%';
         }
         if (segs[i]) segs[i].querySelector('.ai-demo-fill').style.width = '0%';
+        alignBar();
       }
       function barProgress(i, p) {
         /* 세워 둔 상태에서 들어오는 늦은 신호는 버린다 — 되감은 뒤에도 마지막
@@ -1388,8 +1405,30 @@ const faqSchema = {
       /* 쉬는 모습에서도 막대는 보여야 한다 — 장면 수(7)만큼 빈 칸을 미리 만든다.
          첫 장면 신호가 오면 같은 수라 다시 만들지 않는다. */
       barBuild(7);
+      alignBar();
+      addEventListener('resize', alignBar);
+      /* 데모가 자리를 잡은 뒤 한 번 더 맞춘다 — 처음 잴 때는 칸 크기가 아직
+         바뀌는 중이라 17px 쯤 어긋난 채로 남았다. */
+      setTimeout(alignBar, 800);
+      setTimeout(alignBar, 2500);
 
-      window.__aiHeroResize = function () { resize(); };
+      /* 막대 아랫변을 데모 아랫변에 맞춘다. 글은 세로 가운데에 서고 데모는
+         그보다 길어, 그냥 두면 막대가 데모보다 한참 위에 뜬다.
+         ⚠️ 두 칸 배치(901px 위)에서만 민다. 그 아래에서는 글이 데모 위로
+            올라가므로 맞출 아랫변이 없다. */
+      function alignBar() {
+        if (!bar) return;
+        bar.style.transform = '';
+        if (!window.matchMedia || !matchMedia('(min-width: 901px)').matches) return;
+        var fg = document.querySelector('.ai-hero-figure');
+        if (!fg) return;
+        /* ⚠️ 음수도 민다. 막대가 데모보다 아래에 있을 때 그냥 두었더니 17px
+           내려간 채로 남았다. */
+        var d = fg.getBoundingClientRect().bottom - bar.getBoundingClientRect().bottom;
+        bar.style.transform = 'translateY(' + Math.round(d) + 'px)';
+      }
+
+      window.__aiHeroResize = function () { resize(); alignBar(); };
 
       /* 위로 다시 올려 카드가 쉬는 모습으로 돌아가면 데모를 첫 장면에 되돌려
          세운다. 그대로 두면 작아진 카드 안에서 영상만 계속 돌았다.
@@ -1657,7 +1696,11 @@ const faqSchema = {
         3px 짜리를 그대로 단추로 두면 눌리지 않는다. */
   /* ⚠️ 칸은 스크립트가 만든다 — Astro 스코프 속성이 붙지 않아 :global 로 써야
      규칙이 닿는다. 그냥 쓰면 단추가 4x4 로 주저앉는다(한 번 그렇게 났다). */
-  .ai-demo-bar { display: flex; gap: 6px; margin-top: 22px; }
+  /* ⚠️ 흐름에서 뺀다(absolute). 흐름에 두면 막대 높이가 글 묶음에 더해져
+     칩 · 제목이 세로 가운데에서 그만큼 위로 밀린다 — 글은 글대로 가운데에
+     서고 막대만 데모 아랫변으로 내려간다. */
+  .pillar-industrial-ai .ai-demo-cap { position: relative; }
+  .ai-demo-bar { position: absolute; left: 0; right: 0; display: flex; gap: 6px; margin-top: 22px; }
   .ai-demo-bar :global(.ai-demo-seg) {
     flex: 1; height: 16px; padding: 0; border: 0; background: none;
     display: flex; align-items: center; cursor: pointer;
@@ -1674,6 +1717,17 @@ const faqSchema = {
   .ai-demo-bar :global(.ai-demo-seg.is-done .ai-demo-fill) { width: 100%; }
   .ai-demo-bar :global(.ai-demo-seg:hover .ai-demo-track) { background: #C8CED5; }
   .ai-demo-bar :global(.ai-demo-seg:focus-visible) { outline: 2px solid #76A6D7; outline-offset: 2px; border-radius: 4px; }
+  /* 칸마다 장면 이름. 지금 칸만 진하다 — 어디로 건너뛰는지 미리 읽힌다.
+     ⚠️ 일곱 칸에 이름이 들어가야 하므로 한 칸이 40px 남짓이다. 넘치면 잘라
+        둔다(영문 'Approval' 처럼 긴 말이 있다). */
+  .ai-demo-bar :global(.ai-demo-nm) {
+    display: block; margin-top: 7px;
+    font-size: 10px; line-height: 1.2; letter-spacing: -0.01em;
+    color: #8C98A6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ai-demo-bar :global(.ai-demo-seg.is-on .ai-demo-nm) { color: #16202C; font-weight: 600; }
+  /* 이름이 붙어 칸이 두 줄이 된다 — 가운데가 아니라 위에서 쌓는다. */
+  .ai-demo-bar :global(.ai-demo-seg) { flex-direction: column; align-items: stretch; height: auto; }
   /* 여는 글에서는 아직 아무 칸도 차 있지 않다 — 막대만 비어 보인다. */
 
   .pillar-industrial-ai .ai-demo-cap { align-self: center; }
