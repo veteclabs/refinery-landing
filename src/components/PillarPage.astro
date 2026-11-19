@@ -1747,6 +1747,15 @@ const faqSchema = {
   /* 여는 글에서는 아직 아무 칸도 차 있지 않다 — 막대만 비어 보인다. */
 
   .pillar-industrial-ai .ai-demo-cap { align-self: center; }
+  /* 글과 막대는 내내 떠 있고 내용만 장면마다 바뀐다. 기본값은 장면이 바뀔
+     때마다 사라졌다 뜨는데(opacity 0 <-> 1), 두 번 세 번 반복되니 어색했다.
+     ⚠️ 선택자를 한 단 길게 쓴다 — .ai-demo-cap.is-on 과 자릿수가 같으면
+        순서에 기대게 된다.
+     ⚠️ 막대도 이 안에 있어 같이 사라지고 있었다. */
+  .pillar-industrial-ai .ai-hero-stage .ai-demo-cap {
+    opacity: 1;
+    transition: none;
+  }
   }
 
   /* ───────── 스크롤하면 히어로 카드가 화면을 꽉 채운다
