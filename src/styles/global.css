@@ -1600,7 +1600,9 @@
       display: inline-flex;
       gap: 0;
       background: none;
-      border: 1px solid var(--border2);
+      /* ⚠️ 테두리는 단추가 갖는다. 묶음이 가지고 있으면 고른 단추의 먹이 그 1px
+         테까지 못 가 테만 회색으로 남는다 — 색이 변까지 꽉 차 보이지 않는다. */
+      border: 0;
       border-radius: 6px;
       padding: 0;
       overflow: hidden;
@@ -1615,17 +1617,24 @@
       line-height: var(--lh-caption);
       color: var(--text-muted);
       background: #ffffff;
-      border: 0;
+      border: 1px solid var(--border2);
       border-radius: 0;
       padding: 6px 20px;
       cursor: pointer;
-      transition: background-color var(--t-quick), color var(--t-quick);
+      transition: background-color var(--t-quick), border-color var(--t-quick), color var(--t-quick);
     }
-    /* 가운데 선은 두 단추 사이에만 긋는다 — 바깥 테두리는 .sol-tabs 가 갖는다. */
-    #industries .sol-tab + .sol-tab { border-left: 1px solid var(--border2); }
+    /* 가운데 선은 두 단추의 변이 겹쳐 한 줄이 된다 — 1px 을 당겨 포갠다.
+       ⚠️ 따로 긋는 선으로 두면 고른 단추의 먹이 그 선까지 닿지 않아 가운데에
+          회색 금이 남는다. */
+    #industries .sol-tab + .sol-tab { margin-left: -1px; }
     #industries .sol-tab:hover { color: var(--text); }
+    /* 고른 단추는 테두리까지 같은 먹으로 채운다. z-index 로 옆 단추의 변 위에
+       올라서야 가운데 선도 먹으로 덮인다. */
     #industries .sol-tab[aria-selected="true"] {
+      position: relative;
+      z-index: 1;
       background: #151B23;
+      border-color: #151B23;
       color: #ffffff;
     }
     /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
@@ -1682,9 +1691,14 @@
     /* 세로 flex — 그리드가 한 행의 카드 높이를 맞춰 주지만 블록이면 본문이 내용 높이에
        머물러, 이름이 한 줄인 카드와 두 줄인 카드의 화살표가 서로 다른 높이에 놓인다.
        본문이 남는 높이를 먹게 해 화살표 기준을 카드 바닥으로 통일한다. */
+    /* ⚠️ 테두리를 두지 않는다. 카드가 사진 한 장이고 그 위에 이름이 얹히는
+       구성이라, 1px 회색 테가 사진을 두른 것처럼 드러난다(모바일 실측).
+       901px 이상에서 .industry-card 의 border 를 0 으로 두는 것과 같은 까닭이고,
+       이제 좁은 폭도 같다. 면색도 거기와 같은 먹으로 둔다 — 사진이 오기 전에
+       흰 바탕이 번쩍이지 않는다. */
     .industry-card {
       display: flex; flex-direction: column; position: relative; overflow: hidden;
-      background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
+      background: #151B23; border: 0; border-radius: var(--radius);
     }
     /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
     /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
