@@ -221,16 +221,22 @@ body {
   color: var(--ink-900); flex: none;
 }
 .topbar-ic.is-dim { color: var(--ink-600); }
+/* 조직 칩 — 앱 실측 42px · R8 · 흰 면 · 테 1px · 안여백 4 · 사이 6.
+   아바타는 둥근 사각이 아니라 32px 원이고, 브랜드색이 아니라 옅은 회색 면이다. */
 .topbar-org {
-  display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 8px;
-  border: 1px solid var(--ink-200); border-radius: 9px; font-size: 13px; color: var(--ink-900);
+  display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 4px;
+  background: var(--white); border: 1px solid var(--ink-200); border-radius: 8px;
   white-space: nowrap;
 }
 .topbar-av {
-  width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; flex: none;
-  font-size: 11px; font-weight: 700; color: #FFFFFF;
-  background: linear-gradient(135deg, var(--brand), var(--brand-700));
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  font-size: 14px; font-weight: 600; color: var(--ink-700);
+  background: var(--ink-100); border: 1px solid var(--ink-200);
 }
+.topbar-org-text { display: inline-flex; align-items: center; gap: 5px; min-width: 0; }
+.topbar-org-name { font-size: 14px; font-weight: 600; color: var(--ink-900); }
+.topbar-org-sep { font-size: 12.5px; color: var(--ink-400); }
+.topbar-org-proj { font-size: 12.5px; font-weight: 500; color: var(--ink-500); }
 .topbar-org svg { color: var(--ink-400); flex: none; }
 
 .chatbar {
@@ -782,7 +788,7 @@ body {
 
         <div class="raillabel"><span data-t="recent"></span><svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M176,80a12,12,0,0,1,12-12h28a12,12,0,0,1,0,24H188A12,12,0,0,1,176,80ZM40,92h96v12a12,12,0,0,0,24,0V56a12,12,0,0,0-24,0V68H40a12,12,0,0,0,0,24Zm176,72H124a12,12,0,0,0,0,24h92a12,12,0,0,0,0-24ZM84,140a12,12,0,0,0-12,12v12H40a12,12,0,0,0,0,24H72v12a12,12,0,0,0,24,0V152A12,12,0,0,0,84,140Z"/></svg></div>
         <div class="sessions" id="sessions">
-          <button class="session is-active" type="button" tabindex="-1">
+          <button class="session" type="button" tabindex="-1">
             <span class="dot" id="activeDot"></span>
             <span class="session-main">
               <span class="session-title" id="activeSessionTitle"></span>
@@ -836,7 +842,11 @@ body {
               <span class="topbar-ic is-dim"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V88a8,8,0,0,1-16,0V56H168a8,8,0,0,1,0-16h40A8,8,0,0,1,216,48ZM88,200H56V168a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H88a8,8,0,0,0,0-16Zm120-40a8,8,0,0,0-8,8v32H168a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V168A8,8,0,0,0,208,160ZM88,40H48a8,8,0,0,0-8,8V88a8,8,0,0,0,16,0V56H88a8,8,0,0,0,0-16Z"/></svg></span>
               <span class="topbar-org">
                 <span class="topbar-av" data-t="orgInitial"></span>
-                <span class="topbar-org-name" data-t="orgName"></span>
+                <span class="topbar-org-text">
+                  <span class="topbar-org-name" data-t="orgName"></span>
+                  <span class="topbar-org-sep">·</span>
+                  <span class="topbar-org-proj" data-t="orgProj"></span>
+                </span>
                 <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z"/></svg>
               </span>
             </div>
@@ -993,7 +1003,7 @@ body {
       s2t: "불량 3배 급증, 공통 원인", s2w: "1시간 전 · 제조",
       s3t: "12개 사이트 공조 낭비 찾기", s3w: "어제 · 빌딩·시설",
       s4t: "누수 의심 4구간 좁히기", s4w: "3일 전 · 공공 인프라",
-      appTitle: "AI 에이전트", orgInitial: "R", orgName: "Refinery",
+      appTitle: "AI 에이전트", orgInitial: "R", orgName: "Refinery", orgProj: "에너지 데모",
       emptyTitle: "안녕하세요, Refinery님",
       emptySub: "진행 중 <b>0</b> · 승인 대기 <b>0</b> · 답변 대기 <b>0</b> · 오늘 완료 <b>5</b>",
       sug1T: "연결 관계 살펴보기", sug1D: "객체들이 서로 어떻게 이어져 있는지 훑어봅니다.", sug2T: "이상 신호 분석하기", sug2D: "추세를 이탈한 날·대상을 찾아 원인을 짚습니다.", sug3T: "요약 리포트 만들기", sug3D: "핵심 지표만 뽑아 한 장짜리 산출물로 남깁니다.", sug4T: "실행할 작업 찾기", sug4D: "지금 내 데이터로 할 수 있는 작업을 확인합니다.",
@@ -1097,7 +1107,7 @@ body {
       s2t: "Defects up 3x, common cause", s2w: "1 hr ago · Manufacturing",
       s3t: "HVAC waste across 12 sites", s3w: "yesterday · Buildings",
       s4t: "4 suspected leak zones", s4w: "3 days ago · Public infrastructure",
-      appTitle: "AI Agent", orgInitial: "R", orgName: "Refinery",
+      appTitle: "AI Agent", orgInitial: "R", orgName: "Refinery", orgProj: "Energy demo",
       emptyTitle: "Hello, Refinery",
       emptySub: "In progress <b>0</b> · Awaiting approval <b>0</b> · Awaiting reply <b>0</b> · Done today <b>5</b>",
       sug1T: "Trace the connections", sug1D: "See how objects actually link to one another.", sug2T: "Find what broke trend", sug2D: "Pick out the days and assets that left the trend, and why.", sug3T: "Write a short report", sug3D: "Pull the few numbers that matter into one page.", sug4T: "Find work worth doing", sug4D: "See what your data can act on right now.",
@@ -1362,6 +1372,7 @@ body {
     $("chatTitle").textContent = T.chatTitle;
     $("activeSessionTitle").textContent = T.s0t;
     $("activeSessionWhen").textContent = T.s0wActive;
+    $("activeSessionTitle").closest(".session").classList.add("is-active");
     const row = el("div", "row row--user");
     row.appendChild(el("div", "user-bubble", text));
     thread.appendChild(row); follow();
@@ -1807,8 +1818,11 @@ body {
     $("empty").insertBefore($("composer"), $("emptyCards"));
     $("modeMenu").classList.remove("is-on");
     $("chatTitle").style.display = "none";
-    $("activeSessionTitle").textContent = T.s0idle;
+    /* 쉬는 모습에서도 줄 이름은 이번 대화의 제목이다. 다만 아직 고르지 않은
+       상태이므로 칠하지 않는다 — 대화가 시작될 때 비로소 골라진다. */
+    $("activeSessionTitle").textContent = T.s0t;
     $("activeSessionWhen").textContent = T.s0w;
+    $("activeSessionTitle").closest(".session").classList.remove("is-active");
     $("chatView").style.display = "flex";
     $("inputPh").textContent = T.phIdle;
     $("endcard").classList.remove("is-on");
