@@ -438,7 +438,9 @@ body {
 .mode {
   font-family: inherit; font-size: 11px; font-weight: 600; color: var(--ink-500);
   background: transparent; border: 1px solid var(--ink-200); border-radius: 999px;
-  padding: 2.5px 10px; cursor: pointer;
+  /* 패딩은 .modelpick 과 같은 값이어야 한다. 2.5px 이면 칩이 0.9px 낮아져
+     줄 전체를 감싸는 강조 테와 칩 사이에 흰 실선이 남는다. */
+  padding: 3px 10px; cursor: pointer;
 }
 .mode.is-active { color: var(--brand); border-color: var(--brand-100); background: var(--ink-100); }
 .stage.is-light .mode.is-active { color: var(--brand-700); background: var(--brand-50); }
@@ -1382,21 +1384,42 @@ body {
     // 모서리는 대상이 가진 값을 그대로 가져온다. 고정값을 박으면 둥글기가 다른
     // 대상에서 테와 카드의 모서리가 어긋나 떠 보인다.
     const cs = getComputedStyle(node);
-    const w = r.width / K, h = r.height / K;
     let rad = parseFloat(cs.borderTopLeftRadius) || 0;
     let radCss = cs.borderRadius;
-    if (!rad) {
-      /* 제 모서리가 없는 대상은 안에 든 것의 모서리를 따른다. #modes 처럼 줄 자체는
-         0px 인데 안의 칩이 999px 알약이면, 테도 알약이 되어야 왼쪽·오른쪽 끝 모양이
-         맞는다. 각진 사각형으로 서면 끝이 칩 밖으로 삐져나와 보인다. */
-      let kid = 0;
+    let box = r;
+    /* 제 모양이 없는 껍데기(배경·테·모서리가 모두 없는 것)는 그 자신이 아니라
+       안에 든 것들의 합집합에 맞춘다. #sessions 는 좌우 패딩 10px 때문에 줄보다
+       9px 씩 넓게 서고, 그만큼 테가 줄 밖으로 뜬다. 모서리도 안의 것을 따른다 —
+       #modes 는 줄이 0px 인데 칩이 999px 알약이라, 각진 사각형으로 서면
+       왼쪽·오른쪽 끝이 칩과 어긋난다. */
+    const bare = !rad && cs.borderTopWidth === "0px" && cs.backgroundImage === "none" &&
+                 (cs.backgroundColor === "rgba(0, 0, 0, 0)" || cs.backgroundColor === "transparent");
+    if (bare && node.children.length) {
+      let L = Infinity, T = Infinity, R2 = -Infinity, B = -Infinity, kid = 0, n = 0;
       for (let i = 0; i < node.children.length; i++) {
-        kid = Math.max(kid, parseFloat(getComputedStyle(node.children[i]).borderTopLeftRadius) || 0);
+        const k = node.children[i], kr = k.getBoundingClientRect();
+        if (!kr.width || !kr.height) continue;
+        n++;
+        L = Math.min(L, kr.left); T = Math.min(T, kr.top);
+        R2 = Math.max(R2, kr.right); B = Math.max(B, kr.bottom);
+        kid = Math.max(kid, parseFloat(getComputedStyle(k).borderTopLeftRadius) || 0);
       }
-      rad = Math.min(kid, w / 2, h / 2);
-      radCss = rad + "px";
+      if (n) {
+        box = { left: L, top: T, width: R2 - L, height: B - T };
+        rad = Math.min(kid, box.width / K / 2, box.height / K / 2);
+        radCss = rad + "px";
+      }
     }
-    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: w, h: h,
+    /* 네 변을 디바이스 픽셀에 맞춘다. 대상의 제 테두리는 크롬이 디바이스 픽셀로
+       반올림해 그리는데 강조 테는 소수 좌표 그대로 그려져, 변마다 어긋나는 정도가
+       달랐다(위 변은 .82 라 가려지고 아래 변은 .4 라 회색이 0.4px 비쳤다).
+       화면 좌표에서 맞춘 뒤 무대 좌표로 되돌리므로 다시 칠해질 때 같은 자리에 선다. */
+    const d = window.devicePixelRatio || 1;
+    const snap = function (v) { return Math.round(v * d) / d; };
+    const L2 = snap(box.left), T2 = snap(box.top);
+    const R3 = snap(box.left + box.width), B2 = snap(box.top + box.height);
+    const w = (R3 - L2) / K, h = (B2 - T2) / K;
+    return { x: (L2 - sr.left) / K, y: (T2 - sr.top) / K, w: w, h: h,
              r: rad, radCss: radCss };
   }
   /* 부모 창이 설명 카드를 자기 화면에 직접 그리는 모드. 켜지면 데모 안의 카드는
@@ -1419,18 +1442,21 @@ body {
     cap.style.left = left + "px";
     cap.style.top = top + "px";
   }
-  function showSpot(sel, num, kicker, title, body) {
-    const raw = rectOf(sel);
-    if (!raw) return;
+  /** 대상 사각형을 무대 가장자리 안으로 잘라 강조 범위를 낸다. */
+  function boxOf(raw) {
     const M = 9;
     const x1 = Math.max(raw.x - PAD, M), y1 = Math.max(raw.y - PAD, M);
     const x2 = Math.min(raw.x + raw.w + PAD, STAGE_W - M);
     const y2 = Math.min(raw.y + raw.h + PAD, STAGE_H - M);
-    const box = { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+    return { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+  }
+  /** 테와 딤 구멍을 한 자리에 놓는다. */
+  function layoutSpot(box, raw) {
     const R = raw.r != null ? raw.r : SPOT_R;
     // 네 귀가 다를 수 있으므로 단축값을 통째로 박는다. 딤 구멍은 숫자 하나만 받는다.
     spot.style.borderRadius = raw.radCss || R + "px";
     place(spot, box.x, box.y, box.w, box.h);
+    const x2 = box.x + box.w, y2 = box.y + box.h;
     const p = "path(evenodd, '" + holePath(box.x, box.y, box.w, box.h, R) + "')";
     scrim.style.clipPath = p;
     scrim.style.webkitClipPath = p;
@@ -1438,6 +1464,12 @@ body {
     place(blurB, 0, y2, STAGE_W, STAGE_H - y2);
     place(blurL, 0, box.y, box.x, box.h);
     place(blurR, x2, box.y, STAGE_W - x2, box.h);
+  }
+  function showSpot(sel, num, kicker, title, body) {
+    const raw = rectOf(sel);
+    if (!raw) return;
+    const box = boxOf(raw);
+    layoutSpot(box, raw);
     spot.classList.add("is-on");
     veil.forEach((n) => n.classList.add("is-on"));
     $("capNum").textContent = String(num).padStart(2, "0");
