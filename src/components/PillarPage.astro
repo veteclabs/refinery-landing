@@ -1252,6 +1252,20 @@ const faqSchema = {
         아니라 목록과 카드의 제 모양이다. */
   .pillar-industrial-ai .ind-section { border-bottom: 0; }
 
+  /* ───────── 히어로 무대 — 바깥 테를 걷고 둥글기를 메인과 맞춘다
+     점 격자 면(#F6F8FA)과 흰 페이지가 밝기로 이미 갈려 테가 할 일이 없다.
+     둥글기는 메인이 쓰는 --radius(12px) 하나로 둔다 — 20px(좁은 폭 16px)은
+     이 페이지만 쓰던 값이라 메인의 카드 · 상자와 어긋났다.
+     ⚠️ 안쪽 데모 칸(.ai-hero-figure)의 테는 그대로 둔다. 그것은 무대 위에 놓인
+        화면의 테두리라 섞어 걷으면 데모가 면에 녹는다. */
+  .pillar-industrial-ai .ai-hero-stage {
+    border: 0;
+    border-radius: var(--radius);
+  }
+  @media (max-width: 900px) {
+    .pillar-industrial-ai .ai-hero-stage { border-radius: var(--radius); }
+  }
+
   /* ───────── 히어로 버튼 — 메인 CTA(#cta .btn-primary)와 같은 크기로 둔다
      저쪽은 기본값(6/18 · 14px)에서 한 단 키운 11px 26px · 16px 이다. 여기는
      9px 22px · 15px 이라 한 단 작았다.
