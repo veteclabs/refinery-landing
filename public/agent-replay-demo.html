@@ -304,8 +304,9 @@ body {
 .think-body { font-size: 12px; line-height: 1.6; color: var(--ink-500); padding: 4px 0 6px; }
 
 .tools {
-  border: 1px solid var(--ink-200); border-radius: 12px;
-  background: color-mix(in srgb, var(--white) 55%, transparent);
+  /* 앱 실측 — 테는 한 단 옅은 #EFF2F5(--ink-100)이고 면은 비치지 않는 흰색이다. */
+  border: 1px solid var(--ink-100); border-radius: 12px;
+  background: var(--white);
   padding: 7px 11px; animation: itemin .3s var(--ease-out) both;
   transition: border-color .2s ease;
 }
@@ -318,11 +319,11 @@ body {
 .tools-list { display: flex; flex-direction: column; gap: 2px; padding: 6px 0 3px; }
 .tool {
   display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap;
-  font-size: 11.5px; padding: 3px 0; animation: itemin .22s var(--ease-out) both;
+  font-size: 11.5px; padding: 1.5px 0; animation: itemin .22s var(--ease-out) both;
 }
 .tool-ic { display: flex; align-self: center; color: var(--good); flex: none; }
 .tool.is-running .tool-ic { color: var(--brand); }
-.tool-name { font-weight: 600; color: var(--ink-800); flex: none; }
+.tool-name { font-weight: 500; color: var(--ink-700); flex: none; }
 .tool-args { color: var(--ink-400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46%; }
 .tool-sum { color: var(--ink-600); flex-basis: 100%; padding-left: 19px; }
 .verified {
@@ -375,7 +376,7 @@ body {
 .artifact-head { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-bottom: 1px solid var(--ink-200); }
 .stage.is-light .artifact-head { border-bottom-color: var(--ink-100); }
 .artifact-ic {
-  width: 24px; height: 24px; border-radius: 7px; flex: none; display: grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 8px; flex: none; display: grid; place-items: center;
   color: var(--brand); background: var(--ink-100);
 }
 .stage.is-light .artifact-ic { color: var(--brand-700); background: var(--brand-50); }
