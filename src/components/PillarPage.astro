@@ -7,6 +7,8 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import ScrollReveal from './ScrollReveal.astro';
 import type { PillarContent } from '../data/pillars/industrial-ai';
+import { findUseCase } from '../data/usecases';
+import { findUseCaseEn } from '../data/usecases/en';
 import '../styles/industry.css';
 
 interface Props {
@@ -29,6 +31,18 @@ const pillarSlug = T.canonical.replace(/\/$/, '').split('/').pop();
 
 const faqItems = T.faq;
 const uses = T.uses;
+
+/* 활용 카드에 쓸 사진. 과제 데이터(cardImage)에서 slug 로 찾아 온다 — 필러
+   데이터에 경로를 또 적지 않는다. 과제 쪽 사진을 바꾸면 이 카드도 따라온다.
+   ⚠️ 글(label · desc)은 필러 데이터 것을 그대로 쓴다. 과제의 이름 · 태그라인을
+      끌어오면 이 페이지용으로 쓴 문구가 사라진다.
+   ⚠️ 과제가 아닌 곳(다른 필러 페이지 등)으로 가는 카드는 사진이 없다 —
+      그때는 사진 없는 카드로 선다. */
+const useCards = uses.map((u) => {
+  const slug = u.href.replace(/\/$/, '').split('/').pop() || '';
+  const uc = lang === 'en' ? findUseCaseEn(slug) : findUseCase(slug);
+  return { ...u, image: u.href.includes('/use-cases/') ? uc?.cardImage : undefined };
+});
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -99,7 +113,7 @@ const faqSchema = {
     </section>
 
     <!-- 정의형 Q&A -->
-    <section class="ind-section">
+    <section class="ind-section qa-section">
       <div class="ind-container">
         <div class="qa-head">
         <header class="ind-head">
@@ -129,15 +143,54 @@ const faqSchema = {
     </section>
 
     <!-- 관련 활용 -->
-    <section class="ind-section ind-soft">
+    {/* 산업 AI 는 흰 면이다 — 과제별 '과제 더 살펴보기' 와 같다. 에너지관리는
+        요청받지 않아 옅은 면(.ind-soft) 그대로 둔다. */}
+    <section class:list={['ind-section', pillarSlug !== 'industrial-ai' && 'ind-soft']}>
       <div class="ind-container">
         {/* 줄바꿈은 <br>로 명시한다. 대제목과 소제목은 한 줄에 좌우로 앉는데,
             영문처럼 문구가 길면 flex-wrap이 걸려 소제목이 아래로 떨어진다.
             그때 두 줄로 나눠 좌우 자리를 지킨다. */}
         <header class="ind-head">
           <h2 set:html={T.usesHead}></h2>
-          <p set:html={T.usesLede}></p>
+          {/* 소제목이 비어 있으면 <p> 자체를 내지 않는다 — 빈 칸이 남으면 머리
+              아래 간격이 글 없이 벌어진다. 히어로 소제목과 같은 처리다. */}
+          {T.usesLede && <p set:html={T.usesLede}></p>}
         </header>
+        {/* 산업 AI 는 과제별 '과제 더 살펴보기'(.uc-case)와 같은 사진 카드로 낸다.
+            에너지관리는 요청받지 않아 종전 글 카드 그대로 둔다. */}
+        {pillarSlug === 'industrial-ai' ? (
+        <div class="uc-cases">
+          {useCards.map((u) => (
+            <a class={u.image ? 'uc-case uc-case--img' : 'uc-case'} href={u.href}>
+              {u.image && (
+                <img
+                  class="uc-case-img"
+                  src={u.image.src}
+                  alt=""
+                  aria-hidden="true"
+                  width={u.image.width}
+                  height={u.image.height}
+                  style={u.image.position ? `object-position:${u.image.position}` : undefined}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              <div class="uc-case-body">
+                <div class="uc-case-text">
+                  <span class="uc-case-label">{u.label}</span>
+                  {/* 접히는 칸 — 평소에는 높이 0 이고 카드에 마우스를 올리면 펴진다. */}
+                  <span class="uc-case-fold"><span>
+                    <p class="uc-case-desc">{u.desc.split('\n').map((l, i) => (<>{i > 0 && <br />}{l}</>))}</p>
+                  </span></span>
+                </div>
+                <span class="uc-case-go" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+        ) : (
         <div class="ind-grid ind-grid-4">
           {uses.map((u) => (
             <a class="ind-card" href={u.href}>
@@ -148,6 +201,7 @@ const faqSchema = {
             </a>
           ))}
         </div>
+        )}
       </div>
     </section>
 
@@ -1328,6 +1382,120 @@ const faqSchema = {
         열리고 키보드로 조작되는 <details> 쪽이 맞다. 보이는 값만 옮긴다.
      ⚠️ 질문 · 답변 크기는 저쪽 토큰(--uc-fs-17 · --uc-fs-15)이 내는 값을 그대로
         적는다. 그 토큰은 .uc-page 에만 선언되어 있어 이름으로는 못 가져온다. */
+  /* ───────── 활용 카드 — 과제별 '과제 더 살펴보기'(.uc-case)와 같은 모습
+     저쪽 규칙은 UseCasePage 의 스코프 스타일이라 클래스를 붙여도 여기까지 오지
+     않는다. 같은 값을 옮겨 적는다.
+     ⚠️ 크기는 저쪽 토큰(--uc-fs-24 · --uc-fs-20 · --uc-fs-15)이 내는 값을 그대로
+        적는다. 그 토큰은 .uc-page 에만 선언되어 있어 이름으로는 못 가져온다.
+     ⚠️ 카드가 셋이고 저쪽 격자도 3열이라 한 줄에 딱 맞는다. */
+  .pillar-industrial-ai .uc-cases {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .pillar-industrial-ai .uc-case {
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+    min-height: 320px;
+    color: #16202c;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 32px 32px;
+    transition: border-color .2s, color .2s;
+  }
+  /* ⚠️ width: 100% 를 준다. .uc-case 가 flex 라 자식이 글 폭만큼만 차지해,
+     없으면 화살표가 오른쪽 끝까지 가지 않는다. */
+  .pillar-industrial-ai .uc-case-body {
+    position: relative; z-index: 3; word-break: keep-all;
+    width: 100%;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  }
+  .pillar-industrial-ai .uc-case-text { min-width: 0; }
+  /* 평소에는 이름만 크게 선다. 마우스를 올리면 이름이 줄고 그 아래로 설명과
+     화살표가 나온다.
+     ⚠️ margin-bottom 을 여기 두지 않는다. 접힌 동안에도 그 여백이 남아 이름
+        아래가 떠 보인다 — 설명 쪽의 위 여백으로 옮겼다. */
+  .pillar-industrial-ai .uc-case-label {
+    display: block; font-size: clamp(19px, 2.2vw, 24px); font-weight: 600; margin-bottom: 0;
+    transition: font-size .25s ease;
+  }
+  .pillar-industrial-ai .uc-case:hover .uc-case-label { font-size: clamp(16px, 1.83vw, 20px); }
+  /* 0fr -> 1fr. 높이를 숫자로 재지 않아 글 길이가 달라도 같은 속도로 펴진다. */
+  .pillar-industrial-ai .uc-case-fold {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows .25s ease;
+  }
+  .pillar-industrial-ai .uc-case-fold > span { overflow: hidden; min-height: 0; opacity: 0; transition: opacity .15s; }
+  .pillar-industrial-ai .uc-case:hover .uc-case-fold { grid-template-rows: 1fr; }
+  .pillar-industrial-ai .uc-case:hover .uc-case-fold > span { opacity: 1; transition: opacity .25s .08s; }
+  .pillar-industrial-ai .uc-case-desc {
+    margin: 5px 0 0; font-size: clamp(14px, 1.38vw, 15px); line-height: 1.5;
+    color: var(--text-muted); text-wrap: pretty;
+  }
+  /* ⚠️ 마우스가 없는 화면(터치)에서는 호버가 없어 설명과 화살표가 영영 안 나온다.
+     그쪽에서는 처음부터 펴 둔다 — 이름만 남으면 카드가 무엇인지 알 수 없다. */
+  @media (hover: none) {
+    .pillar-industrial-ai .uc-case-label { font-size: clamp(16px, 1.83vw, 20px); }
+    .pillar-industrial-ai .uc-case-fold { grid-template-rows: 1fr; }
+    .pillar-industrial-ai .uc-case-fold > span { opacity: 1; }
+    .pillar-industrial-ai .uc-case-go { opacity: 1; transform: none; }
+  }
+  /* 글자 없이 화살표만. 카드 전체가 링크라 이름이 제목을 맡고, 이 아이콘은
+     '넘어간다' 는 신호만 준다(그래서 aria-hidden). */
+  .pillar-industrial-ai .uc-case-go {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    flex: none;
+    border: 1px solid currentColor; border-radius: 50%;
+    color: #C8CED5;
+    opacity: 0;
+    transform: translateX(-6px);
+    /* ⚠️ var(--t-quick) 을 쓰지 않는다. 그 값은 global.css 의 :root 에 있고 이
+       페이지에는 실리지 않아, 쓰면 선언이 통째로 무효가 된다. */
+    transition: opacity .2s ease, transform .2s ease, background-color .2s ease, color .2s ease;
+  }
+  .pillar-industrial-ai .uc-case-go svg { display: block; }
+  .pillar-industrial-ai .uc-case:hover .uc-case-go { opacity: 1; transform: none; color: #F6F8FA; }
+  .pillar-industrial-ai .uc-case:hover { border-color: var(--accent); color: #4b86bf; }
+  @media (max-width: 860px) {
+    .pillar-industrial-ai .uc-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .pillar-industrial-ai .uc-cases { grid-template-columns: 1fr; }
+  }
+  /* 사진이 있는 카드 — 사진 -> 어두운 막 -> 아래 그라데이션 -> 글 순으로 쌓아
+     사진 위에서도 글자가 읽히게 한다. 테를 없애야 사진이 카드를 끝까지 채운다
+     (테가 있으면 inset: 0 이 패딩 박스 기준이라 사방 1px 흰 테가 남는다). */
+  .pillar-industrial-ai .uc-case-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; pointer-events: none; user-select: none;
+    transition: transform .3s ease;
+  }
+  /* ⚠️ z-index 필수. ::before 는 생성 순서상 사진보다 앞이라, 지정하지 않으면
+     사진이 이 막을 덮는다(그리는 순서가 DOM 순서다). */
+  .pillar-industrial-ai .uc-case--img::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: rgba(17,19,22,.25);
+  }
+  .pillar-industrial-ai .uc-case--img::after {
+    content: ''; position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(180deg,
+      rgba(17,19,22,0) 0%,
+      rgba(17,19,22,.12) 28%,
+      rgba(17,19,22,.82) 52%,
+      rgba(17,19,22,1) 100%);
+  }
+  .pillar-industrial-ai .uc-case--img { border: none; }
+  .pillar-industrial-ai .uc-case--img .uc-case-label { color: #fff; }
+  .pillar-industrial-ai .uc-case--img .uc-case-desc { color: rgba(255,255,255,.82); }
+  .pillar-industrial-ai .uc-case--img:hover .uc-case-label { color: #fff; }
+  .pillar-industrial-ai .uc-case--img:hover .uc-case-img { transform: scale(1.04); }
+
+  /* 문답과 활용 사이 여백 — 과제별(.uc-redesigned .uc-faq-section)과 같은
+     값이다. 공통값은 위아래 180px 이라 둘 사이가 360px 이었다.
+     저쪽은 90 + 90 으로 좁혀 두 섹션을 한 흐름으로 읽히게 한다. */
+  .pillar-industrial-ai .qa-section { padding-bottom: 90px; }
+  .pillar-industrial-ai .qa-section + .ind-section { padding-top: 90px; }
+
   .pillar-industrial-ai .qa-head { grid-template-columns: 1fr; gap: 64px; }
   .pillar-industrial-ai .qa-list {
     background: var(--bg-soft);
