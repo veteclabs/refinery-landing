@@ -1382,9 +1382,22 @@ body {
     // 모서리는 대상이 가진 값을 그대로 가져온다. 고정값을 박으면 둥글기가 다른
     // 대상에서 테와 카드의 모서리가 어긋나 떠 보인다.
     const cs = getComputedStyle(node);
-    const rad = parseFloat(cs.borderTopLeftRadius) || 0;
-    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: r.width / K, h: r.height / K,
-             r: rad, radCss: cs.borderRadius };
+    const w = r.width / K, h = r.height / K;
+    let rad = parseFloat(cs.borderTopLeftRadius) || 0;
+    let radCss = cs.borderRadius;
+    if (!rad) {
+      /* 제 모서리가 없는 대상은 안에 든 것의 모서리를 따른다. #modes 처럼 줄 자체는
+         0px 인데 안의 칩이 999px 알약이면, 테도 알약이 되어야 왼쪽·오른쪽 끝 모양이
+         맞는다. 각진 사각형으로 서면 끝이 칩 밖으로 삐져나와 보인다. */
+      let kid = 0;
+      for (let i = 0; i < node.children.length; i++) {
+        kid = Math.max(kid, parseFloat(getComputedStyle(node.children[i]).borderTopLeftRadius) || 0);
+      }
+      rad = Math.min(kid, w / 2, h / 2);
+      radCss = rad + "px";
+    }
+    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: w, h: h,
+             r: rad, radCss: radCss };
   }
   /* 부모 창이 설명 카드를 자기 화면에 직접 그리는 모드. 켜지면 데모 안의 카드는
      숨기고, 강조 범위와 카드 내용을 부모에 넘긴다. 산업 AI 페이지가 쓴다. */
