@@ -71,7 +71,7 @@
      공통 .ind-card는 제목 18/650/-0.01em·행간 1.65, 설명 15/행간 1.6이라 조금씩 달랐다.
      색은 맞추지 않는다 — 저쪽은 사진 위 흰 글자, 여기는 밝은 면 위 어두운 글자다. */
   .res-page .res-card h3 {
-    font-size: 20px; font-weight: 600; letter-spacing: normal;
+    font-size: clamp(16px, 1.83vw, 20px); font-weight: 600; letter-spacing: normal;
     line-height: 1.65; margin-bottom: 5px;
   }
   .res-page .res-card p { font-size: 15px; line-height: 1.5; }
@@ -188,7 +188,7 @@
   /* 표지 줄은 카드 아래 대제목(20px)보다 크게 둔다 — 카드에서 먼저 읽히는 자리다.
      줄바꿈은 cover 값 안의 <br>로 명시한다(마크업 안의 개행은 공백으로 합쳐진다). */
   .res-cover-line {
-    font-size: 24px; font-weight: 600; line-height: 1.4; color: #fff;
+    font-size: clamp(19px, 2.2vw, 24px); font-weight: 600; line-height: 1.4; color: #fff;
     letter-spacing: -0.02em;
   }
   /* 위 카드의 태그라인과 같은 자리에 둔다 — 두 줄을 번갈아 볼 때 글자가

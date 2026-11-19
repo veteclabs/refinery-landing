@@ -58,7 +58,7 @@ img { max-width: 100%; height: auto; }
 .ind-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 16px; }
 .ind-hero h1 { font-size: clamp(30px, 5vw, 52px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
 /* 행간 1.5 — 정해 둔 본문 기준값이다. */
-.ind-lede { margin-top: 20px; font-size: 18px; color: var(--text-muted); max-width: 60ch; line-height: 1.5; }
+.ind-lede { margin-top: 20px; font-size: clamp(16px, 1.65vw, 18px); color: var(--text-muted); max-width: 60ch; line-height: 1.5; }
 .ind-hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 /* 섹션 공통 */
@@ -96,7 +96,7 @@ img { max-width: 100%; height: auto; }
 .ind-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .ind-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
 .ind-soft .ind-card { background: #fff; }
-.ind-card h3 { font-size: 18px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 8px; }
+.ind-card h3 { font-size: clamp(16px, 1.65vw, 18px); font-weight: 650; letter-spacing: -0.01em; margin-bottom: 8px; }
 .ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
 
 /* USE CASES */
@@ -303,7 +303,7 @@ img { max-width: 100%; height: auto; }
 .ind-page .ind-flow-label {
   flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: inherit;
-  font-size: 24px; font-weight: 600; line-height: 1.3;
+  font-size: clamp(19px, 2.2vw, 24px); font-weight: 600; line-height: 1.3;
   letter-spacing: -0.01em; text-transform: none;
   color: var(--text); margin-bottom: 0;
 }
@@ -1505,7 +1505,7 @@ img { max-width: 100%; height: auto; }
    그대로다(도입 효과 제목 칸 64px 가정도 지킨다). 일곱 산업 · 두 언어를 1600~480px
    일곱 폭에서 재어 낱말 혼자 남는 자리가 58곳 -> 6곳으로 줄었고 넘침은 양쪽 모두 0이다.
    국문은 제목이 모두 한 줄이라 변화가 없다. 지원하지 않는 브라우저는 지금 모습 그대로다. */
-.ind-page .ind-card h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin-bottom: 5px; text-wrap: balance; }
+.ind-page .ind-card h3 { font-size: clamp(16px, 1.83vw, 20px); font-weight: 600; line-height: 1.6; margin-bottom: 5px; text-wrap: balance; }
 .ind-page .ind-card p { line-height: 1.5; }
 .ind-page .ind-usecase-body h3 { font-weight: 600; line-height: 1.6; }
 
@@ -1670,7 +1670,7 @@ img { max-width: 100%; height: auto; }
 /* 어두운 판 위라 글은 밝은 한 벌이다 — 제목 #F6F8FA · 소제목 #A0A8B3,
    이 페이지 어두운 면(.ind-head-light)에서 쓰는 두 값과 같다. */
 .ind-page .ind-systems-head h3 {
-  font-size: 20px; font-weight: 600; line-height: 1.6;
+  font-size: clamp(16px, 1.83vw, 20px); font-weight: 600; line-height: 1.6;
   color: #F6F8FA; margin: 0;
 }
 .ind-page .ind-systems-sub {
