@@ -11,7 +11,7 @@
   --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-spring: cubic-bezier(.3, 1.12, .35, 1);
-  --spot-r: 12px;
+  --spot-r: 10px;
 }
 
 .stage {
@@ -40,7 +40,7 @@
   --bad: #E5484D;
   --bad-50: rgba(229,72,77,.12);
 
-  --scrim: rgba(6, 8, 11, .76);
+  --scrim: rgba(21, 27, 35, .44);
   --cap-bg: #0E1116;
   --cap-line: rgba(255,255,255,.11);
   --cap-ink: #E8EAED;
@@ -71,7 +71,7 @@
   --warn-50: rgba(240,169,58,.12);
   --bad-50: rgba(229,72,77,.10);
 
-  --scrim: rgba(22, 32, 44, .55);
+  --scrim: rgba(21, 27, 35, .32);
   --cap-bg: #FFFFFF;
   --cap-line: rgba(22,32,44,.12);
   --cap-ink: #16202C;
@@ -506,8 +506,8 @@ body {
 /* 흐리는 층. backdrop-filter 는 clip-path 로 잘리지 않아 강조 영역까지 번지므로,
    판의 경계 자체를 흐림의 경계로 삼는다. 색이 없어 판 사이 이음새가 드러나지 않는다. */
 .scrim-b {
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
 }
 .scrim.is-on, .scrim-b.is-on { opacity: 1; }
 .scrim:not(.is-on), .scrim-b:not(.is-on) { transition: opacity .11s ease; }
@@ -521,8 +521,7 @@ body {
 .spot:not(.is-on) { transition: opacity .11s ease; }
 .spot::after {
   content: ""; position: absolute; inset: -1px; border-radius: inherit;
-  border: 1px solid rgba(118,166,215,.5);
-  box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 0 22px rgba(118,166,215,.22);
+  border: 1.5px solid #76A6D7;
 }
 .spot.is-on { opacity: 1; }
 
