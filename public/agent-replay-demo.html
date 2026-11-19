@@ -521,7 +521,10 @@ body {
 .spot:not(.is-on) { transition: opacity .11s ease; }
 .spot::after {
   content: ""; position: absolute; inset: -1px; border-radius: inherit;
-  border: 1.5px solid #76A6D7;
+  border: 1px solid #76A6D7;
+  /* 하늘색 한 줄 바깥에 연한 띠를 3px 덧댄다. 딤(z-index 39) 위에 놓이므로
+     바깥이 어두워져도 색이 그대로 선다. */
+  box-shadow: 0 0 0 3px #EEF4FB;
 }
 .spot.is-on { opacity: 1; }
 
