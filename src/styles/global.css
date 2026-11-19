@@ -1203,11 +1203,15 @@
           345~380 이 모두 같은 결과라 가운데를 잡았다. 국문은 캘린더만 두 줄
           (문구가 한 문장 짧다), 영문은 여섯 모두 세 줄이다. */
     .teams-split .teams-preview-text p { max-width: 360px; }
-    /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다 — 잘려 나가는 곳이 없으므로
-       네 변 모두 테두리와 둥글기를 둔다. 상자가 통째로 보인다. */
+    /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다. 왼쪽 두 모서리만 둥글게 두고
+       오른쪽은 각지게 둔다 — 화면 변에 닿는 쪽에 둥근 모서리를 두면 그 자리에
+       바탕이 파고들어 그림이 잘려 나가는 것처럼 보인다.
+       ⚠️ 821~1280px 구간이 쓰던 처리를 넓은 폭에도 같게 맞춘 것이다
+          (2026-11-19). 네 변을 다 두르려면 이 두 줄만 되돌린다. */
     .teams-split .teams-preview {
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-right: 0;
+      border-radius: var(--radius) 0 0 var(--radius);
     }
     /* 그림 위에 글이 없어졌으니 가리던 막도 걷는다. */
     .teams-preview-decor { display: none; }
