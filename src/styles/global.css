@@ -270,13 +270,16 @@
       /* 받침·꼬리가 잘리지 않게 칠할 칸을 조금 넓힌다. */
       padding-bottom: .06em;
     }
-    /* 줄마다 캡 하이트와 베이스라인에 제도 보조선을 긋고, 양 끝에 치수 연장선을
-       세운다. 선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
-       ⚠️ 높이 값(.114em·.246em)은 글자 먹과 선 사이를 실제로 재서 맞춘 값이다
-          (1600 · 60px). 눈으로 맞췄던 .16em·.2em 일 때는 윗선이 글자에 붙고
-          아랫선만 벌어져 있었다 — 위 1.0px · 아래 6.5px. 두 선을 함께 2.75px
-          (.0458em) 올려 위아래를 3.75px 로 맞춘 값이다.
-          ⚠️ 올리려면 ::before 의 top 은 줄이고 ::after 의 bottom 은 늘린다
+    /* 줄마다 글자 위아래로 제도 보조선을 긋고, 양 끝에 치수 연장선을 세운다.
+       선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
+       ⚠️ 높이 값(.1378em·.2223em)은 글자 잉크를 재서 두 선 사이 한가운데에
+          오게 한 값이다. 잉크는 캔버스의 actualBoundingBox 로 쟀다 —
+          60px 에서 잉크 위 11.75px · 아래 64.77px, 선은 8.27 · 68.25px 라
+          위아래 틈이 3.48px 로 같다.
+          ⚠️ .114em·.246em 이던 때는 위 4.91 · 아래 2.06px 으로 2.85px 어긋나
+             있었다. 그때 값은 캡 하이트와 베이스라인에 맞춘 것이라, 한글의
+             잉크(모음 끝 · 받침)와는 기준이 달랐다.
+          ⚠️ 내리려면 ::before 의 top 을 늘리고 ::after 의 bottom 을 줄인다
              (bottom 은 아래에서 잰 거리라 방향이 반대다). 활자를 바꾸면 다시 잰다. */
     #industries .sol-title .sol-line::before,
     #industries .sol-title .sol-line::after {
@@ -294,13 +297,13 @@
     }
     /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */
     #industries .sol-title .sol-line::before {
-      top: .114em;
+      top: .1378em;
       border-bottom: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, -100%);
     }
     /* 베이스라인 — 점선은 윗변, 연장선이 아래로 뻗는다. */
     #industries .sol-title .sol-line::after {
-      bottom: .246em;
+      bottom: .2223em;
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }
