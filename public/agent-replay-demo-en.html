@@ -235,7 +235,9 @@ body {
 .canvas { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
 .canvas::-webkit-scrollbar { width: 8px; }
 .canvas::-webkit-scrollbar-thumb { background: var(--ink-300); border-radius: 4px; }
-.thread { max-width: 768px; margin: 0 auto; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 10px; }
+/* 앱 실측 — 글 칸은 칸 폭에서 좌우 19px 씩 뺀 것이고, 넓어지면 736px 에서 멈춘다
+   (입력창 최대폭과 같은 값이다). 사이 10px. */
+.thread { max-width: 736px; margin: 0 auto; padding: 16px 19px 28px; display: flex; flex-direction: column; gap: 10px; }
 
 /* 여는 화면은 앱(app.refinery.kr/ai-agent)의 홈과 같은 구성이다 — 마크 · 제목 ·
    한 줄 설명이 가운데에 서고, 그 아래 입력 카드, 그 아래 제안 카드가 온다.
@@ -490,7 +492,8 @@ body {
    줄며 그림자가 두 겹이 된다(실측). 홈 값은 아래 .empty .input 에서 되돌린다. */
 .input {
   display: flex; flex-direction: column; gap: 6px;
-  max-width: 604px; margin: 0 auto;
+  /* 앱 실측 — 최대폭 736px. 글 칸과 같은 값이라 둘의 좌우 선이 맞는다. */
+  max-width: 736px; margin: 0 auto;
   border: 1px solid var(--ink-200); border-radius: 16px;
   background: var(--card); padding: 8px 8px 8px 10px;
   box-shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.10);
