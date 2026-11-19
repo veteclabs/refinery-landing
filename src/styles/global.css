@@ -270,13 +270,21 @@
       /* 받침·꼬리가 잘리지 않게 칠할 칸을 조금 넓힌다. */
       padding-bottom: .06em;
     }
-    /* 줄마다 캡 하이트와 베이스라인에 제도 보조선을 긋고, 양 끝에 치수 연장선을
-       세운다. 선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
-       ⚠️ 높이 값(.114em·.246em)은 글자 먹과 선 사이를 실제로 재서 맞춘 값이다
-          (1600 · 60px). 눈으로 맞췄던 .16em·.2em 일 때는 윗선이 글자에 붙고
-          아랫선만 벌어져 있었다 — 위 1.0px · 아래 6.5px. 두 선을 함께 2.75px
-          (.0458em) 올려 위아래를 3.75px 로 맞춘 값이다.
-          ⚠️ 올리려면 ::before 의 top 은 줄이고 ::after 의 bottom 은 늘린다
+    /* 줄마다 글자 위아래로 제도 보조선을 긋고, 양 끝에 치수 연장선을 세운다.
+       선은 글자 폭보다 조금 넓게 빼야 '재고 그린' 것으로 읽힌다.
+       ⚠️ 높이 값(.1378em·.2223em)은 글자 잉크를 재서 두 선 사이 한가운데에
+          오게 한 값이다. 잉크는 캔버스의 actualBoundingBox 로 쟀다 —
+          60px 에서 선은 8.02 · 68.00px 다. 잉크 기준으로는 위아래 3.48px 로
+          딱 같은 자리가 .1378em · .2223em 이었는데(선 8.27 · 68.25), 그 자리에서
+          글씨가 아주 조금 위에 떠 보여 선을 0.25px 올렸다 — 눈으로 고른 값이다
+          (0.5 · 0.3 을 거쳐 0.25 로 정했다).
+          ⚠️ 잉크 맨끝으로 잰 '수학적 가운데' 와 눈이 보는 가운데가 0.5px 다르다.
+             한글은 모음 끝과 받침이 양끝을 잡아 늘여, 덩어리 무게가 조금 아래에
+             쏠리기 때문이다(질량 중심 38.33 · 맨끝 중심 37.75, 60px 기준).
+          ⚠️ .114em·.246em 이던 때는 위 4.91 · 아래 2.06px 으로 2.85px 어긋나
+             있었다. 그때 값은 캡 하이트와 베이스라인에 맞춘 것이라, 한글의
+             잉크(모음 끝 · 받침)와는 기준이 달랐다.
+          ⚠️ 내리려면 ::before 의 top 을 늘리고 ::after 의 bottom 을 줄인다
              (bottom 은 아래에서 잰 거리라 방향이 반대다). 활자를 바꾸면 다시 잰다. */
     #industries .sol-title .sol-line::before,
     #industries .sol-title .sol-line::after {
@@ -294,13 +302,13 @@
     }
     /* 캡 하이트 — 점선은 상자 아래변에 두고 연장선이 위로 뻗는다. */
     #industries .sol-title .sol-line::before {
-      top: .114em;
+      top: .1336em;
       border-bottom: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, -100%);
     }
     /* 베이스라인 — 점선은 윗변, 연장선이 아래로 뻗는다. */
     #industries .sol-title .sol-line::after {
-      bottom: .246em;
+      bottom: .2265em;
       border-top: 1px dashed rgba(118,166,215,.6);
       transform: translate(-50%, 100%);
     }
@@ -1178,10 +1186,14 @@
       /* 오른쪽에 남는 자리가 없으므로 그쪽 테두리와 둥글기는 두지 않는다.
          ⚠️ 특정도를 id 한 단까지 올린다. 900px 묶음의 #teams .teams-preview 가
             border-radius 를 !important 로 걸어 두어 클래스만으로는 진다. */
+      /* ⚠️ 둥글기는 공통값(12px)이 아니라 4px 이다. 상자가 1019x637 에서
+         366x230 으로 줄어드는데 12px 을 그대로 두면 짧은 변 대비 1.88% 가
+         5.22% 로 세 배 가까이 커져, 데스크탑보다 훨씬 둥글어 보인다.
+         4px 은 데스크탑과 같은 비례로 옮긴 값이다(12 x 230 / 637 = 4.33). */
       #teams .teams-split .teams-preview {
         border: 1px solid var(--border) !important;
         border-right: 0 !important;
-        border-radius: var(--radius) 0 0 var(--radius) !important;
+        border-radius: 4px 0 0 4px !important;
       }
       .teams-copy { margin-top: 24px; }
     }
@@ -1195,11 +1207,15 @@
           345~380 이 모두 같은 결과라 가운데를 잡았다. 국문은 캘린더만 두 줄
           (문구가 한 문장 짧다), 영문은 여섯 모두 세 줄이다. */
     .teams-split .teams-preview-text p { max-width: 360px; }
-    /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다 — 잘려 나가는 곳이 없으므로
-       네 변 모두 테두리와 둥글기를 둔다. 상자가 통째로 보인다. */
+    /* 오른쪽 끝이 화면 오른쪽 끝에 정확히 닿는다. 왼쪽 두 모서리만 둥글게 두고
+       오른쪽은 각지게 둔다 — 화면 변에 닿는 쪽에 둥근 모서리를 두면 그 자리에
+       바탕이 파고들어 그림이 잘려 나가는 것처럼 보인다.
+       ⚠️ 821~1280px 구간이 쓰던 처리를 넓은 폭에도 같게 맞춘 것이다
+          (2026-11-19). 네 변을 다 두르려면 이 두 줄만 되돌린다. */
     .teams-split .teams-preview {
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-right: 0;
+      border-radius: var(--radius) 0 0 var(--radius);
     }
     /* 그림 위에 글이 없어졌으니 가리던 막도 걷는다. */
     .teams-preview-decor { display: none; }
@@ -1588,7 +1604,14 @@
       display: inline-flex;
       gap: 0;
       background: none;
-      border: 1px solid var(--border2);
+      /* ⚠️ 테는 border 가 아니라 inset box-shadow 다. 부모의 바탕·그림자는
+         자식보다 먼저 칠해지므로, 고른 단추의 먹이 그 위를 덮어 테까지 꽉 찬다.
+         border 로 두면 자식이 덮을 수 없어 테만 회색으로 남고, 단추마다 테를
+         주면 둥근 모서리에서 테가 끊기거나 먹이 모서리 밖으로 비죽 나온다 —
+         둘 다 겪고 여기로 왔다. */
+      border: 0;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px var(--border2);
       border-radius: 6px;
       padding: 0;
       overflow: hidden;
@@ -1602,18 +1625,26 @@
       font-weight: 400;
       line-height: var(--lh-caption);
       color: var(--text-muted);
-      background: #ffffff;
+      /* ⚠️ 면색을 두지 않는다. 묶음의 흰 바탕이 비쳐야 안 고른 단추 자리에
+         묶음의 테(inset shadow)가 그대로 보인다. */
+      background: transparent;
       border: 0;
       border-radius: 0;
-      padding: 6px 20px;
+      /* ⚠️ 위아래 7px 이다(6 아님). 테가 border 에서 inset shadow 로 바뀌며
+         1px 씩 자리를 잃어, 줄 높이가 35 -> 33px 로 줄었다. 헤더의
+         .btn-primary 와 같은 35px 이어야 한다. */
+      padding: 7px 20px;
       cursor: pointer;
-      transition: background-color var(--t-quick), color var(--t-quick);
+      transition: background-color var(--t-quick), border-color var(--t-quick), color var(--t-quick);
     }
-    /* 가운데 선은 두 단추 사이에만 긋는다 — 바깥 테두리는 .sol-tabs 가 갖는다. */
+    /* 가운데 선은 두 단추 사이에만 긋는다 — 바깥 테는 묶음이 갖는다. */
     #industries .sol-tab + .sol-tab { border-left: 1px solid var(--border2); }
     #industries .sol-tab:hover { color: var(--text); }
+    /* 고른 단추는 제 면으로 묶음의 테를 덮는다 — 그래서 먹이 변까지 꽉 찬다.
+       가운데 선은 제 왼쪽 변이라 색만 먹으로 바꾼다. */
     #industries .sol-tab[aria-selected="true"] {
       background: #151B23;
+      border-left-color: #151B23;
       color: #ffffff;
     }
     /* 두 판을 같은 칸에 겹쳐 놓고 서로 페이드로 교차시킨다(크로스페이드).
@@ -1670,9 +1701,14 @@
     /* 세로 flex — 그리드가 한 행의 카드 높이를 맞춰 주지만 블록이면 본문이 내용 높이에
        머물러, 이름이 한 줄인 카드와 두 줄인 카드의 화살표가 서로 다른 높이에 놓인다.
        본문이 남는 높이를 먹게 해 화살표 기준을 카드 바닥으로 통일한다. */
+    /* ⚠️ 테두리를 두지 않는다. 카드가 사진 한 장이고 그 위에 이름이 얹히는
+       구성이라, 1px 회색 테가 사진을 두른 것처럼 드러난다(모바일 실측).
+       901px 이상에서 .industry-card 의 border 를 0 으로 두는 것과 같은 까닭이고,
+       이제 좁은 폭도 같다. 면색도 거기와 같은 먹으로 둔다 — 사진이 오기 전에
+       흰 바탕이 번쩍이지 않는다. */
     .industry-card {
       display: flex; flex-direction: column; position: relative; overflow: hidden;
-      background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius);
+      background: #151B23; border: 0; border-radius: var(--radius);
     }
     /* hover 반응은 사진 확대 하나뿐이다 — 카드 그림자·테두리 변화는 넣지 않는다. */
     /* 사진은 <a>의 직계 자식이다(감싸는 span 없음). 밴드 높이는 aspect-ratio로 잡는다. */
