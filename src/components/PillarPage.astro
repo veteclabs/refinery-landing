@@ -264,13 +264,14 @@ const faqSchema = {
       }
 
       function upd() {
-        /* 카드가 화면 맨 위에 붙은 뒤부터 자란다. 붙기 전에는 0 이라 쉬는
-           모습 그대로 흐르고, 붙고 나서 360px 을 더 내리는 동안 0 -> 1 이 된다.
-           ⚠️ 붙기 전부터 재면(= y / docTop) 자라는 동안 윗변이 위로 끌려
-              올라간다. 윗변은 고정하고 아래로만 자라야 한다. */
+        /* 스크롤이 시작되는 순간부터 자란다. 카드가 화면 맨 위에 닿을 때
+           (= 스크롤이 칸의 문서상 윗변만큼 내려왔을 때) 다 자란다.
+           ⚠️ 카드는 아래와 좌우로만 벌어진다 — 윗변이 올라가는 것은 자라서가
+              아니라 쪽이 스크롤되기 때문이고, 다 자라는 자리에서 화면 맨 위에
+              닿는다. */
         var y = window.scrollY || window.pageYOffset;
         var docTop = pin.getBoundingClientRect().top + y;
-        var p = Math.min(1, Math.max(0, (y - docTop) / 360));
+        var p = docTop > 0 ? Math.min(1, Math.max(0, y / docTop)) : 1;
         p = Math.round(p * 1000) / 1000;
         if (p !== last) {
           last = p;
