@@ -271,7 +271,12 @@ const faqSchema = {
               닿는다. */
         var y = window.scrollY || window.pageYOffset;
         var docTop = pin.getBoundingClientRect().top + y;
-        var p = docTop > 0 ? Math.min(1, Math.max(0, y / docTop)) : 1;
+        /* 칸이 화면 맨 위에 닿기까지의 65% 만에 다 자란다 — 끝까지 끌면 한참
+           스크롤해도 계속 자라는 중이라 굼떠 보인다. */
+        var raw = docTop > 0 ? Math.min(1, Math.max(0, y / (docTop * 0.65))) : 1;
+        /* 처음에 빠르게 벌어지고 끝에서 부드럽게 멎는다(ease-out). 그냥 비례로
+           두면 끝까지 같은 속도라 뚝 끊기듯 멈춘다. */
+        var p = 1 - Math.pow(1 - raw, 3);
         p = Math.round(p * 1000) / 1000;
         if (p !== last) {
           last = p;
