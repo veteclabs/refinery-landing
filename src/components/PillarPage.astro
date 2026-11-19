@@ -261,7 +261,14 @@ const faqSchema = {
         var out = Math.max(0, (vw - 1600) / 2);
         var rest = Math.min(vw, 1600) - 96 - 112;
         var grown = vw - 48 - out;
-        box.style.setProperty('--demo-k', grown > 0 ? (rest / grown) : 1);
+        var k = grown > 0 ? (rest / grown) : 1;
+        box.style.setProperty('--demo-k', k);
+        /* 쉬는 모습에서 데모를 카드 한가운데에 세우는 오른쪽 안여백.
+           카드 폭은 칸 폭(= min(창,1600) - 좌우 96)이고, 쉬는 데모 폭은
+           1045 x k 다. 왼쪽 안여백(56)은 이미 카드 안에 들어 있으므로
+           (카드폭 - 데모폭) / 2 하나로 좌우가 같아진다. */
+        var cardW = Math.min(vw, 1600) - 96;
+        box.style.setProperty('--rest-gap', Math.max(0, (cardW - 1045 * k) / 2) + 'px');
       }
 
       function upd() {
@@ -282,6 +289,9 @@ const faqSchema = {
         if (p !== last) {
           last = p;
           box.style.setProperty('--grow', p);
+          /* 쉬는 모습에서는 글과 막대가 안 보인다 — 그 동안에는 눌리지도
+             않아야 한다. opacity 만으로는 클릭이 그대로 들어간다. */
+          box.classList.toggle('ai-cap-off', p < 0.2);
         }
         /* 다 자라 화면을 덮고 있는 동안에만 내비 면을 걷는다.
            ⚠️ p 만 보면 안 된다. p 는 한 번 1 이 되면 아래로 내려가도 1 이라,
@@ -1676,8 +1686,13 @@ const faqSchema = {
          같은 비율로 따라 줄어든다.
          ⚠️ 글 칸에 바닥 300px 을 둔다. 좁은 폭에서 데모만 남고 글이 뭉개지는
             것을 막는다(저쪽도 그 언저리에서 받친다). */
+      /* ⚠️ 칸은 둘로 둔다. 가운데 맞춤을 셋째 빈 칸으로 내면 격자 사이 간격이
+         하나 더 생겨, 다 자란 데모가 오른쪽 변에서 15px 밀린다(한 번 그렇게 났다).
+         가운데 맞춤은 아래 오른쪽 안여백(--rest-gap)이 맡는다.
+         ⚠️ 왼칸의 바닥(300px)도 --grow 에 묶는다. 쉴 때까지 받치면 데모가
+            가운데가 아니라 오른쪽으로 밀린다(1440px 에서 왼칸이 153px 뿐이다). */
       grid-template-columns:
-        minmax(300px, 1fr)
+        minmax(calc(300px * var(--grow, 0)), 1fr)
         calc(1045px * (var(--demo-k, 1) + (1 - var(--demo-k, 1)) * var(--grow, 0)));
       /* 왼쪽은 내용 너비 선에 맞춘다 — 창이 1600px 보다 넓으면 그 바깥 여백
          (--out)만큼 더 들어와, 글이 다른 섹션과 같은 선에서 시작한다.
@@ -1690,8 +1705,11 @@ const faqSchema = {
          빨리 닫히기 때문이다. 고정해 두면 높이가 내내 늘기만 한다.
          데모는 세로 가운데에 서므로 다 자란 카드(900)에서는 이 여백이 보이지도
          않는다. */
+      /* 오른쪽 안여백은 쉴 때만 있다. 그 값(--rest-gap)은 스크롤 고리가 재서
+         넘긴다 — 데모를 카드 한가운데에 세우는 폭이다(= (카드폭 - 데모폭) / 2).
+         자라면 0 이 되어 데모가 오른쪽 변에 닿는다. */
       padding: 56px
-               0
+               calc(var(--rest-gap, 0px) * (1 - var(--grow, 0)))
                56px
                calc(56px - 8px * var(--grow, 0) + var(--out, 0px) * var(--grow, 0));
     }
@@ -1767,9 +1785,14 @@ const faqSchema = {
         순서에 기대게 된다.
      ⚠️ 막대도 이 안에 있어 같이 사라지고 있었다. */
   .pillar-industrial-ai .ai-hero-stage .ai-demo-cap {
-    opacity: 1;
+    /* 쉬는 모습에는 글이 없다 — 데모만 가운데에 놓인다. 자라기 시작하면
+       따라 든다. 앞쪽 2할은 비워 두어 조금만 움직였을 때 글이 번지지 않게 한다. */
+    opacity: clamp(0, (var(--grow, 0) - 0.2) * 2.5, 1);
     transition: none;
   }
+  /* 안 보이는 동안에는 막대가 눌리지 않아야 한다. opacity 로는 막을 수 없어
+     스크롤 고리가 붙이는 표시를 쓴다. */
+  .pillar-industrial-ai .ind-container.ai-cap-off .ai-demo-cap { pointer-events: none; }
   }
 
   /* ───────── 스크롤하면 히어로 카드가 화면을 꽉 채운다
@@ -1859,14 +1882,17 @@ const faqSchema = {
        넓어 좌우로 230px 씩 넘쳐, 왼쪽 글 위로 올라탄다. */
     .pillar-industrial-ai .ai-hero-figure {
       justify-self: start;
-      /* 오른쪽 두 모서리는 늘 펴 둔다 — 데모가 카드 오른쪽 변에 붙어 있어,
-         쉴 때만 둥글면 변과 모서리 사이에 빈 자리가 생긴다.
-         왼쪽 둘은 저쪽 상자(.teams-preview)처럼 둥글게 남는다. */
-      border-radius: var(--radius) 0 0 var(--radius);
-      /* 오른쪽 테도 없앤다. 데모가 카드 오른쪽 변에 딱 붙어 있어 그 1px 이
-         세로 선으로 drawn 되는데, 카드가 잘라 낸 것처럼 보여야 한다.
-         저쪽 상자(.teams-preview)도 border-right 가 0 이다. */
-      border-right: 0;
+      /* 쉴 때는 네 귀가 모두 둥글고 테도 네 면이 다 있다 — 데모가 카드 가운데에
+         떠 있는 모습이다. 자라면서 오른쪽 두 귀가 펴지고 오른쪽 테가 사라져,
+         다 자라면 저쪽 상자(.teams-preview)처럼 화면 변에서 잘린 꼴이 된다.
+         ⚠️ 테는 두께가 아니라 색의 투명도로 지운다. 크롬이 테 두께를 정수
+            픽셀로 내려, 두께를 --grow 로 줄이면 1px 에서 0 으로 한 번에 튄다. */
+      border-radius:
+        var(--radius, 12px)
+        calc(var(--radius, 12px) * (1 - var(--grow, 0)))
+        calc(var(--radius, 12px) * (1 - var(--grow, 0)))
+        var(--radius, 12px);
+      border-right: 1px solid rgba(227, 231, 236, calc(1 - var(--grow, 0)));
       /* 그림자도 같이 걷는다. 저쪽 상자는 테 한 겹뿐이다 — 알파를 --grow 로
          내려 자라는 동안 매끄럽게 사라지게 한다. */
       box-shadow:
