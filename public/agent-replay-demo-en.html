@@ -93,7 +93,10 @@ body {
   width: 1320px; height: 840px;
   transform: translate(-50%, -50%) scale(var(--k, 1));
   transform-origin: center center;
-  border-radius: 14px;
+  /* 둥글기를 두지 않는다 — 이 화면은 산업 AI 히어로의 칸 안에 꽉 차게 들어가고,
+     그 칸이 제 둥글기(왼쪽 두 모서리)를 갖는다. 여기서 또 둥글리면 모서리가
+     두 겹으로 보인다. */
+  border-radius: 0;
   overflow: hidden;
   background: var(--bg);
   color: var(--ink-900);
