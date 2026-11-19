@@ -1575,9 +1575,13 @@ const faqSchema = {
             한 프레임만 스치고 지나간다. */
       height: calc(100vh + 720px);
     }
-    /* 카드 위 여백도 자라는 만큼 닫힌다 — 다 자라면 화면 맨 위에 닿는다. */
+    /* ⚠️ 카드 위 여백은 카드가 아니라 칸이 갖는다. 카드에 두고 --grow 로
+       닫으면, 닫히는 만큼 윗변이 스크롤보다 빨리 올라가 '위로도 자라는' 것으로
+       보인다(실측 — 스크롤 480px 에 윗변은 543px 올라갔다). 칸이 가지면 윗변이
+       스크롤과 꼭 같이 올라가고, 화면 맨 위에 닿는 자리에서 고정된다. */
+    .pillar-industrial-ai .ai-hero-pin { margin-top: 64px; }
     .pillar-industrial-ai .ai-hero-pin > .ai-hero-sticky > .ai-hero-stage {
-      margin-top: calc(64px * (1 - var(--grow, 0)));
+      margin-top: 0;
     }
     .pillar-industrial-ai .ai-hero-sticky {
       position: sticky; top: 0;
