@@ -244,13 +244,19 @@ body {
 @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 .empty-title { font-size: 21px; font-weight: 700; color: var(--ink-900); margin: 0 0 4px; letter-spacing: -.01em; }
 .empty-sub { font-size: 13px; line-height: 1.55; color: var(--ink-500); margin: 0 0 18px; max-width: 574px; }
-.empty-cards { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 574px; }
+/* 앱은 카드를 넷 두고 폭이 되면 두 열로 깐다(실측 — 카드 288 · 사이 9). */
+.empty-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 9px; width: 100%; max-width: 574px;
+}
 .empty-card {
   display: flex; align-items: center; gap: 11px; text-align: left;
   font-family: inherit; color: var(--ink-800);
   border: 1px solid var(--ink-200); border-radius: 12px; background: var(--ink-50);
   padding: 13px 14px; cursor: pointer;
 }
+.empty-card-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.empty-card-desc { font-size: 12px; line-height: 1.45; color: var(--ink-500); }
 /* 아이콘은 맨몸이 아니라 옅은 브랜드색 타일 안에 든다. */
 .empty-card-ic {
   flex: none; width: 34px; height: 34px; border-radius: 8px;
@@ -489,10 +495,9 @@ body {
 .ctools { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 30px; }
 .empty .ctools { height: 32px; }
 .ctools-l, .ctools-r { display: flex; align-items: center; gap: 6px; min-width: 0; }
-/* 모델 이름과 '자문'은 대화 중에만 선다 — 앱 홈 입력창에는 없다. */
-.empty .modelname, .empty .advisor { display: none; }
-/* 거꾸로 권한 설명은 홈에만 둔다. 대화 중에는 오른쪽이 모델 · 자문으로 차서
-   앱도 이 자리를 비운다. 01 장면이 여는 화면에서 이것을 가리킨다. */
+/* 모델 이름과 '자문'은 여는 화면에도 대화 중에도 똑같이 선다 — 앱이 그렇다.
+   ⚠️ 창이 좁으면 접혀서 안 보인다. 좁은 창을 보고 '대화 중에만 있다'고 잘못
+      읽어 홈에서 숨겼던 적이 있다. */
 .modelname, .advisor {
   display: inline-flex; align-items: center; height: 28px; padding: 0 8px;
   border-radius: 8px; font-size: 12px; white-space: nowrap;
@@ -749,22 +754,38 @@ body {
           <div class="canvas" id="canvas">
             <div class="empty" id="empty">
               <span class="orb" aria-hidden="true">
-                <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.6 9.4 5.5 13.4 6.9 9.4 8.3 8 12.2 6.6 8.3 2.6 6.9 6.6 5.5z"/></svg>
+                <svg width="26" height="26" viewBox="0 0 256 256" fill="currentColor"><path d="M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z"/></svg>
               </span>
               <h2 class="empty-title" data-t="emptyTitle"></h2>
               <p class="empty-sub" data-t="emptySub"></p>
               <div class="empty-cards" id="emptyCards">
                 <button class="empty-card" type="button" tabindex="-1">
-                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="8" cy="12" r="2"/><path d="M5.4 5.4 7 10M10.6 5.4 9 10M6 4h4"/></svg></span>
-                  <span class="empty-card-title"><span data-t="sug1"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                  <span class="empty-card-ic"><svg width="17" height="17" viewBox="0 0 256 256" fill="currentColor"><path d="M200,152a35.77,35.77,0,0,0-16.46,4l-21.39-16.64A35.49,35.49,0,0,0,164,128.65l10.35-3.44A36,36,0,1,0,164,100c0,1.11.06,2.21.16,3.3l-7.78,2.59A36,36,0,0,0,128,92c-1,0-1.88,0-2.81.12l-4.45-10A36,36,0,1,0,96,92c1,0,1.88,0,2.81-.12l4.45,10a35.91,35.91,0,0,0-8.59,39.7L73.39,160.49a36,36,0,1,0,15.94,17.93l21.28-18.91a35.91,35.91,0,0,0,36.8-1.21L167,173.56A36,36,0,1,0,200,152Zm0-64a12,12,0,1,1-12,12A12,12,0,0,1,200,88ZM84,56A12,12,0,1,1,96,68,12,12,0,0,1,84,56ZM56,204a12,12,0,1,1,12-12A12,12,0,0,1,56,204Zm60-76a12,12,0,1,1,12,12A12,12,0,0,1,116,128Zm84,72a12,12,0,1,1,12-12A12,12,0,0,1,200,200Z"/></svg></span>
+                  <span class="empty-card-body">
+                    <span class="empty-card-title"><span data-t="sug1T"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                    <span class="empty-card-desc" data-t="sug1D"></span>
+                  </span>
                 </button>
                 <button class="empty-card" type="button" tabindex="-1">
-                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11.5 6 7l3 2.6L14 4"/><path d="M10.5 4H14v3.5"/></svg></span>
-                  <span class="empty-card-title"><span data-t="sug2"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                  <span class="empty-card-ic"><svg width="17" height="17" viewBox="0 0 256 256" fill="currentColor"><path d="M244,128a12,12,0,0,1-12,12H207.42l-36.69,73.37A12,12,0,0,1,160,220h-.6a12,12,0,0,1-10.61-7.72L95,71.15,66.92,133A12,12,0,0,1,56,140H24a12,12,0,0,1,0-24H48.27L85.08,35a12,12,0,0,1,22.13.7l54.28,142.46,27.78-55.56A12,12,0,0,1,200,116h32A12,12,0,0,1,244,128Z"/></svg></span>
+                  <span class="empty-card-body">
+                    <span class="empty-card-title"><span data-t="sug2T"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                    <span class="empty-card-desc" data-t="sug2D"></span>
+                  </span>
                 </button>
                 <button class="empty-card" type="button" tabindex="-1">
-                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg></span>
-                  <span class="empty-card-title"><span data-t="sug3"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                  <span class="empty-card-ic"><svg width="17" height="17" viewBox="0 0 256 256" fill="currentColor"><path d="M216.49,79.52l-56-56A12,12,0,0,0,152,20H56A20,20,0,0,0,36,40V216a20,20,0,0,0,20,20H200a20,20,0,0,0,20-20V88A12,12,0,0,0,216.49,79.52ZM160,57l23,23H160ZM60,212V44h76V92a12,12,0,0,0,12,12h48V212Zm112-80a12,12,0,0,1-12,12H96a12,12,0,0,1,0-24h64A12,12,0,0,1,172,132Zm0,40a12,12,0,0,1-12,12H96a12,12,0,0,1,0-24h64A12,12,0,0,1,172,172Z"/></svg></span>
+                  <span class="empty-card-body">
+                    <span class="empty-card-title"><span data-t="sug3T"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                    <span class="empty-card-desc" data-t="sug3D"></span>
+                  </span>
+                </button>
+                <button class="empty-card" type="button" tabindex="-1">
+                  <span class="empty-card-ic"><svg width="17" height="17" viewBox="0 0 256 256" fill="currentColor"><path d="M219.71,117.38a12,12,0,0,0-7.25-8.52L161.28,88.39l10.59-70.61a12,12,0,0,0-20.64-10l-112,120a12,12,0,0,0,4.31,19.33l51.18,20.47L84.13,238.22a12,12,0,0,0,20.64,10l112-120A12,12,0,0,0,219.71,117.38ZM113.6,203.55l6.27-41.77a12,12,0,0,0-7.41-12.92L68.74,131.37,142.4,52.45l-6.27,41.77a12,12,0,0,0,7.41,12.92l43.72,17.49Z"/></svg></span>
+                  <span class="empty-card-body">
+                    <span class="empty-card-title"><span data-t="sug4T"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+                    <span class="empty-card-desc" data-t="sug4D"></span>
+                  </span>
                 </button>
               </div>
             </div>
@@ -789,7 +810,6 @@ body {
                     <span>Auto</span>
                     <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
                   </button>
-                  <span class="mode-hint" data-t="modeHint"></span>
                 </div>
                 <div class="ctools-r">
                   <!-- 모델 이름과 '자문'은 대화 중에만 선다 — 앱 홈 입력창에는 없다. -->
@@ -861,9 +881,7 @@ body {
       dCompact: "간결", dNormal: "보통", dDetailed: "상세",
       emptyTitle: "무엇을 분석할까요?",
       emptySub: "최근 다룬 객체를 기반으로 제안합니다. 계획을 세우고, 근거를 남기고, 결과를 산출물로 남깁니다.",
-      sug1: "서로 연결된 데이터가 어떻게 흘러가는지 한눈에 보여줘",
-      sug2: "어떤 데이터가 실제로 쌓이고 있고 어디가 비어 있는지 알려줘",
-      sug3: "지금 내 데이터로 할 수 있는 작업에는 뭐가 있어?",
+      sug1T: "연결 관계 살펴보기", sug1D: "객체들이 서로 어떻게 이어져 있는지 훑어봅니다.", sug2T: "이상 신호 분석하기", sug2D: "추세를 이탈한 날·대상을 찾아 원인을 짚습니다.", sug3T: "요약 리포트 만들기", sug3D: "핵심 지표만 뽑아 한 장짜리 산출물로 남깁니다.", sug4T: "실행할 작업 찾기", sug4D: "지금 내 데이터로 할 수 있는 작업을 확인합니다.",
       modeHint: "읽기 자동, 쓰기 승인", modelChip: "모델 선택", advisor: "자문",
       phIdle: "무엇을 분석할까요?", phFollow: "이어서 질문하기",
       endT: "데이터의 맥락을 아는 AI는 여기까지 합니다",
@@ -965,9 +983,7 @@ body {
       dCompact: "Compact", dNormal: "Normal", dDetailed: "Detailed",
       emptyTitle: "What should we look into?",
       emptySub: "Suggestions come from objects you have worked with. It plans, keeps its evidence, and leaves results as files.",
-      sug1: "Show me how my connected data actually flows",
-      sug2: "Tell me what data is really accumulating and where the gaps are",
-      sug3: "What can I actually do with my data right now?",
+      sug1T: "Trace the connections", sug1D: "See how objects actually link to one another.", sug2T: "Find what broke trend", sug2D: "Pick out the days and assets that left the trend, and why.", sug3T: "Write a short report", sug3D: "Pull the few numbers that matter into one page.", sug4T: "Find work worth doing", sug4D: "See what your data can act on right now.",
       modeHint: "Reads on its own, asks before writing", modelChip: "Model", advisor: "Advisor",
       phIdle: "What should we look into?", phFollow: "Ask a follow-up",
       endT: "This is how far an agent that knows your context can go",
