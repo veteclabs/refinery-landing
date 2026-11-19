@@ -247,6 +247,19 @@ const faqSchema = {
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
          scrollY 로 재던 때는 360px 에서 다 자랐는데 무대는 700px 에서야 붙어,
          자란 카드가 화면 밖으로 삐져나오는 구간이 있었다. */
+      /* 쉬는 카드와 다 자란 카드의 안쪽 폭 비. 데모 폭에 곱해 두면 쉬는 모습이
+         다 자란 모습을 그대로 줄인 꼴이 된다.
+           쉬는 안쪽  = min(창, 1600) - 칸 좌우 96 - 카드 좌우 112
+           자란 안쪽  = 창 - 왼쪽 48 - 바깥 여백(out)
+         ⚠️ clientWidth 를 쓴다. 100vw 는 스크롤 막대 폭까지 센다. */
+      function updK() {
+        var vw = document.documentElement.clientWidth;
+        var out = Math.max(0, (vw - 1600) / 2);
+        var rest = Math.min(vw, 1600) - 96 - 112;
+        var grown = vw - 48 - out;
+        box.style.setProperty('--demo-k', grown > 0 ? (rest / grown) : 1);
+      }
+
       function upd() {
         /* 카드 칸의 문서상 윗변 — 여기까지 내려오면 무대가 화면에 붙는다.
            그 거리를 0 -> 1 로 쓴다. 첫 화면에서는 0 이고, 붙는 순간 1 이다. */
@@ -281,7 +294,8 @@ const faqSchema = {
         requestAnimationFrame(function () { ticking = false; upd(); });
       }
       addEventListener('scroll', onScroll, { passive: true });
-      addEventListener('resize', onScroll, { passive: true });
+      addEventListener('resize', function () { updK(); onScroll(); }, { passive: true });
+      updK();
       upd();
     })();
   </script>
@@ -1482,12 +1496,14 @@ const faqSchema = {
       /* 저쪽은 상자 폭이 1045px 에서 멈추고 남는 폭을 글 칸이 가져간다(실측 —
          1920 · 1820 · 1600px 에서 상자가 모두 1045px). 같은 셈을 쓴다:
          글 칸 = 안쪽 폭 - 1045 - 사이 32. 1820px 에서 585px 로 저쪽과 같다. */
-      /* ⚠️ 글 칸에 바닥을 둔다. 1440px 아래에서는 저쪽이 상자를 1045px 밑으로
-         줄이며 글 칸을 300px 쯤에서 받치는데, 상자를 1045 로 고정하면 글 칸만
-         깎여 1280px 에서 155px 까지 내려간다(저쪽은 303px). */
+      /* 데모 폭을 먼저 잡고 글이 나머지를 쓴다. 쉬는 모습은 다 자란 모습을
+         그대로 줄인 꼴이다 — 데모 폭에 축소비(--demo-k)를 곱하므로 글 칸도
+         같은 비율로 따라 줄어든다.
+         ⚠️ 글 칸에 바닥 300px 을 둔다. 좁은 폭에서 데모만 남고 글이 뭉개지는
+            것을 막는다(저쪽도 그 언저리에서 받친다). */
       grid-template-columns:
-        max(352px * (1 - var(--grow, 0)) + 300px * var(--grow, 0),
-            calc(352px + (100% - 1045px - 32px - 352px) * var(--grow, 0))) 1fr;
+        minmax(300px, 1fr)
+        calc(1045px * (var(--demo-k, 1) + (1 - var(--demo-k, 1)) * var(--grow, 0)));
       /* 왼쪽은 내용 너비 선에 맞춘다 — 창이 1600px 보다 넓으면 그 바깥 여백
          (--out)만큼 더 들어와, 글이 다른 섹션과 같은 선에서 시작한다.
          나머지 세 면은 0 으로 닫혀 데모가 화면 변에 닿는다. */
@@ -1505,13 +1521,9 @@ const faqSchema = {
        ⚠️ 비율(aspect-ratio)을 풀지 않는다. 풀면 쉬는 상태에서 높이를 끌고 갈
           것이 없어 카드가 234px 로 주저앉는다(한 번 그렇게 났다). */
     .pillar-industrial-ai .ai-hero-figure {
-      /* 다 자라면 저쪽 상자와 같은 1045px 이다(1920 · 1820 · 1600px 에서 저쪽
-         상자가 모두 1045px — 실측). 그래야 안쪽 앱 화면이 저쪽과 같은 배율
-         (0.725배)로 그려진다.
-         ⚠️ max-width 가 아니라 width 다. 상한만 풀면 실제 폭이 칸(1fr)에 묶인다.
-         ⚠️ 쉬는 폭은 종전대로 760px 이다. max() 로 적어 좁은 폭에서도 칸을
-            넘지 않는다. */
-      width: max(min(100%, 760px), calc(1045px * var(--grow, 0)));
+      /* 폭은 칸이 쥔다(위 grid-template-columns). 다 자라면 1045px 이라 안쪽
+         앱 화면이 저쪽과 같은 배율(0.725배)로 그려진다. */
+      width: 100%;
       max-width: none;
       /* 글과 함께 세로 가운데에 선다. 저쪽 상자는 아랫변이 화면에 닿지만
          여기 카드는 창 높이를 통째로 쓰므로, 둘을 가운데에 모은다. */
