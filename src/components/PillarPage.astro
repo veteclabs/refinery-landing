@@ -261,14 +261,18 @@ const faqSchema = {
         var out = Math.max(0, (vw - 1600) / 2);
         var rest = Math.min(vw, 1600) - 96 - 112;
         var grown = vw - 48 - out;
-        var k = grown > 0 ? (rest / grown) : 1;
-        box.style.setProperty('--demo-k', k);
-        /* 쉬는 모습에서 데모를 카드 한가운데에 세우는 오른쪽 안여백.
-           카드 폭은 칸 폭(= min(창,1600) - 좌우 96)이고, 쉬는 데모 폭은
-           1045 x k 다. 왼쪽 안여백(56)은 이미 카드 안에 들어 있으므로
-           (카드폭 - 데모폭) / 2 하나로 좌우가 같아진다. */
+        box.style.setProperty('--demo-k', grown > 0 ? (rest / grown) : 1);
+        /* 쉬는 모습의 데모 폭. 위 · 왼쪽 · 오른쪽 여백을 모두 같은 값(PAD)으로
+           두고 그 안을 데모가 다 쓴다. 카드 폭은 칸 폭(= min(창,1600) - 좌우 96).
+           ⚠️ 데모는 제 비율(1320:840)을 지키므로 폭을 키우면 카드도 그만큼
+              높아진다 — 1440px 에서 701 -> 896. */
+        var PAD = 56;
         var cardW = Math.min(vw, 1600) - 96;
-        box.style.setProperty('--rest-gap', Math.max(0, (cardW - 1045 * k) / 2) + 'px');
+        var demoRest = Math.max(0, cardW - PAD * 2);
+        box.style.setProperty('--demo-rest', demoRest + 'px');
+        /* 오른쪽 안여백. 왼쪽 안여백(PAD)은 이미 카드 안에 들어 있으므로
+           (카드폭 - 데모폭) / 2 하나로 좌우가 같아진다 — 여기서는 PAD 와 같다. */
+        box.style.setProperty('--rest-gap', Math.max(0, (cardW - demoRest) / 2) + 'px');
       }
 
       function upd() {
@@ -289,9 +293,6 @@ const faqSchema = {
         if (p !== last) {
           last = p;
           box.style.setProperty('--grow', p);
-          /* 쉬는 모습에서는 글과 막대가 안 보인다 — 그 동안에는 눌리지도
-             않아야 한다. opacity 만으로는 클릭이 그대로 들어간다. */
-          box.classList.toggle('ai-cap-off', p < 0.2);
         }
         /* 다 자라 화면을 덮고 있는 동안에만 내비 면을 걷는다.
            ⚠️ p 만 보면 안 된다. p 는 한 번 1 이 되면 아래로 내려가도 1 이라,
@@ -309,6 +310,10 @@ const faqSchema = {
         var sr = stageEl ? stageEl.getBoundingClientRect() : null;
         var covering = !!sr && sr.top <= 0 && sr.bottom >= vh - 1;
         document.documentElement.classList.toggle('ai-hero-full', covering);
+        /* 카드의 모서리 · 오른쪽 테 · 왼쪽 글은 자라는 '정도'가 아니라 '화면을
+           다 덮었는지'로 갈린다. 자라는 동안에는 쉬는 모습 그대로 두고,
+           꽉 찬 순간에 셋이 함께 바뀐다. */
+        box.classList.toggle('ai-hero-is-full', covering);
         /* 자라는 동안 데모 배율을 다시 잡는다(칸 크기가 바뀐다). */
         if (window.__aiHeroResize) window.__aiHeroResize();
         /* 꽉 찬 순간 돌리기 시작하고, 쉬는 모습으로 돌아오면 첫 장면에 세운다.
@@ -1682,7 +1687,10 @@ const faqSchema = {
          1920 · 1820 · 1600px 에서 상자가 모두 1045px). 같은 셈을 쓴다:
          글 칸 = 안쪽 폭 - 1045 - 사이 32. 1820px 에서 585px 로 저쪽과 같다. */
       /* 데모 폭을 먼저 잡고 글이 나머지를 쓴다. 쉬는 모습은 다 자란 모습을
-         그대로 줄인 꼴이다 — 데모 폭에 축소비(--demo-k)를 곱하므로 글 칸도
+         쉴 때는 글이 없으므로 데모가 위 · 좌 · 우 여백(56px)만 남기고 칸을 다
+         쓴다(--demo-rest). 자라면서 1045px 로 간다 — 그 폭에서 안쪽 앱 화면이
+         저쪽과 같은 배율(0.725배)이 된다. 예전에는 쉬는 폭도 축소비(--demo-k)로
+         냈는데, 글이 사라진 뒤로는 그 비율을 지킬 이유가 없다. 글 칸도
          같은 비율로 따라 줄어든다.
          ⚠️ 글 칸에 바닥 300px 을 둔다. 좁은 폭에서 데모만 남고 글이 뭉개지는
             것을 막는다(저쪽도 그 언저리에서 받친다). */
@@ -1693,7 +1701,11 @@ const faqSchema = {
             가운데가 아니라 오른쪽으로 밀린다(1440px 에서 왼칸이 153px 뿐이다). */
       grid-template-columns:
         minmax(calc(300px * var(--grow, 0)), 1fr)
-        calc(1045px * (var(--demo-k, 1) + (1 - var(--demo-k, 1)) * var(--grow, 0)));
+        calc(var(--demo-rest, 925px) * (1 - var(--grow, 0)) + 1045px * var(--grow, 0));
+      /* ⚠️ 칸 사이 간격도 --grow 에 묶는다. 쉴 때는 왼칸이 비어 있어 간격만
+         남는데, 그 32px 이 데모를 오른쪽으로 밀어 좌우 여백이 88 / 24 로
+         어긋났다(한 번 그렇게 났다). */
+      column-gap: calc(32px * var(--grow, 0));
       /* 왼쪽은 내용 너비 선에 맞춘다 — 창이 1600px 보다 넓으면 그 바깥 여백
          (--out)만큼 더 들어와, 글이 다른 섹션과 같은 선에서 시작한다.
          나머지 세 면은 0 으로 닫혀 데모가 화면 변에 닿는다. */
@@ -1785,14 +1797,17 @@ const faqSchema = {
         순서에 기대게 된다.
      ⚠️ 막대도 이 안에 있어 같이 사라지고 있었다. */
   .pillar-industrial-ai .ai-hero-stage .ai-demo-cap {
-    /* 쉬는 모습에는 글이 없다 — 데모만 가운데에 놓인다. 자라기 시작하면
-       따라 든다. 앞쪽 2할은 비워 두어 조금만 움직였을 때 글이 번지지 않게 한다. */
-    opacity: clamp(0, (var(--grow, 0) - 0.2) * 2.5, 1);
-    transition: none;
+    /* 글은 화면이 꽉 찼을 때만 든다. --grow 에 비례시키면 자라는 내내 반쯤
+       비친 글이 따라다닌다.
+       ⚠️ 안 보이는 동안에는 막대가 눌리지 않아야 한다 — opacity 로는 못 막는다. */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease;
   }
-  /* 안 보이는 동안에는 막대가 눌리지 않아야 한다. opacity 로는 막을 수 없어
-     스크롤 고리가 붙이는 표시를 쓴다. */
-  .pillar-industrial-ai .ind-container.ai-cap-off .ai-demo-cap { pointer-events: none; }
+  .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-demo-cap {
+    opacity: 1;
+    pointer-events: auto;
+  }
   }
 
   /* ───────── 스크롤하면 히어로 카드가 화면을 꽉 채운다
@@ -1882,17 +1897,20 @@ const faqSchema = {
        넓어 좌우로 230px 씩 넘쳐, 왼쪽 글 위로 올라탄다. */
     .pillar-industrial-ai .ai-hero-figure {
       justify-self: start;
-      /* 쉴 때는 네 귀가 모두 둥글고 테도 네 면이 다 있다 — 데모가 카드 가운데에
-         떠 있는 모습이다. 자라면서 오른쪽 두 귀가 펴지고 오른쪽 테가 사라져,
-         다 자라면 저쪽 상자(.teams-preview)처럼 화면 변에서 잘린 꼴이 된다.
+      /* 자라는 내내 네 귀가 둥글고 테도 네 면이 다 있다 — 쉬는 모습 그대로다.
+         화면을 다 덮은 순간에만 오른쪽 두 귀가 펴지고 오른쪽 테가 사라져,
+         저쪽 상자(.teams-preview)처럼 화면 변에서 잘린 꼴이 된다.
+         ⚠️ --grow 에 비례시키지 않는다. 그러면 아직 화면이 덜 찼는데도 오른쪽만
+            각져서, 허공에서 잘린 것처럼 보인다.
          ⚠️ 테는 두께가 아니라 색의 투명도로 지운다. 크롬이 테 두께를 정수
-            픽셀로 내려, 두께를 --grow 로 줄이면 1px 에서 0 으로 한 번에 튄다. */
-      border-radius:
-        var(--radius, 12px)
-        calc(var(--radius, 12px) * (1 - var(--grow, 0)))
-        calc(var(--radius, 12px) * (1 - var(--grow, 0)))
-        var(--radius, 12px);
-      border-right: 1px solid rgba(227, 231, 236, calc(1 - var(--grow, 0)));
+            픽셀로 내려, 두께를 줄이면 1px 에서 0 으로 한 번에 튄다. */
+      border-radius: var(--radius, 12px);
+      border-right: 1px solid #E3E7EC;
+      transition: border-radius .22s ease, border-right-color .22s ease;
+    }
+    .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-hero-figure {
+      border-radius: var(--radius, 12px) 0 0 var(--radius, 12px);
+      border-right-color: transparent;
       /* 그림자도 같이 걷는다. 저쪽 상자는 테 한 겹뿐이다 — 알파를 --grow 로
          내려 자라는 동안 매끄럽게 사라지게 한다. */
       box-shadow:
