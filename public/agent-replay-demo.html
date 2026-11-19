@@ -224,24 +224,50 @@ body {
 .canvas::-webkit-scrollbar-thumb { background: var(--ink-300); border-radius: 4px; }
 .thread { max-width: 768px; margin: 0 auto; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 10px; }
 
-.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 0 40px; text-align: center; }
+/* 여는 화면은 앱(app.refinery.kr/ai-agent)의 홈과 같은 구성이다 — 마크 · 제목 ·
+   한 줄 설명이 가운데에 서고, 그 아래 입력 카드, 그 아래 제안 카드가 온다.
+   폭 574px 은 앱 실측값이다. */
+.empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; padding: 0 31px; text-align: center;
+}
+/* 앱의 마크는 원이 아니라 모서리 17px 짜리 둥근 사각이고, 그라데이션이 먹색까지
+   내려간다. 그림자도 브랜드색 번짐에 흰 안쪽 선 한 줄이 얹힌다. */
 .orb {
-  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
-  color: #FFF; background: linear-gradient(135deg, var(--brand), var(--brand-700));
-  box-shadow: 0 8px 28px rgba(118,166,215,.34); margin-bottom: 16px;
+  width: 57px; height: 57px; border-radius: 17px; display: grid; place-items: center;
+  color: #FFF; background: linear-gradient(135deg, #76A6D7, #1D2E52);
+  box-shadow: 0 13.8px 34.2px rgba(118,166,215,.38),
+              inset 0 1px 0 rgba(255,255,255,.25);
+  margin-bottom: 12px;
   animation: breathe 3.4s ease-in-out infinite;
 }
 @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-.empty-title { font-size: 21px; font-weight: 700; color: var(--ink-900); margin: 0 0 6px; letter-spacing: -.01em; }
-.empty-sub { font-size: 12.5px; line-height: 1.6; color: var(--ink-500); margin: 0 0 20px; max-width: 480px; }
-.empty-cards { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 470px; }
+.empty-title { font-size: 21px; font-weight: 700; color: var(--ink-900); margin: 0 0 4px; letter-spacing: -.01em; }
+.empty-sub { font-size: 13px; line-height: 1.55; color: var(--ink-500); margin: 0 0 18px; max-width: 574px; }
+.empty-cards { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 574px; }
 .empty-card {
   display: flex; align-items: center; gap: 11px; text-align: left;
-  font-family: inherit; font-size: 12.5px; color: var(--ink-800);
-  border: 1px solid var(--ink-200); border-radius: 11px; background: transparent;
-  padding: 11px 13px; cursor: pointer;
+  font-family: inherit; color: var(--ink-800);
+  border: 1px solid var(--ink-200); border-radius: 12px; background: var(--ink-50);
+  padding: 13px 14px; cursor: pointer;
 }
-.empty-card-ic { color: var(--brand); display: flex; flex: none; }
+/* 아이콘은 맨몸이 아니라 옅은 브랜드색 타일 안에 든다. */
+.empty-card-ic {
+  flex: none; width: 34px; height: 34px; border-radius: 8px;
+  display: grid; place-items: center;
+  background: var(--brand-100); color: var(--brand-700);
+}
+.empty-card-title {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; color: var(--ink-900);
+}
+.empty-card-title svg { color: var(--ink-400); flex: none; }
+/* 비어 있는 동안 입력 카드가 이 안으로 들어온다 — 바닥 띠가 아니라 흐름의 한 칸이
+   되므로 위 테와 면, 바깥 여백을 걷는다. */
+.empty > .composer {
+  width: 100%; max-width: 574px;
+  border-top: 0; background: none; padding: 0; margin: 0 0 14px;
+}
 
 .row { display: flex; }
 .row--user { justify-content: flex-end; }
@@ -431,39 +457,44 @@ body {
 
 .composer {
   flex: none; border-top: 1px solid var(--ink-200);
-  padding: 9px 16px 13px; background: color-mix(in srgb, var(--white) 82%, transparent);
+  padding: 12px 16px 14px; background: color-mix(in srgb, var(--white) 82%, transparent);
 }
 .stage.is-light .composer { border-top-color: var(--ink-100); }
-.modes { display: flex; align-items: center; gap: 4px; max-width: 736px; margin: 0 auto 7px; }
-.mode {
-  font-family: inherit; font-size: 11px; font-weight: 600; color: var(--ink-500);
-  background: transparent; border: 1px solid var(--ink-200); border-radius: 999px;
-  /* 패딩은 .modelpick 과 같은 값이어야 한다. 2.5px 이면 칩이 0.9px 낮아져
-     줄 전체를 감싸는 강조 테와 칩 사이에 흰 실선이 남는다. */
-  padding: 3px 10px; cursor: pointer;
+/* 앱의 입력 카드. 글줄이 위, 도구줄이 아래로 한 상자 안에 든다(실측 — R12,
+   안여백 11/11/9/13, 사이 7, 그림자 0 8px 28px rgba(20,30,45,.07)). */
+.input {
+  display: flex; flex-direction: column; gap: 7px;
+  max-width: 574px; margin: 0 auto;
+  border: 1px solid var(--ink-200); border-radius: 12px;
+  background: var(--card); padding: 11px 11px 9px 13px;
+  box-shadow: 0 8px 28px rgba(20,30,45,.07);
 }
-.mode.is-active { color: var(--brand); border-color: var(--brand-100); background: var(--ink-100); }
-.stage.is-light .mode.is-active { color: var(--brand-700); background: var(--brand-50); }
-.mode-hint { font-size: 11px; color: var(--ink-400); margin-left: 6px; }
+.input-ph {
+  font-size: 13.5px; line-height: 1.5; color: var(--ink-400);
+  padding: 3px 2px; min-height: 26px;
+}
+.ctools { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 32px; }
+.ctools-l { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.attach-btn {
+  flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  border: 0; background: transparent; color: var(--ink-500);
+}
+/* 권한을 정하는 단추 하나. 앱에서 Plan·Auto·Manual 칩 줄과 '모델 선택' 알약이
+   여기로 합쳐졌다 — 테도 면도 없고 글자만 선다(실측 — R8, 13px, 여백 0 7px). */
 .modelpick {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 500; color: var(--ink-600);
-  border: 1px solid var(--ink-200); border-radius: 999px; padding: 3px 10px; cursor: pointer;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 7px;
+  font-family: inherit; font-size: 13px; font-weight: 400; color: var(--ink-800);
+  background: transparent; border: 1px solid transparent; border-radius: 8px;
+  cursor: pointer; white-space: nowrap;
 }
 .modelpick svg { color: var(--brand); flex: none; }
-.input {
-  display: flex; align-items: flex-end; gap: 8px; max-width: 736px; margin: 0 auto;
-  border: 1px solid var(--ink-200); border-radius: 14px;
-  background: var(--card); padding: 8px 8px 8px 10px;
-}
-.input-ph { flex: 1; font-size: 13px; line-height: 1.5; color: var(--ink-400); padding: 4px 0; }
-.attach-btn {
-  flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
-  border: 1px solid var(--ink-200); background: transparent; color: var(--ink-500);
+.modelpick svg:last-child { color: var(--ink-400); }
+.mode-hint {
+  font-size: 12px; color: var(--ink-400);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
 }
 .send {
-  flex: none; width: 30px; height: 30px; border-radius: 9px; border: 0; display: grid; place-items: center;
+  flex: none; width: 32px; height: 32px; border-radius: 8px; border: 0; display: grid; place-items: center;
   color: #FFFFFF; background: linear-gradient(135deg, var(--brand), var(--brand-700));
 }
 .send.is-busy { background: var(--ink-300); }
@@ -696,41 +727,45 @@ body {
               <div class="empty-cards" id="emptyCards">
                 <button class="empty-card" type="button" tabindex="-1">
                   <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="8" cy="12" r="2"/><path d="M5.4 5.4 7 10M10.6 5.4 9 10M6 4h4"/></svg></span>
-                  <span data-t="sug1"></span>
+                  <span class="empty-card-title"><span data-t="sug1"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
                 </button>
                 <button class="empty-card" type="button" tabindex="-1">
                   <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11.5 6 7l3 2.6L14 4"/><path d="M10.5 4H14v3.5"/></svg></span>
-                  <span data-t="sug2"></span>
+                  <span class="empty-card-title"><span data-t="sug2"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
                 </button>
                 <button class="empty-card" type="button" tabindex="-1">
                   <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg></span>
-                  <span data-t="sug3"></span>
+                  <span class="empty-card-title"><span data-t="sug3"></span><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
                 </button>
               </div>
             </div>
             <div class="thread" id="thread" style="display:none;"></div>
           </div>
 
-          <div class="composer">
-            <div class="modes" id="modes">
-              <button class="mode" type="button" tabindex="-1">Plan</button>
-              <button class="mode is-active" type="button" tabindex="-1">Auto</button>
-              <button class="mode" type="button" tabindex="-1">Manual</button>
-              <span class="mode-hint" data-t="modeHint"></span>
-              <span class="modelpick">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.6 9.4 5.5 13.4 6.9 9.4 8.3 8 12.2 6.6 8.3 2.6 6.9 6.6 5.5z"/></svg>
-                <span data-t="modelChip"></span>
-                <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
-              </span>
-            </div>
+          <!-- 입력부는 앱(app.refinery.kr/ai-agent)과 같은 한 장짜리 카드다. 글줄이
+               위, 도구줄이 아래로 한 상자 안에 든다. 예전의 Plan·Auto·Manual 칩 줄과
+               오른쪽 '모델 선택' 알약은 앱에서 버튼 하나(#modes)로 합쳐졌다.
+               ⚠️ 비어 있는 동안에는 스크립트가 이 상자를 .empty 안으로 옮긴다 —
+                  앱 홈이 입력창을 제안 카드 위에 두기 때문이다. -->
+          <div class="composer" id="composer">
             <div class="input">
-              <span class="attach-btn" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10.8 5.2 5.9 10a1.8 1.8 0 0 0 2.5 2.5l5.1-5.1a3.2 3.2 0 0 0-4.5-4.5L3.6 8.3a4.6 4.6 0 0 0 6.5 6.5"/></svg>
-              </span>
               <span class="input-ph" id="inputPh"></span>
-              <span class="send" id="sendBtn">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>
-              </span>
+              <div class="ctools">
+                <div class="ctools-l">
+                  <span class="attach-btn" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10.8 5.2 5.9 10a1.8 1.8 0 0 0 2.5 2.5l5.1-5.1a3.2 3.2 0 0 0-4.5-4.5L3.6 8.3a4.6 4.6 0 0 0 6.5 6.5"/></svg>
+                  </span>
+                  <button class="modelpick" id="modes" type="button" tabindex="-1">
+                    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg>
+                    <span>Auto</span>
+                    <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
+                  </button>
+                  <span class="mode-hint" data-t="modeHint"></span>
+                </div>
+                <span class="send" id="sendBtn">
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -1104,6 +1139,9 @@ body {
   };
 
   const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+  /* 입력 카드가 원래 있던 자리. 여는 화면에서는 .empty 안으로 올라갔다가
+     대화가 시작되면 이리로 돌아온다. */
+  const composerHome = $("composer").parentNode;
   function follow() { canvas.scrollTop = canvas.scrollHeight; }
   new MutationObserver(follow).observe(thread, { childList: true, subtree: true, characterData: true });
 
@@ -1138,6 +1176,7 @@ body {
   function addUser(text) {
     $("empty").style.display = "none";
     thread.style.display = "";
+    composerHome.appendChild($("composer"));
     $("chatTitle").style.display = "";
     $("chatTitle").textContent = T.chatTitle;
     $("activeSessionTitle").textContent = T.s0t;
@@ -1570,6 +1609,9 @@ body {
     stopClock(); elapsed = 0; planNode = null;
     thread.innerHTML = ""; thread.style.display = "none";
     $("empty").style.display = "";
+    /* 앱 홈은 입력창이 제안 카드 위에 있다. 비어 있는 동안만 그 자리로 옮기고,
+       대화가 시작되면 제자리(바닥)로 돌려놓는다. */
+    $("empty").insertBefore($("composer"), $("emptyCards"));
     $("chatTitle").style.display = "none";
     $("activeSessionTitle").textContent = T.s0idle;
     $("activeSessionWhen").textContent = T.s0w;
