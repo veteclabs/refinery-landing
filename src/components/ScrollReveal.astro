@@ -58,7 +58,14 @@
   .rv-on .uc-page .ind-grid .ind-card:not(.rv-done),
   .rv-on .uc-template:not(.rv-done),
   .rv-on .uc-case:not(.rv-done),
-  .rv-on .uc-faq-item:not(.rv-done) {
+  .rv-on .uc-faq-item:not(.rv-done),
+  /* ↓ 산업 AI(PillarPage). 머리 칸(.ind-head)은 위 선택자로 이미 걸린다.
+     ⚠️ 문답은 <details class="qa-item"> 이고 활용 카드는 .ind-grid 안의
+        .ind-card 다 — 둘 다 과제별의 .uc-faq-item · .ind-grid .ind-card 와
+        같은 자리에 해당한다.
+     ⚠️ 갈래 클래스로 못박는다. .ind-card 는 문서 · 자료 등 다른 페이지도 쓰는
+        이름이라 그냥 적으면 엉뚱한 곳이 숨는다. */
+  .rv-on .pillar-industrial-ai .qa-item:not(.rv-done) {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .55s cubic-bezier(.2, .7, .2, 1),
@@ -84,7 +91,8 @@
   .rv-on .uc-page .ind-grid .ind-card.rv-in:not(.rv-done),
   .rv-on .uc-template.rv-in:not(.rv-done),
   .rv-on .uc-case.rv-in:not(.rv-done),
-  .rv-on .uc-faq-item.rv-in:not(.rv-done) {
+  .rv-on .uc-faq-item.rv-in:not(.rv-done),
+  .rv-on .pillar-industrial-ai .qa-item.rv-in:not(.rv-done) {
     opacity: 1;
     transform: none;
   }
@@ -108,7 +116,8 @@
               + ', .ind-flow-note, .ind-systems-block, .ind-systems-note'
               + ', .ind-benefits .ind-card'
               + ', .uc-problem, .uc-signal, .uc-page .ind-grid .ind-card, .uc-template'
-              + ', .uc-case, .uc-faq-item';
+              + ', .uc-case, .uc-faq-item'
+              + ', .pillar-industrial-ai .qa-item';
       var nodes = d.querySelectorAll(SEL);
       if (!nodes.length) { root.classList.remove('rv-on'); return; }
 
