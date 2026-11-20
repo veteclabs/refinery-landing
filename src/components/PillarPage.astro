@@ -995,11 +995,6 @@ const faqSchema = {
               남아 아래가 잘린 채 머문다 — 가던 길(from · to)을 새 비율로
               고쳐 준다. */
         function refit() {
-          /* 아직 안 돌기 시작했다면, 쉬는 상자와 제 크기 상자 중 지금 자리에
-             맞는 쪽을 고른다. 쉬는 상자는 둘레를 더 비운 것이라 다 자란
-             카드에서 쓰면 그림이 괜히 작아 보인다 — 자라는 순간 제 크기로
-             돌아간다. */
-          if (!started) lastShot = restShotNow();
           if (anim) { animFrom = toAspect(animFrom); animTo = fit(lastShot); return; }
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
@@ -1050,111 +1045,14 @@ const faqSchema = {
               오지 않는다 — 그쪽은 종전대로 화면에 들어오면 재생한다.
            ⚠️ 신호가 먼저 와도 흘리지 않는다. 준비가 끝나기 전에 불리면
               적어 두었다가 여기서 집행한다(산업 AI 데모에서 겪은 자리다). */
-        /* 쉬는 모습 — 그림은 다 그려진 채 서 있고 움직이지 않는다.
-           ⚠️ 감춘 채로 두면 카드가 텅 빈다. 데모 갈래가 첫 장면에 멈춰 서
-              있는 것과 같은 자리다.
-           ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 모습으로 들어설 때 그림이
-              0.5초 동안 스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
-        function standStill() {
-          /* 쉬는 모습에서 쓰는 상자. 전체보다 둘레를 더 비운다(9%), 위쪽은 30 더.
-           ⚠️ 8% 만 주면 그림이 카드 윗변에 바짝 붙어 답답하고, 18% · 위 60 은
-              너무 작아졌다. 12% 에서 한 단 키워 9% · 위 30 으로 둔다.
-           ⚠️ 다 자란 카드에서는 쓰지 않는다. 아래 refit 이 갈라 준다. */
-        var REST_SHOT = { x: SHOTS.whole.x, y: SHOTS.whole.y - 30,
-                          w: SHOTS.whole.w, h: SHOTS.whole.h + 30, pad: 0.09 };
-        function grownNow() {
-          return !!document.querySelector('.ind-container.ai-hero-grown');
-        }
-        /* 쉬는 동안 칸이 커져도 그림은 제 크기를 지킨다.
-           카드는 스크롤에 따라 넓어지는데, 상자를 그대로 두면 같은 구간이
-           더 큰 칸에 그려져 그림이 따라 확대된다 — '스크롤하자마자 확대된다'
-           는 말이 그것이다. 칸이 커진 배수만큼 상자도 키워, 보이는 크기는
-           그대로 두고 둘레 여백만 넓힌다.
-           ⚠️ 기준 폭은 처음 섰을 때의 칸 폭이다. 창 크기를 바꾸면 그 값도
-              다시 잡아야 하므로 0 이면 그때 다시 읽는다. */
-        var restW = 0;
-        function restShotNow() {
-          if (!restW) restW = obj.clientWidth || 1;
-          var k = (obj.clientWidth || restW) / restW;
-          var cx = REST_SHOT.x + REST_SHOT.w / 2, cy = REST_SHOT.y + REST_SHOT.h / 2;
-          var w = REST_SHOT.w * k, h = REST_SHOT.h * k;
-          return { x: cx - w / 2, y: cy - h / 2, w: w, h: h, pad: REST_SHOT.pad };
-        }
-
-        /* 쉬는 모습 — 그림은 다 그려진 채 서 있다. 판이 쌓이는 연출과 카메라
-             움직임만 멈춘 것이고, 그림 안에 원래 있는 움직임(회로 흐름 등)은
-             SVG 제 CSS 가 돌리므로 그대로 돈다.
-             ⚠️ 첫 층 하나만 세워 두는 쪽도 해 봤는데, 쪽 맨 위에서 카드가 거의
-                비어 보였다 — 다 그려 두는 쪽으로 간다.
-             ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 자리에서 그림이 0.5초 동안
-                스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
-          all.forEach(function (el) { el.style.transition = 'none'; });
-          lineEls.forEach(function (g) { if (g) g.style.transition = 'none'; });
-          all.forEach(show); lineEls.forEach(draw);
-          /* 쉬는 모습은 둘레를 더 비운다. 전체 상자에 기본 여백(8%)만 주면
-             그림이 카드 윗변에 바짝 붙어 답답하다. 9% 로 늘려 한 단 작게
-             세우고, 그 위에 윗쪽만 조금 더 연다(위 30 · 무대 좌표).
-             ⚠️ 18% · 위 60 까지 가 봤는데 그림이 너무 작아졌다.
-             ⚠️ lastShot 에도 같은 상자를 넣는다. 칸 크기가 바뀌면 refit 이
-                이 값으로 다시 맞추는데, 민 상자를 안 넣으면 쉬는 모습이
-                기본 여백으로 되돌아간다. */
-          restW = obj.clientWidth || 0;
-          lastShot = restShotNow();
-          cur = fit(lastShot);
-          svg.setAttribute('viewBox', cur.join(' '));
-          /* 그림이 제 안에 들고 있는 움직임(회로 흐름 · 판 위 막대 · 아이콘)을
-             쉬는 자리에서도 돌린다. 판이 쌓이는 연출만 멈춘 것이지 그림이
-             죽어 있는 것은 아니다.
-             ⚠️ 흐름은 선을 다 그린 뒤에만 켤 수 있다 — 둘 다 strokeDashoffset 을
-                쓰기 때문이다. 그래서 그리기용 인라인 값을 먼저 걷는다. */
-          lineEls.forEach(function (g) {
-            if (!g) return;
-            var ps = g.querySelectorAll('path');
-            for (var i = 0; i < ps.length; i++) {
-              if (ps[i].__cap) continue;
-              ps[i].style.transition = 'none';
-              ps[i].style.strokeDasharray = '';
-              ps[i].style.strokeDashoffset = '';
-            }
-          });
-          root.classList.add('flow-on');
-          startIconMotion();
-          requestAnimationFrame(function () {
-            all.forEach(function (el) { el.style.transition = ''; });
-            lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
-          });
-        }
-
+        /* ⚠️ 쉬는 모습에서 그림을 미리 그려 두지 않는다.
+           한때 쉬는 자리에 완성된 그림을 세워 두고, 꽉 차는 순간 처음으로
+           되감아 다시 돌렸다. 그런데 되감기가 준비 상태를 그대로 복원하지
+           못해(선의 dasharray · 흐름 · 아이콘 모션) 회선이 그려지지 않거나
+           막대가 겹쳐 흔들렸다. 지금은 프로덕션과 같은 흐름이다 —
+           한 번 준비하고 한 번만 돌린다. 돌리는 시점만 '화면이 꽉 찰 때'다. */
         var started = false;
-        function startOnce() {
-          if (started) return; started = true;
-          /* 쉬는 모습에서 다 그려 두었으므로 처음으로 되감고 시작한다.
-             감추는 데는 전환을 쓰지 않아 한 프레임에 끝난다 — 사라지는 모습이
-             보이지 않는다. */
-          /* 흐름을 끈다 — 다시 그리는 동안에는 선이 제 길이만큼 물러나 있어야
-             하는데, 흐름이 같은 strokeDashoffset 을 쥐고 있으면 못 물러난다. */
-          root.classList.remove('flow-on');
-          all.forEach(hide);
-          /* 회선은 준비하던 자리로 돌린다 — 그룹을 감추고, 선은 제 길이만큼
-             물러나게 하고, 끝의 작은 원도 끈다. */
-          lineEls.forEach(function (g) {
-            if (!g) return;
-            hide(g);
-            var ps = g.querySelectorAll('path');
-            for (var i = 0; i < ps.length; i++) {
-              var pth = ps[i];
-              if (pth.__cap) { pth.style.opacity = '0'; pth.__cur = 0; continue; }
-              if (pth.__len) pth.style.strokeDashoffset = pth.__len * pth.__dir;
-            }
-          });
-          /* 카메라는 그대로 둔다 — 쉬는 자리에서 보던 전체 모습 그대로
-             판이 쌓이기 시작한다. */
-          requestAnimationFrame(function () {
-            all.forEach(function (el) { el.style.transition = ''; });
-            lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
-            play();
-          });
-        }
+        function startOnce() { if (started) return; started = true; play(); }
         window.__aiHeroStartGraphic = startOnce;
 
         /* ───────── 층 나누기 — play 밖으로 뺐다.
@@ -1208,7 +1106,6 @@ const faqSchema = {
         pills.forEach(function (b, i) { layers[Math.min(i + 1, 3)].push(b.el); });
         layers = layers.filter(function (L) { return L.length; });
 
-        standStill();
         if (window.__aiHeroGraphicWanted) { startOnce(); return; }
         if (!document.querySelector('.pillar-pinned')) {
           if (!('IntersectionObserver' in window)) { startOnce(); return; }
