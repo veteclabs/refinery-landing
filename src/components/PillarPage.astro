@@ -42,7 +42,7 @@ const uses = T.uses;
    public/cta/<갈래>/README.txt 에 다른 한 벌이 함께 적혀 있다. */
 const CTA_GRAPHIC: Record<string, string> = {
   'industrial-ai': '/cta/industrial-ai/cube/ai-cta-cube',
-  'energy-management': '/cta/energy-management/transmission/ems-cta-transmission',
+  'energy-management': '/cta/energy-management/ess/ems-cta-ess',
 };
 const ctaGraphic = CTA_GRAPHIC[pillarSlug];
 
@@ -1752,9 +1752,8 @@ const faqSchema = {
         대제목 · 버튼 모두 가운데에 세우기로 했다(2026-11-19).
      ⚠️ 자간은 px 가 아니라 em 이다. 크기를 따라 조여져야 한다 — px 로 박으면
         좁은 폭에서 글자가 작아져도 조임이 그대로라 과하게 붙는다.
-     ⚠️ 에너지관리(.pillar-energy-management)는 그대로 둔다. 같은 컴포넌트를
-        쓰므로 갈래 클래스로 가려 건다. */
-  .pillar-industrial-ai .ind-hero h1 {
+     ⚠️ 이제 두 갈래가 함께 쓴다(.pillar-pinned) — 에너지관리도 같은 값이다. */
+  .pillar-pinned .ind-hero h1 {
     font-size: clamp(30px, 4.2vw, 54px);
     letter-spacing: -0.03em;
   }
@@ -1768,11 +1767,11 @@ const faqSchema = {
         한 줄 배치를 풀고 세로로 쌓기 때문이다. 같은 경계를 쓴다.
      ⚠️ padding 이 아니라 padding-top 만 준다. 900px 이하의 padding 줄임
         (120px)도 이 선택자가 자릿수로 이겨 함께 덮인다. */
-  .pillar-industrial-ai .ind-hero {
+  .pillar-pinned .ind-hero {
     padding-top: calc(180px + clamp(15px, 1.4vw, 20px) + 14px);
   }
   @media (min-width: 1101px) {
-    .pillar-industrial-ai .ind-hero {
+    .pillar-pinned .ind-hero {
       padding-top: calc(180px + clamp(15px, 1.4vw, 20px) + 43px);
     }
   }
@@ -1780,7 +1779,7 @@ const faqSchema = {
   /* 섹션 사이 구분선을 걷는다. 면색(ind-soft)과 여백만으로 섹션이 갈린다.
      ⚠️ 문답 줄 사이 선(.qa-item)과 카드 테는 그대로 둔다 — 섹션 구분선이
         아니라 목록과 카드의 제 모양이다. */
-  .pillar-industrial-ai .ind-section { border-bottom: 0; }
+  .pillar-pinned .ind-section { border-bottom: 0; }
 
   /* ───────── 히어로 무대 — 바깥 테를 걷고 둥글기를 메인과 맞춘다
      점 격자 면(#F6F8FA)과 흰 페이지가 밝기로 이미 갈려 테가 할 일이 없다.
@@ -2160,7 +2159,7 @@ const faqSchema = {
     }
   }
 
-  .pillar-industrial-ai .ai-hero-stage {
+  .pillar-pinned .ai-hero-stage {
     border: 0;
     /* 점 격자를 걷는다 — 면 하나로 둔다. */
     background-image: none;
@@ -2364,29 +2363,29 @@ const faqSchema = {
   /* 문답과 활용 사이 여백 — 과제별(.uc-redesigned .uc-faq-section)과 같은
      값이다. 공통값은 위아래 180px 이라 둘 사이가 360px 이었다.
      저쪽은 90 + 90 으로 좁혀 두 섹션을 한 흐름으로 읽히게 한다. */
-  .pillar-industrial-ai .qa-section { padding-bottom: 90px; }
-  .pillar-industrial-ai .qa-section + .ind-section { padding-top: 90px; }
+  .pillar-pinned .qa-section { padding-bottom: 90px; }
+  .pillar-pinned .qa-section + .ind-section { padding-top: 90px; }
 
-  .pillar-industrial-ai .qa-head { grid-template-columns: 1fr; gap: 64px; }
-  .pillar-industrial-ai .qa-list {
+  .pillar-pinned .qa-head { grid-template-columns: 1fr; gap: 64px; }
+  .pillar-pinned .qa-list {
     background: var(--bg-soft);
     border-radius: var(--radius);
     padding: 32px 48px;
     text-align: left;
   }
-  .pillar-industrial-ai .qa-item { overflow: hidden; }
+  .pillar-pinned .qa-item { overflow: hidden; }
   /* 저쪽 질문 줄은 좌우 4px 안여백을 갖는다(판 안에서 조금 들여 선다). */
-  .pillar-industrial-ai .qa-item summary { padding: 20px 4px; gap: 12px; }
-  .pillar-industrial-ai .qa-item h3 {
+  .pillar-pinned .qa-item summary { padding: 20px 4px; gap: 12px; }
+  .pillar-pinned .qa-item h3 {
     font-size: clamp(15px, 1.56vw, 17px); font-weight: 500; line-height: 1.5;
   }
-  .pillar-industrial-ai .qa-caret {
+  .pillar-pinned .qa-caret {
     font-size: 14px; color: #7E858F;
     /* 저쪽은 ph-bold 를 쓰는데 여기 아이콘은 ph(보통)다. 획을 0.3px 덧대
        같은 굵기로 보이게 한다. */
     -webkit-text-stroke: 0.3px currentColor;
   }
-  .pillar-industrial-ai .qa-item p {
+  .pillar-pinned .qa-item p {
     /* ⚠️ 색은 #5A6776 이 아니다. 저쪽은 var(--text-muted, #5A6776) 로 적혀
        있지만 그 페이지에서 토큰이 실제로 내는 값은 #7E8A98 이다 — 예비값만
        보고 옮기면 한 단 어두워진다. */
@@ -2394,8 +2393,8 @@ const faqSchema = {
     padding: 0 4px 20px;
   }
   @media (max-width: 900px) {
-    .pillar-industrial-ai .qa-head { gap: 40px; }
-    .pillar-industrial-ai .qa-list { padding: 24px; }
+    .pillar-pinned .qa-head { gap: 40px; }
+    .pillar-pinned .qa-list { padding: 24px; }
   }
 
   /* ───────── 히어로 버튼 — 메인 CTA(#cta .btn-primary)와 같은 크기로 둔다
@@ -2406,8 +2405,8 @@ const faqSchema = {
      ⚠️ 보조 버튼('제품 소개')의 테 색과 호버 색은 그대로 둔다. 메인 CTA 는
         어두운 영상 위라 버튼이 하나뿐이고, 여기는 밝은 면 위에 둘이 서므로
         둘을 갈라 주는 것이 저 테다. 크기만 맞춘다. */
-  .pillar-industrial-ai .ind-hero-actions .ind-btn-primary,
-  .pillar-industrial-ai .ind-hero-actions .ind-btn-ghost {
+  .pillar-pinned .ind-hero-actions .ind-btn-primary,
+  .pillar-pinned .ind-hero-actions .ind-btn-ghost {
     /* ⚠️ 행간도 같이 맞춘다. 메인 버튼은 글줄 높이가 24px(1.5)인데 여기는
        .ind 의 본문 행간 1.65 를 물려받아 26.4px 이었다 — 같은 16px · 11/26
        으로 맞춰도 버튼이 50px 으로 2px 더 높았다. */
@@ -2417,7 +2416,7 @@ const faqSchema = {
     padding: clamp(10px, 0.8vw, 11px) clamp(20px, 1.9vw, 26px);
     font-size: clamp(15px, 1.2vw, 16px); line-height: 1.5;
   }
-  .pillar-industrial-ai .ind-hero-actions .ind-btn-primary { border-color: transparent; }
+  .pillar-pinned .ind-hero-actions .ind-btn-primary { border-color: transparent; }
   /* 히어로 버튼 — 예지보전 히어로와 같은 형태다(9px 22px · 15px/400 · 반경 6px ·
      테두리 1px · 묶음 margin-top 48px · gap 16px).
      색은 그 페이지의 '밝은 배경용' 규칙을 따른다. 거기 히어로는 어두운 사진 위라
@@ -2459,10 +2458,10 @@ const faqSchema = {
      ⚠️ 크기 · 모서리 · 글자는 건드리지 않는다 — 옆 주 버튼과 한 쌍이라
         높이가 어긋난다(탭은 14px/7px 22px 로 더 작다).
      ⚠️ 에너지관리는 그대로 둔다 — 그 페이지는 따로 진행한다. */
-  .pillar-industrial-ai .ind-hero-actions .ind-btn-ghost {
+  .pillar-pinned .ind-hero-actions .ind-btn-ghost {
     background: #ffffff; color: var(--text-muted); border-color: var(--border2);
   }
-  .pillar-industrial-ai .ind-hero-actions .ind-btn-ghost:hover {
+  .pillar-pinned .ind-hero-actions .ind-btn-ghost:hover {
     background: #151B23; color: #ffffff; border-color: #151B23;
   }
 
@@ -2812,12 +2811,12 @@ const faqSchema = {
       left: 0; right: auto; transform: none;
       object-position: 62% center;
     }
-    /* 송전선은 무게중심이 59.7% 로 큐브(66%)보다 왼쪽이다 — 같은 셈으로 다시
-       뽑으면 57% 다(화면 72% 자리). */
+    /* ESS 는 무게중심이 64.3% 로 큐브(66%)와 가깝다 — 같은 셈으로 뽑으면
+       62% 다(화면 72% 자리). 송전선(59.7%)으로 바꾸면 57% 가 맞다. */
     .pillar-energy-management .ind-cta-bg-img {
       width: 100%; max-width: 100%; height: 100%;
       left: 0; right: auto; transform: none;
-      object-position: 57% center;
+      object-position: 62% center;
     }
   }
 
