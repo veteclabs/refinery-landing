@@ -1040,12 +1040,12 @@ const faqSchema = {
            ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 모습으로 들어설 때 그림이
               0.5초 동안 스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
         function standStill() {
-          /* 쉬는 모습에서 쓰는 상자. 전체보다 둘레를 더 비운다(12%), 위쪽은 40 더.
+          /* 쉬는 모습에서 쓰는 상자. 전체보다 둘레를 더 비운다(9%), 위쪽은 30 더.
            ⚠️ 8% 만 주면 그림이 카드 윗변에 바짝 붙어 답답하고, 18% · 위 60 은
-              너무 작아졌다 — 그 사이다.
+              너무 작아졌다. 12% 에서 한 단 키워 9% · 위 30 으로 둔다.
            ⚠️ 다 자란 카드에서는 쓰지 않는다. 아래 refit 이 갈라 준다. */
-        var REST_SHOT = { x: SHOTS.whole.x, y: SHOTS.whole.y - 40,
-                          w: SHOTS.whole.w, h: SHOTS.whole.h + 40, pad: 0.12 };
+        var REST_SHOT = { x: SHOTS.whole.x, y: SHOTS.whole.y - 30,
+                          w: SHOTS.whole.w, h: SHOTS.whole.h + 30, pad: 0.09 };
         function grownNow() {
           return !!document.querySelector('.ind-container.ai-hero-grown');
         }
@@ -1061,8 +1061,8 @@ const faqSchema = {
           lineEls.forEach(function (g) { if (g) g.style.transition = 'none'; });
           all.forEach(show); lineEls.forEach(draw);
           /* 쉬는 모습은 둘레를 더 비운다. 전체 상자에 기본 여백(8%)만 주면
-             그림이 카드 윗변에 바짝 붙어 답답하다. 12% 로 늘려 한 단 작게
-             세우고, 그 위에 윗쪽만 조금 더 연다(위 40 · 무대 좌표).
+             그림이 카드 윗변에 바짝 붙어 답답하다. 9% 로 늘려 한 단 작게
+             세우고, 그 위에 윗쪽만 조금 더 연다(위 30 · 무대 좌표).
              ⚠️ 18% · 위 60 까지 가 봤는데 그림이 너무 작아졌다.
              ⚠️ lastShot 에도 같은 상자를 넣는다. 칸 크기가 바뀌면 refit 이
                 이 값으로 다시 맞추는데, 민 상자를 안 넣으면 쉬는 모습이
