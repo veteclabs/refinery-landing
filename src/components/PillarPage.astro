@@ -979,6 +979,11 @@ const faqSchema = {
               남아 아래가 잘린 채 머문다 — 가던 길(from · to)을 새 비율로
               고쳐 준다. */
         function refit() {
+          /* 아직 안 돌기 시작했다면, 쉬는 상자와 제 크기 상자 중 지금 자리에
+             맞는 쪽을 고른다. 쉬는 상자는 둘레를 더 비운 것이라 다 자란
+             카드에서 쓰면 그림이 괜히 작아 보인다 — 자라는 순간 제 크기로
+             돌아간다. */
+          if (!started) lastShot = grownNow() ? SHOTS.whole : REST_SHOT;
           if (anim) { animFrom = toAspect(animFrom); animTo = fit(lastShot); return; }
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
@@ -1035,7 +1040,17 @@ const faqSchema = {
            ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 모습으로 들어설 때 그림이
               0.5초 동안 스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
         function standStill() {
-          /* 쉬는 모습 — 그림은 다 그려진 채 서 있다. 판이 쌓이는 연출과 카메라
+          /* 쉬는 모습에서 쓰는 상자. 전체보다 둘레를 더 비운다(12%), 위쪽은 40 더.
+           ⚠️ 8% 만 주면 그림이 카드 윗변에 바짝 붙어 답답하고, 18% · 위 60 은
+              너무 작아졌다 — 그 사이다.
+           ⚠️ 다 자란 카드에서는 쓰지 않는다. 아래 refit 이 갈라 준다. */
+        var REST_SHOT = { x: SHOTS.whole.x, y: SHOTS.whole.y - 40,
+                          w: SHOTS.whole.w, h: SHOTS.whole.h + 40, pad: 0.12 };
+        function grownNow() {
+          return !!document.querySelector('.ind-container.ai-hero-grown');
+        }
+
+        /* 쉬는 모습 — 그림은 다 그려진 채 서 있다. 판이 쌓이는 연출과 카메라
              움직임만 멈춘 것이고, 그림 안에 원래 있는 움직임(회로 흐름 등)은
              SVG 제 CSS 가 돌리므로 그대로 돈다.
              ⚠️ 첫 층 하나만 세워 두는 쪽도 해 봤는데, 쪽 맨 위에서 카드가 거의
@@ -1046,13 +1061,13 @@ const faqSchema = {
           lineEls.forEach(function (g) { if (g) g.style.transition = 'none'; });
           all.forEach(show); lineEls.forEach(draw);
           /* 쉬는 모습은 둘레를 더 비운다. 전체 상자에 기본 여백(8%)만 주면
-             그림이 카드 윗변에 바짝 붙어 답답하다. 18% 로 늘려 한 단 작게
-             세우고, 그 위에 윗쪽만 조금 더 연다(위 60 · 무대 좌표).
+             그림이 카드 윗변에 바짝 붙어 답답하다. 12% 로 늘려 한 단 작게
+             세우고, 그 위에 윗쪽만 조금 더 연다(위 40 · 무대 좌표).
+             ⚠️ 18% · 위 60 까지 가 봤는데 그림이 너무 작아졌다.
              ⚠️ lastShot 에도 같은 상자를 넣는다. 칸 크기가 바뀌면 refit 이
                 이 값으로 다시 맞추는데, 민 상자를 안 넣으면 쉬는 모습이
                 기본 여백으로 되돌아간다. */
-          lastShot = { x: SHOTS.whole.x, y: SHOTS.whole.y - 60,
-                       w: SHOTS.whole.w, h: SHOTS.whole.h + 60, pad: 0.18 };
+          lastShot = REST_SHOT;
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.join(' '));
           /* 그림이 제 안에 들고 있는 움직임(회로 흐름 · 판 위 막대 · 아이콘)을
@@ -1100,6 +1115,12 @@ const faqSchema = {
               if (pth.__len) pth.style.strokeDashoffset = pth.__len * pth.__dir;
             }
           });
+          /* 카메라도 이 그림이 원래 출발하던 자리로 돌린다(SHOTS.stack).
+             ⚠️ 쉬는 상자(둘레를 더 비운 것)를 그대로 들고 들어가면, 판이
+                쌓이는 2초 남짓 동안 그림이 제 크기보다 작게 서 있다. */
+          lastShot = SHOTS.stack;
+          cur = fit(lastShot);
+          svg.setAttribute('viewBox', cur.join(' '));
           requestAnimationFrame(function () {
             all.forEach(function (el) { el.style.transition = ''; });
             lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
