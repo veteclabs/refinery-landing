@@ -28,7 +28,10 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     usesLede: '전력 감시부터 절감까지, 현장에 적용된 모습을 살펴보세요.',
     more: '자세히보기',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
-    ctaTitle: '지금 바로<br>리파이너리를 경험해보세요.',
+    /* ⚠️ <br> 뒤에 공백을 둔다. industry.css 가 900px 이하에서 .ind-page 의 br 를
+       통째로 숨기는데(!important), 공백이 없으면 그 자리에서 낱말이 붙는다
+       ('지금 바로리파이너리를'). */
+    ctaTitle: '지금 바로<br> 리파이너리를 경험해보세요.',
     faq: [
       {
         q: '에너지관리시스템(EMS)이란 무엇인가요?',
@@ -87,7 +90,8 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
     more: 'Learn more',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
-    ctaTitle: 'See what Refinery<br>can do for your site.',
+    /* <br> 뒤 공백은 국문과 같은 까닭이다. */
+    ctaTitle: 'See what Refinery<br> can do for your site.',
     faq: [
       {
         q: 'What is an energy management system (EMS)?',
