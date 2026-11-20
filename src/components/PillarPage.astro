@@ -2653,9 +2653,13 @@ const faqSchema = {
        그래픽이 222px 이었다. minmax(0, 1fr) 로 한 칸만 둔다. */
     grid-template-columns: minmax(0, 1fr);
     column-gap: 0;
+    /* ⚠️ 좌우가 같다. 산업 AI 는 오른쪽을 0 으로 닫아 데모가 화면 변에 닿는데,
+       그건 왼쪽에 글 칸이 있어 균형이 잡히기 때문이다. 여기는 그래픽 한 장뿐이라
+       오른쪽만 닫으면 그림이 오른쪽으로 쏠린다 — 양쪽을 같이 열어 가운데에
+       세운다(1440px 에서 1344px, 쉬는 카드와 같은 폭이다). */
     padding:
       calc(56px * var(--grow, 0))
-      0
+      calc((var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0))
       calc(56px * var(--grow, 0))
       calc((var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0));
   }
