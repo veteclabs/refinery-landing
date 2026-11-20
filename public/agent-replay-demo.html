@@ -107,6 +107,10 @@ body {
   box-shadow: 0 40px 90px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
 }
 .stage.is-light { box-shadow: 0 30px 70px rgba(20,30,45,.18), 0 0 0 1px rgba(20,30,45,.08); }
+/* 부모가 refinery-hero-flat 을 보내면 그림자를 걷는다. 무대를 통째로 보여 주는
+   자리(폰의 히어로)에서는 이 그림자와 1px 테가 데모 상자 둘레에 그대로 드러나,
+   바깥에서 보면 데모 칸에 그림자가 달린 것처럼 보인다. */
+.stage.is-flat, .stage.is-light.is-flat { box-shadow: none; }
 
 .app {
   position: absolute; inset: 0;
@@ -2029,6 +2033,11 @@ body {
      스크롤로 되돌아와도 다시 재생되지 않았다. 여기서 함께 살린다. */
   window.addEventListener("message", (e) => {
     const t = e.data && e.data.type;
+    /* 무대 그림자를 걷는다(폰의 히어로처럼 무대가 통째로 보이는 자리). */
+    if (t === "refinery-hero-flat") {
+      stage.classList.toggle("is-flat", e.data.value !== false);
+      return;
+    }
     if (t === "refinery-hero-extcap") {
       extCap = true; cap.style.display = "none";
       /* 설명을 바깥에서 그리는 페이지는 구간 막대에 장면 이름을 붙인다 —
