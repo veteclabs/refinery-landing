@@ -1236,11 +1236,14 @@ const faqSchema = {
         var fit = bw / FRAME_W;                    /* 무대 전체를 담는 배율 */
         /* 설명이 데모 위로 올라가는 폭에서는 데모가 칸을 넓게 쓰므로 당기지 않고
            전체를 보여준다. 좁은 화면에서 당기면 화면 대부분이 잘려 나간다. */
-        /* ⚠️ 늘 true 다. 데모 화면을 원본 그대로 보여준다 — 당겨서 자르거나
-           따라다니지 않고, 한 배율로 화면 전체를 담는다.
+        /* 넓은 폭에서는 늘 true 다 — 데모 화면을 원본 그대로, 한 배율로
+           화면 전체를 담는다(당겨서 자르거나 따라다니지 않는다).
+           ⚠️ 900px 이하에서만 false 로 둔다. 거기서는 데모가 366px 안에 들어가
+              안쪽 글씨가 3px 남짓이라 읽히지 않는다 — 장면마다 강조된 자리를
+              당겨 보여 준다(이 함수의 아래쪽 분기가 그 일을 한다).
            ⚠️ 데모 안의 설명 카드는 그대로 숨긴다(extcap). 설명은 왼쪽 글과
               구간 막대가 맡는다. */
-        var stacked = true;
+        var stacked = document.documentElement.clientWidth > 900;
 
         var s, cx, cy;
         if (holding) {
@@ -1272,7 +1275,13 @@ const faqSchema = {
           s = Math.min(bw / fw, bh / fh);
           var floor = stacked ? fit : MIN_SCALE;
           s = Math.max(floor, Math.min(s, floor * MAX_ZOOM));
-          cx = fx + fw / 2; cy = fy + fh / 2;
+          cy = fy + fh / 2;
+          /* 강조 상자가 보이는 창보다 넓으면 왼쪽 변을 맞춘다 — 가운데에 두면
+             글줄이 양쪽에서 잘려 문장이 가운데 토막만 남는다.
+             ⚠️ 폰에서 늘 그렇다. 강조 상자는 글 칸 폭(무대 756 = 틀 824)이라
+                창(366 / 0.68 = 538)보다 넓다. 읽기는 왼쪽에서 시작한다. */
+          var win = bw / s;
+          cx = (fw > win) ? (fx + win / 2) : (fx + fw / 2);
         }
 
         /* 보고 있는 자리의 가운데를 칸 가운데로 당긴다. */
@@ -1370,10 +1379,16 @@ const faqSchema = {
         }
 
         function apply(d) {
-          /* ⚠️ 장면이 가리키는 상자(focusBox)를 받지 않는다. 받으면 그 자리로
-             확대 · 이동해 화면 일부만 보인다 — 데모 화면은 원본 그대로, 한
-             배율로 전체를 보여준다. 글과 구간 막대는 그대로 바뀐다. */
-          if (!reduce) { focusBox = null; render(true); }
+          /* 넓은 폭에서는 장면이 가리키는 상자(focusBox)를 받지 않는다. 받으면
+             그 자리로 확대 · 이동해 화면 일부만 보인다 — 데모 화면은 원본
+             그대로, 한 배율로 전체를 보여준다. 글과 구간 막대는 그대로 바뀐다.
+             ⚠️ 900px 이하에서는 받는다. 거기서는 데모가 366px 안에 들어가
+                안쪽 글씨가 3px 남짓이라, 당겨 보여 주지 않으면 읽을 수 없다.
+                폭을 그때그때 읽는다 — 창을 돌리거나 키우면 바로 갈린다. */
+          if (!reduce) {
+            focusBox = (document.documentElement.clientWidth <= 900) ? (d.box || null) : null;
+            render(true);
+          }
 
           if (!card) return;
           if (d.cap) {
@@ -2080,6 +2095,11 @@ const faqSchema = {
     .pillar-industrial-ai .ai-hero-figure {
       justify-self: stretch; align-self: start;
       width: 100%; max-width: none; transform: none;
+      /* ⚠️ 여기서 다시 지운다. 아래 고정 블록의 같은 선택자가 box-shadow: none
+         을 들고 있지만, 그 블록은 이 묶음보다 뒤에 온다 — 같은 급(0,2,0)이라
+         뒤가 이기는데도 폰에서는 공통 .ai-hero-figure 의 세 겹 그림자가
+         남았다(실측 — 데모 아랫변 아래 15px 띠). 이 자리에서 못 박는다. */
+      box-shadow: none;
     }
     /* ⚠️ 둥글기는 공통값(12px)이 아니라 4px 이다. 칸이 1045x665 에서 366x233 으로
        줄어드는데 12px 을 그대로 두면 짧은 변 대비 1.8% 가 5.2% 로 세 배 가까이
