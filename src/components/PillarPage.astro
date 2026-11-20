@@ -1012,11 +1012,45 @@ const faqSchema = {
               '움직일 때는 건드리지 않는다' 로 두면 그 한 장면 내내 옛 비율로
               남아 아래가 잘린 채 머문다 — 가던 길(from · to)을 새 비율로
               고쳐 준다. */
+        /* 쉬는 자리에서 쓰는 상자.
+           ⚠️ 둘레를 조금 더 비운다(여유 0.01 -> 0.05) — 그림이 카드 변에 바짝
+              붙지 않고 한 단 작게 선다.
+           ⚠️ 칸이 커진 배수만큼 상자도 키운다. 위로 올라오는 동안 카드는 아직
+              화면만큼 큰데 상자를 쉬는 값 그대로 두면, 같은 구간이 더 큰 칸에
+              그려져 그림이 기본 모습보다 커 보인다(실측 — 배율 0.597 이어야
+              할 것이 0.705 였다). 쉬는 칸 폭은 min(창,1600) - 96 이다. */
+        function restShot() {
+          /* 1) 쉬는 칸의 치수 — 폭은 min(창, 1600) - 96, 높이는 762(좁은 폭은
+                비율 1184:762). 2) 그 칸에서 전체 상자를 여유 0.05 로 맞췄을 때의
+                배율 s0 을 구한다. 3) 지금 칸에서도 그 배율이 나오도록 상자를
+                거꾸로 세운다 — 칸이 커져도 그림은 제 크기를 지킨다.
+             ⚠️ fit 을 그대로 쓰면 안 된다. 칸 비율이 쉴 때 1.76 · 다 자랐을 때
+                1.60 으로 달라, 같은 상자라도 화면에 서는 크기가 달라진다
+                (실측 — 배율 0.597 이어야 할 자리에 0.705 · 0.658). */
+          var vw = document.documentElement.clientWidth;
+          var restW = Math.min(vw, 1600) - 96;
+          var restH = vw <= 1024 ? restW * 762 / 1184 : 762;
+          var pad = Math.max(SHOTS.whole.w, SHOTS.whole.h) * 0.05;
+          var w0 = SHOTS.whole.w + pad * 2, h0 = SHOTS.whole.h + pad * 2;
+          var ra = restH > 0 ? restW / restH : 1;
+          var boxW0 = (w0 / h0 < ra) ? h0 * ra : w0;
+          var s0 = boxW0 > 0 ? restW / boxW0 : 1;
+          var bw = (obj.clientWidth || restW) / s0;
+          var bh = bw / (aspectNow() || ra);
+          var cx = SHOTS.whole.x + SHOTS.whole.w / 2;
+          var cy = SHOTS.whole.y + SHOTS.whole.h / 2;
+          /* 여유는 이미 셈에 들어 있으므로 다시 주지 않는다. */
+          return { x: cx - bw / 2, y: cy - bh / 2, w: bw, h: bh, pad: 0 };
+        }
+
         function refit() {
           /* ⚠️ 세대가 지난 고리는 물러난다. 다시 준비할 때마다 ResizeObserver 가
              하나씩 더 붙는데, 옛 고리가 제 lastShot(연출 도중의 당긴 상자)으로
              다시 맞추면 쉬는 모습의 크기가 첫 모습과 달라진다. */
           if (myGen !== genOuter) return;
+          /* 아직 안 돌고 있으면 쉬는 상자를 그때그때 다시 잰다 — 칸 크기가
+             바뀌는 동안에도 그림은 제 크기를 지킨다. */
+          if (!playedOnce) lastShot = restShot();
           if (anim) { animFrom = toAspect(animFrom); animTo = fit(lastShot); return; }
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
@@ -1087,10 +1121,7 @@ const faqSchema = {
           all.forEach(show); lineEls.forEach(draw);
           buildFlow();
           startIconMotion();
-          /* 쉬는 자리에서는 둘레를 조금 더 비운다(여유 0.01 -> 0.05). 그림이
-             카드 변에 바짝 붙지 않고 한 단 작게 선다. */
-          lastShot = { x: SHOTS.whole.x, y: SHOTS.whole.y,
-                       w: SHOTS.whole.w, h: SHOTS.whole.h, pad: 0.05 };
+          lastShot = restShot();
           svg.setAttribute('viewBox', fit(lastShot).join(' '));
           return;
         }
