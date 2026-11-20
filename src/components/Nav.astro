@@ -186,6 +186,25 @@ const home = lang === 'en' ? '/en' : '/';
 
   /* 아래로 내려가는 동안 헤더를 걷고, 위로 올리면 돌려놓는다.
      메가메뉴는 위의 is-shut 이 스크롤과 함께 이미 닫으므로 따로 보지 않아도 된다. */
+  /* 맨 위인지 아닌지만 본다 — 헤더 면이 흰색이냐 반투명이냐가 여기서 갈린다.
+     ⚠️ 아래의 걷기 스크립트와 따로 둔다. 그쪽은 움직임을 줄이는 설정에서 통째로
+        빠지는데, 면 색은 그 설정과 상관이 없다. */
+  (function () {
+    var nav = document.querySelector('.mm-nav');
+    if (!nav) return;
+    var t = false;
+    function mark() {
+      t = false;
+      nav.classList.toggle('is-float', (window.scrollY || 0) > 4);
+    }
+    mark();
+    window.addEventListener('scroll', function () {
+      if (t) return;
+      t = true;
+      requestAnimationFrame(mark);
+    }, { passive: true });
+  })();
+
   (function () {
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var nav = document.querySelector('.mm-nav');

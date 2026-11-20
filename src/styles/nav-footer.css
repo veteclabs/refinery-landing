@@ -28,7 +28,16 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--header-h);
   background: #ffffff;
-  transition: opacity .3s ease, visibility .3s;
+  transition: opacity .3s ease, visibility .3s, background-color .25s ease, backdrop-filter .25s ease;
+}
+/* 맨 위가 아닐 때는 반투명 면에 뒤가 비친다 — 내려갔다가 위로 올려 헤더가
+   돌아올 때 내용 위에 얹힌 것으로 읽힌다. 맨 위(스크롤 0)에서는 흰 면 그대로다.
+   ⚠️ 산업 AI 히어로가 화면을 덮는 동안에는 html.ai-hero-full 규칙이 면을 아예
+      걷는다. 자릿수가 한 단 높아 그쪽이 이긴다. */
+.mm-nav.is-float {
+  background: rgba(255, 255, 255, .72);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
 }
 /* 아래로 내려가는 동안에는 제자리에서 옅어져 사라지고, 위로 올리면 돌아온다
    (클래스는 JS 가 건다).
