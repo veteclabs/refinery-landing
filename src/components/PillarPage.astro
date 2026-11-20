@@ -1543,6 +1543,11 @@ const faqSchema = {
            beginHold 가 불려 여는 글이 HOLD_MS 동안 머문 뒤 이어진다. */
         holding = false;
         if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+        /* 화면이 꽉 찬 바로 그때 시작한다 — 여는 글에 머무는 한 박자(HOLD_MS)를
+           이번 한 번만 건너뛴다. 여는 글은 이미 한참 전(다 자란 시점)부터 떠
+           있어서, 여기서 또 1.6초를 세우면 멈춰 있는 것처럼 보인다.
+           ⚠️ 바퀴마다의 머무름은 그대로 둔다 — skipHold 는 한 번 쓰고 꺼진다. */
+        skipHold = true;
         try { f.contentWindow.postMessage({ type: 'refinery-hero-replay' }, '*'); } catch (e) {}
       };
 
