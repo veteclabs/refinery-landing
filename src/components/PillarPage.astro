@@ -95,15 +95,15 @@ const faqSchema = {
                 장면에 따라 넣었다 뺐다 하면 깜빡인다.
                 ⚠️ 뜻을 더하지 않는 장식이라 alt 는 비우고 화면 낭독기에서 뺀다.
                    바로 아래 제목이 같은 말을 한다. */}
-            <img
-              class="ai-demo-cap-icon"
-              src="/industrial-ai/ai-agent.webp"
-              alt=""
-              aria-hidden="true"
-              width="48"
-              height="48"
-              decoding="async"
-            />
+            <span class="ai-demo-cap-icon" aria-hidden="true">
+              <img
+                src="/industrial-ai/ai-agent.webp"
+                alt=""
+                width="34"
+                height="34"
+                decoding="async"
+              />
+            </span>
             <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
             <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
             {/* 구간 막대 — 칸은 스크립트가 장면 수만큼 만든다. 지금 장면이
@@ -2195,14 +2195,25 @@ const faqSchema = {
      ⚠️ 블록으로 둔다. <img> 는 기본이 inline 이라 글줄 바닥선에 앉으면서 아래에
         빈 3px 이 생긴다. */
   /* 아이콘은 여는 글(.is-opening)에만 선다. 장면 글에는 숫자 칩과 제목이 이미
-     있어, 거기까지 아이콘이 따라붙으면 같은 자리에 표시가 둘이 된다. */
+     있어, 거기까지 아이콘이 따라붙으면 같은 자리에 표시가 둘이 된다.
+     아이콘은 맨몸이 아니라 정사각 타일 안에 든다 — 모서리는 사이트 공통값
+     (--radius)을 그대로 쓰고, 면과 테와 그림자도 다른 카드와 같은 값이다. */
   .ai-demo-cap-icon {
-    display: none; width: 48px; height: 48px;
+    display: none; width: 56px; height: 56px;
+    place-items: center;
+    border-radius: var(--radius, 12px);
+    background: #FFFFFF;
+    border: 1px solid #E3E7EC;
+    box-shadow:
+      0 1px 2px rgba(16, 32, 44, .03),
+      0 4px 10px rgba(16, 32, 44, .03);
     margin: 0 0 14px;
   }
-  .ai-demo-cap.is-opening .ai-demo-cap-icon { display: block; }
+  .ai-demo-cap.is-opening .ai-demo-cap-icon { display: grid; }
+  .ai-demo-cap-icon img { display: block; width: 34px; height: 34px; }
   @media (max-width: 900px) {
-    .ai-demo-cap-icon { width: 36px; height: 36px; margin-bottom: 10px; }
+    .ai-demo-cap-icon { width: 44px; height: 44px; margin-bottom: 10px; }
+    .ai-demo-cap-icon img { width: 26px; height: 26px; }
   }
   .ai-demo-cap-title {
     /* 굵기는 600으로 간다. 이 페이지 h1(48px)과 예지보전 히어로 h1이 모두 600이라,
