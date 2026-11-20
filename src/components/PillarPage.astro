@@ -1247,15 +1247,15 @@ const faqSchema = {
 
         var s, cx, cy;
         if (holding) {
-          /* 첫 화면 자리. 좁은 화면에서는 전체를 보여준다. */
-          if (stacked) { s = fit; cx = FRAME_W / 2; cy = FRAME_H / 2; }
-          else {
-            var sx = START_BOX.x * stageToFrame, sy = START_BOX.y * stageToFrame;
-            var sw = START_BOX.w * stageToFrame, sh = START_BOX.h * stageToFrame;
-            s = Math.max(MIN_SCALE, Math.min(bw / sw, bh / sh));
-            cx = sx + sw / 2; cy = sy + sh / 2;
-          }
-        } else if (stacked && !focusBox) {
+          /* 여는 글에 머무는 동안은 어느 폭에서나 전체를 보여 준다.
+             ⚠️ 한때 좁은 폭에서 START_BOX 로 당겼다. 지금은 가리키는 자리가
+                생길 때만 당기므로, 그 전까지는 데모 한 장이 통째로 서 있다. */
+          s = fit; cx = FRAME_W / 2; cy = FRAME_H / 2;
+        } else if (!focusBox) {
+          /* 가리키는 자리가 없는 동안(장면과 장면 사이)에는 전체로 물러난다.
+             ⚠️ 조건에서 stacked 를 뺐다. 넣어 두면 폰에서 가리키는 자리가
+                없을 때도 아래 분기로 내려가 REST_BOX 로 당긴 채 머물렀다 —
+                '늘 확대된' 모습이 된다. */
           s = fit; cx = FRAME_W / 2; cy = FRAME_H / 2;
         } else {
           var target = focusBox || REST_BOX;
