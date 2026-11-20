@@ -2128,8 +2128,11 @@ const faqSchema = {
        ⚠️ 넓은 폭에는 걸지 않는다 — 거기서는 겪은 적이 없고, 마우스 휠은
           pointer-events: none 으로 이미 막힌다. */
     .pillar-industrial-ai .ai-hero-figure::after {
-      content: ''; position: absolute; inset: 0; z-index: 2;
+      content: ''; position: absolute; inset: 0;
       touch-action: pan-y;
+      /* ⚠️ z-index 를 주지 않는다. 겹은 문서 차례상 iframe 뒤에 칠해져 이미
+         위에 있고, z-index 를 주면 쌓임 맥락이 새로 생겨 합성 층이 갈린다 —
+         그 층에서 데모가 한 번 더 그려지면 글씨가 흐려진다. */
     }
     .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-hero-figure {
       border-radius: 4px 0 0 4px;
