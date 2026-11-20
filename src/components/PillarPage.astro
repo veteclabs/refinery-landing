@@ -1204,6 +1204,12 @@ const faqSchema = {
       var holding = true;
       /* 데모를 돌리기 시작했는지. 기본 모습에서는 첫 장면에 세워 둔다. */
       var demoStarted = false;
+      /* ⚠️ 데모 쪽 창이 다 뜨기 전에 시작 신호가 올 수 있다. 창 높이가 큰
+         화면(768x1000 에서 겪었다)에서는 카드가 일찍 화면을 덮어, iframe 이
+         로드되기 전에 __aiHeroStartDemo 가 불린다 — 보내는 postMessage 가
+         빈 창으로 날아가 데모가 첫 장면에 영영 멈춰 있었다.
+         준비되면 미뤄 둔 시작을 그때 집행한다. */
+      var demoReady = false, wantStart = false;
       /* 칸을 눌러 건너뛴 직후 한 번은 여는 글에 머물지 않는다 — 누른 장면이
          곧바로 보여야 한다. */
       var skipHold = false;
@@ -1428,6 +1434,8 @@ const faqSchema = {
               try { f.contentWindow.postMessage({ type: 'refinery-hero-pause' }, '*'); } catch (e) {}
             }, 400);
             resize();
+            demoReady = true;
+            if (wantStart) { wantStart = false; if (window.__aiHeroStartDemo) window.__aiHeroStartDemo(); }
           });
           f.src = f.getAttribute('data-src');
         }
@@ -1583,9 +1591,11 @@ const faqSchema = {
 
       window.__aiHeroStartDemo = function () {
         if (demoStarted) return;
-        demoStarted = true;
         var f = document.getElementById('ai-demo-iframe');
-        if (!f || !f.src) return;
+        /* ⚠️ demoStarted 를 먼저 켜지 않는다. 창이 아직 없을 때 켜 버리면
+           다시 불려도 위에서 되돌아가, 데모가 영영 시작하지 않는다. */
+        if (!f || !f.src || !demoReady) { wantStart = true; return; }
+        demoStarted = true;
         /* ⚠️ 한 바퀴를 '시작' 시켜야 한다. 세워 두는 동안 데모는 한 바퀴를
            시작조차 하지 않은 상태라, resume 만 보내면 아무 일도 안 일어난다.
            replay 를 보내면 데모가 한 바퀴를 열며 cycle 신호를 보내고, 그때
