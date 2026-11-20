@@ -299,9 +299,10 @@ const faqSchema = {
               닿는다. */
         var y = window.scrollY || window.pageYOffset;
         var docTop = pin.getBoundingClientRect().top + y;
-        /* 칸이 화면 맨 위에 닿기까지의 65% 만에 다 자란다 — 끝까지 끌면 한참
-           스크롤해도 계속 자라는 중이라 굼떠 보인다. */
-        var raw = docTop > 0 ? Math.min(1, Math.max(0, y / (docTop * 0.65))) : 1;
+        /* 칸이 화면 맨 위에 닿기까지의 45% 만에 다 자란다 — 끝까지 끌면 한참
+           스크롤해도 계속 자라는 중이라 굼떠 보인다. 65% 로 두었더니 여전히
+           느리다는 말이 나와 한 단 더 당겼다. */
+        var raw = docTop > 0 ? Math.min(1, Math.max(0, y / (docTop * 0.45))) : 1;
         /* 처음에 빠르게 벌어지고 끝에서 부드럽게 멎는다(ease-out). 그냥 비례로
            두면 끝까지 같은 속도라 뚝 끊기듯 멈춘다. */
         var p = 1 - Math.pow(1 - raw, 3);
@@ -1927,17 +1928,14 @@ const faqSchema = {
             픽셀로 내려, 두께를 줄이면 1px 에서 0 으로 한 번에 튄다. */
       border-radius: var(--radius, 12px);
       border-right: 1px solid #E3E7EC;
+      /* 그림자는 두지 않는다 — 쉬는 모습에서도 없다. 데모 카드는 테 한 겹으로
+         서고, 떠 있는 느낌은 바깥 히어로 카드가 맡는다. */
+      box-shadow: none;
       transition: border-radius .22s ease, border-right-color .22s ease;
     }
     .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-hero-figure {
       border-radius: var(--radius, 12px) 0 0 var(--radius, 12px);
       border-right-color: transparent;
-      /* 그림자도 같이 걷는다. 저쪽 상자는 테 한 겹뿐이다 — 알파를 --grow 로
-         내려 자라는 동안 매끄럽게 사라지게 한다. */
-      box-shadow:
-        0 1px 2px rgba(16, 32, 44, calc(.03 * (1 - var(--grow, 0)))),
-        0 4px 10px rgba(16, 32, 44, calc(.03 * (1 - var(--grow, 0)))),
-        0 12px 28px rgba(16, 32, 44, calc(.04 * (1 - var(--grow, 0))));
     }
   }
 
