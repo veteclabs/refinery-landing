@@ -866,7 +866,6 @@ const faqSchema = {
            또 다른 튐을 만들었다. 여기서 레이어를 없애 교체 자체가 필요 없어졌다.
            페이드와 같이 프레임마다 값을 직접 써서 레이어를 만들지 않는다.
            주기 · 지연 · 곡선(ease-in-out)은 CSS 규칙과 같은 값이다. */
-        var iconRaf = null;
         var iconMotionOn = false;
         function startIconMotion() {
           if (REDUCE) return;
@@ -915,7 +914,7 @@ const faqSchema = {
               else if (it.k === 'y') it.el.style.transform = 'translateY(' + (Math.round(v * 1000) / 1000) + 'px)';
               else it.el.style.opacity = Math.round(v * 1000) / 1000;
             }
-            iconRaf = requestAnimationFrame(tick);
+            iconRafOuter = requestAnimationFrame(tick);
           })(t0);
         }
 
@@ -1031,8 +1030,28 @@ const faqSchema = {
 
         obj.classList.add('is-ready');
 
-        if (REDUCE) {
+        /* 바깥 started 는 '준비를 마쳤다' 는 뜻이고, 여기 playedOnce 는
+           '한 바퀴를 돌렸다' 는 뜻이다. */
+        window.__aiHeroStartGraphic = function () {
+          if (playedOnce) return;
+          playedOnce = true;
+          /* 옛 루프를 세우고, 준비를 처음부터 다시 한다 — run() 이 모든 조각을
+             감추고 선을 되돌려 놓은 뒤, 이번에는 __aiHeroGraphicWanted 가
+             켜져 있으므로 곧바로 돌린다. */
+          stopIconMotion();
+          started = false;
+          ready();
+        };
+
+        /* 돌릴 때가 아니면(쉬는 모습) 그림을 한 번에 완성해 세워 둔다.
+           ⚠️ 여기서 '그려 두고 나중에 되감는' 짓은 하지 않는다. 되감기가
+              준비 상태를 복원하지 못해 회선이 안 그려지고 막대가 겹쳤다.
+              다시 돌릴 때는 이 run() 을 통째로 다시 불러 처음부터 준비한다
+              (아래 __aiHeroStartGraphic). */
+        if (REDUCE || !window.__aiHeroGraphicWanted) {
           all.forEach(show); lineEls.forEach(draw);
+          buildFlow();
+          startIconMotion();
           lastShot = SHOTS.whole;
           svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
           return;
@@ -1051,9 +1070,6 @@ const faqSchema = {
            못해(선의 dasharray · 흐름 · 아이콘 모션) 회선이 그려지지 않거나
            막대가 겹쳐 흔들렸다. 지금은 프로덕션과 같은 흐름이다 —
            한 번 준비하고 한 번만 돌린다. 돌리는 시점만 '화면이 꽉 찰 때'다. */
-        var started = false;
-        function startOnce() { if (started) return; started = true; play(); }
-        window.__aiHeroStartGraphic = startOnce;
 
         /* ───────── 층 나누기 — play 밖으로 뺐다.
            쉬는 모습에서도 첫 층(맨 아래 판)만 세워 두어야 해서, 세는 일과
@@ -1106,14 +1122,9 @@ const faqSchema = {
         pills.forEach(function (b, i) { layers[Math.min(i + 1, 3)].push(b.el); });
         layers = layers.filter(function (L) { return L.length; });
 
-        if (window.__aiHeroGraphicWanted) { startOnce(); return; }
-        if (!document.querySelector('.pillar-pinned')) {
-          if (!('IntersectionObserver' in window)) { startOnce(); return; }
-          var io = new IntersectionObserver(function (es) {
-            if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); startOnce(); }
-          }, { threshold: 0.25 });
-          io.observe(obj);
-        }
+        /* 여기까지 왔다는 것은 __aiHeroGraphicWanted 가 켜져 있다는 뜻이다
+           (아니면 위에서 완성 상태로 세워 두고 돌아갔다). 곧바로 돌린다. */
+        play();
 
         function play() {
 
@@ -1239,6 +1250,15 @@ const faqSchema = {
       /* 불러오는 즉시 준비한다(감추기). 재생은 준비가 끝난 뒤 화면에 들어올 때다.
          load 시점에는 SVG 레이아웃이 아직이라 getBBox()가 0을 준다 — 그러면
          모든 부분이 걸러져 준비가 통째로 건너뛰어진다. 크기가 잡힐 때까지 기다린다. */
+      /* ⚠️ 아이콘 모션 루프는 run() 바깥에서 쥔다. 다시 준비할 때 옛 루프를
+         세워야 하는데, run() 안에 두면 새 호출이 새 변수를 만들어 옛 루프가
+         그대로 돌아 같은 요소에 두 벌이 겹친다(플레이트 막대가 앞뒤로 튀던
+         원인이다). */
+      var iconRafOuter = null, playedOnce = false;
+      function stopIconMotion() {
+        if (iconRafOuter) cancelAnimationFrame(iconRafOuter);
+        iconRafOuter = null;
+      }
       var tries = 0, started = false;
       function ready() {
         if (started) return;
