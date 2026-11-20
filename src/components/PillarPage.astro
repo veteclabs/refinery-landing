@@ -1253,11 +1253,16 @@ const faqSchema = {
             sto(function () {
               seenPlates.forEach(function (j) { modules[j].forEach(fade); });
               seenGaps.forEach(function (g) { betweens[g].forEach(fade); });
+              /* ⚠️ 지난 회선도 여기서 걷는다. 전에는 판이 뜰 때(+1300)에야
+                 걷었는데, 사라지는 데 0.5초가 걸려 좁힌 프레임 안에 앞 다발이
+                 남아 보였다 — '렌즈 판이 뜨는데 플레이트 회로가 같이 보인다'
+                 가 그것이다. 좁히기 시작할 때 걷으면 다 좁혀졌을 때는 이미
+                 사라져 있다(좁히는 데 0.7초). */
+              drawnLines.forEach(function (j) { fade(lineEls[j]); });
               moveTo(plateShot(k), 700);
             }, at + 600);
             sto(function () {
               modules[k].forEach(show); seenPlates.push(k);
-              drawnLines.forEach(function (j) { fade(lineEls[j]); });
               /* 마지막 판이 뜨고 카메라가 멈춰 있는 동안 미리 굽는다. 물러나는
                  도중에 755KB를 직렬화하면 그 프레임이 통째로 밀려 한 번 '쿵' 한다. */
               if (k === LAST) sto(preDash, 600);
