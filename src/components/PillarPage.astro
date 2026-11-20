@@ -1830,6 +1830,14 @@ const faqSchema = {
     opacity: 1;
     pointer-events: auto;
   }
+  /* 여는 글에는 구간 막대를 두지 않는다 — 아직 아무 장면도 시작되지 않아 빈 칸
+     일곱 개만 서 있다. 첫 장면이 뜨면서 함께 든다.
+     ⚠️ display:none 으로 지우지 않는다. 막대는 alignBar 가 자리를 재서 데모
+        아랫변에 맞추는데, 지워 두면 잴 것이 없어 자리가 어긋난다. */
+  .pillar-industrial-ai .ai-demo-cap.is-opening .ai-demo-bar {
+    opacity: 0;
+    pointer-events: none;
+  }
   }
 
   /* ───────── 스크롤하면 히어로 카드가 화면을 꽉 채운다
