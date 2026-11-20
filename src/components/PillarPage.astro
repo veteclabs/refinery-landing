@@ -310,6 +310,10 @@ const faqSchema = {
         if (p !== last) {
           last = p;
           box.style.setProperty('--grow', p);
+          /* 왼쪽 글은 '다 자랐는지'로 든다. '화면을 덮었는지'(ai-hero-is-full)를
+             기다리면 카드가 이미 제 크기인데도 한참 비어 있다 — 1440x900 에서
+             다 자라는 곳이 180px, 덮는 곳이 700px 이다. */
+          box.classList.toggle('ai-hero-grown', p >= 0.98);
         }
         /* 다 자라 화면을 덮고 있는 동안에만 내비 면을 걷는다.
            ⚠️ p 만 보면 안 된다. p 는 한 번 1 이 되면 아래로 내려가도 1 이라,
@@ -1826,7 +1830,7 @@ const faqSchema = {
     pointer-events: none;
     transition: opacity .22s ease;
   }
-  .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-demo-cap {
+  .pillar-industrial-ai .ind-container.ai-hero-grown .ai-demo-cap {
     opacity: 1;
     pointer-events: auto;
   }
