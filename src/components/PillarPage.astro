@@ -2201,18 +2201,31 @@ const faqSchema = {
   .ai-demo-cap-icon {
     display: none; width: 56px; height: 56px;
     place-items: center;
-    border-radius: var(--radius, 12px);
-    background: #FFFFFF;
-    border: 1px solid #E3E7EC;
+    border-radius: var(--radius);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    /* 뒤에 한 단 큰 정사각을 깐다 — 번짐 10px 짜리 그림자 한 겹이면 된다.
+       색은 바탕(--bg-soft)보다 한 단 어두운 면값(--bg-card)이고, 모서리는
+       번짐만큼 커져(12+10=22) 안쪽 타일과 동심을 이룬다.
+       ⚠️ ::before + z-index:-1 로 하지 않는다. 그러면 무대 배경 뒤로 숨는다.
+       ⚠️ 번짐 한 겹을 맨 뒤에 적는다 — 앞에 적으면 아래 두 그림자를 덮는다. */
     box-shadow:
       0 1px 2px rgba(16, 32, 44, .03),
-      0 4px 10px rgba(16, 32, 44, .03);
-    margin: 0 0 14px;
+      0 4px 10px rgba(16, 32, 44, .03),
+      0 0 0 10px var(--bg-card);
+    /* 뒤 정사각이 아래 제목과 붙지 않게 그만큼 더 띄운다. */
+    margin: 10px 0 24px;
   }
   .ai-demo-cap.is-opening .ai-demo-cap-icon { display: grid; }
   .ai-demo-cap-icon img { display: block; width: 34px; height: 34px; }
   @media (max-width: 900px) {
-    .ai-demo-cap-icon { width: 44px; height: 44px; margin-bottom: 10px; }
+    .ai-demo-cap-icon {
+      width: 44px; height: 44px; margin: 8px 0 18px;
+      box-shadow:
+        0 1px 2px rgba(16, 32, 44, .03),
+        0 4px 10px rgba(16, 32, 44, .03),
+        0 0 0 8px var(--bg-card);
+    }
     .ai-demo-cap-icon img { width: 26px; height: 26px; }
   }
   .ai-demo-cap-title {
