@@ -1393,74 +1393,81 @@ const faqSchema = {
             1045px 로 커져도 안쪽이 작게 그려진다. */
       /* ───────── 구간 막대 ───────── */
       var bar = document.getElementById('ai-demo-bar');
-      var segs = [];
+      var barTotal = 7, barName = null, barNo = null, barFill = null, barBtn = null;
       function barBuild(total) {
-        if (!bar || segs.length === total) return;
+        barTotal = total || 7;
+        if (!bar || barBtn) { barNum(); return; }
         bar.innerHTML = '';
-        segs = [];
-        for (var i = 0; i < total; i++) {
-          var b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'ai-demo-seg';
-          b.setAttribute('aria-label', (i + 1) + ' / ' + total);
-          b.innerHTML = '<span class="ai-demo-track"><span class="ai-demo-fill"></span></span>'
-                      + '<span class="ai-demo-nm"></span>';
-          (function (k, el) {
-            el.addEventListener('click', function () {
-              /* 아직 안 돌고 있으면 먼저 켠다. */
-              demoStarted = true;
-              if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
-              holding = false;
-              pendingFocus = null;
-              skipHold = true;
-              /* 여는 글 상태를 벗는다 — 누른 장면의 글이 바로 올라온다. */
-              var cc = document.getElementById('ai-demo-cap');
-              if (cc) cc.classList.remove('is-opening');
-              var f = document.getElementById('ai-demo-iframe');
-              if (!f || !f.src) return;
-              try { f.contentWindow.postMessage({ type: 'refinery-hero-goto', i: k }, '*'); } catch (e) {}
-            });
-          })(i, b);
-          bar.appendChild(b);
-          segs.push(b);
-        }
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ai-demo-c';
+        btn.innerHTML =
+          '<span class="ai-demo-c-head">'
+        +   '<span class="ai-demo-c-nm"></span>'
+        +   '<span class="ai-demo-c-no"></span>'
+        + '</span>'
+        + '<span class="ai-demo-c-track"><span class="ai-demo-c-fill"></span></span>';
+        /* 한 줄이라 누른 자리의 비율로 장면을 고른다. */
+        btn.addEventListener('click', function (ev) {
+          var r = btn.getBoundingClientRect();
+          var f = r.width > 0 ? (ev.clientX - r.left) / r.width : 0;
+          var k = Math.max(0, Math.min(barTotal - 1, Math.floor(f * barTotal)));
+          demoStarted = true;
+          if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+          holding = false;
+          pendingFocus = null;
+          skipHold = true;
+          /* 여는 글 상태를 벗는다 — 누른 장면의 글이 바로 올라온다. */
+          var cc = document.getElementById('ai-demo-cap');
+          if (cc) cc.classList.remove('is-opening');
+          var fr = document.getElementById('ai-demo-iframe');
+          if (!fr || !fr.src) return;
+          try { fr.contentWindow.postMessage({ type: 'refinery-hero-goto', i: k }, '*'); } catch (e) {}
+        });
+        bar.appendChild(btn);
+        barBtn = btn;
+        barName = btn.querySelector('.ai-demo-c-nm');
+        barNo = btn.querySelector('.ai-demo-c-no');
+        barFill = btn.querySelector('.ai-demo-c-fill');
+        barNum();
+      }
+      function pad2(n) { return (n < 10 ? '0' : '') + n; }
+      var barIdx = 0;
+      function barNum() {
+        if (!barNo) return;
+        barNo.textContent = pad2(barIdx + 1) + ' / ' + pad2(barTotal);
+        if (barName) barName.textContent = chapterNames[barIdx] || '';
+      }
+      function barSet(f) {
+        if (barFill) barFill.style.width = Math.round(Math.max(0, Math.min(1, f)) * 1000) / 10 + '%';
       }
       /* 장면 이름 — 데모가 extcap 을 받고 보내 준다(언어마다 다르다). */
       var chapterNames = [];
       function barNames(names) {
         chapterNames = names || [];
         barBuild(chapterNames.length || 7);
-        for (var k = 0; k < segs.length; k++) {
-          var el = segs[k].querySelector('.ai-demo-nm');
-          if (el) el.textContent = chapterNames[k] || '';
-          if (chapterNames[k]) segs[k].setAttribute('aria-label', chapterNames[k]);
-        }
+        barNum();
         alignBar();
       }
 
       function barChapter(i, total) {
         barBuild(total || 7);
-        for (var k = 0; k < segs.length; k++) {
-          segs[k].classList.toggle('is-done', k < i);
-          segs[k].classList.toggle('is-on', k === i);
-          if (k !== i) segs[k].querySelector('.ai-demo-fill').style.width = k < i ? '' : '0%';
-        }
-        if (segs[i]) segs[i].querySelector('.ai-demo-fill').style.width = '0%';
+        barIdx = i;
+        barNum();
+        barSet(i / barTotal);
         alignBar();
       }
       function barProgress(i, p) {
         /* 세워 둔 상태에서 들어오는 늦은 신호는 버린다 — 되감은 뒤에도 마지막
-           진행률이 한 칸에 남아 있었다. */
+           진행률이 남아 있었다. */
         if (!demoStarted) return;
-        if (!segs[i]) return;
-        segs[i].querySelector('.ai-demo-fill').style.width = Math.round(p * 100) + '%';
+        barSet((i + p) / barTotal);
       }
-      /* 되감을 때는 모든 칸을 비운다. */
+      /* 되감을 때는 처음으로 되돌린다. */
       function barReset() {
-        for (var k = 0; k < segs.length; k++) {
-          segs[k].classList.remove('is-done');
-          segs[k].querySelector('.ai-demo-fill').style.width = '0%';
-        }
+        barIdx = 0;
+        barNum();
+        barSet(0);
       }
 
       /* 쉬는 모습에서도 막대는 보여야 한다 — 장면 수(7)만큼 빈 칸을 미리 만든다.
@@ -1784,36 +1791,36 @@ const faqSchema = {
   /* 글 칸(341px)을 다 쓰지 않고 한 단 좁게 둔다 — 칸마다 이름이 붙어 꽉 차면
      글줄처럼 길어 보인다. 왼쪽 선은 글과 맞춘다. */
   .ai-demo-bar {
-    position: absolute; left: 0; right: 0; max-width: 260px;
-    display: flex; gap: 6px; margin-top: 22px;
+    position: absolute; left: 0; right: 0; max-width: 280px;
+    margin-top: 22px;
   }
-  .ai-demo-bar :global(.ai-demo-seg) {
-    flex: 1; height: 16px; padding: 0; border: 0; background: none;
-    display: flex; align-items: center; cursor: pointer;
+  /* 한 줄짜리 진행 막대. 위에 지금 장면 이름과 번호, 아래에 전체가 차오르는 줄.
+     ⚠️ 칸은 스크립트가 만든다 — Astro 스코프 속성이 붙지 않아 :global 로 써야
+        규칙이 닿는다. 그냥 쓰면 단추가 주저앉는다. */
+  .ai-demo-bar :global(.ai-demo-c) {
+    display: block; width: 100%; padding: 0; border: 0; background: none;
+    font-family: inherit; text-align: left; cursor: pointer;
   }
-  .ai-demo-bar :global(.ai-demo-track) {
-    display: block; width: 100%; height: 3px; border-radius: 999px;
-    background: #DDE3EA; overflow: hidden;
+  .ai-demo-bar :global(.ai-demo-c-head) {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 9px;
   }
-  .ai-demo-bar :global(.ai-demo-fill) {
-    display: block; height: 100%; width: 0; border-radius: 999px;
-    background: #76A6D7;
+  .ai-demo-bar :global(.ai-demo-c-nm) {
+    font-size: 12.5px; font-weight: 600; color: #16202C;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  /* 지난 칸은 끝까지 차 있다. */
-  .ai-demo-bar :global(.ai-demo-seg.is-done .ai-demo-fill) { width: 100%; }
-  .ai-demo-bar :global(.ai-demo-seg:hover .ai-demo-track) { background: #C8CED5; }
-  .ai-demo-bar :global(.ai-demo-seg:focus-visible) { outline: 2px solid #76A6D7; outline-offset: 2px; border-radius: 4px; }
-  /* 칸마다 장면 이름. 지금 칸만 진하다 — 어디로 건너뛰는지 미리 읽힌다.
-     ⚠️ 일곱 칸에 이름이 들어가야 하므로 한 칸이 40px 남짓이다. 넘치면 잘라
-        둔다(영문 'Approval' 처럼 긴 말이 있다). */
-  .ai-demo-bar :global(.ai-demo-nm) {
-    display: block; margin-top: 7px;
-    font-size: 10px; line-height: 1.2; letter-spacing: -0.01em;
-    color: #8C98A6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  .ai-demo-bar :global(.ai-demo-c-no) {
+    font-size: 11px; color: #8C98A6; font-variant-numeric: tabular-nums; flex: none;
+    padding-left: 10px;
   }
-  .ai-demo-bar :global(.ai-demo-seg.is-on .ai-demo-nm) { color: #16202C; font-weight: 600; }
-  /* 이름이 붙어 칸이 두 줄이 된다 — 가운데가 아니라 위에서 쌓는다. */
-  .ai-demo-bar :global(.ai-demo-seg) { flex-direction: column; align-items: stretch; height: auto; }
+  .ai-demo-bar :global(.ai-demo-c-track) {
+    display: block; height: 3px; border-radius: 999px; background: #DDE3EA; overflow: hidden;
+  }
+  .ai-demo-bar :global(.ai-demo-c-fill) {
+    display: block; height: 100%; width: 0; border-radius: 999px; background: #76A6D7;
+  }
+  .ai-demo-bar :global(.ai-demo-c:hover .ai-demo-c-track) { background: #C8CED5; }
+  .ai-demo-bar :global(.ai-demo-c:focus-visible) { outline: 2px solid #76A6D7; outline-offset: 3px; border-radius: 4px; }
   /* 여는 글에서는 아직 아무 칸도 차 있지 않다 — 막대만 비어 보인다. */
 
   .pillar-industrial-ai .ai-demo-cap { align-self: center; }
