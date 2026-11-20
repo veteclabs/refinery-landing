@@ -60,7 +60,11 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     /* 소제목은 두지 않는다 — 대제목의 '대표' 가 셋뿐이 아님을 이미 말한다. */
     usesLede: '',
     more: '자세히보기',
-    ctaTitle: '지금 바로<br>리파이너리를 경험해보세요.',
+    /* 제품소개(/why-refinery)의 CTA 와 같은 문구다.
+       ⚠️ <br> 뒤에 공백을 둔다. industry.css 가 900px 이하에서 .ind-page 의 br 를
+          통째로 숨기는데(!important), 공백이 없으면 그 자리에서 낱말이 붙는다
+          ('보시려면현장의'). 제품소개 쪽은 같은 자리를 {' '} 로 적고 있다. */
+    ctaTitle: '리파이너리가 현장에 맞는지 보시려면<br> 현장의 이야기를 들려주세요.',
     faq: [
       {
         q: '산업 AI란 무엇인가요?',
@@ -122,7 +126,9 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     usesHead: 'Key uses, ready to run on site',
     usesLede: '',
     more: 'Learn more',
-    ctaTitle: 'See what Refinery<br>can do for your site.',
+    /* 제품소개(/en/why-refinery)의 CTA 와 같은 문구다. <br> 뒤 공백은 국문과
+       같은 까닭이다. */
+    ctaTitle: 'To see whether <span translate="no">Refinery</span> fits your site,<br> tell us about that site.',
     faq: [
       {
         q: 'What is industrial AI?',
