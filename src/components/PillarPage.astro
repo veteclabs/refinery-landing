@@ -96,13 +96,15 @@ const faqSchema = {
                 ⚠️ 뜻을 더하지 않는 장식이라 alt 는 비우고 화면 낭독기에서 뺀다.
                    바로 아래 제목이 같은 말을 한다. */}
             <span class="ai-demo-cap-icon" aria-hidden="true">
-              <img
-                src="/industrial-ai/ai-agent.webp"
-                alt=""
-                width="34"
-                height="34"
-                decoding="async"
-              />
+              <span class="ai-demo-cap-icon-in">
+                <img
+                  src="/industrial-ai/ai-agent.webp"
+                  alt=""
+                  width="34"
+                  height="34"
+                  decoding="async"
+                />
+              </span>
             </span>
             <span class="ai-demo-cap-eyebrow" id="ai-demo-cap-kicker"></span>
             <h3 class="ai-demo-cap-title" id="ai-demo-cap-title"></h3>
@@ -2198,34 +2200,42 @@ const faqSchema = {
      있어, 거기까지 아이콘이 따라붙으면 같은 자리에 표시가 둘이 된다.
      아이콘은 맨몸이 아니라 정사각 타일 안에 든다 — 모서리는 사이트 공통값
      (--radius)을 그대로 쓰고, 면과 테와 그림자도 다른 카드와 같은 값이다. */
+  /* 뒤 정사각. 색은 바탕(--bg-soft)보다 한 단 어두운 면값(--bg-card)이고,
+     모서리는 안쪽보다 띄운 만큼(10px) 커져 동심을 이룬다.
+     ⚠️ 그림자 번짐(0 0 0 10px)으로 그리지 않는다. 번짐은 제 그림자를 가질 수
+        없어 뒤 정사각이 떠 보이지 않는다 — 실제 요소로 둔다.
+     ⚠️ ::before + z-index:-1 로도 하지 않는다. 무대 배경 뒤로 숨는다. */
   .ai-demo-cap-icon {
-    display: none; width: 56px; height: 56px;
+    display: none; width: 76px; height: 76px;
     place-items: center;
-    border-radius: var(--radius);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    /* 뒤에 한 단 큰 정사각을 깐다 — 번짐 10px 짜리 그림자 한 겹이면 된다.
-       색은 바탕(--bg-soft)보다 한 단 어두운 면값(--bg-card)이고, 모서리는
-       번짐만큼 커져(12+10=22) 안쪽 타일과 동심을 이룬다.
-       ⚠️ ::before + z-index:-1 로 하지 않는다. 그러면 무대 배경 뒤로 숨는다.
-       ⚠️ 번짐 한 겹을 맨 뒤에 적는다 — 앞에 적으면 아래 두 그림자를 덮는다. */
+    border-radius: calc(var(--radius) + 10px);
+    background: var(--bg-card);
+    /* 사이트 카드 그림자 세 겹(접지 · 중간 · 주변광)을 그대로 쓴다. */
     box-shadow:
       0 1px 2px rgba(16, 32, 44, .03),
       0 4px 10px rgba(16, 32, 44, .03),
-      0 0 0 10px var(--bg-card);
-    /* 뒤 정사각이 아래 제목과 붙지 않게 그만큼 더 띄운다. */
+      0 12px 28px rgba(16, 32, 44, .04);
     margin: 10px 0 24px;
   }
   .ai-demo-cap.is-opening .ai-demo-cap-icon { display: grid; }
+  /* 앞 타일 — 모서리는 사이트 공통값 그대로다. */
+  .ai-demo-cap-icon-in {
+    display: grid; place-items: center; width: 56px; height: 56px;
+    border-radius: var(--radius);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    box-shadow:
+      0 1px 2px rgba(16, 32, 44, .04),
+      0 4px 10px rgba(16, 32, 44, .04);
+  }
   .ai-demo-cap-icon img { display: block; width: 34px; height: 34px; }
   @media (max-width: 900px) {
     .ai-demo-cap-icon {
-      width: 44px; height: 44px; margin: 8px 0 18px;
-      box-shadow:
-        0 1px 2px rgba(16, 32, 44, .03),
-        0 4px 10px rgba(16, 32, 44, .03),
-        0 0 0 8px var(--bg-card);
+      width: 60px; height: 60px; margin: 8px 0 18px;
+      border-radius: calc(var(--radius) + 8px);
     }
+    .ai-demo-cap-icon-in { width: 44px; height: 44px; }
+    .ai-demo-cap-icon img { width: 26px; height: 26px; }
     .ai-demo-cap-icon img { width: 26px; height: 26px; }
   }
   .ai-demo-cap-title {
