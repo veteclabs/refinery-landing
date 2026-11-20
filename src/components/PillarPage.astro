@@ -1035,25 +1035,77 @@ const faqSchema = {
            ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 모습으로 들어설 때 그림이
               0.5초 동안 스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
         function standStill() {
-          /* 첫 층(맨 아래 판)만 세워 둔다 — 이 그림이 도는 첫 프레임이다.
-             카메라도 그 자리(SHOTS.stack)에 둔다.
-             ⚠️ 다 그려 둔 채로 두었더니, 꽉 차는 순간 처음으로 되감느라 그림이
-                통째로 사라졌다가 다시 쌓였다 — 몇 초 동안 빈 카드였다.
-             ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 자리에서 한 번 스며든다. */
-          layers[0].forEach(function (el) { el.style.transition = 'none'; });
-          layers[0].forEach(show);
-          lastShot = SHOTS.stack;
-          cur = fit(SHOTS.stack);
+          /* 쉬는 모습 — 그림은 다 그려진 채 서 있다. 판이 쌓이는 연출과 카메라
+             움직임만 멈춘 것이고, 그림 안에 원래 있는 움직임(회로 흐름 등)은
+             SVG 제 CSS 가 돌리므로 그대로 돈다.
+             ⚠️ 첫 층 하나만 세워 두는 쪽도 해 봤는데, 쪽 맨 위에서 카드가 거의
+                비어 보였다 — 다 그려 두는 쪽으로 간다.
+             ⚠️ 전환을 끄고 보인다. 켜 두면 쉬는 자리에서 그림이 0.5초 동안
+                스며들어, 멈춰 있어야 할 자리에서 한 번 움직인다. */
+          all.forEach(function (el) { el.style.transition = 'none'; });
+          lineEls.forEach(function (g) { if (g) g.style.transition = 'none'; });
+          all.forEach(show); lineEls.forEach(draw);
+          /* 쉬는 모습은 둘레를 더 비운다. 전체 상자에 기본 여백(8%)만 주면
+             그림이 카드 윗변에 바짝 붙어 답답하다. 18% 로 늘려 한 단 작게
+             세우고, 그 위에 윗쪽만 조금 더 연다(위 60 · 무대 좌표).
+             ⚠️ lastShot 에도 같은 상자를 넣는다. 칸 크기가 바뀌면 refit 이
+                이 값으로 다시 맞추는데, 민 상자를 안 넣으면 쉬는 모습이
+                기본 여백으로 되돌아간다. */
+          lastShot = { x: SHOTS.whole.x, y: SHOTS.whole.y - 60,
+                       w: SHOTS.whole.w, h: SHOTS.whole.h + 60, pad: 0.18 };
+          cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.join(' '));
+          /* 그림이 제 안에 들고 있는 움직임(회로 흐름 · 판 위 막대 · 아이콘)을
+             쉬는 자리에서도 돌린다. 판이 쌓이는 연출만 멈춘 것이지 그림이
+             죽어 있는 것은 아니다.
+             ⚠️ 흐름은 선을 다 그린 뒤에만 켤 수 있다 — 둘 다 strokeDashoffset 을
+                쓰기 때문이다. 그래서 그리기용 인라인 값을 먼저 걷는다. */
+          lineEls.forEach(function (g) {
+            if (!g) return;
+            var ps = g.querySelectorAll('path');
+            for (var i = 0; i < ps.length; i++) {
+              if (ps[i].__cap) continue;
+              ps[i].style.transition = 'none';
+              ps[i].style.strokeDasharray = '';
+              ps[i].style.strokeDashoffset = '';
+            }
+          });
+          root.classList.add('flow-on');
+          startIconMotion();
           requestAnimationFrame(function () {
-            layers[0].forEach(function (el) { el.style.transition = ''; });
+            all.forEach(function (el) { el.style.transition = ''; });
+            lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
           });
         }
 
         var started = false;
-        /* 되감지 않는다 — 쉬는 모습이 이미 첫 프레임(첫 층만 선 자리)이라
-           그대로 이어서 돌리면 된다. */
-        function startOnce() { if (started) return; started = true; play(); }
+        function startOnce() {
+          if (started) return; started = true;
+          /* 쉬는 모습에서 다 그려 두었으므로 처음으로 되감고 시작한다.
+             감추는 데는 전환을 쓰지 않아 한 프레임에 끝난다 — 사라지는 모습이
+             보이지 않는다. */
+          /* 흐름을 끈다 — 다시 그리는 동안에는 선이 제 길이만큼 물러나 있어야
+             하는데, 흐름이 같은 strokeDashoffset 을 쥐고 있으면 못 물러난다. */
+          root.classList.remove('flow-on');
+          all.forEach(hide);
+          /* 회선은 준비하던 자리로 돌린다 — 그룹을 감추고, 선은 제 길이만큼
+             물러나게 하고, 끝의 작은 원도 끈다. */
+          lineEls.forEach(function (g) {
+            if (!g) return;
+            hide(g);
+            var ps = g.querySelectorAll('path');
+            for (var i = 0; i < ps.length; i++) {
+              var pth = ps[i];
+              if (pth.__cap) { pth.style.opacity = '0'; pth.__cur = 0; continue; }
+              if (pth.__len) pth.style.strokeDashoffset = pth.__len * pth.__dir;
+            }
+          });
+          requestAnimationFrame(function () {
+            all.forEach(function (el) { el.style.transition = ''; });
+            lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
+            play();
+          });
+        }
         window.__aiHeroStartGraphic = startOnce;
 
         /* ───────── 층 나누기 — play 밖으로 뺐다.
