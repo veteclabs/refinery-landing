@@ -2000,24 +2000,41 @@ const faqSchema = {
         스크롤 도중 한 번 바뀐다. */
   @media (max-width: 900px) {
     .pillar-industrial-ai .ai-hero-stage {
-      grid-template-columns: 1fr;
+      /* ⚠️ minmax(0, 1fr) 다. 그냥 1fr 로 두면 칸이 '안에 든 것보다 작아지지
+         않으려' 해서, 창보다 넓은 데모를 받으면 칸이 823px 로 벌어진다 —
+         글까지 같이 끌려 나가 데모가 오른쪽으로 삐져나갔다(실측). 0 을
+         바닥으로 주면 칸은 창에 맞고 데모만 변 밖으로 넘친다. */
+      grid-template-columns: minmax(0, 1fr);
       row-gap: 24px;
     }
     .pillar-industrial-ai .ai-demo-cap { align-self: start; }
+    /* ⚠️ 높이는 dvh 로 잰다. 폰에서 100vh 는 주소창이 접힌 '큰 화면' 높이라,
+       주소창이 보이는 동안 카드가 화면보다 커져 아랫변이 창 밖에 있다 —
+       화면이 꽉 안 차는 것처럼 보인다. dvh 는 지금 보이는 높이를 가리킨다.
+       ⚠️ 스크롤 거리(.ai-hero-pin)만 svh 로 둔다. dvh 로 두면 주소창이
+          접히고 펴질 때마다 문서 높이가 바뀌어 스크롤이 튄다. */
+    .pillar-industrial-ai .ai-hero-pin { height: calc(100svh + 720px); }
+    .pillar-industrial-ai .ai-hero-sticky { height: 100dvh; }
+    .pillar-industrial-ai .ai-hero-stage { min-height: calc(100dvh * var(--grow, 0)); }
     .pillar-industrial-ai .ai-hero-figure {
-      /* ⚠️ 오른쪽 변에 붙인다. 칸보다 넓으므로 넘치는 쪽은 왼쪽이다 — 사이드바가
-         잘리고 대화 칸이 남는다. 왼쪽에 붙이면 반대로 사이드바만 보이고
-         장면이 벌어지는 대화 칸이 통째로 화면 밖으로 나간다(실측 — 823px 중
-         366px 만 보인다). */
+      /* 쉬는 모습은 넓은 폭과 같다 — 글 없이 데모 한 장이 칸을 다 쓰고 통째로
+         보인다(--demo-rest 는 스크립트가 재서 넘기는 '카드 안 폭'이다).
+         자라면서 창 높이에 맞는 폭(높이 x 1320/840)으로 커져 칸보다 넓어지고,
+         오른쪽 변에서 잘린다 — 넓은 폭에서 다 자란 카드와 같은 모습이다.
+         ⚠️ 폭만 보간한다. 높이는 비율(aspect-ratio: 1320/840)이 따라온다.
+            높이를 직접 주면 쉬는 모습에서도 데모가 창만큼 커진다. */
       justify-self: end; align-self: start;
-      height: calc(100svh - 320px);
-      width: auto; max-width: none;
+      max-width: none;
+      width: calc(
+        var(--demo-rest, 294px) * (1 - var(--grow, 0))
+        + (100dvh - 320px) * 1.5714 * var(--grow, 0));
       /* ⚠️ 오른쪽 변에 그냥 붙이면 대화 칸의 왼쪽이 잘린다('안녕하세요' 의 첫
          글자가 날아간다). 보이는 창의 한가운데에 대화 칸이 오도록 15.8% 민다.
          데모 안에서 대화 칸의 가운데는 59.1% 자리다(사이드바 240 + 글 칸
-         768 의 가운데 = 780 / 1320). 폭이 아니라 제 폭의 비율로 밀어, 창
-         높이가 달라져 데모가 커지고 작아져도 같은 자리가 가운데에 선다. */
-      transform: translateX(15.8%);
+         768 의 가운데 = 780 / 1320).
+         ⚠️ --grow 에 묶는다. 쉬는 모습에서는 데모가 칸에 꼭 맞아 밀 자리가
+            없다 — 그대로 밀면 오른쪽으로 삐져나간다. */
+      transform: translateX(calc(15.8% * var(--grow, 0)));
     }
   }
 
@@ -2620,7 +2637,8 @@ const faqSchema = {
      ⚠️ 값은 '보이는 구간' 에서 거꾸로 푼다. 390px 에서 섹션이 390x413 이고
         그래픽은 4.8:1 이라, 세로를 채우면 원본의 19.7% 만 보인다.
         화면에 보이는 자리 f 에 대해  object-position = (66 - f x 19.7) / 0.803
-        (66% 는 큐브의 가로 무게중심). 63% 는 f ≈ 69% 에서 나온 값이다.
+        (66% 는 큐브의 가로 무게중심). 62% 는 f ≈ 72% 에서 나온 값이다 —
+        63%(f 69%)에서 한 단 더 오른쪽으로 옮겼다.
      ⚠️ 더 오른쪽으로 밀면 큐브가 잘린다. 390px 에서 큐브는 제 폭만으로 화면의
         65% 를 쓴다 — 과제별의 작은 핀과 달리 '오른쪽 끝' 과 '안 잘림' 이
         같이 설 자리가 없다. 60% 는 f 90% 로 오른쪽 꼭짓점이 날아간다(실측). */
@@ -2628,7 +2646,7 @@ const faqSchema = {
     .pillar-industrial-ai .ind-cta-bg-img {
       width: 100%; max-width: 100%; height: 100%;
       left: 0; right: auto; transform: none;
-      object-position: 63% center;
+      object-position: 62% center;
     }
   }
 
