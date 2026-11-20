@@ -935,9 +935,14 @@ const faqSchema = {
           });
         }
 
-        /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다. */
-        var aspect = obj.clientWidth / obj.clientHeight || 1104 / 682;
+        /* 칸 비율에 맞춰 상자를 넓힌다. 그대로 넣으면 좌우나 위아래가 남는다.
+           ⚠️ 비율을 한 번 재서 들고 있지 않는다. 히어로 카드가 스크롤로 자라면
+              칸 비율이 1.76 -> 1.99 로 바뀌는데, 옛 값으로 맞춘 상자는 칸보다
+              납작해 그림 아래가 잘려 보였다(1600x867 에서 실측). 쓸 때마다
+              다시 잰다. */
+        function aspectNow() { return obj.clientWidth / obj.clientHeight || 1104 / 682; }
         function fit(s) {
+          var aspect = aspectNow();
           var pad = Math.max(s.w, s.h) * (s.pad == null ? 0.08 : s.pad);
           var x = s.x - pad, y = s.y - pad, w = s.w + pad * 2, h = s.h + pad * 2;
           if (w / h < aspect) { var nw = h * aspect; x -= (nw - w) / 2; w = nw; }
@@ -945,11 +950,24 @@ const faqSchema = {
           return [x, y, w, h];
         }
 
-        var cur = fit(SHOTS.stack);
+        var lastShot = SHOTS.stack;
+        var cur = fit(lastShot);
         svg.setAttribute('viewBox', cur.join(' '));
+
+        /* 칸이 자라거나 창이 바뀌면 지금 장면을 그 비율로 다시 맞춘다.
+           ⚠️ resize 만으로는 모자라다 — 카드는 스크롤로 자라므로 창 크기가
+              그대로다. 칸 자체를 지켜본다(ResizeObserver). */
+        function refit() {
+          if (anim) return;              /* 움직이는 중에는 건드리지 않는다 */
+          cur = fit(lastShot);
+          svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
+        }
+        if (window.ResizeObserver) new ResizeObserver(refit).observe(obj);
+        addEventListener('resize', refit, { passive: true });
 
         var anim = null;
         function moveTo(shot, ms, done) {
+          lastShot = shot;
           var to = fit(shot), from = cur.slice(), t0 = performance.now();
           if (anim) cancelAnimationFrame(anim);
           (function step(now) {
@@ -958,6 +976,7 @@ const faqSchema = {
             cur = from.map(function (v, i) { return v + (to[i] - v) * e; });
             svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
             if (k < 1) { anim = requestAnimationFrame(step); return; }
+            anim = null;
             cur = to;
             if (done) done();
           })(t0);
@@ -976,6 +995,7 @@ const faqSchema = {
 
         if (REDUCE) {
           all.forEach(show); lineEls.forEach(draw);
+          lastShot = SHOTS.whole;
           svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
           return;
         }
@@ -1071,7 +1091,7 @@ const faqSchema = {
         function bundleShot(k) {
           var b = lineEls[k].getBBox(), st = SHOTS.stack;
           /* 프레임 폭은 화면비가 정한다(칸이 넓어지면 같이 넓어진다). */
-          var w = FOLLOW_H * aspect, cx = b.x + b.width / 2;
+          var w = FOLLOW_H * aspectNow(), cx = b.x + b.width / 2;
           var x = (w >= st.w) ? st.x + (st.w - w) / 2
                 : Math.min(Math.max(cx - w / 2, st.x), st.x + st.w - w);
           return { x: x, y: FOLLOW_BOTTOM - FOLLOW_H, w: w, h: FOLLOW_H, pad: 0 };
