@@ -107,10 +107,20 @@ body {
   box-shadow: 0 40px 90px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
 }
 .stage.is-light { box-shadow: 0 30px 70px rgba(20,30,45,.18), 0 0 0 1px rgba(20,30,45,.08); }
-/* 부모가 refinery-hero-flat 을 보내면 그림자를 걷는다. 무대를 통째로 보여 주는
-   자리(폰의 히어로)에서는 이 그림자와 1px 테가 데모 상자 둘레에 그대로 드러나,
-   바깥에서 보면 데모 칸에 그림자가 달린 것처럼 보인다. */
+/* 부모가 refinery-hero-flat 을 보내면 그림자를 걷고 무대를 왼쪽 위에 못 박는다.
+   그림자: 무대를 통째로 보여 주는 자리(폰의 히어로)에서는 그림자와 1px 테가
+   데모 상자 둘레에 드러나, 바깥에서 보면 데모 칸에 그림자가 달린 것처럼 보인다.
+   자리: 평소 무대는 제 창 한가운데에 선다. 그런데 iOS 는 iframe 의 속 창을
+   우리가 준 높이(919)보다 크게 잡을 때가 있고, 그러면 가운데가 아래로 내려가
+   데모 안 화면이 통째로 처진 것처럼 보인다(실측 — 속 창 1100 이면 92px).
+   부모는 무대가 창 왼쪽 위에 딱 붙어 있다고 보고 좌표를 재므로, 묻어 두면
+   강조 자리도 그만큼 어긋난다. 못 박아 두면 속 창 높이가 어떻든 같은 자리다. */
 .stage.is-flat, .stage.is-light.is-flat { box-shadow: none; }
+.stage.is-flat {
+  left: 0; top: 0;
+  transform: scale(var(--k, 1));
+  transform-origin: top left;
+}
 
 .app {
   position: absolute; inset: 0;
@@ -1264,7 +1274,12 @@ body {
 
   let K = 1;
   function fit() {
-    K = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H, 1.6);
+    /* ⚠️ 못 박은 모드(is-flat)에서는 높이를 보지 않는다. iOS 가 속 창을 더
+       크게 잡으면 높이 쪽 값이 달라져 배율까지 흔들린다 — 부모는 무대가
+       창 폭을 꽉 채운다고 보고 좌표를 잰다. */
+    K = stage.classList.contains("is-flat")
+      ? Math.min(innerWidth / STAGE_W, 1.6)
+      : Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H, 1.6);
     stage.style.setProperty("--k", K);
   }
   addEventListener("resize", fit); fit();
@@ -2036,6 +2051,7 @@ body {
     /* 무대 그림자를 걷는다(폰의 히어로처럼 무대가 통째로 보이는 자리). */
     if (t === "refinery-hero-flat") {
       stage.classList.toggle("is-flat", e.data.value !== false);
+      fit();
       return;
     }
     if (t === "refinery-hero-extcap") {

@@ -2119,6 +2119,21 @@ const faqSchema = {
        ⚠️ 쉬는 모습에도 건다. 거기서는 네 귀가 다 둥글지만(294x187) 12px 이면
           같은 까닭으로 너무 둥글다. */
     .pillar-industrial-ai .ai-hero-figure { border-radius: 4px; }
+    /* ⚠️ 데모 위에 보이지 않는 겹을 덮어 손가락이 iframe 에 닿지 않게 한다.
+       iframe 자체에 pointer-events: none · scrolling="no" 를 이미 걸어 두었는데도
+       폰에서는 데모 안이 스크롤됐다 — iOS 는 iframe 을 따로 합성해 그 안에서
+       손짓을 먼저 가져간다. 겹이 있으면 손짓이 이 쪽(쪽 스크롤)으로 간다.
+       ⚠️ touch-action: pan-y 를 함께 둔다. 겹이 세로 스크롤까지 먹으면
+          데모 위에서는 쪽이 안 내려간다.
+       ⚠️ 넓은 폭에는 걸지 않는다 — 거기서는 겪은 적이 없고, 마우스 휠은
+          pointer-events: none 으로 이미 막힌다. */
+    .pillar-industrial-ai .ai-hero-figure::after {
+      content: ''; position: absolute; inset: 0;
+      touch-action: pan-y;
+      /* ⚠️ z-index 를 주지 않는다. 겹은 문서 차례상 iframe 뒤에 칠해져 이미
+         위에 있고, z-index 를 주면 쌓임 맥락이 새로 생겨 합성 층이 갈린다 —
+         그 층에서 데모가 한 번 더 그려지면 글씨가 흐려진다. */
+    }
     .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-hero-figure {
       border-radius: 4px 0 0 4px;
       /* ⚠️ 오른쪽 테는 색만 지우는 것이 아니라 폭을 0 으로 둔다. 투명해도
