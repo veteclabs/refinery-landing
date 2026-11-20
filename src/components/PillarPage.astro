@@ -71,7 +71,12 @@ const faqSchema = {
          섹션 머리까지 같이 뜬다. */}
   {pillarSlug === 'industrial-ai' && <ScrollReveal />}
   <Nav />
-  <main class:list={['ind', 'ind-page', `pillar-${pillarSlug}`, lang === 'en' && 'ind-en']}>
+  {/* ⚠️ pillar-pinned — 히어로 카드가 스크롤로 화면을 꽉 채우는 갈래에 붙는다.
+      장치(키 · 붙는 무대 · 자라는 카드)는 공용이고, 카드 안에 무엇이 서는지만
+      갈래마다 다르다(산업 AI 는 데모, 에너지관리는 그래픽). */}
+  <main class:list={['ind', 'ind-page', `pillar-${pillarSlug}`,
+    (pillarSlug === 'industrial-ai' || pillarSlug === 'energy-management') && 'pillar-pinned',
+    lang === 'en' && 'ind-en']}>
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
@@ -290,7 +295,7 @@ const faqSchema = {
     })();
   </script>
 
-  {pillarSlug === 'industrial-ai' && (
+  {(pillarSlug === 'industrial-ai' || pillarSlug === 'energy-management') && (
   <script is:inline>
     {/* 히어로 카드 넓히기 — 솔루션(IndustryPage) · 제품소개와 같은 스크립트다.
         스크롤을 내린 만큼 --grow 를 0 -> 1 로 올려 카드가 오른쪽 화면 끝까지
@@ -300,12 +305,12 @@ const faqSchema = {
         ⚠️ 360px 을 다 내리면 꽉 찬다 — 저쪽과 같은 거리다.
         ⚠️ 동작 줄이기를 켠 사람에게는 손대지 않는다 — 기본 모습 그대로다. */}
     (function () {
-      var box = document.querySelector('.pillar-industrial-ai .ind-hero .ind-container');
-      var pin = document.querySelector('.pillar-industrial-ai .ai-hero-pin');
+      var box = document.querySelector('.pillar-pinned .ind-hero .ind-container');
+      var pin = document.querySelector('.pillar-pinned .ai-hero-pin');
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var last = -1, ticking = false, wasCovering = false;
-      var stageEl = document.querySelector('.pillar-industrial-ai .ai-hero-stage');
+      var stageEl = document.querySelector('.pillar-pinned .ai-hero-stage');
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
          scrollY 로 재던 때는 360px 에서 다 자랐는데 무대는 700px 에서야 붙어,
@@ -1806,7 +1811,7 @@ const faqSchema = {
      ⚠️ 폰에서 데모 안 글씨는 아주 작다. 1320x840 짜리 화면을 390px 에 맞추는
         것이라 피할 수 없다 — 모양을 보이는 것이 목적이다. */
   @media all {
-    .pillar-industrial-ai .ai-hero-pin {
+    .pillar-pinned .ai-hero-pin {
       /* 한 화면 + 자라는 거리 360 + 다 자란 채로 머무는 거리 360.
          ⚠️ 머무는 거리가 없으면 다 자라는 순간 곧바로 고정이 풀려, 꽉 찬 모습이
             한 프레임만 스치고 지나간다. */
@@ -1816,11 +1821,11 @@ const faqSchema = {
        닫으면, 닫히는 만큼 윗변이 스크롤보다 빨리 올라가 '위로도 자라는' 것으로
        보인다(실측 — 스크롤 480px 에 윗변은 543px 올라갔다). 칸이 가지면 윗변이
        스크롤과 꼭 같이 올라가고, 화면 맨 위에 닿는 자리에서 고정된다. */
-    .pillar-industrial-ai .ai-hero-pin { margin-top: 64px; }
-    .pillar-industrial-ai .ai-hero-pin > .ai-hero-sticky > .ai-hero-stage {
+    .pillar-pinned .ai-hero-pin { margin-top: 64px; }
+    .pillar-pinned .ai-hero-pin > .ai-hero-sticky > .ai-hero-stage {
       margin-top: 0;
     }
-    .pillar-industrial-ai .ai-hero-sticky {
+    .pillar-pinned .ai-hero-sticky {
       position: sticky; top: 0;
       height: 100vh;
       overflow: hidden;
@@ -1831,7 +1836,7 @@ const faqSchema = {
        쓰며 화면 오른쪽 끝에 닿고, 글은 왼쪽 48px 선에서 시작한다(실측).
        ⚠️ 안여백은 네 면이 다르게 간다 — 왼쪽은 48px 로 남아 글이 컨테이너 선에
           서고, 나머지 셋은 0 이 되어 데모가 화면 변에 닿는다. */
-    .pillar-industrial-ai .ai-hero-stage {
+    .pillar-pinned .ai-hero-stage {
       width: 100%;
       /* 데모가 1045px 에서 멈추므로 카드 높이는 여기서 잡는다. 다 자라면
          창 높이다. */
@@ -2016,7 +2021,7 @@ const faqSchema = {
         폭이다.
      ⚠️ 좁은 폭의 칸 여백은 24px 이라 미디어쿼리로 따로 준다. 48px 하나로
         적으면 그 구간에서 여백이 되레 넓어진다. */
-  .pillar-industrial-ai .ind-hero .ind-container {
+  .pillar-pinned .ind-hero .ind-container {
     --grow: 0;
     /* 창이 1600px 보다 넓을 때 칸 바깥에 남는 한쪽 여백. 다 자란 카드가 글을
        내용 너비 선에 세우는 데 쓴다. */
@@ -2030,7 +2035,7 @@ const faqSchema = {
     padding-right: calc(var(--cpad) * (1 - var(--grow)));
   }
   @media (max-width: 900px) {
-    .pillar-industrial-ai .ind-hero .ind-container { --cpad: 24px; }
+    .pillar-pinned .ind-hero .ind-container { --cpad: 24px; }
   }
 
   /* ───────── 폰에서는 한 칸으로 쌓는다 — 글 · 데모 · 진행 표시 순 ─────────
@@ -2091,9 +2096,9 @@ const faqSchema = {
        화면이 꽉 안 차는 것처럼 보인다. dvh 는 지금 보이는 높이를 가리킨다.
        ⚠️ 스크롤 거리(.ai-hero-pin)만 svh 로 둔다. dvh 로 두면 주소창이
           접히고 펴질 때마다 문서 높이가 바뀌어 스크롤이 튄다. */
-    .pillar-industrial-ai .ai-hero-pin { height: calc(100svh + 720px); }
-    .pillar-industrial-ai .ai-hero-sticky { height: 100dvh; }
-    .pillar-industrial-ai .ai-hero-stage { min-height: calc(100dvh * var(--grow, 0)); }
+    .pillar-pinned .ai-hero-pin { height: calc(100svh + 720px); }
+    .pillar-pinned .ai-hero-sticky { height: 100dvh; }
+    .pillar-pinned .ai-hero-stage { min-height: calc(100dvh * var(--grow, 0)); }
     /* ───────── 데모 칸 — 메인 운영체제 섹션(#teams .teams-stage)과 같은 식
        저쪽도 820px 아래에서는 상자를 키우거나 자르지 않는다. 내용 왼쪽 선에서
        시작해 오른쪽만 화면 끝까지 빼내고, 그림은 통째로 보인다(작아질 뿐이다).
@@ -2619,6 +2624,43 @@ const faqSchema = {
     aspect-ratio: auto;
     margin: 0;
   }
+  /* ───────── 에너지관리 — 그래픽 히어로도 같은 장치로 자란다 ─────────
+     카드 · 키 · 붙는 무대는 산업 AI 와 같은 것을 쓴다(.pillar-pinned). 카드
+     안에 서는 것만 데모가 아니라 그래픽일 뿐이다.
+     ⚠️ 쉬는 모습은 지금 그대로 둔다 — 안여백 0 에 그래픽이 변까지 닿는
+        762px 판이다. 자라면서만 산업 AI 의 다 자란 값으로 옮겨 간다
+        (위아래 56 · 왼쪽 칸 선 · 오른쪽 0).
+     ⚠️ .ai-hero-stage.has-graphic 의 padding: 0 이 공용 보간을 덮는다 —
+        같은 자리에서 다시 적어야 한다(선택자를 한 단 길게 둔다).
+     ⚠️ 높이는 100dvh 다. 폰에서 100vh 는 주소창이 접힌 큰 화면 높이라
+        카드가 창보다 커진다(산업 AI 에서 겪은 그 자리다). */
+  .pillar-energy-management .ai-hero-stage.has-graphic {
+    /* ⚠️ 칸은 하나다. 공용 규칙이 두 칸(글 · 데모)으로 쪼개 두는데, 여기에는
+       글 칸이 없어 그래픽이 좁은 첫 칸에 들어간다 — 실측 1344 짜리 카드에서
+       그래픽이 222px 이었다. minmax(0, 1fr) 로 한 칸만 둔다. */
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    padding:
+      calc(56px * var(--grow, 0))
+      0
+      calc(56px * var(--grow, 0))
+      calc((var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0));
+  }
+  /* 판 높이도 함께 자란다 — 쉴 때 762px, 다 자라면 창 높이에서 위아래
+     안여백(56 x 2)을 뺀 값이다. 그래픽은 제 칸을 꽉 채우므로 따라 커진다. */
+  .pillar-energy-management .ai-hero-stage.has-graphic .ai-hero-figure {
+    height: calc(762px * (1 - var(--grow, 0)) + (100dvh - 112px) * var(--grow, 0));
+    aspect-ratio: auto;
+    width: 100%; max-width: none; align-self: center;
+  }
+  @media (max-width: 1024px) {
+    /* 좁은 폭의 쉬는 높이는 비율이 정한다(1184:762). 자라는 쪽은 같다. */
+    .pillar-energy-management .ai-hero-stage.has-graphic .ai-hero-figure {
+      height: calc((100cqw) * 0 + (100dvh - 112px) * var(--grow, 0));
+      aspect-ratio: 1184 / 762;
+    }
+  }
+
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
   .ai-hero-stage.is-empty .ai-hero-figure:empty {
     aspect-ratio: 1320 / 840;
