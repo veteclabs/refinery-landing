@@ -321,7 +321,7 @@ const faqSchema = {
       var pin = document.querySelector('.pillar-pinned .ai-hero-pin');
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var last = -1, ticking = false, wasCovering = false;
+      var last = -1, ticking = false, wasCovering = false, wasGrown = false, lastY = 0;
       var stageEl = document.querySelector('.pillar-pinned .ai-hero-stage');
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
@@ -363,6 +363,16 @@ const faqSchema = {
               아니라 쪽이 스크롤되기 때문이고, 다 자라는 자리에서 화면 맨 위에
               닿는다. */
         var y = window.scrollY || window.pageYOffset;
+        /* ⚠️ 방향 검사는 아래 'p 가 바뀌었을 때' 블록 밖에 둔다. 다 자란 뒤에는
+           p 가 1 에 머물러 그 블록이 통째로 건너뛰므로, 안에 두면 위로 올려도
+           아무 일도 일어나지 않는다(실측 — 올려도 모션이 계속 돌았다).
+           ⚠️ 4px 은 흔들림 여유다. 아래로 가는 중에도 1~2px 되돌아오는 프레임이
+              있어, 그것까지 '올림' 으로 보면 돌자마자 꺼진다. */
+        if (y < lastY - 4) {
+          window.__aiHeroGraphicWanted = false;
+          if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+        }
+        lastY = y;
         var docTop = pin.getBoundingClientRect().top + y;
         /* 칸이 화면 맨 위에 닿기까지의 30% 만에 다 자란다 — 끝까지 끌면 한참
            스크롤해도 계속 자라는 중이라 굼떠 보인다. 65 -> 45 -> 30 으로 두 번
@@ -378,7 +388,17 @@ const faqSchema = {
           /* 왼쪽 글은 '다 자랐는지'로 든다. '화면을 덮었는지'(ai-hero-is-full)를
              기다리면 카드가 이미 제 크기인데도 한참 비어 있다 — 1440x900 에서
              다 자라는 곳이 180px, 덮는 곳이 700px 이다. */
-          box.classList.toggle('ai-hero-grown', p >= 0.98);
+          var grownNow2 = p >= 0.98;
+        box.classList.toggle('ai-hero-grown', grownNow2);
+        /* ⚠️ 그래픽은 '위로 올리기 시작하면' 쉬는 모습으로 되돌린다.
+           덮고 있는지(covering)나 다 자랐는지(grow)로 보면, 위로 올리는 동안
+           한참(1200 -> 500)을 여전히 덮은 채 다 자라 있어 모션이 계속 돈다 —
+           '올렸는데도 계속 보인다' 가 그것이다. 손이 올린 그 순간과 맞추려면
+           스크롤 방향을 본다.
+           ⚠️ 4px 은 흔들림 여유다. 트랙패드에서 아래로 가는 중에도 1~2px 씩
+              되돌아오는 프레임이 있어, 그것까지 '올림' 으로 보면 돌자마자
+              꺼진다. */
+        if (grownNow2 !== wasGrown) wasGrown = grownNow2;
         }
         /* 다 자라 화면을 덮고 있는 동안에만 내비 면을 걷는다.
            ⚠️ p 만 보면 안 된다. p 는 한 번 1 이 되면 아래로 내려가도 1 이라,
@@ -464,14 +484,12 @@ const faqSchema = {
            경계에 맞추고 여유를 올려 위아래로 여백을 남긴다.
            0.055 — 그림자를 살리는 데는 0.03이면 됐지만, 칸이 테두리까지 넓어지며
            그림 높이가 682에서 762로 커져 판이 그만큼 크게 보인다. 조금 눅인 값. */
-        /* ⚠️ 여유 0.055 -> 0.24. 상단 세 판으로 가기 전에 들르는 자리인데,
-           1440x900 에서 상자 1397(1.03배)이라 거의 코앞이었다.
-           지나온 값 — 0.15(1635 · 0.88배) · 0.20(1763 · 0.82배).
-           ⚠️ 0.24(약 1880)가 천장이다. 마지막에 서는 전체 자리가 1893 이라,
-              이보다 더 키우면 '판 다섯' 이 전체보다 멀어져 당긴 것이 아니라
-              물러난 것으로 읽힌다. 더 눅이려면 전체 자리(whole)도 같이
-              물려야 한다. */
-        stack: { x: 196, y: 396, w: 808, h: 784, pad: 0.24 },
+        stack: { x: 196, y: 396, w: 808, h: 784, pad: 0.055 },
+        /* 판과 판 사이에서 잠깐 물러나는 자리. 같은 다섯 판을 보지만 둘레를
+           더 비운다(0.055 -> 0.24 · 1440x900 에서 1397 -> 1865).
+           ⚠️ 판이 쌓이는 첫 장면은 stack 그대로다. 한때 stack 의 여유를 올려
+              두 자리를 같이 눅였더니, 쌓이는 모습까지 작아졌다. */
+        stackWide: { x: 196, y: 396, w: 808, h: 784, pad: 0.24 },
         /* 그림 내용의 실측 경계(x34..1166 · y20..1180)다. 0 0 1200 1200으로 잡으면
            위아래 빈 자리까지 프레임에 넣느라 배율이 0.61로 깎인다. 경계에 맞추면
            0.644 — 판 높이(762)와 내용 높이(1160)로 가능한, 잘리지 않는 최대다. */
@@ -1314,7 +1332,7 @@ const faqSchema = {
                  이을 것이 아직 없는데 상자 골격만 먼저 그려져 있다. */
               /* 물러나기 시작하면서 흐름을 켠다. */
               if (k === LAST) buildFlow();
-              moveTo(k === LAST ? SHOTS.whole : SHOTS.stack, k === LAST ? 1100 : 900,
+              moveTo(k === LAST ? SHOTS.whole : SHOTS.stackWide, k === LAST ? 1100 : 900,
                      k === LAST ? finishCamera : null);
               /* ⚠️ 옆 판 · API · 지난 회선은 카메라가 물러나기 시작한 뒤에 켠다.
                  같은 프레임에 켜면 아직 판 하나에 맞춰진 틀 안으로 옆것이
