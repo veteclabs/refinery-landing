@@ -2825,28 +2825,28 @@ const faqSchema = {
        그건 왼쪽에 글 칸이 있어 균형이 잡히기 때문이다. 여기는 그래픽 한 장뿐이라
        오른쪽만 닫으면 그림이 오른쪽으로 쏠린다 — 양쪽을 같이 열어 가운데에
        세운다(1440px 에서 1344px, 쉬는 카드와 같은 폭이다). */
-    padding:
-      calc(56px * var(--grow, 0))
-      calc((var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0))
-      calc(56px * var(--grow, 0))
-      calc((var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0));
+    /* ⚠️ 안여백은 어느 쪽으로도 두지 않는다. 다 자란 히어로에서 48/56 을
+       남겼더니 그림이 화면 끝까지 닿지 못해 '칸이 화면을 다 안 쓴다' 는 말이
+       나왔다. 그림은 제 비율을 지키며 칸 안에서 가운데에 서므로, 칸을 화면
+       끝까지 넓혀도 그림이 치우치지 않는다. */
+    padding: 0;
   }
-  /* 판 높이도 함께 자란다 — 쉴 때 762px, 다 자라면 창 높이에서 위아래
-     안여백(56 x 2)을 뺀 값이다. 그래픽은 제 칸을 꽉 채우므로 따라 커진다. */
+  /* 판 높이도 함께 자란다 — 쉴 때 762px, 다 자라면 창 높이 그대로다.
+     그래픽은 제 칸을 꽉 채우므로 따라 커진다. */
   /* ⚠️ 다 자라면 모서리를 편다. 12px 짜리 둥근 네 귀가 남아 있으면, 히어로가
      화면을 꽉 채운 뒤에도 그림이 '카드 안에 든 것' 으로 보인다. */
   .pillar-energy-management .ind-container.ai-hero-is-full .ai-hero-figure {
     border-radius: 0;
   }
   .pillar-energy-management .ai-hero-stage.has-graphic .ai-hero-figure {
-    height: calc(762px * (1 - var(--grow, 0)) + (100dvh - 112px) * var(--grow, 0));
+    height: calc(762px * (1 - var(--grow, 0)) + 100dvh * var(--grow, 0));
     aspect-ratio: auto;
     width: 100%; max-width: none; align-self: center;
   }
   @media (max-width: 1024px) {
     /* 좁은 폭의 쉬는 높이는 비율이 정한다(1184:762). 자라는 쪽은 같다. */
     .pillar-energy-management .ai-hero-stage.has-graphic .ai-hero-figure {
-      height: calc((100cqw) * 0 + (100dvh - 112px) * var(--grow, 0));
+      height: calc(100dvh * var(--grow, 0));
       aspect-ratio: 1184 / 762;
     }
   }
@@ -2872,23 +2872,23 @@ const faqSchema = {
       0 4px 10px rgba(16, 32, 44, .03),
       0 12px 28px rgba(16, 32, 44, .04);
   }
-  /* ⚠️ 아래 두 묶음은 산업 AI 를 뺀다(:not). 그 페이지는 어느 폭에서나 고정
-     장치가 두 칸 배치 · 네 면 안여백 · 데모 비율을 쥔다 — 여기서 1칸으로
-     접거나 안여백을 덮으면 자라는 도중에 배치가 한 번 바뀐다.
-     에너지관리 등 다른 갈래는 종전대로 좁은 폭에서 한 칸으로 접힌다. */
+  /* ⚠️ 아래 두 묶음은 고정 장치를 쓰는 갈래를 뺀다(:not(.pillar-pinned)).
+     그쪽은 어느 폭에서나 장치가 배치 · 네 면 안여백 · 비율을 쥔다 — 여기서
+     1칸으로 접거나 안여백(20px)과 모서리(16px)를 덮으면 자라는 도중에 배치가
+     한 번 바뀌고, 폰에서 다 자란 뒤에도 카드 테가 남아 화면을 다 쓰지 못한다. */
   @media (max-width: 1024px) {
     /* 좁아지면 설명을 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다.
        폭이 달라졌으니 두 줄 고정도 푼다. */
-    .ind-page:not(.pillar-industrial-ai) .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
+    .ind-page:not(.pillar-pinned) .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
     /* ⚠️ 산업 AI 는 뺀다. 그 페이지는 어느 폭에서나 글이 데모와 한 덩어리로
        서고, 장면 제목은 두 줄로 쓴 그대로가 리듬이다 — 한 줄로 풀면 글자가
        제멋대로 감겨 장면마다 줄 수가 달라진다. */
-    .ind-page:not(.pillar-industrial-ai) .ai-demo-cap-title :global(br) { display: none; }
+    .ind-page:not(.pillar-pinned) .ai-demo-cap-title :global(br) { display: none; }
   }
   @media (max-width: 900px) {
-    .ind-page:not(.pillar-industrial-ai) .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
+    .ind-page:not(.pillar-pinned) .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
     /* 좁은 화면에서는 데모를 통째로 보여준다(따라가기가 꺼진다). */
-    .ind-page:not(.pillar-industrial-ai) .ai-hero-figure { aspect-ratio: 1144 / 900; }
+    .ind-page:not(.pillar-pinned) .ai-hero-figure { aspect-ratio: 1144 / 900; }
     .ai-demo-cap-title { font-size: 26px; }
     .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 28px; }
   }
