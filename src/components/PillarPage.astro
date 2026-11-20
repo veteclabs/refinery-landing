@@ -2209,7 +2209,10 @@ const faqSchema = {
     display: none; width: 76px; height: 76px;
     place-items: center;
     border-radius: calc(var(--radius) + 10px);
-    background: var(--bg-card);
+    /* 토큰 사다리에서 한 단 더 내려간다 — --bg-card(#EFF2F5) 다음은
+       --border(#E3E7EC)다. 이름은 테두리용이지만 이 사다리에서 바탕보다
+       두 단 어두운 중성색은 이것뿐이다(그 아래 --border2 는 한 번에 많이 어둡다). */
+    background: var(--border);
     /* 사이트 카드 그림자 세 겹(접지 · 중간 · 주변광)을 그대로 쓴다. */
     box-shadow:
       0 1px 2px rgba(16, 32, 44, .03),
