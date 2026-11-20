@@ -1218,7 +1218,10 @@ const faqSchema = {
           var cx = (u.x1 + u.x2) / 2, cy = (u.y1 + u.y2) / 2;
           return {
             x: cx - plateBox.w / 2, y: cy - plateBox.h / 2,
-            w: plateBox.w, h: plateBox.h, pad: 0.09
+            /* ⚠️ 둘레 여유가 이 자리의 확대 배율을 정한다. 키울수록 틀이 넓어져
+               덜 당긴다 — 1440x900 에서 0.09 는 3.79배(판이 화면을 거의 다
+               채운다) · 0.35 는 2.59배 · 0.60 은 2.05배다(실측). */
+            w: plateBox.w, h: plateBox.h, pad: 0.35
           };
         }
 
