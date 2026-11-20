@@ -414,7 +414,13 @@ const faqSchema = {
             window.__aiHeroGraphicWanted = true;
             if (window.__aiHeroStartGraphic) window.__aiHeroStartGraphic();
           }
-          else if (window.__aiHeroStopDemo) window.__aiHeroStopDemo();
+          else {
+            if (window.__aiHeroStopDemo) window.__aiHeroStopDemo();
+            /* 그래픽도 쉬는 모습으로 돌려놓는다 — 올라온 뒤에도 돌고 있으면
+               '기본 모습' 이 아니다. */
+            window.__aiHeroGraphicWanted = false;
+            if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+          }
         }
       }
       function onScroll() {
@@ -468,6 +474,11 @@ const faqSchema = {
       var SVGNS = 'http://www.w3.org/2000/svg';
 
       function run() {
+        var myGen = ++genOuter;
+        /* 세대가 바뀌면 깨어나지 않는 setTimeout. 아래 연출은 모두 이것을 쓴다. */
+        function sto(fn, ms) {
+          return setTimeout(function () { if (myGen === genOuter) fn(); }, ms);
+        }
         var doc = obj.contentDocument;
         if (!doc) return;
         var svg = doc.querySelector('svg');
@@ -801,7 +812,7 @@ const faqSchema = {
             else ps[i].style.strokeDashoffset = '0';
           }
           /* 선이 다 닿고 나서 끝의 작은 원을 켠다. */
-          setTimeout(function () {
+          sto(function () {
             caps.forEach(function (p) { tweenOpacity(p, 1, REDUCE ? 0 : 350); });
           }, DRAW_MS);
         };
@@ -900,6 +911,7 @@ const faqSchema = {
           var RAMP = 600;
           var t0 = performance.now();
           (function tick(now) {
+            if (myGen !== genOuter) { iconRafOuter = null; return; }
             var e = now - t0;
             var amp = e >= RAMP ? 1 : EASE_IO(e / RAMP);
             for (var i = 0; i < items.length; i++) {
@@ -1007,6 +1019,7 @@ const faqSchema = {
           var t0 = performance.now();
           if (anim) cancelAnimationFrame(anim);
           (function step(now) {
+            if (myGen !== genOuter) { anim = null; return; }
             var k = Math.min(1, (now - t0) / ms);
             var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;  /* ease-in-out */
             var from = animFrom, to = animTo;
@@ -1032,6 +1045,17 @@ const faqSchema = {
 
         /* 바깥 started 는 '준비를 마쳤다' 는 뜻이고, 여기 playedOnce 는
            '한 바퀴를 돌렸다' 는 뜻이다. */
+        /* 꽉 찬 자리를 벗어나면 쉬는 모습(완성된 그림 · 멈춤)으로 되돌린다.
+           한 바퀴를 중간에 끊는 것이 아니라, 준비를 처음부터 다시 해서 완성
+           상태로 세운다 — 세대가 바뀌므로 돌던 연출은 저절로 물러난다. */
+        window.__aiHeroResetGraphic = function () {
+          if (!playedOnce) return;
+          playedOnce = false;
+          window.__aiHeroGraphicWanted = false;
+          stopIconMotion();
+          started = false;
+          ready();
+        };
         window.__aiHeroStartGraphic = function () {
           if (playedOnce) return;
           playedOnce = true;
@@ -1052,8 +1076,11 @@ const faqSchema = {
           all.forEach(show); lineEls.forEach(draw);
           buildFlow();
           startIconMotion();
-          lastShot = SHOTS.whole;
-          svg.setAttribute('viewBox', fit(SHOTS.whole).join(' '));
+          /* 쉬는 자리에서는 둘레를 조금 더 비운다(여유 0.01 -> 0.05). 그림이
+             카드 변에 바짝 붙지 않고 한 단 작게 선다. */
+          lastShot = { x: SHOTS.whole.x, y: SHOTS.whole.y,
+                       w: SHOTS.whole.w, h: SHOTS.whole.h, pad: 0.05 };
+          svg.setAttribute('viewBox', fit(lastShot).join(' '));
           return;
         }
 
@@ -1130,7 +1157,7 @@ const faqSchema = {
 
         var t = 0;
         layers.forEach(function (L) {
-          setTimeout(function () { L.forEach(show); }, t);
+          sto(function () { L.forEach(show); }, t);
           t += 520;
         });
         /* 겹이 다 쌓이면 점선 기둥·회선·API 점이 한꺼번에 선다.
@@ -1209,23 +1236,23 @@ const faqSchema = {
         var LAST = 2, seenPlates = [], seenGaps = [], drawnLines = [];
         [0, 1, 2].forEach(function (k) {
           (function (at) {
-            setTimeout(function () {
+            sto(function () {
               draw(lineEls[k]); drawnLines.push(k);
               moveTo(bundleShot(k), 800);
             }, at);
-            setTimeout(function () {
+            sto(function () {
               seenPlates.forEach(function (j) { modules[j].forEach(fade); });
               seenGaps.forEach(function (g) { betweens[g].forEach(fade); });
               moveTo(plateShot(k), 700);
             }, at + 600);
-            setTimeout(function () {
+            sto(function () {
               modules[k].forEach(show); seenPlates.push(k);
               drawnLines.forEach(function (j) { fade(lineEls[j]); });
               /* 마지막 판이 뜨고 카메라가 멈춰 있는 동안 미리 굽는다. 물러나는
                  도중에 755KB를 직렬화하면 그 프레임이 통째로 밀려 한 번 '쿵' 한다. */
-              if (k === LAST) setTimeout(preDash, 600);
+              if (k === LAST) sto(preDash, 600);
             }, at + 1300);
-            setTimeout(function () {
+            sto(function () {
               /* 이 판 왼쪽의 API는 물러나면서 나온다. 좁힌 프레임 안에 알약이
                  걸쳐 보여, 그 판만 보이게 하려던 것이 깨졌다. */
               if (k > 0) seenGaps.push(k - 1);
@@ -1255,6 +1282,10 @@ const faqSchema = {
          그대로 돌아 같은 요소에 두 벌이 겹친다(플레이트 막대가 앞뒤로 튀던
          원인이다). */
       var iconRafOuter = null, playedOnce = false;
+      /* ⚠️ 다시 준비할 때마다 올린다. 앞서 돌던 한 바퀴가 걸어 둔 타이머와
+         프레임 고리가 뒤늦게 깨어나 새 준비를 헝클지 못하게, 각자 제가 태어난
+         세대를 들고 있다가 다르면 조용히 물러난다. */
+      var genOuter = 0;
       function stopIconMotion() {
         if (iconRafOuter) cancelAnimationFrame(iconRafOuter);
         iconRafOuter = null;
