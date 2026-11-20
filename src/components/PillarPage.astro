@@ -1557,12 +1557,12 @@ const faqSchema = {
         if (!fg) return;
         /* ⚠️ 음수도 민다. 막대가 데모보다 아래에 있을 때 그냥 두었더니 17px
            내려간 채로 남았다. */
+        /* ⚠️ 좁은 폭에서는 밀지 않는다. 거기서는 데모 -> 글 -> 진행 표시로
+           쌓이고, 막대의 제자리가 이미 글 바로 아래다. 데모 아랫변에 맞추면
+           막대가 글 위로 올라가 제목과 겹친다. */
+        if (document.documentElement.clientWidth <= 900) return;
         var fr = fg.getBoundingClientRect(), br = bar.getBoundingClientRect();
-        /* 좁은 폭은 한 칸으로 쌓여 글 · 데모 · 진행 표시 순이다 — 데모 아랫변에
-           맞추면 막대가 데모 위에 겹친다. 그 아래로 24px 내린다. */
-        var d = (document.documentElement.clientWidth <= 900)
-          ? (fr.bottom - br.top + 24)
-          : (fr.bottom - br.bottom);
+        var d = fr.bottom - br.bottom;
         bar.style.transform = 'translateY(' + Math.round(d) + 'px)';
       }
 
@@ -2006,8 +2006,24 @@ const faqSchema = {
          바닥으로 주면 칸은 창에 맞고 데모만 변 밖으로 넘친다. */
       grid-template-columns: minmax(0, 1fr);
       row-gap: 24px;
+      /* ⚠️ 줄을 가운데에 모은다. 기본값(stretch)은 남는 높이를 두 줄에 똑같이
+         나눠 줘, 글과 데모 사이에 200px 짜리 빈 칸이 생겼다(실측 — 글 아랫변
+         169, 데모 윗변 374). 진행 표시는 데모 아랫변을 따라오므로 함께 선다. */
+      align-content: center;
     }
-    .pillar-industrial-ai .ai-demo-cap { align-self: start; }
+    /* 쌓는 차례는 데모 -> 글 -> 진행 표시다. 메인 운영체제 섹션이 좁은 폭에서
+       상자를 먼저 놓고 글을 아래에 붙이는 것과 같다 — 무엇을 보여 주는
+       화면인지 먼저 보이고, 글이 그 설명으로 따라온다.
+       ⚠️ DOM 은 글이 먼저다(넓은 폭에서 왼쪽 칸이라). order 로만 바꾼다. */
+    .pillar-industrial-ai .ai-hero-figure { order: 1; }
+    .pillar-industrial-ai .ai-demo-cap { order: 2; align-self: start; }
+    /* ⚠️ 진행 표시는 흐름 밖(absolute)이라 줄 높이에 안 들어간다. 그만큼
+       아래를 비워 두어야 가운데 정렬이 막대까지 품는다(막대 30 + 사이 24).
+       ⚠️ 다 자랐을 때만 준다. 쉬는 모습에서는 글 칸의 높이를 0 으로 눌러
+          데모 한 장만 남기는데, 안여백은 그 0 에 더해져 54px 이 남는다. */
+    .pillar-industrial-ai .ind-container.ai-hero-grown .ai-demo-cap {
+      padding-bottom: 54px;
+    }
     /* ⚠️ 높이는 dvh 로 잰다. 폰에서 100vh 는 주소창이 접힌 '큰 화면' 높이라,
        주소창이 보이는 동안 카드가 화면보다 커져 아랫변이 창 밖에 있다 —
        화면이 꽉 안 차는 것처럼 보인다. dvh 는 지금 보이는 높이를 가리킨다.
@@ -2016,25 +2032,32 @@ const faqSchema = {
     .pillar-industrial-ai .ai-hero-pin { height: calc(100svh + 720px); }
     .pillar-industrial-ai .ai-hero-sticky { height: 100dvh; }
     .pillar-industrial-ai .ai-hero-stage { min-height: calc(100dvh * var(--grow, 0)); }
+    /* ───────── 데모 칸 — 메인 운영체제 섹션(#teams .teams-stage)과 같은 식
+       저쪽도 820px 아래에서는 상자를 키우거나 자르지 않는다. 내용 왼쪽 선에서
+       시작해 오른쪽만 화면 끝까지 빼내고, 그림은 통째로 보인다(작아질 뿐이다).
+       오른쪽에 남는 자리가 없으므로 그쪽 테와 둥글기를 걷는다.
+       ⚠️ 한때 창 높이에 맞춰 폭을 키우고(823px) 오른쪽 변에서 잘랐다. 안쪽
+          글씨는 커졌지만 화면에 든 것은 대화 칸 한 조각뿐이라, 무엇을 보여
+          주는 화면인지 알아볼 수 없었다. 저쪽을 따른다.
+       ⚠️ 그래서 폭을 보간하지 않는다. 쉴 때나 다 자랐을 때나 칸을 그대로
+          쓴다 — 자라는 것은 카드이지 데모가 아니다(390px 에서 294 -> 366). */
     .pillar-industrial-ai .ai-hero-figure {
-      /* 쉬는 모습은 넓은 폭과 같다 — 글 없이 데모 한 장이 칸을 다 쓰고 통째로
-         보인다(--demo-rest 는 스크립트가 재서 넘기는 '카드 안 폭'이다).
-         자라면서 창 높이에 맞는 폭(높이 x 1320/840)으로 커져 칸보다 넓어지고,
-         오른쪽 변에서 잘린다 — 넓은 폭에서 다 자란 카드와 같은 모습이다.
-         ⚠️ 폭만 보간한다. 높이는 비율(aspect-ratio: 1320/840)이 따라온다.
-            높이를 직접 주면 쉬는 모습에서도 데모가 창만큼 커진다. */
-      justify-self: end; align-self: start;
-      max-width: none;
-      width: calc(
-        var(--demo-rest, 294px) * (1 - var(--grow, 0))
-        + (100dvh - 320px) * 1.5714 * var(--grow, 0));
-      /* ⚠️ 오른쪽 변에 그냥 붙이면 대화 칸의 왼쪽이 잘린다('안녕하세요' 의 첫
-         글자가 날아간다). 보이는 창의 한가운데에 대화 칸이 오도록 15.8% 민다.
-         데모 안에서 대화 칸의 가운데는 59.1% 자리다(사이드바 240 + 글 칸
-         768 의 가운데 = 780 / 1320).
-         ⚠️ --grow 에 묶는다. 쉬는 모습에서는 데모가 칸에 꼭 맞아 밀 자리가
-            없다 — 그대로 밀면 오른쪽으로 삐져나간다. */
-      transform: translateX(calc(15.8% * var(--grow, 0)));
+      justify-self: stretch; align-self: start;
+      width: 100%; max-width: none; transform: none;
+    }
+    /* ⚠️ 둥글기는 공통값(12px)이 아니라 4px 이다. 칸이 1045x665 에서 366x233 으로
+       줄어드는데 12px 을 그대로 두면 짧은 변 대비 1.8% 가 5.2% 로 세 배 가까이
+       커져 데스크탑보다 훨씬 둥글어 보인다 — 메인 운영체제 섹션이 같은 자리에서
+       쓰는 값이다(실측: #teams .teams-preview 가 390px 에서 366x230 에 4px).
+       ⚠️ 쉬는 모습에도 건다. 거기서는 네 귀가 다 둥글지만(294x187) 12px 이면
+          같은 까닭으로 너무 둥글다. */
+    .pillar-industrial-ai .ai-hero-figure { border-radius: 4px; }
+    .pillar-industrial-ai .ind-container.ai-hero-is-full .ai-hero-figure {
+      border-radius: 4px 0 0 4px;
+      /* ⚠️ 오른쪽 테는 색만 지우는 것이 아니라 폭을 0 으로 둔다. 투명해도
+         1px 자리를 차지해 데모가 화면 변에서 1px 떨어진다 — 저쪽도
+         border-width 를 1px 0 1px 1px 로 둔다(실측). */
+      border-right-width: 0;
     }
   }
 
