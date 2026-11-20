@@ -45,7 +45,10 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     title: '산업 AI란? 제조 ⁠· 에너지 현장의 AI 에이전트 | Refinery',
     description: '산업 AI ⁠· 제조 AI ⁠· 에너지 AI ⁠· 산업 AI 에이전트가 무엇인지, 흩어진 현장 데이터를 어떻게 판단으로 잇는지 정리했습니다. Refinery는 온톨로지로 근거 있는 AI 판단을 제공합니다.',
     canonical: '/industrial-ai',
-    heroTitle: '흩어진 현장의 데이터를<br>근거 있는 판단으로 잇는 산업 AI',
+    /* ⚠️ <br> 뒤에 공백을 둔다. industry.css 가 900px 이하에서 .ind-page 의 br 를
+       통째로 숨기는데(!important), 공백이 없으면 그 자리에서 낱말이 붙었다 —
+       폰에서 '데이터를근거' 로 읽혔다. CTA 문구도 같은 처리다. */
+    heroTitle: '흩어진 현장의 데이터를<br> 근거 있는 판단으로 잇는 산업 AI',
     ctaPrimary: '문의하기',
     contactHref: '/contact',
     ctaGhost: '제품 소개',
@@ -113,7 +116,8 @@ export const industrialAi: Record<'ko' | 'en', PillarContent> = {
     title: 'What Is Industrial AI? AI Agents for Manufacturing and Energy | Refinery',
     description: 'A plain explanation of industrial AI, manufacturing AI, energy AI and industrial AI agents, and of how scattered field data becomes grounded decisions. Refinery grounds every answer in an ontology.',
     canonical: '/en/industrial-ai',
-    heroTitle: 'Industrial AI that turns scattered<br>field data into grounded decisions',
+    /* <br> 뒤 공백은 국문과 같은 까닭이다 — 'scatteredfield' 로 붙었다. */
+    heroTitle: 'Industrial AI that turns scattered<br> field data into grounded decisions',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
     ctaGhost: 'Product overview',
