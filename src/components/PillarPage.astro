@@ -983,7 +983,7 @@ const faqSchema = {
              맞는 쪽을 고른다. 쉬는 상자는 둘레를 더 비운 것이라 다 자란
              카드에서 쓰면 그림이 괜히 작아 보인다 — 자라는 순간 제 크기로
              돌아간다. */
-          if (!started) lastShot = grownNow() ? SHOTS.whole : REST_SHOT;
+          if (!started) lastShot = restShotNow();
           if (anim) { animFrom = toAspect(animFrom); animTo = fit(lastShot); return; }
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
@@ -991,7 +991,15 @@ const faqSchema = {
         if (window.ResizeObserver) new ResizeObserver(refit).observe(obj);
         addEventListener('resize', refit, { passive: true });
 
+        /* ⚠️ 카메라를 묶어 둔다. 이 그림은 판 하나하나로 당겨 들어가며 보여
+           주도록 짜여 있었는데, 그 자리마다 그림의 좌 · 우 · 아래가 칸 밖으로
+           잘려 '잘린 표시' 가 났다. 움직임은 판이 쌓이고 회선이 그려지고
+           회로가 흐르는 것으로 충분하다 — 화면은 늘 전체를 담는다.
+           ⚠️ 장면 이동 자체는 그대로 둔다(시간 · done 콜백이 뒤 단계를 끌고
+              간다). 가는 자리만 늘 전체 상자로 바꾼다. */
+        var CAM_LOCK = true;
         function moveTo(shot, ms, done) {
+          if (CAM_LOCK) shot = restShotNow();
           lastShot = shot;
           animTo = fit(shot); animFrom = cur.slice();
           var t0 = performance.now();
@@ -1049,6 +1057,21 @@ const faqSchema = {
         function grownNow() {
           return !!document.querySelector('.ind-container.ai-hero-grown');
         }
+        /* 쉬는 동안 칸이 커져도 그림은 제 크기를 지킨다.
+           카드는 스크롤에 따라 넓어지는데, 상자를 그대로 두면 같은 구간이
+           더 큰 칸에 그려져 그림이 따라 확대된다 — '스크롤하자마자 확대된다'
+           는 말이 그것이다. 칸이 커진 배수만큼 상자도 키워, 보이는 크기는
+           그대로 두고 둘레 여백만 넓힌다.
+           ⚠️ 기준 폭은 처음 섰을 때의 칸 폭이다. 창 크기를 바꾸면 그 값도
+              다시 잡아야 하므로 0 이면 그때 다시 읽는다. */
+        var restW = 0;
+        function restShotNow() {
+          if (!restW) restW = obj.clientWidth || 1;
+          var k = (obj.clientWidth || restW) / restW;
+          var cx = REST_SHOT.x + REST_SHOT.w / 2, cy = REST_SHOT.y + REST_SHOT.h / 2;
+          var w = REST_SHOT.w * k, h = REST_SHOT.h * k;
+          return { x: cx - w / 2, y: cy - h / 2, w: w, h: h, pad: REST_SHOT.pad };
+        }
 
         /* 쉬는 모습 — 그림은 다 그려진 채 서 있다. 판이 쌓이는 연출과 카메라
              움직임만 멈춘 것이고, 그림 안에 원래 있는 움직임(회로 흐름 등)은
@@ -1067,7 +1090,8 @@ const faqSchema = {
              ⚠️ lastShot 에도 같은 상자를 넣는다. 칸 크기가 바뀌면 refit 이
                 이 값으로 다시 맞추는데, 민 상자를 안 넣으면 쉬는 모습이
                 기본 여백으로 되돌아간다. */
-          lastShot = REST_SHOT;
+          restW = obj.clientWidth || 0;
+          lastShot = restShotNow();
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.join(' '));
           /* 그림이 제 안에 들고 있는 움직임(회로 흐름 · 판 위 막대 · 아이콘)을
@@ -1115,12 +1139,8 @@ const faqSchema = {
               if (pth.__len) pth.style.strokeDashoffset = pth.__len * pth.__dir;
             }
           });
-          /* 카메라도 이 그림이 원래 출발하던 자리로 돌린다(SHOTS.stack).
-             ⚠️ 쉬는 상자(둘레를 더 비운 것)를 그대로 들고 들어가면, 판이
-                쌓이는 2초 남짓 동안 그림이 제 크기보다 작게 서 있다. */
-          lastShot = SHOTS.stack;
-          cur = fit(lastShot);
-          svg.setAttribute('viewBox', cur.join(' '));
+          /* 카메라는 그대로 둔다 — 쉬는 자리에서 보던 전체 모습 그대로
+             판이 쌓이기 시작한다. */
           requestAnimationFrame(function () {
             all.forEach(function (el) { el.style.transition = ''; });
             lineEls.forEach(function (g) { if (g) g.style.transition = ''; });
