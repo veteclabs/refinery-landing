@@ -317,16 +317,21 @@ const faqSchema = {
          ⚠️ clientWidth 를 쓴다. 100vw 는 스크롤 막대 폭까지 센다. */
       function updK() {
         var vw = document.documentElement.clientWidth;
+        /* ⚠️ 칸 여백은 CSS 가 쥔 --cpad 를 읽는다(넓은 폭 48 · 900 이하 24).
+           여기에 숫자를 따로 적어 두면 폭이 바뀔 때 둘이 어긋난다. */
+        var cpad = parseFloat(getComputedStyle(box).getPropertyValue('--cpad')) || 48;
+        /* 쉬는 카드가 데모 둘레에 남기는 여백. 폰에서는 112 를 그대로 쓰면
+           데모가 70px 로 주저앉는다(390px 에서 카드가 342px 뿐이다). */
+        var PAD = vw <= 900 ? 24 : 112;
         var out = Math.max(0, (vw - 1600) / 2);
-        var rest = Math.min(vw, 1600) - 96 - 112;
-        var grown = vw - 48 - out;
+        var rest = Math.min(vw, 1600) - cpad * 2 - PAD * 2;
+        var grown = vw - cpad - out;
         box.style.setProperty('--demo-k', grown > 0 ? (rest / grown) : 1);
         /* 쉬는 모습의 데모 폭. 위 · 왼쪽 · 오른쪽 여백을 모두 같은 값(PAD)으로
            두고 그 안을 데모가 다 쓴다. 카드 폭은 칸 폭(= min(창,1600) - 좌우 96).
            ⚠️ 데모는 제 비율(1320:840)을 지키므로 폭을 키우면 카드도 그만큼
               높아진다 — 1440px 에서 701 -> 896. */
-        var PAD = 112;
-        var cardW = Math.min(vw, 1600) - 96;
+        var cardW = Math.min(vw, 1600) - cpad * 2;
         var demoRest = Math.max(0, cardW - PAD * 2);
         box.style.setProperty('--demo-rest', demoRest + 'px');
         /* 오른쪽 안여백. 왼쪽 안여백(PAD)은 이미 카드 안에 들어 있으므로
@@ -1543,17 +1548,21 @@ const faqSchema = {
 
       /* 막대 아랫변을 데모 아랫변에 맞춘다. 글은 세로 가운데에 서고 데모는
          그보다 길어, 그냥 두면 막대가 데모보다 한참 위에 뜬다.
-         ⚠️ 두 칸 배치(901px 위)에서만 민다. 그 아래에서는 글이 데모 위로
-            올라가므로 맞출 아랫변이 없다. */
+         ⚠️ 폭 게이트는 걷었다. 이제 어느 폭에서나 두 칸 배치라 맞출 아랫변이
+            있다(전에는 901px 아래에서 글이 데모 위로 올라갔다). */
       function alignBar() {
         if (!bar) return;
         bar.style.transform = '';
-        if (!window.matchMedia || !matchMedia('(min-width: 901px)').matches) return;
         var fg = document.querySelector('.ai-hero-figure');
         if (!fg) return;
         /* ⚠️ 음수도 민다. 막대가 데모보다 아래에 있을 때 그냥 두었더니 17px
            내려간 채로 남았다. */
-        var d = fg.getBoundingClientRect().bottom - bar.getBoundingClientRect().bottom;
+        var fr = fg.getBoundingClientRect(), br = bar.getBoundingClientRect();
+        /* 좁은 폭은 한 칸으로 쌓여 글 · 데모 · 진행 표시 순이다 — 데모 아랫변에
+           맞추면 막대가 데모 위에 겹친다. 그 아래로 24px 내린다. */
+        var d = (document.documentElement.clientWidth <= 900)
+          ? (fr.bottom - br.top + 24)
+          : (fr.bottom - br.bottom);
         bar.style.transform = 'translateY(' + Math.round(d) + 'px)';
       }
 
@@ -1743,7 +1752,15 @@ const faqSchema = {
     background: transparent;
   }
 
-  @media (min-width: 901px) {
+  /* ⚠️ 한때 901px 위에서만 걸었다(@media (min-width: 901px)). 폰에서는 장치가
+     통째로 꺼져 카드가 자라지도, 데모가 시작되지도 않았다 — '스크롤해도 화면이
+     안 찬다 · 재생이 안 된다' 가 그것이다. 이제 어느 폭에서나 건다.
+     ⚠️ @media all 로 남겨 둔다. 괄호를 걷으면 안쪽 200 줄의 들여쓰기가 통째로
+        어긋나고, 아래 (max-width: 900px) 규칙들이 이 뒤에 와서 좁은 폭의
+        세부값을 여전히 덮는다 — 조건만 바꾸는 편이 안전하다.
+     ⚠️ 폰에서 데모 안 글씨는 아주 작다. 1320x840 짜리 화면을 390px 에 맞추는
+        것이라 피할 수 없다 — 모양을 보이는 것이 목적이다. */
+  @media all {
     .pillar-industrial-ai .ai-hero-pin {
       /* 한 화면 + 자라는 거리 360 + 다 자란 채로 머무는 거리 360.
          ⚠️ 머무는 거리가 없으면 다 자라는 순간 곧바로 고정이 풀려, 꽉 찬 모습이
@@ -1819,7 +1836,7 @@ const faqSchema = {
         calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + 56px * var(--grow, 0))
         calc(var(--rest-gap, 0px) * (1 - var(--grow, 0)))
         calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + 56px * var(--grow, 0))
-        calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + (48px + var(--out, 0px)) * var(--grow, 0));
+        calc(var(--rest-gap, 56px) * (1 - var(--grow, 0)) + (var(--cpad, 48px) + var(--out, 0px)) * var(--grow, 0));
     }
     /* 카드 높이는 데모가 끌고 간다. 데모는 제 비율(1320:840)을 지킨 채 폭이
        자라고, 다 자라면 높이가 창 높이와 같아진다 — 그 폭(창높이 x 1320/840)은
@@ -1960,13 +1977,47 @@ const faqSchema = {
        내용 너비 선에 세우는 데 쓴다. */
     --out: max(0px, (100% - 1600px) / 2);
     max-width: calc(1600px + (100% - 1600px) * var(--grow));
-    padding-left: calc(48px * (1 - var(--grow)));
-    padding-right: calc(48px * (1 - var(--grow)));
+    /* ⚠️ 좌우 여백은 --cpad 하나로 쥔다. 고정 장치의 카드 안여백과 스크립트의
+       폭 계산이 같은 값을 봐야 해서다 — 세 곳에 48 · 24 를 따로 적어 두었더니
+       폰에서 데모가 칸 밖으로 밀렸다. */
+    --cpad: 48px;
+    padding-left: calc(var(--cpad) * (1 - var(--grow)));
+    padding-right: calc(var(--cpad) * (1 - var(--grow)));
   }
   @media (max-width: 900px) {
-    .pillar-industrial-ai .ind-hero .ind-container {
-      padding-left: calc(24px * (1 - var(--grow)));
-      padding-right: calc(24px * (1 - var(--grow)));
+    .pillar-industrial-ai .ind-hero .ind-container { --cpad: 24px; }
+  }
+
+  /* ───────── 폰에서는 한 칸으로 쌓는다 — 글 · 데모 · 진행 표시 순 ─────────
+     고정 · 확대는 넓은 폭과 똑같이 두고 배치만 바꾼다. 두 칸을 390px 에 욱여
+     넣으면 데모가 180px 로 주저앉아 안이 안 읽힌다.
+     데모는 제 높이를 받고 비율이 폭을 내므로, 칸보다 넓어져 오른쪽 변에서
+     잘린다 — 넓은 폭에서 다 자란 카드가 하는 것과 같은 모습이다. 그래서 안쪽
+     앱 화면의 배율이 유지되고 글씨가 읽힌다.
+     ⚠️ 높이에서 320px 을 뺀다 — 위 글 묶음(아이콘 60 + 제목 두 줄) · 사이 ·
+        진행 표시 · 카드 안여백의 합이다.
+     ⚠️ 100svh 다. 폰 주소창이 접히고 펴질 때 100vh 는 값이 튀어 데모 크기가
+        스크롤 도중 한 번 바뀐다. */
+  @media (max-width: 900px) {
+    .pillar-industrial-ai .ai-hero-stage {
+      grid-template-columns: 1fr;
+      row-gap: 24px;
+    }
+    .pillar-industrial-ai .ai-demo-cap { align-self: start; }
+    .pillar-industrial-ai .ai-hero-figure {
+      /* ⚠️ 오른쪽 변에 붙인다. 칸보다 넓으므로 넘치는 쪽은 왼쪽이다 — 사이드바가
+         잘리고 대화 칸이 남는다. 왼쪽에 붙이면 반대로 사이드바만 보이고
+         장면이 벌어지는 대화 칸이 통째로 화면 밖으로 나간다(실측 — 823px 중
+         366px 만 보인다). */
+      justify-self: end; align-self: start;
+      height: calc(100svh - 320px);
+      width: auto; max-width: none;
+      /* ⚠️ 오른쪽 변에 그냥 붙이면 대화 칸의 왼쪽이 잘린다('안녕하세요' 의 첫
+         글자가 날아간다). 보이는 창의 한가운데에 대화 칸이 오도록 15.8% 민다.
+         데모 안에서 대화 칸의 가운데는 59.1% 자리다(사이드바 240 + 글 칸
+         768 의 가운데 = 780 / 1320). 폭이 아니라 제 폭의 비율로 밀어, 창
+         높이가 달라져 데모가 커지고 작아져도 같은 자리가 가운데에 선다. */
+      transform: translateX(15.8%);
     }
   }
 
@@ -1983,9 +2034,8 @@ const faqSchema = {
        ⚠️ 901px 위에서는 고정 블록이 네 면을 따로 보간하며 쥔다(그쪽이 뒤에
           오면 덮이므로 여기서는 적지 않는다). 아래 미디어쿼리만 남긴다. */
   }
-  @media (max-width: 900px) {
-    .pillar-industrial-ai .ai-hero-stage { padding: 24px; }
-  }
+  /* ⚠️ 좁은 폭의 padding: 24px 은 걷었다. 이제 어느 폭에서나 고정 장치가 네
+     면을 따로 보간하며 쥔다 — 여기서 덮으면 자라는 동안 카드가 한 번 튄다. */
 
   /* ───────── 히어로 카드 글 — 메인 운영체제 섹션(#teams)과 같은 값으로 둔다
      저쪽은 .teams-preview-tagline(칩) · .teams-preview-title-wrap h3 한 벌이다.
@@ -2468,16 +2518,20 @@ const faqSchema = {
       0 4px 10px rgba(16, 32, 44, .03),
       0 12px 28px rgba(16, 32, 44, .04);
   }
+  /* ⚠️ 아래 두 묶음은 산업 AI 를 뺀다(:not). 그 페이지는 어느 폭에서나 고정
+     장치가 두 칸 배치 · 네 면 안여백 · 데모 비율을 쥔다 — 여기서 1칸으로
+     접거나 안여백을 덮으면 자라는 도중에 배치가 한 번 바뀐다.
+     에너지관리 등 다른 갈래는 종전대로 좁은 폭에서 한 칸으로 접힌다. */
   @media (max-width: 1024px) {
     /* 좁아지면 설명을 데모 위로 올린다. 나란히 두면 둘 다 못 읽는다.
        폭이 달라졌으니 두 줄 고정도 푼다. */
-    .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
+    .ind-page:not(.pillar-industrial-ai) .ai-hero-stage { grid-template-columns: 1fr; gap: 24px; }
     .ai-demo-cap-title :global(br) { display: none; }
   }
   @media (max-width: 900px) {
-    .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
+    .ind-page:not(.pillar-industrial-ai) .ai-hero-stage { margin-top: 48px; padding: 20px; border-radius: 16px; }
     /* 좁은 화면에서는 데모를 통째로 보여준다(따라가기가 꺼진다). */
-    .ai-hero-figure { aspect-ratio: 1144 / 900; }
+    .ind-page:not(.pillar-industrial-ai) .ai-hero-figure { aspect-ratio: 1144 / 900; }
     .ai-demo-cap-title { font-size: 26px; }
     .ai-demo-cap.is-opening .ai-demo-cap-title { font-size: 28px; }
   }
