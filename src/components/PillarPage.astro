@@ -1834,6 +1834,25 @@ const faqSchema = {
     opacity: 1;
     pointer-events: auto;
   }
+  /* 등장 — 아이콘이 먼저, 제목이 한 박자 뒤에 떠오른다.
+     ⚠️ 여는 글(.is-opening)에만 건다. 장면 글까지 걸면 일곱 번 들썩여,
+        앞서 일부러 없앤 깜빡임이 되살아난다. */
+  .pillar-industrial-ai .ai-demo-cap-icon,
+  .pillar-industrial-ai .ai-demo-cap.is-opening .ai-demo-cap-title {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity .44s ease, transform .44s cubic-bezier(.22, 1, .36, 1);
+  }
+  .pillar-industrial-ai .ai-demo-cap.is-opening .ai-demo-cap-title { transition-delay: .09s; }
+  .pillar-industrial-ai .ind-container.ai-hero-grown .ai-demo-cap-icon,
+  .pillar-industrial-ai .ind-container.ai-hero-grown .ai-demo-cap.is-opening .ai-demo-cap-title {
+    opacity: 1; transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-industrial-ai .ai-demo-cap-icon,
+    .pillar-industrial-ai .ai-demo-cap.is-opening .ai-demo-cap-title {
+      opacity: 1; transform: none; transition: none;
+    }
+  }
   /* 여는 글에는 구간 막대를 두지 않는다 — 아직 아무 장면도 시작되지 않아 빈 칸
      일곱 개만 서 있다. 첫 장면이 뜨면서 함께 든다.
      ⚠️ display:none 으로 지우지 않는다. 막대는 alignBar 가 자리를 재서 데모
