@@ -1013,6 +1013,10 @@ const faqSchema = {
               남아 아래가 잘린 채 머문다 — 가던 길(from · to)을 새 비율로
               고쳐 준다. */
         function refit() {
+          /* ⚠️ 세대가 지난 고리는 물러난다. 다시 준비할 때마다 ResizeObserver 가
+             하나씩 더 붙는데, 옛 고리가 제 lastShot(연출 도중의 당긴 상자)으로
+             다시 맞추면 쉬는 모습의 크기가 첫 모습과 달라진다. */
+          if (myGen !== genOuter) return;
           if (anim) { animFrom = toAspect(animFrom); animTo = fit(lastShot); return; }
           cur = fit(lastShot);
           svg.setAttribute('viewBox', cur.map(function (v) { return Math.round(v * 10) / 10; }).join(' '));
