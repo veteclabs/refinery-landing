@@ -1052,23 +1052,23 @@ const faqSchema = {
               그려져 그림이 기본 모습보다 커 보인다(실측 — 배율 0.597 이어야
               할 것이 0.705 였다). 쉬는 칸 폭은 min(창,1600) - 96 이다. */
         function restShot() {
-          /* 1) 쉬는 칸의 치수 — 폭은 min(창, 1600) - 96, 높이는 762(좁은 폭은
-                비율 1184:762). 2) 그 칸에서 전체 상자를 여유 0.05 로 맞췄을 때의
-                배율 s0 을 구한다. 3) 지금 칸에서도 그 배율이 나오도록 상자를
-                거꾸로 세운다 — 칸이 커져도 그림은 제 크기를 지킨다.
-             ⚠️ fit 을 그대로 쓰면 안 된다. 칸 비율이 쉴 때 1.76 · 다 자랐을 때
-                1.60 으로 달라, 같은 상자라도 화면에 서는 크기가 달라진다
-                (실측 — 배율 0.597 이어야 할 자리에 0.705 · 0.658). */
-          /* ⚠️ 폰 과 세로로 긴 칸은 이 셈을 쓰지 않는다. 위의 잡는 배율은 '쉬는
-             칸이 가로로 길다' 는 것을 깔고 있어, 폰처럼 칸이 세로로 길면
-             상자를 세로로 늘려 그림이 폭의 절반만 쓴다(390px 에서 배율 0.435 ·
-             768px 에서 0.339 — 실측). 짧은 쪽이 폭이니, 그냥 전체를 폭에 담는다. */
+          /* 1) 쉬는 칸의 치수를 재고, 2) 그 칸에서 전체 상자를 여유 0.05 로
+             맞추었을 때의 배율 s0 을 구한 뒤, 3) 지금 칸에서도 그 배율이 나오도록
+             상자를 거꾸로 세운다 — 칸이 커져도 그림은 제 크기를 지킨다.
+             ⚠️ fit 을 그대로 쓰면 안 된다. 칸 비율이 쉴 때와 다 자랐을 때 달라,
+                같은 상자라도 화면에 서는 크기가 달라진다(실측 — 배율 0.597 이어야
+                할 자리에 0.705 · 0.658).
+             ⚠️ 폰에서 이 셈을 빼고 '칸에 담기' 로만 두었더니, 칸이 342 에서
+                390x844 로 자라는 동안 그림이 같이 커져 스크롤할 때마다 크기가
+                변했다. 폰도 같은 셈을 쓰되 쉬는 칸의 치수만 제 값으로 준다. */
           var vw = document.documentElement.clientWidth;
-          if (vw <= 900 || aspectNow() < 1) {
-            return { x: SHOTS.whole.x, y: SHOTS.whole.y, w: SHOTS.whole.w, h: SHOTS.whole.h, pad: 0.05 };
-          }
-          var restW = Math.min(vw, 1600) - 96;
-          var restH = vw <= 1024 ? restW * 762 / 1184 : 762;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          /* 쉬는 칸의 폭은 칸 안여백(--cpad)을 뺀 값이다 — 900 이하 24 · 위로 48.
+             높이는 900 이하에서 정사각(창보다 높지는 않게) · 1024 이하 비율
+             1184:762 · 그 위는 762 다. CSS 의 .ai-hero-figure 규칙과 같은 값이다. */
+          var restW, restH;
+          if (vw <= 900) { restW = vw - 48; restH = Math.min(restW, vh); }
+          else { restW = Math.min(vw, 1600) - 96; restH = vw <= 1024 ? restW * 762 / 1184 : 762; }
           var pad = Math.max(SHOTS.whole.w, SHOTS.whole.h) * 0.05;
           var w0 = SHOTS.whole.w + pad * 2, h0 = SHOTS.whole.h + pad * 2;
           var ra = restH > 0 ? restW / restH : 1;
