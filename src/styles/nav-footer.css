@@ -39,6 +39,16 @@
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   backdrop-filter: saturate(180%) blur(14px);
 }
+/* 손이 올라오면 흰 면으로 선다 — 메뉴를 고르는 동안에는 뒤가 비치지 않아야
+   글자가 또렷하다. 흐림도 함께 걷는다(투명도가 없으면 할 일이 없고, 남겨 두면
+   합성 층만 하나 더 생긴다).
+   ⚠️ :focus-within 도 함께 건다. 키보드로 들어온 사람에게도 같은 자리다. */
+.mm-nav.is-float:hover,
+.mm-nav.is-float:focus-within {
+  background: #ffffff;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
 /* 아래로 내려가는 동안에는 제자리에서 옅어져 사라지고, 위로 올리면 돌아온다
    (클래스는 JS 가 건다).
    ⚠️ 위로 걷는 transform 은 쓰지 않는다. 같은 0.3초에 70px 을 올리면 '위로 사라진다'로만
