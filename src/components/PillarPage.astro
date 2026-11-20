@@ -2210,11 +2210,9 @@ const faqSchema = {
     place-items: center;
     border-radius: calc(var(--radius) + 10px);
     background: var(--bg-card);
-    /* 사이트 카드 그림자 세 겹(접지 · 중간 · 주변광)을 그대로 쓴다. */
-    box-shadow:
-      0 1px 2px rgba(16, 32, 44, .03),
-      0 4px 10px rgba(16, 32, 44, .03),
-      0 12px 28px rgba(16, 32, 44, .04);
+    /* 그림자는 두지 않는다. 뒤 정사각은 면 색으로 이미 바탕과 갈리고(--bg-card
+       vs --bg-soft), 76px 밖에 안 돼 그림자가 번짐으로만 보인다. 떠 보이는 일은
+       앞 타일(흰 면 · 테 · 그림자)이 맡는다. */
     margin: 10px 0 24px;
   }
   .ai-demo-cap.is-opening .ai-demo-cap-icon { display: grid; }
