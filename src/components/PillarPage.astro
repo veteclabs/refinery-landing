@@ -991,15 +991,7 @@ const faqSchema = {
         if (window.ResizeObserver) new ResizeObserver(refit).observe(obj);
         addEventListener('resize', refit, { passive: true });
 
-        /* ⚠️ 카메라를 묶어 둔다. 이 그림은 판 하나하나로 당겨 들어가며 보여
-           주도록 짜여 있었는데, 그 자리마다 그림의 좌 · 우 · 아래가 칸 밖으로
-           잘려 '잘린 표시' 가 났다. 움직임은 판이 쌓이고 회선이 그려지고
-           회로가 흐르는 것으로 충분하다 — 화면은 늘 전체를 담는다.
-           ⚠️ 장면 이동 자체는 그대로 둔다(시간 · done 콜백이 뒤 단계를 끌고
-              간다). 가는 자리만 늘 전체 상자로 바꾼다. */
-        var CAM_LOCK = true;
         function moveTo(shot, ms, done) {
-          if (CAM_LOCK) shot = restShotNow();
           lastShot = shot;
           animTo = fit(shot); animFrom = cur.slice();
           var t0 = performance.now();
@@ -2841,6 +2833,11 @@ const faqSchema = {
   }
   /* 판 높이도 함께 자란다 — 쉴 때 762px, 다 자라면 창 높이에서 위아래
      안여백(56 x 2)을 뺀 값이다. 그래픽은 제 칸을 꽉 채우므로 따라 커진다. */
+  /* ⚠️ 다 자라면 모서리를 편다. 12px 짜리 둥근 네 귀가 남아 있으면, 히어로가
+     화면을 꽉 채운 뒤에도 그림이 '카드 안에 든 것' 으로 보인다. */
+  .pillar-energy-management .ind-container.ai-hero-is-full .ai-hero-figure {
+    border-radius: 0;
+  }
   .pillar-energy-management .ai-hero-stage.has-graphic .ai-hero-figure {
     height: calc(762px * (1 - var(--grow, 0)) + (100dvh - 112px) * var(--grow, 0));
     aspect-ratio: auto;
