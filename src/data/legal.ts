@@ -83,6 +83,14 @@ const company = {
 export const legalReviewed = true;
 
 /**
+ * 이용약관 AI 조항(제12조의2 · 제13조의2) 초안 스위치.
+ * true인 동안 두 조항에 「법무 검토 전 초안」 표시가 붙는다. 법무 검토를 마치면 false로 바꾸고,
+ * 같은 커밋에서 effectiveDate·revisedDate와 revisions.terms를 갱신한다. 고객에게 불리한 변경이므로
+ * 제3조 제4항에 따라 적용일 30일 전부터 공지하고 고객에게 개별 통지해야 한다.
+ */
+export const aiTermsDraft = true;
+
+/**
  * 4개 문서 공통 시행일 (예: '2026-09-01')
  * 날짜는 언어와 무관하게 ISO로 적는다. 영어 페이지는 formatDate()로 `September 1, 2026`을 만든다.
  */
@@ -120,6 +128,11 @@ const retention = {
   mixpanel: { ko: '12개월', en: '12 months' },
   /** 세션 리플레이 보관 기간 */
   mixpanelReplay: { ko: '30일', en: '30 days' },
+  /**
+   * Anthropic 쪽 보관 기간 — 미확정. 제공사 계약 확인 전이다(앱 리포 docs/console/ai-gateway.md Q11).
+   * 비워 두면 처리방침 9항 표에 노란 [보관기간] 칩으로 남는다. 지어내지 말고 계약값으로 채울 것.
+   */
+  anthropic: { ko: '', en: '' },
 };
 
 /**
@@ -267,6 +280,39 @@ const processors: Processor[] = [
         en: 'Analysis of usage behavior and improvement of usability',
       },
       retentionKey: 'mixpanel',
+    },
+  },
+  /**
+   * AI 에이전트 — 법무 검토 전 초안(aiTermsDraft). 베텍 제공 AI 크레딧 경로에만 해당한다.
+   * 고객이 자체 AI 키를 연결한 경로는 베텍을 거치지 않으므로 이 위탁 · 이전의 대상이 아니다.
+   * 근거 원문: 앱 리포 apps/web/app/ai-data-notice/page.tsx PATH_ROWS
+   * (「베텍 AI 게이트웨이를 거쳐 AI 모델 제공사(Anthropic, 미국)」, 대화 내용 미저장, 사용량 기록 2년).
+   */
+  {
+    name: 'Anthropic, PBC',
+    task: {
+      ko: 'AI 에이전트 기능의 응답 생성(회사가 제공하는 AI 크레딧으로 실행하는 경우)',
+      en: 'Generating responses for the AI Agent function (when run on AI credits provided by the Company)',
+    },
+    policy: 'https://www.anthropic.com/legal/privacy',
+    consent: false,
+    transfer: {
+      recipient: 'Anthropic, PBC',
+      contact: 'privacy@<wbr>anthropic.<wbr>com',
+      country: { ko: '미국', en: 'United States' },
+      method: {
+        ko: 'AI 기능을 사용할 때마다 베텍 AI 게이트웨이를 거쳐 네트워크를 통한 실시간 전송(TLS 암호화)',
+        en: 'Each time an AI function is used, transmitted in real time over the network through the VETEC AI gateway <span class="legal-keep">(TLS-encrypted)</span>',
+      },
+      items: {
+        ko: '이용자가 AI 기능에 입력한 내용과 첨부, 응답 생성에 필요한 화면 ⁠· 데이터 맥락(이용자가 입력하거나 요청한 범위)',
+        en: 'Content and attachments that users enter into AI functions, and the screen and data context needed to generate a response (within the scope the user entered or requested)',
+      },
+      purpose: {
+        ko: 'AI 에이전트 기능의 응답 생성',
+        en: 'Generating responses for the AI Agent function',
+      },
+      retentionKey: 'anthropic',
     },
   },
 ];
