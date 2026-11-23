@@ -149,7 +149,7 @@ const faqSchema = {
                넓은 화면에서는 히어로 아래가 이미 눈에 들어온다. */
             <span class="ai-hero-scroll" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
-                   stroke="currentColor" stroke-width="2"
+                   stroke="currentColor" stroke-width="1.6"
                    stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9l6 6 6-6" />
               </svg>
@@ -3071,17 +3071,22 @@ const faqSchema = {
   }
   @media (max-width: 900px) {
     .pillar-energy-management .ind-container.ai-hero-is-full .ai-hero-scroll { display: block; }
-    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll {
-      opacity: 1;
+    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll { opacity: 1; }
+    /* ⚠️ 오르내림은 안쪽 꺾쇠에 건다. 바깥(.ai-hero-scroll)의 투명도는 '연출이
+       끝났을 때 나타나기' 에 쓰고 있어, 거기에 또 애니메이션을 걸면 나타나는
+       전환을 덮어 버린다. 둘로 나누면 투명도가 곱해져 제대로 겹친다. */
+    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll svg {
       animation: rf-hero-scroll 1.8s ease-in-out infinite;
     }
   }
+  /* 자리는 4px 만 움직이고 밝기가 오간다 — 모션이 도는 동안 시선을 덜 뺏는다
+     (오르내림 6px · 획 2px 에서 눅였다). */
   @keyframes rf-hero-scroll {
-    0%, 100% { transform: translate(-50%, 0); }
-    50%      { transform: translate(-50%, 6px); }
+    0%, 100% { opacity: .35; transform: translateY(0); }
+    50%      { opacity: 1;   transform: translateY(4px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .ai-hero-scroll { animation: none !important; }
+    .ai-hero-scroll svg { animation: none !important; opacity: .7; }
   }
 
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
