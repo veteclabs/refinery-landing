@@ -1004,7 +1004,16 @@ const capabilityGroups = [
     .wr-page .wr-flow .ind-uc-item > .ind-uc-card {
       order: 3; align-self: stretch;
       width: auto; margin-inline: -40px;
+      /* ⚠️ 높이를 aspect-ratio 에 기대지 않는다. 세로 flex 에서 늘어난
+         (align-self: stretch) 칸의 높이를 엔진마다 다르게 잡는다 — 사파리는
+         크롬보다 높게 잡았고, 그 탓에 바탕과 겹침이 서로 다르게 깔렸다
+         (fill 은 늘어나 세로로 눌려 보이고, cover 는 위가 잘리고, contain 은
+         작아진다 — 세 번 다 같은 뿌리였다).
+         바탕 그림이 제 비율로 높이를 내게 하고, 겹침은 inset: 0 으로 그 높이를
+         그대로 받는다. 그러면 칸과 그림의 비율이 같을 수밖에 없다. */
+      aspect-ratio: auto;
     }
+    .wr-page .wr-flow .ind-uc-img { height: auto; }
     .wr-page .wr-flow .ind-uc-item .ind-uc-text > .ind-sec-label {
       order: 4; align-self: flex-start; margin: 20px 0 0;
     }
