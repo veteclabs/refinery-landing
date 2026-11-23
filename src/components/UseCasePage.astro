@@ -1385,14 +1385,14 @@ const jsonLd = [
      ⚠️ 값은 '배지 면의 무게중심' 과 '흰 잉크의 무게중심' 을 한 캡처 안에서
         함께 재서 뽑는다. 배지만 잘라 찍으면 캡처 격자가 배지의 소수점 자리에
         맞춰 어긋나, 면과 글자가 같이 움직인 것을 오해하게 된다.
-     치우침 실측(20px 배지 · 글자 10px) — 1 (+0.09, -0.93) · 2 (+0.07, -0.46) ·
-     3 (+0.25, -0.59) · 4 (+0.34, -0.46).
+     치우침 실측(20px 배지 · 글자 10px). 기준은 '잉크의 경계 상자' 다 —
+     무게중심으로 맞추면 1 처럼 한쪽에 꼬리가 있는 글자가 왼쪽으로 치우쳐 보인다.
      ⚠️ 글자 크기 · 상자 · 폰트를 바꾸면 이 값은 전부 무효다. */
   .uc-card-no-d { display: block; }
-  .ind-uc-list > .ind-uc-item:nth-child(1) .uc-card-no-d { transform: translate(-0.0089em, 0.0930em); }
-  .ind-uc-list > .ind-uc-item:nth-child(2) .uc-card-no-d { transform: translate(-0.0066em, 0.0464em); }
-  .ind-uc-list > .ind-uc-item:nth-child(3) .uc-card-no-d { transform: translate(-0.0252em, 0.0590em); }
-  .ind-uc-list > .ind-uc-item:nth-child(4) .uc-card-no-d { transform: translate(-0.0344em, 0.0464em); }
+  .ind-uc-list > .ind-uc-item:nth-child(1) .uc-card-no-d { transform: translate(0.0541em, 0.0550em); }
+  .ind-uc-list > .ind-uc-item:nth-child(2) .uc-card-no-d { transform: translate(-0.0006em, 0.0654em); }
+  .ind-uc-list > .ind-uc-item:nth-child(3) .uc-card-no-d { transform: translate(0.0088em, 0.0620em); }
+  .ind-uc-list > .ind-uc-item:nth-child(4) .uc-card-no-d { transform: translate(-0.0004em, 0.0594em); }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
      레이아웃이 흔들리지 않고, 링크가 아닌 카드에 '누를 수 있다'는 신호도 주지 않는다. */

@@ -747,14 +747,15 @@ const capabilityGroups = [
         어긋나, 원과 글자가 같이 움직인 것을 '글자가 어긋났다' 로 읽게 된다
         (글자를 빼고 사각형만 넣어도 같은 편차가 나오는 것으로 확인했다).
      ⚠️ 데스크톱과 폰이 같은 값이다 — 폰만의 문제가 아니다.
-     치우침 실측(가로 · 세로): 1 (+0.89, -0.60) · 2 (+0.09, +0.04) ·
-     3 (+0.37, -0.08) · 4 (+0.48, +0.06). 그만큼 되민다.
+     ⚠️ 기준은 '잉크의 경계 상자' 다 — 무게중심이 아니다. 1 처럼 한쪽에 꼬리가
+        있는 글자는 둘이 0.9px 까지 어긋나는데, 눈은 경계 상자 쪽을 따른다
+        (무게중심으로 맞췄더니 '1' 이 왼쪽으로 치우쳐 보였다 — 2026-11-23).
      ⚠️ 글자 크기 · 지름 · 폰트를 바꾸면 이 값은 전부 무효다. */
   .wr-layer-num-d { display: block; }
-  .wr-layer:nth-child(1) .wr-layer-num-d { transform: translate(-0.16px, 0.48px); }
-  .wr-layer:nth-child(2) .wr-layer-num-d { transform: translate(-0.09px, -0.17px); }
-  .wr-layer:nth-child(3) .wr-layer-num-d { transform: translate(-0.37px, -0.05px); }
-  .wr-layer:nth-child(4) .wr-layer-num-d { transform: translate(-0.48px, -0.19px); }
+  .wr-layer:nth-child(1) .wr-layer-num-d { transform: translate(0.75px, 0.01px); }
+  .wr-layer:nth-child(2) .wr-layer-num-d { transform: translate(0px, 0.05px); }
+  .wr-layer:nth-child(3) .wr-layer-num-d { transform: translate(0.13px, -0.02px); }
+  .wr-layer:nth-child(4) .wr-layer-num-d { transform: translate(-0.01px, 0px); }
   /* 그래픽 — 132x132 · 위아래 26px.
      회사 소개 기준 카드(.cmp-rule-icon)에서 그대로 떠 온 160x160 이었는데,
      저쪽은 셋이 한 줄이라 카드 안쪽이 356px 이고 여기는 넷이라 295px 이다.

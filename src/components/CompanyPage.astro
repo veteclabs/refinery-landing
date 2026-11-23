@@ -982,11 +982,11 @@ const alternates = [
      ⚠️ em 이다 — 이 배지는 카드 폭을 따라 크기가 변한다(위 round(100cqw ...)).
         px 로 박으면 좁은 폭에서 보정이 과해진다. */
   .cmp-rule-num-d { display: block; }
-  /* 치우침 실측(24px 배지 · 글자 12px) — 1 (+0.09, -0.76) · 2 (+0.08, -0.16) ·
-     3 (+0.34, -0.28). 그만큼 되민 값이다. */
-  .cmp-rule-card:nth-child(1) .cmp-rule-num-d { transform: translate(-0.0074em, 0.0635em); }
-  .cmp-rule-card:nth-child(2) .cmp-rule-num-d { transform: translate(-0.0066em, 0.0137em); }
-  .cmp-rule-card:nth-child(3) .cmp-rule-num-d { transform: translate(-0.0284em, 0.0233em); }
+  /* 치우침 실측(24px 배지 · 글자 12px). 기준은 '잉크의 경계 상자' 다 —
+     무게중심으로 맞추면 1 처럼 한쪽에 꼬리가 있는 글자가 왼쪽으로 치우쳐 보인다. */
+  .cmp-rule-card:nth-child(1) .cmp-rule-num-d { transform: translate(0.0593em, 0.0193em); }
+  .cmp-rule-card:nth-child(2) .cmp-rule-num-d { transform: translate(0.0001em, 0.0295em); }
+  .cmp-rule-card:nth-child(3) .cmp-rule-num-d { transform: translate(0.0133em, 0.0233em); }
 
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
