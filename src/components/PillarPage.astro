@@ -144,6 +144,17 @@ const faqSchema = {
               aria-label={T.heroGraphic.alt}
             ></object>
           )}
+          {!hasDemo && T.heroGraphic && (
+            /* 연출이 끝난 뒤 '아래로 더 있다'를 알리는 표시. 폰에서만 뜬다 —
+               넓은 화면에서는 히어로 아래가 이미 눈에 들어온다. */
+            <span class="ai-hero-scroll" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+                   stroke="currentColor" stroke-width="1.6"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          )}
         </div>
         </div></div>
         </div>
@@ -322,6 +333,16 @@ const faqSchema = {
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var last = -1, ticking = false, wasCovering = false, wasGrown = false, lastY = 0;
+      /* 되돌림을 거는 역방향 문턱. 폰은 관성 · 고무줄 때문에 아래로 가는 중에도
+         열 몇 px 씩 되올라오는 프레임이 흔해, 4px 로 두면 손가락을 떼기만 해도
+         모션이 꺼진다(실측 — 판 확대 중 8px 되올라오자 바로 쉬는 모습이 됐다).
+         폰에서는 '일부러 올렸다' 고 볼 만한 폭으로 둔다. */
+      var UPJ = (window.matchMedia && (matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 900px)').matches)) ? 56 : 4;
+      /* 되돌린 자리. 덮은 채로 되돌아갔을 때, 거기서 다시 그만큼 내려가면 켠다 —
+         덮음(covering)은 그대로 true 라 아래의 '바뀔 때만' 블록이 안 돌기
+         때문이다. 이것이 없으면 한 번 꺼진 뒤 영영 안 돌았다(실측). */
+      /* 되돌린 뒤 다시 켜기까지 기다리는 타이머. */
+      var playT = 0, offT = 0;
       var stageEl = document.querySelector('.pillar-pinned .ai-hero-stage');
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
@@ -368,11 +389,17 @@ const faqSchema = {
            아무 일도 일어나지 않는다(실측 — 올려도 모션이 계속 돌았다).
            ⚠️ 4px 은 흔들림 여유다. 아래로 가는 중에도 1~2px 되돌아오는 프레임이
               있어, 그것까지 '올림' 으로 보면 돌자마자 꺼진다. */
-        if (y < lastY - 4) {
-          window.__aiHeroGraphicWanted = false;
-          if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+        /* ⚠️ 기준은 '지금까지 내려온 가장 깊은 자리'다. 매 프레임 y 로 옮기면
+           천천히 올리는 동안에는 한 프레임의 차이가 늘 문턱보다 작아 영영 안
+           걸린다. 내려갈 때만 기준을 끌어내리고, 거기서 UPJ 만큼 올라오면 건다. */
+        if (y > lastY) lastY = y;
+        else if (y < lastY - UPJ) {
+          lastY = y;
+          if (window.__aiHeroGraphicWanted !== false) {
+            window.__aiHeroGraphicWanted = false;
+            if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+          }
         }
-        lastY = y;
         var docTop = pin.getBoundingClientRect().top + y;
         /* 칸이 화면 맨 위에 닿기까지의 30% 만에 다 자란다 — 끝까지 끌면 한참
            스크롤해도 계속 자라는 중이라 굼떠 보인다. 65 -> 45 -> 30 으로 두 번
@@ -414,7 +441,13 @@ const faqSchema = {
            p 만 보면 카드가 아직 143px 아래에 있는데도 내비 면을 걷어, 그 틈으로
            히어로 대제목이 내비 글자 뒤에 비쳤다(올라올 때 났다). */
         var sr = stageEl ? stageEl.getBoundingClientRect() : null;
-        var covering = !!sr && sr.top <= 0 && sr.bottom >= vh - 1;
+        /* ⚠️ 아랫변은 24px 여유를 둔다. 폰 주소창이 접히고 펴지는 동안
+           창 높이(innerHeight)와 카드 높이(100dvh)가 한 박자 어긋나, 덮고 있는데도
+           한두 프레임 '안 덮음' 으로 떨어진다 — 그때마다 그래픽이 꺼졌다 처음부터
+           다시 켜져서, 판이 쌓이다 말고 되돌아가기를 되풀이했다(폰에서 '처음 판
+           쌓이는 모션이 없다' 가 이것이다). 143px 짜리 어긋남을 잡으려고 둔
+           판정이라 24px 은 그 자리를 건드리지 않는다. */
+        var covering = !!sr && sr.top <= 1 && sr.bottom >= vh - 24;
         document.documentElement.classList.toggle('ai-hero-full', covering);
         /* 카드의 모서리 · 오른쪽 테 · 왼쪽 글은 자라는 '정도'가 아니라 '화면을
            다 덮었는지'로 갈린다. 자라는 동안에는 쉬는 모습 그대로 두고,
@@ -425,8 +458,31 @@ const faqSchema = {
         /* 꽉 찬 순간 돌리기 시작하고, 쉬는 모습으로 돌아오면 첫 장면에 세운다.
            ⚠️ 상태가 '바뀔 때만' 부른다. 매 프레임 부르면 스크롤 도중 켜짐과
               꺼짐이 엇갈려, 올렸는데도 돌고 있는 상태로 끝나는 일이 생긴다. */
+        /* 덮고 있는데 꺼져 있으면, 손이 멎은 뒤 켠다.
+           ⚠️ '다시 아래로 내려가면' 으로 두었더니 영영 안 걸렸다. 폰에서 관성으로
+              내려간 끝에 몇 십 px 되올라오면 되돌림이 걸리는데, 거기서 손을 떼고
+              가만히 보고 있으면 아래로 갈 일이 없다 — 꽉 찬 화면에 완성된 그림만
+              세워 둔 채였다('처음 판 쌓이는 모션이 없다' 가 이것이다).
+           ⚠️ 멎은 뒤에 건다. 스크롤이 움직이는 동안 걸면, 지나가는 길에 잠깐
+              덮였을 뿐인데 연출이 시작됐다 꺼지기를 되풀이한다. */
+        /* ⚠️ 폰에서만 건다(UPJ 로 가린다). 데스크톱은 '위로 올리면 기본 모습으로
+           두고 거기 머문다' 가 정해 둔 동작이라, 여기서 다시 켜면 그 약속이
+           깨진다 — 휠을 조금 올렸을 뿐인데 연출이 다시 돈다. */
+        if (UPJ > 4 && covering && !window.__aiHeroGraphicWanted) {
+          if (playT) clearTimeout(playT);
+          playT = setTimeout(function () {
+            playT = 0;
+            if (!wasCovering || window.__aiHeroGraphicWanted) return;
+            window.__aiHeroGraphicWanted = true;
+            if (window.__aiHeroStartGraphic) window.__aiHeroStartGraphic();
+          }, 420);
+        } else if (playT) { clearTimeout(playT); playT = 0; }
         if (covering !== wasCovering) {
           wasCovering = covering;
+          /* 켤 때는 바로, 끌 때는 한 박자 늦춘다. 덮음이 한두 프레임 깜빡이는
+             것만으로 연출이 처음으로 되돌아가지 않게 한다 — 일부러 올려서 벗어난
+             것이라면 260ms 뒤에도 여전히 벗어나 있다. */
+          if (offT) { clearTimeout(offT); offT = 0; }
           if (covering) {
             if (window.__aiHeroStartDemo) window.__aiHeroStartDemo();
             /* 그래픽 갈래(에너지관리)도 같은 순간에 돈다. 그림 쪽 준비가
@@ -434,13 +490,14 @@ const faqSchema = {
             window.__aiHeroGraphicWanted = true;
             if (window.__aiHeroStartGraphic) window.__aiHeroStartGraphic();
           }
-          else {
+          else { offT = setTimeout(function () {
+            offT = 0;
             if (window.__aiHeroStopDemo) window.__aiHeroStopDemo();
             /* 그래픽도 쉬는 모습으로 돌려놓는다 — 올라온 뒤에도 돌고 있으면
                '기본 모습' 이 아니다. */
             window.__aiHeroGraphicWanted = false;
             if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
-          }
+          }, 260); }
         }
       }
       function onScroll() {
@@ -600,8 +657,28 @@ const faqSchema = {
            서서히 사라지느라 그 사이가 보인다 — 회선이 먼저 스쳐 보이던 원인이다.
            숨긴 뒤 한 프레임 지나서 전환을 되살려, 나타날 때만 부드럽게 한다. */
         var hide = function (el) {
-          var o = doc.defaultView.getComputedStyle(el).opacity;
-          el.__o = (o === '' || o == null) ? '1' : o;
+          /* ⚠️ 원래 투명도는 '딱 한 번' 적어 둔다. 다시 준비할 때(위로 올렸다
+             내려와 재생) 이 줄이 다시 돌면, 그때 요소가 이미 걷혀 있거나 걷히는
+             중이라 0 이나 0.3 을 '원래 값' 으로 적는다 — 그 뒤로 show 가 그 값을
+             되돌려 주어 그림이 영영 흐린 채로 남는다(폰에서 온톨로지 판과
+             플레이트 라벨이 유령처럼 남은 것이 이것이다).
+             요소는 같은 노드가 그대로 쓰이므로 한 번 적어 둔 값이 남아 있고,
+             <object> 가 새로 뜨면 노드가 바뀌어 다시 적힌다. */
+          if (el.__o == null) {
+            var o = doc.defaultView.getComputedStyle(el).opacity;
+            el.__o = (o === '' || o == null) ? '1' : o;
+          }
+          /* ⚠️ 가던 페이드를 먼저 끈다. 감추기는 tweenOpacity 를 거치지 않고
+             스타일에 바로 쓰는데, 그때 이 요소의 페이드가 돌고 있으면 그 고리가
+             다음 프레임에 제 값을 도로 써서 감춘 것이 다시 켜진다.
+             되돌림(쉬는 모습으로 0 -> 1, 500ms) 중에 재생이 시작되면 그 틈에
+             걸렸다 — 감췄어야 할 것이 전부 보이는 채로 판 쌓기 장면의 배율만
+             잡혀, 그림이 화면 밖으로 넘쳐 '과하게 확대된' 모습이 됐다. */
+          /* ⚠️ 목록(tw)을 직접 건드리지 않는다. 이 줄은 tw 가 만들어지기 전에
+             돌아서(감추기는 준비 첫머리다) 거기서 끊으면 TypeError 로 준비가
+             통째로 멎는다 — 되돌렸을 때 카메라가 당긴 자리에 굳어 있던 것이
+             그것이었다. 일감에 표만 해 두고, 고리가 다음 프레임에 걷어 간다. */
+          if (el.__tw) { el.__tw.dead = 1; el.__tw = null; }
           el.classList.add('seq');
           el.style.transition = 'none';
           el.style.opacity = '0';
@@ -796,6 +873,7 @@ const faqSchema = {
           var live = [];
           for (var i = 0; i < tw.length; i++) {
             var w = tw[i], k = (now - w.t0) / w.ms;
+            if (w.dead) continue;                    /* 감추기가 끊어 둔 일감 */
             if (k >= 1) { twEnd(w); continue; }
             var v = w.from + (w.to - w.from) * EASE(k);
             w.el.style.opacity = Math.round(v * 1000) / 1000;
@@ -853,7 +931,13 @@ const faqSchema = {
 
         /* 카메라가 다 선 뒤에 글자를 굵힌다 — 확대 구간에서 걸면 배율이
            곱해져 설계보다 굵어진다. */
-        function finishCamera() { applyThicken(); }
+        function finishCamera() {
+          applyThicken();
+          /* 연출이 다 돈 자리에서 스크롤 표시를 띄운다. 되돌릴 때 걷는 것은
+             __aiHeroResetGraphic 쪽이다. */
+          var cont = document.querySelector('.pillar-pinned .ind-hero .ind-container');
+          if (cont) cont.classList.add('ai-hero-done');
+        }
 
         /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
            그 그래픽(/From Data to Intelligence.svg)은 파일 안에 CSS 애니메이션을
@@ -1135,6 +1219,8 @@ const faqSchema = {
            한 바퀴를 중간에 끊는 것이 아니라, 준비를 처음부터 다시 해서 완성
            상태로 세운다 — 세대가 바뀌므로 돌던 연출은 저절로 물러난다. */
         window.__aiHeroResetGraphic = function () {
+          var cont0 = document.querySelector('.pillar-pinned .ind-hero .ind-container');
+          if (cont0) cont0.classList.remove('ai-hero-done');
           if (!playedOnce) return;
           playedOnce = false;
           window.__aiHeroGraphicWanted = false;
@@ -2964,6 +3050,43 @@ const faqSchema = {
          밖으로 내려간다. */
       max-height: 100dvh;
     }
+  }
+
+  /* ───────── 연출이 끝난 뒤 뜨는 스크롤 표시 (폰) ─────────
+     히어로가 화면을 꽉 채우고 있어 아래에 무엇이 더 있는지 보이지 않는다.
+     연출이 다 돌면(.ai-hero-done) 판 아래쪽에 꺾쇠 하나를 띄운다.
+     ⚠️ 폰에서만 띄운다. 넓은 화면에서는 히어로 아래가 이미 눈에 들어온다.
+     ⚠️ 판 안에 두되 자리는 화면 기준이다 — 판이 화면을 꽉 채운 뒤에만 보이므로
+        둘이 같다. 홈 표시줄을 피해 아래 안전 여백을 더한다. */
+  .ai-hero-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    display: none;
+    color: #8A94A1;
+    opacity: 0;
+    transition: opacity .45s ease;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .pillar-energy-management .ind-container.ai-hero-is-full .ai-hero-scroll { display: block; }
+    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll { opacity: 1; }
+    /* ⚠️ 오르내림은 안쪽 꺾쇠에 건다. 바깥(.ai-hero-scroll)의 투명도는 '연출이
+       끝났을 때 나타나기' 에 쓰고 있어, 거기에 또 애니메이션을 걸면 나타나는
+       전환을 덮어 버린다. 둘로 나누면 투명도가 곱해져 제대로 겹친다. */
+    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll svg {
+      animation: rf-hero-scroll 1.8s ease-in-out infinite;
+    }
+  }
+  /* 자리는 4px 만 움직이고 밝기가 오간다 — 모션이 도는 동안 시선을 덜 뺏는다
+     (오르내림 6px · 획 2px 에서 눅였다). */
+  @keyframes rf-hero-scroll {
+    0%, 100% { opacity: .35; transform: translateY(0); }
+    50%      { opacity: 1;   transform: translateY(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-hero-scroll svg { animation: none !important; opacity: .7; }
   }
 
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
