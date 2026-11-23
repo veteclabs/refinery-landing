@@ -1724,7 +1724,12 @@ const jsonLd = [
     background: rgba(22, 32, 44, .12);
     filter: blur(7px);
   }
-  .uc-signal-icon img { width: 100px; height: 100px; display: block; }
+  /* ⚠️ 폰에서는 화면 폭을 따라 줄인다. 100px 고정이면 카드만 좁아져(1440px 에서
+     204px · 390px 에서 165px) 그림이 카드의 49% 에서 60.6% 로 불어난다.
+     20.6vw 는 그 카드 비례다 — 카드 폭이 대략 화면의 42% 이고 그 49% 가 데스크톱
+     의 관계다. 600px 위에서는 100px 이 먼저 걸려 지금 모습 그대로다
+     (실측 — 600px 100px · 430px 89px · 390px 80px · 360px 74px). */
+  .uc-signal-icon img { width: min(100px, 20.6vw); height: min(100px, 20.6vw); display: block; }
   /* Phosphor 로 넣은 신호가 있을 때만 보인다. 바탕이 밝으므로 브랜드색으로 그린다. */
   .uc-signal-icon i { font-size: 44px; line-height: 1; color: #76a6d7; }
   /* ⚠️ 20px 이던 것을 18px 로 줄였다. 200px 정사각 안에서 긴 라벨이 3줄로
