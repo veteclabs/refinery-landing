@@ -337,12 +337,18 @@ const capabilityGroups = [
                        srcset={`/why-refinery/flow/${s.flow}-960.webp 960w, /why-refinery/flow/${s.flow}.webp 1920w`}
                        sizes="(max-width: 900px) calc(100vw - 88px), 560px"
                        alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+                  {/* ⚠️ 겹침 레이어는 바탕 그림과 똑같은 조건으로 둔다 — width ·
+                      height · sizes · object-fit 이 하나라도 다르면 엔진에 따라
+                      겹침만 다른 크기로 깔린다(사파리에서 그림이 세로로 눌리고
+                      화살표가 위아래 둘로 보였다). 여덟 장이 같은 1920x1080
+                      캔버스에 맞춰 그려져 있으므로 배치도 한 벌로 같아야 한다. */}
                   {s.layers.map((g) => (
                     <img
                       class={`wr-ov wr-ov-${g}`}
                       src={`/why-refinery/flow/${s.flow}-${g}-960.webp`}
                       srcset={`/why-refinery/flow/${s.flow}-${g}-960.webp 960w, /why-refinery/flow/${s.flow}-${g}.webp 1920w`}
                       sizes="(max-width: 900px) calc(100vw - 88px), 560px"
+                      width="1920" height="1080"
                       alt="" aria-hidden="true" loading="lazy" decoding="async"
                     />
                   ))}
@@ -1070,7 +1076,10 @@ const capabilityGroups = [
         03 은 카드가 떠오를 때 함께 켜진다(wrOn). 그래서 마크업의
         data-flow 로 갈라 본다. */
   .wr-flow-art { position: relative; }
-  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  /* ⚠️ object-fit 을 바탕 그림(.ind-uc-img)과 같은 cover 로 맞춘다. 기본값 fill
+     로 두면 칸이 16:9 에서 조금이라도 어긋날 때 겹침 레이어만 늘어나, 바탕과
+     자리가 틀어진다(화살표가 둘로 보였다). */
+  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
   /* 공중선 · 화살표 — 빛이 선을 따라 지나간다. */
   .wr-ov-arc {
     -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
