@@ -382,7 +382,7 @@ const jsonLd = [
                     {/* 아이콘 대신 차례를 단다 — 네 항목이 '붙이고 → 판정하고
                         → 감지하고 → 제안한다' 는 순서라 번호가 그 뜻을 진다. */}
                     <div class="uc-card-head">
-                      <span class="uc-card-no" aria-hidden="true">{i + 1}</span>
+                      <span class="uc-card-no" aria-hidden="true"><span class="uc-card-no-d">{i + 1}</span></span>
                       <h3>{h.title}</h3>
                     </div>
                     {/* ⚠️ 데이터의 <br> 는 걷는다. 칸이 233px 이던 카드 구성에서
@@ -1376,9 +1376,23 @@ const jsonLd = [
           ⚠️ 위 맞춤(flex-start)이라 이 값이 그대로 내려간다 — 가운데
              맞춤이었다면 절반만 먹는다.
           제목 크기나 줄 높이를 바꾸면 다시 잰다. */
-    padding: 0.13px 0 0;
     margin-top: 5.08px;
   }
+  /* 숫자마다 잉크가 제 폭 한가운데에 있지 않다 — 안쪽 span 을 되민다.
+     ⚠️ padding 으로 맞추지 않는다. 크롬이 글줄의 세로 자리를 정수 화소에 붙여,
+        값을 조금 올린 어느 지점에서 1px 을 한 번에 건너뛴다. transform 은 그
+        반올림을 타지 않는다(앞서 padding: 0.13px 으로 두었던 자리다).
+     ⚠️ 값은 '배지 면의 무게중심' 과 '흰 잉크의 무게중심' 을 한 캡처 안에서
+        함께 재서 뽑는다. 배지만 잘라 찍으면 캡처 격자가 배지의 소수점 자리에
+        맞춰 어긋나, 면과 글자가 같이 움직인 것을 오해하게 된다.
+     치우침 실측(20px 배지 · 글자 10px) — 1 (+0.09, -0.93) · 2 (+0.07, -0.46) ·
+     3 (+0.25, -0.59) · 4 (+0.34, -0.46).
+     ⚠️ 글자 크기 · 상자 · 폰트를 바꾸면 이 값은 전부 무효다. */
+  .uc-card-no-d { display: block; }
+  .ind-uc-list > .ind-uc-item:nth-child(1) .uc-card-no-d { transform: translate(-0.0089em, 0.0930em); }
+  .ind-uc-list > .ind-uc-item:nth-child(2) .uc-card-no-d { transform: translate(-0.0066em, 0.0464em); }
+  .ind-uc-list > .ind-uc-item:nth-child(3) .uc-card-no-d { transform: translate(-0.0252em, 0.0590em); }
+  .ind-uc-list > .ind-uc-item:nth-child(4) .uc-card-no-d { transform: translate(-0.0344em, 0.0464em); }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
      레이아웃이 흔들리지 않고, 링크가 아닌 카드에 '누를 수 있다'는 신호도 주지 않는다. */

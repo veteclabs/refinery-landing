@@ -361,7 +361,7 @@ const alternates = [
         <ol class="cmp-rule cmp-spread">
           {T.principles.map((p, i) => (
             <li class="cmp-rule-card rf-ic-host">
-              <span class="cmp-rule-num">{i + 1}</span>
+              <span class="cmp-rule-num"><span class="cmp-rule-num-d">{i + 1}</span></span>
               {/* 이 카드만 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={RULE_ICONS[i]} theme="light" class="cmp-rule-icon" />
               <h3>{p.title}</h3>
@@ -975,7 +975,18 @@ const alternates = [
      ⚠️ 값은 치우친 0.79px 의 두 배(1.58px = 0.105em)다. 들여쓰기가 글줄 상자
         폭에도 더해지는데 그 상자를 다시 가운데로 맞추므로, 글자는 그 절반만
         움직인다(0.053em 을 줬을 때 0.39px 만 옮겨갔다 — 실측). */
-  .cmp-rule-card:first-child .cmp-rule-num { text-indent: 0.105em; }
+  /* 숫자마다 잉크가 제 폭 한가운데에 있지 않다 — 안쪽 span 을 transform 으로
+     되민다. 값은 '원의 무게중심' 과 '흰 잉크의 무게중심' 을 한 캡처 안에서
+     함께 재서 뽑았다(배지만 잘라 찍으면 캡처 격자가 배지의 소수점 자리에
+     맞춰 어긋나 원과 글자가 같이 움직인 것을 오해하게 된다).
+     ⚠️ em 이다 — 이 배지는 카드 폭을 따라 크기가 변한다(위 round(100cqw ...)).
+        px 로 박으면 좁은 폭에서 보정이 과해진다. */
+  .cmp-rule-num-d { display: block; }
+  /* 치우침 실측(24px 배지 · 글자 12px) — 1 (+0.09, -0.76) · 2 (+0.08, -0.16) ·
+     3 (+0.34, -0.28). 그만큼 되민 값이다. */
+  .cmp-rule-card:nth-child(1) .cmp-rule-num-d { transform: translate(-0.0074em, 0.0635em); }
+  .cmp-rule-card:nth-child(2) .cmp-rule-num-d { transform: translate(-0.0066em, 0.0137em); }
+  .cmp-rule-card:nth-child(3) .cmp-rule-num-d { transform: translate(-0.0284em, 0.0233em); }
 
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
