@@ -959,16 +959,22 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    /* 영문은 accent 가 'one operating system' 이라 60% 가 'operating' 과 'system' 사이에
-       떨어진다. 'operating' 의 가로 중앙은 상자의 41.67% 다 — 860 · 980 · 1100 · 1280 ·
-       1440 어느 폭에서나 같은 값이었다(글자 크기가 clamp 로 43~60px 을 오가도 글꼴 폭이
-       같은 비율로 줄기 때문이다). 세로 82% 는 그대로 둔다.
+    /* 영문은 accent 가 'one operating system' 이라 기본값 60% 는 'operating' 과
+       'system' 사이에 떨어진다. 중심을 'operating' 위로 옮긴다.
+       ⚠️ 퍼센트로 두지 않는다. 상자 폭에 대한 비율이라 한 줄일 때(41.67%)와 두 줄로
+          감겼을 때가 다르다 — 390px 에서 46.42% · 360px 에서 51.69% 로 폭마다
+          움직여서, 폰에서는 중심이 'system' 쪽에 가 있었다(실측).
+          em 으로 두면 줄이 상자 왼쪽에서 시작하는 한 어느 폭에서나 같은 자리다 —
+          3.79em 은 1440(한 줄 · 60px)에서도 390(두 줄 · 36px)에서도 'operating'
+          의 가로 중앙이다(둘 다 글자 크기의 3.79배 지점).
+       세로도 같은 이유로 em 이다. 1.025em 은 한 줄 상자(1.25em)의 82% 와 같은
+       자리이고, 두 줄로 감겨 상자가 2.25em 이 되어도 첫 줄의 그 자리를 지킨다.
        ⚠️ background 단축 속성으로 쓰면 안 된다. 그 속성이 background-clip 을 초기값으로
           되돌리는데 이 규칙이 더 구체적이라 바로 위의 clip: text 를 이긴다 — 글자가
           아니라 상자가 통째로 칠해진다. background-image 롱핸드로 쓴다. */
     html[lang="en"] #hero h1 .hero-title-accent {
       background-image: radial-gradient(
-        circle 1.2em at 41.67% 82%,
+        circle 1.2em at 3.79em 1.025em,
         #76A6D7 0%,
         #4A7FA8 38%,
         #22303F 72%,
