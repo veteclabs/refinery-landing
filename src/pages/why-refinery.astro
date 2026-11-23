@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/industry.css';
 import RfIcon from '../components/RfIcon.astro';
+import NumGlyph from '../components/NumGlyph.astro';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
@@ -181,9 +182,8 @@ const capabilityGroups = [
             회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
-              {/* ⚠️ 숫자를 한 겹 더 감싼다 — 가운데 정렬은 이 안쪽 span 의
-                  transform 이 한다(아래 .wr-layer-num-d). 벗기지 말 것. */}
-              <span class="wr-layer-num"><span class="wr-layer-num-d">{i + 1}</span></span>
+              {/* 숫자는 글자가 아니라 윤곽선 path 다 — 까닭은 NumGlyph.astro 에 적었다. */}
+              <span class="wr-layer-num"><NumGlyph n={i + 1} /></span>
               {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
                   이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
@@ -729,39 +729,15 @@ const capabilityGroups = [
         아이콘을 160 -> 132px 으로 줄인 것과 같은 까닭이다. */
   .wr-layer-num {
     position: absolute; top: 30px; left: 30px; margin: 0;
-    display: flex; align-items: center; justify-content: center;
     width: 28px; height: 28px; border-radius: 50%;
-    background: var(--accent); border: 1px solid var(--accent);
-    font-size: 14px; font-weight: 600; line-height: 1;
-    letter-spacing: 0; color: #ffffff;
-    font-variant-numeric: tabular-nums;
+    /* ⚠️ 테두리를 두지 않는다. 바탕과 같은 색이라 보이지는 않았지만, 숫자
+       svg 가 덮는 안쪽 상자를 1px 씩 좁혀 숫자가 7% 작게 그려졌다
+       (28px 원에서 잉크 9.95 -> 9.24px). 지름은 border-box 라 그대로다. */
+    background: var(--accent);
+    /* 숫자(NumGlyph)는 이 상자를 덮는 svg 라 fill 이 이 색을 따른다.
+       ⚠️ 가운데 맞춤 보정을 여기 더하지 말 것 — svg 안에서 좌표로 잡는다. */
+    color: #ffffff;
   }
-  /* 숫자를 원 한가운데에 둔다.
-     ⚠️ padding / text-indent / line-height 로는 못 맞춘다 — 크롬이 글줄의
-        세로 자리를 정수 픽셀에 붙여, 값을 조금 올리면 어느 지점에서 1px 을
-        한 번에 건너뛴다(0.09em 과 0.15em 사이에서 -0.35 가 +0.65 로 뛰었다).
-        transform 은 그 반올림을 타지 않는 유일한 수단이라 여기로 고정한다.
-     ⚠️ 값은 눈대중이 아니라 실측이다 — DPR 4 로 배지를 찍어 흰 글자 잉크의
-        경계 상자와 원의 중심을 견주어 뽑았다(아래 숫자별 보정).
-        가로는 숫자마다 다르다. Roboto 의 '1' 은 제 폭(tabular 라 모두 같다)
-        한가운데가 아니라 왼쪽에 그려져 있어 혼자 더 많이 민다.
-     ⚠️ 글자 크기 · 지름 · 폰트를 바꾸면 이 값은 전부 무효다. 바꿀 때는
-        반드시 다시 재고, 안 재겠으면 크기를 건드리지 말 것. */
-  /* 숫자마다 보정값이 다르다 — 글리프의 잉크가 제 폭 한가운데에 있지 않다.
-     ⚠️ 측정은 '원의 무게중심' 과 '흰 잉크의 무게중심' 을 한 캡처 안에서 함께
-        재서 뽑는다. 배지만 잘라 찍으면 캡처 격자가 배지의 소수점 자리에 맞춰
-        어긋나, 원과 글자가 같이 움직인 것을 '글자가 어긋났다' 로 읽게 된다
-        (글자를 빼고 사각형만 넣어도 같은 편차가 나오는 것으로 확인했다).
-     ⚠️ 데스크톱과 폰이 같은 값이다 — 폰만의 문제가 아니다.
-     ⚠️ 기준은 '잉크의 경계 상자' 다 — 무게중심이 아니다. 1 처럼 한쪽에 꼬리가
-        있는 글자는 둘이 0.9px 까지 어긋나는데, 눈은 경계 상자 쪽을 따른다
-        (무게중심으로 맞췄더니 '1' 이 왼쪽으로 치우쳐 보였다 — 2026-11-23).
-     ⚠️ 글자 크기 · 지름 · 폰트를 바꾸면 이 값은 전부 무효다. */
-  .wr-layer-num-d { display: block; }
-  .wr-layer:nth-child(1) .wr-layer-num-d { transform: translate(0.75px, 0.01px); }
-  .wr-layer:nth-child(2) .wr-layer-num-d { transform: translate(0px, 0.05px); }
-  .wr-layer:nth-child(3) .wr-layer-num-d { transform: translate(0.13px, -0.02px); }
-  .wr-layer:nth-child(4) .wr-layer-num-d { transform: translate(-0.01px, 0px); }
   /* 그래픽 — 132x132 · 위아래 26px.
      회사 소개 기준 카드(.cmp-rule-icon)에서 그대로 떠 온 160x160 이었는데,
      저쪽은 셋이 한 줄이라 카드 안쪽이 356px 이고 여기는 넷이라 295px 이다.
