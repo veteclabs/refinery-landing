@@ -966,7 +966,17 @@ const capabilityGroups = [
     /* ⚠️ align-self 를 되돌린다. 넓은 폭에서는 항목이 가로 격자라 end 가
        '아래 맞춤' 이지만, 여기서는 세로 flex 라 교차축이 가로로 바뀌어
        그림이 오른쪽으로 밀린다(900px 에서 왼쪽 372 · 오른쪽 80px 이었다). */
-    .wr-page .wr-flow .ind-uc-item > .ind-uc-card { order: 3; align-self: stretch; }
+    /* 그림을 항목 카드의 안여백(40px) 밖으로 내보내 변까지 채운다.
+       ⚠️ 폭이 '제 높이 x 비율' 로 역산되고 있었다 — 카드가 aspect-ratio 만
+          들고 세로 flex 안에 있어서다. 그 탓에 안쪽 222px 칸에서 125 x 1.777
+          = 222px 로 멈췄다(실측). width: auto 로 칸을 받고, 음수 여백으로
+          좌우 40px 씩 더 가져간다 — 222 -> 302px 이다.
+       ⚠️ 글은 그대로 둔다. 항목 카드의 안여백은 글의 자리이고, 여기서 건너뛰는
+          것은 그림 한 칸뿐이다. */
+    .wr-page .wr-flow .ind-uc-item > .ind-uc-card {
+      order: 3; align-self: stretch;
+      width: auto; margin-inline: -40px;
+    }
     .wr-page .wr-flow .ind-uc-item .ind-uc-text > .ind-sec-label {
       order: 4; align-self: flex-start; margin: 20px 0 0;
     }
