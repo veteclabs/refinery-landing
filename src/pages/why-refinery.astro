@@ -1056,7 +1056,11 @@ const capabilityGroups = [
     position: static;
     left: auto; top: auto;
     width: 100%; height: 100%;
-    object-fit: cover;
+    /* ⚠️ contain 이다. cover 로 두면 칸이 16:9 에서 조금만 어긋나도 그림을
+       잘라낸다 — 폰에서 그림 위가 잘려 보였다. contain 은 어느 쪽도 자르지
+       않고, 겹침 레이어와 똑같은 배율로 들어맞는다(칸과 그림이 둘 다 16:9 라
+       평소에는 cover 와 같은 결과다). */
+    object-fit: contain;
     transform: none;
     -webkit-mask-image: none;
             mask-image: none;
@@ -1076,10 +1080,11 @@ const capabilityGroups = [
         03 은 카드가 떠오를 때 함께 켜진다(wrOn). 그래서 마크업의
         data-flow 로 갈라 본다. */
   .wr-flow-art { position: relative; }
-  /* ⚠️ object-fit 을 바탕 그림(.ind-uc-img)과 같은 cover 로 맞춘다. 기본값 fill
-     로 두면 칸이 16:9 에서 조금이라도 어긋날 때 겹침 레이어만 늘어나, 바탕과
-     자리가 틀어진다(화살표가 둘로 보였다). */
-  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  /* ⚠️ object-fit 을 바탕 그림(.ind-uc-img)과 같은 contain 으로 맞춘다. 기본값
+     fill 로 두면 칸이 16:9 에서 조금이라도 어긋날 때 겹침만 늘어나 바탕과 자리가
+     틀어지고(화살표가 둘로 보였다), cover 로 두면 둘 다 잘린다(그림 위가
+     잘려 보였다). contain 이라야 자르지도 늘리지도 않는다. */
+  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
   /* 공중선 · 화살표 — 빛이 선을 따라 지나간다. */
   .wr-ov-arc {
     -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);
