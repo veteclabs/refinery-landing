@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/industry.css';
 import RfIcon from '../components/RfIcon.astro';
+import NumGlyph from '../components/NumGlyph.astro';
 
 const SITE = 'https://refinery.kr';
 const jsonLd = {
@@ -181,9 +182,8 @@ const capabilityGroups = [
             회사 소개 기준 카드(.cmp-rule-card)와 같은 처리다. */}
           {layers.map((l, i) => (
             <div class="wr-layer rf-ic-host">
-              {/* ⚠️ 숫자를 한 겹 더 감싼다 — 가운데 정렬은 이 안쪽 span 의
-                  transform 이 한다(아래 .wr-layer-num-d). 벗기지 말 것. */}
-              <span class="wr-layer-num"><span class="wr-layer-num-d">{i + 1}</span></span>
+              {/* 숫자는 글자가 아니라 윤곽선 path 다 — 까닭은 NumGlyph.astro 에 적었다. */}
+              <span class="wr-layer-num"><NumGlyph n={i + 1} /></span>
               {/* 그래픽 — 160x160 이다(회사 소개 기준 카드와 같은 값).
                   이 섹션은 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={l.icon} theme="light" class="wr-layer-fig" />
@@ -328,12 +328,27 @@ const capabilityGroups = [
                 {/* ⚠️ data-flow 가 있어야 한다 — 모션이 카드마다 다르고, CSS 가
                     그 번호로 갈라 본다(.wr-flow-art[data-flow="2"] 등). */}
                 <div class="ind-uc-card wr-flow-art" data-flow={i + 1}>
-                  <img class="ind-uc-img" src={`/why-refinery/flow/${s.flow}.webp`} alt=""
-                       width="1920" height="1080" loading="lazy" decoding="async" />
+                  {/* ⚠️ 960px 판을 함께 준다. 원본은 1920x1080 인데 카드는 폰에서
+                      302px(기기화소 906) · 데스크톱 1440 에서 409px(818) 이라 어디서도
+                      1920 이 필요 없다. 한 항목이 그림을 최대 여덟 장 겹치고 항목이 셋이라,
+                      1920 만 두면 디코드에 142MB 가 든다 — 폰이 감당 못 해 그림이 뭉개지고
+                      겹친 모션이 어긋났다. 960 판이면 36MB 다. */}
+                  <img class="ind-uc-img" src={`/why-refinery/flow/${s.flow}-960.webp`}
+                       srcset={`/why-refinery/flow/${s.flow}-960.webp 960w, /why-refinery/flow/${s.flow}.webp 1920w`}
+                       sizes="(max-width: 900px) calc(100vw - 88px), 560px"
+                       alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+                  {/* ⚠️ 겹침 레이어는 바탕 그림과 똑같은 조건으로 둔다 — width ·
+                      height · sizes · object-fit 이 하나라도 다르면 엔진에 따라
+                      겹침만 다른 크기로 깔린다(사파리에서 그림이 세로로 눌리고
+                      화살표가 위아래 둘로 보였다). 여덟 장이 같은 1920x1080
+                      캔버스에 맞춰 그려져 있으므로 배치도 한 벌로 같아야 한다. */}
                   {s.layers.map((g) => (
                     <img
                       class={`wr-ov wr-ov-${g}`}
-                      src={`/why-refinery/flow/${s.flow}-${g}.webp`}
+                      src={`/why-refinery/flow/${s.flow}-${g}-960.webp`}
+                      srcset={`/why-refinery/flow/${s.flow}-${g}-960.webp 960w, /why-refinery/flow/${s.flow}-${g}.webp 1920w`}
+                      sizes="(max-width: 900px) calc(100vw - 88px), 560px"
+                      width="1920" height="1080"
                       alt="" aria-hidden="true" loading="lazy" decoding="async"
                     />
                   ))}
@@ -714,26 +729,30 @@ const capabilityGroups = [
         아이콘을 160 -> 132px 으로 줄인 것과 같은 까닭이다. */
   .wr-layer-num {
     position: absolute; top: 30px; left: 30px; margin: 0;
-    display: flex; align-items: center; justify-content: center;
     width: 28px; height: 28px; border-radius: 50%;
-    background: var(--accent); border: 1px solid var(--accent);
-    font-size: 14px; font-weight: 600; line-height: 1;
-    letter-spacing: 0; color: #ffffff;
-    font-variant-numeric: tabular-nums;
+    /* ⚠️ 테두리를 두지 않는다. 바탕과 같은 색이라 보이지는 않았지만, 숫자
+       svg 가 덮는 안쪽 상자를 1px 씩 좁혀 숫자가 7% 작게 그려졌다
+       (28px 원에서 잉크 9.95 -> 9.24px). 지름은 border-box 라 그대로다. */
+    background: var(--accent);
+    /* 숫자(NumGlyph)는 이 상자를 덮는 svg 라 fill 이 이 색을 따른다.
+       ⚠️ 가운데 맞춤 보정을 여기 더하지 말 것 — svg 안에서 좌표로 잡는다. */
+    color: #ffffff;
   }
-  /* 숫자를 원 한가운데에 둔다.
-     ⚠️ padding / text-indent / line-height 로는 못 맞춘다 — 크롬이 글줄의
-        세로 자리를 정수 픽셀에 붙여, 값을 조금 올리면 어느 지점에서 1px 을
-        한 번에 건너뛴다(0.09em 과 0.15em 사이에서 -0.35 가 +0.65 로 뛰었다).
-        transform 은 그 반올림을 타지 않는 유일한 수단이라 여기로 고정한다.
-     ⚠️ 값은 눈대중이 아니라 실측이다 — DPR 4 로 배지를 찍어 흰 글자 잉크의
-        경계 상자와 원의 중심을 견주어 뽑았다(아래 숫자별 보정).
-        가로는 숫자마다 다르다. Roboto 의 '1' 은 제 폭(tabular 라 모두 같다)
-        한가운데가 아니라 왼쪽에 그려져 있어 혼자 더 많이 민다.
-     ⚠️ 글자 크기 · 지름 · 폰트를 바꾸면 이 값은 전부 무효다. 바꿀 때는
-        반드시 다시 재고, 안 재겠으면 크기를 건드리지 말 것. */
-  .wr-layer-num-d { display: block; transform: translate(0, -0.12px); }
-  .wr-layer:nth-child(1) .wr-layer-num-d { transform: translate(0.73px, -0.12px); }
+
+  /* 폰·태블릿에서는 회사 소개 배지(.cmp-rule-num)와 같은 공식으로 줄인다.
+     900px 아래에서 두 섹션의 카드가 똑같은 폭이라(900 에서 안쪽 352 · 390 에서
+     282px) 같은 공식을 쓰면 지름도 같아진다. 28px 로 박아 두면 회사 소개가
+     24px 로 줄어드는 자리에서 혼자 남아 17% 커 보였다.
+     ⚠️ 1023px 까지 넓히지 말 것(저쪽은 1023 이다). 901~1023 구간은 카드가
+        넉 줄로 서 안쪽이 151px 밖에 안 돼 공식값이 13px 까지 내려간다.
+        그 구간은 28px 그대로 둔다.
+     ⚠️ round() 로 정수 픽셀에 맞춘다 — 소수 지름은 원 가장자리가 흐려진다. */
+  @media (max-width: 900px) {
+    .wr-layer-num {
+      --d: round(calc(100cqw * 30 / 356), 1px);
+      width: var(--d); height: var(--d);
+    }
+  }
   /* 그래픽 — 132x132 · 위아래 26px.
      회사 소개 기준 카드(.cmp-rule-icon)에서 그대로 떠 온 160x160 이었는데,
      저쪽은 셋이 한 줄이라 카드 안쪽이 356px 이고 여기는 넷이라 295px 이다.
@@ -966,10 +985,36 @@ const capabilityGroups = [
     /* ⚠️ align-self 를 되돌린다. 넓은 폭에서는 항목이 가로 격자라 end 가
        '아래 맞춤' 이지만, 여기서는 세로 flex 라 교차축이 가로로 바뀌어
        그림이 오른쪽으로 밀린다(900px 에서 왼쪽 372 · 오른쪽 80px 이었다). */
-    .wr-page .wr-flow .ind-uc-item > .ind-uc-card { order: 3; align-self: stretch; }
+    /* 그림을 항목 카드의 안여백(40px) 밖으로 내보내 변까지 채운다.
+       ⚠️ 폭이 '제 높이 x 비율' 로 역산되고 있었다 — 카드가 aspect-ratio 만
+          들고 세로 flex 안에 있어서다. 그 탓에 안쪽 222px 칸에서 125 x 1.777
+          = 222px 로 멈췄다(실측). width: auto 로 칸을 받고, 음수 여백으로
+          좌우 40px 씩 더 가져간다 — 222 -> 302px 이다.
+       ⚠️ 글은 그대로 둔다. 항목 카드의 안여백은 글의 자리이고, 여기서 건너뛰는
+          것은 그림 한 칸뿐이다. */
+    .wr-page .wr-flow .ind-uc-item > .ind-uc-card {
+      order: 3; align-self: stretch;
+      width: auto; margin-inline: -40px;
+      /* ⚠️ 높이를 aspect-ratio 에 기대지 않는다. 세로 flex 에서 늘어난
+         (align-self: stretch) 칸의 높이를 엔진마다 다르게 잡는다 — 사파리는
+         크롬보다 높게 잡았고, 그 탓에 바탕과 겹침이 서로 다르게 깔렸다
+         (fill 은 늘어나 세로로 눌려 보이고, cover 는 위가 잘리고, contain 은
+         작아진다 — 세 번 다 같은 뿌리였다).
+         바탕 그림이 제 비율로 높이를 내게 하고, 겹침은 inset: 0 으로 그 높이를
+         그대로 받는다. 그러면 칸과 그림의 비율이 같을 수밖에 없다. */
+      aspect-ratio: auto;
+    }
+    .wr-page .wr-flow .ind-uc-img { height: auto; }
     .wr-page .wr-flow .ind-uc-item .ind-uc-text > .ind-sec-label {
       order: 4; align-self: flex-start; margin: 20px 0 0;
     }
+    /* ⚠️ 상자 간격은 셋 다 20px 로 같은데 눈에는 다르게 보인다 — 그림마다
+       잉크가 끝나는 자리가 달라서다. 카드 높이 170px 에서 아래 빈자리가
+       15.3 / 13.6 / 12.3px 이라, 잉크에서 라벨까지가 35.3 / 33.6 / 32.3px 로
+       3px 벌어진다(실측). 모자란 만큼을 더해 셋을 35.3px 로 맞춘다.
+       ⚠️ 그림을 다시 뽑으면 이 값은 무효다. 잉크 아랫변을 다시 재서 고친다. */
+    .wr-page .wr-flow .ind-uc-item:nth-child(2) .ind-uc-text > .ind-sec-label { margin-top: 21.7px; }
+    .wr-page .wr-flow .ind-uc-item:nth-child(3) .ind-uc-text > .ind-sec-label { margin-top: 23px; }
   }
 
   @media (min-width: 901px) {
@@ -1011,7 +1056,11 @@ const capabilityGroups = [
     position: static;
     left: auto; top: auto;
     width: 100%; height: 100%;
-    object-fit: cover;
+    /* ⚠️ contain 이다. cover 로 두면 칸이 16:9 에서 조금만 어긋나도 그림을
+       잘라낸다 — 폰에서 그림 위가 잘려 보였다. contain 은 어느 쪽도 자르지
+       않고, 겹침 레이어와 똑같은 배율로 들어맞는다(칸과 그림이 둘 다 16:9 라
+       평소에는 cover 와 같은 결과다). */
+    object-fit: contain;
     transform: none;
     -webkit-mask-image: none;
             mask-image: none;
@@ -1031,7 +1080,11 @@ const capabilityGroups = [
         03 은 카드가 떠오를 때 함께 켜진다(wrOn). 그래서 마크업의
         data-flow 로 갈라 본다. */
   .wr-flow-art { position: relative; }
-  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  /* ⚠️ object-fit 을 바탕 그림(.ind-uc-img)과 같은 contain 으로 맞춘다. 기본값
+     fill 로 두면 칸이 16:9 에서 조금이라도 어긋날 때 겹침만 늘어나 바탕과 자리가
+     틀어지고(화살표가 둘로 보였다), cover 로 두면 둘 다 잘린다(그림 위가
+     잘려 보였다). contain 이라야 자르지도 늘리지도 않는다. */
+  .wr-ov { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
   /* 공중선 · 화살표 — 빛이 선을 따라 지나간다. */
   .wr-ov-arc {
     -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 50%, transparent 62%);

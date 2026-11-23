@@ -11,6 +11,7 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import ScrollReveal from './ScrollReveal.astro';
+import NumGlyph from './NumGlyph.astro';
 import type { UseCase } from '../data/usecases/types';
 import { useCases } from '../data/usecases';
 import { useCasesEn } from '../data/usecases/en';
@@ -382,7 +383,7 @@ const jsonLd = [
                     {/* 아이콘 대신 차례를 단다 — 네 항목이 '붙이고 → 판정하고
                         → 감지하고 → 제안한다' 는 순서라 번호가 그 뜻을 진다. */}
                     <div class="uc-card-head">
-                      <span class="uc-card-no" aria-hidden="true">{i + 1}</span>
+                      <span class="uc-card-no" aria-hidden="true"><NumGlyph n={i + 1} /></span>
                       <h3>{h.title}</h3>
                     </div>
                     {/* ⚠️ 데이터의 <br> 는 걷는다. 칸이 233px 이던 카드 구성에서
@@ -1364,19 +1365,12 @@ const jsonLd = [
   .uc-redesigned .ind-uc-text h3 { margin: 0; font-size: var(--uc-fs-24); }
   .uc-redesigned .uc-card-no {
     flex: none;
-    display: inline-flex; align-items: center; justify-content: center;
+    display: inline-block; position: relative;
     width: 20px; height: 20px;
     border-radius: 6px;
+    /* 숫자(NumGlyph)는 이 상자를 덮는 svg 라 fill 이 이 색을 따른다.
+       ⚠️ 가운데 맞춤 보정을 여기 더하지 말 것 — svg 안에서 좌표로 잡는다. */
     background: var(--text); color: #FFFFFF;
-    font-size: 10px; font-weight: 600; letter-spacing: normal; line-height: 1;
-    /* ⚠️ 안 여백 위 0.13px — 숫자 잉크의 가운데를 상자 가운데에 맞춘다.
-       ⚠️ 바깥 여백 위 5.08px — 배지 가운데를 제목 첫 줄의 대문자 가운데에
-          맞춘다. 줄 상자(31.2px) 안에서 대문자 가운데가 15.08px 이고 배지
-          절반이 10px 이라 그 차다(Roboto, 제목 24px x 1.3).
-          ⚠️ 위 맞춤(flex-start)이라 이 값이 그대로 내려간다 — 가운데
-             맞춤이었다면 절반만 먹는다.
-          제목 크기나 줄 높이를 바꾸면 다시 잰다. */
-    padding: 0.13px 0 0;
     margin-top: 5.08px;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
@@ -1700,7 +1694,16 @@ const jsonLd = [
     .uc-signal:nth-child(3n) { margin-top: 0; }
   }
   .uc-signal-icon {
-    width: 100px; height: 100px; flex: none;
+    /* ⚠️ 폰에서는 화면 폭을 따라 줄인다. 100px 고정이면 카드만 좁아져(1440px 에서
+       204px · 390px 에서 165px) 그림이 카드의 49% 에서 60.6% 로 불어난다.
+       20.6vw 는 그 카드 비례다 — 카드 폭이 대략 화면의 42% 이고 그 49% 가
+       데스크톱의 관계다. 600px 위에서는 100px 이 먼저 걸려 지금 모습 그대로다
+       (실측 — 600px 100px · 430px 89px · 390px 80px · 360px 74px).
+       ⚠️ 그림(img)만 줄이지 않는다. 상자를 100px 로 둔 채 그림만 줄이면 그림이
+          상자 가운데에 서서 아랫변이 10px 떠오르는데, 그림자는 상자 바닥을
+          기준으로 놓이므로 그만큼 아래에 남는다. 상자째 줄여야 둘이 같이 간다. */
+    --ic-size: min(100px, 20.6vw);
+    width: var(--ic-size); height: var(--ic-size); flex: none;
     position: relative;
     display: flex; align-items: center; justify-content: center;
   }
@@ -1716,15 +1719,22 @@ const jsonLd = [
     /* 그림자 중심을 그림 아랫변에서 26px 아래에 둔다 — 아이콘마다 WebP 안의
        빈 높이(--ic-b)가 달라, 상자 기준으로만 놓으면 간격이 제각각이 된다
        (2.7% ~ 33.2%, 100px 기준 30px 차이).
-       30.5 = 간격 26 + 타원 높이의 절반 4.5. --ic-b 를 못 받으면 4.7% 로 둔다. */
-    left: 50%; bottom: calc(var(--ic-b, 4.7%) - 30.5px);
-    width: 46px; height: 9px;
+       30.5 = 간격 26 + 타원 높이의 절반 4.5. --ic-b 를 못 받으면 4.7% 로 둔다.
+       ⚠️ 값을 px 로 박지 않는다. 그림이 줄면 그림자도 같이 줄어야 한다 —
+          아이콘 크기(--ic-size)에 대한 비율로 적는다. 100px 에서는 종전과 같은
+          값이 나온다(30.5 · 46 · 9 · blur 7). 390px(80px 아이콘)에서는
+          24.4 · 36.8 · 7.2 · blur 5.6 이다. */
+    left: 50%;
+    bottom: calc(var(--ic-b, 4.7%) - var(--ic-size) * 0.305);
+    width: calc(var(--ic-size) * 0.46);
+    height: calc(var(--ic-size) * 0.09);
     transform: translateX(-50%);
     border-radius: 50%;
     background: rgba(22, 32, 44, .12);
-    filter: blur(7px);
+    filter: blur(calc(var(--ic-size) * 0.07));
   }
-  .uc-signal-icon img { width: 100px; height: 100px; display: block; }
+  /* 상자를 꽉 채운다 — 크기는 위 --ic-size 가 쥔다. */
+  .uc-signal-icon img { width: 100%; height: 100%; display: block; }
   /* Phosphor 로 넣은 신호가 있을 때만 보인다. 바탕이 밝으므로 브랜드색으로 그린다. */
   .uc-signal-icon i { font-size: 44px; line-height: 1; color: #76a6d7; }
   /* ⚠️ 20px 이던 것을 18px 로 줄였다. 200px 정사각 안에서 긴 라벨이 3줄로

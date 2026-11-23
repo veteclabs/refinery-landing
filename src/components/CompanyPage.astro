@@ -5,6 +5,7 @@ import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import '../styles/industry.css';
 import RfIcon from './RfIcon.astro';
+import NumGlyph from './NumGlyph.astro';
 
 interface Props {
   lang?: 'ko' | 'en';
@@ -361,7 +362,7 @@ const alternates = [
         <ol class="cmp-rule cmp-spread">
           {T.principles.map((p, i) => (
             <li class="cmp-rule-card rf-ic-host">
-              <span class="cmp-rule-num">{i + 1}</span>
+              <span class="cmp-rule-num"><NumGlyph n={i + 1} /></span>
               {/* 이 카드만 밝은 면(--bg-soft)이라 light 세트를 쓴다. */}
               <RfIcon name={RULE_ICONS[i]} theme="light" class="cmp-rule-icon" />
               <h3>{p.title}</h3>
@@ -933,22 +934,14 @@ const alternates = [
     text-align: center;
   }
   .cmp-rule-num {
-    display: flex; align-items: center; justify-content: center;
     width: 30px; height: 30px; border-radius: 50%;
-    /* 원을 --accent로 채우고 숫자는 흰색. 테두리는 같은 색으로 남겨 두면
-       border-box 기준 지름 30px이 그대로 유지된다. */
-    background: var(--accent); border: 1px solid var(--accent);
-    /* 글꼴은 본문 글꼴을 그대로 물려받는다.
-       ⚠️ 양수 자간은 마지막 글자 뒤에도 붙어 원 안에서 글자가 왼쪽으로 치우친다
-          (1.2px 일 때 0.6px 밀려 padding-left 로 보정했던 자리다). 숫자 한 글자라
-          아래 -0.2px 을 그대로 쓴다. */
-    font-size: 15px; font-weight: 600; line-height: 1;
-    /* ⚠️ 자간은 0 이다. 사이트 공통값(-0.2px)을 쓰면 그 몫이 글자 뒤에만 붙어
-       상자가 0.2px 짧아지고, 가운데 맞춘 글자가 그만큼 왼쪽으로 밀린다.
-       한 글자짜리 배지라 공통 자간을 따를 이유가 없다. */
-    /* ⚠️ tabular-nums — 1 · 2 · 3 이 같은 폭을 쓰고 글자가 그 폭 한가운데
-       놓인다. 없으면 좌우 여백이 글자마다 달라 '1' 이 0.69px 왼쪽에 섰다(실측). */
-    font-variant-numeric: tabular-nums;
+    /* 원을 --accent 로 채우고 숫자는 흰색이다. */
+    /* ⚠️ 테두리를 두지 않는다. 바탕과 같은 색이라 보이지는 않았지만, 숫자
+       svg 가 덮는 안쪽 상자를 1px 씩 좁혀 숫자가 7% 작게 그려졌다
+       (28px 원에서 잉크 9.95 -> 9.24px). 지름은 border-box 라 그대로다. */
+    background: var(--accent);
+    /* 숫자(NumGlyph)는 이 상자를 덮는 svg 라 fill 이 이 색을 따른다.
+       ⚠️ 가운데 맞춤 보정을 여기 더하지 말 것 — svg 안에서 좌표로 잡는다. */
     /* 흰색 유지. #3f76ae를 시도했으나 그 4.71:1은 흰 배경 기준 값이었고,
        실제 바탕인 #76A6D7 위에서는 1.86:1로 흰색(2.56:1)보다 낮았다. */
     color: #ffffff; letter-spacing: 0;
@@ -958,24 +951,7 @@ const alternates = [
        ⚠️ 가운데로 옮겨 본 적이 있다(482c353d). 아이콘 바로 위에 번호가 겹쳐
           서서 머리가 무거워 보여 되돌렸다 — 번호는 모서리에 둔다. */
     position: absolute; top: 30px; left: 30px; margin: 0;
-    /* 글리프를 원 한가운데로 내린다. align-items: center 는 글자 상자를 가운데 두는데,
-       숫자 글리프는 그 상자 안에서 baseline 위에 놓여 1.3px 떠 보였다(1·2·3 모두 같은 값).
-       border-box 라 padding 을 줘도 원 지름 30px 은 그대로다.
-       값은 글자의 실제 잉크 상자로 쟀다 — 2px 에서 0.62px 아래 · 1px 에서
-       0.35px 위였다. 그 사이 1.35px(=0.09em)이 0 에 가장 가깝다.
-       ⚠️ px 이 아니라 em 이다. 좁은 폭에서 글자가 카드 폭을 따라 줄어드는데
-          px 으로 박으면 그 보정만 제자리에 남아 작은 배지에서 과해진다. */
-    padding-top: 0.09em;
   }
-  /* ⚠️ '1' 만 따로 민다. Roboto 의 '1' 은 글자가 제 폭(8.57px) 한가운데가
-     아니라 0.79px 왼쪽에 그려져 있다(왼쪽 여백 1.24 · 오른쪽 2.82px) —
-     가운데 정렬은 폭을 맞출 뿐이라 글자가 왼쪽으로 치우쳐 보인다.
-     '2' 와 '3' 은 0.01 · 0.13px 이라 둘 일이 없다. 값은 em 이라 배지가
-     작아져도 함께 준다.
-     ⚠️ 값은 치우친 0.79px 의 두 배(1.58px = 0.105em)다. 들여쓰기가 글줄 상자
-        폭에도 더해지는데 그 상자를 다시 가운데로 맞추므로, 글자는 그 절반만
-        움직인다(0.053em 을 줬을 때 0.39px 만 옮겨갔다 — 실측). */
-  .cmp-rule-card:first-child .cmp-rule-num { text-indent: 0.105em; }
 
   /* 대제목 위 아이콘. 카드 안쪽 내용 너비(323px) 기준 가운데 정렬. */
   /* 카드 윗선 -> 아이콘 60px, 아이콘 -> 대제목 40px.
@@ -1036,7 +1012,6 @@ const alternates = [
     .cmp-rule-num {
       --d: round(calc(100cqw * 30 / 356), 1px);
       width: var(--d); height: var(--d);
-      font-size: round(calc(100cqw * 15 / 356), 1px);
     }
     /* 글자도 카드 폭을 따라 줄어든다. 넓은 폭의 값(26 / 16)을 위 끝으로 두고
        카드가 좁아진 만큼만 내린다 — 282px 카드에서 20.3 / 14px 이다. */
