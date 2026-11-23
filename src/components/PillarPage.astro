@@ -624,8 +624,17 @@ const faqSchema = {
            서서히 사라지느라 그 사이가 보인다 — 회선이 먼저 스쳐 보이던 원인이다.
            숨긴 뒤 한 프레임 지나서 전환을 되살려, 나타날 때만 부드럽게 한다. */
         var hide = function (el) {
-          var o = doc.defaultView.getComputedStyle(el).opacity;
-          el.__o = (o === '' || o == null) ? '1' : o;
+          /* ⚠️ 원래 투명도는 '딱 한 번' 적어 둔다. 다시 준비할 때(위로 올렸다
+             내려와 재생) 이 줄이 다시 돌면, 그때 요소가 이미 걷혀 있거나 걷히는
+             중이라 0 이나 0.3 을 '원래 값' 으로 적는다 — 그 뒤로 show 가 그 값을
+             되돌려 주어 그림이 영영 흐린 채로 남는다(폰에서 온톨로지 판과
+             플레이트 라벨이 유령처럼 남은 것이 이것이다).
+             요소는 같은 노드가 그대로 쓰이므로 한 번 적어 둔 값이 남아 있고,
+             <object> 가 새로 뜨면 노드가 바뀌어 다시 적힌다. */
+          if (el.__o == null) {
+            var o = doc.defaultView.getComputedStyle(el).opacity;
+            el.__o = (o === '' || o == null) ? '1' : o;
+          }
           el.classList.add('seq');
           el.style.transition = 'none';
           el.style.opacity = '0';
@@ -1343,7 +1352,7 @@ const faqSchema = {
              2300   집으로 돌아오며 걷었던 것과 그 판 왼쪽의 API 점이 나온다
            플레이트 · 렌즈 · AI 에이전트 순으로 세 번 돈다.
            셋째만 집 대신 전체로 물러난다 — 다 모인 그림을 보여야 한다. */
-        var LAST = 2, seenPlates = [], seenGaps = [], drawnLines = [], baseHidden = false;
+        var LAST = 2, seenPlates = [], seenGaps = [], drawnLines = [];
         [0, 1, 2].forEach(function (k) {
           (function (at) {
             sto(function () {
@@ -1361,14 +1370,6 @@ const faqSchema = {
                     보여 주는 자리에 회로가 아예 없다. 그 다발은 판이 뜨고
                     닿는 순간(+1300)에 제 차례로 물러난다. */
               drawnLines.forEach(function (j) { if (j !== k) fade(lineEls[j]); });
-              /* ⚠️ 세로로 긴 화면에서는 아래 온톨로지 판도 함께 걷는다.
-                 판 하나로 좁힌 틀(가로세로비 0.97)을 폰(0.46)에 담으면 SVG 가
-                 폭에 맞추고 위아래를 더 내주는데, 세 판은 가로로 한 줄이고
-                 온톨로지 판이 바로 아래에 있어 그 자리에 끼어든다 — 데스크톱
-                 에서는 남는 자리가 좌우라 옆 판만 걷으면 됐다(실측 — 390px
-                 에서 틀 세로가 1206 이라 y 396 의 온톨로지 판이 들어왔다).
-                 '그 판만 보여 준다' 를 지키려면 아래 것도 같이 걷어야 한다. */
-              if (aspectNow() < 1) { baseHidden = true; base.forEach(function (b) { fade(b.el); }); }
               moveTo(plateShot(k), 700);
             }, at + 600);
             sto(function () {
@@ -1396,7 +1397,6 @@ const faqSchema = {
                  그것이었다. 250ms 면 틀이 이미 눈에 띄게 넓어져 있다. */
               sto(function () {
                 if (k === LAST) edges.forEach(show);
-                if (baseHidden) { baseHidden = false; base.forEach(function (b) { show(b.el); }); }
                 seenPlates.forEach(function (j) { modules[j].forEach(show); });
                 seenGaps.forEach(function (g) { betweens[g].forEach(show); });
                 drawnLines.forEach(function (j) { relight(lineEls[j]); });
