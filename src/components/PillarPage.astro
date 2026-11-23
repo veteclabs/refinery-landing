@@ -322,6 +322,15 @@ const faqSchema = {
       if (!box || !pin) return;
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var last = -1, ticking = false, wasCovering = false, wasGrown = false, lastY = 0;
+      /* 되돌림을 거는 역방향 문턱. 폰은 관성 · 고무줄 때문에 아래로 가는 중에도
+         열 몇 px 씩 되올라오는 프레임이 흔해, 4px 로 두면 손가락을 떼기만 해도
+         모션이 꺼진다(실측 — 판 확대 중 8px 되올라오자 바로 쉬는 모습이 됐다).
+         폰에서는 '일부러 올렸다' 고 볼 만한 폭으로 둔다. */
+      var UPJ = (window.matchMedia && (matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 900px)').matches)) ? 56 : 4;
+      /* 되돌린 자리. 덮은 채로 되돌아갔을 때, 거기서 다시 그만큼 내려가면 켠다 —
+         덮음(covering)은 그대로 true 라 아래의 '바뀔 때만' 블록이 안 돌기
+         때문이다. 이것이 없으면 한 번 꺼진 뒤 영영 안 돌았다(실측). */
+      var resetY = -1;
       var stageEl = document.querySelector('.pillar-pinned .ai-hero-stage');
       /* ⚠️ 창 스크롤이 아니라 카드 칸의 자리로 잰다. 윗변이 화면 아래에 있으면 0,
          화면 맨 위에 닿으면 1 이다 — 무대가 붙는 바로 그 순간에 다 자라 있다.
@@ -368,11 +377,18 @@ const faqSchema = {
            아무 일도 일어나지 않는다(실측 — 올려도 모션이 계속 돌았다).
            ⚠️ 4px 은 흔들림 여유다. 아래로 가는 중에도 1~2px 되돌아오는 프레임이
               있어, 그것까지 '올림' 으로 보면 돌자마자 꺼진다. */
-        if (y < lastY - 4) {
-          window.__aiHeroGraphicWanted = false;
-          if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+        /* ⚠️ 기준은 '지금까지 내려온 가장 깊은 자리'다. 매 프레임 y 로 옮기면
+           천천히 올리는 동안에는 한 프레임의 차이가 늘 문턱보다 작아 영영 안
+           걸린다. 내려갈 때만 기준을 끌어내리고, 거기서 UPJ 만큼 올라오면 건다. */
+        if (y > lastY) lastY = y;
+        else if (y < lastY - UPJ) {
+          lastY = y;
+          if (window.__aiHeroGraphicWanted !== false) {
+            resetY = y;
+            window.__aiHeroGraphicWanted = false;
+            if (window.__aiHeroResetGraphic) window.__aiHeroResetGraphic();
+          }
         }
-        lastY = y;
         var docTop = pin.getBoundingClientRect().top + y;
         /* 칸이 화면 맨 위에 닿기까지의 30% 만에 다 자란다 — 끝까지 끌면 한참
            스크롤해도 계속 자라는 중이라 굼떠 보인다. 65 -> 45 -> 30 으로 두 번
@@ -425,12 +441,20 @@ const faqSchema = {
         /* 꽉 찬 순간 돌리기 시작하고, 쉬는 모습으로 돌아오면 첫 장면에 세운다.
            ⚠️ 상태가 '바뀔 때만' 부른다. 매 프레임 부르면 스크롤 도중 켜짐과
               꺼짐이 엇갈려, 올렸는데도 돌고 있는 상태로 끝나는 일이 생긴다. */
+        /* 덮은 채로 되돌아간 뒤 다시 내려가면 켠다. covering 이 true 에서
+           안 바뀌므로 아래 블록이 못 잡는다. */
+        if (covering && resetY >= 0 && !window.__aiHeroGraphicWanted && y > resetY + UPJ) {
+          resetY = -1;
+          window.__aiHeroGraphicWanted = true;
+          if (window.__aiHeroStartGraphic) window.__aiHeroStartGraphic();
+        }
         if (covering !== wasCovering) {
           wasCovering = covering;
           if (covering) {
             if (window.__aiHeroStartDemo) window.__aiHeroStartDemo();
             /* 그래픽 갈래(에너지관리)도 같은 순간에 돈다. 그림 쪽 준비가
                아직이면 깃발만 세워 두고, 준비가 끝나면 그쪽이 집행한다. */
+            resetY = -1;
             window.__aiHeroGraphicWanted = true;
             if (window.__aiHeroStartGraphic) window.__aiHeroStartGraphic();
           }
