@@ -144,6 +144,17 @@ const faqSchema = {
               aria-label={T.heroGraphic.alt}
             ></object>
           )}
+          {!hasDemo && T.heroGraphic && (
+            /* 연출이 끝난 뒤 '아래로 더 있다'를 알리는 표시. 폰에서만 뜬다 —
+               넓은 화면에서는 히어로 아래가 이미 눈에 들어온다. */
+            <span class="ai-hero-scroll" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+                   stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          )}
         </div>
         </div></div>
         </div>
@@ -920,7 +931,13 @@ const faqSchema = {
 
         /* 카메라가 다 선 뒤에 글자를 굵힌다 — 확대 구간에서 걸면 배율이
            곱해져 설계보다 굵어진다. */
-        function finishCamera() { applyThicken(); }
+        function finishCamera() {
+          applyThicken();
+          /* 연출이 다 돈 자리에서 스크롤 표시를 띄운다. 되돌릴 때 걷는 것은
+             __aiHeroResetGraphic 쪽이다. */
+          var cont = document.querySelector('.pillar-pinned .ind-hero .ind-container');
+          if (cont) cont.classList.add('ai-hero-done');
+        }
 
         /* 다 그려진 뒤의 움직임은 메인 랜딩 'From Data to Intelligence'와 같다.
            그 그래픽(/From Data to Intelligence.svg)은 파일 안에 CSS 애니메이션을
@@ -1202,6 +1219,8 @@ const faqSchema = {
            한 바퀴를 중간에 끊는 것이 아니라, 준비를 처음부터 다시 해서 완성
            상태로 세운다 — 세대가 바뀌므로 돌던 연출은 저절로 물러난다. */
         window.__aiHeroResetGraphic = function () {
+          var cont0 = document.querySelector('.pillar-pinned .ind-hero .ind-container');
+          if (cont0) cont0.classList.remove('ai-hero-done');
           if (!playedOnce) return;
           playedOnce = false;
           window.__aiHeroGraphicWanted = false;
@@ -3031,6 +3050,38 @@ const faqSchema = {
          밖으로 내려간다. */
       max-height: 100dvh;
     }
+  }
+
+  /* ───────── 연출이 끝난 뒤 뜨는 스크롤 표시 (폰) ─────────
+     히어로가 화면을 꽉 채우고 있어 아래에 무엇이 더 있는지 보이지 않는다.
+     연출이 다 돌면(.ai-hero-done) 판 아래쪽에 꺾쇠 하나를 띄운다.
+     ⚠️ 폰에서만 띄운다. 넓은 화면에서는 히어로 아래가 이미 눈에 들어온다.
+     ⚠️ 판 안에 두되 자리는 화면 기준이다 — 판이 화면을 꽉 채운 뒤에만 보이므로
+        둘이 같다. 홈 표시줄을 피해 아래 안전 여백을 더한다. */
+  .ai-hero-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    display: none;
+    color: #8A94A1;
+    opacity: 0;
+    transition: opacity .45s ease;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .pillar-energy-management .ind-container.ai-hero-is-full .ai-hero-scroll { display: block; }
+    .pillar-energy-management .ind-container.ai-hero-is-full.ai-hero-done .ai-hero-scroll {
+      opacity: 1;
+      animation: rf-hero-scroll 1.8s ease-in-out infinite;
+    }
+  }
+  @keyframes rf-hero-scroll {
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-hero-scroll { animation: none !important; }
   }
 
   /* 그래픽도 데모도 없을 때만 자리를 점선으로 표시한다. */
