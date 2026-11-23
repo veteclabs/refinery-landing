@@ -2455,3 +2455,35 @@
       #teams { padding-bottom: 45px; }
     }
 
+
+    /* ───────── 영문 홈의 폰 줄 나눔 — 국문과 같은 리듬으로 ─────────
+       영문은 국문보다 길어 같은 줄 수로는 못 맞춘다(390px 에서 대제목 2줄 -> 4줄 ·
+       소제목 3줄 -> 5줄). 맞출 수 있는 것은 리듬이다 — 한두 낱말만 남는 '고아 줄'을
+       없애면 국문과 같은 결로 읽힌다.
+       ⚠️ 지정 줄 나눔(<br>)은 넓은 폭을 보고 박은 것이라 폰에서는 푼다. 영문
+          통합 대제목의 br 에는 규칙이 아예 없어 어느 폭에서나 살아 있었고, 그
+          탓에 `way,` 한 낱말이 혼자 한 줄에 떨어졌다(실측).
+       ⚠️ 감기는 자리는 브라우저에 맡긴다. 미디어쿼리 경계로 <br> 을 박으면 실제
+          기기에서 어긋난다 — balance 는 줄 길이를 고르게, pretty 는 마지막 줄이
+          한 낱말만 남지 않게 한다. 국문 쪽은 건드리지 않는다 — html[lang="en"] 으로 가린다. */
+    @media (max-width: 900px) {
+      html[lang="en"] .int-hd-br { display: none; }
+      html[lang="en"] #integrations .section-header-row p br { display: none; }
+
+      /* balance 는 줄 길이를 고르게 한다 — 줄 수가 셋 이하이고 한 덩어리로 읽는
+         대제목에 맞는다. 보안 대제목이 그 경우다. */
+      html[lang="en"] #security .sec-title .sec-line,
+      html[lang="en"] #integrations .section-header-row h2 { text-wrap: balance; }
+
+      /* 솔루션 대제목도 balance 다. 줄(span)마다 따로 감기는데 pretty 로는 두 줄
+         짜리 덩어리의 끝 낱말을 못 잡아 `challenge,` 가 혼자 남았다(실측) —
+         balance 는 첫 줄이 조금 짧아지는 대신 끝에 한 낱말만 남기지 않는다. */
+      html[lang="en"] #industries .sol-title .sol-line { text-wrap: balance; }
+
+      /* pretty 는 마지막 줄에 한 낱말만 남지 않게 한다. 여러 줄로 흐르는 본문에
+         쓴다 — 여기에 balance 를 걸면 되레 끝에 `too.` 한 낱말이 남았다. */
+      html[lang="en"] .hero-sub,
+      html[lang="en"] #teamsPreviewBody,
+      html[lang="en"] #security .section-header p,
+      html[lang="en"] #integrations .section-header-row p { text-wrap: pretty; }
+    }
