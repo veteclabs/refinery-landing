@@ -8,7 +8,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     title: '에너지관리시스템(EMS)이란? 전력관리 ⁠· 전력감시 ⁠· 정전감시 | Refinery',
     description: '에너지관리시스템(EMS) ⁠· 빌딩에너지관리시스템(BEMS) ⁠· 전력관리시스템 ⁠· 전력감시 ⁠· 전력모니터링 ⁠· 정전감시가 무엇인지 정리했습니다. Refinery는 전력 ⁠· 에너지 데이터를 온톨로지로 엮어 AI가 근거를 들어 관리합니다.',
     canonical: '/energy-management',
-    heroTitle: '전력 ⁠· 에너지 데이터를 근거로<br>이상과 절감 기회를 찾는 에너지관리시스템',
+    heroTitle: '전력 ⁠· 에너지 데이터를 근거로<br> 이상과 절감 기회를 찾는 에너지관리시스템',
     ctaPrimary: '문의하기',
     contactHref: '/contact',
     ctaGhost: '제품 소개',
@@ -24,11 +24,16 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     demoTitle: '',
     openTitle: '',
     faqHead: '자주 묻는 질문',
-    usesHead: '현장에서 바로 쓰는 활용',
-    usesLede: '전력 감시부터 절감까지, 현장에 적용된 모습을 살펴보세요.',
+    usesHead: '현장에서 바로 쓰는 대표 활용',
+    /* 소제목은 두지 않는다 — 대제목의 '대표' 가 셋뿐이 아님을 이미 말한다.
+       산업 AI 와 같은 처리다. */
+    usesLede: '',
     more: '자세히보기',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
-    ctaTitle: '지금 바로<br>리파이너리를 경험해보세요.',
+    /* 산업 AI · 제품소개(/why-refinery)와 같은 문구다.
+       ⚠️ <br> 뒤에 공백을 둔다. industry.css 가 900px 이하에서 .ind-page 의 br 를
+          통째로 숨기는데(!important), 공백이 없으면 그 자리에서 낱말이 붙는다. */
+    ctaTitle: '리파이너리가 현장에 맞는지 보시려면<br> 현장의 이야기를 들려주세요.',
     faq: [
       {
         q: '에너지관리시스템(EMS)이란 무엇인가요?',
@@ -55,11 +60,13 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
         a: '리파이너리는 EMS ⁠· 전력 계측 ⁠· 설비 데이터를 온톨로지로 하나로 엮어, 흩어진 지표를 맥락과 함께 봅니다. \nAI가 피크와 이상의 원인을 근거를 들어 설명하고 조치를 제안하며, 데이터가 사내를 벗어나지 않는 \n온프레미스 배포를 지원합니다.',
       },
     ],
+    /* ⚠️ 셋이다. 한때 '산업 AI' 카드가 넷째로 있었는데, 그 카드만 유즈케이스가
+       아니라 필러 페이지를 가리켜 사진이 없었다 — 사진 카드 셋 옆에 흰 글
+       카드 한 장이 서서 어긋났다. 산업 AI 로 가는 길은 내비와 본문이 맡는다. */
     uses: [
       { label: '전력관리', desc: '전력 데이터로 피크 ⁠· 이상 ⁠· \n절감 기회를 찾는 전력관리 솔루션', href: '/use-cases/power-management' },
       { label: '공장 에너지관리', desc: '공장 전체 에너지 사용을 \n통합 관리하는 EMS 활용', href: '/use-cases/factory-energy' },
       { label: '에너지 최적화', desc: '낭비를 찾아 에너지 사용을 \n줄이는 AI 최적화', href: '/use-cases/energy-optimization' },
-      { label: '산업 AI', desc: '산업 AI ⁠· 제조 AI ⁠· 에너지 AI \n개념을 한눈에', href: '/industrial-ai' },
     ],
   },
 
@@ -67,7 +74,7 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     title: 'What Is an Energy Management System (EMS)? Power Monitoring Explained | Refinery',
     description: 'A plain explanation of energy management systems (EMS), building energy management systems (BEMS), power management systems, power monitoring and outage detection. Refinery ties power and energy data into an ontology, so AI can explain what it finds with evidence.',
     canonical: '/en/energy-management',
-    heroTitle: 'An energy management system that finds anomalies<br>and savings in your power and energy data',
+    heroTitle: 'An energy management system that finds anomalies<br> and savings in your power and energy data',
     ctaPrimary: 'Contact',
     contactHref: '/en/contact',
     ctaGhost: 'Product overview',
@@ -83,11 +90,12 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
     demoTitle: '',
     openTitle: '',
     faqHead: 'FAQ',
-    usesHead: 'Ready-to-run uses on site',
-    usesLede: 'See how an energy management system works<br>in real plants, from monitoring to savings.',
+    usesHead: 'Key uses, ready to run on site',
+    usesLede: '',
     more: 'Learn more',
     /* 산업 AI 페이지와 같은 문구로 맞춘다. */
-    ctaTitle: 'See what Refinery<br>can do for your site.',
+    /* 산업 AI · 제품소개와 같은 문구다. <br> 뒤 공백은 국문과 같은 까닭이다. */
+    ctaTitle: 'To see whether <span translate="no">Refinery</span> fits your site,<br> tell us about that site.',
     faq: [
       {
         q: 'What is an energy management system (EMS)?',
@@ -120,7 +128,6 @@ export const energyManagement: Record<'ko' | 'en', PillarContent> = {
          폭(235px)을 넘겨 두 줄이 되고, 그 카드만 높아져 넉 장이 어긋난다. */
       { label: 'Factory energy management', desc: 'An EMS that manages energy use\nacross the whole plant', href: '/en/use-cases/factory-energy' },
       { label: 'Energy optimization', desc: 'AI optimization that finds waste\nand cuts energy use', href: '/en/use-cases/energy-optimization' },
-      { label: 'Industrial AI', desc: 'The concepts of industrial, manufacturing\nand energy AI at a glance', href: '/en/industrial-ai' },
     ],
   },
 };
